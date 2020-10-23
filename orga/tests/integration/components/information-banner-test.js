@@ -77,6 +77,26 @@ module('Integration | Component | information-banner', function(hooks) {
       });
 
     });
+
+    module('when prescriber’s organization is agriculture', function() {
+
+      test('should not display the banner regardless of whether students have been imported or not', async function(assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: false }
+          isSCOManagingStudents = true;
+          isAgriculture = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        await render(hbs`<InformationBanner/>`);
+
+        // then
+        assert.dom('.pix-banner').doesNotExist();
+      });
+
+    });
   });
 
   module('Campaign Banner', () => {

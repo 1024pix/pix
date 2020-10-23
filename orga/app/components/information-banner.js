@@ -6,7 +6,8 @@ export default class InformationBanner extends Component {
   @service currentUser;
   get displayNewYearSchoolingRegistrationsImportBanner() {
     return !this.currentUser.prescriber.areNewYearSchoolingRegistrationsImported &&
-      this.currentUser.isSCOManagingStudents;
+      this.currentUser.isSCOManagingStudents &&
+      !this.currentUser.isAgriculture;
   }
 
   get displayNewYearCampaignsBanner() {
