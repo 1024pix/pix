@@ -27,9 +27,9 @@ function _getPaginationFromQueryParams(queryParams) {
   };
 }
 
-function _applyPagination(summaries, { page, pageSize }) {
+function _applyPagination(memberships, { page, pageSize }) {
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
 
-  return slice(summaries, start, end);
+  return slice(memberships, start, end);
 }

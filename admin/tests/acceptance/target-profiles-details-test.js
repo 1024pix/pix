@@ -38,7 +38,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       await visit('/target-profiles/1');
 
       // then
-      assert.equal(currentURL(), '/target-profiles/1');
+      assert.equal(currentURL(), '/target-profiles/1/organizations');
     });
 
     test('it should display target profile details', async function(assert) {
@@ -67,6 +67,20 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/organizations/456/members');
+    });
+
+    test('it should display target profile organizations', async function(assert) {
+      // given
+      const organization = server.create('organization', { id: 1, name: 'Fantastix', type: 'PRO', externalId: '123' });
+      server.create('target-profile', { id: 1, name: 'Profil Cible', organizations: [organization] });
+
+      // when
+      await visit('/target-profiles/1/organizations');
+
+      // then
+      assert.dom('[aria-label="Organisation"]').containsText('Fantastix');
+      assert.dom('[aria-label="Organisation"]').containsText('PRO');
+      assert.dom('[aria-label="Organisation"]').containsText('123');
     });
   });
 });
