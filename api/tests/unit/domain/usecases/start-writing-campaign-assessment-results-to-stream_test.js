@@ -11,6 +11,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
   const organizationRepository = { get: () => undefined };
   const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
   const knowledgeElementRepository = { findTargetedGroupedByCompetencesForUsers: () => undefined };
+  const badgeAcquisitionRepository = { getCampaignAcquiredBadgesByUsers: () => undefined };
   let writableStream;
   let csvPromise;
 
@@ -219,10 +220,62 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
+  it('should contains badges header when linked to target profile', async () => {
+    // given
+    const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'PRO' });
+    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: ['badge1', 'badge2'] });
+    campaign.targetProfileId = targetProfile.id;
+    sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
+    sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
+    sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
+    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
+    sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+    const csvExpected = '\uFEFF"Nom de l\'organisation";' +
+      '"ID Campagne";' +
+      '"Nom de la campagne";' +
+      '"Nom du Profil Cible";' +
+      '"Nom du Participant";' +
+      '"Prénom du Participant";' +
+      '"% de progression";' +
+      '"Date de début";' +
+      '"Partage (O/N)";' +
+      '"Date du partage";' +
+      '"badge1 obtenu (O/N)";' +
+      '"badge2 obtenu (O/N)";' +
+      '"% maitrise de l\'ensemble des acquis du profil";' +
+      `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
+      `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
+      `"Acquis maitrisés dans la compétence ${targetProfile.competences[0].name}";` +
+      `"% de maitrise des acquis du domaine ${targetProfile.areas[0].title}";` +
+      `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
+      `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}";` +
+      `"${targetProfile.skills[0].name}"\n`;
+
+    // when
+    startWritingCampaignAssessmentResultsToStream({
+      userId: user.id,
+      campaignId: campaign.id,
+      writableStream,
+      campaignRepository,
+      userRepository,
+      targetProfileWithLearningContentRepository,
+      organizationRepository,
+      campaignParticipationInfoRepository,
+      knowledgeElementRepository,
+      campaignCsvExportService,
+    });
+    const csv = await csvPromise;
+
+    // then
+    expect(csv).to.equal(csvExpected);
+  });
+
   it('should process result for each participation and add it to csv', async () => {
     // given
     const { user: admin, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SUP' });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+    const badge = domainBuilder.buildBadge({ title: 'badge sup' });
+    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge.title] });
     const participantInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-02-01') });
     const knowledgeElement = domainBuilder.buildKnowledgeElement({
       status: 'validated',
@@ -230,15 +283,19 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       competenceId: targetProfile.competences[0].id,
     });
     campaign.targetProfileId = targetProfile.id;
+    badge.targetProfileId = targetProfile.id;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(admin.id).resolves(admin);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
     sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([participantInfo]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').resolves({
-      [participantInfo.userId] : {
-        [targetProfile.competences[0].id] : [knowledgeElement],
+      [participantInfo.userId]: {
+        [targetProfile.competences[0].id]: [knowledgeElement],
       },
+    });
+    sinon.stub(badgeAcquisitionRepository, 'getCampaignAcquiredBadgesByUsers').resolves({
+      [participantInfo.userId]: [badge],
     });
     const csvHeaderExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
@@ -250,6 +307,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Date de début";' +
       '"Partage (O/N)";' +
       '"Date du partage";' +
+      '"badge sup obtenu (O/N)";' +
       '"% maitrise de l\'ensemble des acquis du profil";' +
       `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
       `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
@@ -268,6 +326,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '2020-01-01;' +
       '"Oui";' +
       '2020-02-01;' +
+      '"Oui";' +
       '1;' +
       '1;' +
       '1;' +
@@ -288,6 +347,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       organizationRepository,
       campaignParticipationInfoRepository,
       knowledgeElementRepository,
+      badgeAcquisitionRepository,
       campaignCsvExportService,
     });
     const csv = await csvPromise;
