@@ -11,6 +11,7 @@ class CampaignAssessmentCsvLine {
     campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElementsByCompetenceId,
+    acquiredBadges,
     campaignParticipationService,
   }) {
     this.organization = organization;
@@ -19,6 +20,7 @@ class CampaignAssessmentCsvLine {
     this.targetProfile = targetProfile;
     this.targetedKnowledgeElementsCount = _.sum(_.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length));
     this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
+    this.acquiredBadges = acquiredBadges;
     this.campaignParticipationService = campaignParticipationService;
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
@@ -40,7 +42,7 @@ class CampaignAssessmentCsvLine {
     ];
   }
 
-  _makeNotSharedStatsColumns(times) {
+  _makeEmptyColumns(times) {
     return _.times(times, () => EMPTY_CONTENT);
   }
 
@@ -73,6 +75,10 @@ class CampaignAssessmentCsvLine {
     });
   }
 
+  _makeBadgesColumns() {
+    return _.flatMap(this.targetProfile.badges, (badge) => _.includes(this.acquiredBadges, badge) ? 'Oui' : 'Non');
+  }
+
   _makeCommonColumns() {
     return [
       this.organization.name,
@@ -87,6 +93,7 @@ class CampaignAssessmentCsvLine {
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
+      ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfile.badges.length)),
       this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
     ];
   }
@@ -101,9 +108,9 @@ class CampaignAssessmentCsvLine {
 
   _makeNotSharedColumns() {
     return [
-      ...this._makeNotSharedStatsColumns(this.targetProfile.competences.length * STATS_COLUMNS_COUNT),
-      ...this._makeNotSharedStatsColumns(this.targetProfile.areas.length * STATS_COLUMNS_COUNT),
-      ...this.organization.isSco ? [] : this._makeNotSharedStatsColumns(this.targetProfile.skills.length),
+      ...this._makeEmptyColumns(this.targetProfile.competences.length * STATS_COLUMNS_COUNT),
+      ...this._makeEmptyColumns(this.targetProfile.areas.length * STATS_COLUMNS_COUNT),
+      ...this.organization.isSco ? [] : this._makeEmptyColumns(this.targetProfile.skills.length),
     ];
   }
 

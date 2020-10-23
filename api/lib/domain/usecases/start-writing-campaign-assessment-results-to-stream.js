@@ -56,16 +56,24 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     const knowledgeElementsByUserIdAndCompetenceId =
       await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile);
 
+    let acquiredBadgesByUsers;
+    if (!_.isEmpty(targetProfile.badges)) {
+      const userIds = campaignParticipationInfoChunk.map((campaignParticipationInfo) => campaignParticipationInfo.userId);
+      acquiredBadgesByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
+    }
+
     let csvLines = '';
     for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
       const participantId = parseInt(strParticipantId);
       const campaignParticipationInfo = campaignParticipationInfoChunk.find((campaignParticipationInfo) => campaignParticipationInfo.userId === participantId);
+      const acquiredBadges = acquiredBadgesByUsers && acquiredBadgesByUsers[participantId] ? acquiredBadgesByUsers[participantId].map((badge) => badge.title) : [];
       const csvLine = campaignCsvExportService.createOneCsvLine({
         organization,
         campaign,
         campaignParticipationInfo,
         targetProfile,
         participantKnowledgeElementsByCompetenceId,
+        acquiredBadges,
       });
       csvLines = csvLines.concat(csvLine);
     }
