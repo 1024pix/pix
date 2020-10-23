@@ -6,13 +6,12 @@ export default class UpdateRoute extends Route {
     return this.store.findRecord('campaign', params.campaign_id);
   }
 
-  setupController() {
-    super.setupController(...arguments);
-    const [controller, model] = arguments;
+  setupController(controller, model) {
+    super.setupController(controller, model);
     controller.campaignName = model.name;
   }
 
-  deactivate() {
-    this.controller.model.rollbackAttributes();
+  resetController(controller) {
+    controller.model.rollbackAttributes();
   }
 }
