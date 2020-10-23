@@ -4,6 +4,7 @@ const {
   CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID,
   CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID,
 } = require('./certification/users');
+const { PRO_BASICS_BADGE_ID } = require('./badges-builder');
 
 module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
@@ -36,6 +37,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     const participantExternalId = member.firstName.toLowerCase() + member.lastName.toLowerCase();
 
     const { id: campaignParticipationId } =  databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, participantExternalId, isShared, sharedAt });
+    if (['Jaune', 'Antoine'].includes(member.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID });
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       userId,
