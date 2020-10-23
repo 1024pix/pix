@@ -1,8 +1,15 @@
-const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError, CampaignCodeError, EntityValidationError } = require('../errors');
+const {
+  AlreadyRegisteredEmailError,
+  AlreadyRegisteredUsernameError,
+  CampaignCodeError,
+  EntityValidationError,
+  SchoolingRegistrationAlreadyLinkedToUserError,
+} = require('../errors');
 const User = require('../models/User');
 
 const userValidator = require('../validators/user-validator');
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
+const isNil = require('lodash/isNil');
 
 function _encryptPassword(userPassword, encryptionService) {
   const encryptedPassword = encryptionService.hashPassword(userPassword);
@@ -93,6 +100,10 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
   }
 
   const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, reconciliationInfo: userAttributes, schoolingRegistrationRepository, userRepository, obfuscationService });
+
+  if (!isNil(matchedSchoolingRegistration.userId)) {
+    throw new SchoolingRegistrationAlreadyLinkedToUserError('Un compte existe déjà pour l‘élève dans le même établissement.');
+  }
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);

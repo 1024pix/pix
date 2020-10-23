@@ -38,6 +38,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     };
     userReconciliationService = {
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser: sinon.stub(),
+      checkIfStudentIsAlreadyReconciledOnTheSameOrganization: sinon.stub(),
       checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations: sinon.stub(),
     };
     studentRepository = {

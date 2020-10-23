@@ -49,8 +49,6 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
   organizationId,
   reconciliationInfo: { firstName, lastName, birthdate },
   schoolingRegistrationRepository,
-  userRepository,
-  obfuscationService,
 }) {
   const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId, birthdate });
 
@@ -62,10 +60,8 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
   if (!schoolingRegistrationId) {
     throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
-  const schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
 
-  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository, obfuscationService);
-  return schoolingRegistration;
+  return _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
 }
 
 async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository, obfuscationService) {
@@ -200,5 +196,6 @@ module.exports = {
   findMatchingCandidateIdForGivenUser,
   findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser,
   findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser,
+  checkIfStudentIsAlreadyReconciledOnTheSameOrganization,
   checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations,
 };

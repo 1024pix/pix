@@ -22,9 +22,9 @@ module.exports = async function reconcileSchoolingRegistration({
     organizationId: campaign.organizationId,
     reconciliationInfo,
     schoolingRegistrationRepository,
-    userRepository,
-    obfuscationService,
   });
+
+  await userReconciliationService.checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchedSchoolingRegistration, userRepository, obfuscationService);
 
   const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
   if (get(student, 'account')) {

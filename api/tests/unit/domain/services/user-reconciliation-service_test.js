@@ -316,8 +316,6 @@ describe('Unit | Service | user-reconciliation-service', () => {
     let user;
     let organizationId;
     let schoolingRegistrationRepositoryStub;
-    let userRepositoryStub;
-    let obfuscationServiceStub;
 
     beforeEach(() => {
       organizationId = domainBuilder.buildOrganization().id;
@@ -360,39 +358,12 @@ describe('Unit | Service | user-reconciliation-service', () => {
           };
         });
 
-        context('When schoolingRegistration is already linked', () => {
-          beforeEach(() => {
-            schoolingRegistrations[0].userId = '123';
-            userRepositoryStub = {
-              getUserAuthenticationMethods: sinon.stub().resolves(),
-              updateUserAttributes: sinon.stub().resolves(),
-            };
-            obfuscationServiceStub = {
-              getUserAuthenticationMethodWithObfuscation: sinon.stub().returns({ authenticatedBy: 'email' }),
-            };
-          });
+        it('should return matched SchoolingRegistration', async () => {
+          // when
+          const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
-          it('should throw OrganizationStudentAlreadyLinkedToUserError', async () => {
-            // given
-            schoolingRegistrationRepositoryStub.findByOrganizationIdAndBirthdate.resolves(schoolingRegistrations);
-            userRepositoryStub.getUserAuthenticationMethods.resolves({ email: 'email@example.net' });
-            // when
-            const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });
-
-            // then
-            expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
-          });
-        });
-
-        context('When schoolingRegistration is not already linked', () => {
-
-          it('should return matched SchoolingRegistration', async () => {
-            // when
-            const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-            // then
-            expect(result).to.equal(schoolingRegistrations[0]);
-          });
+          // then
+          expect(result).to.equal(schoolingRegistrations[0]);
         });
       });
     });
