@@ -187,5 +187,34 @@ module('Integration | Component | information-banner', function(hooks) {
         assert.dom('.pix-banner').doesNotExist();
       });
     });
+
+    module('when prescriber’s organization is agriculture', function() {
+      const now = new Date('2019-01-01T05:06:07Z');
+      let clock;
+
+      hooks.beforeEach(() => {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      hooks.afterEach(() => {
+        clock.restore();
+      });
+
+      test('should not show the campaign banner', async function(assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: true }
+          isSCOManagingStudents = true;
+          isAgriculture = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        await render(hbs`<InformationBanner/>`);
+
+        // then
+        assert.dom('.pix-banner').doesNotExist();
+      });
+    });
   });
 });
