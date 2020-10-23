@@ -1,16 +1,13 @@
 import Service from '@ember/service';
-import { inject as service } from '@ember/service';
-import ENV from 'pix-certif/config/environment';
+
+import config from 'pix-certif/config/environment';
 
 export default class Url extends Service {
 
-  @service currentDomain;
-
-  definedHomeUrl = ENV.APP.HOME_URL;
+  definedHomeUrl = config.rootURL;
 
   get homeUrl() {
-    const homeUrl = `https://certif.pix.${this.currentDomain.getExtension()}`;
-    return this.definedHomeUrl || homeUrl;
+    return this.definedHomeUrl;
   }
 
 }
