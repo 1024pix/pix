@@ -604,4 +604,203 @@ describe('Integration | Repository | Organization', function() {
       });
     });
   });
+
+  describe('#findPaginatedFilteredByTargetProfile', () => {
+    let targetProfileId;
+
+    beforeEach(() => {
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      return databaseBuilder.commit();
+    });
+
+    context('when there are organizations linked to the target profile', () => {
+
+      beforeEach(() => {
+        _.times(2, () => {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId });
+        });
+        return databaseBuilder.commit();
+      });
+
+      it('should return an Array of Organizations', async () => {
+        // given
+        const filter = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
+
+        // then
+        expect(matchingOrganizations).to.exist;
+        expect(matchingOrganizations).to.have.lengthOf(2);
+        expect(matchingOrganizations[0]).to.be.an.instanceOf(Organization);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are lots of organizations (> 10) linked to the target profile', () => {
+
+      beforeEach(() => {
+        _.times(12, () => {
+          const organizationId = databaseBuilder.factory.buildOrganization().id;
+          databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId });
+        });
+        return databaseBuilder.commit();
+      });
+
+      it('should return paginated matching Organizations', async () => {
+        // given
+        const filter = {};
+        const page = { number: 1, size: 3 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
+
+        // then
+        expect(matchingOrganizations).to.have.lengthOf(3);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are some filter on "name"', () => {
+
+      beforeEach(() => {
+        const organizationId1 = databaseBuilder.factory.buildOrganization({ name: 'Dragon & co' }).id;
+        const organizationId2 = databaseBuilder.factory.buildOrganization({ name: 'Broca & co' }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId1, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId2, targetProfileId });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only organizations matching "name"', async () => {
+        // given
+        const filter = { name: 'dra' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
+
+        // then
+        expect(matchingOrganizations).to.have.lengthOf(1);
+        expect(_.map(matchingOrganizations, 'name')).to.have.members(['Dragon & co']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are some filter on "type"', () => {
+
+      beforeEach(() => {
+        const organizationId1 = databaseBuilder.factory.buildOrganization({ type: 'PRO' }).id;
+        const organizationId2 = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId1, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId2, targetProfileId });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only organizations matching "type"', async () => {
+        // given
+        const filter = { type: 'S' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
+
+        // then
+        expect(_.map(matchingOrganizations, 'type')).to.have.members(['SUP']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are some filter on "externalId"', () => {
+
+      beforeEach(() => {
+        const organizationId1 = databaseBuilder.factory.buildOrganization({ externalId: '1234567A' }).id;
+        const organizationId2 = databaseBuilder.factory.buildOrganization({ externalId: '1234567B' }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId1, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId2, targetProfileId });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only organizations matching "externalId"', async () => {
+        // given
+        const filter = { externalId: 'a' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
+
+        // then
+        expect(_.map(matchingOrganizations, 'externalId')).to.have.members(['1234567A']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are some filters on "name", "type" and "externalId"', () => {
+
+      beforeEach(() => {
+        // Matching organizations
+        const organizationId1 = databaseBuilder.factory.buildOrganization({ name: 'name_ok_1', type: 'SCO', externalId: '1234567A' }).id;
+        const organizationId2 = databaseBuilder.factory.buildOrganization({ name: 'name_ok_2', type: 'SCO', externalId: '1234568A' }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId1, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId2, targetProfileId });
+
+        // Unmatching organizations
+        const organizationId3 = databaseBuilder.factory.buildOrganization({ name: 'name_ko_3', type: 'SCO', externalId: '1234567A' }).id;
+        const organizationId4 = databaseBuilder.factory.buildOrganization({ name: 'name_ok_4', type: 'SCO', externalId: '1234567B' }).id;
+        const organizationId5 = databaseBuilder.factory.buildOrganization({ name: 'name_ok_5', type: 'SUP', externalId: '1234567A' }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId3, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId4, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId5, targetProfileId });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Organizations matching "name" AND "type" "AND" "externalId" if given in filters', async () => {
+        // given
+        const filter = { name: 'name_ok', type: 'SCO', externalId: 'a' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2']);
+        expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO', 'SCO' ]);
+        expect(_.map(matchingOrganizations, 'externalId')).to.have.members(['1234567A', '1234568A']);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there are filters that should be ignored', () => {
+
+      beforeEach(() => {
+        const organizationId1 = databaseBuilder.factory.buildOrganization({ id: 1 }).id;
+        const organizationId2 = databaseBuilder.factory.buildOrganization({ id: 2 }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId1, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId2, targetProfileId });
+        return databaseBuilder.commit();
+      });
+
+      it('should ignore the filters and retrieve all organizations', async () => {
+        // given
+        const filter = { id: 1 };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
+
+        // then
+        expect(_.map(matchingOrganizations, 'id')).to.have.members([1, 2]);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+  });
 });
