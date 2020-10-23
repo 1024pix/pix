@@ -17,6 +17,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     campaignParticipationInfoRepository,
     organizationRepository,
     knowledgeElementRepository,
+    badgeAcquisitionRepository,
     campaignCsvExportService,
   }) {
 
@@ -25,7 +26,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   const [targetProfile, organization, campaignParticipationInfos] = await Promise.all([
-    targetProfileWithLearningContentRepository.get({ id: campaign.targetProfileId }),
+    targetProfileWithLearningContentRepository.getWithBadges({ id: campaign.targetProfileId }),
     organizationRepository.get(campaign.organizationId),
     campaignParticipationInfoRepository.findByCampaignId(campaign.id),
   ]);
@@ -107,6 +108,10 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organiz
     'Date de début',
     'Partage (O/N)',
     'Date du partage',
+
+    ...(_.flatMap(targetProfile.badges, (badge) => [
+      `${badge} obtenu (O/N)`,
+    ])),
     '% maitrise de l\'ensemble des acquis du profil',
 
     ...(_.flatMap(targetProfile.competences, (competence) => [
