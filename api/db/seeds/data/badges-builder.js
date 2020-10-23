@@ -1,6 +1,7 @@
 const BASICS_BADGE_ID = 111;
 const TOOLS_BADGE_ID = 112;
 const MANIP_BADGE_ID = 113;
+const PRO_BASICS_BADGE_ID = 114;
 const TARGET_PROFILE_ID_FOR_BADGES = 984165;
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
@@ -8,6 +9,7 @@ function badgesBuilder({ databaseBuilder }) {
   _createBasicsBadge(databaseBuilder);
   _createToolsBadge(databaseBuilder);
   _createManipBadge(databaseBuilder);
+  _createProfessionalBasicsBadge(databaseBuilder);
 }
 
 function _createBasicsBadge(databaseBuilder) {
@@ -76,6 +78,20 @@ function _createManipBadge(databaseBuilder) {
   _associateBadgeCriteria(databaseBuilder, manipBadge);
 }
 
+function _createProfessionalBasicsBadge(databaseBuilder) {
+  const basicsBadge = databaseBuilder.factory.buildBadge({
+    id: PRO_BASICS_BADGE_ID,
+    altMessage: 'Vous avez validé les bases professionnelles.',
+    title: 'Bases professionnelles',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/socle-de-base.svg',
+    key: 'Pro Basics',
+    message: 'Bravo ! Vous maîtrisez quelques bases  du numérique pour le monde professionnel !',
+    targetProfileId: 2,
+  });
+
+  _associateBadgeCriteria(databaseBuilder, basicsBadge);
+}
+
 function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name: 'Rechercher des informations sur internet',
@@ -125,4 +141,5 @@ module.exports = {
   BASICS_BADGE_ID,
   TOOLS_BADGE_ID,
   MANIP_BADGE_ID,
+  PRO_BASICS_BADGE_ID,
 };
