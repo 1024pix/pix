@@ -88,21 +88,18 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
   }
 }
 
-async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService) {
-  if (_.get(student, 'account')) {
-    const userId = student.account.userId;
-    const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(userId, userRepository, obfuscationService) {
+  const user = await userRepository.getUserAuthenticationMethods(userId);
+  const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
-    const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
-    const meta = {
-      shortCode: error.shortCode,
-      value: authenticationMethod.value,
-      userId: userId,
-    };
-    throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
-  }
+  const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
+  const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
+  const meta = {
+    shortCode: error.shortCode,
+    value: authenticationMethod.value,
+    userId: userId,
+  };
+  throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
 }
 
 function _containsOneElement(arr) {
@@ -194,9 +191,7 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
   const firstPart = standardizeUser.firstName + '.' + standardizeUser.lastName;
   const secondPart = day + month;
 
-  const username = await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
-
-  return username;
+  return await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
 }
 
 module.exports = {

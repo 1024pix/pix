@@ -88,13 +88,10 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
 
     it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
       // given
-      schoolingRegistration.userId = user.id;
-      schoolingRegistration.firstName = user.firstName;
-      schoolingRegistration.lastName = user.lastName;
       const exceptedErrorMessage = 'Un compte existe déjà pour l\'élève dans un autre établissement.';
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
-      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
+      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student({ account: {} }));
       userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.throws(new SchoolingRegistrationAlreadyLinkedToUserError(exceptedErrorMessage));
 
       // when
