@@ -18,9 +18,9 @@ module.exports = async function findPaginatedCampaignAssessmentParticipationSumm
 
   // get users badges for campaign
   const userIds = paginatedParticipations.campaignAssessmentParticipationSummaries.map((participation) => participation.userId);
-  const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
+  const acquiredBadgesByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
   paginatedParticipations.campaignAssessmentParticipationSummaries.forEach((participation) => {
-    const badges = acquiredBadgeIdsByUsers[participation.userId];
+    const badges = acquiredBadgesByUsers[participation.userId];
     participation.setBadges(badges);
   });
 
