@@ -151,6 +151,17 @@ module.exports = {
     return null;
   },
 
+  async enrollStudentsToSession(request, h) {
+    const referentId = requestResponseUtils.extractUserIdFromRequest(request);
+    const sessionId = parseInt(request.params.id);
+    const studentIds = request.payload.data.attributes['student-ids'];
+
+    await usecases.enrollStudentsToSession({ sessionId, referentId, studentIds });
+    const certificationCandidates = await usecases.getSessionCertificationCandidates({ sessionId });
+    const certificationCandidatesSerialized = certificationCandidateSerializer.serialize(certificationCandidates);
+    return h.response(certificationCandidatesSerialized).created();
+  },
+
   async createCandidateParticipation(request, h) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
