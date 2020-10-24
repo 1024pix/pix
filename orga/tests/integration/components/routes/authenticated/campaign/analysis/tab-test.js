@@ -54,6 +54,10 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tab', f
       assert.dom(firstTube).containsText('Competence A');
     });
 
+    test('it should order by recommendation desc by default', async function(assert) {
+      assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
+    });
+
     test('it should order by recommendation asc', async function(assert) {
       await click('[aria-label="Analyse par sujet"] thead [role="button"]:first-child');
 
