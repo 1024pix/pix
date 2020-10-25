@@ -7,7 +7,7 @@ class CampaignAssessmentParticipationResult {
     isShared,
     targetedCompetences,
     targetProfile,
-    validatedTargetedKnowledgeElementsByCompetenceId = {},
+    validatedTargetedKnowledgeElementsCountByCompetenceId = {},
   }) {
     this.campaignParticipationId = campaignParticipationId;
     this.campaignId = campaignId;
@@ -22,7 +22,7 @@ class CampaignAssessmentParticipationResult {
             targetedArea,
             targetedCompetence,
             targetedSkillsCount: targetedCompetence.skillCount,
-            validatedTargetedKnowledgeElementsCount : validatedTargetedKnowledgeElementsByCompetenceId[targetedCompetence.id].length,
+            validatedTargetedKnowledgeElementsCount : validatedTargetedKnowledgeElementsCountByCompetenceId[targetedCompetence.id],
           });
         });
     }
