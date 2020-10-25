@@ -3,16 +3,16 @@ BEGIN;
 -----------------------------------------------------------------------------------------------------
 --				Recalage des séquences       --------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
-SELECT setval(pg_get_serial_sequence('users','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "users";
-SELECT setval(pg_get_serial_sequence('assessments','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "assessments";
-SELECT setval(pg_get_serial_sequence('organizations','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "organizations";
-SELECT setval(pg_get_serial_sequence('memberships','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "memberships";
-SELECT setval(pg_get_serial_sequence('target-profiles','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles";
-SELECT setval(pg_get_serial_sequence('target-profiles_skills','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "target-profiles_skills";
-SELECT setval(pg_get_serial_sequence('campaigns','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaigns";
-SELECT setval(pg_get_serial_sequence('campaign-participations','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "campaign-participations";
-SELECT setval(pg_get_serial_sequence('answers','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "answers";
-SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("id"), 1), max("id") IS NOT null) FROM "knowledge-elements";
+SELECT setval(pg_get_serial_sequence('users','id'), coalesce(max("id"), 1)) FROM "users";
+SELECT setval(pg_get_serial_sequence('assessments','id'), coalesce(max("id"), 1)) FROM "assessments";
+SELECT setval(pg_get_serial_sequence('organizations','id'), coalesce(max("id"), 1)) FROM "organizations";
+SELECT setval(pg_get_serial_sequence('memberships','id'), coalesce(max("id"), 1)) FROM "memberships";
+SELECT setval(pg_get_serial_sequence('target-profiles','id'), coalesce(max("id"), 1)) FROM "target-profiles";
+SELECT setval(pg_get_serial_sequence('target-profiles_skills','id'), coalesce(max("id"), 1)) FROM "target-profiles_skills";
+SELECT setval(pg_get_serial_sequence('campaigns','id'), coalesce(max("id"), 1)) FROM "campaigns";
+SELECT setval(pg_get_serial_sequence('campaign-participations','id'), coalesce(max("id"), 1)) FROM "campaign-participations";
+SELECT setval(pg_get_serial_sequence('answers','id'), coalesce(max("id"), 1)) FROM "answers";
+SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("id"), 1)) FROM "knowledge-elements";
 
 
 -----------------------------------------------------------------------------------------------------
