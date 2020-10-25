@@ -414,6 +414,128 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('countValidatedTargetedKnowledgeElementsByCompetence()', () => {
+
+    it('should return validated knowledge elements count by targeted competences', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
+      const skill2_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_2', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', skills: [skill2_1, skill2_2], competenceId: 'recCompetence2' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', tubes: [tube2] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2_1, skill2_2],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: 'recSkill1' });
+      const knowledgeElement2_1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence2', skillId: 'recSkill2_1' });
+      const knowledgeElement2_2 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence2', skillId: 'recSkill2_2' });
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2_1, knowledgeElement2_2];
+
+      // when
+      const validatedCountByCompetence = targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(validatedCountByCompetence).to.deep.equal({
+        'recCompetence1': 1,
+        'recCompetence2': 2,
+      });
+    });
+
+    it('should proceed counting knowledgeElement within actual competenceId and not based on the declared one', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recOldCompetence', skillId: 'recSkill1' });
+      const knowledgeElements = [knowledgeElement1];
+
+      // when
+      const knowledgeElementsByCompetence = targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByCompetence).to.deep.equal({
+        'recCompetence1': 1,
+      });
+    });
+
+    it('should set 0 to a targeted competence id when no validated knowledge element belongs to it', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: 'recOtherSkill' });
+      const knowledgeElements = [knowledgeElement1];
+
+      // when
+      const knowledgeElementsByCompetence = targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByCompetence).to.deep.equal({
+        'recCompetence1': 0,
+      });
+    });
+
+    it('should filter out non targeted knowledge element from the counting', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: 'recOtherSkill' });
+      const knowledgeElement2 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: skill1.id });
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2];
+
+      // when
+      const knowledgeElementsByCompetence = targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByCompetence).to.deep.equal({
+        'recCompetence1': 1,
+      });
+    });
+
+    it('should filter out non validated knowledge element from the counting', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: skill1.id, status: 'not_validated' });
+      const knowledgeElement2 = domainBuilder.buildKnowledgeElement({ competenceId: 'recCompetence1', skillId: skill1.id });
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2];
+
+      // when
+      const knowledgeElementsByCompetence = targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByCompetence).to.deep.equal({
+        'recCompetence1': 1,
+      });
+    });
+  });
+
   describe('get#maxSkillDifficulty', () => {
 
     it('should highest difficulty of target profile skills', () => {
