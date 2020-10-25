@@ -61,10 +61,6 @@ class TargetProfileWithLearningContent {
     return this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
   }
 
-  filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements) {
-    return this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
-  }
-
   _filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
     const knowledgeElementsGroupedByCompetence = {};
     for (const competenceId of this.competenceIds) {
