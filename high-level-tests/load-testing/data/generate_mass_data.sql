@@ -19,12 +19,8 @@ SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("i
 --				Déclaration de constantes   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
- -- 5 million KE
- -- 200 000 compétences = 200 000 users
- -- aucune orga = parcours libre
-
-SET LOCAL constants.user_count=200000;
-SET LOCAL constants.competence_evaluation_count=200000;
+SET LOCAL constants.user_count=1000;
+SET LOCAL constants.competence_evaluation_count=1000;
 SET LOCAL constants.organization_count=0;
 SET LOCAL constants.campaign_per_organization_count=3;
 SET LOCAL constants.participation_per_campaign_count=150;
@@ -173,6 +169,7 @@ WHERE referentiel_a.level > referentiel_b.level;
 -----------------------------------------------------------------------------------------------------
 --				Empêcher la journalisation des tables   ---------------------------------------------
 -----------------------------------------------------------------------------------------------------
+ALTER TABLE "organization-tags" SET UNLOGGED;
 ALTER TABLE "knowledge-elements" SET UNLOGGED;
 ALTER TABLE "competence-marks" SET UNLOGGED;
 ALTER TABLE "feedbacks" SET UNLOGGED;
@@ -205,6 +202,7 @@ ALTER TABLE "certification-centers" SET UNLOGGED;
 ALTER TABLE "user_tutorials" SET UNLOGGED;
 ALTER TABLE "users" SET UNLOGGED;
 ALTER TABLE "tutorial-evaluations" SET UNLOGGED;
+
 ALTER TABLE "organizations" SET UNLOGGED;
 
 
@@ -229,13 +227,8 @@ ALTER TABLE "knowledge-elements" DROP CONSTRAINT "knowledge_elements_userid_fore
 -----------------------------------------------------------------------------------------------------
 --				Supprimer les index   ---------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
-DROP INDEX "assessment_courseid_index";
 DROP INDEX "assessments_campaignparticipationid_index";
 DROP INDEX "assessments_certificationcourseid_index";
-DROP INDEX "assessments_competenceid_index";
-DROP INDEX "assessments_state_index";
-DROP INDEX "assessments_type_index";
-DROP INDEX "assessments_userid_index";
 DROP INDEX "campaign_participations_userid_index";
 DROP INDEX "answers_assessmentid_index";
 DROP INDEX "knowledge_elements_userid_index";
@@ -823,13 +816,8 @@ ALTER TABLE "knowledge-elements" ADD CONSTRAINT "knowledge_elements_userid_forei
 -----------------------------------------------------------------------------------------------------
 --				Rétablir les index   ---------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
-CREATE INDEX "assessment_courseid_index" ON "assessments"("courseId");
 CREATE INDEX "assessments_campaignparticipationid_index" ON "assessments"("campaignParticipationId");
 CREATE INDEX "assessments_certificationcourseid_index" ON "assessments"("certificationCourseId");
-CREATE INDEX "assessments_competenceid_index" ON "assessments"("competenceId");
-CREATE INDEX "assessments_state_index" ON "assessments"("state");
-CREATE INDEX "assessments_type_index" ON "assessments"("type");
-CREATE INDEX "assessments_userid_index" ON "assessments"("userId");
 CREATE INDEX "campaign_participations_userid_index" ON "campaign-participations"("userId");
 CREATE INDEX "answers_assessmentid_index" ON "answers"("assessmentId");
 CREATE INDEX "knowledge_elements_userid_index" ON "knowledge-elements"("userId");
@@ -857,6 +845,7 @@ DROP FUNCTION IF EXISTS pick_random_date(start_date timestamptz, limit_date time
 --				Rétablir la journalisation des tables   ---------------------------------------------
 -----------------------------------------------------------------------------------------------------
 ALTER TABLE "organizations" SET LOGGED;
+ALTER TABLE "organization-tags" SET LOGGED;
 ALTER TABLE "tutorial-evaluations" SET LOGGED;
 ALTER TABLE "users" SET LOGGED;
 ALTER TABLE "user_tutorials" SET LOGGED;
