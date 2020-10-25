@@ -1304,6 +1304,227 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
+  describe('#countValidatedTargetedByCompetencesForUsers', () => {
+
+    afterEach(() => {
+      return knex('knowledge-element-snapshots').delete();
+    });
+
+    it('should return count of validated knowledge elements within limit date for the given users grouped by competences within target profile of campaign', async () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'skill1', tubeId: 'tube1' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'skill2', tubeId: 'tube1' });
+      const skill3 = domainBuilder.buildTargetedSkill({ id: 'skill3', tubeId: 'tube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skill1, skill2], competenceId: 'competence1' });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skill3], competenceId: 'competence2' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'competence1', tubes: [tube1], areaId: 'area1' });
+      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'competence2', tubes: [tube2], areaId: 'area1' });
+      const area = domainBuilder.buildTargetedArea({ id: 'area1', competences: [competence1, competence2] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+        areas: [area],
+      });
+      const userId1 = databaseBuilder.factory.buildUser().id;
+      const userId2 = databaseBuilder.factory.buildUser().id;
+      const dateUserId1 = new Date('2020-01-03');
+      const dateUserId2 = new Date('2019-01-03');
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId1, createdAt: new Date('2020-01-02'), skillId: skill1.id });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId1, createdAt: new Date('2020-01-02'), skillId: skill2.id });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId1, createdAt: new Date('2021-01-02') });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId2, createdAt: new Date('2019-01-02'), skillId: skill1.id });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence2.id, userId: userId2, createdAt: new Date('2019-01-02'), skillId: skill3.id });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competence1.id, userId: userId2, createdAt: new Date('2020-01-02') });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsCountCompetenceId =
+        await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId1]: dateUserId1, [userId2]: dateUserId2 }, targetProfile);
+
+      // then
+      expect(knowledgeElementsCountCompetenceId).to.deep.equal({
+        [competence1.id]: 3,
+        [competence2.id]: 1,
+      });
+    });
+
+    context('when user does not have a snapshot for this date', () => {
+
+      context('when no date is provided along with the user', () => {
+
+        it('should take into account the knowledge elements with limit date as now', async () => {
+          // given
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const knowledgeElementsCountByCompetenceId =
+            await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+          // then
+          const competenceId = targetProfile.competences[0].id;
+          expect(knowledgeElementsCountByCompetenceId[competenceId]).to.equal(1);
+        });
+
+        it('should not trigger snapshotting', async () => {
+          // given
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
+          expect(actualUserSnapshots.length).to.equal(0);
+        });
+      });
+
+      context('when a date is provided along with the user', () => {
+
+        it('should return the knowledge elements at date', async () => {
+          // given
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const knowledgeElementsCountByCompetenceId =
+            await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+          // then
+          expect(knowledgeElementsCountByCompetenceId).to.deep.equal({
+            [targetProfile.competences[0].id]: 1,
+          });
+        });
+
+        it('should save a snasphot', async () => {
+          // given
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            createdAt: new Date('2018-01-01'),
+            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfile.skills[0].id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: new Date('2018-02-01') }, targetProfile);
+
+          // then
+          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
+          expect(actualUserSnapshots.length).to.equal(1);
+        });
+      });
+    });
+
+    it('should avoid counting non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2018-01-01'),
+        competenceId: targetProfile.competences[0].id,
+        skillId: 'id_de_skill_improbable_et_different_de_celui_du_builder',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsCountByCompetenceId =
+        await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsCountByCompetenceId).to.deep.equal({
+        [targetProfile.competences[0].id]: 0,
+      });
+    });
+
+    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2018-01-01'),
+        competenceId: 'competence_depuis_laquelle_lacquis_a_pu_etre_retire',
+        skillId: targetProfile.skills[0].id,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsCountByCompetenceId =
+        await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsCountByCompetenceId).to.deep.equal({
+        [targetProfile.competences[0].id]: 1,
+      });
+    });
+
+    it('should avoid counting non validated knowledge elements when there are knowledge elements that are not validated', async () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2018-01-01'),
+        competenceId: targetProfile.competences[0].id,
+        skillId: targetProfile.skills[0].id,
+        status: 'invalidated',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsCountByCompetenceId =
+        await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsCountByCompetenceId).to.deep.equal({
+        [targetProfile.competences[0].id]: 0,
+      });
+    });
+
+    it('should count 0 on competence that does not have any targeted knowledge elements', async () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
+      // when
+      const knowledgeElementsByUserIdAndCompetenceId =
+        await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: null }, targetProfile);
+
+      // then
+      expect(knowledgeElementsByUserIdAndCompetenceId).to.deep.equal({
+        [targetProfile.competences[0].id]: 0,
+      });
+    });
+  });
+
   describe('#findTargetedGroupedByCompetencesForUsers', () => {
 
     afterEach(() => {

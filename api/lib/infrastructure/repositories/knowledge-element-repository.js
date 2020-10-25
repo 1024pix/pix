@@ -168,6 +168,11 @@ module.exports = {
     return knowledgeElementsGroupedByUserAndCompetence;
   },
 
+  async countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfile) {
+    const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
+    return targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(_.flatMap(knowledgeElementsGroupedByUser));
+  },
+
   async countValidatedTargetedByCompetencesForUser(userId, limitDate, targetProfile) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers({ [userId]: limitDate });
     return targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElementsGroupedByUser[userId]);
