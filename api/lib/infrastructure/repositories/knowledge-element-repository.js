@@ -159,7 +159,7 @@ module.exports = {
 
   async findValidatedTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-    const knowledgeElementsGroupedByUserAndCompetence  = {};
+    const knowledgeElementsGroupedByUserAndCompetence = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
@@ -168,9 +168,14 @@ module.exports = {
     return knowledgeElementsGroupedByUserAndCompetence;
   },
 
+  async countValidatedTargetedByCompetencesForUser(userId, limitDate, targetProfile) {
+    const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers({ [userId]: limitDate });
+    return targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElementsGroupedByUser[userId]);
+  },
+
   async findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-    const knowledgeElementsGroupedByUserAndCompetence  = {};
+    const knowledgeElementsGroupedByUserAndCompetence = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
