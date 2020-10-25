@@ -80,6 +80,11 @@ class TargetProfileWithLearningContent {
     return knowledgeElementsGroupedByCompetence;
   }
 
+  countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
+    const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+    return _.mapValues(validatedGroupedByCompetence, 'length');
+  }
+
   get maxSkillDifficulty() {
     const skillMaxDifficulty = _.maxBy(this.skills, 'difficulty');
     return skillMaxDifficulty ? skillMaxDifficulty.difficulty : null;
