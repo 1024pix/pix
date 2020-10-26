@@ -2,7 +2,7 @@ import RSVP from 'rsvp';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, render } from '@ember/test-helpers';
+import { click, find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const VALIDATE_BUTTON = '.challenge-actions__action-validate';
@@ -83,5 +83,27 @@ describe('Integration | Component | challenge actions', function() {
       expect(find('.challenge-actions__action-skip__loader-bar')).to.exist;
     });
 
+  });
+
+  describe('Challenge has timed out', function() {
+
+    it('should only display "continue" button', async function() {
+      // given
+      this.set('isValidateButtonEnabled', true);
+      this.set('isTimeoutChallenge', true);
+      this.set('isSkipButtonEnabled', true);
+      this.set('externalAction', () => {});
+
+      // when
+      await render(hbs`{{challenge-actions
+        validateAnswer=(action externalAction)
+        isValidateButtonEnabled=isValidateButtonEnabled
+        isTimeoutChallenge=isTimeoutChallenge
+        isSkipButtonEnabled=isSkipButtonEnabled}}`);
+
+      // then
+      expect(findAll('.challenge-actions__action').length).to.equal(1);
+      expect(find('.challenge-actions__action-continue')).to.exist;
+    });
   });
 });
