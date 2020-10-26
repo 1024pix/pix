@@ -21,7 +21,7 @@ export default class SessionsDetailsRoute extends Route {
       isUserFromSco,
       isCertifPrescriptionScoEnabled,
       async reloadCertificationCandidate() {
-        const certificationCandidates = loadCertificationCandidates();
+        const certificationCandidates = await loadCertificationCandidates();
         this.set('certificationCandidates', certificationCandidates);
       },
     });
