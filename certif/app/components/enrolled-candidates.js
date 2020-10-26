@@ -4,7 +4,10 @@ import { tracked } from '@glimmer/tracking';
 import EmberObject, { action } from '@ember/object';
 import _ from 'lodash';
 
+import config from 'pix-certif/config/environment';
+
 export default class EnrolledCandidates extends Component {
+  isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
 
   @service store;
   @service notifications;
@@ -14,8 +17,8 @@ export default class EnrolledCandidates extends Component {
     return this.candidatesInStaging.length > 0;
   }
 
-  get displayAddButton() {
-    return !this.args.isCertifPrescriptionScoEnabled || !this.args.isUserFromSco;
+  get isScoSession() {
+    return this.args.isCertifPrescriptionScoEnabled && this.args.isUserFromSco;
   }
 
   @action

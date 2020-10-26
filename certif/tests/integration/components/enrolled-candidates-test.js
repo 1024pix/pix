@@ -3,6 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
+import config from 'pix-certif/config/environment';
+
 module('Integration | Component | enrolled-candidates', function(hooks) {
   setupRenderingTest(hooks);
 
@@ -11,12 +13,23 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const DELETE_BUTTON_DOM = 'certification-candidates-actions__delete-button';
   const DELETE_BUTTON_DOM_DISABLED = `${DELETE_BUTTON_DOM}--disabled`;
   const ADD_BUTTON = 'certification-candidates-add-button__text';
+  const EXTERNAL_ID_COLUMN_SELECTOR = 'panel-candidate__externalId__';
+  const RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR = 'panel-candidate__result-recipient-email__';
+  const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+
+  hooks.before(() => {
+    config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = true;
+  });
+
+  hooks.after(() => {
+    config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+  });
 
   test('it display candidates with delete disabled button if linked', async function(assert) {
     const certificationCandidates = [
-      { birthdate: new Date() },
-      { birthdate: new Date(), isLinked: true },
-      { birthdate: new Date() },
+      _buildCertificationCandidate({ isLinked: false }),
+      _buildCertificationCandidate({ isLinked: true }),
+      _buildCertificationCandidate({ isLinked: false }),
     ];
 
     this.set('certificationCandidates', certificationCandidates);
@@ -70,4 +83,70 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     }),
   );
 
+  [
+    { isSco: true, toggle: true, shouldColumnsBeEmpty: true },
+    { isSco: true, toggle: false, shouldColumnsBeEmpty: false },
+    { isSco: false, toggle: false, shouldColumnsBeEmpty: false },
+    { isSco: false, toggle: true, shouldColumnsBeEmpty: false },
+  ].forEach(({ isSco, toggle, shouldColumnsBeEmpty }) =>
+    test(`it ${shouldColumnsBeEmpty ? 'does not' : 'does'} fill externalId and email columnss if user ${isSco ? 'is' : 'is not'} sco and if feature toggle is ${toggle}`, async function(assert) {
+      const candidate = _buildCertificationCandidate({});
+      const certificationCandidates = [
+        _buildCertificationCandidate({}),
+      ];
+
+      this.set('certificationCandidates', certificationCandidates);
+      this.set('isUserFromSco', isSco);
+      this.set('isCertifPrescriptionScoEnabled', toggle);
+
+      await render(hbs`
+      <EnrolledCandidates
+        @sessionId="1"
+        @certificationCandidates={{certificationCandidates}}
+        @isUserFromSco={{isUserFromSco}}
+        @isCertifPrescriptionScoEnabled={{isCertifPrescriptionScoEnabled}}
+      >
+      </EnrolledCandidates>
+    `);
+
+      if (shouldColumnsBeEmpty) {
+        assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+        assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+      } else {
+        assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).exists();
+        assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).exists();
+      }
+    }),
+  );
+
 });
+
+function _buildCertificationCandidate({
+  id = 12345,
+  firstName = 'Bob',
+  lastName = 'Leponge',
+  birthdate = new Date(),
+  birthCity = 'Marseille',
+  birthProvinceCode = '',
+  birthCountry = '',
+  email = 'bob.leponge@la.mer',
+  resultRecipientEmail = 'recipient@college.fr',
+  externalId = 'an external id',
+  extraTimePercentage = 30,
+  isLinked = false,
+}) {
+  return {
+    id,
+    firstName,
+    lastName,
+    birthdate,
+    birthCity,
+    birthProvinceCode,
+    birthCountry,
+    email,
+    resultRecipientEmail,
+    externalId,
+    extraTimePercentage,
+    isLinked,
+  };
+}
