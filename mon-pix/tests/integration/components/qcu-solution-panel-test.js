@@ -24,75 +24,139 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
   };
 
   context('When toggle for improving wrong answers display is true', function() {
-    describe('#Component should renders: ', function() {
 
-      let configurationForImprovingDisplayForWrongAnswers;
+    let configurationForImprovingDisplayForWrongAnswers;
+
+    before(function() {
+      configurationForImprovingDisplayForWrongAnswers = config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU;
+      config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = true;
+    });
+
+    after(function() {
+      config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = configurationForImprovingDisplayForWrongAnswers;
+    });
+
+    it('Should render', async function() {
+      await render(hbs`{{qcu-solution-panel}}`);
+      expect(find('.qcu-solution-panel')).to.exist;
+      expect(findAll('.qcu-proposal-label__oracle')).to.have.lengthOf(0);
+    });
+
+    describe('Radio state', function() {
 
       before(function() {
-        configurationForImprovingDisplayForWrongAnswers = config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU;
-        config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = true;
-      });
-
-      after(function() {
-        config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = configurationForImprovingDisplayForWrongAnswers;
-      });
-
-      it('Should render', async function() {
-        await render(hbs`{{qcu-solution-panel}}`);
-        expect(find('.qcu-solution-panel')).to.exist;
-        expect(findAll('.qcu-proposal-label__oracle')).to.have.lengthOf(0);
-      });
-
-      describe('Radio state', function() {
-
-        before(function() {
-          challenge = EmberObject.create({
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCU',
-          });
-
-          solution = '2';
-
-          answer = {
-            id: 'answer_id',
-            assessment,
-            challenge,
-            value: '2',
-          };
+        challenge = EmberObject.create({
+          id: 'challenge_id',
+          proposals: '-foo\n- bar\n- qix\n- yon',
+          type: 'QCU',
         });
 
-        it('Should display only user answer', async function() {
-          // Given
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-          // When
-          await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
-          // Then
-          expect(findAll('.radio-on').length).to.equal(1);
+        solution = '2';
+
+        answer = {
+          id: 'answer_id',
+          assessment,
+          challenge,
+          value: '2',
+        };
+      });
+
+      it('Should display only user answer', async function() {
+        // Given
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
+        // When
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        // Then
+        expect(findAll('.radio-on').length).to.equal(1);
+      });
+
+      it('should not be editable', async function() {
+        //Given
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
+
+        // When
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+
+        // Then
+        times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
+          expect(find('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
+        });
+      });
+    });
+
+    describe('When answer is correct', function() {
+
+      before(function() {
+        challenge = EmberObject.create({
+          id: 'challenge_id',
+          proposals: '-foo\n- bar\n- qix\n- yon',
+          type: 'QCU',
         });
 
-        it('Aucune case à cocher n\'est cliquable', async function() {
-          //Given
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
+        solution = '2';
+      });
 
-          // When
-          await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+      it('should inform that the answer is correct', async function() {
+        //Given
+        this.set('answer', correctAnswer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
 
-          // Then
-          times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
-            expect(find('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
-          });
+        // When
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+
+        // Then
+        expect(find('.answer-feedback__correct-answer')).to.exist;
+      });
+    });
+
+    describe('When answer is wrong', function() {
+      before(function() {
+        challenge = EmberObject.create({
+          id: 'challenge_id',
+          proposals: '-foo\n- bar\n- qix\n- yon',
+          type: 'QCU',
         });
+
+        solution = '2';
+      });
+
+      it('should inform that the answer is wrong', async function() {
+        //Given
+        this.set('answer', unCorrectAnswer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
+
+        // When
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+
+        // Then
+        expect(find('.answer-feedback__wrong-answer')).to.exist;
+      });
+
+      it('should inform the user of the correct answer', async function() {
+        // Given
+        this.set('answer', unCorrectAnswer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
+
+        // When
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+
+        // Then
+        const correctAnswer = find('.wrong-answer__expected-answer');
+        expect(correctAnswer).to.exist;
+        expect(correctAnswer.innerText).to.equal(solution);
       });
     });
   });
 
   context('When toggle for improving wrong answers display is false', function() {
-    describe('#Component should renders: ', function() {
+    describe('#Component should render: ', function() {
 
       let configurationForImprovingDisplayForWrongAnswers;
 
@@ -105,7 +169,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = configurationForImprovingDisplayForWrongAnswers;
       });
 
-      it('Should renders', async function() {
+      it('Should render', async function() {
         await render(hbs`{{qcu-solution-panel}}`);
         expect(find('.qcu-solution-panel')).to.exist;
         expect(findAll('.qcu-proposal-label__oracle')).to.have.lengthOf(0);

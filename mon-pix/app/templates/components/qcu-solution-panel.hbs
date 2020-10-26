@@ -35,6 +35,18 @@
 
       </p>
     {{/each}}
+    {{#if this.featureFlagDisplayForWrongAnswers}}
+      <div class="qcu-panel-proposals__answer-feedback">
+        {{#if this.isAnswerValid}}
+        <div class="answer-feedback__correct-answer">Réponse correcte.</div>
+        {{else}}
+          <div class="answer-feedback__wrong-answer">Réponse incorrecte. <br>
+          La bonne réponse est la réponse :
+            <span class="wrong-answer__expected-answer">{{this.solution}}</span>
+          </div>
+        {{/if}}
+      </div>
+    {{/if}}
   </div>
 </div>
 
