@@ -6,11 +6,14 @@ export default class InformationBanner extends Component {
   @service currentUser;
   get displayNewYearSchoolingRegistrationsImportBanner() {
     return !this.currentUser.prescriber.areNewYearSchoolingRegistrationsImported &&
-      this.currentUser.isSCOManagingStudents;
+      this.currentUser.isSCOManagingStudents &&
+      !this.currentUser.isAgriculture;
   }
 
   get displayNewYearCampaignsBanner() {
     const isBeforeBannerDeadLine = new Date() < new Date(bannerDeadLine);
-    return isBeforeBannerDeadLine && this.currentUser.isSCOManagingStudents;
+    return isBeforeBannerDeadLine &&
+      this.currentUser.isSCOManagingStudents &&
+      !this.currentUser.isAgriculture;
   }
 }

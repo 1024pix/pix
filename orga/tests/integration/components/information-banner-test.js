@@ -77,6 +77,26 @@ module('Integration | Component | information-banner', function(hooks) {
       });
 
     });
+
+    module('when prescriber’s organization is agriculture', function() {
+
+      test('should not display the banner regardless of whether students have been imported or not', async function(assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: false }
+          isSCOManagingStudents = true;
+          isAgriculture = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        await render(hbs`<InformationBanner/>`);
+
+        // then
+        assert.dom('.pix-banner').doesNotExist();
+      });
+
+    });
   });
 
   module('Campaign Banner', () => {
@@ -157,6 +177,35 @@ module('Integration | Component | information-banner', function(hooks) {
         class CurrentUserStub extends Service {
           prescriber = { areNewYearSchoolingRegistrationsImported: true }
           isSCOManagingStudents = false;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        await render(hbs`<InformationBanner/>`);
+
+        // then
+        assert.dom('.pix-banner').doesNotExist();
+      });
+    });
+
+    module('when prescriber’s organization is agriculture', function() {
+      const now = new Date('2019-01-01T05:06:07Z');
+      let clock;
+
+      hooks.beforeEach(() => {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      hooks.afterEach(() => {
+        clock.restore();
+      });
+
+      test('should not show the campaign banner', async function(assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: true }
+          isSCOManagingStudents = true;
+          isAgriculture = true;
         }
         this.owner.register('service:current-user', CurrentUserStub);
 
