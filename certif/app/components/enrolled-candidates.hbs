@@ -6,12 +6,14 @@
         <div class="panel-header__mandatory-warning">Les champs marqués de * sont obligatoires</div>
       {{/if}}
     </div>
-    <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
-      <div class="certification-candidates-add-button__text">
-        Ajouter un candidat
+    {{#if this.displayAddButton}}
+      <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
+        <div class="certification-candidates-add-button__text">
+          Ajouter un candidat
+        </div>
+        <PixActionButton @icon='plus' />
       </div>
-      <PixActionButton @icon='plus' />
-    </div>
+    {{/if}}
   </div>
   <div class="table content-text content-text--small certification-candidates-table">
     {{#if (or @certificationCandidates this.candidatesInStaging)}}
