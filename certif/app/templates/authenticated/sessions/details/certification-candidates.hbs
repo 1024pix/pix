@@ -8,6 +8,8 @@
           @importAllowed={{this.importAllowed}}/>
 {{/if}}
 <EnrolledCandidates
+        @isUserFromSco={{this.isUserFromSco}}
+        @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
         @sessionId={{this.currentSession.id}}
         @certificationCandidates={{this.certificationCandidates}}
         @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}} />
