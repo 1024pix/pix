@@ -39,4 +39,11 @@ export default class QcuSolutionPanel extends Component {
 
     return radiosArray;
   }
+
+  get isAnswerValid() {
+    if (!this.answer) {
+      return false;
+    }
+    return this.solution === this.answer.value;
+  }
 }
