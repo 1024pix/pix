@@ -45,6 +45,60 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       assert.contains('John');
       assert.contains('80%');
     });
+
+    test('it should display badge column when participant shared result', async function(assert) {
+      // given
+      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
+      const targetProfile = store.createRecord('targetProfile', {
+        id: 't1',
+        hasBadges: true,
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        targetProfile,
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared : true }];
+      participations.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.contains('Résultats Thématiques');
+    });
+
+    test('it should display badge and tooltip when pariticipant shared his results', async function(assert) {
+      // given
+      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
+      const targetProfile = store.createRecord('targetProfile', {
+        id: 't1',
+        hasBadges: true,
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        targetProfile,
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared : true }];
+      participations.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+      
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+      
+      // then
+      assert.dom('.pix-tooltip__content').exists();
+      assert.dom('img[src="url-badge"]').exists();
+    });
   });
 
   module('when a participant has not shared his results yet', function() {
@@ -79,6 +133,35 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       assert.contains('Doe2');
       assert.contains('John');
       assert.contains('En attente');
+    });
+
+    test('it should not display badge neither tooltip when participant not shared result', async function(assert) {
+      // given
+      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
+      const targetProfile = store.createRecord('targetProfile', {
+        id: 't1',
+        hasBadges: true,
+      });
+
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        targetProfile,
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared : false }];
+      participations.meta = { rowCount: 1 };
+  
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+  
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+  
+      // then
+      assert.dom('.pix-tooltip__content').doesNotExist();
+      assert.dom('img[src="url-badge"]').doesNotExist();
     });
   });
 
@@ -194,18 +277,18 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
   module('when the campaign has badges', function() {
     test('it should display badge column', async function(assert) {
       // given
-      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
       const targetProfile = store.createRecord('targetProfile', {
         id: 't1',
         hasBadges: true,
       });
+
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
         targetProfile,
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge] }];
+      const participations = [{ firstName: 'John', lastName: 'Doe' }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -217,33 +300,6 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
 
       // then
       assert.contains('Résultats Thématiques');
-      assert.dom('img[src="url-badge"]').exists();
-    });
-
-    test('it should display tooltip', async function(assert) {
-      // given
-      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
-      const targetProfile = store.createRecord('targetProfile', {
-        id: 't1',
-        hasBadges: true,
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        targetProfile,
-      });
-
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge] }];
-      participations.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-      
-      // then
-      assert.dom('.pix-tooltip__content').exists();
     });
   });
 
