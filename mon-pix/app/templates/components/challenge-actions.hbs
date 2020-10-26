@@ -23,7 +23,7 @@
       <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
     </button>
 
-    {{else}}
+  {{else}}
     {{#if @isValidateButtonEnabled}}
       <button class="button challenge-actions__action challenge-actions__action-validate"
               {{on 'click' @validateAnswer}}
