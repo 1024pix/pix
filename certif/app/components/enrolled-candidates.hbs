@@ -1,0 +1,121 @@
+<div class="panel">
+  <div class="panel-header">
+    <div class="panel-header__title">
+      Liste des candidats ({{this.args.certificationCandidates.length}})
+      {{#if this.isCandidateBeingAdded}}
+        <div class="panel-header__mandatory-warning">Les champs marqués de * sont obligatoires</div>
+      {{/if}}
+    </div>
+    <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
+      <div class="certification-candidates-add-button__text">
+        Ajouter un candidat
+      </div>
+      <PixActionButton @icon='plus' />
+    </div>
+  </div>
+  <div class="table content-text content-text--small certification-candidates-table">
+    {{#if (or this.args.certificationCandidates this.candidatesInStaging)}}
+      <table>
+        <thead>
+        <tr>
+          <th class="certification-candidates-table__column-last-name">
+            {{#if this.isCandidateBeingAdded}}
+              *
+            {{/if}}
+            Nom de naissance
+          </th>
+          <th class="certification-candidates-table__column-first-name">
+            {{#if this.isCandidateBeingAdded}}
+              *
+            {{/if}}
+            Prénom
+          </th>
+          <th>
+            {{#if this.isCandidateBeingAdded}}
+              *
+            {{/if}}
+            Date de naissance
+          </th>
+          <th>
+            {{#if this.isCandidateBeingAdded}}
+              *
+            {{/if}}
+            Commune de naissance
+          </th>
+          <th>
+            {{#if this.isCandidateBeingAdded}}
+              *
+            {{/if}}
+            Département de naissance
+          </th>
+          <th>
+            {{#if this.isCandidateBeingAdded}}
+              *
+            {{/if}}
+            Pays de naissance
+          </th>
+          {{#if this.isResultRecipientEmailVisible}}
+            <th>Adresse e-mail du destinataire des résultats</th>
+          {{/if}}
+          <th>Adresse e-mail de convocation</th>
+          <th>Identifiant externe</th>
+          <th class="certification-candidates-table__column-time">Temps majoré</th>
+          <th width="185"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each this.candidatesInStaging as |candidateInStaging|}}
+          <CertificationCandidateInStagingItem
+                  @candidateData={{candidateInStaging}}
+                  @onClickSave={{this.addCertificationCandidate}}
+                  @onClickCancel={{this.removeCertificationCandidateFromStaging}}
+                  @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingBirthdate}}
+                  @updateCandidateData={{this.updateCertificationCandidateInStagingField}}
+          />
+        {{/each}}
+        {{#each this.args.certificationCandidates as |candidate|}}
+          <tr>
+            <td data-test-id='panel-candidate__lastName__{{candidate.id}}'>{{candidate.lastName}}</td>
+            <td data-test-id='panel-candidate__firstName__{{candidate.id}}'>{{candidate.firstName}}</td>
+            <td data-test-id='panel-candidate__birthdate__{{candidate.id}}'>{{moment-format candidate.birthdate 'DD/MM/YYYY'}}</td>
+            <td data-test-id='panel-candidate__birthCity__{{candidate.id}}'>{{candidate.birthCity}}</td>
+            <td data-test-id='panel-candidate__birthProvinceCode__{{candidate.id}}'>{{candidate.birthProvinceCode}}</td>
+            <td data-test-id='panel-candidate__birthCountry__{{candidate.id}}'>{{candidate.birthCountry}}</td>
+            {{#if this.isResultRecipientEmailVisible}}
+              <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
+            {{/if}}
+            <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
+            <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
+            <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
+            <td>
+              <div class="certification-candidates-actions">
+                <div class="certification-candidates-actions__delete">
+                  {{#if candidate.isLinked}}
+                    <PixActionButton
+                            @icon="trash-alt"
+                            class="certification-candidates-actions__delete-button--disabled"
+                            data-test-id="panel-candidate__actions__delete__{{candidate.id}}" />
+                    <div class="certification-candidates-actions__delete-tooltip">
+                      Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
+                    </div>
+                  {{else}}
+                    <PixActionButton
+                            @icon="trash-alt"
+                      {{on 'click' (fn this.deleteCertificationCandidate candidate)}}
+                            class="certification-candidates-actions__delete-button"
+                            data-test-id="panel-candidate__actions__delete__{{candidate.id}}" />
+                  {{/if}}
+                </div>
+              </div>
+            </td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <div class="table__empty content-text">
+        <p>En attente de candidats</p>
+      </div>
+    {{/if}}
+  </div>
+</div>
