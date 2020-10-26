@@ -6,7 +6,7 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
   describe('id', () => {
     it('returns the campaignId', () => {
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-      const campaignAnalysis = new CampaignAnalysis({ campaignId: 12, targetProfile, validatedKnowledgeElements: [], participantsCount: 0  });
+      const campaignAnalysis = new CampaignAnalysis({ campaignId: 12, targetProfile, validatedKnowledgeElementsByTube: {}, participantsCount: 0  });
 
       expect(campaignAnalysis.id).to.equal(12);
     });
@@ -30,15 +30,14 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
         areas: [area1, area2],
       });
 
-      const validatedKnowledgeElements = [
-        { skillId: 'recSkill11' },
-        { skillId: 'recSkill12' },
-        { skillId: 'recSkill21' },
-      ];
+      const validatedKnowledgeElementsByTube = {
+        'recTube1': [{ skillId: 'recSkill11' }, { skillId: 'recSkill12' }],
+        'recTube2': [{ skillId: 'recSkill21' }],
+      };
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount  });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElementsByTube, participantsCount  });
 
       expect(campaignAnalysis.campaignTubeRecommendations).to.have.lengthOf(2);
     });
@@ -61,15 +60,14 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
         areas: [area1, area2],
       });
 
-      const validatedKnowledgeElements = [
-        { skillId: 'recSkill11', userId: 1 },
-        { skillId: 'recSkill12', userId: 1 },
-        { skillId: 'recSkill21', userId: 1 },
-      ];
+      const validatedKnowledgeElementsByTube = {
+        'recTube1': [{ skillId: 'recSkill11', userId: 1 }, { skillId: 'recSkill12', userId: 1 }],
+        'recTube2': [{ skillId: 'recSkill21', userId: 1 }],
+      };
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElementsByTube, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
       const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
@@ -95,11 +93,14 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
         areas: [area1, area2],
       });
 
-      const validatedKnowledgeElements = [];
+      const validatedKnowledgeElementsByTube = {
+        'recTube1': [],
+        'recTube2': [],
+      };
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElementsByTube, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
       const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
@@ -124,11 +125,15 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
         competences: [competence1, competence2],
         areas: [area1, area2],
       });
-      const validatedKnowledgeElements = [];
+
+      const validatedKnowledgeElementsByTube = {
+        'recTube1': [],
+        'recTube2': [],
+      };
 
       const participantsCount = 1;
 
-      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElementsByTube, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
       const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
@@ -161,30 +166,22 @@ describe('Integration | Domain | Models | CampaignAnalysis', () => {
         areas: [area],
       });
 
-      const validatedKnowledgeElements = [
-        { skillId: 'recSkill11', userId: 1 },
-        { skillId: 'recSkill12', userId: 1 },
-        { skillId: 'recSkill13', userId: 1 },
-        { skillId: 'recSkill11', userId: 2 },
-        { skillId: 'recSkill12', userId: 2 },
-        { skillId: 'recSkill13', userId: 2 },
-        { skillId: 'recSkill11', userId: 3 },
-        { skillId: 'recSkill12', userId: 3 },
-        { skillId: 'recSkill13', userId: 3 },
-        { skillId: 'recSkill11', userId: 4 },
-        { skillId: 'recSkill12', userId: 4 },
-        { skillId: 'recSkill13', userId: 4 },
-      ];
+      const validatedKnowledgeElementsByTube = {
+        'recTube1': [{ skillId: 'recSkill11', userId: 1 }, { skillId: 'recSkill12', userId: 1 }, { skillId: 'recSkill13', userId: 1 },
+          { skillId: 'recSkill11', userId: 2 }, { skillId: 'recSkill12', userId: 2 }, { skillId: 'recSkill13', userId: 2 },
+          { skillId: 'recSkill11', userId: 3 }, { skillId: 'recSkill12', userId: 3 }, { skillId: 'recSkill13', userId: 3 },
+          { skillId: 'recSkill11', userId: 4 }, { skillId: 'recSkill12', userId: 4 }, { skillId: 'recSkill13', userId: 4 }],
+        'recTube2': [],
+      };
 
       const participantsCount = 4;
 
-      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElements, participantsCount });
+      const campaignAnalysis = new CampaignAnalysis({ targetProfile, validatedKnowledgeElementsByTube, participantsCount });
       const campaignTubeRecommendations = campaignAnalysis.campaignTubeRecommendations;
 
       const tube1Recommendation = campaignTubeRecommendations.find(({ tubeId }) => tubeId === 'recTube1');
 
       expect(tube1Recommendation.averageScore).to.equal(68.5);
-
     });
   });
 });
