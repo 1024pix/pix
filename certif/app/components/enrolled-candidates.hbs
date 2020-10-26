@@ -6,14 +6,14 @@
         <div class="panel-header__mandatory-warning">Les champs marqués de * sont obligatoires</div>
       {{/if}}
     </div>
-    {{#if this.displayAddButton}}
+    {{#unless this.isScoSession}}
       <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
         <div class="certification-candidates-add-button__text">
           Ajouter un candidat
         </div>
         <PixActionButton @icon='plus' />
       </div>
-    {{/if}}
+    {{/unless}}
   </div>
   <div class="table content-text content-text--small certification-candidates-table">
     {{#if (or @certificationCandidates this.candidatesInStaging)}}
@@ -57,10 +57,14 @@
             Pays de naissance
           </th>
           {{#if this.isResultRecipientEmailVisible}}
-            <th>Adresse e-mail du destinataire des résultats</th>
+            {{#unless this.isScoSession}}
+              <th>Adresse e-mail du destinataire des résultats</th>
+            {{/unless}}
           {{/if}}
           <th>Adresse e-mail de convocation</th>
-          <th>Identifiant externe</th>
+          {{#unless this.isScoSession}}
+            <th>Identifiant externe</th>
+          {{/unless}}
           <th class="certification-candidates-table__column-time">Temps majoré</th>
           <th width="185"></th>
         </tr>
@@ -84,10 +88,14 @@
             <td data-test-id='panel-candidate__birthProvinceCode__{{candidate.id}}'>{{candidate.birthProvinceCode}}</td>
             <td data-test-id='panel-candidate__birthCountry__{{candidate.id}}'>{{candidate.birthCountry}}</td>
             {{#if this.isResultRecipientEmailVisible}}
-              <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
+              {{#unless this.isScoSession}}
+                <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
+              {{/unless}}
             {{/if}}
             <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
-            <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
+            {{#unless this.isScoSession}}
+              <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
+            {{/unless}}
             <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
             <td>
               <div class="certification-candidates-actions">
