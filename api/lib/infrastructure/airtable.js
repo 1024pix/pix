@@ -1,10 +1,10 @@
 const Airtable = require('airtable');
-const airtableSettings = require('../config').airtable;
+const lcmsSettings = require('../config').lcms;
 const logger = require('./logger');
 const _ = require('lodash');
 
 function _airtableClient() {
-  return new Airtable({ apiKey: airtableSettings.apiKey }).base(airtableSettings.base);
+  return new Airtable({ endpointUrl: lcmsSettings.url, apiKey: lcmsSettings.apiKey }).base('content');
 }
 
 async function getRecord(tableName, recordId) {
