@@ -1,7 +1,7 @@
 <div class="panel">
   <div class="panel-header">
     <div class="panel-header__title">
-      Liste des candidats ({{this.args.certificationCandidates.length}})
+      Liste des candidats ({{@certificationCandidates.length}})
       {{#if this.isCandidateBeingAdded}}
         <div class="panel-header__mandatory-warning">Les champs marqués de * sont obligatoires</div>
       {{/if}}
@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="table content-text content-text--small certification-candidates-table">
-    {{#if (or this.args.certificationCandidates this.candidatesInStaging)}}
+    {{#if (or @certificationCandidates this.candidatesInStaging)}}
       <table>
         <thead>
         <tr>
@@ -73,7 +73,7 @@
                   @updateCandidateData={{this.updateCertificationCandidateInStagingField}}
           />
         {{/each}}
-        {{#each this.args.certificationCandidates as |candidate|}}
+        {{#each @certificationCandidates as |candidate|}}
           <tr>
             <td data-test-id='panel-candidate__lastName__{{candidate.id}}'>{{candidate.lastName}}</td>
             <td data-test-id='panel-candidate__firstName__{{candidate.id}}'>{{candidate.firstName}}</td>
