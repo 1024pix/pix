@@ -3,6 +3,12 @@
 {{else}}
   <ImportCandidates @session={{this.currentSession}}></ImportCandidates>
 {{/if}}
-<EnrolledCandidates @sessionId={{this.currentSession.id}} @certificationCandidates={{this.currentSession.certificationCandidates}}></EnrolledCandidates>
+<EnrolledCandidates
+  @isCertificationCenterSco={{this.isCertificationCenterSco}}
+  @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
+  @sessionId={{this.currentSession.id}}
+  @certificationCandidates={{this.currentSession.certificationCandidates}}
+  >
+</EnrolledCandidates>
 
 

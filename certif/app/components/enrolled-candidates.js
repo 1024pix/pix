@@ -14,6 +14,10 @@ export default class EnrolledCandidates extends Component {
     return this.candidatesInStaging.length > 0;
   }
 
+  get displayAddButton() {
+    return !this.args.isCertifPrescriptionScoEnabled || !this.args.isCertificationCenterSco;
+  }
+
   @action
   async deleteCertificationCandidate(certificationCandidate) {
     this.notifications.clearAll();
