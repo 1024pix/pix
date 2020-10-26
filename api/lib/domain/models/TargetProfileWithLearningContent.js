@@ -27,12 +27,22 @@ class TargetProfileWithLearningContent {
     return this.skills.map((skill) => skill.id);
   }
 
+  get tubeIds() {
+    return this.tubes.map((tube) => tube.id);
+  }
+
   get competenceIds() {
-    return this.competences.map((competences) => competences.id);
+    return this.competences.map((competence) => competence.id);
   }
 
   hasSkill(skillId) {
     return this.skills.some((skill) => skill.id === skillId);
+  }
+
+  getTubeIdOfSkill(skillId) {
+    const skillTube = this.tubes.find((tube) => tube.hasSkill(skillId));
+
+    return skillTube ? skillTube.id : null;
   }
 
   getCompetenceIdOfSkill(skillId) {
@@ -61,6 +71,10 @@ class TargetProfileWithLearningContent {
     return this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
   }
 
+  filterValidatedTargetedKnowledgeElementAndGroupByTube(knowledgeElements) {
+    return this._filterTargetedKnowledgeElementAndGroupByTube(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+  }
+
   _filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
     const knowledgeElementsGroupedByCompetence = {};
     for (const competenceId of this.competenceIds) {
@@ -74,6 +88,21 @@ class TargetProfileWithLearningContent {
     }
 
     return knowledgeElementsGroupedByCompetence;
+  }
+
+  _filterTargetedKnowledgeElementAndGroupByTube(knowledgeElements, knowledgeElementFilter = () => true) {
+    const knowledgeElementsGroupedByTube = {};
+    for (const tubeId of this.tubeIds) {
+      knowledgeElementsGroupedByTube[tubeId] = [];
+    }
+    for (const knowledgeElement of knowledgeElements) {
+      const tubeId = this.getTubeIdOfSkill(knowledgeElement.skillId);
+      if (tubeId && knowledgeElementFilter(knowledgeElement)) {
+        knowledgeElementsGroupedByTube[tubeId].push(knowledgeElement);
+      }
+    }
+
+    return knowledgeElementsGroupedByTube;
   }
 
   countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
