@@ -6,21 +6,20 @@ class CampaignAnalysis {
   constructor({
     campaignId,
     targetProfile,
-    validatedKnowledgeElements,
+    validatedKnowledgeElementsByTube,
     participantsCount,
     tutorials,
   } = {}) {
     this.id = campaignId;
-    this.campaignTubeRecommendations = this._buildCampaignTubeRecommendations({ campaignId, targetProfile, validatedKnowledgeElements, participantsCount, tutorials });
+    this.campaignTubeRecommendations = this._buildCampaignTubeRecommendations({ campaignId, targetProfile, validatedKnowledgeElementsByTube, participantsCount, tutorials });
   }
 
-  _buildCampaignTubeRecommendations({ campaignId, targetProfile, validatedKnowledgeElements, participantsCount, tutorials }) {
+  _buildCampaignTubeRecommendations({ campaignId, targetProfile, validatedKnowledgeElementsByTube, participantsCount, tutorials }) {
     const maxSkillLevelInTargetProfile = targetProfile.maxSkillDifficulty;
     return targetProfile.tubes.map((tube) => {
       const competence = targetProfile.getCompetence(tube.competenceId);
       const area = targetProfile.getArea(competence.areaId);
-      const tubeSkillIds = _.map(tube.skills, ({ id }) => id);
-      const validatedKnowledgeElementsOfTube = _.filter(validatedKnowledgeElements, (knowledgeElement) => tubeSkillIds.includes(knowledgeElement.skillId));
+      const validatedKnowledgeElementsOfTube = validatedKnowledgeElementsByTube[tube.id];
       const tutorialIds = _.uniq(_.flatMap(tube.skills, 'tutorialIds'));
       const tubeTutorials = _.filter(tutorials, (tutorial) => tutorialIds.includes(tutorial.id));
       return new CampaignTubeRecommendation({

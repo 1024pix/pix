@@ -7,7 +7,7 @@ const _ = require('lodash');
 module.exports = function buildCampaignParticipation({
   id,
   campaignId,
-  isShared = faker.random.boolean(),
+  isShared = true,
   createdAt = faker.date.past(),
   sharedAt = faker.date.past(),
   userId,
@@ -16,6 +16,7 @@ module.exports = function buildCampaignParticipation({
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
+  sharedAt = isShared ? sharedAt : null;
 
   const values = {
     id,

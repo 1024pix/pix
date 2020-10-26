@@ -16,8 +16,8 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
   beforeEach(() => {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
-    knowledgeElementRepository = { findByCampaignIdForSharedCampaignParticipation: sinon.stub() };
-    campaignParticipationRepository = { countSharedParticipationOfCampaign: sinon.stub() };
+    knowledgeElementRepository = { findValidatedTargetedGroupedByTubes: sinon.stub() };
+    campaignParticipationRepository = { findSharedParticipationsWithUserIdsAndDates: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
   });
 
@@ -39,6 +39,7 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
       });
       const knowledgeElementSkill1 = { skillId: 'recSkill11', userId: 1 };
       const knowledgeElementSkill2 = { skillId: 'recSkill21', userId: 1 };
+      const userIdsAndDates = { 1: new Date('2020-01-01') };
 
       const campaignTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
         campaignId,
@@ -63,8 +64,12 @@ describe('Integration | UseCase | compute-campaign-analysis', () => {
       });
 
       targetProfileWithLearningContentRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
-      knowledgeElementRepository.findByCampaignIdForSharedCampaignParticipation.resolves([knowledgeElementSkill1,knowledgeElementSkill2]);
-      campaignParticipationRepository.countSharedParticipationOfCampaign.resolves(1);
+      campaignParticipationRepository.findSharedParticipationsWithUserIdsAndDates
+        .withArgs(campaignId)
+        .resolves(userIdsAndDates);
+      knowledgeElementRepository.findValidatedTargetedGroupedByTubes
+        .withArgs(userIdsAndDates, targetProfile)
+        .resolves({ [tube1.id]: [knowledgeElementSkill1], [tube2.id]: [knowledgeElementSkill2] });
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
       targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId }).resolves(targetProfile);
       tutorialRepository.list.resolves([tutorial]);
