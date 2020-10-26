@@ -3,7 +3,7 @@ const AirtableMockRoute = require('./airtable-mock-route');
 
 module.exports = class AirtableBuilder {
   constructor({ nock }) {
-    this.nockScope = nock('https://api.airtable.com').persist();
+    this.nockScope = nock('https://lcms-test.pix.fr/api').persist();
     this.nock = nock;
     this.factory = factory;
     this.ROUTE_TYPE = AirtableMockRoute.ROUTE_TYPE;

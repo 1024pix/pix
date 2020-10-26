@@ -55,6 +55,11 @@ module.exports = (function() {
       pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
     },
 
+    lcms: {
+      url: process.env.LCMS_API_URL,
+      apiKey: process.env.LCMS_API_KEY,
+    },
+
     logging: {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: (process.env.NODE_ENV === 'development'),
@@ -156,8 +161,8 @@ module.exports = (function() {
   if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
-    config.airtable.apiKey = 'test-api-key';
-    config.airtable.base = 'test-base';
+    config.lcms.apiKey = 'test-api-key';
+    config.lcms.url = 'https://lcms-test.pix.fr/api';
 
     config.domain.tldFr = '.fr';
     config.domain.tldOrg = '.org';

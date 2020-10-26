@@ -47,7 +47,7 @@ AirtableMockRoute.ROUTE_TYPE = ROUTE_TYPE;
 module.exports = AirtableMockRoute;
 
 function generateUrlForRouteType({ routeType, tableName, returnBody }) {
-  const url = `/v0/test-base/${tableName}`;
+  const url = `/v0/content/${tableName}`;
   const returnBodyId = returnBody && returnBody.fields && returnBody.fields['id persistant'];
 
   if (!returnBodyId && routeType === ROUTE_TYPE.GET) {
