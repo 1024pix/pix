@@ -1,4 +1,4 @@
-const { expect, nock, databaseBuilder } = require('../../../test-helper');
+const { expect, nock, databaseBuilder, airtableBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 
@@ -11,73 +11,64 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
   });
 
   before(() => {
-    nock.cleanAll();
+    const course = airtableBuilder.factory.buildCourse({
+      'id':'course_id',
+      'competence': ['competence_id'],
+      'epreuves': [
+        'second_challenge',
+        'first_challenge',
+      ],
+    });
+    airtableBuilder
+      .mockList({ tableName: 'Tests' })
+      .returns([course])
+      .activate();
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Tests')
-      .query(true)
-      .times(4)
-      .reply(200, {
-        records: [{
-          'id': 'course_id',
-          'fields': {
-            // a bunch of fields
-            'id persistant': 'course_id',
-            'Competence (id persistant)': ['competence_id'],
-            '\u00c9preuves (id persistant)': [
-              'second_challenge',
-              'first_challenge',
-            ],
-          },
-        }],
-      });
+    const competence = airtableBuilder.factory.buildCompetence({
+      'id': 'competence_id',
+      'titre': 'Mener une recherche et une veille d\'information',
+      'sousDomaine': '1.1',
+      'reference': '1.1 Mener une recherche et une veille d\'information',
+      'domaineIds': ['1. Information et données'],
+      'acquisViaTubes': ['@web1'],
+    });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Competences')
-      .query(true)
-      .reply(200, {
-        records: [{
-          'id': 'competence_id',
-          'fields': {
-            'id persistant': 'competence_id',
-            'Titre': 'Mener une recherche et une veille d\'information',
-            'Sous-domaine': '1.1',
-            'Référence': '1.1 Mener une recherche et une veille d\'information',
-            'Domaine (id persistant)': ['1. Information et données'],
-            'Statut': 'validé',
-            'Acquis (via Tubes) (id persistant)': ['@web1'],
-          },
-        }],
-      });
+    airtableBuilder
+      .mockList({ tableName: 'Compétences' })
+      .returns([competence])
+      .activate();
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves')
-      .query(true)
-      .reply(200, {
-        records:
-          [{
-            'id': 'first_challenge',
-            'fields': {
-              'id persistant': 'first_challenge',
-              'competences (id persistant)': ['competence_id'],
-              // a bunch of fields
-            },
-          }, {
-            'id': 'second_challenge',
-            'fields': {
-              'id persistant': 'second_challenge',
-              'competences (id persistant)': ['competence_id'],
-              // a bunch of fields
-            },
-          }, {
-            'id': 'third_challenge',
-            'fields': {
-              'id persistant': 'third_challenge',
-              'competences (id persistant)': ['competence_id'],
-              // a bunch of fields
-            },
-          }],
-      });
+    const firstChallenge = airtableBuilder.factory.buildChallenge({
+      'id': 'first_challenge',
+      'competences': ['competence_id'],
+      'acquix':['@web1'],
+    });
+    const secondChallenge = airtableBuilder.factory.buildChallenge({
+      'id': 'second_challenge',
+      'competences': ['competence_id'],
+      'acquix':['@web1'],
+    });
+    const thirdChallenge = airtableBuilder.factory.buildChallenge({
+      'id': 'third_challenge',
+      'competences': ['competence_id'],
+      'acquix':['@web1'],
+    });
+    
+    airtableBuilder
+      .mockList({ tableName: 'Epreuves' })
+      .returns([firstChallenge, secondChallenge, thirdChallenge])
+      .activate();
+
+    const skill = airtableBuilder.factory.buildSkill({
+      'id': '@web1',
+      'epreuves': ['first_challenge', 'second_challenge', 'third_challenge'],
+      'compétenceViaTube': ['competence_id'],
+    });
+
+    airtableBuilder
+      .mockList({ tableName: 'Acquis' })
+      .returns([skill])
+      .activate();
   });
 
   after(() => {
