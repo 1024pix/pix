@@ -42,11 +42,6 @@ module.exports = (function() {
       options: {},
     },
 
-    airtable: {
-      apiKey: process.env.CYPRESS_AIRTABLE_API_KEY || process.env.AIRTABLE_API_KEY,
-      base: process.env.CYPRESS_AIRTABLE_BASE || process.env.AIRTABLE_BASE,
-    },
-
     domain: {
       tldFr: process.env.TLD_FR || '.fr',
       tldOrg: process.env.TLD_ORG || '.org',
@@ -56,8 +51,8 @@ module.exports = (function() {
     },
 
     lcms: {
-      url: process.env.LCMS_API_URL,
-      apiKey: process.env.LCMS_API_KEY,
+      url: process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL,
+      apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
     },
 
     logging: {
