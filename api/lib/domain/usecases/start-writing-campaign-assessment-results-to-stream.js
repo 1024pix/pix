@@ -17,6 +17,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     campaignParticipationInfoRepository,
     organizationRepository,
     knowledgeElementRepository,
+    badgeAcquisitionRepository,
     campaignCsvExportService,
   }) {
 
@@ -25,7 +26,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   const [targetProfile, organization, campaignParticipationInfos] = await Promise.all([
-    targetProfileWithLearningContentRepository.get({ id: campaign.targetProfileId }),
+    targetProfileWithLearningContentRepository.getWithBadges({ id: campaign.targetProfileId }),
     organizationRepository.get(campaign.organizationId),
     campaignParticipationInfoRepository.findByCampaignId(campaign.id),
   ]);
@@ -55,16 +56,24 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     const knowledgeElementsByUserIdAndCompetenceId =
       await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile);
 
+    let acquiredBadgesByUsers;
+    if (!_.isEmpty(targetProfile.badges)) {
+      const userIds = campaignParticipationInfoChunk.map((campaignParticipationInfo) => campaignParticipationInfo.userId);
+      acquiredBadgesByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
+    }
+
     let csvLines = '';
     for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
       const participantId = parseInt(strParticipantId);
       const campaignParticipationInfo = campaignParticipationInfoChunk.find((campaignParticipationInfo) => campaignParticipationInfo.userId === participantId);
+      const acquiredBadges = acquiredBadgesByUsers && acquiredBadgesByUsers[participantId] ? acquiredBadgesByUsers[participantId].map((badge) => badge.title) : [];
       const csvLine = campaignCsvExportService.createOneCsvLine({
         organization,
         campaign,
         campaignParticipationInfo,
         targetProfile,
         participantKnowledgeElementsByCompetenceId,
+        acquiredBadges,
       });
       csvLines = csvLines.concat(csvLine);
     }
@@ -107,6 +116,10 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organiz
     'Date de début',
     'Partage (O/N)',
     'Date du partage',
+
+    ...(_.flatMap(targetProfile.badges, (badge) => [
+      `${badge} obtenu (O/N)`,
+    ])),
     '% maitrise de l\'ensemble des acquis du profil',
 
     ...(_.flatMap(targetProfile.competences, (competence) => [

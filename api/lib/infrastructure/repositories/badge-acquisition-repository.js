@@ -28,22 +28,22 @@ module.exports = {
         qb.where('campaigns.id', '=', campaignId);
         qb.where('badge-acquisitions.userId', 'IN', userIds);
       })
-      .fetchAll({ 
+      .fetchAll({
         withRelated: ['badge'],
         require: false,
       });
 
     const badgeAcquisitions = results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result));
-    
-    const acquiredBadgeIdsByUsers = {};
+
+    const acquiredBadgesByUsers = {};
     for (const badgeAcquisition of badgeAcquisitions) {
       const { userId, badge } = badgeAcquisition;
-      if (acquiredBadgeIdsByUsers[userId]) {
-        acquiredBadgeIdsByUsers[userId].push(badge);
+      if (acquiredBadgesByUsers[userId]) {
+        acquiredBadgesByUsers[userId].push(badge);
       } else {
-        acquiredBadgeIdsByUsers[userId] = [badge];
+        acquiredBadgesByUsers[userId] = [badge];
       }
     }
-    return acquiredBadgeIdsByUsers;
+    return acquiredBadgesByUsers;
   },
 };

@@ -11,6 +11,7 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
   tubes = [],
   competences = [],
   areas = [],
+  badges = [],
 } = {}) {
   return new TargetProfileWithLearningContent({
     id,
@@ -19,12 +20,14 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
     tubes,
     competences,
     areas,
+    badges,
   });
 };
 
 buildTargetProfileWithLearningContent.withSimpleLearningContent = function withSimpleLearningContent({
   id = 123,
   name = 'Pour les champions du monde 1998 !! Merci Aimé',
+  badges = [],
 } = {}) {
   const skill = buildTargetedSkill({ id: 'skillId', tubeId: 'tubeId' });
   const tube = buildTargetedTube({ id: 'tubeId', competenceId: 'competenceId', skills: [skill] });
@@ -37,6 +40,7 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
     tubes: [tube],
     competences: [competence],
     areas: [area],
+    badges,
   });
 };
 
