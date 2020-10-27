@@ -90,7 +90,7 @@ describe('Integration | Component | challenge actions', function() {
     it('should only display "continue" button', async function() {
       // given
       this.set('isValidateButtonEnabled', true);
-      this.set('isTimeoutChallenge', true);
+      this.set('hasChallengeTimedOut', true);
       this.set('isSkipButtonEnabled', true);
       this.set('externalAction', () => {});
 
@@ -98,7 +98,7 @@ describe('Integration | Component | challenge actions', function() {
       await render(hbs`{{challenge-actions
         validateAnswer=(action externalAction)
         isValidateButtonEnabled=isValidateButtonEnabled
-        isTimeoutChallenge=isTimeoutChallenge
+        hasChallengeTimedOut=hasChallengeTimedOut
         isSkipButtonEnabled=isSkipButtonEnabled}}`);
 
       // then

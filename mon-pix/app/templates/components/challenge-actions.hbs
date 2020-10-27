@@ -15,7 +15,7 @@
       <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
     </button>
 
-  {{else if @isTimeoutChallenge}}
+  {{else if @hasChallengeTimedOut}}
     <span class="challenge-actions__timed-out">{{t "pages.challenge.timed.cannot-answer"}}</span>
     <button class="button challenge-actions__action challenge-actions__action-continue"
       {{on 'click' @validateAnswer}}
