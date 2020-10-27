@@ -9,14 +9,6 @@ module('Acceptance | routes protection', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('guest users can visit /about', async function(assert) {
-    // when
-    await visit('/about');
-
-    // then
-    assert.equal(currentURL(), '/about');
-  });
-
   //
   // route /organizations/new
   //

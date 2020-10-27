@@ -20,7 +20,6 @@ Router.map(function() {
 
   // public routes
   this.route('index');
-  this.route('about');
 
   // private routes
   this.route('authenticated', { path: '' }, function() {
