@@ -63,7 +63,7 @@
           <div class="card-text">
             <Certification::CertificationInfoField @value={{this.certification.pixScore}} @edition={{this.edition}} @label="Score :" @fieldId="certification-pixScore" @suffix=" Pix" @large={{true}} />
             <p></p>
-            <CertificationInfoCompetences
+            <Certification::CertificationCompetenceList
                     @competences={{this.certification.competences}}
                     @edition={{this.edition}}
                     @onUpdateScore={{this.onUpdateScore}}
