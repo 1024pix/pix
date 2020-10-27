@@ -13,14 +13,14 @@ describe('Unit | UseCase | get-campaign-report', () => {
 
   beforeEach(() => {
     campaignParticipationRepository = { count: sinon.stub() };
-    stageRepository = { getByCampaignId: sinon.stub() };
+    stageRepository = { findByCampaignId: sinon.stub() };
   });
 
   it('should get the campaignReport', async () => {
     // given
     campaignParticipationRepository.count.withArgs({ campaignId }).resolves(7);
     campaignParticipationRepository.count.withArgs({ campaignId, isShared: true }).resolves(4);
-    stageRepository.getByCampaignId.withArgs(campaignId).resolves(stagesList);
+    stageRepository.findByCampaignId.withArgs(campaignId).resolves(stagesList);
 
     // when
     const campaignReport = await getCampaignReport({ campaignId, campaignParticipationRepository, stageRepository });
