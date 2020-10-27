@@ -3,22 +3,16 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | certification-info-competences', function(hooks) {
+module('Integration | Component | <CertificationInfoCompetences/>', function(hooks) {
 
   setupRenderingTest(hooks);
-
-  test('it renders', async function(assert) {
-    await render(hbs`{{certification-info-competences}}`);
-
-    assert.dom('.certification-info-competences').exists();
-  });
 
   test('it should display an entry per competence', async function(assert) {
     // given
     this.set('competences', [{ index:'1.1', score:'30', level:'3' }, { index:'2.1', score:'30', level:'3' }, { index:'5.2', score:'30', level:'3' }]);
 
     // when
-    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} @edition={{false}} />`);
+    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} />`);
 
     // then
     assert.dom('.certification-info-competence-index').exists({ count:3 });
@@ -31,7 +25,7 @@ module('Integration | Component | certification-info-competences', function(hook
     this.set('competences', [{ index:'1.1', score:'30', level:'3' }]);
 
     // when
-    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} @edition={{false}} />`);
+    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} />`);
 
     // then
     assert.dom('.certification-info-competence-index').hasText('1.1');
@@ -44,7 +38,7 @@ module('Integration | Component | certification-info-competences', function(hook
     this.set('competences', [{ index:'1.1', score:'30', level:'3' }, { index:'2.1', score:'30', level:'3' }, { index:'5.2', score:'30', level:'3' }]);
 
     // when
-    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} @edition={{true}} />`);
+    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} @edition=true />`);
 
     // then
     assert.dom('.certification-info-field').exists({ count:16 });
@@ -55,7 +49,7 @@ module('Integration | Component | certification-info-competences', function(hook
     this.set('competences', [{ index:'1.1', score:'30', level:'3' }, { index:'2.1', score:'16', level:'2' }, { index:'5.2', score:'42', level:'5' }]);
 
     // when
-    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} @edition={{true}} />`);
+    await render(hbs`<CertificationInfoCompetences @competences={{this.competences}} @edition=true />`);
 
     // then
     assert.dom('#certification-info-score_0').hasValue('30');
