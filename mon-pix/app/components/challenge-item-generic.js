@@ -69,8 +69,9 @@ export default class ChallengeItemGeneric extends Component {
         this._elapsedTime = elapsedTime + 1;
         if ((this._elapsedTime - this.args.challenge.timer) >= 0) {
           this.isTimeoutChallenge = true;
+        } else {
+          this._tick();
         }
-        this._tick();
       }, 1000);
 
       this._timer = timer;
