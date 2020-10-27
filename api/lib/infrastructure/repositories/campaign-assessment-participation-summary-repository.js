@@ -74,16 +74,16 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
 }
 
 async function _buildCampaignAssessmentParticipationSummaries(results, targetedSkillIds) {
-  const _getValidatedSkillCountInTargetProfil = await _makeMemoizedGetValidatedSkillCountInTargetProfil(results, targetedSkillIds);
+  const _getValidatedSkillCountInTargetProfile = await _makeMemoizedGetValidatedSkillCountInTargetProfile(results, targetedSkillIds);
 
   return results.map((result) => new CampaignAssessmentParticipationSummary({
     ...result,
     targetedSkillCount: targetedSkillIds.length,
-    validatedTargetedSkillCount: _getValidatedSkillCountInTargetProfil(result.userId),
+    validatedTargetedSkillCount: _getValidatedSkillCountInTargetProfile(result.userId),
   }));
 }
 
-async function _makeMemoizedGetValidatedSkillCountInTargetProfil(results, targetedSkillIds) {
+async function _makeMemoizedGetValidatedSkillCountInTargetProfile(results, targetedSkillIds) {
   const sharedResults = results
     .filter((result) => result.isShared);
 
