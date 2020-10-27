@@ -2,60 +2,105 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { resolve } from 'rsvp';
 
-module('Integration | Component | certification-info-field', function(hooks) {
+module('Integration | Component | <CertificationInfoField/>', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-    await render(hbs`{{certification-info-field}}`);
+  module('[Consultation mode]', async function() {
 
-    assert.dom('.certification-info-field').exists();
-  });
+    test('it should be in "consultation (read only) mode" by default when @edition (optional) argument is not provided', async function(assert) {
 
-  test('it renders label and field value', async function(assert) {
-    // Given
-    this.set('fieldValue', 'a field value');
-    this.set('fieldLabel', 'a field label');
-    assert.expect(2);
+      // When
+      await render(hbs`<CertificationInfoField @label='Field label:' @value='field_value' />`);
 
-    // When
-    await render(hbs`{{certification-info-field value=fieldValue label=fieldLabel edition=false}}`);
-
-    // Then
-    assert.dom('.certification-info-field .certification-info-label').hasText('a field label');
-    assert.dom('.certification-info-field .certification-info-value').hasText('a field value');
-  });
-
-  test('it renders field value with suffix if provided', async function(assert) {
-    // Given
-    this.set('fieldValue', 'a field value');
-    this.set('fieldLabel', 'a field label');
-    this.set('fieldSuffix', ' SUFFIX');
-
-    // When
-    await render(hbs`{{certification-info-field value=fieldValue label=fieldLabel suffix=fieldSuffix edition=false}}`);
-
-    // Then
-    assert.dom('.certification-info-field .certification-info-value').hasText('a field value SUFFIX');
-  });
-
-  test('it renders a flatpickr in edition mode when is date', async function(assert) {
-    // Given
-    const store = this.owner.lookup('service:store');
-    const certification = store.createRecord('certification', {
-      id: 1,
-      birthdate: '2019-02-18',
+      // Then
+      assert.dom('.certification-info-field').doesNotHaveClass('edited');
     });
-    this.set('certification', certification);
-    this.set('onUpdateCertificationBirthdate', () => {});
 
-    // When
-    await render(hbs`{{certification-info-field isDate=true 
-    value=certification.birthdate edition=true 
-    onUpdateCertificationBirthdate=onUpdateCertificationBirthdate}}`);
+    test('it should render label and field value', async function(assert) {
 
-    // Then
-    assert.dom('.ember-flatpickr-input').exists();
+      // When
+      await render(hbs`<CertificationInfoField @label='Field label:' @value='field_value' />`);
+
+      // Then
+      assert.dom('.certification-info-field .certification-info-label').hasText('Field label:');
+      assert.dom('.certification-info-field .certification-info-value').hasText('field_value');
+    });
+
+    test('it should render field value with suffix when @suffix (optional) argument is provided', async function(assert) {
+
+      // When
+      await render(hbs`<CertificationInfoField @label='Field label:' @value='field_value' @suffix='unit(s)' />`);
+
+      // Then
+      assert.dom('.certification-info-field .certification-info-value').hasText('field_value unit(s)');
+    });
+
+    test('it should format value as date with format "DD/MM/YYYY" when @isDate (optional) argument is set to "true"', async function(assert) {
+      // Given
+      this.set('value', new Date('1961-08-04'));
+
+      // When
+      await render(hbs`<CertificationInfoField @label='Birth date:' @value={{this.value}} @isDate=true />`);
+
+      // Then
+      assert.dom('.certification-info-field .certification-info-value').hasText('04/08/1961');
+    });
+
+    test('it should display value as link when @linkRoute (optional) argument is provided', async function(assert) {
+      // Given
+      this.setProperties({
+        label: 'Field label:',
+        value: 'field_value',
+      });
+
+      // When
+      await render(hbs`<CertificationInfoField @label='Session:' @value=1234 @linkRoute="authenticated.sessions.session" />`);
+
+      // Then
+      assert.dom('.certification-info-field .certification-info-value').hasText('1234');
+    });
+  });
+
+  module('[Edition mode]', async function() {
+
+    test('it should be in "edition (writable) mode" when @edition (optional) argument is set to "true"', async function(assert) {
+
+      // When
+      await render(hbs`<CertificationInfoField @label='Field label:' @value='field_value' @edition=true />`);
+
+      // Then
+      assert.dom('.certification-info-field').hasClass('edited');
+    });
+
+    test('it should display field value with suffix when @suffix (optional) argument is provided', async function(assert) {
+
+      // When
+      await render(hbs`<CertificationInfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition=true />`);
+
+      // Then
+      assert.dom('.certification-info-suffix').hasText('unit(s)');
+    });
+
+    test('it should render a flatpickr when @isDate (optional) argument is set to "true"', async function(assert) {
+      // Given
+      this.setProperties({
+        value: new Date('2019-02-18'),
+        onUpdateCertificationBirthdate: () => resolve(),
+      });
+
+      // When
+      await render(hbs`<CertificationInfoField
+            @label='Birth date:'
+            @value={{this.value}}
+            @edition=true
+            @isDate=true
+            @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />`);
+
+      // Then
+      assert.dom('.ember-flatpickr-input').exists();
+    });
   });
 
 });

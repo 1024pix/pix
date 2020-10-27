@@ -1,9 +1,9 @@
 {{!-- template-lint-disable no-action --}}
 
-{{#if @edition}}
+{{#if this.isEdited}}
   <div class="row form-group certification-status-select">
-    <label class="{{this.leftWidth}} col-form-label" for={{this.id}}>Statut :</label>
-    <div class="{{this.rightWidth}} certificate">
+    <label class="col-form-label" for={{this.id}}>Statut :</label>
+    <div class="certificate">
       <XSelect @value={{this.value}} @onChange={{action 'selectOption'}} as |xs|>
         <xs.option @value="started">started</xs.option>
         <xs.option @value="error">error</xs.option>
@@ -14,8 +14,8 @@
   </div>
 {{else}}
   <div class="row certification-status-select">
-    <div class="{{this.leftWidth}} certification-info-label">{{this.label}}</div>
-    <div class="{{this.rightWidth}} certification-info-value">
+    <div class="certification-info-label">{{this.label}}</div>
+    <div class="certification-info-value">
       {{this.value}}
     </div>
   </div>
