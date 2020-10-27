@@ -13,7 +13,11 @@
 
       <p>{{@certification.fullName}}</p>
       <p>
-        {{t "pages.certificate.candidate-birth-complete" birthdate=birthdate birthplace=@certification.birthplace}}
+        {{#if @certification.birthplace}}
+          {{t "pages.certificate.candidate-birth-complete" birthdate=birthdate birthplace=@certification.birthplace}}
+        {{else}}
+          {{t "pages.certificate.candidate-birth" birthdate=birthdate}}
+        {{/if}}
       </p>
 
       {{#if @certification.certificationCenter}}
