@@ -4,7 +4,7 @@ const { checkValidation } = require('../../../domain/validators/schooling-regist
 const { CsvRegistrationParser, CsvColumn } = require('./csv-registration-parser');
 
 const COLUMNS = [
-  new CsvColumn({ name: 'nationalStudentId', label: 'Identifiant unique*', isRequired: true }),
+  new CsvColumn({ name: 'nationalIdentifier', label: 'Identifiant unique*', isRequired: true }),
   new CsvColumn({ name: 'firstName', label: 'Premier prénom*', isRequired: true, checkEncoding: true }),
   new CsvColumn({ name: 'middleName', label:'Deuxième prénom' }),
   new CsvColumn({ name: 'thirdName', label:'Troisième prénom' }),
@@ -33,10 +33,21 @@ class SchoolingRegistrationSet {
   }
 
   _transform(registrationAttributes)  {
-    const { birthCountryCode } = registrationAttributes;
+    let nationalStudentId;
+    let nationalApprenticeId;
+    const { birthCountryCode, nationalIdentifier, status } = registrationAttributes;
+
+    if (status === SchoolingRegistration.STATUS.STUDENT) {
+      nationalStudentId = nationalIdentifier;
+    } else if (status === SchoolingRegistration.STATUS.APPRENTICE) {
+      nationalApprenticeId = nationalIdentifier;
+    }
+
     return {
       ...registrationAttributes,
       birthCountryCode: birthCountryCode.slice(-3),
+      nationalApprenticeId,
+      nationalStudentId,
     };
   }
 }

@@ -91,7 +91,7 @@ module.exports = {
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
 
     const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
-    const students = await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile);
+    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
 
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
     const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
