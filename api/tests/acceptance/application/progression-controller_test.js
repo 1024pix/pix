@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder, airtableBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Progressions', () => {
@@ -15,18 +15,20 @@ describe('Acceptance | API | Progressions', () => {
     let userId;
 
     beforeEach(async () => {
-      nock.cleanAll();
 
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves')
-        .query(true)
-        .times(3)
-        .reply(200, {});
+      const challenge = airtableBuilder.factory.buildChallenge({});
 
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Acquis')
-        .query(true)
-        .reply(200, {});
+      airtableBuilder
+        .mockList({ tableName: 'Epreuves' })
+        .returns([challenge])
+        .activate();
+
+      const skill = airtableBuilder.factory.buildSkill({});
+  
+      airtableBuilder
+        .mockList({ tableName: 'Acquis' })
+        .returns([skill])
+        .activate();
 
       userId = databaseBuilder.factory.buildUser({}).id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
