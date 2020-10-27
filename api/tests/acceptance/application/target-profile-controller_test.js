@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder, airtableBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
@@ -19,11 +19,13 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     let targetProfileId;
 
     beforeEach(async () => {
-      nock.cleanAll();
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Acquis')
-        .query(true)
-        .reply(200, {});
+      const skill = airtableBuilder.factory.buildSkill({});
+  
+      airtableBuilder
+        .mockList({ tableName: 'Acquis' })
+        .returns([skill])
+        .activate();
+
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
