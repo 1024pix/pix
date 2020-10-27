@@ -420,6 +420,10 @@
                     "title": "",
                     "tooltip": "Correction automatique en cours de développement ;)"
                 },
+                "feedback": {
+                    "correct": "Réponse correcte",
+                    "wrong": "Réponse incorrecte. '<br>'La bonne réponse est la réponse : "
+                },
                 "ko": {
                     "title": "Vous n’avez pas la bonne réponse",
                     "tooltip": "Réponse incorrecte"
