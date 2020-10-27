@@ -38,7 +38,7 @@ export default class CertificationList extends Component {
       title: 'Fin',
     },
     {
-      component: 'certification-info-published',
+      component: 'certification/certification-info-published',
       useFilter: false,
       mayBeHidden: false,
       title: 'Publiée',

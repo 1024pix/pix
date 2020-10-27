@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
-            <CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
+            <Certification::CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
           </h5>
           <div class="card-text">
             <CertificationInfoField @value={{this.certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
