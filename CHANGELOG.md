@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v2.213.0 (27/10/2020)
+
+- [#2042](https://github.com/1024pix/pix/pull/2042) [FEATURE] Ajout des paliers dans la liste des participants (PIX-1449)
+- [#2049](https://github.com/1024pix/pix/pull/2049) [FEATURE] Ajouter un tooltip lors du survol des badges dans les résultats participant d'une campagne (PIX-1459).
+- [#2045](https://github.com/1024pix/pix/pull/2045) [FEATURE] Cacher les bannières de Pix Orga lorsque l'organisation est SCO AGRICULTURE (PIX-1492).
+- [#2043](https://github.com/1024pix/pix/pull/2043) [BUGFIX] Page blanche en fin de campagne (PIX-1272).
+- [#1966](https://github.com/1024pix/pix/pull/1966) [TECH] Appliquer la règle de lint héritée de la racine dans /api.
+- [#2027](https://github.com/1024pix/pix/pull/2027) [TECH] Montée de version d'Ember (3.21 → 3.22) et des dépendances de Pix Certif.
+- [#2053](https://github.com/1024pix/pix/pull/2053) [TECH] Faire en sorte que les tests de l'API retourne une erreur le cas écheant. 
+- [#2041](https://github.com/1024pix/pix/pull/2041) [TECH] Ajout de cross-env dans devDependencies pour lancer les tests sur les postes Windows (PIX-1480)
+- [#2039](https://github.com/1024pix/pix/pull/2039) [TECH] Inclure le creatorId dans le fichier pour le script create-assessment-campaigns-for-sco.
+- [#2038](https://github.com/1024pix/pix/pull/2038) [TECH] Ajout de l'intégration Sentry sur Pix App.
+- [#2052](https://github.com/1024pix/pix/pull/2052) [CLEANUP] Supprimer un fichier de seeds inutile (PIX-1497).
+- [#2048](https://github.com/1024pix/pix/pull/2048) [BUG] Rediriger vers la page '/' lors d'une déconnexion, sur Pix Admin/Certif/Orga (PIX-1493).
+- [#2040](https://github.com/1024pix/pix/pull/2040) [INFRA] Montée de version d'ember-simple-auth sur Pix App (PIX-1476).
+- [#1991](https://github.com/1024pix/pix/pull/1991) [DOC] Ajouter les instructions liées au cache pour l'exécution des tests E2E.
+
 ## v2.212.0 (22/10/2020)
 
 - [#2024](https://github.com/1024pix/pix/pull/2024) [FEATURE] Afficher la liste des inscriptions d'un élève dans Pix Admin (PIX-1384).
