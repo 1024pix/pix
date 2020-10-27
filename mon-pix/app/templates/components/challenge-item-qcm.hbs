@@ -12,7 +12,7 @@
     <form {{action "validateAnswer" on="submit"}} class="rounded-panel">
       <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
-      <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}  {{if this.isTimeoutChallenge 'challenge-response--locked'}}">
+      <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}  {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
         <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
         <div class="challenge-proposals">
           <QcmProposals @answer={{@answer}}
@@ -26,7 +26,7 @@
             <FaIcon @icon='lock' class='challenge-response-locked__icon' />
           </div>
         {{/if}}
-        {{#if this.isTimeoutChallenge}}
+        {{#if this.hasChallengeTimedOut}}
           <div class="challenge-response__locked-overlay">
             <FaIcon @icon='hourglass-end' class='challenge-response-locked__icon' />
           </div>
@@ -52,7 +52,7 @@
                           @validateAnswer={{action "validateAnswer"}}
                           @skipChallenge={{action "skipChallenge"}}
                           @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                          @isTimeoutChallenge={{this.isTimeoutChallenge}}
+                          @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
                           @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
       {{/if}}
     </form>
