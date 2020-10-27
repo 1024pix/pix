@@ -26,6 +26,24 @@ git clone git@github.com:1024pix/pix.git
 cd pix
 ```
 
+**2.1** ⚠️ Sous Windows seulement
+
+Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine. La `windows-build-tools@4.0.0` semble plus stable à l'installation.
+```bash
+npm install windows-build-tools
+```
+Ensuite, il faudra définir dans `.npmrc` quelle est l'invite de commande à utiliser pour lancer les script-shell. Par défaut, c'est le `cmd.exe` pour changer cela :
+
+* installation 64bit :
+```bash 
+npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
+```
+* ou 
+```bash
+npm config set script-shell "C:\\Program Files (x86)\\git\\bin\\bash.exe"
+```
+Votre windows devrait être prêt pour l'instanciation du projet Pix.
+
 **3.** Exécuter le script de configuration de l'environnement de développement (compter entre 10 et 15mn).
 
 ```bash
