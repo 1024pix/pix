@@ -1,3 +1,7 @@
+const STATUS = {
+  STUDENT : 'ST',
+  APPRENTICE : 'AP',
+};
 class SchoolingRegistration {
 
   constructor({
@@ -16,6 +20,7 @@ class SchoolingRegistration {
     MEFCode,
     status,
     nationalStudentId,
+    nationalApprenticeId,
     division,
     updatedAt,
     // references
@@ -37,6 +42,7 @@ class SchoolingRegistration {
     this.MEFCode = MEFCode;
     this.status = status;
     this.nationalStudentId = nationalStudentId;
+    this.nationalApprenticeId = nationalApprenticeId;
     this.division = division;
     this.updatedAt = updatedAt;
     // references
@@ -44,5 +50,7 @@ class SchoolingRegistration {
     this.organizationId = organizationId;
   }
 }
+
+SchoolingRegistration.STATUS = STATUS;
 
 module.exports = SchoolingRegistration;
