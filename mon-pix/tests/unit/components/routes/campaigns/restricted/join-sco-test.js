@@ -562,13 +562,14 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       it('should display a not found error', async function() {
         // given
         onSubmitToReconcileStub.rejects({ errors: [{ status: '404' }] });
+        const expectedErrorMessage = this.intl.t('pages.join.sco.error-not-found');
 
         // when
         await component.actions.submit.call(component, eventStub);
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage.string.length).to.be.greaterThan(0);
+        expect(component.errorMessage.string).to.equal(expectedErrorMessage);
       });
 
       describe('When student is already reconciled', () => {
@@ -738,6 +739,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       // then
       expect(component.displayInformationModal).to.be.false;
     });
-    
+
   });
 });
