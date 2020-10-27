@@ -243,7 +243,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
 
       databaseBuilder.factory.buildKnowledgeElement({
@@ -251,7 +251,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         status: 'validated',
         userId,
         skillId: 12,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -296,7 +296,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         userId: otherUserId,
@@ -308,21 +308,21 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
         skillId: 2,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 3,
         status: 'validated',
         userId: otherUserId,
         skillId: 3,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -341,14 +341,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         status: 'validated',
         userId,
         skillId:  'recSkill1',
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
 
       });
       databaseBuilder.factory.buildKnowledgeElement({
@@ -356,7 +356,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         status: 'invalidated',
         userId,
         skillId:  'recSkill2',
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -374,21 +374,21 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         skillId:  'recSkill1',
         status: 'validated',
         userId,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         skillId:  'recSkill2',
         status: 'validated',
         userId,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -406,21 +406,21 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2020-12-12T15:00:34'),
+        createdAt: new Date('2020-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -438,21 +438,21 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2020-11-11T15:00:34'),
+        createdAt: new Date('2020-11-11T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -472,32 +472,32 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
 
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId,
         skillId: 12,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         userId: userId2,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId: userId2,
         skillId: 12,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         userId: userId2,
         skillId: 13,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -516,7 +516,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
 
       const expectedKeIdUser1 = databaseBuilder.factory.buildKnowledgeElement({
@@ -524,26 +524,26 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         status: 'validated',
         userId,
         skillId: 12,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       }).id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: userId2,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId: userId2,
         skillId: 12,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'reset',
         userId: userId2,
         skillId: 12,
-        createdAt: new Date('2019-12-25T15:00:34'),
+        createdAt: new Date('2019-12-25T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -575,34 +575,34 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         userId: otherUserId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
         skillId: 2,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 3,
         status: 'validated',
         userId: otherUserId,
         skillId: 3,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -620,21 +620,21 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2020-12-12T15:00:34'),
+        createdAt: new Date('2020-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -652,28 +652,28 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-13T15:00:34'),
+        createdAt: new Date('2019-12-13T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'reset',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 3,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-11T15:00:34'),
+        createdAt: new Date('2019-12-11T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
@@ -691,21 +691,21 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         userId,
         campaignId,
         isShared: true,
-        sharedAt: new Date('2020-01-01T15:00:34'),
+        sharedAt: new Date('2020-01-01T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         status: 'reset',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-13T15:00:34'),
+        createdAt: new Date('2019-12-13T15:00:34Z'),
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         status: 'validated',
         userId,
         skillId: 1,
-        createdAt: new Date('2019-12-12T15:00:34'),
+        createdAt: new Date('2019-12-12T15:00:34Z'),
       });
       await databaseBuilder.commit();
 
