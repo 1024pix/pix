@@ -1,24 +1,12 @@
-const CertificationCandidate = require('../models/CertificationCandidate');
+const SCOCertificationCandidate = require('../models/SCOCertificationCandidate');
 const _ = require('lodash');
 const { ForbiddenAccess } = require('../errors');
 
-/*
- * le “student” est une association entre un schooling registration et
- * l’utilisateur qui a passé le plus de tests de certif.
- * Note : un étudiant IRL peut avoir plusieurs comptes Pix, et plusieurs
- * schooling registration. Le “student.js” dans le code n’a pas d’identité, ce
- * n’est pas une Entity.
-
- * La notion la plus utile d’étudiant serait un étudiant du point de vue d’un
- * établissement, ce qu’on a de plus proche c’est le schooling registration et pas
- * le “student.js”.
-
-*/
 module.exports = async function enrollStudentsToSession({
   sessionId,
   referentId,
   studentIds,
-  certificationCandidateRepository,
+  scoCertificationCandidateRepository,
   schoolingRegistrationRepository,
   membershipRepository,
   certificationCenterMembershipRepository,
@@ -38,8 +26,8 @@ module.exports = async function enrollStudentsToSession({
     throw new ForbiddenAccess('Impossible d\'inscrire un élève ne faisant pas partie de votre établissement');
   }
 
-  const certificationCandidates = students.map((student) => {
-    return new CertificationCandidate({
+  const scoCertificationCandidates = students.map((student) => {
+    return new SCOCertificationCandidate({
       firstName: student.firstName,
       lastName: student.lastName,
       birthdate: student.birthdate,
@@ -48,10 +36,7 @@ module.exports = async function enrollStudentsToSession({
     });
   });
 
-  await certificationCandidateRepository.setSessionCandidates(
-    sessionId,
-    certificationCandidates,
-  );
+  await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({ sessionId, scoCertificationCandidates });
 };
 
 function _doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session) {

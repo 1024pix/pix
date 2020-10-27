@@ -1,4 +1,5 @@
 const Membership = require('../../../lib/domain/models/Membership');
+const MIDDLE_SCHOOL_ID = 3;
 
 module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   const defaultPassword = 'pix123';
@@ -26,7 +27,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   const middleSchool = databaseBuilder.factory.buildOrganization({
-    id: 3,
+    id: MIDDLE_SCHOOL_ID,
     type: 'SCO',
     name: 'Collège The Night Watch',
     isManagingStudents: true,
@@ -221,3 +222,5 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 };
+
+module.exports.MIDDLE_SCHOOL_ID = MIDDLE_SCHOOL_ID;
