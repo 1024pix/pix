@@ -24,6 +24,7 @@ const dependencies = {
   certificationChallengesService: require('../../domain/services/certification-challenges-service'),
   certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
   certificationCenterMembershipRepository: require('../../infrastructure/repositories/certification-center-membership-repository'),
+  scoCertificationCandidateRepository: require('../../infrastructure/repositories/sco-certification-candidate-repository'),
   certificationChallengeRepository: require('../../infrastructure/repositories/certification-challenge-repository'),
   placementProfileService: require('../../domain/services/placement-profile-service'),
   partnerCertificationRepository: require('../../infrastructure/repositories/partner-certification-repository'),

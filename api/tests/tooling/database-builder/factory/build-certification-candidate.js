@@ -20,6 +20,7 @@ module.exports = function buildCertificationCandidate({
   createdAt = faker.date.past(),
   extraTimePercentage = 0.3,
   userId,
+  schoolingRegistrationId,
 } = {}) {
 
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
@@ -40,6 +41,7 @@ module.exports = function buildCertificationCandidate({
     extraTimePercentage,
     createdAt,
     userId,
+    schoolingRegistrationId,
   };
 
   return databaseBuffer.pushInsertable({

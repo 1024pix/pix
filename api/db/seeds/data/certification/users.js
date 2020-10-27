@@ -9,6 +9,8 @@ const CERTIF_REGULAR_USER2_ID = 107;
 const CERTIF_REGULAR_USER3_ID = 108;
 const CERTIF_REGULAR_USER4_ID = 109;
 const CERTIF_REGULAR_USER5_ID = 110;
+const Membership = require('../../../../lib/domain/models/Membership');
+const { MIDDLE_SCHOOL_ID } = require('../organizations-sco-builder');
 
 function certificationUsersBuilder({ databaseBuilder }) {
 
@@ -19,6 +21,12 @@ function certificationUsersBuilder({ databaseBuilder }) {
     email: 'certifsco@example.net',
     rawPassword: 'pix123',
     cgu: true,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: PIX_SCO_CERTIF_USER_ID,
+    organizationId: MIDDLE_SCHOOL_ID,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
