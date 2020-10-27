@@ -109,7 +109,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.15",
     "p-queue": "^6.3.0",
-    "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.14.0",
+    "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.15.1",
     "sass": "^1.23.7",
     "showdown": "^1.9.1",
     "stylelint": "^13.6.1",

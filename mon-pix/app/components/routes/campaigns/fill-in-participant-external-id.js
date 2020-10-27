@@ -11,7 +11,8 @@ export default class FillInParticipantExternalId extends Component {
   @tracked errorMessage = null;
 
   @action
-  submit() {
+  submit(event) {
+    event.preventDefault();
     this.errorMessage = null;
 
     if (this.participantExternalId) {
