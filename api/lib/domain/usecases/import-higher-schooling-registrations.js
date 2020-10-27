@@ -28,11 +28,11 @@ module.exports = async function importHigherSchoolingRegistration({
       await higherSchoolingRegistrationRepository.saveNonSupernumerary(registration, domainTransaction);
     }
     
-    const superNumeraryRegistrations = await higherSchoolingRegistrationRepository.findSupernumerary(organizationId, domainTransaction);
+    const supernumeraryRegistrations = await higherSchoolingRegistrationRepository.findSupernumerary(organizationId, domainTransaction);
 
     const registrationsToCreate = [];
     for (const registration of registrationsToCheck) {
-      const existingRegistrations = _.filter(superNumeraryRegistrations, ({ studentNumber }) => registration.studentNumber === studentNumber);
+      const existingRegistrations = _.filter(supernumeraryRegistrations, ({ studentNumber }) => registration.studentNumber === studentNumber);
       const matchingRegistration = getMatchingSchoolingRegistration(registration, existingRegistrations);
       if (matchingRegistration) {
         await higherSchoolingRegistrationRepository.save({ id: matchingRegistration.id, ...registration } , domainTransaction);
