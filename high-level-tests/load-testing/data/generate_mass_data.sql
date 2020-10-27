@@ -19,7 +19,8 @@ SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("i
 --				Déclaration de constantes   ---------------------------------------------------------------
 -----------------------------------------------------------------------------------------------------
 
-SET LOCAL constants.user_count=1000;
+SET LOCAL constants.user_count=:user_count;
+--SET LOCAL constants.user_count=1000;
 SET LOCAL constants.competence_evaluation_count=1000;
 SET LOCAL constants.organization_count=0;
 SET LOCAL constants.campaign_per_organization_count=3;

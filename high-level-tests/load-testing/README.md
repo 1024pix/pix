@@ -26,7 +26,13 @@ SIECLE file for 4000 users in file SIECLE-organization-1237457A-4000-users.xml
 ## BDD
 
 Alimenter le fichier .env à partir de sample.env
+
+## Local 
 Exécuter `npm run generate-dataset`
+
+## Scalingo
+TODO: Créer configuration Scalingo sur high-level-tests  
+Exécuter `scalingo run --region osc-fr1 --app <NOM_APPLICATION> --size M --detached npm run generate-dataset`    
 
 # Exécution des test
 

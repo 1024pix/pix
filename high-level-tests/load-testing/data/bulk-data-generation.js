@@ -1,6 +1,7 @@
 const execa = require('execa');
 
 const databaseConnectionString = process.env.DATABASE_URL;
+const userCount = 1000 || process.env.USER_COUNT;
 
 async function run() {
 
@@ -24,7 +25,7 @@ async function getUserCount() {
 
 async function bulkDataGeneration() {
   const scriptPath = './data/generate_mass_data.sql';
-  const launchGenerationScriptCommand = `psql ${databaseConnectionString} -v ON_ERROR_STOP=1 --echo-all --file=${scriptPath}`;
+  const launchGenerationScriptCommand = `psql ${databaseConnectionString} -v ON_ERROR_STOP=1 --echo-all --variable user_count=${userCount} --file=${scriptPath}`;
   await execa.sync(launchGenerationScriptCommand, { stdio: 'inherit', shell: true });
 }
 
