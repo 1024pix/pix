@@ -3,9 +3,10 @@ const CampaignAssessmentCsvLine = require('../../../../lib/infrastructure/utils/
 const campaignParticipationService = require('../../../../lib/domain/services/campaign-participation-service');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-function _computeExpectedColumns(campaign, organization) {
+function _computeExpectedColumnsIndex(campaign, organization, badges) {
   const studentNumberPresenceModifier = (organization.type === 'SUP' && organization.isManagingStudents) ? 1 : 0;
   const externalIdPresenceModifier = campaign.idPixLabel ? 1 : 0;
+  const badgePresenceModifier = badges.length;
 
   return {
     ORGANIZATION_NAME: 0,
@@ -20,8 +21,9 @@ function _computeExpectedColumns(campaign, organization) {
     PARTICIPATION_CREATED_AT: 7 + studentNumberPresenceModifier + externalIdPresenceModifier,
     PARTICIPATION_IS_SHARED: 8 + studentNumberPresenceModifier + externalIdPresenceModifier,
     PARTICIPATION_SHARED_AT: 9 + studentNumberPresenceModifier + externalIdPresenceModifier,
-    PARTICIPATION_PERCENTAGE: 10 + studentNumberPresenceModifier + externalIdPresenceModifier,
-    DETAILS_START: 11 + studentNumberPresenceModifier + externalIdPresenceModifier,
+    BADGE: 10 + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_PERCENTAGE: 10 + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier,
+    DETAILS_START: 11 + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier,
   };
 }
 
@@ -50,7 +52,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
       // then
-      const cols = _computeExpectedColumns(campaign, organization);
+      const cols = _computeExpectedColumnsIndex(campaign, organization, []);
       expect(csvLine[cols.ORGANIZATION_NAME], 'organization name').to.equal(organization.name);
       expect(csvLine[cols.CAMPAIGN_ID], 'campaign id').to.equal(campaign.id);
       expect(csvLine[cols.CAMPAIGN_NAME], 'campaign name').to.equal(campaign.name);
@@ -83,7 +85,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        const cols = _computeExpectedColumns(campaign, organization);
+        const cols = _computeExpectedColumnsIndex(campaign, organization, []);
         expect(csvLine[cols.STUDENT_NUMBER_COL], 'student number').to.equal(campaignParticipationInfo.studentNumber);
       });
     });
@@ -111,7 +113,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        const cols = _computeExpectedColumns(campaign, organization);
+        const cols = _computeExpectedColumnsIndex(campaign, organization, []);
         expect(csvLine[cols.EXTERNAL_ID], 'external id').to.equal(campaignParticipationInfo.participantExternalId);
       });
 
@@ -138,7 +140,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        const cols = _computeExpectedColumns(campaign, organization);
+        const cols = _computeExpectedColumnsIndex(campaign, organization, []);
         expect(csvLine[cols.EXTERNAL_ID], 'external id').to.equal(campaignParticipationInfo.participantExternalId);
         expect(csvLine[cols.STUDENT_NUMBER_COL], 'student number').to.equal(campaignParticipationInfo.studentNumber);
       });
@@ -166,7 +168,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        const cols = _computeExpectedColumns(campaign, organization);
+        const cols = _computeExpectedColumnsIndex(campaign, organization, []);
         const EMPTY_CONTENT = 'NA';
         expect(csvLine[cols.PARTICIPATION_IS_SHARED], 'is shared').to.equal('Non');
         expect(csvLine[cols.PARTICIPATION_SHARED_AT], 'shared at').to.equal(EMPTY_CONTENT);
@@ -202,7 +204,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
         // then
-        const cols = _computeExpectedColumns(campaign, organization);
+        const cols = _computeExpectedColumnsIndex(campaign, organization, []);
         expect(csvLine[cols.PARTICIPATION_IS_SHARED], 'is shared').to.equal('Oui');
         expect(csvLine[cols.PARTICIPATION_SHARED_AT], 'shared at').to.equal('2020-01-01');
         expect(csvLine[cols.PARTICIPATION_PERCENTAGE], 'participation percentage').to.equal(1);
@@ -277,7 +279,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
           // then
-          const cols = _computeExpectedColumns(campaign, organization);
+          const cols = _computeExpectedColumnsIndex(campaign, organization, []);
           let currentColumn = cols.DETAILS_START;
           // First competence
           expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0.5);
@@ -377,7 +379,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
           // then
-          const cols = _computeExpectedColumns(campaign, organization);
+          const cols = _computeExpectedColumnsIndex(campaign, organization, []);
           let currentColumn = cols.DETAILS_START;
           // First competence
           expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal('NA');
@@ -479,7 +481,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
           // then
-          const cols = _computeExpectedColumns(campaign, organization);
+          const cols = _computeExpectedColumnsIndex(campaign, organization, []);
           let currentColumn = cols.DETAILS_START;
           // First competence
           expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal(0.5);
@@ -573,7 +575,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
           // then
-          const cols = _computeExpectedColumns(campaign, organization);
+          const cols = _computeExpectedColumnsIndex(campaign, organization, []);
           let currentColumn = cols.DETAILS_START;
           // First competence
           expect(csvLine[currentColumn++], '% maitrise de la competence').to.equal('NA');
@@ -597,6 +599,106 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal('NA');
 
           expect(csvLine).to.have.lengthOf(currentColumn);
+        });
+      });
+    });
+
+    context('when campaign has bagdes', () => {
+      context('when participation is not shared', () => {
+        it('should not show badges acquired or not', () => {
+          // given
+          const organization = domainBuilder.buildOrganization();
+          const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
+          const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: null });
+          const badge = 'badge title';
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
+          const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+            organization,
+            campaign,
+            campaignParticipationInfo,
+            targetProfile,
+            participantKnowledgeElementsByCompetenceId: {
+              [targetProfile.competences[0].id]: [],
+            },
+            acquiredBadges: [badge],
+            campaignParticipationService,
+          });
+
+          // when
+          const csvLine = campaignAssessmentCsvLine.toCsvLine();
+
+          // then
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [badge]);
+          const EMPTY_CONTENT = 'NA';
+          expect(csvLine[cols.BADGE], 'badge').to.equal(EMPTY_CONTENT);
+        });
+      });
+
+      context('when participation is shared', () => {
+        it('should show badges acquired', () => {
+          // given
+          const organization = domainBuilder.buildOrganization();
+          const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
+          const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
+          const badge = 'badge title';
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
+          const knowledgeElement = domainBuilder.buildKnowledgeElement({
+            status: KnowledgeElement.StatusType.VALIDATED,
+            earnedPix: 3,
+            skillId: targetProfile.skills[0].id,
+            competenceId: targetProfile.competences[0].id,
+          });
+          const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+            organization,
+            campaign,
+            campaignParticipationInfo,
+            targetProfile,
+            participantKnowledgeElementsByCompetenceId: {
+              [targetProfile.competences[0].id]: [knowledgeElement],
+            },
+            acquiredBadges: [badge],
+            campaignParticipationService,
+          });
+
+          // when
+          const csvLine = campaignAssessmentCsvLine.toCsvLine();
+
+          // then
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [badge]);
+          expect(csvLine[cols.BADGE], 'badge').to.equal('Oui');
+        });
+
+        it('should show badges not acquired', () => {
+          // given
+          const organization = domainBuilder.buildOrganization();
+          const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
+          const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
+          const badge = 'badge title';
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
+          const knowledgeElement = domainBuilder.buildKnowledgeElement({
+            status: KnowledgeElement.StatusType.VALIDATED,
+            earnedPix: 3,
+            skillId: targetProfile.skills[0].id,
+            competenceId: targetProfile.competences[0].id,
+          });
+          const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+            organization,
+            campaign,
+            campaignParticipationInfo,
+            targetProfile,
+            participantKnowledgeElementsByCompetenceId: {
+              [targetProfile.competences[0].id]: [knowledgeElement],
+            },
+            acquiredBadges: [],
+            campaignParticipationService,
+          });
+
+          // when
+          const csvLine = campaignAssessmentCsvLine.toCsvLine();
+
+          // then
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [badge]);
+          expect(csvLine[cols.BADGE], 'badge').to.equal('Non');
         });
       });
     });

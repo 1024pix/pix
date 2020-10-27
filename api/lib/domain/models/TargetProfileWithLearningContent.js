@@ -8,6 +8,7 @@ class TargetProfileWithLearningContent {
     tubes = [],
     competences = [],
     areas = [],
+    badges = [],
   } = {}) {
     this.id = id;
     this.name = name;
@@ -15,6 +16,7 @@ class TargetProfileWithLearningContent {
     this.tubes = tubes;
     this.competences = competences;
     this.areas = areas;
+    this.badges = badges;
   }
 
   get skillNames() {
