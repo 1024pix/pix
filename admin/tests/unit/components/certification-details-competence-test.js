@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { htmlSafe } from '@ember/string';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | certification-details-competence', function(hooks) {
+module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
   setupTest(hooks);
 
   const answer = (result) => {
@@ -26,313 +27,340 @@ module('Unit | Component | certification-details-competence', function(hooks) {
     };
   };
 
-  test('it should not give jury values when no jury rate is set', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ko', 'partially'));
-    component.set('rate', 60);
+  let component;
 
-    // when
-    component.set('juryRate', false);
-
-    // then
-    assert.equal(component.get('competenceJury'), false);
+  hooks.beforeEach(function() {
+    component = createGlimmerComponent('component:certification-details-competence');
   });
 
-  test('it should give jury values when a jury rate is set and score differs', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'ko', 25, 17));
-    component.set('rate', 60);
+  module('#competenceJury', function() {
 
-    // when
-    component.set('juryRate', 81);
+    test('it should not give jury values when no jury rate is set', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ko', 'partially'),
+        rate: 40,
+        juryRate: null,
+      };
 
-    // then
-    assert.notEqual(component.get('competenceJury'), false);
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual, null);
+    });
+
+    test('it should give jury values when a jury rate is set and score differs', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'ko', 25, 17),
+        rate: 60,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should not give jury values when a jury rate is set and score does not differ', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'ko', 25, 17),
+        rate: 60,
+        juryRate: 79,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual, null);
+    });
+
+    test('it should give level n and positioned score when jury rate is set and 3 ok', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'ok', 25, 17, 3, 2),
+        rate: 60,
+        juryRate: 79,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 ko', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'ko', 25, 17, 3, 2),
+        rate: 60,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 aband', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'aband', 25, 17, 3, 2),
+        rate: 60,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 partially', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'partially', 25, 17, 3, 2),
+        rate: 60,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 timedout', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'timedout', 25, 17, 3, 2),
+        rate: 60,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 ko', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'ko', 25, 25, 3, 3),
+        rate: 60,
+        juryRate: 65,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 2);
+      assert.equal(actual.score, 17);
+    });
+
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 aband', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'aband', 25, 25, 3, 3),
+        rate: 81,
+        juryRate: 65,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 2);
+      assert.equal(actual.score, 17);
+    });
+
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 partiallyx  x', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'partially', 25, 25, 3, 3),
+        rate: 81,
+        juryRate: 65,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 2);
+      assert.equal(actual.score, 17);
+    });
+
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 timedout', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'timedout', 25, 25, 3, 3),
+        rate: 81,
+        juryRate: 65,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 2);
+      assert.equal(actual.score, 17);
+    });
+
+    test('it should give level -1 and score 0 when jury rate is set and 1 ok', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ko', 'aband', 25, 25, 3, 3),
+        rate: 81,
+        juryRate: 90,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, -1);
+      assert.equal(actual.score, 0);
+    });
+
+    test('it should give level -1 and score 0 when jury rate is set to 49', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'ok', 25, 25, 3, 3),
+        rate: 81,
+        juryRate: 49,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, -1);
+      assert.equal(actual.score, 0);
+    });
+
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 skip', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'skip', 25, 0, 3, -1),
+        rate: 49,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n and positioned score when jury rate is set to 65 and 2 ok and 1 skip', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'skip', 25, 0, 3, -1),
+        rate: 65,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n when jury rate is set to 90, 1 ok, 1 partially, 1 skip', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ok', 'skip', 25, 0, 3, -1),
+        rate: 49,
+        juryRate: 90,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 3);
+      assert.equal(actual.score, 25);
+    });
+
+    test('it should give level n-1 when jury rate is set to 65, 1 ok, 1 partially, 1 skip', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'partially', 'skip', 25, 0, 3, -1),
+        rate: 49,
+        juryRate: 65,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, 2);
+      assert.equal(actual.score, 17);
+    });
+
+    test('it should give level -1 when jury rate is set, 1 ok, 1 ko, 1 skip', async function(assert) {
+      // given
+      component.args = {
+        competence: competence('ok', 'ko', 'skip', 25, 25, 3, 3),
+        rate: 85,
+        juryRate: 81,
+      };
+
+      // when
+      const actual = component.competenceJury;
+
+      // then
+      assert.equal(actual.level, -1);
+      assert.equal(actual.score, 0);
+    });
+
   });
 
-  test('it should not give jury values when a jury rate is set and score does not differ', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'ko', 25, 17));
-    component.set('rate', 60);
-
-    // when
-    component.set('juryRate', 79);
-
-    // then
-    assert.equal(component.get('competenceJury'), false);
-  });
-
-  test('it should give level n and positioned score when jury rate is set and 3 ok', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'ok', 25, 17, 3, 2));
-    component.set('rate', 60);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 79);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 ko', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'ko', 25, 17, 3, 2));
-    component.set('rate', 60);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 81);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 aband', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'aband', 25, 17, 3, 2));
-    component.set('rate', 60);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 81);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 partially', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'partially', 25, 17, 3, 2));
-    component.set('rate', 60);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 81);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 timedout', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'timedout', 25, 17, 3, 2));
-    component.set('rate', 60);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 81);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 ko', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'ko', 25, 25, 3, 3));
-    component.set('rate', 81);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 65);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 2);
-    assert.equal(component.get('competenceJury.score'), 17);
-  });
-
-  test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 aband', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'aband', 25, 25, 3, 3));
-    component.set('rate', 81);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 65);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 2);
-    assert.equal(component.get('competenceJury.score'), 17);
-  });
-
-  test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 partially', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'partially', 25, 25, 3, 3));
-    component.set('rate', 81);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 65);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 2);
-    assert.equal(component.get('competenceJury.score'), 17);
-  });
-
-  test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 timedout', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'timedout', 25, 25, 3, 3));
-    component.set('rate', 81);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 65);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 2);
-    assert.equal(component.get('competenceJury.score'), 17);
-  });
-
-  test('it should give level -1 and score 0 when jury rate is set and 1 ok', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ko', 'aband', 25, 25, 3, 3));
-    component.set('rate', 81);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 90);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), -1);
-    assert.equal(component.get('competenceJury.score'), 0);
-  });
-
-  test('it should give level -1 and score 0 when jury rate is set to 49', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'ok', 25, 25, 3, 3));
-    component.set('rate', 81);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 49);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), -1);
-    assert.equal(component.get('competenceJury.score'), 0);
-  });
-
-  // SKIP
-
-  test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 skip', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'skip', 25, 0, 3, -1));
-    component.set('rate', 49);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 81);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n and positioned score when jury rate is set to 65 and 2 ok and 1 skip', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'skip', 25, 0, 3, -1));
-    component.set('rate', 65);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 81);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n when jury rate is set to 90, 1 ok, 1 partially, 1 skip', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'partially', 'skip', 25, 0, 3, -1));
-    component.set('rate', 49);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 90);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 3);
-    assert.equal(component.get('competenceJury.score'), 25);
-  });
-
-  test('it should give level n-1 when jury rate is set to 65, 1 ok, 1 partially, 1 skip', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'partially', 'skip', 25, 0, 3, -1));
-    component.set('rate', 49);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 65);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), 2);
-    assert.equal(component.get('competenceJury.score'), 17);
-  });
-
-  test('it should give level -1 when jury rate is set, 1 ok, 1 ko, 1 skip', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ko', 'skip', 25, 25, 3, 3));
-    component.set('rate', 85);
-    assert.expect(2);
-
-    // when
-    component.set('juryRate', 81);
-
-    // then
-    assert.equal(component.get('competenceJury.level'), -1);
-    assert.equal(component.get('competenceJury.score'), 0);
-  });
-
-  // check computed widths
   test('it should compute widths correctly', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'ko', 25, 17, 3, 2));
-    component.set('rate', 60);
-    assert.expect(3);
-
     // when
-    component.set('juryRate', 81);
+    component.args = {
+      competence: competence('ok', 'ok', 'ko', 25, 17, 3, 2),
+      rate: 60,
+      juryRate: 81,
+    };
 
     // then
-    assert.equal(component.get('positionedWidth').toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
-    assert.equal(component.get('certifiedWidth').toString(), htmlSafe('width:' + Math.round((2 / 8) * 100) + '%'));
-    assert.equal(component.get('competenceJury.width').toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
+    assert.equal(component.positionedWidth.toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
+    assert.equal(component.certifiedWidth.toString(), htmlSafe('width:' + Math.round((2 / 8) * 100) + '%'));
+    assert.equal(component.competenceJury.width.toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
   });
 
   test('it should retrieve answers from competence', async function(assert) {
-    // given
-    const component = this.owner.factoryFor('component:certification-details-competence').create();
-
     // when
-    component.set('competence', competence('ok', 'partially', 'ko'));
+    component.args = {
+      competence: competence('ok', 'partially', 'ko'),
+    };
 
     // then
-    assert.deepEqual(component.get('answers'), [answer('ok'), answer('partially'), answer('ko')]);
+    assert.deepEqual(component.answers, [answer('ok'), answer('partially'), answer('ko')]);
   });
 
 });
