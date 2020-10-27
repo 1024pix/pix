@@ -10,8 +10,8 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       const session = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
-      const birthdate = new Date('01/01/1990');
-      const createdAt = new Date('01/01/2020');
+      const birthdate = new Date('1990-01-01');
+      const createdAt = new Date('2020-01-01');
 
       const competencesWithMark1 = [
         { competence_code: '1.1', level: 0 }, { competence_code: '1.2', level: 1 }, { competence_code: '1.3', level: 5 },
@@ -42,10 +42,10 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
 
       const certificationResults = [ certifResult1, certifResult2 ];
-  
+
       // when
       const result = await getCertificationResultsCsv({ session, certificationResults });
-  
+
       // then
       const expectedBirthDate = '01/01/1990';
       const expectedCreatedAt = '01/01/2020';
