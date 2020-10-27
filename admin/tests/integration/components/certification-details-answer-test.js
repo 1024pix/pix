@@ -2,12 +2,10 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import XSelectInteractor from 'emberx-select/test-support/interactor';
 import { resolve } from 'rsvp';
+import { selectChoose } from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | certification-details-answer', function(hooks) {
-
-  const xselect = new XSelectInteractor('.answer-result select');
 
   setupRenderingTest(hooks);
 
@@ -18,42 +16,33 @@ module('Integration | Component | certification-details-answer', function(hooks)
     result:'partially',
   };
 
-  test('it renders', async function(assert) {
-    // given
-    this.set('answerData', answerData);
-
-    // when
-    await render(hbs`{{certification-details-answer answer=answerData}}`);
-
-    // then
-    assert.dom('.certification-details-answer').exists();
-  });
-
   test('info are correctly displayed', async function(assert) {
     // given
-    this.set('answerData', answerData);
+    this.setProperties({
+      answer: answerData,
+      onUpdateRate: () => {},
+    });
 
     // when
-    await render(hbs`{{certification-details-answer answer=answerData}}`);
+    await render(hbs`<CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // then
-    assert.expect(4);
     assert.dom('.certification-details-answer-skill').hasText('@skill5');
     assert.dom('.certification-details-answer-id').hasText('rec12345');
     assert.dom('.certification-details-answer-order').hasText('(numéro : 5)');
-    assert.dom([...this.element.querySelector('.answer-result select').querySelectorAll('option')].find((it) => it.selected)).hasText('Partially');
+    assert.dom('.ember-power-select-selected-item').hasText('Succès partiel');
   });
 
   test('jury class is set when answer is modified', async function(assert) {
     // given
-    this.set('answerData', answerData);
-    this.set('externalAction', () => {
-      return resolve();
+    this.setProperties({
+      answer: answerData,
+      onUpdateRate: () => {},
     });
+    await render(hbs`<CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
-    await render(hbs`{{certification-details-answer answer=answerData onUpdateRate=(action externalAction)}}`);
-    await xselect.select('Ok');
+    await selectChoose('.answer-result', 'Succès');
 
     // then
     assert.dom('.answer-result').hasClass('jury');
@@ -61,30 +50,34 @@ module('Integration | Component | certification-details-answer', function(hooks)
 
   test('update rate function is called when answer is modified and jury is set', async function(assert) {
     // given
-    this.set('answerData', answerData);
-    this.set('externalAction', () => {
-      // then
-      assert.equal(answerData.jury, 'ok');
-      return resolve();
+    this.setProperties({
+      answer: answerData,
+      onUpdateRate: () => {
+        // then
+        assert.equal(answerData.jury, 'ok');
+        return resolve();
+      },
     });
+    await render(hbs`<CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
-    await render(hbs`{{certification-details-answer answer=answerData onUpdateRate=(action externalAction)}}`);
-    await xselect.select('Ok');
+    await selectChoose('.answer-result', 'Succès');
   });
 
   test('jury is set back to false when answer is set to default value', async function(assert) {
     // given
-    this.set('answerData', answerData);
-    this.set('externalAction', () => {
-      return resolve();
+    this.setProperties({
+      answer: answerData,
+      onUpdateRate: () => resolve(),
     });
+    await render(hbs`<CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
-    await render(hbs`{{certification-details-answer answer=answerData onUpdateRate=(action externalAction)}}`);
-    await xselect.select('Ok');
-    await xselect.select('Partially');
-    assert.equal(answerData.jury, false);
+    await selectChoose('.answer-result', 'Succès');
+    await selectChoose('.answer-result', 'Succès partiel');
+
+    // Then
+    assert.equal(answerData.jury, null);
   });
 
 });

@@ -1,32 +1,43 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import { find } from 'lodash';
 
-export default Component.extend({
+const options = [
+  { value: 'ok', label: 'Succès' },
+  { value: 'ko', label: 'Échec' },
+  { value: 'partially', label: 'Succès partiel' },
+  { value: 'timedout', label: 'Temps écoulé' },
+  { value: 'aband', label: 'Abandon' },
+  { value: 'skip', label: 'Neutralisée' },
+];
 
-  // Elements
-  classNames: ['card', 'text-center', 'certification-details-answer', 'border-secondary'],
+export default class CertificationDetailsAnswer extends Component {
 
-  // Properties
-  answer: null,
-  onUpdateRate: null,
+  @tracked selectedOption = null;
+  @tracked hasJuryResult = false;
 
-  // Private properties
-  _jury: false,
+  constructor() {
+    super(...arguments);
+    this.resultOptions = options;
+    this.selectedOption = this.getOption(this.args.answer.result);
+  }
 
-  // Computed properties
-  resultClass: computed('_jury', function() {
-    const jury = this._jury;
-    return (jury) ? 'answer-result jury' : 'answer-result';
-  }),
+  getOption(resultValue) {
+    return find(options, { value: resultValue });
+  }
 
-  // Actions
-  actions: {
-    onSetResult(value) {
-      const answer = this.answer;
-      const jury = (value !== answer.result) ? value : false;
-      answer.jury = jury;
-      this.set('_jury', jury);
-      this.onUpdateRate();
-    },
-  },
-});
+  get resultClass() {
+    return this.hasJuryResult ? 'answer-result jury' : 'answer-result';
+  }
+
+  @action
+  selectOption(selected) {
+    const answer = this.args.answer;
+    const newResult = (selected.value !== answer.result) ? selected.value : null;
+    answer.jury = newResult;
+    this.selectedOption = newResult ? this.getOption(newResult) : this.getOption(this.args.answer.result);
+    this.hasJuryResult = !!newResult;
+    this.args.onUpdateRate();
+  }
+}
