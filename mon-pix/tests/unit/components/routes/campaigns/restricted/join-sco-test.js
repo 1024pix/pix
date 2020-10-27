@@ -550,16 +550,26 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         component.yearOfBirth = '1010';
       });
 
+      it('should display no error', async function() {
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.calledOnce(record.unloadRecord);
+        expect(component.errorMessage).to.be.null;
+      });
+
       it('should display a not found error', async function() {
         // given
         onSubmitToReconcileStub.rejects({ errors: [{ status: '404' }] });
+        const expectedErrorMessage = this.intl.t('pages.join.sco.error-not-found');
 
         // when
         await component.actions.submit.call(component, eventStub);
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
+        expect(component.errorMessage.string).to.equal(expectedErrorMessage);
       });
 
       describe('When student is already reconciled', () => {
@@ -730,46 +740,5 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       expect(component.displayInformationModal).to.be.false;
     });
 
-    describe('Errors', function() {
-      beforeEach(function() {
-        component.firstName = 'pix';
-        component.lastName = 'aile';
-        component.dayOfBirth = '10';
-        component.monthOfBirth = '10';
-        component.yearOfBirth = '1010';
-      });
-
-      it('should display a not found error', async function() {
-        // given
-        onSubmitToReconcileStub.rejects({ errors: [{ status: '404' }] });
-
-        // when
-        await component.actions.submit.call(component, eventStub);
-
-        // then
-        sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage.string).to.equal('Vous êtes un élève ? <br/> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.<br/><br/> Vous êtes un enseignant ? <br/> L‘accès à un parcours n‘est pas disponible pour le moment.');
-      });
-
-      describe('When student is already reconciled', () => {
-
-        it('should open information modal and set reconciliationError', async function() {
-          // given
-          const error = { status: '409', meta: { userId: 1 } };
-
-          onSubmitToReconcileStub.rejects({ errors: [error] });
-
-          // when
-          await component.actions.submit.call(component, eventStub);
-
-          // then
-          sinon.assert.calledOnce(record.unloadRecord);
-          expect(component.displayInformationModal).to.be.true;
-          expect(component.reconciliationError).to.equal(error);
-          expect(component.isLoading).to.be.false;
-          sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', error.meta.userId);
-        });
-      });
-    });
   });
 });
