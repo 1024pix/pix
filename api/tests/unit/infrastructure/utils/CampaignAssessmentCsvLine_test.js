@@ -720,69 +720,6 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
 
     context('when there are stages', () => {
       context('when participation is shared', () => {
-        context('when the stage with 0 as threshold have been reached', () => {
-          it('tells 0 stage reached', () => {
-            // given
-            const organization = domainBuilder.buildOrganization();
-            const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
-            const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
-            const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
-            const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
-            const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_3', tubeId: 'recTube1' });
-            const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2,  skill3], competenceId: 'recCompetence1' });
-            const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube], areaId: 'recArea1' });
-            const area = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence] });
-            const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-              skills: [skill1, skill2, skill3],
-              tubes: [tube],
-              competences: [competence],
-              areas: [area],
-            });
-            const stages = [
-              domainBuilder.buildStage({ threshold: 0 }),
-              domainBuilder.buildStage({ threshold: 60 }),
-            ];
-            const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: 3,
-              skillId: skill1.id,
-              competenceId: competence.id,
-            });
-            const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 2,
-              skillId: skill2.id,
-              competenceId: competence.id,
-            });
-            const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 4,
-              skillId: skill3.id,
-              competenceId: competence.id,
-            });
-            const participantKnowledgeElementsByCompetenceId = {
-              'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3],
-            };
-            const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-              organization,
-              campaign,
-              campaignParticipationInfo,
-              targetProfile,
-              stages,
-              participantKnowledgeElementsByCompetenceId,
-              campaignParticipationService,
-            });
-
-            // when
-            const csvLine = campaignAssessmentCsvLine.toCsvLine();
-
-            // then
-            const cols = _computeExpectedColumnsIndex(campaign, organization,  [],  stages);
-            // First competence
-            expect(csvLine[cols.STAGE_REACHED]).to.equal(0);
-          });
-        });
-
         context('when some stages have been reached', () => {
           it('tells highest stage reached', () => {
             // given

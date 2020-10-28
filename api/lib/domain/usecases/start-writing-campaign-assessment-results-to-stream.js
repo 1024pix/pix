@@ -75,7 +75,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
         campaignParticipationInfo,
         targetProfile,
         participantKnowledgeElementsByCompetenceId,
-        stages,
+        stages: reachableStages,
         acquiredBadges,
       });
       csvLines = csvLines.concat(csvLine);

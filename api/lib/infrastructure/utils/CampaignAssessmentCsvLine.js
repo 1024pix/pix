@@ -155,7 +155,7 @@ class CampaignAssessmentCsvLine {
 
     const percentageSkillsValidated = this._percentageSkillsValidated() * 100;
 
-    return this.stages.filter((stage) => stage.threshold > 0 && percentageSkillsValidated >= stage.threshold).length;
+    return this.stages.filter((stage) => percentageSkillsValidated >= stage.threshold).length;
   }
 
   get _studentNumber() {
