@@ -1,6 +1,7 @@
 const dependencies = {
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
+  authenticationMethodRepository: require('../../infrastructure/repositories/authentication-method-repository'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
   badgeCriteriaService: require('../../domain/services/badge-criteria-service'),
