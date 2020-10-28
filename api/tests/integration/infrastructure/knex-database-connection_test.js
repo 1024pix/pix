@@ -14,13 +14,6 @@ describe('Integration | Infrastructure | knex-database-connection', () => {
     expect(resultSet.rows || resultSet).to.deep.equal([{ value: 1 }]);
   });
 
-  it('should list all tables, including the "users" table', async () => {
-    // when
-    const tableNames = await knexDatabaseConnection.listAllTableNames();
-    // then
-    expect(tableNames).to.include('users');
-  });
-
   it('should empty all tables', async () => {
     // given
     const { id } = databaseBuilder.factory.buildUser();
