@@ -75,9 +75,11 @@ module('Acceptance | join', function(hooks) {
         createPrescriberByUser(user);
 
         code = 'ABCDEFGH01';
-        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
-          organizationId, email: 'random@email.com', status: 'pending', code,
+          organizationId: user.userOrgaSettings.organization.id,
+          email: 'random@email.com',
+          status: 'pending',
+          code,
         }).id;
       });
 
@@ -126,9 +128,11 @@ module('Acceptance | join', function(hooks) {
         createPrescriberByUser(user);
 
         code = 'ABCDEFGH01';
-        const organizationId = server.create('organization', { name: 'College BRO & Evil Associates' }).id;
         organizationInvitationId = server.create('organizationInvitation', {
-          organizationId, email: 'random@email.com', status: 'pending', code,
+          organizationId: user.userOrgaSettings.organization.id,
+          email: 'random@email.com',
+          status: 'pending',
+          code,
         }).id;
       });
 
