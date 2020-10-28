@@ -26,12 +26,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const [targetProfile, organization, campaignParticipationInfos, stages] = await Promise.all([
-    targetProfileWithLearningContentRepository.getWithBadges({ id: campaign.targetProfileId }),
-    organizationRepository.get(campaign.organizationId),
-    campaignParticipationInfoRepository.findByCampaignId(campaign.id),
-    stageRepository.findByCampaignId(campaign.id),
-  ]);
+  const targetProfile = await targetProfileWithLearningContentRepository.getWithBadges({ id: campaign.targetProfileId });
+  const  organization = await organizationRepository.get(campaign.organizationId);
+  const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
+  const stages = await stageRepository.findByCampaignId(campaign.id);
 
   // Create HEADER of CSV
   const reachableStages = stages.filter(({ threshold }) => threshold > 0);
