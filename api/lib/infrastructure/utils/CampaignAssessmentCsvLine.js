@@ -11,6 +11,7 @@ class CampaignAssessmentCsvLine {
     campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElementsByCompetenceId,
+    stages = [],
     acquiredBadges,
     campaignParticipationService,
   }) {
@@ -18,6 +19,7 @@ class CampaignAssessmentCsvLine {
     this.campaign = campaign;
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfile = targetProfile;
+    this.stages = stages;
     this.targetedKnowledgeElementsCount = _.sum(_.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length));
     this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
     this.acquiredBadges = acquiredBadges;
@@ -94,6 +96,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
       ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfile.badges.length)),
+      ...(this.stages[0] ? [this._getReachedStage()] : []),
       this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
     ];
   }
@@ -143,6 +146,16 @@ class CampaignAssessmentCsvLine {
 
   _percentageSkillsValidated() {
     return _.round(this._countValidatedKnowledgeElements() / this.targetProfile.skills.length, 2);
+  }
+
+  _getReachedStage() {
+    if (!this.campaignParticipationInfo.isShared) {
+      return EMPTY_CONTENT;
+    }
+
+    const percentageSkillsValidated = this._percentageSkillsValidated() * 100;
+
+    return this.stages.filter((stage) => percentageSkillsValidated >= stage.threshold).length;
   }
 
   get _studentNumber() {

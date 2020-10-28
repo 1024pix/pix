@@ -13,12 +13,14 @@ function createOneCsvLine({
   targetProfile,
   participantKnowledgeElementsByCompetenceId,
   acquiredBadges,
+  stages,
 }) {
   const line = new CampaignAssessmentCsvLine({
     organization,
     campaign,
     campaignParticipationInfo,
     targetProfile,
+    stages,
     participantKnowledgeElementsByCompetenceId,
     acquiredBadges,
     campaignParticipationService,
