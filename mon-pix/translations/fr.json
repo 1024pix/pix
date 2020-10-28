@@ -373,6 +373,9 @@
                 "qroc": "Pour valider, veuillez remplir le champ texte. Sinon, passez.",
                 "qroc-auto-reply": "L'épreuve n'est pas encore réussie. Vous aurez un message “Vous pouvez valider” quand vous aurez réussi. Essayez encore ou passez.",
                 "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passez."
+            },
+            "timed" : {
+                "cannot-answer": "Le temps accordé est écoulé."
             }
         },
         "checkpoint": {

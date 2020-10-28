@@ -149,6 +149,15 @@
   margin-right: 20px;
 }
 
+.challenge-actions__timed-out {
+  font-family: $font-roboto;
+  font-size: 1rem;
+  font-weight: 600;
+  color: $grey-70;
+  letter-spacing: 0.031rem;
+  margin-right: 20px;
+}
+
 .challenge-actions__action-continue {
   order: 1;
   width: 150px;

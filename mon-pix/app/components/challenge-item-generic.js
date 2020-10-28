@@ -10,6 +10,7 @@ export default class ChallengeItemGeneric extends Component {
   @tracked isValidateButtonEnabled = true;
   @tracked isSkipButtonEnabled = true;
   @tracked hasUserConfirmedWarning = false;
+  @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
   @tracked _elapsedTime = null;
 
@@ -66,7 +67,11 @@ export default class ChallengeItemGeneric extends Component {
       const timer = later(this, function() {
         const elapsedTime = this._elapsedTime;
         this._elapsedTime = elapsedTime + 1;
-        this._tick();
+        if ((this._elapsedTime - this.args.challenge.timer) >= 0) {
+          this.hasChallengeTimedOut = true;
+        } else {
+          this._tick();
+        }
       }, 1000);
 
       this._timer = timer;
@@ -77,7 +82,7 @@ export default class ChallengeItemGeneric extends Component {
   validateAnswer() {
     if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
 
-      if (this._hasError()) {
+      if (this._hasError()  && !this.hasChallengeTimedOut) {
         const errorMessage = this._getErrorMessage();
         this.errorMessage = errorMessage;
         return;
