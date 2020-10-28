@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v2.214.0 (28/10/2020)
+
+- [#2055](https://github.com/1024pix/pix/pull/2055) [FEATURE] Ajouter le palier dans l'export des résultats d'un campagne d'évaluation (PIX-1458).
+- [#2034](https://github.com/1024pix/pix/pull/2034) [FEATURE] Bloquer les boutons quand le temps est écoulé (PIX-1454).
+- [#2069](https://github.com/1024pix/pix/pull/2069) [FEATURE] Ne pas afficher le lieu de naissance sur le certificat si il n'est pas disponible (PIX-1531).
+- [#2047](https://github.com/1024pix/pix/pull/2047) [FEATURE] Ajout condition isShared pour afficher les badges obtenu (PIX-1490)
+- [#2067](https://github.com/1024pix/pix/pull/2067) [FEATURE] Changement de nom de l'identifiant en identifiant externe au sein de la page de création d'une campagne (PIX-1529).
+- [#2044](https://github.com/1024pix/pix/pull/2044) [FEATURE] Inclure les résultats thématiques dans l'export des campagnes d'évaluation (PIX-1457).
+- [#2068](https://github.com/1024pix/pix/pull/2068) [BUGFIX] Afficher si possible le lieu de naissance sur l'attestation de certification Pix (PIX-1504).
+- [#1911](https://github.com/1024pix/pix/pull/1911) [TECH] Améliore la gestion des exceptions dans le database-builder (PIX-1306)
+- [#2054](https://github.com/1024pix/pix/pull/2054) [TECH] Refacto de méthodes du répo knowledge-elements utilisant les snapshots KE pour mieux répondre aux besoins (PIX-990-1)
+- [#2070](https://github.com/1024pix/pix/pull/2070) [TECH] Préconiser l'utilisation d'un serveur http léger dans les tests.
+- [#2065](https://github.com/1024pix/pix/pull/2065) [TECH] Correction d'orthographe sur le terme supernumerary (PIX-1527).
+- [#2064](https://github.com/1024pix/pix/pull/2064) [TECH] Correcteur d'erreur d'orthographe sur le terme targetprofile dans le code (PIX-1525)
+- [#2050](https://github.com/1024pix/pix/pull/2050) [CLEANUP] Déplacer la mise à jour du userOrgaSettings dans l'API (PIX-1498).
+- [#2037](https://github.com/1024pix/pix/pull/2037) [TRANSLATION] Corriger le html dans les fichiers de traduction
+- [#1934](https://github.com/1024pix/pix/pull/1934) [CLEANUP] Corriger le contraste de la page profil
+
 ## v2.213.0 (27/10/2020)
 
 - [#2042](https://github.com/1024pix/pix/pull/2042) [FEATURE] Ajout des paliers dans la liste des participants (PIX-1449)
