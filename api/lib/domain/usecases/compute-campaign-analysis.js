@@ -18,11 +18,9 @@ module.exports = async function computeCampaignAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  const [tutorials, targetProfile, sharedParticipationsUserIdsAndDates] = await Promise.all([
-    tutorialRepository.list(),
-    targetProfileWithLearningContentRepository.getByCampaignId({ campaignId }),
-    campaignParticipationRepository.findSharedParticipationsWithUserIdsAndDates(campaignId),
-  ]);
+  const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+  const tutorials = await tutorialRepository.list();
+  const sharedParticipationsUserIdsAndDates = await campaignParticipationRepository.findSharedParticipationsWithUserIdsAndDates(campaignId);
 
   const validatedKnowledgeElementsByTube = await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(sharedParticipationsUserIdsAndDates, targetProfile);
 

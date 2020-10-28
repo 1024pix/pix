@@ -23,10 +23,8 @@ module.exports = async function computeCampaignParticipationAnalysis(
     return null;
   }
 
-  const [targetProfile, tutorials] = await Promise.all([
-    targetProfileWithLearningContentRepository.getByCampaignId({ campaignId }),
-    tutorialRepository.list(),
-  ]);
+  const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+  const tutorials = await tutorialRepository.list();
 
   const validatedKnowledgeElementsByTube = await knowledgeElementRepository
     .findValidatedTargetedGroupedByTubes({ [campaignParticipation.userId]: campaignParticipation.sharedAt }, targetProfile);
