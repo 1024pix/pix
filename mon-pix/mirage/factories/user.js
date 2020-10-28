@@ -11,6 +11,16 @@ function _addDefaultPixscore(user, server) {
   }
 }
 
+function _addDefaultProfile(user, server) {
+  if (!user.profile) {
+    user.update({ profile: server.create('profile', {
+      pixScore: user.pixScore.value,
+      scorecards: user.scorecards,
+    }),
+    });
+  }
+}
+
 function _addDefaultIsCertifiable(user, server) {
   if (!user.isCertifiable) {
     user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': false }) });
@@ -211,5 +221,6 @@ export default Factory.extend({
     _addDefaultIsCertifiable(user, server);
     _addDefaultScorecards(user, server);
     _addDefaultPixscore(user, server);
+    _addDefaultProfile(user, server);
   },
 });
