@@ -1,3 +1,6 @@
+const { featureToggles } = require('../../config');
+const { BadRequestError } = require('../http-errors');
+
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
@@ -43,6 +46,18 @@ module.exports = {
         type: 'external-user-authentication-requests',
       },
     };
+    return h.response(response).code(200);
+  },
+
+  async authenticatePoleEmploiUser(request, h) {
+    if (!featureToggles.isPoleEmploiEnabled) {
+      throw new BadRequestError('This feature is not enable!');
+    }
+
+    const { code, 'client_id': clientId, 'redirect_uri': redirectUri } = request.payload;
+
+    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri });
+
     return h.response(response).code(200);
   },
 };

@@ -72,7 +72,29 @@ exports.register = async (server) => {
         tags: ['api'],
       },
     },
-
+    {
+      method: 'POST',
+      path: '/api/pole-emploi/token',
+      config: {
+        auth: false,
+        payload: {
+          allow: 'application/x-www-form-urlencoded',
+        },
+        validate: {
+          payload: Joi.object().required().keys({
+            code: Joi.string().required(),
+            client_id: Joi.string().required(),
+            redirect_uri: Joi.string().required(),
+          }),
+        },
+        handler: AuthenticationController.authenticatePoleEmploiUser,
+        notes: [
+          '- Cette route permet de récupérer l\'ID Token d\'un candidat Pole emploi.\n' +
+          '- Elle retournera également un access token Pix correspondant à l\'utilisateur.',
+        ],
+        tags: ['api', 'Pôle emploi'],
+      },
+    },
   ]);
 };
 
