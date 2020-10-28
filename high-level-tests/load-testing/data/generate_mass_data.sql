@@ -20,16 +20,15 @@ SELECT setval(pg_get_serial_sequence('knowledge-elements','id'), coalesce(max("i
 -----------------------------------------------------------------------------------------------------
 
 SET LOCAL constants.user_count=:user_count;
---SET LOCAL constants.user_count=1000;
-SET LOCAL constants.competence_evaluation_count=1000;
-SET LOCAL constants.organization_count=0;
-SET LOCAL constants.campaign_per_organization_count=3;
-SET LOCAL constants.participation_per_campaign_count=150;
-SET LOCAL constants.shared_participation_percentage=65;
-SET LOCAL constants.answer_per_competence_evaluation_assessment_count=25;
-SET LOCAL constants.answer_per_campaign_assessment_count=25;
-SET LOCAL constants.validated_knowledge_element_percentage=60; -- Détermine la répartition des statuts des knowledge-elements
-SET LOCAL constants.invalidated_knowledge_element_percentage=30; -- Le reste du pourcentage va constituer les knowledge-elements 'reset'
+SET LOCAL constants.competence_evaluation_count=:competence_evaluation_count;
+SET LOCAL constants.organization_count=:organization_count;
+SET LOCAL constants.campaign_per_organization_count=:campaign_per_organization_count;
+SET LOCAL constants.participation_per_campaign_count=:participation_per_campaign_count;
+SET LOCAL constants.shared_participation_percentage=:shared_participation_percentage;
+SET LOCAL constants.answer_per_competence_evaluation_assessment_count=:answer_per_competence_evaluation_assessment_count;
+SET LOCAL constants.answer_per_campaign_assessment_count=:answer_per_campaign_assessment_count;
+SET LOCAL constants.validated_knowledge_element_percentage=:validated_knowledge_element_percentage;
+SET LOCAL constants.invalidated_knowledge_element_percentage=:invalidated_knowledge_element_percentage;
 
 
 -----------------------------------------------------------------------------------------------------
