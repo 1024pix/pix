@@ -57,7 +57,11 @@ class TargetProfileWithLearningContent {
     return area || null;
   }
 
-  filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
+  filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements) {
+    return this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+  }
+
+  _filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
     const knowledgeElementsGroupedByCompetence = {};
     for (const competenceId of this.competenceIds) {
       knowledgeElementsGroupedByCompetence[competenceId] = [];
@@ -72,8 +76,9 @@ class TargetProfileWithLearningContent {
     return knowledgeElementsGroupedByCompetence;
   }
 
-  filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements) {
-    return this.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+  countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
+    const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+    return _.mapValues(validatedGroupedByCompetence, 'length');
   }
 
   get maxSkillDifficulty() {

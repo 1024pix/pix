@@ -14,7 +14,6 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
       const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'], areaId: 'area1' });
       const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', competences: [targetedCompetence] });
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [targetedCompetence], areas: [targetedArea] });
-      const knowledgeElement = domainBuilder.buildKnowledgeElement({ skillId: 'someSkillId', competenceId: targetedCompetence.id, status: 'validated' });
       expectedJsonApi = {
         data: {
           type: 'campaign-assessment-participation-results',
@@ -49,12 +48,12 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
         campaignParticipationId: 1,
         campaignId: 2,
         targetProfile,
-        validatedTargetedKnowledgeElementsByCompetenceId: { [targetedCompetence.id]: [knowledgeElement] },
+        validatedTargetedKnowledgeElementsCountByCompetenceId: { [targetedCompetence.id]: 1 },
         isShared: true,
       });
     });
 
-    it('should convert a CampaignAssessmentParticipation model object into JSON API data', function() {
+    it('should convert a CampaignAssessmentParticipationResult model object into JSON API data', function() {
       // when
       const json = serializer.serialize(modelCampaignAssessmentParticipationResult);
 

@@ -44,14 +44,13 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
 }
 
 async function _buildCampaignAssessmentParticipationResults(result, targetProfile) {
-  const validatedTargetedKnowledgeElementsByUserIdAndCompetenceId = await knowledgeElementRepository
-    .findValidatedTargetedGroupedByCompetencesForUsers({ [result.userId]: result.sharedAt }, targetProfile);
-  const validatedTargetedKnowledgeElementsByCompetenceId = validatedTargetedKnowledgeElementsByUserIdAndCompetenceId[result.userId];
+  const validatedTargetedKnowledgeElementsCountByCompetenceId = await knowledgeElementRepository
+    .countValidatedTargetedByCompetencesForOneUser(result.userId ,result.sharedAt , targetProfile);
 
   return new CampaignAssessmentParticipationResult({
     ...result,
     targetedCompetences: targetProfile.competences,
-    validatedTargetedKnowledgeElementsByCompetenceId,
+    validatedTargetedKnowledgeElementsCountByCompetenceId,
     targetProfile,
   });
 }
