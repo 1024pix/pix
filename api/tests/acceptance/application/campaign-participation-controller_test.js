@@ -193,6 +193,29 @@ describe('Acceptance | API | Campaign Participations', () => {
         });
       });
     });
+
+    context('when the assessmentId is not an integer', () => {
+
+      it('returns 404 when assessmentId is not an integer', async () => {
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
+        databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'GET',
+          url: '/api/campaign-participations?filter[assessmentId]=abcd',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        const response = await server.inject(options);
+
+        expect(response.statusCode).to.equal(404);
+      });
+    });
   });
 
   describe('PATCH /api/campaign-participations/{id}', () => {
