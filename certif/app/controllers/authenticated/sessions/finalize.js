@@ -1,10 +1,11 @@
-import _ from 'lodash';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
-import { sumBy } from 'lodash';
+import sumBy from 'lodash/sumBy';
+import isEmpty from 'lodash/isEmpty';
+import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
 
@@ -93,6 +94,6 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   _convertStringToNullIfEmpty(str) {
-    return _.isEmpty(_.trim(str)) ? null : str;
+    return isEmpty(trim(str)) ? null : str;
   }
 }
