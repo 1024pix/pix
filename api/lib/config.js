@@ -136,6 +136,7 @@ module.exports = (function() {
 
     featureToggles: {
       certifPrescriptionSco: isFeatureEnabled(process.env.FT_CERTIF_PRESCRIPTION_SCO),
+      isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
     },
 
     infra: {
@@ -150,6 +151,12 @@ module.exports = (function() {
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
       debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
       maxValueLength: 1000,
+    },
+
+    poleEmploi: {
+      clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
+      tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
+      userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
     },
   };
 
@@ -193,6 +200,10 @@ module.exports = (function() {
     config.authentication.tokenLifespan = '1d';
 
     config.temporaryKey.secret = 'test-jwt-key';
+
+    config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
+    config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
+    config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
 
     config.logging.enabled = false;
 
