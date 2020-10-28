@@ -20,6 +20,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       access_token: 'some-jwt-access-token',
       user_id: 'the-user-id',
     }));
+    sinon.stub(authenticationController, 'authenticatePoleEmploiUser').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -205,7 +206,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
-  describe('POST /api/token-from-external-user', function() {
+  describe('POST /api/token-from-external-user', () => {
 
     const method = 'POST';
     const url = '/api/token-from-external-user';
@@ -265,6 +266,101 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
       // when
       const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/pole-emploi/token', () => {
+
+    const method = 'POST';
+    const url = '/api/pole-emploi/token';
+    const headers = {};
+
+    const code = 'ABCD';
+    const client_id = 'CLIENT_ID';
+    const redirect_uri = 'http://redirectUri.fr';
+
+    let payload;
+
+    beforeEach(() => {
+      headers['content-type'] = 'application/x-www-form-urlencoded';
+
+      payload = querystring.stringify({
+        code,
+        client_id,
+        redirect_uri,
+      });
+    });
+
+    it('should return a response with HTTP status code 200', async () => {
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 415 when headers content-type is wrong', async () => {
+      // given
+      headers['content-type'] = 'application/json';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(415);
+    });
+
+    it('should return 400 when payload is missing', async () => {
+      // given
+      payload = undefined;
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when code is missing', async () => {
+      // given
+      payload = querystring.stringify({
+        client_id,
+        redirect_uri,
+      });
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when client_id is missing', async () => {
+      // given
+      payload = querystring.stringify({
+        code,
+        redirect_uri,
+      });
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when redirect_uri is missing', async () => {
+      // given
+      payload = querystring.stringify({
+        code,
+        client_id,
+      });
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
 
       // then
       expect(response.statusCode).to.equal(400);
