@@ -4,7 +4,7 @@ module.exports = async function getCampaignReport({ campaignId, campaignParticip
   const [participationsCount, sharedParticipationsCount, stages] = await Promise.all([
     campaignParticipationRepository.count({ campaignId }),
     campaignParticipationRepository.count({ campaignId, isShared: true }),
-    stageRepository.getByCampaignId(campaignId),
+    stageRepository.findByCampaignId(campaignId),
   ]);
 
   return new CampaignReport({ id: campaignId, participationsCount, sharedParticipationsCount, stages });

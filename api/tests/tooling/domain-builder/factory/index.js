@@ -55,6 +55,7 @@ module.exports = {
   buildSkillAirtableDataObject: require('./build-skill-airtable-data-object'),
   buildSkillCollection: require('./build-skill-collection'),
   buildSolution: require('./build-solution'),
+  buildStage: require('./build-stage'),
   buildTag: require('./build-tag'),
   buildTargetedArea: require('./build-targeted-area'),
   buildTargetedCompetence: require('./build-targeted-competence'),
