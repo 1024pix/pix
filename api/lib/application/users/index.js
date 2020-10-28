@@ -280,23 +280,6 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/pixscore',
-      config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
-        handler: userController.getPixScore,
-        notes : [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du nombre total de Pix de l\'utilisateur\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/users/{id}/profile',
       config: {
         pre: [{

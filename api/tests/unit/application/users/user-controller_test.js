@@ -588,35 +588,6 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getPixScore', () => {
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'getUserPixScore').resolves({ pixScore: 10 });
-    });
-
-    it('should return the user Pix score', async () => {
-      // given
-      const userId = '76';
-
-      const request = {
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-      };
-
-      // when
-      await userController.getPixScore(request);
-
-      // then
-      expect(usecases.getUserPixScore).to.have.been.calledWith({ userId });
-    });
-  });
-
   describe('#getScorecards', () => {
 
     beforeEach(() => {
