@@ -32,7 +32,8 @@ export default class FillInCampaignCodeController extends Controller {
   }
 
   @action
-  async startCampaign() {
+  async startCampaign(event) {
+    event.preventDefault();
     this.clearErrorMessage();
 
     if (!this.campaignCode) {
