@@ -24,7 +24,7 @@ module.exports = {
     browser: true,
   },
   rules: {
-    'no-restricted-imports': [2, { 'paths': ['lodash'] }],
+    'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
   },
   overrides: [
     // node files
