@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import filter from 'lodash/filter';
+import slice from 'lodash/slice';
+
 import { Response } from 'ember-cli-mirage';
 
 export function findPaginatedAndFilteredSessions(schema, request) {
@@ -70,28 +72,28 @@ function _areFiltersValid({ idFilter }) {
 function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, statusFilter, resultsSentToPrescriberAtFilter }) {
   let filteredSessions = sessions;
   if (idFilter) {
-    filteredSessions = _.filter(filteredSessions, (session) => {
+    filteredSessions = filter(filteredSessions, (session) => {
       return session.id === idFilter;
     });
   }
   if (certificationCenterNameFilter) {
     const filterName = certificationCenterNameFilter.toLowerCase();
-    filteredSessions = _.filter(filteredSessions, (session) => {
+    filteredSessions = filter(filteredSessions, (session) => {
       const currentName = session.certificationCenterName.toLowerCase();
       return currentName.search(filterName) !== -1;
     });
   }
   if (statusFilter) {
-    filteredSessions = _.filter(filteredSessions, { status: statusFilter });
+    filteredSessions = filter(filteredSessions, { status: statusFilter });
   }
   if (resultsSentToPrescriberAtFilter) {
     if (resultsSentToPrescriberAtFilter === 'true') {
-      filteredSessions = _.filter(filteredSessions, (session) => {
+      filteredSessions = filter(filteredSessions, (session) => {
         return Boolean(session.resultsSentToPrescriberAt);
       });
     }
     if (resultsSentToPrescriberAtFilter === 'false') {
-      filteredSessions = _.filter(filteredSessions, (session) => {
+      filteredSessions = filter(filteredSessions, (session) => {
         return !(session.resultsSentToPrescriberAt);
       });
     }
@@ -104,5 +106,5 @@ function _applyPagination(sessions, { page, pageSize }) {
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
 
-  return _.slice(sessions, start, end);
+  return slice(sessions, start, end);
 }

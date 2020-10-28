@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
-import _ from 'lodash';
+import map from 'lodash/map';
 import config from 'pix-admin/config/environment';
 import { statusToDisplayName, FINALIZED } from 'pix-admin/models/session';
 
@@ -25,7 +25,7 @@ export default class SessionListController extends Controller {
 
   sessionStatusAndLabels = [
     { status: null, label: 'Tous' },
-    ...(_.map(statusToDisplayName, (label, status) => ({ status, label }))),
+    ...(map(statusToDisplayName, (label, status) => ({ status, label }))),
   ];
 
   certificationCenterTypeAndLabels = [

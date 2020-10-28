@@ -4,9 +4,10 @@ import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { schedule } from '@ember/runloop';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import find from 'lodash/find';
+
 import { tracked } from '@glimmer/tracking';
-import _ from 'lodash';
 
 export default class CertificationInformationsController extends Controller {
 
@@ -200,7 +201,7 @@ export default class CertificationInformationsController extends Controller {
 
   _updatePropForCompetence(competenceCode, value, propName, linkedPropName) {
     const competences = this._copyCompetences();
-    const competence = _.find(competences, { competence_code: competenceCode });
+    const competence = find(competences, { competence_code: competenceCode });
     if (competence) {
       if (value.trim().length === 0) {
         if (competence[linkedPropName]) {
