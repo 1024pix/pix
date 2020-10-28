@@ -197,26 +197,6 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}/scorecards', function() {
-
-    const method = 'GET';
-    const url = '/api/users/42/scorecards';
-
-    beforeEach(() => {
-      sinon.stub(userController, 'getScorecards').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
-    });
-
-    it('should exist', async () => {
-      // when
-      await httpTestServer.request(method, url);
-
-      // then
-      sinon.assert.calledOnce(userController.getScorecards);
-    });
-  });
-
   describe('GET /api/users/{id}/profile', function() {
 
     const method = 'GET';

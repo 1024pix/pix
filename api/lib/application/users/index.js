@@ -296,23 +296,6 @@ exports.register = async function(server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/users/{id}/scorecards',
-      config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
-        handler: userController.getScorecards,
-        notes : [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des niveaux par compétences de l\'utilisateur\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'scorecard'],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/users/{userId}/competences/{competenceId}/reset',
       config: {
