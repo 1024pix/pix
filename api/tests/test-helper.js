@@ -1,38 +1,29 @@
-// Chai
+const _ = require('lodash');
 const chai = require('chai');
 const expect = chai.expect;
+const sinon = require('sinon');
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
-// Sinon
-const sinon = require('sinon');
 chai.use(require('sinon-chai'));
-// Other
-const _ = require('lodash');
 
+const { knex } = require('../db/knex-database-connection');
+
+const DatabaseBuilder = require('./tooling/database-builder/database-builder');
+const databaseBuilder = new DatabaseBuilder({ knex });
+
+const nock = require('nock');
+nock.disableNetConnect();
+
+const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
+const airtableBuilder = new AirtableBuilder({ nock });
+
+const tokenService = require('../lib/domain/services/token-service');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
 afterEach(function() {
   sinon.restore();
   return databaseBuilder.clean();
 });
-
-// Knex
-const { knex, listAllTableNames } = require('../db/knex-database-connection');
-
-// DatabaseBuilder
-const DatabaseBuilder = require('./tooling/database-builder/database-builder');
-const databaseBuilder = new DatabaseBuilder({ knex });
-
-// Nock
-const nock = require('nock');
-nock.disableNetConnect();
-
-// airtableBuilder
-const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
-const airtableBuilder = new AirtableBuilder({ nock });
-
-// Security
-const tokenService = require('../lib/domain/services/token-service');
 
 /**
  * @returns string
@@ -47,20 +38,6 @@ function generateValidRequestAuthorizationHeader(userId = 1234) {
 
 function generateIdTokenForExternalUser(externalUser) {
   return tokenService.createIdTokenForUserReconciliation(externalUser);
-}
-
-async function getCountOfAllRowsInDatabase()
-{
-  const results = [];
-  const tableNames = await listAllTableNames();
-  const promises = _.map(tableNames, (tableName) => {
-    return knex.raw('SELECT COUNT(*) FROM public."' + tableName + '"').then((result) => {
-      results.push({ table : tableName, countRows: _.toInteger(result.rows[0].count) });
-    });
-  });
-  await Promise.all(promises);
-
-  return _.sortBy(results, 'table');
 }
 
 async function insertUserWithRolePixMaster() {
@@ -178,7 +155,6 @@ module.exports = {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   generateIdTokenForExternalUser,
-  getCountOfAllRowsInDatabase,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,
