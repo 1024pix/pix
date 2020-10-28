@@ -588,40 +588,6 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getScorecards', () => {
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'getUserScorecards').resolves({
-        name: 'Comp1',
-      });
-      sinon.stub(scorecardSerializer, 'serialize').resolves();
-    });
-
-    it('should call the expected usecase', async () => {
-      // given
-      const userId = '12';
-      const locale = 'fr';
-
-      const request = {
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-        headers: { 'accept-language': locale },
-      };
-
-      // when
-      await userController.getScorecards(request);
-
-      // then
-      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId, locale });
-    });
-  });
-
   describe('#getProfile', () => {
 
     beforeEach(() => {

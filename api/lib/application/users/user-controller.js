@@ -152,14 +152,6 @@ module.exports = {
       .then(profileSerializer.serialize);
   },
 
-  getScorecards(request) {
-    const authenticatedUserId = request.auth.credentials.userId;
-    const locale = extractLocaleFromRequest(request);
-
-    return usecases.getUserScorecards({ userId: authenticatedUserId, locale })
-      .then(scorecardSerializer.serialize);
-  },
-
   resetScorecard(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const competenceId = request.params.competenceId;
