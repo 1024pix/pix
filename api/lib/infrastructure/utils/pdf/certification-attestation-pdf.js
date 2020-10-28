@@ -28,7 +28,8 @@ function _drawScore(data, page, font, fontSize) {
 
 function _drawHeaderUserInfo(data, page, font, fontSize, rgb) {
   const fullName = `${startCase(data.firstName)} ${startCase(data.lastName)}`;
-  const birthInfo = formatDate(data.birthdate);
+  const birthplaceInfo = data.birthplace ? ` à ${data.birthplace}` : '';
+  const birthInfo = formatDate(data.birthdate) + birthplaceInfo;
   const certifCenter = data.certificationCenter;
   const certifDate = formatDate(data.deliveredAt);
   [
