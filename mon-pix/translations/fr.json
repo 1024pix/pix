@@ -106,6 +106,7 @@
         "certificate": {
             "title": "Certificat Pix",
             "back-link": "Retour à mes certifications",
+            "candidate-birth": "Né(e) le {birthdate}",
             "candidate-birth-complete": "Né(e) le {birthdate} à {birthplace}",
             "certification-center": "Centre de certification :",
             "attestation": "Télécharger mon attestation",
