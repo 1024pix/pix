@@ -155,7 +155,7 @@ module('Integration | Component | information-banner', function(hooks) {
           // then
           assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"]').exists();
           assert.dom('a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"]').exists();
-          assert.dom('.pix-banner').includesText('Parcours de rentrée 2020 : les codes sont disponibles dans l’onglet Campagnes. N’oubliez pas de les diffuser aux élèves avant la Toussaint. Plus d’info collège et lycée (GT et Pro)');
+          assert.dom('.pix-banner').includesText('Parcours de rentrée 2020 : les codes sont disponibles dans l’onglet Campagnes. N’oubliez pas de les diffuser aux élèves avant les vacances de Noël. Plus d’info collège et lycée (GT et Pro)');
         });
       });
     });
