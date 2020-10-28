@@ -83,6 +83,11 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
   return knowledgeElementsGroupedByUser;
 }
 
+async function _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfile) {
+  const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
+  return targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(_.flatMap(knowledgeElementsGroupedByUser));
+}
+
 module.exports = {
 
   async save(knowledgeElement) {
@@ -157,20 +162,17 @@ module.exports = {
     return knowledgeElementsGroupedByUser;
   },
 
-  async findValidatedTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile) {
-    const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-    const knowledgeElementsGroupedByUserAndCompetence  = {};
+  async countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfile) {
+    return _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfile);
+  },
 
-    for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
-      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
-    }
-
-    return knowledgeElementsGroupedByUserAndCompetence;
+  async countValidatedTargetedByCompetencesForOneUser(userId, limitDate, targetProfile) {
+    return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, targetProfile);
   },
 
   async findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-    const knowledgeElementsGroupedByUserAndCompetence  = {};
+    const knowledgeElementsGroupedByUserAndCompetence = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
       knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
