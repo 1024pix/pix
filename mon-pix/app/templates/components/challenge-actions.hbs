@@ -1,12 +1,28 @@
 <div class="rounded-panel__row challenge-actions">
   <h2 class="sr-only">{{t 'pages.challenge.parts.validation'}}</h2>
+
   {{#if @answer}}
-    <span class="challenge-actions__already-answered">{{t "pages.challenge.already-answered"}}</span>
+    <span class="challenge-actions__already-answered">
+      {{#if (eq @answer.result "timedout")}}
+        {{t "pages.challenge.timed.cannot-answer"}}
+      {{else}}
+        {{t "pages.challenge.already-answered"}}
+      {{/if}}
+    </span>
     <button class="button challenge-actions__action challenge-actions__action-continue"
             {{on 'click' (fn @resumeAssessment @assessment)}}
             type="button">
       <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
     </button>
+
+  {{else if @hasChallengeTimedOut}}
+    <span class="challenge-actions__timed-out">{{t "pages.challenge.timed.cannot-answer"}}</span>
+    <button class="button challenge-actions__action challenge-actions__action-continue"
+      {{on 'click' @validateAnswer}}
+            type="button">
+      <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
+    </button>
+
   {{else}}
     {{#if @isValidateButtonEnabled}}
       <button class="button challenge-actions__action challenge-actions__action-validate"
