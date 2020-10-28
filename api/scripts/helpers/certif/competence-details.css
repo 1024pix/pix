@@ -1,0 +1,55 @@
+/* GENERAL */
+* {
+  word-break: break-all;
+}
+h1, h2, h3, p {
+  cursor: help;
+  position: relative;
+}
+h1 span, h2 span, h3 span, p span {
+  display: none;
+  position: absolute;
+  top: -150%;
+  left: 0;
+  background-color: #172B4D;
+  border-radius: 4px;
+  color: #FAFBFC;
+  padding: 0.3rem 0.6rem;
+  text-align: center;
+  word-break: normal;
+}
+h1:hover span, h2:hover span, h3:hover span, p:hover span {
+  display: block;
+}
+
+
+/* COMPETENCES */
+.competence {
+  padding: 5px 20px;
+  border: 4px solid black;
+  background-color: aliceblue;
+  margin-bottom: 10px;
+}
+.competence > div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+/* TUBES */
+.tube {
+  flex-grow: 1;
+  max-width: max-content;
+  padding: 0 8px;
+  margin: 0 3px;
+  border: 3px solid rgb(233, 133, 233);
+}
+
+
+/* SKILLS */
+.skill--tested {
+  border: 4px solid #F24645;
+}
+.skill--positionned {
+  background-color: #96eebe;
+}
