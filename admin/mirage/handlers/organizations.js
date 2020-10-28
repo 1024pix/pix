@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import slice from 'lodash/slice';
 
 export function findPaginatedOrganizationMemberships(schema, request) {
   const organizationId = request.params.id;
@@ -21,8 +22,8 @@ export function findPaginatedOrganizationMemberships(schema, request) {
 
 function _getPaginationFromQueryParams(queryParams) {
   return {
-    pageSize: parseInt(_.get(queryParams, 'page[size]',  10)),
-    page: parseInt(_.get(queryParams, 'page[number]',  1)),
+    pageSize: parseInt(get(queryParams, 'page[size]',  10)),
+    page: parseInt(get(queryParams, 'page[number]',  1)),
   };
 }
 
@@ -30,5 +31,5 @@ function _applyPagination(summaries, { page, pageSize }) {
   const start = (page - 1) * pageSize;
   const end = start + pageSize;
 
-  return _.slice(summaries, start, end);
+  return slice(summaries, start, end);
 }

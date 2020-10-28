@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import { FINALIZED } from 'pix-admin/models/session';
-import { trim } from 'lodash';
+import trim from 'lodash/trim';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   queryParams: {

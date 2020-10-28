@@ -1,4 +1,6 @@
-import { every, isEmpty } from 'lodash';
+import every from 'lodash/every';
+import isEmpty from 'lodash/isEmpty';
+
 import { inject as service } from '@ember/service';
 import Service from '@ember/service';
 

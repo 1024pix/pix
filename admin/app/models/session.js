@@ -1,10 +1,13 @@
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import sumBy from 'lodash/sumBy';
+import some from 'lodash/some';
+import trim from 'lodash/trim';
 
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 
 function _getNumberOf(juryCertificationSummaries, booleanFct) {
-  return _.sumBy(
+  return sumBy(
     juryCertificationSummaries.toArray(),
     (juryCertificationSummary) => Number(booleanFct(juryCertificationSummary)),
   );
@@ -50,12 +53,12 @@ export default class Session extends Model {
 
   @computed('examinerGlobalComment')
   get hasExaminerGlobalComment() {
-    return !_.isEmpty(_.trim(this.examinerGlobalComment));
+    return !isEmpty(trim(this.examinerGlobalComment));
   }
 
   @computed('juryCertificationSummaries.@each.isPublished')
   get isPublished() {
-    return _.some(
+    return some(
       this.juryCertificationSummaries.toArray(),
       (juryCertificationSummary) => juryCertificationSummary.isPublished,
     );

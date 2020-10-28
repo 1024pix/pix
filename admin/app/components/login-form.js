@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import ENV from 'pix-admin/config/environment';
 import { tracked } from '@glimmer/tracking';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 export default class LoginForm extends Component {
 
@@ -28,7 +28,7 @@ export default class LoginForm extends Component {
 
   _manageErrorsApi(response = {}) {
 
-    const nbErrors = _.get(response, 'responseJSON.errors.length', 0);
+    const nbErrors = get(response, 'responseJSON.errors.length', 0);
     if (nbErrors > 0) {
       const firstError = response.responseJSON.errors[0];
       const messageError = this._showErrorMessages(firstError.status, firstError.detail);

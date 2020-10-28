@@ -24,6 +24,7 @@ module.exports = {
   },
   rules: {
     'ember/no-mixins': 'off',
+    'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
   },
   overrides: [
     // node files
