@@ -33,21 +33,16 @@ export function createPrescriberWithPixOrgaTermsOfService({ pixOrgaTermsOfServic
     userId: user.id,
   });
 
-  const prescriber = server.create('prescriber', {
+  const userOrgaSettings = server.create('user-orga-setting', { user, organization });
+
+  return server.create('prescriber', {
     id: user.id,
     firstName,
     lastName,
     pixOrgaTermsOfServiceAccepted,
     memberships: [membership],
+    userOrgaSettings: userOrgaSettings,
   });
-
-  if (pixOrgaTermsOfServiceAccepted) {
-    prescriber.userOrgaSettings = server.create('user-orga-setting', { user, organization });
-  } else {
-    server.create('user-orga-setting', {});
-  }
-
-  return prescriber;
 }
 
 function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
@@ -143,7 +138,7 @@ export function createPrescriberForOrganization(userAttributes = {}, organizatio
     userId: user.id,
     organizationRole,
   });
-  
+
   user.memberships = [membership];
   user.userOrgaSettings = server.create('user-orga-setting', { organization, user });
 
