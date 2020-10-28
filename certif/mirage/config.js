@@ -98,7 +98,7 @@ export default function() {
     return new Response(204);
   }));
 
-  this.put('/sessions/:id/enrol-students-to-session', (schema, request) => {
+  this.put('/sessions/:id/enroll-students-to-session', (schema, request) => {
     const requestBody = JSON.parse(request.requestBody);
     const sessionId = request.params.id;
     const studentListToAdd = requestBody.data.attributes['student-ids'];

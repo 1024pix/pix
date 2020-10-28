@@ -103,35 +103,7 @@ module('Unit | Component | add-student-list', function(hooks) {
     });
   });
 
-  module('#action toggleAllItems', function() {
-    [
-      { isSelected1: true, isSelected2: true, expectedState: false },
-      { isSelected1: true, isSelected2: false, expectedState: false },
-      { isSelected1: false, isSelected2: true, expectedState: false },
-      { isSelected1: false, isSelected2: false, expectedState: true },
-    ].forEach(({ isSelected1, isSelected2, expectedState }) =>
-      test('it should toggle the isSelected attribute of all the student depending on if some were checked', function(assert) {
-      // given
-        const studentList = ArrayProxy.create({
-          content: [
-            { isSelected: isSelected1 },
-            { isSelected: isSelected2 },
-          ],
-        });
-        component.args.studentList = studentList;
-
-        // when
-        component.toggleAllItems();
-
-        // then
-        component.args.studentList.content.forEach((student) => {
-          assert.equal(student.isSelected, expectedState);
-        });
-      }),
-    );
-  });
-
-  module('#action saveStudents', function() {
+  module('#action enrollStudents', function() {
     test('it should save only selected students via the session', async function(assert) {
       // given
       const sessionId = 1;
