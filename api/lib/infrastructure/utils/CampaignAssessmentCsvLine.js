@@ -96,7 +96,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
       ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfile.badges.length)),
-      ...(this.stages[0] ? [this._reachedStage()] : []),
+      ...(this.stages[0] ? [this._getReachedStage()] : []),
       this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
     ];
   }
@@ -148,7 +148,7 @@ class CampaignAssessmentCsvLine {
     return _.round(this._countValidatedKnowledgeElements() / this.targetProfile.skills.length, 2);
   }
 
-  _reachedStage() {
+  _getReachedStage() {
     if (!this.campaignParticipationInfo.isShared) {
       return EMPTY_CONTENT;
     }
