@@ -25,34 +25,34 @@ describe('Integration | Component | Profile-content', function() {
       }));
 
       model = {
-        pixScore: {
-          value: '34',
+        profile : {
+          pixScore: '34',
+          areasCode: [0, 1],
+          scorecards: [
+            {
+              id: 1,
+              areaColor: 0,
+              level: 3,
+              name: 'Name',
+              percentageAheadOfNextLevel: 0.5,
+              area: {
+                code: 0,
+                title: 'Area title',
+              },
+            },
+            {
+              id: 2,
+              areaColor: 1,
+              level: 2,
+              name: 'Name 2',
+              percentageAheadOfNextLevel: 0.5,
+              area: {
+                code: 1,
+                title: 'Area title 2',
+              },
+            },
+          ],
         },
-        areasCode: [0, 1],
-        scorecards: [
-          {
-            id: 1,
-            areaColor: 0,
-            level: 3,
-            name: 'Name',
-            percentageAheadOfNextLevel: 0.5,
-            area: {
-              code: 0,
-              title: 'Area title',
-            },
-          },
-          {
-            id: 2,
-            areaColor: 1,
-            level: 2,
-            name: 'Name 2',
-            percentageAheadOfNextLevel: 0.5,
-            area: {
-              code: 1,
-              title: 'Area title 2',
-            },
-          },
-        ],
       };
 
     });
