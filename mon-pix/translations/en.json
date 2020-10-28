@@ -106,6 +106,7 @@
         "certificate": {
             "title": "Pix Certificate",
             "back-link": "Return to my certificates",
+            "candidate-birth": "Born on {birthdate}",
             "candidate-birth-complete": "Born on {birthdate} in {birthplace}",
             "certification-center": "Certification centre:",
             "attestation": "Download my certificate of achievement",
