@@ -11,7 +11,7 @@ class CampaignAssessmentCsvLine {
     campaignParticipationInfo,
     targetProfile,
     participantKnowledgeElementsByCompetenceId,
-    stages,
+    stages = [],
     acquiredBadges,
     campaignParticipationService,
   }) {
