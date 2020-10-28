@@ -237,6 +237,26 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('GET /api/users/{id}/profile', function() {
+
+    const method = 'GET';
+    const url = '/api/users/42/profile';
+
+    beforeEach(() => {
+      sinon.stub(userController, 'getProfile').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      httpTestServer = startServer();
+    });
+
+    it('should exist', async () => {
+      // when
+      await httpTestServer.request(method, url);
+
+      // then
+      sinon.assert.calledOnce(userController.getProfile);
+    });
+  });
+
   describe('GET /api/users/{userId}/campaigns/{campaignId}/profile', function() {
 
     const method = 'GET';
