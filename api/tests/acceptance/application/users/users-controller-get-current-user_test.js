@@ -58,6 +58,11 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
                 related: `/api/users/${user.id}/pixscore`,
               },
             },
+            'profile' : {
+              links: {
+                related: `/api/users/${user.id}/profile`,
+              },
+            },
             scorecards: {
               links: {
                 related: `/api/users/${user.id}/scorecards`,

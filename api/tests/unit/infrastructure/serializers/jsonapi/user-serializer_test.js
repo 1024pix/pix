@@ -61,6 +61,11 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                   related: `/api/users/${userModelObject.id}/pixscore`,
                 },
               },
+              'profile': {
+                links: {
+                  related: `/api/users/${userModelObject.id}/profile`,
+                },
+              },
               scorecards: {
                 links: {
                   related: `/api/users/${userModelObject.id}/scorecards`,
