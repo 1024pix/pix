@@ -1,7 +1,6 @@
 import { Response } from 'ember-cli-mirage';
 import getAuthenticatedUser from './get-authenticated-user';
 import isCertifiable from './is-certifiable';
-import getPixScore from './get-pix-score';
 import getScorecards from './get-scorecards';
 import getProfile from './get-profile';
 import getUserCampaignParticipations from './get-user-campaign-participations';
@@ -18,7 +17,6 @@ export default function index(config) {
   config.get('/users/:userId/campaigns/:campaignId/campaign-participations', getUserCampaignParticipationToCampaign);
   config.get('/users/:userId/campaigns/:campaignId/profile', getUserSharedProfileForCampaign);
   config.get('/users/:id/is-certifiable', isCertifiable);
-  config.get('/users/:id/pixscore', getPixScore);
   config.get('/users/:id/scorecards', getScorecards);
   config.get('/users/:id/profile', getProfile);
   config.get('/users/:id/campaign-participations', getUserCampaignParticipations);
