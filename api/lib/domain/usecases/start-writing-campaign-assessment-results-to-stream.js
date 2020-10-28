@@ -27,7 +27,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   const targetProfile = await targetProfileWithLearningContentRepository.getWithBadges({ id: campaign.targetProfileId });
-  const  organization = await organizationRepository.get(campaign.organizationId);
+  const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
   const stages = await stageRepository.findByCampaignId(campaign.id);
 
