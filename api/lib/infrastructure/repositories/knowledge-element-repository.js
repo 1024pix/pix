@@ -83,6 +83,11 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
   return knowledgeElementsGroupedByUser;
 }
 
+async function _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfile) {
+  const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
+  return targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(_.flatMap(knowledgeElementsGroupedByUser));
+}
+
 module.exports = {
 
   async save(knowledgeElement) {
@@ -158,13 +163,11 @@ module.exports = {
   },
 
   async countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfile) {
-    const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-    return targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(_.flatMap(knowledgeElementsGroupedByUser));
+    return _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfile);
   },
 
-  async countValidatedTargetedByCompetencesForUser(userId, limitDate, targetProfile) {
-    const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers({ [userId]: limitDate });
-    return targetProfile.countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElementsGroupedByUser[userId]);
+  async countValidatedTargetedByCompetencesForOneUser(userId, limitDate, targetProfile) {
+    return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, targetProfile);
   },
 
   async findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile) {

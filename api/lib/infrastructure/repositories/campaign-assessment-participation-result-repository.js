@@ -45,7 +45,7 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
 
 async function _buildCampaignAssessmentParticipationResults(result, targetProfile) {
   const validatedTargetedKnowledgeElementsCountByCompetenceId = await knowledgeElementRepository
-    .countValidatedTargetedByCompetencesForUser(result.userId ,result.sharedAt , targetProfile);
+    .countValidatedTargetedByCompetencesForOneUser(result.userId ,result.sharedAt , targetProfile);
 
   return new CampaignAssessmentParticipationResult({
     ...result,
