@@ -5,12 +5,16 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
+      transform(record) {
+        record.profile = null;
+        return record;
+      },
       attributes: [
         'firstName', 'lastName', 'email', 'username',
         'cgu', 'lastTermsOfServiceValidatedAt', 'mustValidateTermsOfService',
         'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
         'memberships', 'certificationCenterMemberships',
-        'pixScore', 'scorecards',
+        'pixScore', 'scorecards', 'profile',
         'campaignParticipations', 'hasSeenAssessmentInstructions', 'isCertifiable',
       ],
       memberships: {
@@ -46,6 +50,15 @@ module.exports = {
         relationshipLinks: {
           related: function(record, current, parent) {
             return `/api/users/${parent.id}/scorecards`;
+          },
+        },
+      },
+      profile: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record, current, parent) {
+            return `/api/users/${parent.id}/profile`;
           },
         },
       },
