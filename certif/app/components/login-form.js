@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-certif/config/environment';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 export default class LoginForm extends Component {
 
@@ -40,7 +40,7 @@ export default class LoginForm extends Component {
 
   _manageErrorsApi(response = {}) {
 
-    const nbErrors = _.get(response, 'responseJSON.errors.length', 0);
+    const nbErrors = get(response, 'responseJSON.errors.length', 0);
 
     if (nbErrors > 0) {
       const firstError = response.responseJSON.errors[0];

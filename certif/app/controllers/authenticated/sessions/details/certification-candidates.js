@@ -4,7 +4,10 @@ import { htmlSafe } from '@ember/template';
 import EmberObject, { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
-import _ from 'lodash';
+import every from 'lodash/every';
+import toNumber from 'lodash/toNumber';
+import get from 'lodash/get';
+
 import config from 'pix-certif/config/environment';
 
 export default class CertificationCandidatesController extends Controller {
@@ -21,9 +24,9 @@ export default class CertificationCandidatesController extends Controller {
 
   @tracked candidatesInStaging = [];
 
-  @computed('certificationCandidates.{[],@each.isLinked}')
+  @computed('certificationCandidates', 'certificationCandidates.@each.isLinked')
   get importAllowed() {
-    return _.every(this.certificationCandidates.toArray(), (certificationCandidate) => {
+    return every(this.certificationCandidates.toArray(), (certificationCandidate) => {
       return !certificationCandidate.isLinked;
     });
   }
@@ -38,7 +41,7 @@ export default class CertificationCandidatesController extends Controller {
 
   _fromPercentageStringToDecimal(value) {
     return value ?
-      _.toNumber(value) / 100 : value;
+      toNumber(value) / 100 : value;
   }
 
   _hasDuplicate({ currentLastName, currentFirstName, currentBirthdate }) {
@@ -113,7 +116,7 @@ export default class CertificationCandidatesController extends Controller {
       this.notifications.success('Le candidat a été ajouté avec succès.');
     } catch (err) {
       let errorText = 'Une erreur s\'est produite lors de l\'ajout du candidat.';
-      if (_.get(err, 'errors[0].status') === '409' || err === 'Duplicate') {
+      if (get(err, 'errors[0].status') === '409' || err === 'Duplicate') {
         errorText = 'Ce candidat est déjà dans la liste, vous ne pouvez pas l\'ajouter à nouveau.';
       }
       this.notifications.error(errorText);
@@ -134,7 +137,7 @@ export default class CertificationCandidatesController extends Controller {
       this.notifications.success('Le candidat a été supprimé avec succès.');
     } catch (err) {
       let errorText = 'Une erreur s\'est produite lors de la suppression du candidat';
-      if (_.get(err, 'errors[0].code') === 403) {
+      if (get(err, 'errors[0].code') === 403) {
         errorText = 'Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.';
       }
       this.notifications.error(errorText);
