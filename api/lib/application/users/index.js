@@ -297,6 +297,23 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
+      path: '/api/users/{id}/profile',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser',
+        }],
+        handler: userController.getProfile,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération du nombre total de Pix de l\'utilisateur\n et de ses scorecards' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user', 'profile'],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/users/{id}/scorecards',
       config: {
         pre: [{
