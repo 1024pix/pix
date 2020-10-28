@@ -24,24 +24,6 @@ export default class User extends Model {
   @hasMany('scorecard') scorecards;
 
   // methods
-  @computed('competences')
-  get competenceAreas() {
-    return this.competences.then((competences) => {
-      return competences.reduce((areas, competence) => {
-        competence.get('area').then((competenceArea) => {
-          if (!areas[competenceArea.get('id')]) {
-            areas[competenceArea.get('id')] = {
-              name: competenceArea.get('name'),
-              competences: [],
-            };
-          }
-          areas[competenceArea.get('id')].competences.push(competence);
-          return areas;
-        });
-      }, []);
-    });
-  }
-
   @computed('firstName', 'lastName')
   get fullName() {
     return `${this.firstName} ${ this.lastName}`;
