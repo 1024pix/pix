@@ -8,7 +8,6 @@ export default class CertificationDetailsRoute extends Route {
 
   setupController(controller, model) {
     super.setupController(controller, model);
-    // this.controllerFor('authenticated.certifications.certification.details').certificationId = model.id;
     controller.certificationId = model.id;
   }
 }
