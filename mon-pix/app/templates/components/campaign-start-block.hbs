@@ -16,16 +16,13 @@
     <h2 class="campaign-landing-page__start__text__announcement">
       {{{@announcementText}}}
     </h2>
-
-    <form>
-        <PixButton
-           @type="submit"
-           class="campaign-landing-page__start-button button button--big"
-           @action={{action @startCampaignParticipation on="submit"}}
-           @loading-color='white'>
-          {{@buttonText}}
-        </PixButton>
-    </form>
+      <PixButton
+         @type="submit"
+         class="campaign-landing-page__start-button button button--big"
+         @action={{action @startCampaignParticipation on="submit"}}
+         @loading-color='white'>
+        {{@buttonText}}
+      </PixButton>
 
     <p class="campaign-landing-page__start__text__legal">
       {{@legalText}}
