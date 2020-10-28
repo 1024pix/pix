@@ -9,6 +9,6 @@ module.exports = {
       qb.orderBy('stages.threshold');
     }).fetchAll({ require: false });
 
-    return results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfStage, result));
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results);
   },
 };
