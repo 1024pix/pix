@@ -15,7 +15,13 @@
       </div>
     </div>
 
-    <ProfileScorecards @interactive={{true}} @areasCode={{@model.profile.areasCode}} @scorecards={{@model.profile.scorecards}}/>
-
+    {{#if @model.profile.scorecards}}
+      <ProfileScorecards @interactive={{true}} @areasCode={{@model.profile.areasCode}} @scorecards={{@model.profile.scorecards}}/>
+    {{else}}
+      <p class="app-loader__image">
+        <img src="/images/interwind.gif" alt="" role="presentation" />
+        <br>{{t 'common.loading.default'}}
+      </p>
+   {{/if}}
   </div>
 </div>
