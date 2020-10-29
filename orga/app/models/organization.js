@@ -1,6 +1,4 @@
-import DS from 'ember-data';
-
-const { Model, attr, hasMany } = DS;
+import Model, { hasMany, attr } from '@ember-data/model';
 
 export default class Organization extends Model {
   @attr('string') name;

@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { belongsTo, Model, attr } = DS;
+import Model, { belongsTo, attr } from '@ember-data/model';
 
 const organizationRoleToDisplayRole = {
   ADMIN: 'Administrateur',

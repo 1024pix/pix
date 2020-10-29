@@ -5,8 +5,9 @@ import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
   setupTest(hooks);
-  let controller;
   const currentUser = { organization: { id: 1 } };
+  const session = { data: { authenticated: { access_token: 12345 } } };
+  let controller;
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/sup-students/list');
@@ -16,13 +17,12 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
 
   module('#importStudents', function() {
     test('it sends the chosen file to the API', async function(assert) {
-      const session = { data: { authenticated: { access_token: 12345 } } };
-
       const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/import-csv`;
       const headers = { Authorization: `Bearer ${12345}` };
       const file = { uploadBinary: sinon.spy() };
 
       controller.session = session;
+      controller.currentUser = currentUser;
       await controller.importStudents(file);
 
       assert.ok(file.uploadBinary.calledWith(importStudentsURL, { headers }));
@@ -32,8 +32,8 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
       let file;
 
       hooks.beforeEach(function() {
-        const session = { data: { authenticated: { access_token: 12345 } } };
         controller.session = session;
+        controller.currentUser = currentUser;
         file = { uploadBinary: sinon.stub() };
         controller.notifications.sendError = sinon.spy();
       });

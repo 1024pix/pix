@@ -1,6 +1,5 @@
-import DS from 'ember-data';
+import Model, { belongsTo, attr } from '@ember-data/model';
 import ENV from 'pix-orga/config/environment';
-const { Model, attr, belongsTo } = DS;
 
 const PROFILES_COLLECTION_TEXT = 'Collecte de profils';
 const ASSESSMENT_TEXT = 'Évaluation';

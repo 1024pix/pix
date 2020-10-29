@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { Model, attr, hasMany, belongsTo } = DS;
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import maxBy from 'lodash/maxBy';
 
 export default class CampaignAssessmentParticipationResult extends Model {

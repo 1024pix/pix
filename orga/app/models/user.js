@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { belongsTo, Model, attr, hasMany } = DS;
+import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 
 export default class User extends Model {
   @attr('string') email;
