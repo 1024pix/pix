@@ -61,7 +61,9 @@
               <th>Adresse e-mail du destinataire des résultats</th>
             {{/unless}}
           {{/if}}
-          <th>Adresse e-mail de convocation</th>
+          {{#unless this.isScoSession}}
+            <th>Adresse e-mail de convocation</th>
+          {{/unless}}
           {{#unless this.isScoSession}}
             <th>Identifiant externe</th>
           {{/unless}}
@@ -92,7 +94,9 @@
                 <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
               {{/unless}}
             {{/if}}
-            <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
+            {{#unless this.isScoSession}}
+              <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
+            {{/unless}}
             {{#unless this.isScoSession}}
               <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
             {{/unless}}
