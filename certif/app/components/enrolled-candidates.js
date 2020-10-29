@@ -48,9 +48,9 @@ export default class EnrolledCandidates extends Component {
 
   @action
   async addCertificationCandidate(candidate) {
-    const realCertificationCandidateData = { ...candidate };
-    realCertificationCandidateData.extraTimePercentage = this._fromPercentageStringToDecimal(candidate.extraTimePercentage);
-    const success = await this.saveCertificationCandidate(realCertificationCandidateData);
+    const certificationCandidate = { ...candidate };
+    certificationCandidate.extraTimePercentage = this._fromPercentageStringToDecimal(candidate.extraTimePercentage);
+    const success = await this.saveCertificationCandidate(certificationCandidate);
     if (success) {
       this.candidatesInStaging.removeObject(candidate);
     }
