@@ -55,12 +55,12 @@ export default function() {
 
   this.get('/sessions/:id/certification-candidates', function(schema, request) {
     const sessionId = request.params.id;
-
-    return schema.sessions.find(sessionId).certificationCandidates;
+    return schema.certificationCandidates.where({ sessionId });
   });
 
-  this.post('/sessions/:id/certification-candidates', function(schema) {
-    return schema.certificationCandidates.create();
+  this.post('/sessions/:id/certification-candidates', function(schema, request) {
+    const sessionId = request.params.id;
+    return schema.certificationCandidates.create({ sessionId });
   });
 
   this.get('/sessions/:id/certification-reports', function(schema, request) {
@@ -71,7 +71,6 @@ export default function() {
 
   this.delete('/sessions/:id/certification-candidates/:candidateId', function(schema, request) {
     const certificationCandidateId = request.params.candidateId;
-
     const certificationCandidate = schema.certificationCandidates.find(certificationCandidateId);
     if (certificationCandidate.isLinked) {
       return new Response(403);
@@ -91,9 +90,9 @@ export default function() {
     }
     if (name.endsWith('addTwoCandidates')) {
       const sessionId = name.split('.')[0];
-      const newCandidates = server.createList('certification-candidate', 2, { isLinked: false });
-      const session = schema.sessions.find(sessionId);
-      session.update({ certificationCandidates: newCandidates });
+      const certificationCandidates = schema.certificationCandidates.where({ sessionId });
+      certificationCandidates.destroy();
+      server.createList('certification-candidate', 2, { isLinked: false, sessionId });
     }
     return new Response(204);
   }));
@@ -104,9 +103,7 @@ export default function() {
     const studentListToAdd = requestBody.data.attributes['student-ids'];
     const numberOfStudents = studentListToAdd.length;
     if (numberOfStudents > 0) {
-      const newCandidates = server.createList('certification-candidate', numberOfStudents, {});
-      const session = schema.sessions.find(sessionId);
-      session.update({ certificationCandidates: newCandidates });
+      server.createList('certification-candidate', numberOfStudents, { sessionId });
       return schema.certificationCandidates.all();
     }
     return new Response(204);

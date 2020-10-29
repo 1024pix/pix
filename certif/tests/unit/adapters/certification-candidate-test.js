@@ -15,6 +15,19 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
     adapter.ajax = ajaxStub;
   });
 
+  module('#urlForQuery', function() {
+
+    test('should build url from sessionId', async function(assert) {
+      // when
+      const sessionId = 1;
+      const query = { sessionId };
+      const url = await adapter.urlForQuery(query);
+
+      // then
+      assert.equal(url.endsWith(`/sessions/${sessionId}/certification-candidates`), true);
+    });
+  });
+
   module('#urlForCreateRecord', function() {
 
     test('should build create url from certification-candidate id', async function(assert) {

@@ -26,7 +26,6 @@ export default class Session extends Model {
   @attr('string') status;
   @attr('string') examinerGlobalComment;
   @belongsTo('certificationCenter') certificationCenter;
-  @hasMany('certificationCandidate') certificationCandidates;
   @hasMany('certificationReport') certificationReports;
 
   @computed('status')
@@ -34,16 +33,6 @@ export default class Session extends Model {
     return this.status === FINALIZED
         || this.status === IN_PROCESS
         || this.status === PROCESSED;
-  }
-
-  @computed('certificationCandidates.length')
-  get hasOneOrMoreCandidates() {
-    return this.certificationCandidates.length > 0;
-  }
-
-  @computed('certificationCandidates.@each.isLinked')
-  get hasStarted() {
-    return this.certificationCandidates.isAny('isLinked');
   }
 
   @computed('id', 'session.data.authenticated.access_token')

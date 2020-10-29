@@ -8,10 +8,17 @@ export default class SessionsDetailsController extends Controller {
   isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
 
   @alias('model.session') session;
+  @alias('model.certificationCandidates') certificationCandidates;
 
-  @computed('session.certificationCandidates.length')
+  @computed('certificationCandidates.length')
   get certificationCandidatesCount() {
-    const certificationCandidatesCount = this.session.certificationCandidates.length;
+    const certificationCandidatesCount = this.certificationCandidates.length;
     return certificationCandidatesCount > 0 ? `(${certificationCandidatesCount})`  : '';
+  }
+
+  @computed('certificationCandidates.length')
+  get hasOneOrMoreCandidates() {
+    const certificationCandidatesCount = this.certificationCandidates.length;
+    return certificationCandidatesCount > 0;
   }
 }
