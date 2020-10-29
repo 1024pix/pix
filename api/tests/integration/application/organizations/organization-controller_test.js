@@ -312,9 +312,25 @@ describe('Integration | Application | Organizations | organization-controller', 
         it('should return a 403 HTTP response', async () => {
           // when
           const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
-
           // then
           expect(response.statusCode).to.equal(403);
+        });
+      });
+
+      context('when target-profile-id does not contain only numbers', () => {
+
+        beforeEach(() => {
+          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+        });
+
+        it('should return a 404 HTTP response', async () => {
+          // when
+          payload.data.attributes['target-profiles-to-attach'] = ['sdqdqsd', 'qsqsdqd'];
+          const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+          expect(response.payload).to.have.string('L\'id d\'un des profils cible n\'est pas valide');
         });
       });
     });
