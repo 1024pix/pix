@@ -11,45 +11,56 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
   };
 
   const expectedResults = '{' +
-    '"resultatIndividu":{' +
-      '"campagne":{' +
-        '"nom":"Campagne Pôle Emploi",' +
-        '"dateDebut":"2020-01-01T00:00:00.000Z",' +
-        '"dateFin":"2020-02-01T00:00:00.000Z",' +
-        '"typeCampagne":"EVALUATION",' +
-        '"idCampagne":11223344,' +
-        '"codeCampagne":"CODEPE123",' +
-        '"URLCampagne":"https://app.pix.fr/campagnes/CODEPE123",' +
-        '"nomOrganisme":"Pix",' +
-        '"typeOrganisme":"externe"' +
-      '},' +
-      '"individu":{' +
-        '"nom":"Bonneau",' +
-        '"prenom":"Jean"' +
-      '},' +
-      '"test":{' +
-        '"etat":4,' +
-        '"progression":100,' +
-        '"typeTest":"DI",' +
-        '"referenceExterne":55667788,' +
-        '"dateDebut":"2020-01-02T00:00:00.000Z",' +
-        '"dateModification":"2020-01-03T00:00:00.000Z",' +
-        '"dateValidation":"2020-01-03T00:00:00.000Z",' +
-        '"evaluationCible":42.5,' +
-        '"uniteValidation":"A",' +
-        '"elementsEvalues":[{' +
-          '"libelle":"Gérer des données",' +
-          '"categorie":"compétence",' +
-          '"type":"compétence Pix",' +
-          '"domaineRattachement":"Information et données",' +
-          '"nbSousElements":3,' +
-          '"evaluation":{' +
-            '"scoreObtenu":14.2,' +
-            '"uniteScore":"A",' +
-            '"nbSousElementValide":2' +
-          '}' +
-        '}]' +
+    '"campagne":{' +
+      '"nom":"Campagne Pôle Emploi",' +
+      '"dateDebut":"2020-01-01T00:00:00.000Z",' +
+      '"dateFin":"2020-02-01T00:00:00.000Z",' +
+      '"type":"EVALUATION",' +
+      '"idCampagne":11223344,' +
+      '"codeCampagne":"CODEPE123",' +
+      '"urlCampagne":"https://app.pix.fr/campagnes/CODEPE123",' +
+      '"nomOrganisme":"Pix",' +
+      '"typeOrganisme":"externe"' +
+    '},' +
+    '"individu":{' +
+      '"nom":"Bonneau",' +
+      '"prenom":"Jean"' +
+    '},' +
+    '"test":{' +
+      '"etat":4,' +
+      '"progression":100,' +
+      '"typeTest":"DI",' +
+      '"referenceExterne":55667788,' +
+      '"dateDebut":"2020-01-02T00:00:00.000Z",' +
+      '"dateProgression":"2020-01-03T00:00:00.000Z",' +
+      '"dateValidation":"2020-01-03T00:00:00.000Z",' +
+      '"evaluationCible":62.47,' +
+      '"uniteEvaluation":"A",' +
+      '"elementsEvalues":[{' +
+        '"libelle":"Gérer des données",' +
+        '"categorie":"competence",' +
+        '"type":"competence Pix",' +
+        '"domaineRattachement":"Information et données",' +
+        '"nbSousElements":3,' +
+        '"evaluation":{' +
+          '"scoreObtenu":66.6,' +
+          '"uniteScore":"A",' +
+          '"nbSousElementValide":2' +
+        '}' +
       '}' +
+      ',' +
+      '{' +
+        '"libelle":"Gérer des données 2",' +
+        '"categorie":"competence 2",' +
+        '"type":"competence Pix 2",' +
+        '"domaineRattachement":"Information et données",' +
+        '"nbSousElements":5,' +
+        '"evaluation":{' +
+          '"scoreObtenu":60,' +
+          '"uniteScore":"B",' +
+          '"nbSousElementValide":3' +
+        '}' +
+      '}]' +
     '}' +
   '}';
 
