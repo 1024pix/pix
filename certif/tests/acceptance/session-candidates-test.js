@@ -94,7 +94,7 @@ module('Acceptance | Session Candidates', function(hooks) {
 
         module('when user is SCO', function() {
 
-          module('add students list sco', function() {
+          module.only('add students list sco', function() {
 
             test('it should display the list of students for session', async function(assert) {
               // given
