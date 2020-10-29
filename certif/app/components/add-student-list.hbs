@@ -33,5 +33,13 @@
       {{/each}}
     </tbody>
   </table>
+
+  {{#if this.hasCheckedSomething}}
+    <div class="add-student-list__bottom-action-bar">
+      <PixButton
+        @action={{action this.enrollStudents}}
+        class="button button--link">Ajouter</PixButton>
+    </div>
+  {{/if}}
 </div>
 {{/if}}

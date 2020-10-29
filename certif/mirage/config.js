@@ -98,6 +98,20 @@ export default function() {
     return new Response(204);
   }));
 
+  this.put('/sessions/:id/enroll-students-to-session', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+    const sessionId = request.params.id;
+    const studentListToAdd = requestBody.data.attributes['student-ids'];
+    const numberOfStudents = studentListToAdd.length;
+    if (numberOfStudents > 0) {
+      const newCandidates = server.createList('certification-candidate', numberOfStudents, {});
+      const session = schema.sessions.find(sessionId);
+      session.update({ certificationCandidates: newCandidates });
+      return schema.certificationCandidates.all();
+    }
+    return new Response(204);
+  });
+
   this.put('/sessions/:id/finalization', (schema, request) => {
     const sessionId = request.params.id;
     const session = schema.sessions.find(sessionId);

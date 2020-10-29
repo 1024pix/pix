@@ -399,7 +399,7 @@ describe('Unit | Controller | sessionController', () => {
     it('should return csv content and fileName', async () => {
       // when
       const response = await sessionController.getSessionResults(request, hFake);
-      
+
       // then
       const expectedCsv = '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"';
       const expectedHeader = `attachment; filename=${fileName}`;
@@ -429,6 +429,60 @@ describe('Unit | Controller | sessionController', () => {
 
       // then
       expect(response).to.deep.equal(serializedCertificationReports);
+    });
+
+  });
+
+  describe('#enrollStudentsToSession', () => {
+    let request;
+    const sessionId = 1;
+    const userId = 2;
+    const student1 = { id: 1 };
+    const student2 = { id: 2 };
+    const studentIds = [ student1.id, student2.id ];
+    const studentList = [ student1, student2 ];
+    const serializedCertificationCandidate = Symbol('CertificationCandidates');
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+        auth: {
+          credentials : {
+            userId,
+          },
+        },
+        payload: {
+          data: {
+            attributes: {
+              'student-ids': [ student1.id, student2.id ],
+            },
+          },
+        },
+      };
+      sinon.stub(requestResponseUtils, 'extractUserIdFromRequest');
+      sinon.stub(usecases, 'enrollStudentsToSession');
+      sinon.stub(usecases, 'getSessionCertificationCandidates');
+      sinon.stub(certificationCandidateSerializer, 'serialize');
+    });
+
+    context('when the user has access to session and there studentIds are corrects', () => {
+
+      beforeEach(() => {
+        requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
+        usecases.enrollStudentsToSession.withArgs({ sessionId, referentId: userId, studentIds }).resolves();
+        usecases.getSessionCertificationCandidates.withArgs({ sessionId }).resolves(studentList);
+        certificationCandidateSerializer.serialize.withArgs(studentList).returns(serializedCertificationCandidate);
+      });
+
+      it('should return certificationCandidates', async () => {
+        // when
+        const response = await sessionController.enrollStudentsToSession(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.source).to.deep.equal(serializedCertificationCandidate);
+      });
     });
 
   });

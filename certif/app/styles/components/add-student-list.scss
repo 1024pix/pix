@@ -26,4 +26,22 @@
   &__checker {
     margin-right: 16px;
   }
+
+  &__bottom-action-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100vw;
+    height: 68px;
+    left: 0;
+    bottom: 0;
+    box-shadow: -2px 2px 9px 0px rgba(0, 0, 0, 0.22);
+    background-color: $white;
+
+    .button {
+      max-height: 44px;
+      width: 98px;
+    }
+  }
 }
