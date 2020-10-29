@@ -1,15 +1,23 @@
 {{#if (and this.isUserFromSco this.isCertifPrescriptionScoEnabled)}}
   <CertificationCandidatesSco @sessionId={{this.currentSession.id}}></CertificationCandidatesSco>
+  {{#if this.hasOneOrMoreCandidates}}
+  <EnrolledCandidates
+        @isUserFromSco={{this.isUserFromSco}}
+        @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
+        @sessionId={{this.currentSession.id}}
+        @certificationCandidates={{this.certificationCandidates}}
+        @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}} />
+  {{/if}}
 {{else}}
   <ImportCandidates
           @session={{this.currentSession}}
           @certificationCandidates={{this.certificationCandidates}}
           @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}}
           @importAllowed={{this.importAllowed}}/>
-{{/if}}
 <EnrolledCandidates
         @isUserFromSco={{this.isUserFromSco}}
         @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
         @sessionId={{this.currentSession.id}}
         @certificationCandidates={{this.certificationCandidates}}
         @reloadCertificationCandidate={{this.reloadCertificationCandidateInController}} />
+{{/if}}
