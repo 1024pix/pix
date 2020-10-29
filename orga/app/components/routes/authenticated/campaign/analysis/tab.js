@@ -4,11 +4,11 @@ import { action } from '@ember/object';
 
 export default class Tab extends Component {
   @tracked
-  sortedRecommendations = this.args.campaignTubeRecommendations;
+  sortedRecommendations;
 
   constructor() {
     super(...arguments);
-    this.sortRecommendationOrder('desc');
+    this.sortedRecommendations = this.args.campaignTubeRecommendations.sortBy('averageScore');
   }
 
   @action
@@ -16,9 +16,9 @@ export default class Tab extends Component {
     if (!this.sortedRecommendations) {
       return null;
     } else if (order === 'desc') {
-      this.sortedRecommendations = this.sortedRecommendations.sortBy('averageScore');
+      this.sortedRecommendations = this.args.campaignTubeRecommendations.sortBy('averageScore');
     } else {
-      this.sortedRecommendations = this.sortedRecommendations.sortBy('averageScore').reverse();
+      this.sortedRecommendations = this.args.campaignTubeRecommendations.sortBy('averageScore').reverse();
     }
   }
 }

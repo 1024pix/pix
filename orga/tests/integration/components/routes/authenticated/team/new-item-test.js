@@ -31,6 +31,6 @@ module('Integration | Component | routes/authenticated/team/new-item', function(
     await fillIn('#email', 'dev@example.net');
 
     // then
-    assert.deepEqual(this.get('organizationInvitation.email'), 'dev@example.net');
+    assert.deepEqual(this.organizationInvitation.email, 'dev@example.net');
   });
 });

@@ -22,7 +22,7 @@
         {{#if this.displayRegisterForm}}
           <button type="button" id="login" {{on 'click' this.toggleFormsVisibility}} class="button button--white button--bordered">Se connecter</button>
         {{/if}}
-        <div class={{concat "login-or-register-panel-form__expandable" (if (not this.displayRegisterForm) " login-or-register-panel-form__expandable--expanded")}}>
+        <div class={{concat "login-or-register-panel-form__expandable" (unless this.displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless this.displayRegisterForm}}
             <Routes::LoginForm @isWithInvitation={{true}} @organizationInvitationId={{@organizationInvitationId}} @organizationInvitationCode={{@organizationInvitationCode}} />
           {{/unless}}

@@ -60,7 +60,7 @@ export default function() {
   });
 
   this.get('/users/me', (schema, request) => {
-    const userToken = request.requestHeaders.authorization.replace('Bearer ', '');
+    const userToken = request.requestHeaders['Authorization'].replace('Bearer ', '');
     const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
 
     return schema.users.find(userId);

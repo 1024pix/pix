@@ -1,5 +1,6 @@
-import JSONAPIAdapter from '@ember-data/adapter/json-api';
+// eslint-disable-next-line ember/no-mixins
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-orga/config/environment';
 

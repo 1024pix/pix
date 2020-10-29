@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { hasMany, Model } = DS;
+import Model, { hasMany } from '@ember-data/model';
 
 export default class CampaignAnalysis extends Model {
   @hasMany('CampaignTubeRecommendation') campaignTubeRecommendations;

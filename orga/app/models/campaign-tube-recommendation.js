@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-const { belongsTo, hasMany, Model, attr } = DS;
+import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 
 export default class CampaignTubeRecommendation extends Model {
 
