@@ -142,7 +142,7 @@ module('Acceptance | Session Add Students', function(hooks) {
             await click(addButton);
 
             // then
-            const certificationCandidates = await detailController.model.session.certificationCandidates;
+            const certificationCandidates = await detailController.model.certificationCandidates;
             assert.equal(certificationCandidates.length, 3);
           });
         });

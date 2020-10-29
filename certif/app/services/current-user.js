@@ -1,12 +1,18 @@
 import _ from 'lodash';
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { computed } from '@ember/object';
 
 export default class CurrentUserService extends Service {
   @service session;
   @service store;
   @tracked user;
   @tracked certificationCenter;
+
+  @computed('certificationCenter.isSco')
+  get isFromSco() {
+    return this.certificationCenter.isSco;
+  }
 
   async load() {
     if (this.session.isAuthenticated) {
