@@ -2,6 +2,8 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import sinon from 'sinon';
+import times from 'lodash/times';
 
 module('Unit | Component | add-student-list', function(hooks) {
   setupTest(hooks);
@@ -127,5 +129,42 @@ module('Unit | Component | add-student-list', function(hooks) {
         });
       }),
     );
+  });
+
+  module('#action saveStudents', function() {
+    test('it should save only selected students via the session', async function(assert) {
+      // given
+      const sessionId = 1;
+      const unselectedStudents = times(3, () => { return { isSelected: false }; });
+      const selectedStudents = [{ isSelected: true }];
+      component.args.studentList = [...unselectedStudents, ...selectedStudents];
+      component.args.session = { id: sessionId, save: sinon.stub().resolves() };
+      component.args.returnToSessionCandidates = sinon.spy();
+
+      // when
+      await component.enrollStudents();
+
+      // then
+      sinon.assert.calledWith(component.args.session.save , { adapterOptions: { sessionId, studentListToAdd: selectedStudents } });
+      sinon.assert.calledWith(component.args.returnToSessionCandidates, sessionId);
+      assert.ok(component);
+    });
+
+    test('it should send error notification when save is not working', async function(assert) {
+      // given
+      const sessionId = 1;
+      component.args.studentList = [{ isSelected: true }];
+      component.args.session = { id: sessionId, save: sinon.stub().rejects() };
+      component.notifications = { error: sinon.spy() };
+      component.args.returnToSessionCandidates = sinon.spy();
+
+      // when
+      await component.enrollStudents();
+
+      // then
+      sinon.assert.calledOnce(component.notifications.error);
+      sinon.assert.notCalled(component.args.returnToSessionCandidates);
+      assert.ok(component);
+    });
   });
 });
