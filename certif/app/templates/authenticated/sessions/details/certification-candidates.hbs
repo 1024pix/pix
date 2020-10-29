@@ -1,5 +1,7 @@
 {{#if (and this.isUserFromSco this.isCertifPrescriptionScoEnabled)}}
-  <CertificationCandidatesSco @sessionId={{this.currentSession.id}}></CertificationCandidatesSco>
+  {{#unless this.hasOneOrMoreCandidates}}
+    <CertificationCandidatesSco @sessionId={{this.currentSession.id}}></CertificationCandidatesSco>
+  {{/unless}}
   {{#if this.hasOneOrMoreCandidates}}
   <EnrolledCandidates
         @isUserFromSco={{this.isUserFromSco}}
