@@ -101,7 +101,6 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
       this.set('isUserFromSco', isSco);
       this.set('isCertifPrescriptionScoEnabled', toggle);
 
-      // Template block usage:
       await render(hbs`
       <EnrolledCandidates
         @sessionId="1"
