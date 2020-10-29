@@ -13,23 +13,39 @@ export default class SessionAdapter extends ApplicationAdapter {
   }
 
   updateRecord(store, type, snapshot) {
-    if (snapshot.adapterOptions && snapshot.adapterOptions.finalization) {
-      const model = snapshot.record;
-      const data = {
-        data: {
-          attributes: {
-            'examiner-global-comment': model.examinerGlobalComment,
+    if (snapshot.adapterOptions) {
+      if (snapshot.adapterOptions.finalization) {
+        const model = snapshot.record;
+        const data = {
+          data: {
+            attributes: {
+              'examiner-global-comment': model.examinerGlobalComment,
+            },
+            included: model.certificationReports
+              .filter((certificationReport) => certificationReport.hasDirtyAttributes)
+              .map((certificationReport) => ({
+                type: 'certification-reports',
+                id: certificationReport.get('id'),
+                attributes: certificationReport.toJSON(),
+              })),
           },
-          included: model.certificationReports
-            .filter((certificationReport) => certificationReport.hasDirtyAttributes)
-            .map((certificationReport) => ({
-              type: 'certification-reports',
-              id: certificationReport.get('id'),
-              attributes: certificationReport.toJSON(),
-            })),
-        },
-      };
-      return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT', { data });
+        };
+        return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT', { data });
+      }
+
+      if (snapshot.adapterOptions.studentListToAdd) {
+        const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/enroll-students-to-session';
+        const studentIds = snapshot.adapterOptions.studentListToAdd.map((student) => student.id);
+        const data = {
+          data: {
+            attributes: {
+              'student-ids': studentIds,
+            },
+          },
+        };
+
+        return this.ajax(url, 'PUT', { data });
+      }
     }
 
     return super.updateRecord(...arguments);

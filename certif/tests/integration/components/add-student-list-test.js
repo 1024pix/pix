@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import EmberObject from '@ember/object';
 
 module('Integration | Component | add-student-list', function(hooks) {
   setupRenderingTest(hooks);
@@ -38,10 +39,10 @@ module('Integration | Component | add-student-list', function(hooks) {
       assert.dom(tableRow + ':nth-child(1) td:nth-child(5)').includesText('12/01/2018');
     });
 
-    test('it should possible to check student', async function(assert) {
+    test('it should be possible to select an unselected student', async function(assert) {
       // given
       this.set('students', [
-        _buildUnselectedStudent('toto', 'toto', 'toto', '2020-09-03'),
+        _buildUnselectedStudent(),
       ]);
       await render(hbs`<AddStudentList @studentList={{this.students}}></AddStudentList>`);
 
@@ -149,10 +150,15 @@ module('Integration | Component | add-student-list', function(hooks) {
     });
   });
 
-  function _buildUnselectedStudent(firstName, lastName, division, birthdate) {
+  function _buildUnselectedStudent(firstName = 'firstName', lastName = 'lastName', division = 'division', birthdate = 'birthdate') {
     return EmberObject.create({
       firstName, lastName, division, birthdate, isSelected: false,
     });
   }
 
+  function _buildSelectedStudent(firstName = 'firstName', lastName = 'lastName', division = 'division', birthdate = 'birthdate') {
+    return EmberObject.create({
+      firstName, lastName, division, birthdate, isSelected: true,
+    });
+  }
 });
