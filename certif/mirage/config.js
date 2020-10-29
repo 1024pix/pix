@@ -103,9 +103,7 @@ export default function() {
     const studentListToAdd = requestBody.data.attributes['student-ids'];
     const numberOfStudents = studentListToAdd.length;
     if (numberOfStudents > 0) {
-      const newCandidates = server.createList('certification-candidate', numberOfStudents, {});
-      const session = schema.sessions.find(sessionId);
-      session.update({ certificationCandidates: newCandidates });
+      server.createList('certification-candidate', numberOfStudents, { sessionId });
       return schema.certificationCandidates.all();
     }
     return new Response(204);
