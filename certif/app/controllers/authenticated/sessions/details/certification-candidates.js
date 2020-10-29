@@ -19,6 +19,12 @@ export default class CertificationCandidatesController extends Controller {
     });
   }
 
+  @computed('model.certificationCandidates.length')
+  get hasOneOrMoreCandidates() {
+    const certificationCandidatesCount = this.model.certificationCandidates.length;
+    return certificationCandidatesCount > 0;
+  }
+
   @action
   async reloadCertificationCandidateInController() {
     await this.reloadCertificationCandidate();
