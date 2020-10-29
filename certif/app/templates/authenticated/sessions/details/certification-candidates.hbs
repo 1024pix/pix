@@ -1,12 +1,21 @@
 {{#if (and this.isCertificationCenterSco this.isCertifPrescriptionScoEnabled)}}
   <CertificationCandidatesSco @sessionId={{this.currentSession.id}}></CertificationCandidatesSco>
+  {{#if this.hasOneOrMoreCandidates}}
+    <EnrolledCandidates
+      @isCertificationCenterSco={{this.isCertificationCenterSco}}
+      @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
+      @sessionId={{this.currentSession.id}}
+      @certificationCandidates={{this.currentSession.certificationCandidates}}
+    >
+    </EnrolledCandidates>
+  {{/if}}
 {{else}}
   <ImportCandidates @session={{this.currentSession}}></ImportCandidates>
-{{/if}}
-<EnrolledCandidates
-  @isCertificationCenterSco={{this.isCertificationCenterSco}}
-  @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
-  @sessionId={{this.currentSession.id}}
-  @certificationCandidates={{this.currentSession.certificationCandidates}}
+  <EnrolledCandidates
+    @isCertificationCenterSco={{this.isCertificationCenterSco}}
+    @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
+    @sessionId={{this.currentSession.id}}
+    @certificationCandidates={{this.currentSession.certificationCandidates}}
   >
 </EnrolledCandidates>
+{{/if}}
