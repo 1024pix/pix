@@ -29,7 +29,7 @@
 
   &__bottom-action-bar {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
     position: fixed;
     width: 100vw;
@@ -41,7 +41,11 @@
 
     .button {
       max-height: 44px;
-      width: 98px;
+      margin-left: 16px;
+    }
+
+    button {
+      margin-right: 35px;
     }
   }
 }

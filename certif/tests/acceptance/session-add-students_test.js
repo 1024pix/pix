@@ -109,6 +109,23 @@ module('Acceptance | Session Add Students', function(hooks) {
           assert.equal(checkboxChecked.length, 3);
         });
 
+        test('it should be possible to cancel enrolling students', async function(assert) {
+          // given
+          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
+          const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
+          const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
+          await click(firstCheckbox);
+          await click(secondCheckbox);
+          await click(thirdCheckbox);
+
+          // when
+          const cancelButtonSelector = '.add-student-list__cancel-button';
+          await click(cancelButtonSelector);
+
+          // then
+          assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+        });
+
         module('when clicking on "Ajout"', function() {
           test('it redirect to previous page', async function(assert) {
             // given
