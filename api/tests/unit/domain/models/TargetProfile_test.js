@@ -120,4 +120,27 @@ describe('Unit | Domain | Models | TargetProfile', () => {
       expect(skillCountForCompetence).to.equal(2);
     });
   });
+
+  describe('#addOrganizations', () => {
+    context('when there is only one each value', ()  => {
+      it('add organization to targetProfiles', () => {
+        const targetProfile = domainBuilder.buildTargetProfile();
+        const organizationIds = [1,2,4,5];
+
+        targetProfile.addOrganizations(organizationIds);
+
+        expect(targetProfile.organizations).to.exactlyContain(organizationIds);
+      });
+    });
+    context('when an organizationId is present several times', ()  => {
+      it('add organization to targetProfiles', () => {
+        const targetProfile = domainBuilder.buildTargetProfile();
+
+        targetProfile.addOrganizations([1,2,4,1]);
+        targetProfile.addOrganizations([2]);
+
+        expect(targetProfile.organizations).to.exactlyContain([1,2,4]);
+      });
+    });
+  });
 });
