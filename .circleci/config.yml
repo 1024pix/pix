@@ -52,6 +52,7 @@ executors:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: small
   node-front:
     docker:
       - image: cimg/node:12.18.4-browsers
@@ -127,7 +128,7 @@ jobs:
   api_build_and_test:
     executor: node-api
     working_directory: ~/pix/api
-    parallelism: 3
+    parallelism: 6
     steps:
       - attach_workspace:
           at: ~/pix
