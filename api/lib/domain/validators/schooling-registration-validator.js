@@ -1,17 +1,18 @@
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const { EntityValidationError } = require('../errors');
+const  SchoolingRegistration = require('../models/SchoolingRegistration');
 
+const { STUDENT , APPRENTICE } = SchoolingRegistration.STATUS;
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
 const CITY_CODE_LENGTH = 5;
 const PROVINCE_CODE_MIN_LENGTH = 2;
 const PROVINCE_CODE_MAX_LENGTH = 3;
 const COUNTRY_CODE_LENGTH = 5;
-const STATUSES = ['ST'];
 const FRANCE_COUNTRY_CODE = '99100';
 
 const validationSchema = Joi.object({
-  nationalStudentId: Joi.string().max(MAX_LENGTH).required(),
+  nationalIdentifier: Joi.string().max(MAX_LENGTH).required(),
   firstName: Joi.string().max(MAX_LENGTH).required(),
   middleName: Joi.string().max(MAX_LENGTH).optional(),
   thirdName: Joi.string().max(MAX_LENGTH).optional(),
@@ -30,7 +31,7 @@ const validationSchema = Joi.object({
   }),
   birthProvinceCode: Joi.string().min(PROVINCE_CODE_MIN_LENGTH).max(PROVINCE_CODE_MAX_LENGTH).required(),
   birthCountryCode: Joi.string().length(COUNTRY_CODE_LENGTH).required(),
-  status: Joi.string().valid(...STATUSES).required(),
+  status: Joi.string().valid(STUDENT,APPRENTICE).required(),
   MEFCode: Joi.string().max(MAX_LENGTH).required(),
   division: Joi.string().max(MAX_LENGTH).required(),
   organizationId: Joi.number().integer().required(),
