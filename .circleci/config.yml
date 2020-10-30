@@ -41,6 +41,31 @@ commands:
           paths:
             - ~/.npm
 
+executors:
+  node-pix:
+    docker:
+      - image: cimg/node:12.18.0
+  node-api:
+    docker:
+      - image: cimg/node:12.18.0
+      - image: postgres:12.4-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+  node-front:
+    docker:
+      - image: cimg/node:12.18.4-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
+  e2e-cypress:
+    docker:
+      - image: cypress/browsers:node12.18.0-chrome83-ff77
+      - image: postgres:12.4-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+
 workflows:
   version: 2
   build-test-and-deploy:
@@ -81,31 +106,6 @@ workflows:
             - mon_pix_build_and_test
             - orga_build_and_test
             - certif_build_and_test
-
-executors:
-  node-pix:
-    docker:
-      - image: cimg/node:12.18.0
-  node-api:
-    docker:
-      - image: cimg/node:12.18.0
-      - image: postgres:12.4-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
-  node-front:
-    docker:
-      - image: cimg/node:12.18.4-browsers
-        environment:
-          # See https://git.io/vdao3 for details.
-          JOBS: 2
-  e2e-cypress:
-    docker:
-      - image: cypress/browsers:node12.18.0-chrome83-ff77
-      - image: postgres:12.4-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
 
 jobs:
   checkout:
@@ -255,12 +255,16 @@ jobs:
           background: true
           command: npm start
 
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
+
       - run:
           working_directory: ~/pix/mon-pix
           environment:
             JOBS: 1
           background: true
           command: npm start
+
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:4200
 
       - run:
           working_directory: ~/pix/orga
@@ -269,6 +273,8 @@ jobs:
           background: true
           command: npm start
 
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:4201
+
       - run:
           working_directory: ~/pix/certif
           environment:
@@ -276,12 +282,9 @@ jobs:
           background: true
           command: npm start
 
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:4203
+
       - run:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: |
-            wget --retry-connrefused -T 60 -qO- http://localhost:4200
-            wget --retry-connrefused -T 60 -qO- http://localhost:4201
-            wget --retry-connrefused -T 60 -qO- http://localhost:4203
-            wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
-            npm run cy:run:ci
+          command: npm run cy:run:ci
