@@ -12,7 +12,8 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR = 'certification-candidates-actions';
   const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';
   const DELETE_BUTTON_DISABLED_SELECTOR = `${DELETE_BUTTON_SELECTOR}--disabled`;
-  const ADD_BUTTON_SELECTOR = 'certification-candidates-add-button__text';
+  const ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR = 'certification-candidates-add-button__text';
+  const ADD_MULTIPLE_CANDIDATE_BUTTON_SELECTOR = 'enrolled-candidate__add-students';
   const EXTERNAL_ID_COLUMN_SELECTOR = 'panel-candidate__externalId__';
   const RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR = 'panel-candidate__result-recipient-email__';
   const BIRTHDATE_COLUMN_SELECTOR = 'panel-candidate__birthdate__';
@@ -94,7 +95,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     { isSco: false, toggle: false, buttonVisible: true },
     { isSco: false, toggle: true, buttonVisible: true },
   ].forEach(({ isSco, toggle, buttonVisible }) =>
-    test(`it does ${buttonVisible ? '' : 'not '}display candidates add button if user ${isSco ? '' : 'not '}sco and if feature toggle is ${toggle}`, async function(assert) {
+    test(`it does ${buttonVisible ? '' : 'not '}display add single candidate button if user ${isSco ? '' : 'not '}sco and if feature toggle is ${toggle}`, async function(assert) {
       const certificationCandidates = [];
 
       this.set('certificationCandidates', certificationCandidates);
@@ -112,9 +113,40 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     `);
 
       if (buttonVisible) {
-        assert.dom(`.${ADD_BUTTON_SELECTOR}`).isVisible();
+        assert.dom(`.${ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR}`).isVisible();
       } else {
-        assert.dom(`.${ADD_BUTTON_SELECTOR}`).isNotVisible();
+        assert.dom(`.${ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR}`).isNotVisible();
+      }
+    }),
+  );
+
+  [
+    { isSco: true, toggle: true, buttonVisible: true },
+    { isSco: true, toggle: false, buttonVisible: false },
+    { isSco: false, toggle: false, buttonVisible: false },
+    { isSco: false, toggle: true, buttonVisible: false },
+  ].forEach(({ isSco, toggle, buttonVisible }) =>
+    test(`it does ${buttonVisible ? '' : 'not '}display add multiple candidates button if user ${isSco ? '' : 'not '}sco and if feature toggle is ${toggle}`, async function(assert) {
+      const certificationCandidates = [];
+
+      this.set('certificationCandidates', certificationCandidates);
+      this.set('isUserFromSco', isSco);
+      this.set('isCertifPrescriptionScoEnabled', toggle);
+
+      await render(hbs`
+      <EnrolledCandidates
+        @sessionId="1"
+        @certificationCandidates={{this.certificationCandidates}}
+        @isUserFromSco={{this.isUserFromSco}}
+        @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
+      >
+      </EnrolledCandidates>
+    `);
+
+      if (buttonVisible) {
+        assert.dom(`.${ADD_MULTIPLE_CANDIDATE_BUTTON_SELECTOR}`).isVisible();
+      } else {
+        assert.dom(`.${ADD_MULTIPLE_CANDIDATE_BUTTON_SELECTOR}`).isNotVisible();
       }
     }),
   );
