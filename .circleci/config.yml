@@ -282,5 +282,6 @@ jobs:
           command: |
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
             wget --retry-connrefused -T 60 -qO- http://localhost:4201
+            wget --retry-connrefused -T 60 -qO- http://localhost:4203
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
             npm run cy:run:ci
