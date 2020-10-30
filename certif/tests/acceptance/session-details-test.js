@@ -91,16 +91,16 @@ module('Acceptance | Session Details', function(hooks) {
         assert.dom('.session-details-header-datetime__time .content-text').hasText('14:00');
       });
 
-      module('when FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE is on', function(hooks) {
+      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is on', function(hooks) {
 
-        const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+        const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
         hooks.before(() => {
-          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = true;
+          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
         });
 
         hooks.after(() => {
-          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
         });
 
         test('it should show download button when there is one or more candidate', async function(assert) {
@@ -127,16 +127,16 @@ module('Acceptance | Session Details', function(hooks) {
         });
       });
 
-      module('when FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE is off', function(hooks) {
+      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is off', function(hooks) {
 
-        const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+        const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
         hooks.before(() => {
-          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = false;
+          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
         });
 
         hooks.after(() => {
-          config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
         });
 
         test('it should not show download button', async function(assert) {

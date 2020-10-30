@@ -10,6 +10,7 @@ import {
 import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import config from 'pix-certif/config/environment';
 
 module('Acceptance | Session Details Certification Candidates', function(hooks) {
   
@@ -26,6 +27,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
   hooks.afterEach(function() {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
+    config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
   });
 
   module('When user is not logged in', function() {
@@ -174,6 +176,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         module('when user is not SCO', function(hooks) {
 
           hooks.beforeEach(async function() {
+            server.create('feature-toggle', { id: 0, certifPrescriptionSco: false });
             await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           });
 

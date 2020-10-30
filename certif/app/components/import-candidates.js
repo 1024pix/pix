@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import config from 'pix-certif/config/environment';
 
 export default class ImportCandidates extends Component {
-  isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+  isResultRecipientEmailVisible = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
   @service session;
   @service notifications;

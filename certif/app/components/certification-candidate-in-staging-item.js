@@ -9,7 +9,7 @@ const firstOf20thCentury = -2206310961000;
 
 export default class CertificationCandidateInStagingItem extends Component {
 
-  isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+  isResultRecipientEmailVisible = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
   birthProvinceCodePattern = '^[0-9][A,a,B,b,0-9][0-9]?$'
 
