@@ -77,7 +77,7 @@ module.exports = {
   findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization = false }) {
     return BookshelfMembership
       .where({ userId, organizationId, disabledAt: null })
-      .fetchAll({ withRelated: includeOrganization ? ['organization'] : [] })
+      .fetchAll({ withRelated: includeOrganization ? ['organization', 'organization.tags'] : [] })
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
 
