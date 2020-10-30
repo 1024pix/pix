@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
-const Student = require('../../../../lib/domain/models/Student');
 
 const { CampaignCodeError, NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
@@ -11,7 +10,6 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
 
   let campaignRepository;
   let schoolingRegistrationRepository;
-  let studentRepository;
   let userReconciliationService;
 
   let schoolingRegistration;
@@ -38,10 +36,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     };
     userReconciliationService = {
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser: sinon.stub(),
-      checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations: sinon.stub(),
-    };
-    studentRepository = {
-      getReconciledStudentByNationalStudentId: sinon.stub(),
+      checkIfStudentHasAnAlreadyReconciledAccount: sinon.stub(),
     };
   });
 
@@ -84,18 +79,13 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
     });
   });
 
-  context('When student is already reconciled in others organizations', () => {
+  context('When student has already a reconciled account', () => {
 
     it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async () => {
       // given
-      schoolingRegistration.userId = user.id;
-      schoolingRegistration.firstName = user.firstName;
-      schoolingRegistration.lastName = user.lastName;
-      const exceptedErrorMessage = 'Un compte existe déjà pour l\'élève dans un autre établissement.';
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
-      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
-      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.throws(new SchoolingRegistrationAlreadyLinkedToUserError(exceptedErrorMessage));
+      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.throws(new SchoolingRegistrationAlreadyLinkedToUserError());
 
       // when
       const result = await catchErr(usecases.reconcileSchoolingRegistration)({
@@ -103,12 +93,10 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
         campaignCode,
         campaignRepository,
         userReconciliationService,
-        studentRepository,
       });
 
       // then
       expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
-      expect(result.message).to.equal(exceptedErrorMessage);
     });
   });
 
@@ -122,11 +110,10 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
 
       const alreadyReconciledSchoolingRegistrationWithAnotherStudent = domainBuilder.buildSchoolingRegistration({ organizationId, userId: user.id });
 
-      const exceptedErrorMEssage = 'Un autre étudiant est déjà réconcilié dans la même organisation et avec le même compte utilisateur';
+      const exceptedErrorMessage = 'Un autre étudiant est déjà réconcilié dans la même organisation et avec le même compte utilisateur';
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
-      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
-      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.resolves();
+      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
       schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.withArgs({
         userId: user.id,
         organizationId,
@@ -138,13 +125,12 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
         campaignCode,
         campaignRepository,
         userReconciliationService,
-        studentRepository,
         schoolingRegistrationRepository,
       });
 
       // then
       expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
-      expect(result.message).to.equal(exceptedErrorMEssage);
+      expect(result.message).to.equal(exceptedErrorMessage);
     });
 
   });
@@ -159,8 +145,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
       schoolingRegistration.lastName = user.lastName;
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
-      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
-      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.resolves();
+      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
       schoolingRegistrationRepository.reconcileUserToSchoolingRegistration.withArgs({
         userId: user.id,
         schoolingRegistrationId,
@@ -173,7 +158,6 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
         campaignCode,
         campaignRepository,
         userReconciliationService,
-        studentRepository,
         schoolingRegistrationRepository,
       });
 
@@ -193,8 +177,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
       schoolingRegistration.lastName = user.lastName;
       campaignRepository.getByCode.withArgs(campaignCode).resolves({ organizationId });
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
-      studentRepository.getReconciledStudentByNationalStudentId.resolves(new Student());
-      userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations.resolves();
+      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
 
       // when
       const result = await usecases.reconcileSchoolingRegistration({
@@ -203,7 +186,6 @@ describe('Unit | UseCase | reconcile-schooling-registration', () => {
         campaignCode,
         campaignRepository,
         userReconciliationService,
-        studentRepository,
         schoolingRegistrationRepository,
       });
 

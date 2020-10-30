@@ -148,7 +148,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             code: 'ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION',
             title: 'Conflict',
             detail: 'Un compte existe déjà pour l‘élève dans le même établissement.',
-            meta: { shortCode: 'R33', value: null, userId: userWithSamlOnly.id, schoolingRegistrationId: schoolingRegistration.id },
+            meta: { shortCode: 'R33', value: null, userId: userWithSamlOnly.id },
           };
 
           options.headers.authorization = generateValidRequestAuthorizationHeader(userWithSamlOnly.id);

@@ -49,8 +49,6 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
   organizationId,
   reconciliationInfo: { firstName, lastName, birthdate },
   schoolingRegistrationRepository,
-  userRepository,
-  obfuscationService,
 }) {
   const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId, birthdate });
 
@@ -62,47 +60,35 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
   if (!schoolingRegistrationId) {
     throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
-  const schoolingRegistration = _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
 
-  await checkIfStudentIsAlreadyReconciledOnTheSameOrganization(schoolingRegistration, userRepository, obfuscationService);
-  return schoolingRegistration;
+  return _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
 }
 
-async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository, obfuscationService) {
-  if (!_.isNil(matchingSchoolingRegistration.userId))  {
-    const userId = matchingSchoolingRegistration.userId ;
-    const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
-
-    const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_SAME_ORGANIZATION[authenticationMethod.authenticatedBy];
-    const meta = {
-      shortCode: error.shortCode,
-      value: authenticationMethod.value,
-      userId: userId,
-    };
-    if (authenticationMethod.authenticatedBy === 'samlId') {
-      meta.schoolingRegistrationId = matchingSchoolingRegistration.id;
-    }
-    throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+async function checkIfStudentHasAnAlreadyReconciledAccount(schoolingRegistration, userRepository, obfuscationService, studentRepository) {
+  if (!_.isNil(schoolingRegistration.userId)) {
+    await _buildStudentReconciliationError(schoolingRegistration.userId, 'IN_SAME_ORGANIZATION', userRepository, obfuscationService);
   }
-}
 
-async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService) {
+  const student = await studentRepository.getReconciledStudentByNationalStudentId(schoolingRegistration.nationalStudentId);
   if (_.get(student, 'account')) {
-    const userId = student.account.userId;
-    const user = await userRepository.getUserAuthenticationMethods(userId);
-    const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
-
-    const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-    const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION[authenticationMethod.authenticatedBy];
-    const meta = {
-      shortCode: error.shortCode,
-      value: authenticationMethod.value,
-      userId: userId,
-    };
-    throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+    await _buildStudentReconciliationError(student.account.userId, 'IN_OTHER_ORGANIZATION', userRepository, obfuscationService);
   }
+}
+
+async function _buildStudentReconciliationError(userId, errorContext, userRepository, obfuscationService) {
+  const user = await userRepository.getUserAuthenticationMethods(userId);
+  const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+
+  const detailWhenSameOrganization = 'Un compte existe déjà pour l‘élève dans le même établissement.';
+  const detailWhenOtherOrganization = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
+  const detail = errorContext === 'IN_SAME_ORGANIZATION' ? detailWhenSameOrganization : detailWhenOtherOrganization;
+  const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION[errorContext][authenticationMethod.authenticatedBy];
+  const meta = {
+    shortCode: error.shortCode,
+    value: authenticationMethod.value,
+    userId: userId,
+  };
+  throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
 }
 
 function _containsOneElement(arr) {
@@ -194,9 +180,7 @@ async function createUsernameByUser({ user: { firstName, lastName, birthdate }, 
   const firstPart = standardizeUser.firstName + '.' + standardizeUser.lastName;
   const secondPart = day + month;
 
-  const username = await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
-
-  return username;
+  return await generateUsernameUntilAvailable({ firstPart, secondPart, userRepository });
 }
 
 module.exports = {
@@ -205,5 +189,5 @@ module.exports = {
   findMatchingCandidateIdForGivenUser,
   findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser,
   findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser,
-  checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations,
+  checkIfStudentHasAnAlreadyReconciledAccount,
 };
