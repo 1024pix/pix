@@ -1,22 +1,22 @@
-{{!-- template-lint-disable no-action --}}
-
 {{#if this.isEdited}}
-  <div class="row form-group certification-status-select">
+  <div class="row form-group certification-status-select edited">
     <label class="col-form-label" for={{this.id}}>Statut :</label>
     <div class="certificate">
-      <XSelect @value={{this.value}} @onChange={{action 'selectOption'}} as |xs|>
-        <xs.option @value="started">started</xs.option>
-        <xs.option @value="error">error</xs.option>
-        <xs.option @value="validated">validated</xs.option>
-        <xs.option @value="rejected">rejected</xs.option>
-      </XSelect>
+      <PowerSelect
+          @options={{this.statusOptions}}
+          @selected={{this.selectedOption}}
+          @searchEnabled={{false}}
+          @onchange={{this.selectOption}}
+          as |option|>
+        {{option.label}}
+      </PowerSelect>
     </div>
   </div>
 {{else}}
   <div class="row certification-status-select">
     <div class="certification-info-label">{{this.label}}</div>
     <div class="certification-info-value">
-      {{this.value}}
+      {{@certification.value}}
     </div>
   </div>
 {{/if}}

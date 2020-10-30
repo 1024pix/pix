@@ -20,7 +20,7 @@ module('Integration | Component | organization-members-section', function(hooks)
 
   test('it should display a list of members', async function(assert) {
     // when
-    await render(hbs`<OrganizationMembersSection @memberships={{memberships}} @addMembership={{noop}} @createOrganizationInvitation={{noop}} @triggerFiltering={{noop}} @selectRoleForSearch={{noop}}/>`);
+    await render(hbs`<OrganizationMembersSection @memberships={{this.memberships}} @addMembership={{this.noop}} @createOrganizationInvitation={{this.noop}} @triggerFiltering={{noop}} @selectRoleForSearch={{this.noop}}/>`);
 
     // then
     assert.dom('[aria-label="Membre"]').exists({ count: 2 });

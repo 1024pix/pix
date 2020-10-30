@@ -12,7 +12,7 @@ module('Integration | Component | <CertificationInfoPublished/>', function(hooks
     this.set('certification', { isPublished: true });
 
     // when
-    await render(hbs`<CertificationInfoPublished @certification={{this.certification}} />`);
+    await render(hbs`<CertificationInfoPublished @record={{this.certification}} />`);
 
     // then
     assert.dom('svg').exists();
