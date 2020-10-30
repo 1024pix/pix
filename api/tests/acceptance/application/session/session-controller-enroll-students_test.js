@@ -1,6 +1,7 @@
 const { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
+const config = require('../../../../lib/config');
 
 describe('Acceptance | Controller | session-controller-enroll-students-to-session', () => {
 
@@ -73,11 +74,13 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       let student;
 
       afterEach(() => {
+        config.featureToggles.certifPrescriptionSco = false;
         return knex('certification-candidates').delete();
-
       });
 
       beforeEach(async () => {
+        config.featureToggles.certifPrescriptionSco = true;
+
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -108,7 +111,6 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       });
 
       it('should respond with a 201', async () => {
-
         // when
         const response = await server.inject(options);
 
