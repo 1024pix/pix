@@ -24,14 +24,14 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const EMAIL_SELECTOR = 'panel-candidate__email__';
   const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
 
-  const ft = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+  const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
   hooks.before(() => {
-    config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = true;
+    config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
   });
 
   hooks.after(() => {
-    config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE = ft;
+    config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
   });
 
   test('it display candidates information', async function(assert) {
