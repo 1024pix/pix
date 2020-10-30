@@ -316,8 +316,6 @@ describe('Unit | Service | user-reconciliation-service', () => {
     let user;
     let organizationId;
     let schoolingRegistrationRepositoryStub;
-    let userRepositoryStub;
-    let obfuscationServiceStub;
 
     beforeEach(() => {
       organizationId = domainBuilder.buildOrganization().id;
@@ -360,39 +358,12 @@ describe('Unit | Service | user-reconciliation-service', () => {
           };
         });
 
-        context('When schoolingRegistration is already linked', () => {
-          beforeEach(() => {
-            schoolingRegistrations[0].userId = '123';
-            userRepositoryStub = {
-              getUserAuthenticationMethods: sinon.stub().resolves(),
-              updateUserAttributes: sinon.stub().resolves(),
-            };
-            obfuscationServiceStub = {
-              getUserAuthenticationMethodWithObfuscation: sinon.stub().returns({ authenticatedBy: 'email' }),
-            };
-          });
+        it('should return matched SchoolingRegistration', async () => {
+          // when
+          const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
-          it('should throw OrganizationStudentAlreadyLinkedToUserError', async () => {
-            // given
-            schoolingRegistrationRepositoryStub.findByOrganizationIdAndBirthdate.resolves(schoolingRegistrations);
-            userRepositoryStub.getUserAuthenticationMethods.resolves({ email: 'email@example.net' });
-            // when
-            const result = await catchErr(userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser)({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, userRepository: userRepositoryStub, obfuscationService: obfuscationServiceStub });
-
-            // then
-            expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
-          });
-        });
-
-        context('When schoolingRegistration is not already linked', () => {
-
-          it('should return matched SchoolingRegistration', async () => {
-            // when
-            const result = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId, reconciliationInfo: user, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-            // then
-            expect(result).to.equal(schoolingRegistrations[0]);
-          });
+          // then
+          expect(result).to.equal(schoolingRegistrations[0]);
         });
       });
     });
@@ -600,6 +571,188 @@ describe('Unit | Service | user-reconciliation-service', () => {
 
       // then
       expect(result).to.not.equal(originaldUsername);
+    });
+  });
+
+  describe('#checkIfStudentHasAnAlreadyReconciledAccount', () => {
+
+    let userRepositoryStub;
+    let obfuscationServiceStub;
+    let studentRepositoryStub;
+
+    beforeEach(() => {
+      userRepositoryStub = { getUserAuthenticationMethods: sinon.stub() };
+      obfuscationServiceStub = { getUserAuthenticationMethodWithObfuscation: sinon.stub() };
+      studentRepositoryStub = { getReconciledStudentByNationalStudentId: sinon.stub() };
+    });
+
+    context('When student is already reconciled in the same organization', () => {
+
+      context('When the reconciled account has an email', () => {
+
+        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async () => {
+          // given
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+          const user = domainBuilder.buildUser({ email: 'test@example.net' });
+          schoolingRegistration.userId = user.id;
+
+          userRepositoryStub.getUserAuthenticationMethods.withArgs(user.id).resolves(user);
+          obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
+            authenticatedBy: 'email',
+            value: 't***@example.net',
+          });
+
+          // when
+          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(schoolingRegistration, userRepositoryStub, obfuscationServiceStub, studentRepositoryStub);
+
+          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
+          expect(error.code).to.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
+          expect(error.meta.shortCode).to.equal('R31');
+          expect(error.meta.value).to.equal('t***@example.net');
+          expect(error.meta.userId).to.equal(user.id);
+        });
+      });
+
+      context('When the reconciled account as a username', () => {
+
+        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async () => {
+          // given
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+          const user = domainBuilder.buildUser({ username: 'john.doe0101' });
+          schoolingRegistration.userId = user.id;
+
+          userRepositoryStub.getUserAuthenticationMethods.withArgs(user.id).resolves(user);
+          obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
+            authenticatedBy: 'username',
+            value: 'j***.d***0101',
+          });
+
+          // when
+          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(schoolingRegistration, userRepositoryStub, obfuscationServiceStub, studentRepositoryStub);
+
+          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(userRepositoryStub.getUserAuthenticationMethods).to.have.been.calledWith(user.id);
+          expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
+          expect(error.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
+          expect(error.meta.shortCode).to.equal('R32');
+          expect(error.meta.value).to.equal('j***.d***0101');
+          expect(error.meta.userId).to.equal(user.id);
+        });
+      });
+
+      context('When the reconciled account as a samlId', () => {
+
+        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async () => {
+          // given
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+          const user = domainBuilder.buildUser({ samlId: 'samlId' });
+          schoolingRegistration.userId = user.id;
+
+          userRepositoryStub.getUserAuthenticationMethods.withArgs(user.id).resolves(user);
+          obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
+            authenticatedBy: 'samlId',
+            value: null,
+          });
+
+          // when
+          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(schoolingRegistration, userRepositoryStub, obfuscationServiceStub, studentRepositoryStub);
+
+          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(userRepositoryStub.getUserAuthenticationMethods).to.have.been.calledWith(user.id);
+          expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
+          expect(error.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
+          expect(error.meta.shortCode).to.equal('R33');
+          expect(error.meta.value).to.equal(null);
+          expect(error.meta.userId).to.equal(user.id);
+        });
+      });
+    });
+
+    context('When student is already reconciled in an other organization', () => {
+
+      context('When the reconciled account as an email', () => {
+
+        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async () => {
+          // given
+          const nationalStudentId = 'nationalStudentId';
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId });
+          const user = domainBuilder.buildUser({ email: 'test@example.net' });
+
+          studentRepositoryStub.getReconciledStudentByNationalStudentId.withArgs(nationalStudentId).resolves({ account: { userId: user.id } });
+          userRepositoryStub.getUserAuthenticationMethods.withArgs(user.id).resolves(user);
+          obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
+            authenticatedBy: 'email',
+            value: 't***@example.net',
+          });
+
+          // when
+          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(schoolingRegistration, userRepositoryStub, obfuscationServiceStub, studentRepositoryStub);
+
+          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
+          expect(error.code).to.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
+          expect(error.meta.shortCode).to.equal('R11');
+          expect(error.meta.value).to.equal('t***@example.net');
+          expect(error.meta.userId).to.equal(user.id);
+        });
+      });
+
+      context('When the reconciled account as a username', () => {
+
+        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async () => {
+          // given
+          const nationalStudentId = 'nationalStudentId';
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId });
+          const user = domainBuilder.buildUser({ username: 'john.doe0101' });
+
+          studentRepositoryStub.getReconciledStudentByNationalStudentId.withArgs(nationalStudentId).resolves({ account: { userId: user.id } });
+          userRepositoryStub.getUserAuthenticationMethods.withArgs(user.id).resolves(user);
+          obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
+            authenticatedBy: 'username',
+            value: 'j***.d***0101',
+          });
+
+          // when
+          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(schoolingRegistration, userRepositoryStub, obfuscationServiceStub, studentRepositoryStub);
+
+          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(userRepositoryStub.getUserAuthenticationMethods).to.have.been.calledWith(user.id);
+          expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
+          expect(error.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
+          expect(error.meta.shortCode).to.equal('R12');
+          expect(error.meta.value).to.equal('j***.d***0101');
+          expect(error.meta.userId).to.equal(user.id);
+        });
+      });
+
+      context('When the reconciled account as a samlId', () => {
+
+        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async () => {
+          // given
+          const nationalStudentId = 'nationalStudentId';
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId });
+          const user = domainBuilder.buildUser({ samlId: 'samlId' });
+
+          studentRepositoryStub.getReconciledStudentByNationalStudentId.withArgs(nationalStudentId).resolves({ account: { userId: user.id } });
+          userRepositoryStub.getUserAuthenticationMethods.withArgs(user.id).resolves(user);
+          obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
+            authenticatedBy: 'samlId',
+            value: null,
+          });
+
+          // when
+          const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(schoolingRegistration, userRepositoryStub, obfuscationServiceStub, studentRepositoryStub);
+
+          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(userRepositoryStub.getUserAuthenticationMethods).to.have.been.calledWith(user.id);
+          expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
+          expect(error.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
+          expect(error.meta.shortCode).to.equal('R13');
+          expect(error.meta.value).to.equal(null);
+          expect(error.meta.userId).to.equal(user.id);
+        });
+      });
     });
   });
 });

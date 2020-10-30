@@ -52,12 +52,9 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
       organizationId: campaign.organizationId,
       reconciliationInfo,
       schoolingRegistrationRepository,
-      userRepository,
-      obfuscationService,
     });
 
-    const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
-    await userReconciliationService.checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
+    await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(matchedSchoolingRegistration, userRepository, obfuscationService, studentRepository);
 
     const user = await userRepository.getBySamlId(externalUser.samlId);
     if (user) {
@@ -74,8 +71,10 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     if (reconciliationErrors.includes(error.code)) {
 
       await userRepository.updateUserAttributes(error.meta.userId, { samlId: externalUser.samlId });
-      const schoolingRegistrationId = error.meta.schoolingRegistrationId || matchedSchoolingRegistration.id;
-      const schoolingRegistration = await schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({ userId: error.meta.userId , schoolingRegistrationId });
+      const schoolingRegistration = await schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
+        userId: error.meta.userId,
+        schoolingRegistrationId: matchedSchoolingRegistration.id,
+      });
       userId = schoolingRegistration.userId;
 
     } else {
