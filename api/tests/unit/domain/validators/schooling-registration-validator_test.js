@@ -5,7 +5,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
   context('#checkValidation', () => {
 
     const validAttributes = {
-      nationalStudentId: '12345',
+      nationalIdentifier: '12345',
       firstName: 'Ellen',
       lastName: 'Ripley',
       birthdate: '1979-05-25',
@@ -30,7 +30,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
     });
 
     context('required fields', () => {
-      ['firstName', 'lastName', 'birthdate', 'nationalStudentId', 'birthProvinceCode', 'birthProvinceCode', 'status', 'MEFCode', 'division', 'organizationId'].forEach((field) => {
+      ['firstName', 'lastName', 'birthdate', 'nationalIdentifier', 'birthProvinceCode', 'birthProvinceCode', 'status', 'MEFCode', 'division', 'organizationId'].forEach((field) => {
         it(`throw an error when ${field} is missing`, async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, [field]: undefined });
 
@@ -41,7 +41,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
     });
 
     context('fields with a a max length of 255 characters', () => {
-      ['firstName', 'middleName', 'thirdName', 'lastName', 'preferredLastName', 'nationalStudentId', 'birthCity', 'MEFCode', 'division'].forEach((field) => {
+      ['firstName', 'middleName', 'thirdName', 'lastName', 'preferredLastName', 'nationalIdentifier', 'birthCity', 'MEFCode', 'division'].forEach((field) => {
         it(`throw an error when ${field} has more than 255 characters`, async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, [field]: '1'.repeat(256) });
 
@@ -92,6 +92,14 @@ describe('Unit | Domain | Schooling Registration validator', () => {
           checkValidation({ ...validAttributes, status: 'ST' });
         } catch (e) {
           expect.fail('SchoolingRegistration is valid valid when status is \'ST\'');
+        }
+      });
+
+      it('is valid when status is \'AP\'', async () => {
+        try {
+          checkValidation({ ...validAttributes, status: 'AP' });
+        } catch (e) {
+          expect.fail('SchoolingRegistration is valid valid when status is \'AP\'');
         }
       });
     });

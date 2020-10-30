@@ -41,6 +41,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
         const { registrations } = parser.parse();
         expect(registrations[0]).to.includes({
           nationalStudentId: '123F',
+          nationalApprenticeId: undefined,
           firstName: 'Beatrix',
           middleName: 'The',
           thirdName: 'Bride',
@@ -57,6 +58,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
         });
         expect(registrations[1]).to.includes({
           nationalStudentId: '456F',
+          nationalApprenticeId: undefined,
           firstName: 'O-Ren',
           lastName: 'Ishii',
           preferredLastName: 'Cottonmouth',
@@ -68,6 +70,24 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           MEFCode: 'MEF1',
           division: 'Division 2',
           organizationId,
+        });
+      });
+
+      context('When the file contains Apprentice (status AP)', () => {
+        it('should return schooling registration with nationalApprenticeId', () => {
+          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+          `;
+          const organizationId = 789;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
+  
+          const { registrations } = parser.parse();
+          expect(registrations[0]).to.includes({
+            nationalStudentId: undefined,
+            nationalApprenticeId: '123F',
+            status: 'AP',
+          });
         });
       });
 
