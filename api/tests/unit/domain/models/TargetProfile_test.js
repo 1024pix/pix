@@ -2,7 +2,7 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | TargetProfile', () => {
 
-  describe('hasBadges', () => {
+  describe('#hasBadges', () => {
 
     it('should return true when target profile has badges', () => {
       // given
@@ -22,7 +22,7 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
-  describe('hasSkill', () => {
+  describe('#hasSkill', () => {
 
     it('should return true when the skill is in target profile', () => {
       // given
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
-  describe('getCompetenceIds', () => {
+  describe('#getCompetenceIds', () => {
 
     it('should return an array with unique competence ids of skills in target profile', () => {
       // given
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
-  describe('getTargetedCompetences', () => {
+  describe('#getTargetedCompetences', () => {
 
     it('should filter the targeted competences from competences passed as argument', () => {
       // given
@@ -86,7 +86,7 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
-  describe('getSkillIds', () => {
+  describe('#getSkillIds', () => {
 
     it('should return an array with targeted skill ids', () => {
       // given
@@ -102,7 +102,7 @@ describe('Unit | Domain | Models | TargetProfile', () => {
     });
   });
 
-  describe('getSkillCountForCompetence', () => {
+  describe('#getSkillCountForCompetence', () => {
 
     it('should return count of skills within competence in target profile', () => {
       // given
@@ -120,5 +120,4 @@ describe('Unit | Domain | Models | TargetProfile', () => {
       expect(skillCountForCompetence).to.equal(2);
     });
   });
-
 });
