@@ -2,6 +2,7 @@ const Joi = require('@hapi/joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
+const featureToggles = require('../preHandlers/feature-toggles');
 const { idSpecification } = require('../../domain/validators/id-specification');
 
 exports.register = async (server) => {
@@ -393,10 +394,16 @@ exports.register = async (server) => {
             id: idSpecification,
           }),
         },
-        pre: [{
-          method: sessionAuthorization.verify,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: featureToggles.isCertifPrescriptionSCOEnabled,
+            assign: 'isCertifPrescriptionSCOEnabled',
+          },
+          {
+            method: sessionAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.enrollStudentsToSession,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiésr**\n' +
