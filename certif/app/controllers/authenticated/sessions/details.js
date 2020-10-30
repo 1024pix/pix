@@ -5,7 +5,7 @@ import config from 'pix-certif/config/environment';
 
 export default class SessionsDetailsController extends Controller {
 
-  isResultRecipientEmailVisible = config.APP.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE;
+  isResultRecipientEmailVisible = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
