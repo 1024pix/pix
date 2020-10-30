@@ -3,6 +3,9 @@ const BookshelfTargetProfile = require('../../infrastructure/data/target-profile
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../bookshelf');
+const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
+const { NotFoundError, AlreadyExistingEntity } = require('../../domain/errors');
 
 module.exports = {
 
@@ -83,6 +86,35 @@ module.exports = {
         const targetProfiles = bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, models);
         return { models: targetProfiles, pagination };
       });
+  },
+
+  async attachOrganizations(targetProfile) {
+    const rows = targetProfile.organizations.map((organizationId) => {
+      return {
+        organizationId,
+        targetProfileId: targetProfile.id,
+      };
+    });
+    try {
+      await knex.batchInsert('target-profile-shares', rows);
+    } catch (error) {
+      if (foreignKeyConstraintViolated(error)) {
+        const organizationId = error.detail.match(/=\((\d+)\)/)[1];
+        throw new NotFoundError(`L'organization  avec l'id ${organizationId} n'existe pas`);
+      }
+      if (isUniqConstraintViolated(error)) {
+        const organizationId = error.detail.match(/=\((\d+),/)[1];
+        throw new AlreadyExistingEntity(`Le profil cible est déjà associé à l’organisation ${organizationId}.`);
+      }
+    }
+  },
+
+  async isAttachedToOrganizations(targetProfile) {
+    const attachedOrganizations = await knex('target-profile-shares')
+      .select('organizationId')
+      .whereIn('organizationId', targetProfile.organizations);
+
+    return attachedOrganizations.some((e) => e);
   },
 };
 

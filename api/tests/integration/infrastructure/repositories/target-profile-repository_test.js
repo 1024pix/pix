@@ -1,9 +1,10 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr, sinon, knex } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
+const { NotFoundError, AlreadyExistingEntity } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', () => {
 
@@ -389,6 +390,112 @@ describe('Integration | Repository | Target-profile', () => {
 
         // then
         expect(_.map(matchingTargetProfiles, 'id')).to.have.members([1, 2]);
+      });
+    });
+  });
+
+  describe('#attachOrganizations', () => {
+
+    afterEach(() => {
+      return knex('target-profile-shares').delete();
+    });
+
+    it('add organization to the target profile', async function() {
+      databaseBuilder.factory.buildTargetProfile({ id: 12 });
+      const organization1 = databaseBuilder.factory.buildOrganization();
+      const organization2 = databaseBuilder.factory.buildOrganization();
+
+      await databaseBuilder.commit();
+
+      const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+      targetProfile.addOrganizations([organization1.id, organization2.id]);
+
+      await targetProfileRepository.attachOrganizations(targetProfile);
+
+      const rows = await knex('target-profile-shares')
+        .select('organizationId')
+        .where({ targetProfileId: targetProfile.id });
+      const organizationIds = rows.map(({ organizationId }) => organizationId);
+
+      expect(organizationIds).to.exactlyContain([organization1.id, organization2.id]);
+    });
+
+    context('when the organization does not exist', () => {
+      it('throws an error', async () =>   {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([10, 12]);
+
+        const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
+
+        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(error.message).to.have.string('L\'organization  avec l\'id 10 n\'existe pas');
+      });
+    });
+
+    context('when the organization is already attached', () => {
+      it('throws an error', async () =>   {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: organization.id });
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([organization.id]);
+
+        const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
+
+        expect(error).to.be.an.instanceOf(AlreadyExistingEntity);
+        expect(error.message).to.have.string(`Le profil cible est déjà associé à l’organisation ${organization.id}.`);
+      });
+    });
+  });
+
+  describe('isAttachedToOrganizations', () => {
+
+    context('when none of given organizations is attached to the targetProfile', () => {
+      it('return true', async function() {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const organization1 = databaseBuilder.factory.buildOrganization();
+        const organization2 = databaseBuilder.factory.buildOrganization();
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([organization1.id, organization2.id]);
+
+        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfile);
+
+        expect(isAttached).to.equal(false);
+      });
+    });
+
+    context('when one of given organizations is attached to the targetProfile', () => {
+      it('return true', async function() {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const organization1 = databaseBuilder.factory.buildOrganization();
+        const organization2 = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: organization1.id });
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([organization1.id, organization2.id]);
+
+        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfile);
+
+        expect(isAttached).to.equal(true);
       });
     });
   });
