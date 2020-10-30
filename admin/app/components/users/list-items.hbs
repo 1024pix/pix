@@ -12,21 +12,21 @@
         <th>
           <input id="firstName"
                  type="text"
-                 value={{unbound @firstName}}
+                 value={{@firstName}}
                  oninput={{perform @triggerFiltering 'firstName'}}
                  class="table-admin-input" />
         </th>
         <th>
           <input id="lastName"
                  type="text"
-                 value={{unbound @lastName}}
+                 value={{@lastName}}
                  oninput={{perform @triggerFiltering 'lastName'}}
                  class="table-admin-input" />
         </th>
         <th>
           <input id="email"
                  type="text"
-                 value={{unbound @email}}
+                 value={{@email}}
                  oninput={{perform @triggerFiltering 'email'}}
                  class="table-admin-input" />
         </th>

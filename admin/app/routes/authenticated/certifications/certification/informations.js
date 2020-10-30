@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-controller-access-in-routes */
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 
@@ -5,9 +6,8 @@ export default class CertificationInformationsRoute extends Route {
 
   setupController(controller, model) {
     super.setupController(...arguments);
-    const singleCertificationController = this.controllerFor('authenticated.certifications.certification.informations');
-    singleCertificationController.certificationId = model.id;
-    singleCertificationController.certificationStatus = model.status;
+    controller.certificationId = model.id;
+    controller.certificationStatus = model.status;
     controller.send('onCheckMarks');
   }
 
