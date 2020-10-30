@@ -385,6 +385,23 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         // then
         expect(foundMemberships).to.have.lengthOf(0);
       });
+
+      it('should retrieve membership and organization with tags', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildOrganizationTag({ organizationId }).id;
+        databaseBuilder.factory.buildMembership({ userId, organizationId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const foundMemberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization: true });
+
+        // then
+        expect(foundMemberships[0].organization.id).to.equal(organizationId);
+        expect(foundMemberships[0].organization.tags).to.have.lengthOf(1);
+      });
     });
 
     context('When organization is required', () => {

@@ -1248,34 +1248,92 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function() {
 
-    let organization, accessToken;
+    let userId, organization, accessToken;
 
     beforeEach(async () => {
-      const userId = databaseBuilder.factory.buildUser().id;
-      organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({
-        userId,
-        organizationId: organization.id,
-        organizationRole: Membership.roles.ADMIN,
-      });
-      await databaseBuilder.commit();
-
+      userId = databaseBuilder.factory.buildUser().id;
       const authHeader = generateValidRequestAuthorizationHeader(userId);
       accessToken = authHeader.replace('Bearer ', '');
     });
-
-    it('should return csv file with statusCode 200', async () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200, response.payload);
+    
+    context('when it‘s a SUP organization', () => {
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
+        databaseBuilder.factory.buildMembership({
+          userId,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.ADMIN,
+        });
+        await databaseBuilder.commit();
+      });
+  
+      it('should return csv file with statusCode 200', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
+        };
+  
+        // when
+        const response = await server.inject(options);
+  
+        // then
+        expect(response.statusCode).to.equal(200, response.payload);
+      });
     });
-  });
+
+    context('when it‘s a SCO AGRICULTURE organization', () => {
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+        const tag = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
+        databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId: tag.id });
+        databaseBuilder.factory.buildMembership({
+          userId,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.ADMIN,
+        });
+        await databaseBuilder.commit();
+      });
+  
+      it('should return csv file with statusCode 200', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
+        };
+  
+        // when
+        const response = await server.inject(options);
+  
+        // then
+        expect(response.statusCode).to.equal(200, response.payload);
+      });
+    });
+
+    context('when it‘s not a valid organization', () => {
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+        databaseBuilder.factory.buildMembership({
+          userId,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.ADMIN,
+        });
+        await databaseBuilder.commit();
+      });
+  
+      it('should return an error with statusCode 403', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
+        };
+  
+        // when
+        const response = await server.inject(options);
+  
+        // then
+        expect(response.statusCode).to.equal(403, response.payload);
+      });
+    });
+  });  
 });
