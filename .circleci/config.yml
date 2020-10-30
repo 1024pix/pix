@@ -134,7 +134,10 @@ jobs:
           at: ~/pix
       - update_deps_cache:
           cache-key-prefix: 'v7-api-npm-'
-      - run: npm run lint
+      - run:
+          command: |
+            ALLFILES=$(circleci tests glob "./{bin,db,lib,scripts,tests}/**/*{www,.js}" | circleci tests split --split-by=timings)
+            npm run lint:ci -- $ALLFILES
       - run:
           command: |
             TESTFILES=$(circleci tests glob "./tests/**/*test.js" | circleci tests split --split-by=timings)

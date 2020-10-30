@@ -110,6 +110,7 @@
     "db:seed": "knex --knexfile db/knexfile.js seed:run",
     "db:reset": "npm run db:prepare && npm run db:seed",
     "lint": "eslint .",
+    "lint:ci": "eslint",
     "lint:fix": "eslint --fix .",
     "postdeploy": "npm run db:migrate",
     "preinstall": "npx check-engine",
