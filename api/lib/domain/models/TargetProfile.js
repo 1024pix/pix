@@ -19,6 +19,7 @@ class TargetProfile {
     this.stages = stages;
     this.badges = badges;
     this.organizationId = organizationId;
+    this.organizationsAttached = [];
   }
 
   get hasBadges() {
@@ -47,6 +48,22 @@ class TargetProfile {
   getSkillCountForCompetence(competenceId) {
     return this.skills.filter((skill) => skill.competenceId === competenceId).length;
   }
+
+  addOrganizations(organizations) {
+    organizations.forEach(_addUniqueOrganization(this.organizationsAttached));
+  }
+
+  get organizations() {
+    return this.organizationsAttached;
+  }
+}
+
+function _addUniqueOrganization(organizations) {
+  return (id) => {
+    if (!organizations.includes(id)) {
+      organizations.push(id);
+    }
+  };
 }
 
 module.exports = TargetProfile;
