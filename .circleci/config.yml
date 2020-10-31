@@ -124,9 +124,17 @@ workflows:
           requires:
             - api_build
 
-      - mon_pix_build_and_test:
+      - mon_pix_build:
           requires:
             - checkout
+
+      - mon_pix_lint:
+          requires:
+            - mon_pix_build
+
+      - mon_pix_test:
+          requires:
+            - mon_pix_build
 
       - orga_build_and_test:
           requires:
@@ -145,7 +153,8 @@ workflows:
           requires:
             - api_lint
             - api_test
-            - mon_pix_build_and_test
+            - mon_pix_lint
+            - mon_pix_test
             - orga_build_and_test
             - certif_build_and_test
 
@@ -216,23 +225,48 @@ jobs:
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
 
-  mon_pix_build_and_test:
+  mon_pix_build:
     executor:
-      name: node-for-browsers
+      name: node-only
       resource-class: small
     working_directory: ~/pix/mon-pix
-    parallelism: 3
     steps:
       - attach_workspace:
           at: ~/pix
       - save-cache-for-directory:
           cache-key-prefix: v7-mon-pix-npm-
           current-directory: ~/pix/mon-pix
+
+  mon_pix_lint:
+    executor:
+      name: node-only
+      resource-class: small
+    working_directory: ~/pix/mon-pix
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-mon-pix-npm-
+          current-directory: ~/pix/mon-pix
+      - run:
+          command: |
+            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests, translations}/**/*.js" | circleci tests split --split-by=timings)
+            npm run lint:ci -- $ALLFILES
+
+  mon_pix_test:
+    executor:
+      name: node-for-browsers
+      resource-class: small
+    working_directory: ~/pix/mon-pix
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-mon-pix-npm-
+          current-directory: ~/pix/mon-pix
       - browser-tools/install-chrome
-      - run:
-          npm run lint:hbs
-      - run:
-          npm run lint:scss
       - run: |
           npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
