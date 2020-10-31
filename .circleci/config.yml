@@ -25,19 +25,34 @@ orbs:
   browser-tools: circleci/browser-tools@1.1.0
 
 commands:
-  update_deps_cache:
+  restore-cache-for-directory:
     parameters:
       cache-key-prefix:
         description: 'Prefix used to name the cache key for caching package-lock.json'
         type: string
+      current-directory:
+        description: 'Directory in which caching will play (package* location and npm ci execution)'
+        type: string
     steps:
-      - run: cat package*.json > cachekey
+      - run: cat <<parameters.current-directory>>/package*.json > <<parameters.current-directory>>/cachekey
       - restore_cache:
           keys:
-            - <<parameters.cache-key-prefix>>{{ checksum "cachekey" }}
+            - <<parameters.cache-key-prefix>>{{ checksum "<<parameters.current-directory>>/cachekey" }}
       - run: npm ci
+  save-cache-for-directory:
+    parameters:
+      cache-key-prefix:
+        description: 'Prefix used to name the cache key for caching package-lock.json'
+        type: string
+      current-directory:
+        description: 'Directory in which caching will play (package* location and npm ci execution)'
+        type: string
+    steps:
+      - restore-cache-for-directory:
+          cache-key-prefix: <<parameters.cache-key-prefix>>
+          current-directory: <<parameters.current-directory>>
       - save_cache:
-          key: <<parameters.cache-key-prefix>>{{ checksum "cachekey" }}
+          key: <<parameters.cache-key-prefix>>{{ checksum "<<parameters.current-directory>>/cachekey" }}
           paths:
             - ~/.npm
 
@@ -97,13 +112,17 @@ workflows:
                 - prod
                 - /release-.*/
 
-      - api_lint:
+      - api_build:
           requires:
             - checkout
 
-      - api_build_and_test:
+      - api_lint:
           requires:
-            - checkout
+            - api_build
+
+      - api_test:
+          requires:
+            - api_build
 
       - mon_pix_build_and_test:
           requires:
@@ -124,7 +143,8 @@ workflows:
       - e2e_test:
           context: Pix
           requires:
-            - api_build_and_test
+            - api_lint
+            - api_test
             - mon_pix_build_and_test
             - orga_build_and_test
             - certif_build_and_test
@@ -148,33 +168,47 @@ jobs:
           paths:
             - .
 
+  api_build:
+    executor:
+      name: node-only
+      resource-class: small
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - save-cache-for-directory:
+          cache-key-prefix: v7-api-npm-
+          current-directory: ~/pix/api
+
   api_lint:
     executor:
       name: node-only
       resource-class: small
     working_directory: ~/pix/api
-    parallelism: 6
+    parallelism: 4
     steps:
       - attach_workspace:
           at: ~/pix
-      - update_deps_cache:
-          cache-key-prefix: 'v7-api-npm-'
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-api-npm-
+          current-directory: ~/pix/api
       - run:
           command: |
             ALLFILES=$(circleci tests glob "./{bin,db,lib,scripts,tests}/**/*{www,.js}" | circleci tests split --split-by=timings)
             npm run lint:ci -- $ALLFILES
 
-  api_build_and_test:
+  api_test:
     executor:
       name: node-with-db
       resource-class: small
     working_directory: ~/pix/api
-    parallelism: 6
+    parallelism: 4
     steps:
       - attach_workspace:
           at: ~/pix
-      - update_deps_cache:
-          cache-key-prefix: 'v7-api-npm-'
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-api-npm-
+          current-directory: ~/pix/api
       - run:
           command: |
             TESTFILES=$(circleci tests glob "./tests/**/*test.js" | circleci tests split --split-by=timings)
@@ -191,8 +225,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - update_deps_cache:
-          cache-key-prefix: 'v7-mon-pix-npm-'
+      - save-cache-for-directory:
+          cache-key-prefix: v7-mon-pix-npm-
+          current-directory: ~/pix/mon-pix
       - browser-tools/install-chrome
       - run:
           npm run lint:hbs
@@ -209,8 +244,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - update_deps_cache:
-          cache-key-prefix: 'v7-orga-npm-'
+      - save-cache-for-directory:
+          cache-key-prefix: v7-orga-npm-
+          current-directory: ~/pix/orga
       - browser-tools/install-chrome
       - run: npm run lint:ci
       - run: npm test
@@ -221,8 +257,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - update_deps_cache:
-          cache-key-prefix: 'v7-certif-npm-'
+      - save-cache-for-directory:
+          cache-key-prefix: v7-certif-npm-
+          current-directory: ~/pix/certif
       - browser-tools/install-chrome
       - run: npm test
 
@@ -234,8 +271,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - update_deps_cache:
-          cache-key-prefix: 'v7-admin-npm-'
+      - save-cache-for-directory:
+          cache-key-prefix: v7-admin-npm-
+          current-directory: ~/pix/admin
       - browser-tools/install-chrome
       - run: npm test
 
@@ -246,56 +284,25 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - update_deps_cache:
-          cache-key-prefix: 'v7-e2e-npm-'
+      - save-cache-for-directory:
+          cache-key-prefix: v7-e2e-npm-
+          current-directory: ~/pix/high-level-tests/e2e
 
-      - run:
-          working_directory: ~/pix/api
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "~/pix/api/cachekey" }}
-      - run:
-          working_directory: ~/pix/api
-          environment:
-            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm ci
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-api-npm-
+          current-directory: ~/pix/api
 
-      - run:
-          working_directory: ~/pix/mon-pix
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey" }}
-      - run:
-          environment:
-            JOBS: 1
-          working_directory: ~/pix/mon-pix
-          command: npm ci
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-mon-pix-npm-
+          current-directory: ~/pix/mon-pix
 
-      - run:
-          working_directory: ~/pix/orga
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-orga-npm-{{ checksum "~/pix/orga/cachekey" }}
-      - run:
-          environment:
-            JOBS: 2
-          working_directory: ~/pix/orga
-          command: npm ci
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-orga-npm-
+          current-directory: ~/pix/orga
 
-      - run:
-          working_directory: ~/pix/certif
-          command: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-certif-npm-{{ checksum "~/pix/certif/cachekey" }}
-      - run:
-          environment:
-            JOBS: 2
-          working_directory: ~/pix/certif
-          command: npm ci
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-certif-npm-
+          current-directory: ~/pix/certif
 
       - run:
           working_directory: ~/pix/api
