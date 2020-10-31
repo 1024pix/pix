@@ -111,6 +111,16 @@ commands:
           key: <<parameters.cache-key-prefix>>{{ checksum "<<parameters.current-directory>>/cachekey" }}
           paths:
             - ~/.npm
+  continue-if-changed:
+    parameters:
+      marker-file:
+        type: string
+    steps:
+      - run:
+          command: |
+            if [ ! -f <<parameters.marker-file>> ]; then
+              circleci-agent step halt
+            fi
 
 executors:
   node-only:
@@ -189,6 +199,7 @@ workflows:
           name: mon_pix_lint
           app-directory: <<pipeline.parameters.mon-pix-directory>>
           cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          marker-file: <<pipeline.parameters.pix-directory>>/mon-pix_changed
           job-parallelism: 1
           requires:
             - mon_pix_build
@@ -196,6 +207,7 @@ workflows:
           name: mon_pix_test
           app-directory: <<pipeline.parameters.mon-pix-directory>>
           cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          marker-file: <<pipeline.parameters.pix-directory>>/mon-pix_changed
           job-parallelism: 3
           requires:
             - mon_pix_build
@@ -209,6 +221,7 @@ workflows:
           name: orga_lint
           app-directory: <<pipeline.parameters.orga-directory>>
           cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          marker-file: <<pipeline.parameters.pix-directory>>/orga_changed
           job-parallelism: 1
           requires:
             - orga_build
@@ -216,6 +229,7 @@ workflows:
           name: orga_test
           app-directory: <<pipeline.parameters.orga-directory>>
           cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          marker-file: <<pipeline.parameters.pix-directory>>/orga_changed
           job-parallelism: 2
           requires:
             - orga_build
@@ -229,6 +243,7 @@ workflows:
       #    name: certif_lint
       #    app-directory: <<pipeline.parameters.certif-directory>>
       #    cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+      #    marker-file: <<pipeline.parameters.pix-directory>>/certif_changed
       #    job-parallelism: 1
       #    requires:
       #      - certif_build
@@ -236,6 +251,7 @@ workflows:
           name: certif_test
           app-directory: <<pipeline.parameters.certif-directory>>
           cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+          marker-file: <<pipeline.parameters.pix-directory>>/certif_changed
           job-parallelism: 1
           requires:
             - certif_build
@@ -249,6 +265,7 @@ workflows:
           name: admin_lint
           app-directory: <<pipeline.parameters.admin-directory>>
           cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
+          marker-file: <<pipeline.parameters.pix-directory>>/admin_changed
           job-parallelism: 1
           requires:
             - admin_build
@@ -256,6 +273,7 @@ workflows:
           name: admin_test
           app-directory: <<pipeline.parameters.admin-directory>>
           cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
+          marker-file: <<pipeline.parameters.pix-directory>>/admin_changed
           job-parallelism: 1
           requires:
             - admin_build
@@ -284,7 +302,25 @@ jobs:
             npm ci
             npm run lint:scripts
             npm run test:scripts
-            rm -rf .git/
+      - run:
+          command: |
+            changed_folders=$(git diff --dirstat=files,0 HEAD $(git rev-parse origin/dev) | sed 's/^[ 0-9.]\+% //g' | sed -E 's/\/.*$//g' | uniq)
+            if [ $(echo "$changed_folders" | grep api) ] || [ $(echo "$changed_folders" | grep .circleci) ]; then
+              touch ./api_changed
+            fi
+            if [ $(echo "$changed_folders" | grep mon-pix) ] || [ $(echo "$changed_folders" | grep .circleci) ]; then
+              touch ./mon-pix_changed
+            fi
+            if [ $(echo "$changed_folders" | grep orga) ] || [ $(echo "$changed_folders" | grep .circleci) ]; then
+              touch ./orga_changed
+            fi
+            if [ $(echo "$changed_folders" | grep certif) ] || [ $(echo "$changed_folders" | grep .circleci) ]; then
+              touch ./certif_changed
+            fi
+            if [ $(echo "$changed_folders" | grep admin) ] || [ $(echo "$changed_folders" | grep .circleci) ]; then
+              touch ./admin_changed
+            fi
+      - run: rm -rf .git/
       - persist_to_workspace:
           root: <<pipeline.parameters.pix-directory>>
           paths:
@@ -317,6 +353,8 @@ jobs:
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
+      - continue-if-changed:
+          marker-file: <<pipeline.parameters.pix-directory>>/api_changed
       - restore-cache-for-directory:
           cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
           current-directory: <<pipeline.parameters.api-directory>>
@@ -334,6 +372,8 @@ jobs:
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
+      - continue-if-changed:
+          marker-file: <<pipeline.parameters.pix-directory>>/api_changed
       - restore-cache-for-directory:
           cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
           current-directory: <<pipeline.parameters.api-directory>>
@@ -353,6 +393,8 @@ jobs:
       cache-key-prefix:
         description: Cache key prefix
         type: string
+      marker-file:
+        type: string
       job-parallelism:
         type: integer
     executor:
@@ -363,6 +405,8 @@ jobs:
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
+      - continue-if-changed:
+          marker-file: <<parameters.marker-file>>
       - restore-cache-for-directory:
           cache-key-prefix: <<parameters.cache-key-prefix>>
           current-directory: <<parameters.app-directory>>
@@ -380,6 +424,8 @@ jobs:
       cache-key-prefix:
         description: Cache key prefix
         type: string
+      marker-file:
+        type: string
       job-parallelism:
         type: integer
     executor:
@@ -390,6 +436,8 @@ jobs:
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
+      - continue-if-changed:
+          marker-file: <<parameters.marker-file>>
       - restore-cache-for-directory:
           cache-key-prefix: <<parameters.cache-key-prefix>>
           current-directory: <<parameters.app-directory>>
