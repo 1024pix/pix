@@ -322,7 +322,7 @@ jobs:
           current-directory: <<pipeline.parameters.api-directory>>
       - run:
           command: |
-            ALLFILES=$(circleci tests glob "./{bin,db,lib,scripts,tests}/**/*{www,.js}" | circleci tests split --split-by=timings)
+            ALLFILES=$(circleci tests glob "./{bin,db,lib,scripts,tests}/**/*{www,.js}" | circleci tests split)
             npm run lint:ci -- $ALLFILES
 
   api_test:
@@ -339,7 +339,7 @@ jobs:
           current-directory: <<pipeline.parameters.api-directory>>
       - run:
           command: |
-            TESTFILES=$(circleci tests glob "./tests/**/*test.js" | circleci tests split --split-by=timings)
+            TESTFILES=$(circleci tests glob "./tests/**/*test.js" | circleci tests split)
             npm run test:api:ci -- $TESTFILES
           environment:
             TEST_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
@@ -367,7 +367,7 @@ jobs:
           current-directory: <<parameters.app-directory>>
       - run:
           command: |
-            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
+            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split)
             npm run lint:ci -- $ALLFILES
 
   generic_front_test:
