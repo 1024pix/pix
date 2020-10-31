@@ -147,9 +147,15 @@ workflows:
       - certif_test:
           requires:
             - certif_build
-      - admin_build_and_test:
+      - admin_build:
           requires:
             - checkout
+      - admin_lint:
+          requires:
+            - admin_build
+      - admin_test:
+          requires:
+            - admin_build
       - e2e_test:
           context: Pix
           requires:
@@ -315,8 +321,7 @@ jobs:
           cache-key-prefix: v7-orga-npm-
           current-directory: ~/pix/orga
       - browser-tools/install-chrome
-      - run: |
-          npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
+      - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
   certif_build:
     executor:
@@ -360,12 +365,11 @@ jobs:
           cache-key-prefix: v7-certif-npm-
           current-directory: ~/pix/certif
       - browser-tools/install-chrome
-      - run: |
-          npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
+      - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
-  admin_build_and_test:
+  admin_build:
     executor:
-      name: node-for-browsers
+      name: node-only
       resource-class: small
     working_directory: ~/pix/admin
     steps:
@@ -374,8 +378,38 @@ jobs:
       - save-cache-for-directory:
           cache-key-prefix: v7-admin-npm-
           current-directory: ~/pix/admin
+
+  admin_lint:
+    executor:
+      name: node-only
+      resource-class: small
+    working_directory: ~/pix/admin
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-admin-npm-
+          current-directory: ~/pix/admin
+      - run:
+          command: |
+            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
+            npm run lint:ci -- $ALLFILES
+
+  admin_test:
+    executor:
+      name: node-for-browsers
+      resource-class: small
+    working_directory: ~/pix/admin
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-admin-npm-
+          current-directory: ~/pix/admin
       - browser-tools/install-chrome
-      - run: npm test
+      - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
   e2e_test:
     executor: e2e-cypress
