@@ -136,9 +136,17 @@ workflows:
           requires:
             - mon_pix_build
 
-      - orga_build_and_test:
+      - orga_build:
           requires:
             - checkout
+
+      - orga_lint:
+          requires:
+            - orga_build
+
+      - orga_test:
+          requires:
+            - orga_build
 
       - certif_build_and_test:
           requires:
@@ -155,7 +163,8 @@ workflows:
             - api_test
             - mon_pix_lint
             - mon_pix_test
-            - orga_build_and_test
+            - orga_lint
+            - orga_test
             - certif_build_and_test
 
 jobs:
@@ -251,7 +260,7 @@ jobs:
           current-directory: ~/pix/mon-pix
       - run:
           command: |
-            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests, translations}/**/*.js" | circleci tests split --split-by=timings)
+            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests,translations}/**/*.js" | circleci tests split --split-by=timings)
             npm run lint:ci -- $ALLFILES
 
   mon_pix_test:
@@ -270,20 +279,50 @@ jobs:
       - run: |
           npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
-  orga_build_and_test:
-    executor:
-      name: node-for-browsers
-      resource-class: small
-    working_directory: ~/pix/orga
-    steps:
-      - attach_workspace:
-          at: ~/pix
-      - save-cache-for-directory:
-          cache-key-prefix: v7-orga-npm-
-          current-directory: ~/pix/orga
-      - browser-tools/install-chrome
-      - run: npm run lint:ci
-      - run: npm test
+  orga_build:
+   executor:
+     name: node-only
+     resource-class: small
+   working_directory: ~/pix/orga
+   steps:
+     - attach_workspace:
+         at: ~/pix
+     - save-cache-for-directory:
+         cache-key-prefix: v7-orga-npm-
+         current-directory: ~/pix/orga
+
+  orga_lint:
+   executor:
+     name: node-only
+     resource-class: small
+   working_directory: ~/pix/orga
+   parallelism: 4
+   steps:
+     - attach_workspace:
+         at: ~/pix
+     - restore-cache-for-directory:
+         cache-key-prefix: v7-orga-npm-
+         current-directory: ~/pix/orga
+     - run:
+         command: |
+           ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
+           npm run lint:ci -- $ALLFILES
+
+  orga_test:
+   executor:
+     name: node-for-browsers
+     resource-class: small
+   working_directory: ~/pix/orga
+   parallelism: 4
+   steps:
+     - attach_workspace:
+         at: ~/pix
+     - restore-cache-for-directory:
+         cache-key-prefix: v7-orga-npm-
+         current-directory: ~/pix/orga
+     - browser-tools/install-chrome
+     - run: |
+         npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
   certif_build_and_test:
     executor: node-for-browsers
