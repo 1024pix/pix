@@ -167,7 +167,10 @@ workflows:
                 - master
                 - prod
                 - /release-.*/
-      - api_build:
+      - generic_app_build:
+          name: api_build
+          app-directory: <<pipeline.parameters.api-directory>>
+          cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
           requires:
             - checkout
       - api_lint:
@@ -176,40 +179,84 @@ workflows:
       - api_test:
           requires:
             - api_build
-      - mon_pix_build:
+      - generic_app_build:
+          name: mon_pix_build
+          app-directory: <<pipeline.parameters.mon-pix-directory>>
+          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
           requires:
             - checkout
-      - mon_pix_lint:
+      - generic_front_lint:
+          name: mon_pix_lint
+          app-directory: <<pipeline.parameters.mon-pix-directory>>
+          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          job-parallelism: 2
           requires:
             - mon_pix_build
-      - mon_pix_test:
+      - generic_front_test:
+          name: mon_pix_test
+          app-directory: <<pipeline.parameters.mon-pix-directory>>
+          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          job-parallelism: 2
           requires:
             - mon_pix_build
-      - orga_build:
+      - generic_app_build:
+          name: orga_build
+          app-directory: <<pipeline.parameters.orga-directory>>
+          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
           requires:
             - checkout
-      - orga_lint:
+      - generic_front_lint:
+          name: orga_lint
+          app-directory: <<pipeline.parameters.orga-directory>>
+          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          job-parallelism: 2
           requires:
             - orga_build
-      - orga_test:
+      - generic_front_test:
+          name: orga_test
+          app-directory: <<pipeline.parameters.orga-directory>>
+          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          job-parallelism: 2
           requires:
             - orga_build
-      - certif_build:
+      - generic_app_build:
+          name: certif_build
+          app-directory: <<pipeline.parameters.certif-directory>>
+          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
           requires:
             - checkout
-      #- certif_lint:
+      #- generic_front_lint:
+      #    name: certif_lint
+      #    app-directory: <<pipeline.parameters.certif-directory>>
+      #    cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+      #    job-parallelism: 2
       #    requires:
       #      - certif_build
-      - certif_test:
+      - generic_front_test:
+          name: certif_test
+          app-directory: <<pipeline.parameters.certif-directory>>
+          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+          job-parallelism: 2
           requires:
             - certif_build
-      - admin_build:
+      - generic_app_build:
+          name: admin_build
+          app-directory: <<pipeline.parameters.admin-directory>>
+          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
           requires:
             - checkout
-      - admin_lint:
+      - generic_front_lint:
+          name: admin_lint
+          app-directory: <<pipeline.parameters.admin-directory>>
+          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
+          job-parallelism: 2
           requires:
             - admin_build
-      - admin_test:
+      - generic_front_test:
+          name: admin_test
+          app-directory: <<pipeline.parameters.admin-directory>>
+          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
+          job-parallelism: 2
           requires:
             - admin_build
       - e2e_test:
@@ -243,17 +290,23 @@ jobs:
           paths:
             - .
 
-  api_build:
+  generic_app_build:
+    description: Generic job that caches and npm ci
+    parameters:
+      app-directory:
+        type: string
+      cache-key-prefix:
+        type: string
     executor:
       name: node-only
       resource-class: small
-    working_directory: <<pipeline.parameters.api-directory>>
+    working_directory: <<parameters.app-directory>>
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
       - save-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.api-directory>>
+          cache-key-prefix: <<parameters.cache-key-prefix>>
+          current-directory: <<parameters.app-directory>>
 
   api_lint:
     executor:
@@ -291,179 +344,53 @@ jobs:
           environment:
             TEST_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
 
-  mon_pix_build:
+  generic_front_lint:
+    description: Generic job that lints a front app
+    parameters:
+      app-directory:
+        description: Directory in which the job plays
+        type: string
+      cache-key-prefix:
+        description: Cache key prefix
+        type: string
+      job-parallelism:
+        type: integer
     executor:
       name: node-only
       resource-class: small
-    working_directory: ~/pix/mon-pix
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - save-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.mon-pix-directory>>
-
-  mon_pix_lint:
-    executor:
-      name: node-only
-      resource-class: small
-    working_directory: ~/pix/mon-pix
-    parallelism: 2
+    working_directory: <<parameters.app-directory>>
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.mon-pix-directory>>
-      - run:
-          command: |
-            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests,translations}/**/*.js" | circleci tests split --split-by=timings)
-            npm run lint:ci -- $ALLFILES
-
-  mon_pix_test:
-    executor:
-      name: node-for-browsers
-      resource-class: small
-    working_directory: ~/pix/mon-pix
-    parallelism: 2
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.mon-pix-directory>>
-      - browser-tools/install-chrome
-      - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
-
-  orga_build:
-    executor:
-      name: node-only
-      resource-class: small
-    working_directory: ~/pix/orga
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - save-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.orga-directory>>
-
-  orga_lint:
-    executor:
-      name: node-only
-      resource-class: small
-    working_directory: ~/pix/orga
-    parallelism: 2
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.orga-directory>>
+          cache-key-prefix: <<parameters.cache-key-prefix>>
+          current-directory: <<parameters.app-directory>>
       - run:
           command: |
             ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
             npm run lint:ci -- $ALLFILES
 
-  orga_test:
+  generic_front_test:
+    description: Generic job that tests an ember front app
+    parameters:
+      app-directory:
+        description: Directory in which the job plays
+        type: string
+      cache-key-prefix:
+        description: Cache key prefix
+        type: string
+      job-parallelism:
+        type: integer
     executor:
       name: node-for-browsers
       resource-class: small
-    working_directory: ~/pix/orga
-    parallelism: 2
+    working_directory: <<parameters.app-directory>>
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.orga-directory>>
-      - browser-tools/install-chrome
-      - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
-
-  certif_build:
-    executor:
-      name: node-only
-      resource-class: small
-    working_directory: ~/pix/certif
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - save-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.certif-directory>>
-
-  certif_lint:
-    executor:
-      name: node-only
-      resource-class: small
-    working_directory: ~/pix/certif
-    parallelism: 2
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.certif-directory>>
-      - run:
-          command: |
-            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
-            npm run lint:ci -- $ALLFILES
-
-  certif_test:
-    executor:
-      name: node-for-browsers
-      resource-class: small
-    working_directory: ~/pix/certif
-    parallelism: 2
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.certif-directory>>
-      - browser-tools/install-chrome
-      - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
-
-  admin_build:
-    executor:
-      name: node-only
-      resource-class: small
-    working_directory: ~/pix/admin
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - save-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.admin-directory>>
-
-  admin_lint:
-    executor:
-      name: node-only
-      resource-class: small
-    working_directory: ~/pix/admin
-    parallelism: 2
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.admin-directory>>
-      - run:
-          command: |
-            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
-            npm run lint:ci -- $ALLFILES
-
-  admin_test:
-    executor:
-      name: node-for-browsers
-      resource-class: small
-    working_directory: ~/pix/admin
-    parallelism: 2
-    steps:
-      - attach_workspace:
-          at: <<pipeline.parameters.pix-directory>>
-      - restore-cache-for-directory:
-          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
-          current-directory: <<pipeline.parameters.admin-directory>>
+          cache-key-prefix: <<parameters.cache-key-prefix>>
+          current-directory: <<parameters.app-directory>>
       - browser-tools/install-chrome
       - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
