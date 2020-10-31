@@ -28,24 +28,24 @@ commands:
   restore-cache-for-directory:
     parameters:
       cache-key-prefix:
-        description: 'Prefix used to name the cache key for caching package-lock.json'
+        description: Prefix used to name the cache key for caching package-lock.json
         type: string
       current-directory:
-        description: 'Directory in which caching will play (package* location and npm ci execution)'
+        description: Directory in which caching will play (package* location and npm ci execution)
         type: string
     steps:
       - run: cat <<parameters.current-directory>>/package*.json > <<parameters.current-directory>>/cachekey
       - restore_cache:
           keys:
             - <<parameters.cache-key-prefix>>{{ checksum "<<parameters.current-directory>>/cachekey" }}
-      - run: npm ci
+      - run: npm ci --prefix <<parameters.current-directory>>
   save-cache-for-directory:
     parameters:
       cache-key-prefix:
-        description: 'Prefix used to name the cache key for caching package-lock.json'
+        description: Prefix used to name the cache key for caching package-lock.json
         type: string
       current-directory:
-        description: 'Directory in which caching will play (package* location and npm ci execution)'
+        description: Directory in which caching will play (package* location and npm ci execution)
         type: string
     steps:
       - restore-cache-for-directory:
@@ -60,8 +60,8 @@ executors:
   node-only:
     parameters:
       resource-class:
-        description: 'Size of docker container. Can be small or medium (default)'
-        default: 'medium'
+        description: Size of docker container. Can be small or medium (default)
+        default: medium
         type: string
     docker:
       - image: cimg/node:12.18.0
@@ -69,8 +69,8 @@ executors:
   node-with-db:
     parameters:
       resource-class:
-        description: 'Size of docker container. Can be small or medium (default)'
-        default: 'medium'
+        description: Size of docker container. Can be small or medium (default)
+        default: medium
         type: string
     docker:
       - image: cimg/node:12.18.0
@@ -82,8 +82,8 @@ executors:
   node-for-browsers:
     parameters:
       resource-class:
-        description: 'Size of docker container. Can be small or medium (default)'
-        default: 'medium'
+        description: Size of docker container. Can be small or medium (default)
+        default: medium
         type: string
     docker:
       - image: cimg/node:12.18.4-browsers
@@ -111,51 +111,39 @@ workflows:
                 - master
                 - prod
                 - /release-.*/
-
       - api_build:
           requires:
             - checkout
-
       - api_lint:
           requires:
             - api_build
-
       - api_test:
           requires:
             - api_build
-
       - mon_pix_build:
           requires:
             - checkout
-
       - mon_pix_lint:
           requires:
             - mon_pix_build
-
       - mon_pix_test:
           requires:
             - mon_pix_build
-
       - orga_build:
           requires:
             - checkout
-
       - orga_lint:
           requires:
             - orga_build
-
       - orga_test:
           requires:
             - orga_build
-
       - certif_build_and_test:
           requires:
             - checkout
-
       - admin_build_and_test:
           requires:
             - checkout
-
       - e2e_test:
           context: Pix
           requires:
@@ -232,7 +220,7 @@ jobs:
             TESTFILES=$(circleci tests glob "./tests/**/*test.js" | circleci tests split --split-by=timings)
             npm run test:api:ci -- $TESTFILES
           environment:
-            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            TEST_DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
 
   mon_pix_build:
     executor:
@@ -276,53 +264,52 @@ jobs:
           cache-key-prefix: v7-mon-pix-npm-
           current-directory: ~/pix/mon-pix
       - browser-tools/install-chrome
-      - run: |
-          npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
+      - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
   orga_build:
-   executor:
-     name: node-only
-     resource-class: small
-   working_directory: ~/pix/orga
-   steps:
-     - attach_workspace:
-         at: ~/pix
-     - save-cache-for-directory:
-         cache-key-prefix: v7-orga-npm-
-         current-directory: ~/pix/orga
+    executor:
+      name: node-only
+      resource-class: small
+    working_directory: ~/pix/orga
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - save-cache-for-directory:
+          cache-key-prefix: v7-orga-npm-
+          current-directory: ~/pix/orga
 
   orga_lint:
-   executor:
-     name: node-only
-     resource-class: small
-   working_directory: ~/pix/orga
-   parallelism: 4
-   steps:
-     - attach_workspace:
-         at: ~/pix
-     - restore-cache-for-directory:
-         cache-key-prefix: v7-orga-npm-
-         current-directory: ~/pix/orga
-     - run:
-         command: |
-           ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
-           npm run lint:ci -- $ALLFILES
+    executor:
+      name: node-only
+      resource-class: small
+    working_directory: ~/pix/orga
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-orga-npm-
+          current-directory: ~/pix/orga
+      - run:
+          command: |
+            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
+            npm run lint:ci -- $ALLFILES
 
   orga_test:
-   executor:
-     name: node-for-browsers
-     resource-class: small
-   working_directory: ~/pix/orga
-   parallelism: 4
-   steps:
-     - attach_workspace:
-         at: ~/pix
-     - restore-cache-for-directory:
-         cache-key-prefix: v7-orga-npm-
-         current-directory: ~/pix/orga
-     - browser-tools/install-chrome
-     - run: |
-         npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
+    executor:
+      name: node-for-browsers
+      resource-class: small
+    working_directory: ~/pix/orga
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-orga-npm-
+          current-directory: ~/pix/orga
+      - browser-tools/install-chrome
+      - run: |
+          npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
   certif_build_and_test:
     executor: node-for-browsers
@@ -364,15 +351,12 @@ jobs:
       - restore-cache-for-directory:
           cache-key-prefix: v7-api-npm-
           current-directory: ~/pix/api
-
       - restore-cache-for-directory:
           cache-key-prefix: v7-mon-pix-npm-
           current-directory: ~/pix/mon-pix
-
       - restore-cache-for-directory:
           cache-key-prefix: v7-orga-npm-
           current-directory: ~/pix/orga
-
       - restore-cache-for-directory:
           cache-key-prefix: v7-certif-npm-
           current-directory: ~/pix/certif
@@ -383,34 +367,27 @@ jobs:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
           background: true
           command: npm start
-
       - run: wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
-
       - run:
           working_directory: ~/pix/mon-pix
           environment:
             JOBS: 1
           background: true
           command: npm start
-
       - run: wget --retry-connrefused -T 60 -qO- http://localhost:4200
-
       - run:
           working_directory: ~/pix/orga
           environment:
             JOBS: 2
           background: true
           command: npm start
-
       - run: wget --retry-connrefused -T 60 -qO- http://localhost:4201
-
       - run:
           working_directory: ~/pix/certif
           environment:
             JOBS: 1
           background: true
           command: npm start
-
       - run: wget --retry-connrefused -T 60 -qO- http://localhost:4203
 
       - run:
