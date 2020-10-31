@@ -138,9 +138,15 @@ workflows:
       - orga_test:
           requires:
             - orga_build
-      - certif_build_and_test:
+      - certif_build:
           requires:
             - checkout
+      #- certif_lint:
+      #    requires:
+      #      - certif_build
+      - certif_test:
+          requires:
+            - certif_build
       - admin_build_and_test:
           requires:
             - checkout
@@ -153,7 +159,8 @@ workflows:
             - mon_pix_test
             - orga_lint
             - orga_test
-            - certif_build_and_test
+            #- certif_lint
+            - certif_test
 
 jobs:
   checkout:
@@ -311,8 +318,10 @@ jobs:
       - run: |
           npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
-  certif_build_and_test:
-    executor: node-for-browsers
+  certif_build:
+    executor:
+      name: node-only
+      resource-class: small
     working_directory: ~/pix/certif
     steps:
       - attach_workspace:
@@ -320,8 +329,39 @@ jobs:
       - save-cache-for-directory:
           cache-key-prefix: v7-certif-npm-
           current-directory: ~/pix/certif
+
+  certif_lint:
+    executor:
+      name: node-only
+      resource-class: small
+    working_directory: ~/pix/certif
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-certif-npm-
+          current-directory: ~/pix/certif
+      - run:
+          command: |
+            ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
+            npm run lint:ci -- $ALLFILES
+
+  certif_test:
+    executor:
+      name: node-for-browsers
+      resource-class: small
+    working_directory: ~/pix/certif
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - restore-cache-for-directory:
+          cache-key-prefix: v7-certif-npm-
+          current-directory: ~/pix/certif
       - browser-tools/install-chrome
-      - run: npm test
+      - run: |
+          npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
   admin_build_and_test:
     executor:

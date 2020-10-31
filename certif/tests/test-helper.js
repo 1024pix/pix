@@ -1,7 +1,7 @@
 import Application from 'pix-certif/app';
 import config from 'pix-certif/config/environment';
 import { setApplication } from '@ember/test-helpers';
-import { start } from 'ember-qunit';
+import start from 'ember-exam/test-support/start';
 
 import NotificationMessageService from 'ember-cli-notifications/services/notifications';
 
