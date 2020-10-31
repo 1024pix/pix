@@ -42,23 +42,40 @@ commands:
             - ~/.npm
 
 executors:
-  node-pix:
+  node-only:
+    parameters:
+      resource-class:
+        description: 'Size of docker container. Can be small or medium (default)'
+        default: 'medium'
+        type: string
     docker:
       - image: cimg/node:12.18.0
-  node-api:
+    resource_class: <<parameters.resource-class>>
+  node-with-db:
+    parameters:
+      resource-class:
+        description: 'Size of docker container. Can be small or medium (default)'
+        default: 'medium'
+        type: string
     docker:
       - image: cimg/node:12.18.0
       - image: postgres:12.4-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-    resource_class: small
-  node-front:
+    resource_class: <<parameters.resource-class>>
+  node-for-browsers:
+    parameters:
+      resource-class:
+        description: 'Size of docker container. Can be small or medium (default)'
+        default: 'medium'
+        type: string
     docker:
       - image: cimg/node:12.18.4-browsers
         environment:
           # See https://git.io/vdao3 for details.
           JOBS: 2
+    resource_class: <<parameters.resource-class>>
   e2e-cypress:
     docker:
       - image: cypress/browsers:node12.18.0-chrome83-ff77
@@ -110,7 +127,9 @@ workflows:
 
 jobs:
   checkout:
-    executor: node-pix
+    executor:
+      name: node-only
+      resource-class: small
     working_directory: ~/pix
     steps:
       - checkout
@@ -126,7 +145,9 @@ jobs:
             - .
 
   api_build_and_test:
-    executor: node-api
+    executor:
+      name: node-with-db
+      resource-class: small
     working_directory: ~/pix/api
     parallelism: 6
     steps:
@@ -146,7 +167,9 @@ jobs:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
 
   mon_pix_build_and_test:
-    executor: node-front
+    executor:
+      name: node-for-browsers
+      resource-class: small
     working_directory: ~/pix/mon-pix
     parallelism: 3
     steps:
@@ -163,7 +186,9 @@ jobs:
           npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
   orga_build_and_test:
-    executor: node-front
+    executor:
+      name: node-for-browsers
+      resource-class: small
     working_directory: ~/pix/orga
     steps:
       - attach_workspace:
@@ -175,7 +200,7 @@ jobs:
       - run: npm test
 
   certif_build_and_test:
-    executor: node-front
+    executor: node-for-browsers
     working_directory: ~/pix/certif
     steps:
       - attach_workspace:
@@ -186,7 +211,9 @@ jobs:
       - run: npm test
 
   admin_build_and_test:
-    executor: node-front
+    executor:
+      name: node-for-browsers
+      resource-class: small
     working_directory: ~/pix/admin
     steps:
       - attach_workspace:
