@@ -97,6 +97,10 @@ workflows:
                 - prod
                 - /release-.*/
 
+      - api_lint:
+          requires:
+            - checkout
+
       - api_build_and_test:
           requires:
             - checkout
@@ -144,9 +148,9 @@ jobs:
           paths:
             - .
 
-  api_build_and_test:
+  api_lint:
     executor:
-      name: node-with-db
+      name: node-only
       resource-class: small
     working_directory: ~/pix/api
     parallelism: 6
@@ -159,6 +163,18 @@ jobs:
           command: |
             ALLFILES=$(circleci tests glob "./{bin,db,lib,scripts,tests}/**/*{www,.js}" | circleci tests split --split-by=timings)
             npm run lint:ci -- $ALLFILES
+
+  api_build_and_test:
+    executor:
+      name: node-with-db
+      resource-class: small
+    working_directory: ~/pix/api
+    parallelism: 6
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - update_deps_cache:
+          cache-key-prefix: 'v7-api-npm-'
       - run:
           command: |
             TESTFILES=$(circleci tests glob "./tests/**/*test.js" | circleci tests split --split-by=timings)
