@@ -21,8 +21,64 @@
 
 version: 2.1
 
+parameters:
+  node-tag:
+    type: string
+    default: 12.18.0
+  node-browsers-tag:
+    type: string
+    default: 12.18.4-browsers
+  postgres-tag:
+    type: string
+    default: 12.4-alpine
+  browser-tools-tag:
+    type: string
+    default: 1.1.0
+  cypress-browsers-tag:
+    type: string
+    default: node12.18.0-chrome83-ff77
+  pix-directory:
+    type: string
+    default: ~/pix
+  api-directory:
+    type: string
+    default: ~/pix/api
+  api-cache-key-prefix:
+    type: string
+    default: v7-api-npm-
+  mon-pix-directory:
+    type: string
+    default: ~/pix/mon-pix
+  mon-pix-cache-key-prefix:
+    type: string
+    default: v7-mon-pix-npm-
+  orga-directory:
+    type: string
+    default: ~/pix/orga
+  orga-cache-key-prefix:
+    type: string
+    default: v7-orga-npm-
+  certif-directory:
+    type: string
+    default: ~/pix/certif
+  certif-cache-key-prefix:
+    type: string
+    default: v7-certif-npm-
+  admin-directory:
+    type: string
+    default: ~/pix/admin
+  admin-cache-key-prefix:
+    type: string
+    default: v7-admin-npm-
+  e2e-directory:
+    type: string
+    default: ~/pix/high-level-tests/e2e
+  e2e-cache-key-prefix:
+    type: string
+    default: v7-e2e-npm-
+
 orbs:
-  browser-tools: circleci/browser-tools@1.1.0
+  browser-tools: circleci/browser-tools@<<pipeline.parameters.browser-tools-tag>>
 
 commands:
   restore-cache-for-directory:
@@ -64,7 +120,7 @@ executors:
         default: medium
         type: string
     docker:
-      - image: cimg/node:12.18.0
+      - image: cimg/node:<<pipeline.parameters.node-tag>>
     resource_class: <<parameters.resource-class>>
   node-with-db:
     parameters:
@@ -73,8 +129,8 @@ executors:
         default: medium
         type: string
     docker:
-      - image: cimg/node:12.18.0
-      - image: postgres:12.4-alpine
+      - image: cimg/node:<<pipeline.parameters.node-tag>>
+      - image: postgres:<<pipeline.parameters.postgres-tag>>
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -86,15 +142,15 @@ executors:
         default: medium
         type: string
     docker:
-      - image: cimg/node:12.18.4-browsers
+      - image: cimg/node:<<pipeline.parameters.node-browsers-tag>>
         environment:
           # See https://git.io/vdao3 for details.
           JOBS: 2
     resource_class: <<parameters.resource-class>>
   e2e-cypress:
     docker:
-      - image: cypress/browsers:node12.18.0-chrome83-ff77
-      - image: postgres:12.4-alpine
+      - image: cypress/browsers:<<pipeline.parameters.cypress-browsers-tag>>
+      - image: postgres:<<pipeline.parameters.postgres-tag>>
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -173,7 +229,7 @@ jobs:
     executor:
       name: node-only
       resource-class: small
-    working_directory: ~/pix
+    working_directory: <<pipeline.parameters.pix-directory>>
     steps:
       - checkout
       - run:
@@ -183,7 +239,7 @@ jobs:
             npm run test:scripts
             rm -rf .git/
       - persist_to_workspace:
-          root: ~/pix
+          root: <<pipeline.parameters.pix-directory>>
           paths:
             - .
 
@@ -191,26 +247,26 @@ jobs:
     executor:
       name: node-only
       resource-class: small
-    working_directory: ~/pix/api
+    working_directory: <<pipeline.parameters.api-directory>>
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - save-cache-for-directory:
-          cache-key-prefix: v7-api-npm-
-          current-directory: ~/pix/api
+          cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.api-directory>>
 
   api_lint:
     executor:
       name: node-only
       resource-class: small
-    working_directory: ~/pix/api
+    working_directory: <<pipeline.parameters.api-directory>>
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-api-npm-
-          current-directory: ~/pix/api
+          cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.api-directory>>
       - run:
           command: |
             ALLFILES=$(circleci tests glob "./{bin,db,lib,scripts,tests}/**/*{www,.js}" | circleci tests split --split-by=timings)
@@ -220,14 +276,14 @@ jobs:
     executor:
       name: node-with-db
       resource-class: small
-    working_directory: ~/pix/api
+    working_directory: <<pipeline.parameters.api-directory>>
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-api-npm-
-          current-directory: ~/pix/api
+          cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.api-directory>>
       - run:
           command: |
             TESTFILES=$(circleci tests glob "./tests/**/*test.js" | circleci tests split --split-by=timings)
@@ -242,10 +298,10 @@ jobs:
     working_directory: ~/pix/mon-pix
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - save-cache-for-directory:
-          cache-key-prefix: v7-mon-pix-npm-
-          current-directory: ~/pix/mon-pix
+          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.mon-pix-directory>>
 
   mon_pix_lint:
     executor:
@@ -255,10 +311,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-mon-pix-npm-
-          current-directory: ~/pix/mon-pix
+          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.mon-pix-directory>>
       - run:
           command: |
             ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests,translations}/**/*.js" | circleci tests split --split-by=timings)
@@ -272,10 +328,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-mon-pix-npm-
-          current-directory: ~/pix/mon-pix
+          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.mon-pix-directory>>
       - browser-tools/install-chrome
       - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
@@ -286,10 +342,10 @@ jobs:
     working_directory: ~/pix/orga
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - save-cache-for-directory:
-          cache-key-prefix: v7-orga-npm-
-          current-directory: ~/pix/orga
+          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.orga-directory>>
 
   orga_lint:
     executor:
@@ -299,10 +355,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-orga-npm-
-          current-directory: ~/pix/orga
+          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.orga-directory>>
       - run:
           command: |
             ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
@@ -316,10 +372,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-orga-npm-
-          current-directory: ~/pix/orga
+          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.orga-directory>>
       - browser-tools/install-chrome
       - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
@@ -330,10 +386,10 @@ jobs:
     working_directory: ~/pix/certif
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - save-cache-for-directory:
-          cache-key-prefix: v7-certif-npm-
-          current-directory: ~/pix/certif
+          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.certif-directory>>
 
   certif_lint:
     executor:
@@ -343,10 +399,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-certif-npm-
-          current-directory: ~/pix/certif
+          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.certif-directory>>
       - run:
           command: |
             ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
@@ -360,10 +416,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-certif-npm-
-          current-directory: ~/pix/certif
+          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.certif-directory>>
       - browser-tools/install-chrome
       - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
@@ -374,10 +430,10 @@ jobs:
     working_directory: ~/pix/admin
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - save-cache-for-directory:
-          cache-key-prefix: v7-admin-npm-
-          current-directory: ~/pix/admin
+          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.admin-directory>>
 
   admin_lint:
     executor:
@@ -387,10 +443,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-admin-npm-
-          current-directory: ~/pix/admin
+          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.admin-directory>>
       - run:
           command: |
             ALLFILES=$(circleci tests glob "./{app,config,mirage,public,tests}/**/*.js" | circleci tests split --split-by=timings)
@@ -404,10 +460,10 @@ jobs:
     parallelism: 4
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-admin-npm-
-          current-directory: ~/pix/admin
+          cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.admin-directory>>
       - browser-tools/install-chrome
       - run: npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
@@ -417,26 +473,26 @@ jobs:
     working_directory: ~/pix/high-level-tests/e2e
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: <<pipeline.parameters.pix-directory>>
       - save-cache-for-directory:
-          cache-key-prefix: v7-e2e-npm-
-          current-directory: ~/pix/high-level-tests/e2e
+          cache-key-prefix: <<pipeline.parameters.e2e-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.e2e-directory>>
 
       - restore-cache-for-directory:
-          cache-key-prefix: v7-api-npm-
-          current-directory: ~/pix/api
+          cache-key-prefix: <<pipeline.parameters.api-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.api-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-mon-pix-npm-
-          current-directory: ~/pix/mon-pix
+          cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.mon-pix-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-orga-npm-
-          current-directory: ~/pix/orga
+          cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.orga-directory>>
       - restore-cache-for-directory:
-          cache-key-prefix: v7-certif-npm-
-          current-directory: ~/pix/certif
+          cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
+          current-directory: <<pipeline.parameters.certif-directory>>
 
       - run:
-          working_directory: ~/pix/api
+          working_directory: <<pipeline.parameters.api-directory>>
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
           background: true
