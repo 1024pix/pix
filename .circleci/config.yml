@@ -189,14 +189,14 @@ workflows:
           name: mon_pix_lint
           app-directory: <<pipeline.parameters.mon-pix-directory>>
           cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
-          job-parallelism: 2
+          job-parallelism: 1
           requires:
             - mon_pix_build
       - generic_front_test:
           name: mon_pix_test
           app-directory: <<pipeline.parameters.mon-pix-directory>>
           cache-key-prefix: <<pipeline.parameters.mon-pix-cache-key-prefix>>
-          job-parallelism: 2
+          job-parallelism: 3
           requires:
             - mon_pix_build
       - generic_app_build:
@@ -209,7 +209,7 @@ workflows:
           name: orga_lint
           app-directory: <<pipeline.parameters.orga-directory>>
           cache-key-prefix: <<pipeline.parameters.orga-cache-key-prefix>>
-          job-parallelism: 2
+          job-parallelism: 1
           requires:
             - orga_build
       - generic_front_test:
@@ -229,14 +229,14 @@ workflows:
       #    name: certif_lint
       #    app-directory: <<pipeline.parameters.certif-directory>>
       #    cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
-      #    job-parallelism: 2
+      #    job-parallelism: 1
       #    requires:
       #      - certif_build
       - generic_front_test:
           name: certif_test
           app-directory: <<pipeline.parameters.certif-directory>>
           cache-key-prefix: <<pipeline.parameters.certif-cache-key-prefix>>
-          job-parallelism: 2
+          job-parallelism: 1
           requires:
             - certif_build
       - generic_app_build:
@@ -249,14 +249,14 @@ workflows:
           name: admin_lint
           app-directory: <<pipeline.parameters.admin-directory>>
           cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
-          job-parallelism: 2
+          job-parallelism: 1
           requires:
             - admin_build
       - generic_front_test:
           name: admin_test
           app-directory: <<pipeline.parameters.admin-directory>>
           cache-key-prefix: <<pipeline.parameters.admin-cache-key-prefix>>
-          job-parallelism: 2
+          job-parallelism: 1
           requires:
             - admin_build
       - e2e_test:
@@ -359,6 +359,7 @@ jobs:
       name: node-only
       resource-class: small
     working_directory: <<parameters.app-directory>>
+    parallelism: <<parameters.job-parallelism>>
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -383,8 +384,9 @@ jobs:
         type: integer
     executor:
       name: node-for-browsers
-      resource-class: small
+      resource-class: medium
     working_directory: <<parameters.app-directory>>
+    parallelism: <<parameters.job-parallelism>>
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -428,7 +430,7 @@ jobs:
       - run:
           working_directory: ~/pix/mon-pix
           environment:
-            JOBS: 1
+            JOBS: 2
           background: true
           command: npm start
       - run: wget --retry-connrefused -T 60 -qO- http://localhost:4200
@@ -442,7 +444,7 @@ jobs:
       - run:
           working_directory: ~/pix/certif
           environment:
-            JOBS: 1
+            JOBS: 2
           background: true
           command: npm start
       - run: wget --retry-connrefused -T 60 -qO- http://localhost:4203
