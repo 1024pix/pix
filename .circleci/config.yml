@@ -260,7 +260,7 @@ jobs:
       name: node-only
       resource-class: small
     working_directory: <<pipeline.parameters.api-directory>>
-    parallelism: 4
+    parallelism: 3
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -277,7 +277,7 @@ jobs:
       name: node-with-db
       resource-class: small
     working_directory: <<pipeline.parameters.api-directory>>
-    parallelism: 4
+    parallelism: 3
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -308,7 +308,7 @@ jobs:
       name: node-only
       resource-class: small
     working_directory: ~/pix/mon-pix
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -325,7 +325,7 @@ jobs:
       name: node-for-browsers
       resource-class: small
     working_directory: ~/pix/mon-pix
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -352,7 +352,7 @@ jobs:
       name: node-only
       resource-class: small
     working_directory: ~/pix/orga
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -369,7 +369,7 @@ jobs:
       name: node-for-browsers
       resource-class: small
     working_directory: ~/pix/orga
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -396,7 +396,7 @@ jobs:
       name: node-only
       resource-class: small
     working_directory: ~/pix/certif
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -413,7 +413,7 @@ jobs:
       name: node-for-browsers
       resource-class: small
     working_directory: ~/pix/certif
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -440,7 +440,7 @@ jobs:
       name: node-only
       resource-class: small
     working_directory: ~/pix/admin
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
@@ -457,7 +457,7 @@ jobs:
       name: node-for-browsers
       resource-class: small
     working_directory: ~/pix/admin
-    parallelism: 4
+    parallelism: 2
     steps:
       - attach_workspace:
           at: <<pipeline.parameters.pix-directory>>
