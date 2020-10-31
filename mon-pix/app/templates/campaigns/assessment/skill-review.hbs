@@ -50,12 +50,21 @@
             <h2 class="sr-only">{{t 'pages.skill-review.send-title'}}</h2>
 
             <div class="skill-review-result__share-container {{if this.showStages "skill-review-result__share-container--left"}}">
-              <CampaignShareButton
-                @isShared={{this.model.campaignParticipation.isShared}}
-                @displayErrorMessage={{this.displayErrorMessage}}
-                @displayLoadingButton={{this.displayLoadingButton}}
-                @shareCampaignParticipation={{this.shareCampaignParticipation}}
-              />
+              {{#unless this.displayErrorMessage}}
+                <CampaignShareButton
+                  @isShared={{this.model.campaignParticipation.isShared}}
+                  @displayLoadingButton={{this.displayLoadingButton}}
+                  @shareCampaignParticipation={{this.shareCampaignParticipation}}
+                />
+              {{else}}
+                <div class="skill-review-share__error" aria-live="polite">
+                  {{t 'pages.skill-review.not-finished'}}
+                </div>
+                <LinkTo @route="campaigns.start-or-resume" @model={{this.model.campaignParticipation.campaign.code}}
+                        class="resume-campaign-banner__button button button--big button--link"><span class="sr-only">{{t
+                        'pages.profile.resume-campaign-banner.accessibility.resume'}}</span>{{t
+                        'pages.profile.resume-campaign-banner.actions.resume'}}</LinkTo>
+              {{/unless}}
             </div>
         </div>
       </div>
