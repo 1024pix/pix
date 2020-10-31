@@ -45,37 +45,37 @@ parameters:
     default: ~/pix/api
   api-cache-key-prefix:
     type: string
-    default: v7-api-npm-
+    default: v8-api-npm-
   mon-pix-directory:
     type: string
     default: ~/pix/mon-pix
   mon-pix-cache-key-prefix:
     type: string
-    default: v7-mon-pix-npm-
+    default: v8-mon-pix-npm-
   orga-directory:
     type: string
     default: ~/pix/orga
   orga-cache-key-prefix:
     type: string
-    default: v7-orga-npm-
+    default: v8-orga-npm-
   certif-directory:
     type: string
     default: ~/pix/certif
   certif-cache-key-prefix:
     type: string
-    default: v7-certif-npm-
+    default: v8-certif-npm-
   admin-directory:
     type: string
     default: ~/pix/admin
   admin-cache-key-prefix:
     type: string
-    default: v7-admin-npm-
+    default: v8-admin-npm-
   e2e-directory:
     type: string
     default: ~/pix/high-level-tests/e2e
   e2e-cache-key-prefix:
     type: string
-    default: v7-e2e-npm-
+    default: v8-e2e-npm-
 
 orbs:
   browser-tools: circleci/browser-tools@<<pipeline.parameters.browser-tools-tag>>
