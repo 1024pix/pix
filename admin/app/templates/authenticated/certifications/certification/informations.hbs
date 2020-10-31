@@ -9,7 +9,7 @@
           </h5>
           <div class="card-text">
             <CertificationInfoField @value={{this.certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
-            <CertificationStatusSelect @value={{this.certification.status}} @edition={{this.edition}} />
+            <CertificationStatusSelect @certification={{this.certification}} @edition={{this.edition}} />
             <CertificationInfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
             <CertificationInfoField @value={{this.certification.completionDate}} @edition={{false}} @label="Terminée le :" />
             <CertificationInfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />

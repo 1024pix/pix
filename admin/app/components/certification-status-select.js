@@ -1,7 +1,7 @@
 import CertificationInfoField from './certification-info-field';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 const options = [
   { value: 'started', label: 'Démarrée' },

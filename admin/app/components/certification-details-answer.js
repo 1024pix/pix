@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 const options = [
   { value: 'ok', label: 'Succès' },
