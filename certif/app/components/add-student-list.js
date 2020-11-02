@@ -22,6 +22,10 @@ export default class AddStudentList extends Component {
     return allCertifReportsAreCheck;
   }
 
+  get numberOfStudentsAlreadyCandidate() {
+    return this.args.certificationCandidates ? this.args.certificationCandidates.length : 0;
+  }
+
   @action
   toggleItem(item) {
     item.isSelected = !item.isSelected;

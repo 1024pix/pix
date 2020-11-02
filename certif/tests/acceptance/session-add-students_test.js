@@ -115,7 +115,7 @@ module('Acceptance | Session Add Students', function(hooks) {
           await click(checkbox);
 
           // when
-          const cancelButtonSelector = '.add-student-list__cancel-button';
+          const cancelButtonSelector = '.bottom-action-bar__actions--cancel-button';
           await click(cancelButtonSelector);
 
           // then
