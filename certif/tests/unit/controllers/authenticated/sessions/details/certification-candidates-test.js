@@ -1,49 +1,34 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sessions/details/certification-candidates', function(hooks) {
   setupTest(hooks);
 
-  module('#saveCertificationCandidate', function() {
-
-    test('should save certification candidate on saveCertificationCandidate action with appropriate adapter options', function(assert) {
+  module('#computed hasOneOrMoreCandidates()', function() {
+    test('It should return true when has one or more candidates', function(assert) {
       // given
-      const certificationCandidateData = {
-        firstName: 'Georges',
-        lastName: 'Brassens',
-        birthdate: '2010-04-04',
-        birthCity: 'Ici',
-        birthProvinceCode: 'Code',
-        birthCountry: 'Country',
-        externalId: 'Abcde',
-        email: 'a@a.com',
-        resultRecipientEmail: 'destinataire@result.com',
-        extraTimePercentage: 'Extra',
-      };
-      const savableCandidate = { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() };
-      const store = { createRecord: sinon.stub().returns(savableCandidate) };
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
-      controller.model = {
-        session: {
-          id: 'sessionId',
-        },
-        certificationCandidates: { find: sinon.stub().returns(undefined) },
-      };
-      controller.store = store;
-  
+
       // when
-      controller.send('saveCertificationCandidate', certificationCandidateData);
-  
+      controller.model = { certificationCandidates: ['certifCandidate1', 'certifCanddate2'] } ;
+
+      const shouldDisplayStudentList = controller.hasOneOrMoreCandidates;
+
       // then
-      assert.equal(store.createRecord.calledWith('certification-candidate', certificationCandidateData), true);
-      assert.equal(savableCandidate.save.calledWithExactly({
-        adapterOptions: {
-          registerToSession: true,
-          sessionId: 'sessionId',
-        },
-      }), true);
+      assert.equal(shouldDisplayStudentList, true);
     });
 
+    test('It should return false when has no candidate', function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
+
+      // when
+      controller.model = { certificationCandidates: [] } ;
+
+      const shouldDisplayStudentList = controller.hasOneOrMoreCandidates;
+
+      // then
+      assert.equal(shouldDisplayStudentList, false);
+    });
   });
 });
