@@ -2,11 +2,14 @@ import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 import sumBy from 'lodash/sumBy';
 
-function _addDefaultPixscore(user, server) {
-  if (!user.pixScore) {
+function _addDefaultProfile(user, server) {
+  if (!user.profile) {
     const pixScoreValue = sumBy(user.scorecards.models, 'earnedPix');
-    user.update({
-      pixScore: server.create('pix-score', { value: pixScoreValue }),
+
+    user.update({ profile: server.create('profile', {
+      pixScore: pixScoreValue,
+      scorecards: user.scorecards,
+    }),
     });
   }
 }
@@ -210,6 +213,6 @@ export default Factory.extend({
   afterCreate(user, server) {
     _addDefaultIsCertifiable(user, server);
     _addDefaultScorecards(user, server);
-    _addDefaultPixscore(user, server);
+    _addDefaultProfile(user, server);
   },
 });

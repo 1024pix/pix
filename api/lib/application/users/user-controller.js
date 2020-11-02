@@ -2,8 +2,8 @@ const campaignParticipationSerializer = require('../../infrastructure/serializer
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const isCertifiableSerializer = require('../../infrastructure/serializers/jsonapi/is-certifiable-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
-const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
+const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
@@ -144,19 +144,12 @@ module.exports = {
     return isCertifiableSerializer.serialize({ isCertifiable, userId: authenticatedUserId });
   },
 
-  getPixScore(request) {
-    const authenticatedUserId = request.auth.credentials.userId;
-
-    return usecases.getUserPixScore({ userId: authenticatedUserId })
-      .then(pixScoreSerializer.serialize);
-  },
-
-  getScorecards(request) {
+  getProfile(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const locale = extractLocaleFromRequest(request);
 
-    return usecases.getUserScorecards({ userId: authenticatedUserId, locale })
-      .then(scorecardSerializer.serialize);
+    return usecases.getUserProfile({ userId: authenticatedUserId, locale })
+      .then(profileSerializer.serialize);
   },
 
   resetScorecard(request) {

@@ -15,7 +15,6 @@ export default class SendProfileRoute extends Route {
   }
 
   async afterModel({ user }) {
-    await user.hasMany('scorecards').reload();
-    await user.belongsTo('pixScore').reload();
+    await user.belongsTo('profile').reload();
   }
 }

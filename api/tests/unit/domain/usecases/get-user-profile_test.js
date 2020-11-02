@@ -1,6 +1,7 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const getUserScorecards = require('../../../../lib/domain/usecases/get-user-scorecards');
+const getUserProfile = require('../../../../lib/domain/usecases/get-user-profile');
+const _ = require('lodash');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);
@@ -9,7 +10,7 @@ function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.status).to.equal(expectedUserScorecard.status);
 }
 
-describe('Unit | UseCase | get-user-scorecard', () => {
+describe('Unit | UseCase | get-user-profile', () => {
 
   let competenceRepository;
   let knowledgeElementRepository;
@@ -41,7 +42,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         competenceEvaluationRepository.findByUserId.resolves([]);
 
         // when
-        const promise = getUserScorecards({
+        const promise = getUserProfile({
           userId,
           knowledgeElementRepository,
           competenceRepository,
@@ -52,7 +53,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         return expect(promise).to.be.fulfilled;
       });
 
-      it('should return related user scorecards', async () => {
+      it('should return related user scorecards and pix score', async () => {
         // given
         const earnedPixForCompetenceId1 = 8;
         const levelForCompetenceId1 = 1;
@@ -150,8 +151,10 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           competenceEvaluation: undefined,
         }).returns(expectedUserScorecard[2]);
 
+        const expectedPixScore = _.sumBy(expectedUserScorecard, 'earnedPix');
+        
         // when
-        const userScorecard = await getUserScorecards({
+        const userProfile = await getUserProfile({
           userId,
           knowledgeElementRepository,
           competenceRepository,
@@ -160,9 +163,10 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         });
 
         //then
-        assertScorecard(userScorecard[0], expectedUserScorecard[0]);
-        assertScorecard(userScorecard[1], expectedUserScorecard[1]);
-        assertScorecard(userScorecard[2], expectedUserScorecard[2]);
+        expect(userProfile.pixScore).to.equal(expectedPixScore);
+        assertScorecard(userProfile.scorecards[0], expectedUserScorecard[0]);
+        assertScorecard(userProfile.scorecards[1], expectedUserScorecard[1]);
+        assertScorecard(userProfile.scorecards[2], expectedUserScorecard[2]);
       });
     });
   });

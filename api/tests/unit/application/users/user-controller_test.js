@@ -17,6 +17,7 @@ const campaignParticipationSerializer = require('../../../../lib/infrastructure/
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
+const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 
@@ -587,42 +588,14 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getPixScore', () => {
+  describe('#getProfile', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserPixScore').resolves({ pixScore: 10 });
-    });
-
-    it('should return the user Pix score', async () => {
-      // given
-      const userId = '76';
-
-      const request = {
-        auth: {
-          credentials: {
-            userId,
-          },
-        },
-        params: {
-          id: userId,
-        },
-      };
-
-      // when
-      await userController.getPixScore(request);
-
-      // then
-      expect(usecases.getUserPixScore).to.have.been.calledWith({ userId });
-    });
-  });
-
-  describe('#getScorecards', () => {
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'getUserScorecards').resolves({
-        name: 'Comp1',
+      sinon.stub(usecases, 'getUserProfile').resolves({
+        pixScore:3,
+        scorecards: [],
       });
-      sinon.stub(scorecardSerializer, 'serialize').resolves();
+      sinon.stub(profileSerializer, 'serialize').resolves();
     });
 
     it('should call the expected usecase', async () => {
@@ -643,10 +616,10 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getScorecards(request);
+      await userController.getProfile(request);
 
       // then
-      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId, locale });
+      expect(usecases.getUserProfile).to.have.been.calledWith({ userId, locale });
     });
   });
 

@@ -24,6 +24,9 @@ export default ApplicationSerializer.extend({
       scorecards: {
         related: `${userBaseUrl}/scorecards`,
       },
+      profile: {
+        related: `${userBaseUrl}/profile`,
+      },
       campaignParticipations: {
         related: `${userBaseUrl}/campaign-participations`,
       },

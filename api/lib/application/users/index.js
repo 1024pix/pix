@@ -280,36 +280,19 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/pixscore',
+      path: '/api/users/{id}/profile',
       config: {
         pre: [{
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
-        handler: userController.getPixScore,
+        handler: userController.getProfile,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du nombre total de Pix de l\'utilisateur\n' +
+          '- Récupération du nombre total de Pix de l\'utilisateur\n et de ses scorecards' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/users/{id}/scorecards',
-      config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
-        handler: userController.getScorecards,
-        notes : [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des niveaux par compétences de l\'utilisateur\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'user', 'scorecard'],
+        tags: ['api', 'user', 'profile'],
       },
     },
     {
