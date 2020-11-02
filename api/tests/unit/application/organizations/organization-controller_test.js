@@ -494,7 +494,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     const connectedUserId = 1;
     const organizationId = 145;
-    const buffer = null;
+    const payload = { path: 'path-to-file' };
     const format = 'xml';
 
     beforeEach(() => {
@@ -502,7 +502,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId.toString() },
         query: { format },
-        payload: buffer,
+        payload: { path: 'path-to-file' },
       };
 
       sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
@@ -516,7 +516,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       await organizationController.importSchoolingRegistrationsFromSIECLE(request, hFake);
 
       // then
-      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({ organizationId, buffer, format });
+      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({ organizationId, payload, format });
     });
   });
 
