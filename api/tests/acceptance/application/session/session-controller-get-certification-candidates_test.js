@@ -63,6 +63,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'external-id': certificationCandidateA.externalId,
           'extra-time-percentage': certificationCandidateA.extraTimePercentage,
           'is-linked': true,
+          'schooling-registration-id': null,
         };
         expectedCertificationCandidateBAttributes = {
           'first-name': certificationCandidateB.firstName,
@@ -76,6 +77,7 @@ describe('Acceptance | Controller | session-controller-get-certification-candida
           'external-id': certificationCandidateB.externalId,
           'extra-time-percentage': certificationCandidateB.extraTimePercentage,
           'is-linked': true,
+          'schooling-registration-id': null,
         };
         userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
