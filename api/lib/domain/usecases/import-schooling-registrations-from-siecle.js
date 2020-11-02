@@ -1,6 +1,8 @@
 const { FileValidationError, SameNationalStudentIdInOrganizationError, SameNationalStudentIdInFileError } = require('../errors');
-const { isEmpty } = require('lodash');
 const fs = require('fs').promises;
+const bluebird = require('bluebird');
+const { CHUNK_SIZE_SCHOOLING_REGISTRATION_DATA_PROCESSING } = require('../../infrastructure/constants');
+const { isEmpty, chunk } = require('lodash');
 const SchoolingRegistrationParser = require('../../infrastructure/serializers/csv/schooling-registration-parser');
 
 const NO_SCHOOLING_REGISTRATIONS_FOUND = 'Aucune inscription d‘élève n‘a pu être importée depuis ce fichier. Vérifiez que le fichier est conforme.';
@@ -27,7 +29,10 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
   }
 
   try {
-    await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationData, organizationId);
+    const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, CHUNK_SIZE_SCHOOLING_REGISTRATION_DATA_PROCESSING);
+    await bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
+      return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
+    });
   } catch (err) {
     if (err instanceof SameNationalStudentIdInOrganizationError) {
       throw new SameNationalStudentIdInFileError(err.nationalStudentId);
