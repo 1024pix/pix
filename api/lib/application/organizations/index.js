@@ -174,7 +174,7 @@ exports.register = async (server) => {
         },
         payload: {
           maxBytes: 1048576 * 10, // 10MB
-          parse: 'gunzip',
+          output: 'file',
         },
         handler: organizationController.importSchoolingRegistrationsFromSIECLE,
         notes: [
