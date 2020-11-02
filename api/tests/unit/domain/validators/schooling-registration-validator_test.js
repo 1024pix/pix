@@ -18,7 +18,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
       MEFCode: 'ABCDE',
       division: 'EDCBA',
     };
-
+    
     context('when all required fields are presents', () => {
       it('is valid', async () => {
         try {
