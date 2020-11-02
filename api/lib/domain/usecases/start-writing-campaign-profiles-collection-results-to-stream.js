@@ -68,14 +68,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
       allowExcessPixAndLevels: false,
     });
 
-    let csvLines = '';
-    for (const placementProfile of placementProfiles) {
-      const campaignParticipationResultData = campaignParticipationResultDataChunk.find(({ userId }) =>  userId === placementProfile.userId);
-      const csvLine = exportStream.export(headers, campaignParticipationResultData,placementProfile);
-      csvLines = csvLines.concat(csvLine);
-    }
-
-    writableStream.write(csvLines);
+    exportStream.export(headers, campaignParticipationResultDataChunk,placementProfiles);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {

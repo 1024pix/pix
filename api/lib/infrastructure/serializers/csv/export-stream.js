@@ -14,20 +14,25 @@ class ExportStream {
     this.allPixCompetences = allPixCompetences;
   }
 
-  export(headers, campaignParticipationResultData, placementProfile) {
-    const csvLine = this._createOneLineOfCSV({
-      headers,
-      organization: this.organization,
-      campaign: this.campaign,
-      campaignParticipationResultData,
-      placementProfile,
+  export(headers, campaignParticipationResultDatas, placementProfiles) {
+    let csvLines = '';
+    for (const placementProfile of placementProfiles) {
+      const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
+      const csvLine = this._createOneLineOfCSV({
+        headers,
+        organization: this.organization,
+        campaign: this.campaign,
+        campaignParticipationResultData,
+        placementProfile,
 
-      participantFirstName: campaignParticipationResultData.participantFirstName,
-      participantLastName: campaignParticipationResultData.participantLastName,
-      studentNumber: campaignParticipationResultData.studentNumber,
-    });
+        participantFirstName: campaignParticipationResultData.participantFirstName,
+        participantLastName: campaignParticipationResultData.participantLastName,
+        studentNumber: campaignParticipationResultData.studentNumber,
+      });
+      csvLines = csvLines.concat(csvLine);
+    }
 
-    return csvLine;
+    this.stream.write(csvLines);
   }
 
   _getCommonColumns({
