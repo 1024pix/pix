@@ -1,7 +1,7 @@
-import _ from 'lodash';
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { computed } from '@ember/object';
+import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
   @service session;
@@ -25,7 +25,7 @@ export default class CurrentUserService extends Service {
         this.user = user;
         this.certificationCenter = certificationCenter;
       } catch (error) {
-        if (_.get(error, 'errors[0].code') === 401) {
+        if (get(error, 'errors[0].code') === 401) {
           return this.session.invalidate();
         }
       }

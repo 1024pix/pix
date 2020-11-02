@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import some from 'lodash/some';
 
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -14,7 +14,7 @@ export default class ListController extends Controller {
 
   @computed('model.juryCertificationSummaries.@each.status')
   get canPublish() {
-    return !(_.some(
+    return !(some(
       this.model.juryCertificationSummaries.toArray(),
       (certif) => ['error', 'started'].includes(certif.status),
     ));
