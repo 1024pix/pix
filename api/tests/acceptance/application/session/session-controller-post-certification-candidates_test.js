@@ -85,6 +85,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'external-id': certificationCandidate.externalId,
           'extra-time-percentage': certificationCandidate.extraTimePercentage,
           'is-linked': false,
+          'schooling-registration-id': null,
         },
       };
 

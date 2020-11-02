@@ -6,39 +6,43 @@ const _ = require('lodash');
 describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function() {
 
   let certificationCandidate;
-  let jsonApiData;
 
   beforeEach(() => {
-    certificationCandidate = domainBuilder.buildCertificationCandidate();
-    jsonApiData = {
-      data: {
-        type: 'certification-candidates',
-        id: certificationCandidate.id.toString(),
-        attributes: {
-          'first-name': certificationCandidate.firstName,
-          'last-name': certificationCandidate.lastName,
-          'birth-city': certificationCandidate.birthCity,
-          'birth-province-code': certificationCandidate.birthProvinceCode,
-          'birth-country': certificationCandidate.birthCountry,
-          'email': certificationCandidate.email,
-          'result-recipient-email': certificationCandidate.resultRecipientEmail,
-          'birthdate': certificationCandidate.birthdate,
-          'external-id': certificationCandidate.externalId,
-          'extra-time-percentage': certificationCandidate.extraTimePercentage,
-          'is-linked': !_.isNil(certificationCandidate.userId),
-        },
-      },
-    };
+    certificationCandidate = domainBuilder.buildCertificationCandidate({
+      schoolingRegistrationId: 1,
+    });
   });
 
   describe('#serialize()', () => {
 
     it('should convert a CertificationCandidate model object into JSON API data', function() {
+      // given
+      const expectedJsonApiData = {
+        data: {
+          type: 'certification-candidates',
+          id: certificationCandidate.id.toString(),
+          attributes: {
+            'first-name': certificationCandidate.firstName,
+            'last-name': certificationCandidate.lastName,
+            'birth-city': certificationCandidate.birthCity,
+            'birth-province-code': certificationCandidate.birthProvinceCode,
+            'birth-country': certificationCandidate.birthCountry,
+            'email': certificationCandidate.email,
+            'result-recipient-email': certificationCandidate.resultRecipientEmail,
+            'birthdate': certificationCandidate.birthdate,
+            'external-id': certificationCandidate.externalId,
+            'extra-time-percentage': certificationCandidate.extraTimePercentage,
+            'is-linked': !_.isNil(certificationCandidate.userId),
+            'schooling-registration-id': certificationCandidate.schoolingRegistrationId,
+          },
+        },
+      };
+
       // when
       const jsonApi = serializer.serialize(certificationCandidate);
 
       // then
-      expect(jsonApi).to.deep.equal(jsonApiData);
+      expect(jsonApi).to.deep.equal(expectedJsonApiData);
     });
 
   });
@@ -46,6 +50,28 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
   describe('#deserialize()', () => {
 
     it('should convert JSON API data into a CertificationCandidate model object', async function() {
+      // given
+      const jsonApiData = {
+        data: {
+          type: 'certification-candidates',
+          id: certificationCandidate.id.toString(),
+          attributes: {
+            'first-name': certificationCandidate.firstName,
+            'last-name': certificationCandidate.lastName,
+            'birth-city': certificationCandidate.birthCity,
+            'birth-province-code': certificationCandidate.birthProvinceCode,
+            'birth-country': certificationCandidate.birthCountry,
+            'email': certificationCandidate.email,
+            'result-recipient-email': certificationCandidate.resultRecipientEmail,
+            'birthdate': certificationCandidate.birthdate,
+            'external-id': certificationCandidate.externalId,
+            'extra-time-percentage': certificationCandidate.extraTimePercentage,
+            'is-linked': !_.isNil(certificationCandidate.userId),
+            'schooling-registration-id': certificationCandidate.schoolingRegistrationId,
+          },
+        },
+      };
+
       // when
       const deserializedCertificationCandidate = await serializer.deserialize(jsonApiData);
 
@@ -61,6 +87,7 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       expect(deserializedCertificationCandidate.externalId).to.equal(certificationCandidate.externalId);
       expect(deserializedCertificationCandidate.email).to.equal(certificationCandidate.email);
       expect(deserializedCertificationCandidate.resultRecipientEmail).to.equal(certificationCandidate.resultRecipientEmail);
+      expect(deserializedCertificationCandidate.schoolingRegistrationId).to.equal(certificationCandidate.schoolingRegistrationId);
     });
 
   });

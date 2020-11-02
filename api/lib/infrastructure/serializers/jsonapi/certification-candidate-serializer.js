@@ -25,6 +25,7 @@ module.exports = {
         'externalId',
         'extraTimePercentage',
         'isLinked',
+        'schoolingRegistrationId',
       ],
     }).serialize(certificationCandidates);
   },
