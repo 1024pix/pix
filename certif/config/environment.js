@@ -51,7 +51,7 @@ module.exports = function(environment) {
         NOT_FOUND: '404',
       },
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
-      FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE: _isFeatureEnabled(process.env.FT_IS_RESULT_RECIPIENT_EMAIL_VISIBLE),
+      FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS: _isFeatureEnabled(process.env.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS),
     },
 
     googleFonts: [

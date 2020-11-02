@@ -2,6 +2,7 @@ const { writeFile, stat, unlink } = require('fs').promises;
 const fs = require('fs');
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
+const { NotFoundError } = require('../../../../lib/application/http-errors');
 
 const {
   expect,
@@ -12,6 +13,7 @@ const {
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
+const featureToggles = require('../../../../lib/application/preHandlers/feature-toggles');
 
 const moduleUnderTest = require('../../../../lib/application/sessions');
 
@@ -22,6 +24,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   beforeEach(() => {
     sinon.stub(sessionAuthorization, 'verify').returns(null);
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(featureToggles, 'isCertifPrescriptionSCOEnabled').returns(true);
 
     sinon.stub(sessionController, 'get').returns('ok');
     sinon.stub(sessionController, 'getJurySession').returns('ok');
@@ -39,6 +42,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(sessionController, 'updatePublication').returns('ok');
     sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
     sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
+    sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -324,6 +328,46 @@ describe('Unit | Application | Sessions | Routes', () => {
         // then
         expect(response.statusCode).to.equal(400);
       });
+    });
+  });
+
+  describe('PUT /api/session/{id}/enroll-students-to-session', () => {
+    it('exists', async () => {
+      // when
+      const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('validates the session id', async () => {
+      // when
+      const response = await httpTestServer.request('PUT', '/api/sessions/invalidId/enroll-students-to-session');
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('denies access if the session of the logged used is not authorized', async () => {
+      // given
+      sessionAuthorization.verify.throws(new NotFoundError());
+
+      // when
+      const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('denies access if the certif prescription SCO feature is disabled', async () => {
+      // given
+      featureToggles.isCertifPrescriptionSCOEnabled.throws(new NotFoundError());
+
+      // when
+      const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
+
+      // then
+      expect(response.statusCode).to.equal(404);
     });
   });
 });

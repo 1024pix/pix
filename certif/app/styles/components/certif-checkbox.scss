@@ -16,6 +16,10 @@
     background-color: $grey-22;
   }
 
+  &--unchecked {
+    background-color: $white;
+  }
+
   &--partial:hover &__dash-icon {
     background-color: $grey-40;
   }
