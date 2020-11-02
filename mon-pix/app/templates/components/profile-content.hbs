@@ -11,11 +11,17 @@
       </div>
       <div class="rounded-panel-header__right-wrapper">
         <h2 class="sr-only">{{t 'pages.profile.accessibility.user-score'}}</h2>
-        <HexagonScore @pixScore={{@model.pixScore.value}} />
+        <HexagonScore @pixScore={{@model.profile.pixScore}} />
       </div>
     </div>
 
-    <ProfileScorecards @interactive={{true}} @areasCode={{@model.areasCode}} @scorecards={{@model.scorecards}}/>
-
+    {{#if @model.profile.scorecards}}
+      <ProfileScorecards @interactive={{true}} @areasCode={{@model.profile.areasCode}} @scorecards={{@model.profile.scorecards}}/>
+    {{else}}
+      <p class="app-loader__image">
+        <img src="/images/interwind.gif" alt="" role="presentation" />
+        <br>{{t 'common.loading.default'}}
+      </p>
+   {{/if}}
   </div>
 </div>

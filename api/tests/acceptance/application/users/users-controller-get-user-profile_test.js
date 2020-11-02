@@ -3,7 +3,7 @@ const cache = require('../../../../lib/infrastructure/caches/learning-content-ca
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-user-scorecards', () => {
+describe('Acceptance | Controller | users-controller-get-user-profile', () => {
 
   let options;
   let server;
@@ -14,7 +14,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
     await databaseBuilder.commit();
     options = {
       method: 'GET',
-      url: '/api/users/' + userId + '/scorecards',
+      url: '/api/users/' + userId + '/profile',
       payload: {},
       headers: {},
     };
@@ -33,7 +33,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
   let knowledgeElement;
   let competence;
 
-  describe('GET /users/:id/scorecards', () => {
+  describe('GET /users/:id/profile', () => {
 
     describe('Resource access management', () => {
 
@@ -76,7 +76,9 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           id: competenceId,
           epreuves: [],
           titre: 'Mener une recherche et une veille d’information',
+          titreFrFr:  'Mener une recherche et une veille d’information',
           description: 'Une description',
+          descriptionFrFr: 'Une description',
           tests: [],
           acquisIdentifiants: [skillWeb1Id],
           tubes: [],
@@ -111,51 +113,36 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         await databaseBuilder.commit();
       });
 
-      it('should return 200', () => {
+      it('should return 200', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
-
+        expect(response.statusCode).to.equal(200);
       });
 
-      it('should return user\'s serialized scorecards', () => {
+      it('should return user\'s serialized scorecards', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         const expectedScorecardJSONApi = {
-          data: [{
-            type: 'scorecards',
-            id: `${userId}_${competenceId}`,
+          data: {
+            id: userId.toString(),
+            type: 'Profiles',
             attributes: {
-              name: competence.fields.Titre,
-              description: competence.fields.Description,
-              index: competence.fields['Sous-domaine'],
-              'competence-id': competenceId,
-              'earned-pix': knowledgeElement.earnedPix,
-              level: Math.round(knowledgeElement.earnedPix / 8),
-              'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
-              status: 'STARTED',
-              'remaining-days-before-reset': 7,
-              'remaining-days-before-improving': 4,
+              'pix-score': knowledgeElement.earnedPix,
             },
             relationships: {
-              area: {
-                data: {
-                  id: area.id,
-                  type: 'areas',
-                },
-              },
-              tutorials: {
-                links: {
-                  related: `/api/scorecards/${userId}_${competenceId}/tutorials`,
-                },
+              scorecards: {
+                data: [
+                  {
+                    id: `${userId}_${competenceId}`,
+                    type: 'scorecards',
+                  },
+                ],
               },
             },
-          }],
+          },
           included: [
             {
               attributes: {
@@ -166,14 +153,36 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
               id: area.id,
               type: 'areas',
             },
+            {
+              attributes: {
+                name: competence.fields.Titre,
+                description: competence.fields.Description,
+                index: competence.fields['Sous-domaine'],
+                'competence-id': competenceId,
+                'earned-pix': knowledgeElement.earnedPix,
+                level: Math.round(knowledgeElement.earnedPix / 8),
+                'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
+                status: 'STARTED',
+                'remaining-days-before-reset': 7,
+                'remaining-days-before-improving': 4,
+              },
+              id: `${userId}_${competenceId}`,
+              type: 'scorecards',
+              relationships: {
+                area: {
+                  data: {
+                    id: area.id,
+                    type: 'areas',
+                  },
+                },
+              },
+            },
           ],
         };
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data[0]).to.deep.equal(expectedScorecardJSONApi.data[0]);
-          expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
-        });
+        expect(response.result.data).to.deep.equal(expectedScorecardJSONApi.data);
+        expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
       });
     });
   });

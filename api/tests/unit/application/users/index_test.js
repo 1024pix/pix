@@ -197,13 +197,13 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}/pixscore', function() {
+  describe('GET /api/users/{id}/profile', function() {
 
     const method = 'GET';
-    const url = '/api/users/42/pixscore';
+    const url = '/api/users/42/profile';
 
     beforeEach(() => {
-      sinon.stub(userController, 'getPixScore').returns('ok');
+      sinon.stub(userController, 'getProfile').returns('ok');
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       httpTestServer = startServer();
     });
@@ -213,27 +213,7 @@ describe('Unit | Router | user-router', () => {
       await httpTestServer.request(method, url);
 
       // then
-      sinon.assert.calledOnce(userController.getPixScore);
-    });
-  });
-
-  describe('GET /api/users/{id}/scorecards', function() {
-
-    const method = 'GET';
-    const url = '/api/users/42/scorecards';
-
-    beforeEach(() => {
-      sinon.stub(userController, 'getScorecards').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      httpTestServer = startServer();
-    });
-
-    it('should exist', async () => {
-      // when
-      await httpTestServer.request(method, url);
-
-      // then
-      sinon.assert.calledOnce(userController.getScorecards);
+      sinon.assert.calledOnce(userController.getProfile);
     });
   });
 
