@@ -63,7 +63,7 @@
   }
 
   &__reset-button {
-    color: $grey-30;
+    color: $grey-50;
     margin-top: 50px;
   }
 
@@ -130,19 +130,19 @@
     letter-spacing: 0.125rem;
 
     &--jaffa {
-      color: $information-light;
+      color: $information-darker;
     }
 
     &--emerald {
-      color: $content-light;
+      color: $content-darker;
     }
 
     &--cerulean {
-      color: $communication-light;
+      color: $communication-darker;
     }
 
     &--wild-strawberry {
-      color: $security-light;
+      color: $security-dark;
     }
 
     &--butterfly-bush {
