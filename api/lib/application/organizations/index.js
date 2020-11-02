@@ -173,7 +173,7 @@ exports.register = async (server) => {
           }),
         },
         payload: {
-          maxBytes: 1048576 * 10, // 10MB
+          maxBytes: 1048576 * 20, // 20MB
           output: 'file',
         },
         handler: organizationController.importSchoolingRegistrationsFromSIECLE,
