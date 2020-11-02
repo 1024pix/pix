@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { sendJsonApiError, PayloadTooLargeError } = require('../http-errors');
+const { sendJsonApiError, PayloadTooLargeError, NotFoundError } = require('../http-errors');
 
 const securityPreHandlers = require('../security-pre-handlers');
 const organizationController = require('./organization-controller');
@@ -116,6 +116,18 @@ exports.register = async (server) => {
           assign: 'hasRolePixMaster',
         }],
         handler: organizationController.attachTargetProfiles,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'target-profiles-to-attach': Joi.array().items(Joi.string().pattern(/^[0-9]+$/), Joi.number().integer()),
+              },
+            },
+          }).options({ allowUnknown: true }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new NotFoundError('L\'id d\'un des profils cible n\'est pas valide'), h);
+          },
+        },
         tags: ['api', 'organizations'],
       },
     },
