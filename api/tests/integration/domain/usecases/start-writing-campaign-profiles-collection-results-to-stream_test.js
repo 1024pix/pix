@@ -11,7 +11,7 @@ const organizationRepository = require('../../../../lib/infrastructure/repositor
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 
-describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
+describe.only('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
 
   describe('#startWritingCampaignProfilesCollectionResultsToStream', () => {
 
@@ -34,9 +34,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
       const skillUrl1 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl1', nom: '@url1', ['compétenceViaTube']: ['recCompetence2'] });
       const skillUrl8 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl8', nom: '@url8', ['compétenceViaTube']: ['recCompetence2'] });
       const skills = [skillWeb1, skillWeb2, skillWeb3, skillUrl1, skillUrl8];
-  
+
       participant = databaseBuilder.factory.buildUser();
-      
+
       databaseBuilder.factory.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
@@ -89,9 +89,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         userId: participant.id,
         createdAt,
       });
-    
+
       await databaseBuilder.commit();
-  
+
       const competence1 = airtableBuilder.factory.buildCompetence({
         id: 'recCompetence1',
         titre: 'Competence1',
@@ -99,7 +99,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         domaineIds: ['recArea1'],
         acquisViaTubes: [skillWeb1, skillWeb2, skillWeb3].map((skill) => skill.id),
       });
-  
+
       const competence2 = airtableBuilder.factory.buildCompetence({
         id: 'recCompetence2',
         titre: 'Competence2',
@@ -107,14 +107,14 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         domaineIds: ['recArea3'],
         acquisViaTubes: [skillUrl1.id, skillUrl8.id],
       });
-  
+
       const area1 = airtableBuilder.factory.buildArea({ id: 'recArea1', code: '1', titre: 'Domain 1' });
       const area3 = airtableBuilder.factory.buildArea({ id: 'recArea3', code: '3', title: 'Domain 3' });
-  
+
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1, competence2]).activate();
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area1, area3]).activate();
-  
+
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
     });
@@ -141,7 +141,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
           type: 'PROFILES_COLLECTION',
           title: null,
         });
-    
+
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           createdAt,
           sharedAt: new Date('2019-03-01T23:04:05Z'),
@@ -172,7 +172,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
           '12;' +
           '5;' +
           '40';
-  
+
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
           userId: user.id,
@@ -185,11 +185,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
           campaignParticipationRepository,
           placementProfileService,
         });
-  
+
         const csv = await csvPromise;
         const csvLines = csv.split('\n');
         const csvFirstLineCells = csvLines[0].split(';');
-  
+
         // then
         expect(csvFirstLineCells[0]).to.equal(expectedCsvFirstCell);
         expect(csvLines[1]).to.equal(expectedCsvSecondLine);
@@ -197,7 +197,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
     });
 
     context('When the organization is SUP and isManagingStudent', () => {
-      
+
       beforeEach(async () => {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
@@ -213,7 +213,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
           type: 'PROFILES_COLLECTION',
           title: null,
         });
-    
+
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           createdAt,
           sharedAt: new Date('2019-03-01T23:04:05Z'),
@@ -225,7 +225,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
 
         await databaseBuilder.commit();
       });
-  
+
       it('should return the complete line with student number', async () => {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
@@ -245,7 +245,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
           '12;' +
           '5;' +
           '40';
-  
+
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
           userId: user.id,
@@ -258,11 +258,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
           campaignParticipationRepository,
           placementProfileService,
         });
-  
+
         const csv = await csvPromise;
         const csvLines = csv.split('\n');
         const csvFirstLineCells = csvLines[0].split(';');
-  
+
         // then
         expect(csvFirstLineCells[0]).to.equal(expectedCsvFirstCell);
         expect(csvLines[1]).to.equal(expectedCsvSecondLine);

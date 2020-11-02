@@ -5,6 +5,7 @@ const bluebird = require('bluebird');
 const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
+const ExportStream  = require('../../infrastructure/serializers/csv/export-stream');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   const user = await userRepository.getWithMemberships(userId);
@@ -15,34 +16,6 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
     );
   }
 }
-
-function _createHeaderOfCSV(competences, idPixLabel, organization) {
-  const EMPTY_ARRAY = [];
-  const displayStudentNumber = organization.isSup && organization.isManagingStudents;
-  return [
-    { title: 'Nom de l\'organisation', property: 'organizationName' },
-    { title: 'ID Campagne', property: 'campaignId' },
-    { title: 'Nom de la campagne', property: 'campaignName' },
-    { title: 'Nom du Participant', property: 'participantLastName' },
-    { title: 'Prénom du Participant', property: 'participantFirstName' },
-
-    ...(displayStudentNumber ? [{ title: 'Numéro Étudiant', property: 'studentNumber' }] : EMPTY_ARRAY),
-
-    ...(idPixLabel ? [ { title: idPixLabel, property: 'participantExternalId' } ] : EMPTY_ARRAY),
-
-    { title: 'Envoi (O/N)', property: 'isShared' },
-    { title: 'Date de l\'envoi', property: 'sharedAt' },
-    { title: 'Nombre de pix total', property: 'totalEarnedPix' },
-    { title: 'Certifiable (O/N)', property: 'isCertifiable' },
-    { title: 'Nombre de compétences certifiables', property: 'certifiableCompetencesCount' },
-
-    ...(_.flatMap(competences, (competence) => [
-      { title: `Niveau pour la compétence ${competence.name}`, property: `competence_${competence.id}_level` },
-      { title: `Nombre de pix pour la compétence ${competence.name}`, property: `competence_${competence.id}_earnedPix` },
-    ])),
-  ];
-}
-
 function _getCommonColumns({
   organization,
   campaign,
@@ -155,7 +128,8 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
   ]);
-  const headers = _createHeaderOfCSV(allPixCompetences, campaign.idPixLabel, organization);
+  const exportStream = new ExportStream(writableStream, organization, campaign, allPixCompetences);
+  const headers = exportStream._createHeaderOfCSV(allPixCompetences, campaign.idPixLabel, organization);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -192,7 +166,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
         campaign,
         campaignParticipationResultData,
         placementProfile,
-        
+
         participantFirstName: campaignParticipationResultData.participantFirstName,
         participantLastName: campaignParticipationResultData.participantLastName,
         studentNumber: campaignParticipationResultData.studentNumber,
