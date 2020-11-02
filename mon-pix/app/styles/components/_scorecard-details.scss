@@ -130,15 +130,15 @@
     letter-spacing: 0.125rem;
 
     &--jaffa {
-      color: $information-darker;
+      color: darken($information-dark, 15%);
     }
 
     &--emerald {
-      color: $content-darker;
+      color: darken($content-dark, 10%);
     }
 
     &--cerulean {
-      color: $communication-darker;
+      color: darken($communication-dark, 10%);
     }
 
     &--wild-strawberry {
