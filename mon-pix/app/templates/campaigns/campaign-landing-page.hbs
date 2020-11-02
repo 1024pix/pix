@@ -7,7 +7,6 @@
     {{#if @model.isTypeAssessment}}
       <CampaignStartBlock
         @campaign={{@model}}
-        @isLoading={{this.isLoading}}
         @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText={{t "pages.campaign-landing.assessment.title"}}
         @announcementText={{t "pages.campaign-landing.assessment.announcement" htmlSafe=true}}
@@ -17,7 +16,6 @@
     {{else}}
       <CampaignStartBlock
         @campaign={{@model}}
-        @isLoading={{this.isLoading}}
         @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText={{t "pages.campaign-landing.profiles-collection.title"}}
         @announcementText={{t "pages.campaign-landing.profiles-collection.announcement" htmlSafe=true}}

@@ -63,15 +63,10 @@
                                                                                  daysBeforeImproving=@scorecard.remainingDaysBeforeImproving}}</span>
               </div>
             {{else}}
-              <button class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button" {{action
-                      "improveCompetenceEvaluation"}} type="button" disabled={{this.isImprovingButtonDisabled}}>
-                {{#if this.isImprovingButtonDisabled}}
-                  <span class="loader-in-button">&nbsp;</span>
-                {{else}}
-                  {{t 'pages.competence-details.actions.improve.label'}}
-                  <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name }}</div>
-                {{/if}}
-              </button>
+              <PixButton class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button"
+                @action={{action "improveCompetenceEvaluation"}} @loading-color="white">
+                  {{t 'pages.competence-details.actions.improve.label'}}<span class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name }}</span>
+              </PixButton>
               <span class="scorecard-details__improving-text">{{t 'pages.competence-details.actions.improve.improvingText' }}</span>
             {{/if}}
           {{/if}}

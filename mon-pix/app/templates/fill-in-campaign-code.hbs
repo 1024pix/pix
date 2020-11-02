@@ -33,12 +33,13 @@
           {{/if}}
 
           <div class="fill-in-campaign-code__actions">
-            <button
-              type="submit"
+            <PixButton
+              @type="submit"
               class="button button--extra-big fill-in-campaign-code__start-button"
-              {{action 'startCampaign'}}>
+              @action={{action 'startCampaign'}}
+              @loading-color="white">
               {{t 'pages.fill-in-campaign-code.start'}}
-            </button>
+            </PixButton>
           </div>
         </form>
 
