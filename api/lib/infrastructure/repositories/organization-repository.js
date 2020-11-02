@@ -37,6 +37,8 @@ function _toDomain(bookshelfOrganization) {
 
   organization.targetProfileShares = rawOrganization.targetProfileShares || [];
 
+  organization.tags = rawOrganization.tags || [];
+
   return organization;
 }
 
@@ -83,6 +85,7 @@ module.exports = {
           { 'memberships': (qb) => qb.where({ disabledAt: null }) },
           'memberships.user',
           'targetProfileShares.targetProfile',
+          'tags',
         ],
       })
       .then(_toDomain)

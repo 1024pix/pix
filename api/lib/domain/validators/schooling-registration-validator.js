@@ -31,14 +31,22 @@ const validationSchema = Joi.object({
   }),
   birthProvinceCode: Joi.string().min(PROVINCE_CODE_MIN_LENGTH).max(PROVINCE_CODE_MAX_LENGTH).required(),
   birthCountryCode: Joi.string().length(COUNTRY_CODE_LENGTH).required(),
-  status: Joi.string().valid(STUDENT,APPRENTICE).required(),
+  status: Joi.alternatives().conditional('$hasApprentice', {
+    is: true,
+    then: Joi.string().valid(STUDENT,APPRENTICE).required(),
+    otherwise: Joi.string().valid(STUDENT).required(),
+  }),
   MEFCode: Joi.string().max(MAX_LENGTH).required(),
   division: Joi.string().max(MAX_LENGTH).required(),
   organizationId: Joi.number().integer().required(),
 });
 
 module.exports = {
-  checkValidation(registration) {
+  checkValidation(registration, hasApprentice) {
+    validationConfiguration.context = {
+      hasApprentice,
+    };
+
     const { error } = validationSchema.validate(registration, validationConfiguration);
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);

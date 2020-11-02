@@ -10,6 +10,8 @@ const BookshelfSchoolingRegistration = require('../data/schooling-registration')
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const bookshelfUtils = require('../utils/knex-utils');
 
+const STATUS = SchoolingRegistration.STATUS;
+
 function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
 
   const rawUserWithSchoolingRegistration = BookshelfSchoolingRegistration.toJSON();
@@ -41,7 +43,7 @@ function _setSchoolingRegistrationFilters(qb, { lastName, firstName, connexionTy
 }
 
 function _isReconciled(schoolingRegistration) {
-  return schoolingRegistration.userId;
+  return !!schoolingRegistration.userId;
 }
 
 module.exports = {
@@ -88,22 +90,42 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
+  async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId, hasApprentice) {
+    let nationalApprenticeIdsFromFile;
+    let apprentices;
 
     const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
     const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
+
+    if (hasApprentice) {
+      nationalApprenticeIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalApprenticeId);
+      apprentices = await studentRepository.findReconciledApprenticesByNationalApprenticeId(_.compact(nationalApprenticeIdsFromFile));  
+    }
 
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
     const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
 
     const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
-      const currentSchoolingRegistration   = currentSchoolingRegistrations.find((currentSchoolingRegistration) => currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId);
+
+      const currentSchoolingRegistration   = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
+        return schoolingRegistration.status === STATUS.STUDENT && currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId ||
+              hasApprentice && schoolingRegistration.status === STATUS.APPRENTICE && currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId;
+      });
+
       if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
         const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
         if (student) {
           schoolingRegistration.userId = student.account.userId;
         }
+
+        if (hasApprentice) {
+          const apprentice = apprentices.find((apprentice) => apprentice.nationalApprenticeId === schoolingRegistration.nationalApprenticeId);
+          if (apprentice) {
+            schoolingRegistration.userId = apprentice.account.userId;
+          }
+        }
       }
+      
       return !!currentSchoolingRegistration;
     });
 
@@ -112,11 +134,18 @@ module.exports = {
       await Promise.all([
         bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
           const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
+          const whereConditions = {
+            'organizationId': organizationId,
+          };
+
+          if (schoolingRegistrationToUpdate.status === STATUS.STUDENT) {
+            whereConditions['nationalStudentId'] = schoolingRegistrationToUpdate.nationalStudentId;
+          } else if (schoolingRegistrationToUpdate.status === STATUS.APPRENTICE) {
+            whereConditions['nationalApprenticeId'] = schoolingRegistrationToUpdate.nationalApprenticeId;
+          }
+
           await trx('schooling-registrations')
-            .where({
-              'organizationId': organizationId,
-              'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
-            })
+            .where(whereConditions)
             .update({ ...attributesToUpdate, updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') });
         }),
         trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
