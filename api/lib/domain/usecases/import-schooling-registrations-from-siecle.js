@@ -13,10 +13,11 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
     const organization = await organizationRepository.get(organizationId);
     schoolingRegistrationData = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(payload, organization, schoolingRegistrationsXmlService);
   } else if (format === 'csv') {
+    const buffer = await fs.readFile(payload.path);
     const csvSiecleParser = new SchoolingRegistrationParser(buffer, organizationId);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
-    throw new FileValidationError('Format de fichier non valide.');
+    throw new FileValidationError(FILE_FORMAT_NOT_VALID);
   }
 
   fs.unlink(payload.path);
