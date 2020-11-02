@@ -103,7 +103,7 @@ async function main() {
     const filePath = process.argv[2];
 
     console.log('Reading and parsing csv data file... ');
-    const csvData = parseCsv(filePath);
+    const csvData = await parseCsv(filePath);
     console.log('ok');
 
     console.log('Checking data... ');
