@@ -1,4 +1,6 @@
 const { expect } = require('../../test-helper');
+
+const { featureToggles } = require('../../../lib/config');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | feature-toggle-controller', () => {
@@ -11,25 +13,31 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
 
   describe('GET /api/feature-toggles', () => {
 
-    it('should return 200 with feature toggles', async () => {
-      // when
-      const options = {
-        method: 'GET',
-        url: '/api/feature-toggles',
-      };
-      const response = await server.inject(options);
+    const options = {
+      method: 'GET',
+      url: '/api/feature-toggles',
+    };
 
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(response.result).to.deep.equal({
+    it('should return 200 with feature toggles', async () => {
+      // given
+      featureToggles.isPoleEmploiEnabled = false;
+      const expectedData = {
         data: {
           id: '0',
           attributes: {
             'certif-prescription-sco': false,
+            'is-pole-emploi-enabled': false,
           },
           type: 'feature-toggles',
         },
-      });
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal(expectedData);
     });
   });
 });
