@@ -440,7 +440,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // then
         const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-        
+
         expect(actualSchoolingRegistrations).to.have.lengthOf(1);
         expect(actualSchoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1.firstName);
         expect(actualSchoolingRegistrations[0].nationalStudentId).to.be.equal(schoolingRegistration_1.nationalStudentId);
@@ -496,7 +496,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           expect(updated_organization_schoolingRegistrations).to.have.lengthOf(1);
           expect(updated_organization_schoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1_updated.firstName);
           expect(updated_organization_schoolingRegistrations[0].lastName).to.be.equal(schoolingRegistration_1_updated.lastName);
-          expect(updated_organization_schoolingRegistrations[0].birthdate).to.be.equal(schoolingRegistration_1_updated.birthdate);        
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.be.equal(schoolingRegistration_1_updated.birthdate);
         });
       });
 
@@ -544,13 +544,13 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           expect(updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_updated.firstName);
           expect(updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_updated.lastName);
-          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);        
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);
 
           expect(not_updated_organization_schoolingRegistrations).to.have.lengthOf(1);
 
           expect(not_updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_bis.firstName);
           expect(not_updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_bis.lastName);
-          expect(not_updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_bis.birthdate);        
+          expect(not_updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_bis.birthdate);
         });
       });
 
@@ -681,7 +681,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         // then
         const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
         expect(actualSchoolingRegistrations).to.have.lengthOf(2);
-        
+
         expect(_.map(actualSchoolingRegistrations, 'firstName')).to.have.members([schoolingRegistrationUpdated.firstName, schoolingRegistrationToCreate.firstName]);
       });
     });
@@ -904,7 +904,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           expect(updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_updated.firstName);
           expect(updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_updated.lastName);
-          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);        
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);
 
           expect(not_updated_organization_schoolingRegistrations).to.have.lengthOf(1);
 

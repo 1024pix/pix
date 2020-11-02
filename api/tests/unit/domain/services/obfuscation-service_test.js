@@ -1,6 +1,7 @@
 const { expect } = require('../../../test-helper');
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const User = require('../../../../lib/domain/models/User');
+
 describe('Unit | Service | user-authentication-method-obfuscation-service', () => {
 
   describe('#emailObfuscation', () => {
@@ -35,7 +36,6 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
       // Given
       const samlId = '1234567';
       const user = new User({ samlId });
-      user.samlId = '1234567';
 
       // When
       const value = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);

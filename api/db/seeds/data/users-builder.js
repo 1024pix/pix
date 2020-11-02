@@ -1,6 +1,7 @@
 const PIX_MASTER_ID = 199;
 
 const defaultPassword = 'pix123';
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 function usersBuilder({ databaseBuilder }) {
 
@@ -33,15 +34,20 @@ function usersBuilder({ databaseBuilder }) {
   };
   databaseBuilder.factory.buildUser.withUnencryptedPassword(userShouldChangePassword);
 
-  const userWithSamlId = {
+  const userWithSamlId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     firstName: 'Margaery',
     lastName: 'Tyrell',
     email: null,
     rawPassword: 'Password123',
     cgu: false,
     samlId: 'samlId',
-  };
-  databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithSamlId);
+  });
+
+  databaseBuilder.factory.buildAuthenticationMethod({
+    identityProvider: AuthenticationMethod.identityProviders.GAR,
+    externalIdentifier: 'samlId',
+    userId: userWithSamlId.id,
+  });
 
   const userWithLastTermsOfServiceValidated = {
     firstName: 'lasttermsofservice',
