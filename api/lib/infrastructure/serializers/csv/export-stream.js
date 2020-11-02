@@ -12,14 +12,15 @@ class ExportStream {
     this.campaign = campaign;
     this.idPixLabel = campaign.idPixLabel;
     this.allPixCompetences = allPixCompetences;
+    this.headers = this._createHeaderOfCSV();
   }
 
-  export(headers, campaignParticipationResultDatas, placementProfiles) {
+  export(campaignParticipationResultDatas, placementProfiles) {
     let csvLines = '';
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
       const csvLine = this._createOneLineOfCSV({
-        headers,
+        headers: this.headers,
         organization: this.organization,
         campaign: this.campaign,
         campaignParticipationResultData,

@@ -68,7 +68,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
       allowExcessPixAndLevels: false,
     });
 
-    exportStream.export(headers, campaignParticipationResultDataChunk,placementProfiles);
+    exportStream.export(campaignParticipationResultDataChunk,placementProfiles);
   }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
     writableStream.end();
   }).catch((error) => {
