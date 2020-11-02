@@ -269,6 +269,8 @@ jobs:
           background: true
           command: npm start
 
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
+
       - run:
           working_directory: ~/pix/mon-pix
           environment:
@@ -276,12 +278,15 @@ jobs:
           background: true
           command: npm start
 
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:4200
+
       - run:
           working_directory: ~/pix/orga
           environment:
             JOBS: 2
           background: true
           command: npm start
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:4201
 
       - run:
           working_directory: ~/pix/certif
@@ -289,12 +294,9 @@ jobs:
             JOBS: 1
           background: true
           command: npm start
+      - run: wget --retry-connrefused -T 60 -qO- http://localhost:4203
 
       - run:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: |
-            wget --retry-connrefused -T 60 -qO- http://localhost:4200
-            wget --retry-connrefused -T 60 -qO- http://localhost:4201
-            wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
-            npm run cy:run:ci
+          command: npm run cy:run:ci
