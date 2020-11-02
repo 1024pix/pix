@@ -3,12 +3,13 @@ const { CsvParsingError } = require('../../../../lib/domain/errors');
 
 async function getCsvContent({
   data,
-  fileHeaders,
   delimiter = ';',
+  eol = '\n',
+  fileHeaders,
   withBOM = true,
 }) {
   try {
-    const options = { fields: fileHeaders, delimiter, withBOM };
+    const options = { delimiter, eol, fields: fileHeaders,  withBOM };
     const csvContent = await parseAsync(data, options);
     return csvContent;
   } catch (err) {
