@@ -1,91 +1,167 @@
-const { DOMParser } = require('xmldom');
-const xmlBufferToString = require('xml-buffer-tostring');
+const { FileValidationError, SameNationalStudentIdInFileError } = require('../errors');
+const fs = require('fs');
+const iconv = require('iconv-lite');
 const moment = require('moment');
-const _ = require('lodash');
+const xml2js = require('xml2js');
+const saxParser = require('sax').createStream(true);
+const saxPath = require('saxpath');
+const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
+const { isEmpty, isNil, each } = require('lodash');
+
+const DEFAULT_FILE_ENCODING = 'iso-8859-15';
+const DIVISION = 'D';
+const NODE_ORGANIZATION_UAI = '/BEE_ELEVES/PARAMETRES';
+const NODES_SCHOOLING_REGISTRATIONS = '/BEE_ELEVES/DONNEES/*/*';
+const ELEVE_ELEMENT = '<ELEVE';
+const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
+const UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI = 'Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.';
 
 module.exports = {
   extractSchoolingRegistrationsInformationFromSIECLE,
 };
 
-function extractSchoolingRegistrationsInformationFromSIECLE(buffer) {
-  const parsedXmlDom = _buildXmlDomFromBuffer(buffer);
+async function extractSchoolingRegistrationsInformationFromSIECLE(payload, organization) {
 
-  if (_.isEmpty(parsedXmlDom)) {
-    return [];
-  }
+  const encoding = await _detectEncodingFromFirstLineOfSiecleFile(payload);
 
-  const UAIFromSIECLE = _getEitherElementValueOrNull(parsedXmlDom, 'UAJ');
+  return new Promise(function(resolve, reject) {
+    const siecleFileStream = fs.createReadStream(payload.path).pipe(iconv.decodeStream(encoding));
 
-  const xmlSchoolingRegistrationsStructures = Array.from(parsedXmlDom.getElementsByTagName('STRUCTURES_ELEVE'));
-  const xmlSchoolingRegistrations = Array.from(parsedXmlDom.getElementsByTagName('ELEVE'));
+    const streamerToParseOrganizationUAI = new saxPath.SaXPath(saxParser, NODE_ORGANIZATION_UAI);
+    const streamerToParseSchoolingRegistrations = new saxPath.SaXPath(saxParser, NODES_SCHOOLING_REGISTRATIONS);
 
-  const resultFromExtraction = xmlSchoolingRegistrations
-    .filter((xmlSchoolingRegistration) => _filterLeftSchoolingRegistrations(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures))
-    .filter((xmlSchoolingRegistration) => _filterNotYetArrivedSchoolingRegistrations(xmlSchoolingRegistration))
-    .map((xmlSchoolingRegistration) => {
-      const schoolingRegistrationStructuresContainer = _findSchoolingRegistrationStructures(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures);
+    const mapSchoolingRegistrationsByStudentId = new Map();
+    const nationalStudentIds = [];
 
-      const birthCountryCode = _getEitherElementValueOrNull(xmlSchoolingRegistration, 'CODE_PAYS');
-      return {
-        lastName: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'NOM_DE_FAMILLE'),
-        preferredLastName: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'NOM_USAGE'),
-        firstName: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'PRENOM'),
-        middleName: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'PRENOM2'),
-        thirdName: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'PRENOM3'),
-        birthdate: moment(_getEitherElementValueOrNull(xmlSchoolingRegistration, 'DATE_NAISS'), 'DD/MM/YYYY').format('YYYY-MM-DD'),
-        birthCountryCode,
-        birthProvinceCode: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'CODE_DEPARTEMENT_NAISS'),
-        birthCityCode: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'CODE_COMMUNE_INSEE_NAISS'),
-        birthCity: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'VILLE_NAISS'),
-        MEFCode: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'CODE_MEF'),
-        status: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'CODE_STATUT'),
-        nationalStudentId: _getEitherElementValueOrNull(xmlSchoolingRegistration, 'ID_NATIONAL'),
-        division: _findSchoolingRegistrationDivision(schoolingRegistrationStructuresContainer),
-      };
+    streamerToParseOrganizationUAI.on('match', (xmlNode) => {
+      xml2js.parseStringPromise(xmlNode).then((nodeData) => {
+        if (nodeData.PARAMETRES) {
+          const UAIFromSIECLE = _getValueFromParsedElement(nodeData.PARAMETRES.UAJ);
+          _rejectIfUAISiecleFileNotMatchWithOrganizationUAI(UAIFromSIECLE, organization, reject);
+        }
+      });
     });
 
-  return { UAIFromSIECLE, resultFromExtraction };
+    streamerToParseSchoolingRegistrations.on('match', (xmlNode) => {
+      if (_isSchoolingRegistrationNode(xmlNode)) {
+        xml2js.parseStringPromise(xmlNode).then((nodeData) =>  {
+
+          const studentData = nodeData.ELEVE;
+          if (studentData && _isStudentEligible(studentData, mapSchoolingRegistrationsByStudentId)) {
+            const nationalStudentId = _getValueFromParsedElement(nodeData.ELEVE.ID_NATIONAL);
+            _rejectIfNationalStudentIdIsDuplicatedInFile(nationalStudentId, nationalStudentIds, reject);
+            nationalStudentIds.push(nationalStudentId);
+            mapSchoolingRegistrationsByStudentId.set(nodeData.ELEVE.$.ELEVE_ID, _mapStudentInformationToSchoolingRegistration(nodeData));
+          }
+
+          if (nodeData.STRUCTURES_ELEVE && mapSchoolingRegistrationsByStudentId.has(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID)) {
+            const currentStudent = mapSchoolingRegistrationsByStudentId.get(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID);
+            const structureElement = nodeData.STRUCTURES_ELEVE.STRUCTURE;
+
+            each(structureElement, (structure) => {
+              if (structure.TYPE_STRUCTURE[0] === DIVISION && structure.CODE_STRUCTURE[0] !== 'Inactifs') {
+                currentStudent.division = structure.CODE_STRUCTURE[0];
+              }
+            });
+            _deleteSchoolingRegistrationsWhenDivisionIsUndefined(currentStudent, mapSchoolingRegistrationsByStudentId, nodeData);
+          }
+        });
+      }
+    });
+
+    siecleFileStream.pipe(saxParser);
+
+    const filterSchoolingRegistrationsOnlyWithDivisionDefined = () => {
+      resolve(Array.from(mapSchoolingRegistrationsByStudentId.values()).filter((schoolingRegistration) => schoolingRegistration.division !== undefined));
+    };
+    streamerToParseSchoolingRegistrations.on('end', filterSchoolingRegistrationsOnlyWithDivisionDefined);
+
+    siecleFileStream.on('end', () => {
+
+      saxParser.removeAllListeners();
+      streamerToParseOrganizationUAI.removeAllListeners();
+      streamerToParseSchoolingRegistrations.removeAllListeners();
+
+    });
+  });
 }
 
-function _buildXmlDomFromBuffer(xmlBuffer) {
-  const stringifiedXml = xmlBufferToString(xmlBuffer);
-  return new DOMParser().parseFromString(stringifiedXml);
+function _mapStudentInformationToSchoolingRegistration(nodeData) {
+  return {
+    lastName: _getValueFromParsedElement(nodeData.ELEVE.NOM_DE_FAMILLE),
+    preferredLastName: _getValueFromParsedElement(nodeData.ELEVE.NOM_USAGE),
+    firstName: _getValueFromParsedElement(nodeData.ELEVE.PRENOM),
+    middleName: _getValueFromParsedElement(nodeData.ELEVE.PRENOM2),
+    thirdName: _getValueFromParsedElement(nodeData.ELEVE.PRENOM3),
+    birthdate: moment(nodeData.ELEVE.DATE_NAISS, 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
+    birthCountryCode: _getValueFromParsedElement(nodeData.ELEVE.CODE_PAYS, null),
+    birthProvinceCode: _getValueFromParsedElement(nodeData.ELEVE.CODE_DEPARTEMENT_NAISS),
+    birthCityCode: _getValueFromParsedElement(nodeData.ELEVE.CODE_COMMUNE_INSEE_NAISS),
+    birthCity: _getValueFromParsedElement(nodeData.ELEVE.VILLE_NAISS),
+    MEFCode: _getValueFromParsedElement(nodeData.ELEVE.CODE_MEF),
+    status: _getValueFromParsedElement(nodeData.ELEVE.CODE_STATUT),
+    nationalStudentId: _getValueFromParsedElement(nodeData.ELEVE.ID_NATIONAL),
+  };
 }
 
-function _findSchoolingRegistrationStructures(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures) {
-  const xmlSchoolingRegistrationId = xmlSchoolingRegistration.getAttribute('ELEVE_ID');
-  return xmlSchoolingRegistrationsStructures
-    .find((xmlSchoolingRegistrationStructure) => xmlSchoolingRegistrationStructure.getAttribute('ELEVE_ID') === xmlSchoolingRegistrationId);
+async function _readFirstLineFromFile(path) {
+  return new Promise((resolve, reject) => {
+    const readStream = fs.createReadStream(path);
+    const lineEnding = '\n';
+    const BOM = 0xFEFF;
+    let value = '';
+    let position = 0;
+    let index;
+    readStream.on('data', (chunk) => {
+      index = chunk.indexOf(lineEnding);
+      value += chunk;
+      if (index === -1) {
+        position += chunk.length;
+      } else {
+        position += index;
+        readStream.close();
+      }
+    })
+      .on('close', () => resolve(value.slice(value.charCodeAt(0) === BOM ? 1 : 0, position)))
+      .on('error', reject);
+  });
 }
 
-function _findSchoolingRegistrationDivision(schoolingRegistrationStructuresContainer) {
-  if (_.isEmpty(schoolingRegistrationStructuresContainer)) {
-    return null;
+function _isSchoolingRegistrationNode(xmlNode) {
+  return xmlNode.startsWith(ELEVE_ELEMENT) || xmlNode.startsWith(STRUCTURE_ELEVE_ELEMENT);
+}
+
+function _isStudentEligible(studentData, mapSchoolingRegistrationsByStudentId) {
+  const isStudentNotLeftSchoolingRegistration = isEmpty(studentData.DATE_SORTIE);
+  const isStudentNotYetArrivedSchoolingRegistration = !isEmpty(studentData.ID_NATIONAL);
+  const isStudentNotDuplicatedInTheSIECLEFile = !mapSchoolingRegistrationsByStudentId.has(studentData.$.ELEVE_ID);
+  return isStudentNotLeftSchoolingRegistration && isStudentNotYetArrivedSchoolingRegistration && isStudentNotDuplicatedInTheSIECLEFile;
+}
+
+function _getValueFromParsedElement(obj) {
+  if (isNil(obj)) return null;
+  return (Array.isArray(obj) && !isEmpty(obj)) ? obj[0] : obj;
+}
+
+function _rejectIfUAISiecleFileNotMatchWithOrganizationUAI(UAIFromSIECLE, organization, reject) {
+  if (UAIFromSIECLE !== organization.externalId) {
+    reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
   }
-  const divisionStructureElement = Array.from(schoolingRegistrationStructuresContainer.getElementsByTagName('STRUCTURE'))
-    .find((structureElement) => _getEitherElementValueOrNull(structureElement, 'TYPE_STRUCTURE') === 'D');
-
-  return divisionStructureElement ? _getEitherElementValueOrNull(divisionStructureElement, 'CODE_STRUCTURE') : null;
 }
 
-function _filterLeftSchoolingRegistrations(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures) {
-  const leavingDate = _getEitherElementValueOrNull(xmlSchoolingRegistration, 'DATE_SORTIE');
-  return _.isEmpty(leavingDate) && _filterSchoolingRegistrationsWithNoDivision(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures);
+function _deleteSchoolingRegistrationsWhenDivisionIsUndefined(currentStudent, mapSchoolingRegistrationsByStudentId, nodeData) {
+  if (currentStudent.division === undefined) {
+    mapSchoolingRegistrationsByStudentId.delete(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID);
+  }
 }
 
-function _filterSchoolingRegistrationsWithNoDivision(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures) {
-  const schoolingRegistrationStructuresContainer = _findSchoolingRegistrationStructures(xmlSchoolingRegistration, xmlSchoolingRegistrationsStructures);
-  const schoolingRegistrationDivision = _findSchoolingRegistrationDivision(schoolingRegistrationStructuresContainer);
-  return !_.isEmpty(schoolingRegistrationDivision) && schoolingRegistrationDivision !== 'Inactifs';
+async function _detectEncodingFromFirstLineOfSiecleFile(payload) {
+  const firstLine = await _readFirstLineFromFile(payload.path);
+  return xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
 }
 
-function _filterNotYetArrivedSchoolingRegistrations(xmlSchoolingRegistration) {
-  const nationalSchoolingRegistrationId = _getEitherElementValueOrNull(xmlSchoolingRegistration, 'ID_NATIONAL');
-  return !_.isEmpty(nationalSchoolingRegistrationId);
-}
-
-function _getEitherElementValueOrNull(xmlParentElement, tagName) {
-  const element = xmlParentElement.getElementsByTagName(tagName)[0];
-
-  return element ? element.textContent : null;
+function _rejectIfNationalStudentIdIsDuplicatedInFile(nationalStudentId, nationalStudentIds, reject) {
+  if (nationalStudentId && nationalStudentIds.indexOf(nationalStudentId) !== -1) {
+    reject(new SameNationalStudentIdInFileError(nationalStudentId));
+  }
 }

@@ -15,13 +15,10 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   let schoolingRegistrationsXmlServiceStub;
   let schoolingRegistrationRepositoryStub;
   let organizationRepositoryStub;
-  let fsStub;
   let payload = null;
 
   beforeEach(() => {
     format = 'xml';
-    fsStub = { unlink: sinon.stub(), readFile: sinon.stub() };
-
     schoolingRegistrationsXmlServiceStub = { extractSchoolingRegistrationsInformationFromSIECLE: sinon.stub() };
     schoolingRegistrationRepositoryStub = { addOrUpdateOrganizationSchoolingRegistrations: sinon.stub(), findByOrganizationId: sinon.stub() };
     organizationRepositoryStub = { get: sinon.stub() };
@@ -75,7 +72,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         });
 
         // when
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, fs:fsStub });
+        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.calledWith([schoolingRegistration1, schoolingRegistration2], organizationId);
       });
@@ -105,7 +102,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         schoolingRegistrationRepositoryStub.findByOrganizationId.resolves(schoolingRegistrationsToUpdate);
 
         // when
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload , format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, fs: fsStub });
+        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload , format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         const schoolingRegistrations = [
@@ -139,7 +136,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
         await fs.writeFile(filePath, '');
 
-        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, fs:fsStub });
+        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(FileValidationError);
@@ -160,7 +157,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
         await fs.writeFile(filePath, '');
         // when
-        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, fs:fsStub });
+        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(FileValidationError);
@@ -189,7 +186,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
         await fs.writeFile(filePath, '');
         // when
-        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, fs:fsStub });
+        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
@@ -206,7 +203,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
           { nationalStudentId: sameNationalStudentId },
         ];
         schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
-          .returns({ UAIFromSIECLE: organizationUAI, resultFromExtraction: extractedStudentsInformations });
+          .returns(extractedStudentsInformations);
         schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
         schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations.throws(new SameNationalStudentIdInOrganizationError());
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
@@ -220,7 +217,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         await fs.writeFile(filePath, '');
 
         // when
-        result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, fs:fsStub });
+        result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(SameNationalStudentIdInFileError);
