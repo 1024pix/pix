@@ -71,17 +71,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     let csvLines = '';
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDataChunk.find(({ userId }) =>  userId === placementProfile.userId);
-      const csvLine = exportStream._createOneLineOfCSV({
-        headers,
-        organization,
-        campaign,
-        campaignParticipationResultData,
-        placementProfile,
-
-        participantFirstName: campaignParticipationResultData.participantFirstName,
-        participantLastName: campaignParticipationResultData.participantLastName,
-        studentNumber: campaignParticipationResultData.studentNumber,
-      });
+      const csvLine = exportStream.export(headers, campaignParticipationResultData,placementProfile);
       csvLines = csvLines.concat(csvLine);
     }
 
