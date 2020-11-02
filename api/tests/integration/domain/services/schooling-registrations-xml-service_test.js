@@ -1,72 +1,17 @@
-const { expect } = require('../../../test-helper');
+const { expect, catchErr } = require('../../../test-helper');
+const { FileValidationError, SameNationalStudentIdInFileError } = require('../../../../lib/domain/errors');
 const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
-
-const iconv = require('iconv-lite');
 
 describe('Integration | Services | schooling-registrations-xml-service', () => {
 
   describe('extractSchoolingRegistrationsInformationFromSIECLE', () => {
-    const UAIFromSIECLE = '123ABC';
 
-    it('should parse in schoolingRegistrations informations', function() {
+    it('should parse two schoolingRegistrations information', async function() {
       // given
-      const buffer = iconv.encode(
-        '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-        '<BEE_ELEVES VERSION="2.1">' +
-        '<PARAMETRES>' +
-        '<UAJ>123ABC</UAJ>' +
-        '</PARAMETRES>' +
-        '<DONNEES>' +
-        '<ELEVES>' +
-        '<ELEVE ELEVE_ID="0001">' +
-        '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
-        '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
-        '<NOM_USAGE></NOM_USAGE>' +
-        '<PRENOM>Luciole</PRENOM>' +
-        '<PRENOM2>Léa</PRENOM2>' +
-        '<PRENOM3>Lucy</PRENOM3>' +
-        '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
-        '<CODE_PAYS>100</CODE_PAYS>' +
-        '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-        '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-        '<CODE_MEF>123456789</CODE_MEF>' +
-        '<CODE_STATUT>AP</CODE_STATUT>' +
-        '</ELEVE>' +
-        '<ELEVE ELEVE_ID="0002">' +
-        '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
-        '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-        '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-        '<PRENOM>Harry</PRENOM>' +
-        '<PRENOM2>Cocœ</PRENOM2>' +
-        '<PRENOM3></PRENOM3>' +
-        '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-        '<CODE_PAYS>132</CODE_PAYS>' +
-        '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
-        '<CODE_MEF>12341234</CODE_MEF>' +
-        '<CODE_STATUT>ST</CODE_STATUT>' +
-        '</ELEVE>' +
-        '</ELEVES>' +
-        '<STRUCTURES>' +
-        '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-        '<STRUCTURE>' +
-        '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-        '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-        '</STRUCTURE>' +
-        '</STRUCTURES_ELEVE>' +
-        '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-        '<STRUCTURE>' +
-        '<CODE_STRUCTURE>42</CODE_STRUCTURE>' +
-        '<TYPE_STRUCTURE>G</TYPE_STRUCTURE>' +
-        '</STRUCTURE>' +
-        '<STRUCTURE>' +
-        '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-        '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-        '</STRUCTURE>' +
-        '</STRUCTURES_ELEVE>' +
-        '</STRUCTURES>' +
-        '</DONNEES>' +
-        '</BEE_ELEVES>', 'ISO-8859-15');
-
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const filePath = __dirname + '/siecle-file/siecle-with-two-valid-students.xml';
+      const payload = { path: filePath };
       const expectedSchoolingRegistrations = [{
         lastName: 'HANDMADE',
         preferredLastName: '',
@@ -100,120 +45,56 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       }];
 
       // when
-      const result = schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(buffer);
+      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(payload, organization);
 
       //then
-      expect(result).to.deep.equal({ UAIFromSIECLE, resultFromExtraction: expectedSchoolingRegistrations });
+      expect(result).to.deep.equal(expectedSchoolingRegistrations);
     });
 
-    it('should not parse schoolingRegistrations who are no longer in the school', function() {
+    it('should not parse schoolingRegistrations who are no longer in the school', async function() {
       // given
-      const buffer = iconv.encode(
-        '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-        '<BEE_ELEVES VERSION="2.1">' +
-        '<PARAMETRES>' +
-        '<UAJ>123ABC</UAJ>' +
-        '</PARAMETRES>' +
-        '<DONNEES>' +
-        '<ELEVES>' +
-        '<ELEVE ELEVE_ID="0001">' +
-        '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
-        '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
-        '<NOM_USAGE></NOM_USAGE>' +
-        '<PRENOM>Luciole</PRENOM>' +
-        '<PRENOM2>Léa</PRENOM2>' +
-        '<PRENOM3>Lucy</PRENOM3>' +
-        '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
-        '<CODE_PAYS>100</CODE_PAYS>' +
-        '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-        '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-        '<CODE_MEF>123456789</CODE_MEF>' +
-        '<CODE_STATUT>AP</CODE_STATUT>' +
-        '</ELEVE>' +
-        '<ELEVE ELEVE_ID="0002">' +
-        '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
-        '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-        '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-        '<PRENOM>Harry</PRENOM>' +
-        '<PRENOM2>Coco</PRENOM2>' +
-        '<PRENOM3></PRENOM3>' +
-        '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-        '<CODE_PAYS>132</CODE_PAYS>' +
-        '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
-        '<CODE_MEF>12341234</CODE_MEF>' +
-        '<CODE_STATUT>ST</CODE_STATUT>' +
-        '</ELEVE>' +
-        '<ELEVE ELEVE_ID="0003">' +
-        '<NOM_DE_FAMILLE>FRANCIS--FROUFROU</NOM_DE_FAMILLE>' +
-        '<PRENOM>Grégory</PRENOM>' +
-        '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-        '<CODE_PAYS>100</CODE_PAYS>' +
-        '<CODE_DEPARTEMENT_NAISS>035</CODE_DEPARTEMENT_NAISS>' +
-        '<CODE_COMMUNE_INSEE_NAISS>35133</CODE_COMMUNE_INSEE_NAISS>' +
-        '<CODE_MEF>12341234</CODE_MEF>' +
-        '<CODE_STATUT>AP</CODE_STATUT>' +
-        '</ELEVE>' +
-        '</ELEVE>' +
-        '<ELEVE ELEVE_ID="0004">' +
-        '<ID_NATIONAL>00000000125</ID_NATIONAL>' +
-        '<NOM_DE_FAMILLE>FRANGE</NOM_DE_FAMILLE>' +
-        '<PRENOM>COLIN</PRENOM>' +
-        '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
-        '<CODE_PAYS>100</CODE_PAYS>' +
-        '<CODE_DEPARTEMENT_NAISS>75</CODE_DEPARTEMENT_NAISS>' +
-        '<CODE_COMMUNE_INSEE_NAISS>75009</CODE_COMMUNE_INSEE_NAISS>' +
-        '<CODE_MEF>12341234</CODE_MEF>' +
-        '<CODE_STATUT>AP</CODE_STATUT>' +
-        '</ELEVE>' +
-        '<ELEVE ELEVE_ID="0005">' +
-        '<ID_NATIONAL>00000000126</ID_NATIONAL>' +
-        '<NOM_DE_FAMILLE>GRADE</NOM_DE_FAMILLE>' +
-        '<PRENOM>François</PRENOM>' +
-        '<DATE_NAISS>12/12/2008</DATE_NAISS>' +
-        '<DATE_SORTIE>01/09/2019</DATE_SORTIE>' +
-        '<CODE_PAYS>100</CODE_PAYS>' +
-        '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-        '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-        '<CODE_MEF>123456789</CODE_MEF>' +
-        '<CODE_STATUT>AP</CODE_STATUT>' +
-        '</ELEVE>' +
-        '</ELEVES>' +
-        '<STRUCTURES>' +
-        '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-        '<STRUCTURE>' +
-        '<CODE_STRUCTURE>Inactifs</CODE_STRUCTURE>' +
-        '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-        '</STRUCTURE>' +
-        '</STRUCTURES_ELEVE>' +
-        '<STRUCTURES_ELEVE ELEVE_ID="0003">' +
-        '<STRUCTURE>' +
-        '<CODE_STRUCTURE>4e 1</CODE_STRUCTURE>' +
-        '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-        '</STRUCTURE>' +
-        '</STRUCTURES_ELEVE>' +
-        '<STRUCTURES_ELEVE ELEVE_ID="0004">' +
-        '<STRUCTURE>' +
-        '<CODE_STRUCTURE>4e 1</CODE_STRUCTURE>' +
-        '<TYPE_STRUCTURE>G</TYPE_STRUCTURE>' +
-        '</STRUCTURE>' +
-        '</STRUCTURES_ELEVE>' +
-        '<STRUCTURES_ELEVE ELEVE_ID="0005">' +
-        '<STRUCTURE>' +
-        '<CODE_STRUCTURE>4e 1</CODE_STRUCTURE>' +
-        '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-        '</STRUCTURE>' +
-        '</STRUCTURES_ELEVE>' +
-        '</STRUCTURES>' +
-        '</DONNEES>' +
-        '</BEE_ELEVES>', 'ISO-8859-15');
-
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const filePath = __dirname + '/siecle-file/siecle-with-registrations-no-longer-in-school.xml';
+      const payload = { path: filePath };
       const expectedSchoolingRegistrations = [];
 
       // when
-      const result = schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(buffer);
+      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(payload, organization);
 
       //then
-      expect(result).to.deep.equal({ UAIFromSIECLE, resultFromExtraction: expectedSchoolingRegistrations });
+      expect(result).to.deep.equal(expectedSchoolingRegistrations);
     });
+
+    it('should abort parsing and reject with not valid UAI error', async function() {
+
+      // given
+      const wrongUAIFromSIECLE = '123ABC';
+      const organization = { externalId: wrongUAIFromSIECLE };
+      const filePath = __dirname + '/siecle-file/siecle-with-wrong-uai.xml';
+      const payload = { path: filePath };
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(payload, organization);
+
+      //then
+      expect(error).to.be.instanceof(FileValidationError);
+      expect(error.message).to.equal('Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.');
+    });
+
+    it('should abort parsing and reject with duplicate national student id error', async function() {
+
+      // given
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const filePath = __dirname + '/siecle-file/siecle-with-duplicate-national-student-id.xml';
+      const payload = { path: filePath };
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(payload, organization);
+
+      //then
+      expect(error).to.be.instanceof(SameNationalStudentIdInFileError);
+      expect(error.message).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+    });
+
   });
 });
