@@ -1,5 +1,7 @@
 import json2csv from 'json2csv';
-import _ from 'lodash';
+import concat from 'lodash/concat';
+import isEmpty from 'lodash/isEmpty';
+
 import moment from 'moment';
 
 import Service, { inject as service } from '@ember/service';
@@ -89,12 +91,12 @@ export default class SessionInfoServiceService extends Service {
 
 function _filterCertificationsEligibleForJury(certifications) {
   return certifications.filter((certification) => {
-    return (certification.status !== 'validated') || (!_.isEmpty(certification.examinerComment)) || !certification.hasSeenEndTestScreen;
+    return (certification.status !== 'validated') || (!isEmpty(certification.examinerComment)) || !certification.hasSeenEndTestScreen;
   });
 }
 
 function _buildJuryFileHeaders() {
-  return _.concat(
+  return concat(
     [
       'ID de session',
       'ID de certification',

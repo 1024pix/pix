@@ -22,6 +22,7 @@ module.exports = {
     browser: true,
   },
   rules: {
+    'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
     'ember/avoid-leaking-state-in-ember-objects': 'off',
     'ember/no-get': ['error'],
     'ember/no-empty-attrs': 'error',
