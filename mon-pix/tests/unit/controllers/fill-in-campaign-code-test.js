@@ -13,12 +13,14 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
   let storeStub;
   let sessionStub;
   let currentUserStub;
+  let eventStub;
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:fill-in-campaign-code');
     storeStub = { query: sinon.stub() };
     controller.transitionToRoute = sinon.stub();
     sessionStub = { invalidate: sinon.stub() };
+    eventStub = { preventDefault: sinon.stub() };
     currentUserStub = { user: { firstName: 'John', lastname: 'Doe' } };
     controller.set('store', storeStub);
     controller.set('session', sessionStub);
@@ -37,7 +39,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       storeStub.query.resolves([campaign]);
 
       // when
-      await controller.actions.startCampaign.call(controller);
+      await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
       sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', campaign);
@@ -48,7 +50,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       controller.set('campaignCode', '');
 
       // when
-      await controller.actions.startCampaign.call(controller);
+      await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
       expect(controller.get('errorMessage')).to.equal('Veuillez saisir un code.');
@@ -60,7 +62,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       storeStub.query.rejects({ errors: [{ status: '404' }] });
 
       // when
-      await controller.actions.startCampaign.call(controller);
+      await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
       expect(controller.get('errorMessage')).to.equal('Votre code est erroné, veuillez vérifier ou contacter l’organisateur.');
@@ -72,7 +74,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       storeStub.query.rejects({ errors: [{ status: '403' }] });
 
       // When
-      await controller.actions.startCampaign.call(controller);
+      await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
       expect(controller.get('errorMessage')).to.equal('Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.');

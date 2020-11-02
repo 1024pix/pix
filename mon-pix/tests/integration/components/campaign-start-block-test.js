@@ -11,7 +11,6 @@ describe('Integration | Component | campaign-start-block template', function() {
   it('should display all text arguments correctly', async function() {
     // given
     this.set('campaign', {});
-    this.set('isLoading', false);
     this.set('startCampaignParticipation', () => {});
     this.set('titleText', 'title');
     this.set('announcementText', 'announcement');
@@ -22,7 +21,6 @@ describe('Integration | Component | campaign-start-block template', function() {
     await render(hbs`
       <CampaignStartBlock
         @campaign={{this.campaign}}
-        @isLoading={{this.isLoading}}
         @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText={{this.titleText}}
         @announcementText={{this.announcementText}}
@@ -44,7 +42,6 @@ describe('Integration | Component | campaign-start-block template', function() {
       organizationLogoUrl: 'http://orga.com/logo.png',
       customLandingPageText: 'My campaign text',
     });
-    this.set('isLoading', false);
     this.set('startCampaignParticipation', () => {});
     this.set('titleText', 'title');
     this.set('announcementText', 'announcement');
@@ -55,7 +52,6 @@ describe('Integration | Component | campaign-start-block template', function() {
     await render(hbs`
       <CampaignStartBlock
         @campaign={{this.campaign}}
-        @isLoading={{this.isLoading}}
         @startCampaignParticipation={{this.startCampaignParticipation}}
         @titleText={{this.titleText}}
         @announcementText={{this.announcementText}}
@@ -67,31 +63,5 @@ describe('Integration | Component | campaign-start-block template', function() {
     expect(find('.campaign-landing-page__logo .campaign-landing-page__image').getAttribute('src')).to.equal('http://orga.com/logo.png');
     expect(find('.campaign-landing-page__logo .campaign-landing-page__image').getAttribute('alt')).to.equal('My organisation');
     expect(find('.campaign-landing-page__start__custom-text').textContent).to.contain('My campaign text');
-  });
-
-  it('should display loading button when loading', async function() {
-    // given
-    this.set('campaign', {});
-    this.set('isLoading', true);
-    this.set('startCampaignParticipation', () => {});
-    this.set('titleText', 'title');
-    this.set('announcementText', 'announcement');
-    this.set('buttonText', 'button');
-    this.set('legalText', 'legal');
-
-    // when
-    await render(hbs`
-      <CampaignStartBlock
-        @campaign={{this.campaign}}
-        @isLoading={{this.isLoading}}
-        @startCampaignParticipation={{this.startCampaignParticipation}}
-        @titleText={{this.titleText}}
-        @announcementText={{this.announcementText}}
-        @buttonText={{this.buttonText}}
-        @legalText={{this.legalText}}
-      />`);
-
-    // then
-    expect(find('.loader-in-button')).to.exist;
   });
 });
