@@ -11,7 +11,6 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const studentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 
@@ -507,7 +506,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
 
       sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
-      sinon.stub(studentSerializer, 'serialize');
     });
 
     it('should call the usecase to import schoolingRegistrations', async () => {
