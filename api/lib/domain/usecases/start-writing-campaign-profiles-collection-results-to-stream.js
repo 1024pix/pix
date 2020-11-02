@@ -16,95 +16,6 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
     );
   }
 }
-function _getCommonColumns({
-  organization,
-  campaign,
-  campaignParticipationResultData,
-
-  participantFirstName,
-  participantLastName,
-  studentNumber,
-}) {
-  const EMPTY_LINE = '';
-  const displayStudentNumber = studentNumber && organization.isSup && organization.isManagingStudents;
-  return {
-    organizationName: organization.name,
-    campaignId: campaign.id,
-    campaignName: campaign.name,
-    participantLastName,
-    participantFirstName,
-    studentNumber: displayStudentNumber ? studentNumber : EMPTY_LINE,
-    isShared: campaignParticipationResultData.isShared ? 'Oui' : 'Non',
-    ...(campaign.idPixLabel ? { participantExternalId: campaignParticipationResultData.participantExternalId } : {}),
-  };
-}
-
-function _getSharedColumns({
-  campaignParticipationResultData,
-  placementProfile,
-}) {
-  const competenceStats = _.map(placementProfile.userCompetences, (userCompetence) => {
-
-    return {
-      id: userCompetence.id,
-      earnedPix: userCompetence.pixScore,
-      level: userCompetence.estimatedLevel,
-    };
-  });
-
-  const lineMap = {
-    sharedAt: moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
-    totalEarnedPix: _.sumBy(competenceStats, 'earnedPix'),
-    isCertifiable: placementProfile.isCertifiable() ? 'Oui' : 'Non',
-    certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
-  };
-
-  let totalEarnedPix = 0;
-  placementProfile.userCompetences.forEach(({ id, pixScore, estimatedLevel }) => {
-    lineMap[`competence_${id}_level`] = estimatedLevel;
-    lineMap[`competence_${id}_earnedPix`] = pixScore;
-    totalEarnedPix += pixScore;
-  });
-
-  lineMap['totalEarnedPix'] = totalEarnedPix;
-
-  return lineMap;
-}
-
-function _createOneLineOfCSV({
-  headers,
-  organization,
-  campaign,
-  campaignParticipationResultData,
-  placementProfile,
-
-  participantFirstName,
-  participantLastName,
-  studentNumber,
-}) {
-  const lineMap = _getCommonColumns({
-    organization,
-    campaign,
-    campaignParticipationResultData,
-
-    participantFirstName,
-    participantLastName,
-    studentNumber,
-  });
-
-  if (campaignParticipationResultData.isShared) {
-    _.assign(lineMap, _getSharedColumns({
-      campaignParticipationResultData,
-      placementProfile,
-    }));
-  }
-
-  const lineArray = headers.map(({ property }) => {
-    return property in lineMap ? lineMap[property] : 'NA';
-  });
-
-  return csvSerializer.serializeLine(lineArray);
-}
 
 module.exports = async function startWritingCampaignProfilesCollectionResultsToStream(
   {
@@ -160,7 +71,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     let csvLines = '';
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDataChunk.find(({ userId }) =>  userId === placementProfile.userId);
-      const csvLine = _createOneLineOfCSV({
+      const csvLine = exportStream._createOneLineOfCSV({
         headers,
         organization,
         campaign,
