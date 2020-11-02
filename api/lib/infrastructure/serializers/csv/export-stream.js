@@ -15,25 +15,42 @@ class ExportStream {
     this.headers = this._createHeaderOfCSV();
   }
 
-  export(campaignParticipationResultDatas, placementProfiles) {
-    let csvLines = '';
-    for (const placementProfile of placementProfiles) {
-      const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
-      const csvLine = this._createOneLineOfCSV({
-        headers: this.headers,
-        organization: this.organization,
-        campaign: this.campaign,
-        campaignParticipationResultData,
-        placementProfile,
+  export(campaignParticipationResultDatas, placementProfileService) {
+    const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 
-        participantFirstName: campaignParticipationResultData.participantFirstName,
-        participantLastName: campaignParticipationResultData.participantLastName,
-        studentNumber: campaignParticipationResultData.studentNumber,
+    return bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
+      const userIdsAndDates = Object.fromEntries(campaignParticipationResultDataChunk.map((campaignParticipationResultData) => {
+        return [
+          campaignParticipationResultData.userId,
+          campaignParticipationResultData.sharedAt,
+        ];
+      }));
+
+      const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
+        userIdsAndDates,
+        competences: this.allPixCompetences,
+        allowExcessPixAndLevels: false,
       });
-      csvLines = csvLines.concat(csvLine);
-    }
 
-    this.stream.write(csvLines);
+      let csvLines = '';
+      for (const placementProfile of placementProfiles) {
+        const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
+        const csvLine = this._createOneLineOfCSV({
+          headers: this.headers,
+          organization: this.organization,
+          campaign: this.campaign,
+          campaignParticipationResultData,
+          placementProfile,
+
+          participantFirstName: campaignParticipationResultData.participantFirstName,
+          participantLastName: campaignParticipationResultData.participantLastName,
+          studentNumber: campaignParticipationResultData.studentNumber,
+        });
+        csvLines = csvLines.concat(csvLine);
+      }
+
+      this.stream.write(csvLines);
+    });
   }
 
   _getCommonColumns({
