@@ -12,10 +12,17 @@ class ExportStream {
     this.campaign = campaign;
     this.idPixLabel = campaign.idPixLabel;
     this.allPixCompetences = allPixCompetences;
-    this.headers = this._createHeaderOfCSV();
   }
 
   export(campaignParticipationResultDatas, placementProfileService) {
+    const headers = this._createHeaderOfCSV();
+
+    // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
+    // - https://en.wikipedia.org/wiki/Byte_order_mark
+    // - https://stackoverflow.com/a/38192870
+    const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers.map((header) => header.title));
+    this.stream.write(headerLine);
+
     const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 
     return bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
@@ -36,7 +43,7 @@ class ExportStream {
       for (const placementProfile of placementProfiles) {
         const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
         const csvLine = this._createOneLineOfCSV({
-          headers: this.headers,
+          headers: headers,
           organization: this.organization,
           campaign: this.campaign,
           campaignParticipationResultData,

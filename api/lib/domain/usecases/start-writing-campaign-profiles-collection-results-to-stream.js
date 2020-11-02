@@ -1,8 +1,5 @@
 const _ = require('lodash');
 const moment = require('moment');
-const bluebird = require('bluebird');
-
-const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 const ExportStream  = require('../../infrastructure/serializers/csv/export-stream');
@@ -39,15 +36,8 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
   ]);
+
   const exportStream = new ExportStream(writableStream, organization, campaign, allPixCompetences);
-  const headers = exportStream._createHeaderOfCSV(allPixCompetences, campaign.idPixLabel, organization);
-
-  // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
-  // - https://en.wikipedia.org/wiki/Byte_order_mark
-  // - https://stackoverflow.com/a/38192870
-  const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers.map((header) => header.title));
-
-  writableStream.write(headerLine);
 
   // No return/await here, we need the writing to continue in the background
   // after this function's returned promise resolves. If we await the map
