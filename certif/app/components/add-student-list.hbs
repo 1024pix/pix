@@ -36,16 +36,28 @@
 
   {{#if this.hasCheckedSomething}}
     <div class="add-student-list__bottom-action-bar">
-      <LinkTo 
-        @route="authenticated.sessions.details.certification-candidates" 
-        @model={{@session.id}}
-        class="add-student-list__cancel-button button button--link button--grey"
-        type="button">
-        Annuler
-      </LinkTo>
-      <PixButton
-        {{on 'click' this.enrollStudents}}
-        class="button button--link">Ajouter</PixButton>
+
+      <div class="bottom-action-bar__informations">
+        <p class="bottom-action-bar__informations--candidates-selected">Aucun élève sélectionnés</p>
+        <span class="bottom-action-bar__seperator"></span>
+        <p class="bottom-action-bar__informations--candidates-already-added">
+          {{this.numberOfStudentsAlreadyCandidate}} candidats déjà ajoutés à la session
+        </p>
+      </div>
+
+      <div class="bottom-action-bar__actions">
+        <LinkTo
+          @route="authenticated.sessions.details.certification-candidates"
+          @model={{@session.id}}
+          class="bottom-action-bar__actions--cancel-button button button--link button--grey"
+          type="button">
+          Annuler
+        </LinkTo>
+        <PixButton
+          {{on 'click' this.enrollStudents}}
+          class="bottom-action-bar__actions--add-button button button--link">Ajouter</PixButton>
+      </div>
+
     </div>
   {{/if}}
 </div>
