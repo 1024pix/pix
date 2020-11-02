@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v2.215.0 (02/11/2020)
+
+- [#2079](https://github.com/1024pix/pix/pull/2079) [FEATURE] Création du script d'ajout de tags aux organisations (PIX-1461).
+- [#2081](https://github.com/1024pix/pix/pull/2081) [FEATURE] Autoriser l'import d'apprenti pour SCO Agriculture (Pix-1356) 
+- [#2084](https://github.com/1024pix/pix/pull/2084) [FEATURE] Améliorations liste des candidats SCO (Pix-1532)
+- [#2060](https://github.com/1024pix/pix/pull/2060) [FEATURE] Amélioration de l'affichage des réponses en cas de mauvaise réponse sur les QCU (PIX-1475).
+- [#2078](https://github.com/1024pix/pix/pull/2078) [FEATURE][PE] Mise à jour des données mocker pour le partage de résultat de campagne (PIX-1537)
+- [#2046](https://github.com/1024pix/pix/pull/2046) [FEATURE] Ajouter des candidats venant du SCO à une session de certif (PIX-1375)
+- [#2066](https://github.com/1024pix/pix/pull/2066) [FEATURE] Changement du wording de la banière SCO (remplacement Toussaint par Noël) (PIX-1528).
+- [#2083](https://github.com/1024pix/pix/pull/2083) [BUGFIX] Fix pour l'erreur lors de la liaison des target-profile à une organization (PIX-1478).
+- [#2088](https://github.com/1024pix/pix/pull/2088) [BUGFIX] Empêcher le job e2e de la CI de crasher par manque de mémoire (PIX-1551)
+- [#2077](https://github.com/1024pix/pix/pull/2077) [BUGFIX] Le téléchargement du template CSV SCO agri ne fonctionne pas
+- [#2080](https://github.com/1024pix/pix/pull/2080) [TECH] Mise en place d'une contrainte d'unicité pour s'assurer qu'un profil cible n'est rattaché qu'une seule fois à une organisation (PIX-491)
+- [#2031](https://github.com/1024pix/pix/pull/2031) [TECH] Remplacer des boutons par des PixButton pour gérer le chargement.
+- [#2073](https://github.com/1024pix/pix/pull/2073) [TECH] Retirer les imports globaux de lodash
+- [#2056](https://github.com/1024pix/pix/pull/2056) [TECH] Permettre les tests automatisés multi-plateformes (Windows, Linux, MacOSX).
+- [#1902](https://github.com/1024pix/pix/pull/1902) [TECH] Montée de version d'Ember (3.18 → 3.21) et des dépendances de Pix Admin.
+- [#2001](https://github.com/1024pix/pix/pull/2001) [TECH] Enlever la relation session hasMany certificationCandidates (CERTIF)
+- [#1856](https://github.com/1024pix/pix/pull/1856) [TECH] Montée de version d'Ember (3.18 → 3.22) et des dépendances de Pix Orga.
+- [#2091](https://github.com/1024pix/pix/pull/2091) [CLEANUP] Suppression du student-serializer qui n'est plus utilisé
+- [#2057](https://github.com/1024pix/pix/pull/2057) [CLEANUP]  Refacto des vérifications concernant la pérennité des comptes dans les usecases (PIX-1499).
+
 ## v2.214.0 (28/10/2020)
 
 - [#2055](https://github.com/1024pix/pix/pull/2055) [FEATURE] Ajouter le palier dans l'export des résultats d'un campagne d'évaluation (PIX-1458).
