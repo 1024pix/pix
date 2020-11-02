@@ -14,6 +14,7 @@ export default Route.extend(ApplicationRouteMixin, {
   intl: service(),
   moment: service(),
   headData: service(),
+  featureToggles: service(),
 
   activate() {
     this.splash.hide();
@@ -39,6 +40,9 @@ export default Route.extend(ApplicationRouteMixin, {
     this._setLocale(transition.to.queryParams);
     this.headData.description = this.intl.t('application.description');
     await this._checkForURLAuthentication(transition);
+
+    await this.featureToggles.load().catch();
+
     return this._loadCurrentUser();
   },
 
@@ -62,7 +66,8 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   _loadCurrentUser() {
-    return this.currentUser.load().catch(() => this.session.invalidate());
+    return this.currentUser.load()
+      .catch(() => this.session.invalidate());
   },
 
   _logoutUser() {
