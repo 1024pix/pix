@@ -30,8 +30,7 @@ describe('Unit | UseCase | update-user-samlId', () => {
 
     it('should update user samlId', async () => {
       // given
-      const expectedUser = domainBuilder.buildUser({ id: authenticatedUserId });
-      expectedUser.samlId = samlId;
+      const expectedUser = domainBuilder.buildUser({ id: authenticatedUserId, samlId });
       userRepository.getBySamlId.resolves(expectedUser);
       userRepository.updateSamlId.resolves(expectedUser);
 

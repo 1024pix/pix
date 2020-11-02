@@ -19,7 +19,7 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
 
   return new UserWithSchoolingRegistration({
     ...rawUserWithSchoolingRegistration,
-    isAuthenticatedFromGAR: (rawUserWithSchoolingRegistration.samlId) ? true : false,
+    isAuthenticatedFromGAR: !!rawUserWithSchoolingRegistration.samlId,
   });
 }
 
@@ -194,7 +194,7 @@ module.exports = {
     return _.partition(schoolingRegistrationApprentice, (schoolingRegistration) => {
 
       const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId; 
+        return currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId;
       });
 
       return !!currentSchoolingRegistration;
@@ -208,7 +208,7 @@ module.exports = {
     return _.partition(schoolingRegistrationStudent, (schoolingRegistration) => {
 
       const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId; 
+        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId;
       });
 
       if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
@@ -217,7 +217,7 @@ module.exports = {
           schoolingRegistration.userId = student.account.userId;
         }
       }
-      
+
       return !!currentSchoolingRegistration;
     });
   },

@@ -211,7 +211,7 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true,
-        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted','samlId' ],
+        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'samlId'],
         withRelated: [{
           schoolingRegistrations: (query) => { query
             .leftJoin('organizations', 'schooling-registrations.organizationId','organizations.id')

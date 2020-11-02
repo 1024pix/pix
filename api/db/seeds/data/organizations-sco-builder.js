@@ -1,4 +1,5 @@
 const Membership = require('../../../lib/domain/models/Membership');
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const MIDDLE_SCHOOL_ID = 3;
 
 module.exports = function organizationsScoBuilder({ databaseBuilder }) {
@@ -140,6 +141,12 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     samlId: '1234567',
     rawPassword: defaultPassword,
     cgu: false,
+  });
+
+  databaseBuilder.factory.buildAuthenticationMethod({
+    identityProvider: AuthenticationMethod.identityProviders.GAR,
+    externalIdentifier: '1234567',
+    userId: userWithGAR.id,
   });
 
   databaseBuilder.factory.buildSchoolingRegistration({
