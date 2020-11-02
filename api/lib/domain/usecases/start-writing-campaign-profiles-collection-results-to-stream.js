@@ -53,23 +53,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
-  bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
-    const userIdsAndDates = Object.fromEntries(campaignParticipationResultDataChunk.map((campaignParticipationResultData) => {
-      return [
-        campaignParticipationResultData.userId,
-        campaignParticipationResultData.sharedAt,
-      ];
-    }));
-
-    const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-      userIdsAndDates,
-      competences: allPixCompetences,
-      allowExcessPixAndLevels: false,
-    });
-
-    exportStream.export(campaignParticipationResultDataChunk,placementProfiles);
-  }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
+  exportStream.export(campaignParticipationResultDatas, placementProfileService).then(() => {
     writableStream.end();
   }).catch((error) => {
     writableStream.emit('error', error);
