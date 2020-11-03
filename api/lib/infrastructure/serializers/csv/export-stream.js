@@ -116,13 +116,7 @@ class ExportStream {
       campaignParticipationResultData.isShared ? totalEarnedPix : 'NA',
       campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : 'NA',
       campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : 'NA',
-      ...(_.flatMap(this.allPixCompetences, (competence) => {
-        if (campaignParticipationResultData.isShared) {
-          const userCompetence = placementProfile.userCompetences.find(({ id }) => id === competence.id);
-          return [ userCompetence.estimatedLevel, userCompetence.pixScore];
-        }
-        return ['NA', 'NA'];
-      })),
+      ...this._competenceColumns(this.allPixCompetences, placementProfile.userCompetences, campaignParticipationResultData.isShared),
     ];
 
     return csvSerializer.serializeLine(line);
@@ -139,6 +133,21 @@ class ExportStream {
 
   _yesOrNo(value) {
     return value ? 'Oui' : 'Non';
+  }
+
+  _competenceColumns(competencesList, userCompetences, isShared) {
+    const columns = [];
+    competencesList.forEach((competence) => {
+      const { estimatedLevel, pixScore } = userCompetences.find(({ id }) => id === competence.id);
+
+      if (isShared) {
+        columns.push(estimatedLevel, pixScore);
+      } else {
+        columns.push('NA', 'NA');
+      }
+    });
+
+    return columns;
   }
 }
 
