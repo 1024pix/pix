@@ -210,12 +210,10 @@ module('Integration | Component | add-student-list', function(hooks) {
       });
 
       module('when there is already enrolled students (certification candidates), the sticky bar is shown', () => {
-        module('when there is no additional selected student', () => {
-          test('it should show "Aucun candidat sélectionné | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
-            // given
-            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
-            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+        module('when there is no additional selected student', function(hooks) {
 
+          hooks.beforeEach(async function() {
+            // given
             const birthdate = new Date('2018-01-12T09:29:16Z');
             const studentList = [
               _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate),
@@ -234,19 +232,27 @@ module('Integration | Component | add-student-list', function(hooks) {
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
               @certificationCandidates={{this.certificationCandidates}}>
             </AddStudentList>`);
+          });
 
+          test('it should show "Aucun candidat sélectionné | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
             // then
+            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
+            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
             assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà ajouté(s) à la session');
             assert.dom(candidatesSelectedSelector).includesText('Aucun candidat sélectionné');
           });
+
+          test('it should disable the "Ajouter" button', async function(assert) {
+            // then
+            const addButtonDisabled = '.bottom-action-bar__actions--add-button.button--disabled';
+            assert.dom(addButtonDisabled).exists();
+          });
         });
 
-        module('when there is additional selected student', () => {
-          test('it should show "2 candidat(s) sélectionné(s) | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
-            // given
-            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
-            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+        module('when there is additional selected student', function(hooks) {
 
+          hooks.beforeEach(async function() {
+            // given
             const birthdate = new Date('2018-01-12T09:29:16Z');
             const studentList = [
               _buildSelectedStudent('Marie', 'Dupont', '3E', birthdate),
@@ -265,10 +271,22 @@ module('Integration | Component | add-student-list', function(hooks) {
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
               @certificationCandidates={{this.certificationCandidates}}>
             </AddStudentList>`);
+          });
 
+          test('it should show "2 candidat(s) sélectionné(s) | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
             // then
+            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
+            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
             assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà ajouté(s) à la session');
             assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
+          });
+
+          test('it should show "Ajouter" button', async function(assert) {
+            // then
+            const addButtonDisabled = '.bottom-action-bar__actions--add-button.button--disabled';
+            const addButton = '.bottom-action-bar__actions--add-button';
+            assert.dom(addButtonDisabled).doesNotExist();
+            assert.dom(addButton).exists();
           });
         });
       });
