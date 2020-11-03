@@ -26,18 +26,7 @@ class ExportStream {
     const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 
     return bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
-      const userIdsAndDates = Object.fromEntries(campaignParticipationResultDataChunk.map((campaignParticipationResultData) => {
-        return [
-          campaignParticipationResultData.userId,
-          campaignParticipationResultData.sharedAt,
-        ];
-      }));
-
-      const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-        userIdsAndDates,
-        competences: this.allPixCompetences,
-        allowExcessPixAndLevels: false,
-      });
+      const placementProfiles = await this.getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService);
 
       let csvLines = '';
       for (const placementProfile of placementProfiles) {
@@ -51,6 +40,19 @@ class ExportStream {
 
       this.stream.write(csvLines);
     });
+  }
+
+  async getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
+    const userIdsAndDates = {};
+    campaignParticipationResultDataChunk.forEach(({ userId, sharedAt }) => userIdsAndDates[userId] = sharedAt);
+
+    const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
+      userIdsAndDates,
+      competences: this.allPixCompetences,
+      allowExcessPixAndLevels: false,
+    });
+
+    return placementProfiles;
   }
 
   _createOneLineOfCSV({
