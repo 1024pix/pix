@@ -126,4 +126,36 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.null;
     });
   });
+
+  describe('#findOneByExternalIdentifierAndIdentityProvider', () => {
+
+    it('should return the AuthenticationMethod for a given external identifier and identity provider', async () => {
+      // given
+      const identityProvider = AuthenticationMethod.identityProviders.GAR;
+      const externalIdentifier = 'samlId';
+      const authenticationMethodInDB = databaseBuilder.factory.buildAuthenticationMethod({ externalIdentifier, identityProvider });
+      databaseBuilder.factory.buildAuthenticationMethod({ externalIdentifier: 'another_sub', identityProvider });
+      await databaseBuilder.commit();
+
+      // when
+      const authenticationMethodsByTypeAndValue = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider });
+
+      // then
+      expect(authenticationMethodsByTypeAndValue).to.be.instanceof(AuthenticationMethod);
+      expect(authenticationMethodsByTypeAndValue).to.deep.equal(authenticationMethodInDB);
+    });
+
+    it('should return null if there is no AuthenticationMethods for the given external identifier and identity provider', async () => {
+      // given
+      const identityProvider = AuthenticationMethod.identityProviders.GAR;
+      const externalIdentifier = 'samlId';
+
+      // when
+      const authenticationMethodsByTypeAndValue = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider });
+
+      // then
+      expect(authenticationMethodsByTypeAndValue).to.be.null;
+    });
+  });
+
 });
