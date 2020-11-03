@@ -91,16 +91,8 @@ module.exports = {
   },
 
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId, hasApprentice) {
-    let nationalApprenticeIdsFromFile;
-    let apprentices;
-
     const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
     const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
-
-    if (hasApprentice) {
-      nationalApprenticeIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalApprenticeId);
-      apprentices = await studentRepository.findReconciledApprenticesByNationalApprenticeId(_.compact(nationalApprenticeIdsFromFile));  
-    }
 
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
     const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
@@ -116,13 +108,6 @@ module.exports = {
         const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
         if (student) {
           schoolingRegistration.userId = student.account.userId;
-        }
-
-        if (hasApprentice) {
-          const apprentice = apprentices.find((apprentice) => apprentice.nationalApprenticeId === schoolingRegistration.nationalApprenticeId);
-          if (apprentice) {
-            schoolingRegistration.userId = apprentice.account.userId;
-          }
         }
       }
       

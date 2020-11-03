@@ -32,24 +32,6 @@ module.exports = {
     return this._toStudents(results);
   },
 
-  async findReconciledApprenticesByNationalApprenticeId(nationalApprenticeIds) {
-    const results = await Bookshelf.knex
-      .select({
-        nationalApprenticeId: 'schooling-registrations.nationalApprenticeId',
-        userId: 'users.id',
-        updatedAt: 'users.updatedAt',
-      })
-      .count('certification-courses.id as certificationCount')
-      .from('schooling-registrations')
-      .join('users', 'users.id', 'schooling-registrations.userId')
-      .leftJoin('certification-courses', 'certification-courses.userId', 'users.id')
-      .whereIn('nationalApprenticeId', nationalApprenticeIds)
-      .groupBy('schooling-registrations.nationalApprenticeId', 'users.id', 'users.updatedAt')
-      .orderBy('users.id');
-
-    return this._toStudents(results, true);
-  },
-
   async getReconciledStudentByNationalStudentId(nationalStudentId) {
 
     const result = await this.findReconciledStudentsByNationalStudentId([nationalStudentId]);
