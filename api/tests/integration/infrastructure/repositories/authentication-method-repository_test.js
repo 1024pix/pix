@@ -51,7 +51,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
 
-    context('When an AuthenticationMethod already exist for an identityProvider and an externalIdentifier', () => {
+    context('When an AuthenticationMethod already exist for an identity provider and an external identifier', () => {
 
       it('should throw an AlreadyExistingEntity', async () => {
         // given
@@ -75,7 +75,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
 
-    context('When an AuthenticationMethod already exist for an identityProvider and a userId', () => {
+    context('When an AuthenticationMethod already exist for an identity provider and a userId', () => {
 
       it('should throw an AlreadyExistingEntity', async () => {
         // given
@@ -92,6 +92,38 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         // then
         expect(error).to.be.instanceOf(AlreadyExistingEntity);
       });
+    });
+  });
+
+  describe('#findOneByUserIdAndIdentityProvider', () => {
+
+    it('should return the AuthenticationMethod associated to a user for a given identity provider', async () => {
+      // given
+      const identityProvider = AuthenticationMethod.identityProviders.GAR;
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod.buildPasswordAuthenticationMethod({ userId });
+      const garAuthenticationMethodInDB = databaseBuilder.factory.buildAuthenticationMethod({ identityProvider, userId });
+      await databaseBuilder.commit();
+
+      // when
+      const authenticationMethodsByUserIdAndIdentityProvider = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
+
+      // then
+      expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.instanceof(AuthenticationMethod);
+      expect(authenticationMethodsByUserIdAndIdentityProvider).to.deep.equal(garAuthenticationMethodInDB);
+    });
+
+    it('should return null if there is no AuthenticationMethod for the given user and identity provider', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+      const identityProvider = AuthenticationMethod.identityProviders.GAR;
+
+      // when
+      const authenticationMethodsByUserIdAndIdentityProvider = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
+
+      // then
+      expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.null;
     });
   });
 });

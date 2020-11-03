@@ -29,4 +29,12 @@ module.exports = {
       }
     }
   },
+
+  async findOneByUserIdAndIdentityProvider({ userId, identityProvider }) {
+    const authenticationMethod = await BookshelfAuthenticationMethod
+      .where({ userId, identityProvider })
+      .fetch({ require: false });
+
+    return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
+  },
 };
