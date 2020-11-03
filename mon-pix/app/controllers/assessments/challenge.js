@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
+import ENV from 'mon-pix/config/environment';
+
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled'];
   @service intl;
@@ -11,6 +13,9 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
 
   get showLevelup() {
+    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+      return false;
+    }
     return this.model.assessment.showLevelup && this.newLevel;
   }
 
