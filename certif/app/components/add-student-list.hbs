@@ -6,8 +6,8 @@
         <th>
           <CertifCheckbox
             class="add-student-list__checker"
-            @state={{headerCheckboxStatus}}
-            {{on 'click' toggleAllItems}}>
+            @state={{this.headerCheckboxStatus}}
+            {{on 'click' this.toggleAllItems}}>
           </CertifCheckbox>
         </th>
         <th>Classe</th>
@@ -22,7 +22,7 @@
           <td class="add-student-list__column-checkbox">
             <CertifCheckbox
               @state={{if student.isSelected 'checked' 'unchecked'}}
-              {{on 'click' (fn toggleItem student)}}>
+              {{on 'click' (fn this.toggleItem student)}}>
             </CertifCheckbox>
           </td>
           <td>{{student.division}}</td>
@@ -36,8 +36,15 @@
 
   {{#if this.hasCheckedSomething}}
     <div class="add-student-list__bottom-action-bar">
+      <LinkTo 
+        @route="authenticated.sessions.details.certification-candidates" 
+        @model={{@session.id}}
+        class="add-student-list__cancel-button button button--link button--grey"
+        type="button">
+        Annuler
+      </LinkTo>
       <PixButton
-        @action={{action this.enrollStudents}}
+        {{on 'click' this.enrollStudents}}
         class="button button--link">Ajouter</PixButton>
     </div>
   {{/if}}
