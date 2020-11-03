@@ -7,12 +7,12 @@ const EMPTY_ARRAY = [];
 
 class ExportStream {
 
-  constructor(outputStream, organization, campaign, allPixCompetences) {
+  constructor(outputStream, organization, campaign, competences) {
     this.stream = outputStream;
     this.organization = organization;
     this.campaign = campaign;
     this.idPixLabel = campaign.idPixLabel;
-    this.allPixCompetences = allPixCompetences;
+    this.competences = competences;
   }
 
   export(campaignParticipationResultDatas, placementProfileService) {
@@ -56,7 +56,7 @@ class ExportStream {
       'Nombre de pix total',
       'Certifiable (O/N)',
       'Nombre de compétences certifiables',
-      ...(_.flatMap(this.allPixCompetences, (competence) => [
+      ...(_.flatMap(this.competences, (competence) => [
         `Niveau pour la compétence ${competence.name}`,
         `Nombre de pix pour la compétence ${competence.name}`,
       ])),
@@ -71,7 +71,7 @@ class ExportStream {
 
     const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
       userIdsAndDates,
-      competences: this.allPixCompetences,
+      competences: this.competences,
       allowExcessPixAndLevels: false,
     });
 
@@ -82,7 +82,7 @@ class ExportStream {
     let csvLines = '';
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) => userId === placementProfile.userId);
-      const csvLine = this._createOneLineOfCSV({
+      const csvLine = this._buildLine({
         campaignParticipationResultData,
         placementProfile,
 
@@ -95,10 +95,7 @@ class ExportStream {
     return csvLines;
   }
 
-  _createOneLineOfCSV({
-    campaignParticipationResultData,
-    placementProfile,
-  }) {
+  _buildLine({ campaignParticipationResultData, placementProfile }) {
     const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
     const totalEarnedPix = this._computeTotalEarnPix(placementProfile.userCompetences);
     const line =  [
@@ -116,7 +113,7 @@ class ExportStream {
       campaignParticipationResultData.isShared ? totalEarnedPix : 'NA',
       campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : 'NA',
       campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : 'NA',
-      ...this._competenceColumns(this.allPixCompetences, placementProfile.userCompetences, campaignParticipationResultData.isShared),
+      ...this._competenceColumns(this.competences, placementProfile.userCompetences, campaignParticipationResultData.isShared),
     ];
 
     return csvSerializer.serializeLine(line);
