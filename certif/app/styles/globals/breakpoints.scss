@@ -10,8 +10,10 @@ $breakpoints: (
     @media #{inspect(map-get($breakpoints, $breakpoint))} {
       @content;
     }
-  } @else {
+  }
+
+  @else {
     @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-        + "Available breakpoints are: #{map-keys($breakpoints)}.";
+      + "Available breakpoints are: #{map-keys($breakpoints)}.";
   }
 }

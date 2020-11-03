@@ -23,7 +23,7 @@
     font-family: $roboto;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: all ease-in-out .2s;
+    transition: all ease-in-out 0.2s;
     text-decoration: none;
 
     &:hover {
@@ -42,6 +42,7 @@
   display: inline-block;
 
   &:hover {
+
     .tooltip-text {
       visibility: visible;
       opacity: 1;
