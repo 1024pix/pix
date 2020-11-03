@@ -173,7 +173,6 @@ module.exports = injectDependencies({
   getNextChallengeForCompetenceEvaluation: require('./get-next-challenge-for-competence-evaluation'),
   getNextChallengeForDemo: require('./get-next-challenge-for-demo'),
   getNextChallengeForPreview: require('./get-next-challenge-for-preview'),
-  getOrCreateSamlUser: require('./get-or-create-saml-user'),
   getOrganizationDetails: require('./get-organization-details'),
   getOrganizationInvitation: require('./get-organization-invitation'),
   getPrescriber: require('./get-prescriber'),
