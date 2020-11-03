@@ -43,8 +43,6 @@ class ExportStream {
       for (const placementProfile of placementProfiles) {
         const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
         const csvLine = this._createOneLineOfCSV({
-          organization: this.organization,
-          campaign: this.campaign,
           campaignParticipationResultData,
           placementProfile,
         });
@@ -56,8 +54,6 @@ class ExportStream {
   }
 
   _createOneLineOfCSV({
-    organization,
-    campaign,
     campaignParticipationResultData,
     placementProfile,
   }) {
