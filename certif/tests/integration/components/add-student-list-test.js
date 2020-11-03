@@ -148,6 +148,131 @@ module('Integration | Component | add-student-list', function(hooks) {
         assert.equal(this.candidatesWasSaved, true);
       });
     });
+
+    module('sticky bar', () => {
+      module('when there is no enrolled students (certification candidates)', () => {
+        module('when there is no selected student', () => {
+          test('should not show the sticky bar', async function(assert) {
+            //given
+            const birthdate = new Date('2018-01-12T09:29:16Z');
+            const studentList = [
+              _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate),
+              _buildUnselectedStudent('Tom', 'Dupont', '4G', birthdate),
+            ];
+            this.set('studentList', studentList);
+            this.set('certificationCandidates', []);
+            this.set('session', _buildSession());
+            this.set('returnToSessionCandidates', () => {});
+
+            // when
+            await render(hbs`<AddStudentList
+              @studentList={{this.studentList}}
+              @certificationCandidates={{this.certificationCandidates}}
+              @session={{this.session}}
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}>
+            </AddStudentList>`);
+
+            // then
+            assert.dom('.add-student-list__bottom-action-bar').doesNotExist();
+          });
+        });
+
+        module('when there are 2 selected students', () => {
+          test('it should show "Aucun candidat sélectionné | 2 candidats déjà ajoutés à la session"', async function(assert) {
+            // given
+            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
+            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+            const birthdate = new Date('2018-01-12T09:29:16Z');
+            const studentList = [
+              _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate),
+              _buildSelectedStudent('Tom', 'Dupont', '4G', birthdate),
+              _buildSelectedStudent('Paul', 'Dupont', '4G', birthdate),
+            ];
+            const certificationCandidates = [];
+            this.set('studentList', studentList);
+            this.set('certificationCandidates', certificationCandidates);
+            this.set('session', _buildSession());
+            this.set('returnToSessionCandidates', () => {});
+
+            // when
+            await render(hbs`<AddStudentList
+              @studentList={{this.studentList}}
+              @session={{this.session}}
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @certificationCandidates={{this.certificationCandidates}}>
+            </AddStudentList>`);
+
+            // then
+            assert.dom(candidatesEnrolledSelector).includesText('0 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
+          });
+        });
+      });
+
+      module('when there is already enrolled students (certification candidates), the sticky bar is shown', () => {
+        module('when there is no additional selected student', () => {
+          test('it should show "Aucun candidat sélectionné | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
+            // given
+            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
+            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+
+            const birthdate = new Date('2018-01-12T09:29:16Z');
+            const studentList = [
+              _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate),
+              _buildUnselectedStudent('Tom', 'Dupont', '4G', birthdate),
+            ];
+            const certificationCandidates = [ _buildCertificationCandidate(), _buildCertificationCandidate() ];
+            this.set('studentList', studentList);
+            this.set('certificationCandidates', certificationCandidates);
+            this.set('session', _buildSession());
+            this.set('returnToSessionCandidates', () => {});
+
+            // when
+            await render(hbs`<AddStudentList
+              @studentList={{this.studentList}}
+              @session={{this.session}}
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @certificationCandidates={{this.certificationCandidates}}>
+            </AddStudentList>`);
+
+            // then
+            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesSelectedSelector).includesText('Aucun candidat sélectionné');
+          });
+        });
+
+        module('when there is additional selected student', () => {
+          test('it should show "2 candidat(s) sélectionné(s) | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
+            // given
+            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
+            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+
+            const birthdate = new Date('2018-01-12T09:29:16Z');
+            const studentList = [
+              _buildSelectedStudent('Marie', 'Dupont', '3E', birthdate),
+              _buildSelectedStudent('Tom', 'Dupont', '4G', birthdate),
+            ];
+            const certificationCandidates = [ _buildCertificationCandidate(), _buildCertificationCandidate() ];
+            this.set('studentList', studentList);
+            this.set('certificationCandidates', certificationCandidates);
+            this.set('session', _buildSession());
+            this.set('returnToSessionCandidates', () => {});
+
+            // when
+            await render(hbs`<AddStudentList
+              @studentList={{this.studentList}}
+              @session={{this.session}}
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @certificationCandidates={{this.certificationCandidates}}>
+            </AddStudentList>`);
+
+            // then
+            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
+          });
+        });
+      });
+    });
   });
 
   function _buildUnselectedStudent(firstName = 'firstName', lastName = 'lastName', division = 'division', birthdate = 'birthdate') {
@@ -159,6 +284,34 @@ module('Integration | Component | add-student-list', function(hooks) {
   function _buildSelectedStudent(firstName = 'firstName', lastName = 'lastName', division = 'division', birthdate = 'birthdate') {
     return EmberObject.create({
       firstName, lastName, division, birthdate, isSelected: true,
+    });
+  }
+
+  function _buildCertificationCandidate(
+    firstName = 'firstName',
+    lastName = 'lastName',
+    birthdate = 'birthdate',
+    birthCity = 'birthCity',
+    birthProvinceCode = 'birthProvinceCode',
+    birthCountry = 'birthCountry',
+    isLinked = false,
+  ) {
+    return EmberObject.create({
+      firstName, lastName, birthdate, birthCity, birthProvinceCode, birthCountry, isLinked,
+    });
+  }
+
+  function _buildSession(
+    address = '13 rue des petits champs',
+    accessCode = 'ABCDE',
+    status = 'started',
+    save = () => {},
+  ) {
+    return EmberObject.create({
+      address,
+      accessCode,
+      status,
+      save,
     });
   }
 });
