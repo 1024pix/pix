@@ -42,17 +42,17 @@ module.exports = (function() {
       options: {},
     },
 
-    airtable: {
-      apiKey: process.env.CYPRESS_AIRTABLE_API_KEY || process.env.AIRTABLE_API_KEY,
-      base: process.env.CYPRESS_AIRTABLE_BASE || process.env.AIRTABLE_BASE,
-    },
-
     domain: {
       tldFr: process.env.TLD_FR || '.fr',
       tldOrg: process.env.TLD_ORG || '.org',
       pix: process.env.DOMAIN_PIX || 'https://pix',
       pixApp: process.env.DOMAIN_PIX_APP || 'https://app.pix',
       pixOrga: process.env.DOMAIN_PIX_ORGA || 'https://orga.pix',
+    },
+
+    lcms: {
+      url: process.env.CYPRESS_LCMS_API_URL || process.env.LCMS_API_URL,
+      apiKey: process.env.CYPRESS_LCMS_API_KEY || process.env.LCMS_API_KEY,
     },
 
     logging: {
@@ -156,8 +156,8 @@ module.exports = (function() {
   if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
-    config.airtable.apiKey = 'test-api-key';
-    config.airtable.base = 'test-base';
+    config.lcms.apiKey = 'test-api-key';
+    config.lcms.url = 'https://lcms-test.pix.fr/api';
 
     config.domain.tldFr = '.fr';
     config.domain.tldOrg = '.org';
