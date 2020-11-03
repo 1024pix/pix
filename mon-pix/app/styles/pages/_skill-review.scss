@@ -262,6 +262,20 @@
   }
 }
 
+.skill-review-share-error {
+
+  &__message {
+    color: #F45C00;
+    font-size: 0.938rem;
+    padding-bottom: 10px;
+  }
+
+  &__resume-button {
+    position: relative;
+    top: 24px;
+  }
+}
+
 .skill-review__campaign-archived {
   position: relative;
   top: -80px;
