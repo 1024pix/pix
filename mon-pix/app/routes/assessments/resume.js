@@ -108,6 +108,10 @@ export default class ResumeRoute extends Route {
   }
 
   _routeToResults(assessment) {
+    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+      return this.replaceWith('profile');
+    }
+
     if (assessment.isCertification) {
       return this.replaceWith('certifications.results', assessment.certificationNumber);
     }
