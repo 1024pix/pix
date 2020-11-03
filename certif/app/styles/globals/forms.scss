@@ -82,7 +82,9 @@ input[type=number] {
   border: none;
   outline: none;
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: darken($communication-dark, 10%);
     transition: background-color 0.2s ease;
   }
@@ -105,7 +107,9 @@ input[type=number] {
     background-color: white;
     color: black;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       background-color: $grey-20;
     }
   }
@@ -114,7 +118,9 @@ input[type=number] {
     background-color: $grey-50;
     color: $white;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       background-color: $grey-90;
     }
   }
@@ -123,17 +129,20 @@ input[type=number] {
     background-color: $grey-15;
     color: $grey-70;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       background-color: $grey-20;
     }
-
   }
 
   &--no-color {
     background-color: transparent;
     color: $grey-80;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       background-color: $grey-20;
     }
   }
@@ -158,10 +167,11 @@ input[type=number] {
     display: flex;
     align-items: center;
 
-    &>svg {
+    & > svg {
       padding-left: 5px;
     }
   }
+
   &__loader {
     display: flex;
     background: url('/images/loader-white.svg') no-repeat center;
@@ -178,7 +188,8 @@ input[type=number] {
   cursor: pointer;
   outline: none;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     background-color: $grey-20;
     border-radius: 16px;
     transition: background-color 0.2s ease;
@@ -186,16 +197,16 @@ input[type=number] {
 }
 
 .radio-button {
-  -ms-transform: scale(0.0);
-  -webkit-transform: scale(0.0);
-  transform: scale(0.0);
+  -ms-transform: scale(0);
+  -webkit-transform: scale(0);
+  transform: scale(0);
 }
 
 .radio-button-span {
   display: inline-block;
   width: 10px;
   height: 10px;
-  margin: 10px 20px 11px 0px;
+  margin: 10px 20px 11px 0;
   border-radius: 50%;
   vertical-align: middle;
   box-shadow: 0 0 0 2px $grey-20;
@@ -216,14 +227,14 @@ input[type=number] {
   border-radius: 4px;
   user-select: none;
   cursor: pointer;
-  transition: box-shadow .1s linear;
+  transition: box-shadow 0.1s linear;
 
   &--unchecked {
     border: 2px solid $grey-20;
 
     &:hover {
       background-color: $grey-10;
-      box-shadow: 0 0px 0px 8px rgba($grey-40, 0.1);
+      box-shadow: 0 0 0 8px rgba($grey-40, 0.1);
       border-color: $grey-40;
     }
   }

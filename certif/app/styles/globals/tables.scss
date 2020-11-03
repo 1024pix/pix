@@ -9,7 +9,10 @@
   }
 
   &--with-row-clickable tbody tr {
-    &:hover, &:focus, &:active {
+
+    &:hover,
+    &:focus,
+    &:active {
       cursor: pointer;
     }
   }
@@ -22,11 +25,15 @@
     color: $grey-45;
 
     tr {
-      &:hover, &:focus, &:active {
+
+      &:hover,
+      &:focus,
+      &:active {
         color: $grey-80;
         background-color: $grey-10;
         transition: 0.25s ease;
       }
+
       &:hover .checkbox--unchecked {
         border-color: $grey-40;
       }
@@ -38,7 +45,8 @@
     border-top: 2px solid $grey-10;
   }
 
-  td, th {
+  td,
+  th {
     text-align: left;
     padding-left: 30px;
     word-wrap: break-word;

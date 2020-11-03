@@ -1,5 +1,4 @@
 .add-student-list {
-
   font-size: 0.875rem;
   position: relative;
 
@@ -15,7 +14,8 @@
     background-color: $white;
   }
 
-  th, td {
+  th,
+  td {
     text-align: left;
     padding-left: 30px;
   }
@@ -36,7 +36,7 @@
     height: 68px;
     left: 0;
     bottom: 0;
-    box-shadow: -2px 2px 9px 0px rgba(0, 0, 0, 0.22);
+    box-shadow: -2px 2px 9px 0 rgba(0, 0, 0, 0.22);
     background-color: $white;
 
     .button {
