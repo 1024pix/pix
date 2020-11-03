@@ -37,33 +37,6 @@
   }
 }
 
-.tooltip {
-  position: relative;
-  display: inline-block;
-
-  &:hover {
-
-    .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  &__text {
-    position: absolute;
-    z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -75px;
-
-    &::after {
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-    }
-  }
-}
-
 .tooltip-text {
   visibility: hidden;
   width: 140px;
@@ -82,5 +55,29 @@
     border-width: 5px;
     border-style: solid;
     border-color: $grey-80 transparent transparent transparent;
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+
+  &:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__text {
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+
+    &::after {
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+    }
   }
 }
