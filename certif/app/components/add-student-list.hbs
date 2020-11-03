@@ -34,14 +34,14 @@
     </tbody>
   </table>
 
-  {{#if this.hasCheckedSomething}}
+  {{#if this.showStickyBar}}
     <div class="add-student-list__bottom-action-bar">
 
       <div class="bottom-action-bar__informations">
-        <p class="bottom-action-bar__informations--candidates-selected">Aucun élève sélectionnés</p>
+        <p class="bottom-action-bar__informations--candidates-selected">{{this.studentsSelectedInformation}}</p>
         <span class="bottom-action-bar__seperator"></span>
         <p class="bottom-action-bar__informations--candidates-already-added">
-          {{this.numberOfStudentsAlreadyCandidate}} candidats déjà ajoutés à la session
+          {{this.numberOfStudentsAlreadyCandidate}} candidat(s) déjà ajouté(s) à la session
         </p>
       </div>
 
