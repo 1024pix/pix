@@ -91,28 +91,18 @@ module.exports = {
   },
 
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId, hasApprentice) {
-    const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
-    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
-
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
     const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
 
-    const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
-
-      const currentSchoolingRegistration   = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return schoolingRegistration.status === STATUS.STUDENT && currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId ||
-              hasApprentice && schoolingRegistration.status === STATUS.APPRENTICE && currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId;
-      });
-
-      if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
-        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
-        if (student) {
-          schoolingRegistration.userId = student.account.userId;
-        }
-      }
-      
-      return !!currentSchoolingRegistration;
+    const [ schoolingRegistrationStudent, schoolingRegistrationApprentice ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
+      return schoolingRegistration.status === STATUS.STUDENT;
     });
+
+    const [ schoolingRegistrationsStudentToUpdate, schoolingRegistrationsStudentToCreate ] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations);
+    const [ schoolingRegistrationsApprenticeToUpdate, schoolingRegistrationsApprenticeToCreate ] = !hasApprentice ? [[],[]] : this._getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations);
+
+    const schoolingRegistrationsToUpdate = _.concat(schoolingRegistrationsStudentToUpdate, schoolingRegistrationsApprenticeToUpdate);
+    const schoolingRegistrationsToCreate = _.concat(schoolingRegistrationsStudentToCreate, schoolingRegistrationsApprenticeToCreate);
 
     const trx = await Bookshelf.knex.transaction();
     try {
@@ -143,6 +133,38 @@ module.exports = {
       }
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
+  },
+
+  _getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations) {
+    return _.partition(schoolingRegistrationApprentice, (schoolingRegistration) => {
+
+      const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
+        return currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId; 
+      });
+
+      return !!currentSchoolingRegistration;
+    });
+  },
+
+  async _getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations) {
+    const nationalStudentIdsFromFile = schoolingRegistrationStudent.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
+    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
+
+    return _.partition(schoolingRegistrationStudent, (schoolingRegistration) => {
+
+      const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
+        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId; 
+      });
+
+      if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
+        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
+        if (student) {
+          schoolingRegistration.userId = student.account.userId;
+        }
+      }
+      
+      return !!currentSchoolingRegistration;
+    });
   },
 
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
