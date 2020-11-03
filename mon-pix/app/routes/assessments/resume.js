@@ -23,6 +23,10 @@ export default class ResumeRoute extends Route {
     }
     const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
 
+    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+      return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
+    }
+
     if (assessment.hasCheckpoints) {
       return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
     } else {
