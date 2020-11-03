@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, generateIdTokenForExternalUser, knex } = require('../../test-helper');
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
 describe('Acceptance | Controller | Schooling-registration-user-associations', () => {
@@ -28,7 +29,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       };
 
       user = databaseBuilder.factory.buildUser();
-      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+      organization = databaseBuilder.factory.buildOrganization({ identityProvider: 'SCO' });
       schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null, studentNumber: '123A' });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
@@ -137,8 +138,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithSamlOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: null,
-            samlId: '12345689',
           });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlOnly.id });
+
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
           schoolingRegistration.userId = userWithSamlOnly.id;
           await databaseBuilder.commit();
@@ -177,8 +179,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
             username: null,
-            samlId: '12345678',
           });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlIdOnly.id });
+
           const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
           otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
           otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
@@ -445,7 +448,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         payload: {},
       };
 
-      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+      organization = databaseBuilder.factory.buildOrganization({ identityProvider: 'SCO' });
       schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
       await databaseBuilder.commit();
@@ -487,8 +490,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
               firstName: schoolingRegistration.firstName,
               lastName: schoolingRegistration.lastName,
               birthdate: schoolingRegistration.birthdate,
-              samlId: 12345678,
             });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: user.id });
+
           const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
           databaseBuilder.factory.buildSchoolingRegistration(
             {
@@ -532,9 +536,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
 
         it('should replace the existing user samlId already reconciled in the same organization found with the authenticated user samlId', async () => {
           // given
-          const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
-            samlId: '12345678',
-          });
+          const userWithSamlIdOnly = databaseBuilder.factory.buildUser();
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlIdOnly.id });
+
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration(
             {
               organizationId: organization.id,
@@ -986,8 +990,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: null,
-            samlId: '12345689',
           });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithEmailOnly.id });
+
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
           schoolingRegistration.userId = userWithEmailOnly.id;
           await databaseBuilder.commit();
@@ -1127,8 +1132,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
             username: null,
-            samlId: '12345678',
           });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlIdOnly.id });
+
           databaseBuilder.factory.buildSchoolingRegistration({
             nationalStudentId: schoolingRegistration.nationalStudentId,
             birthdate: schoolingRegistration.birthdate,

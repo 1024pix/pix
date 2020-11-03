@@ -190,10 +190,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const user = await userRepository.getUserAuthenticationMethods(userInDb.id);
 
       // then
-      expect(user.samlId).to.equal(userInDb.samlId);
       expect(user.username).to.equal(userInDb.username);
       expect(user.email).to.equal(userInDb.email);
-
     });
 
     it('should throw an error when user not found', async () => {

@@ -9,6 +9,8 @@ const obfuscationService = require('../../../../lib/domain/services/obfuscation-
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+
 const { CampaignCodeError, NotFoundError, ObjectValidationError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
 const createUserAndReconcileToSchoolingRegistrationByExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-schooling-registration-from-external-user');
@@ -153,8 +155,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           firstName: firstName,
           lastName: lastName,
           birthdate: schoolingRegistration.birthdate,
-          samlId: 12345678,
         });
+      databaseBuilder.factory.buildAuthenticationMethod({ externalIdentifier: '12345678', userId: otherAccount.id });
+
       const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
       databaseBuilder.factory.buildSchoolingRegistration(
         {
@@ -209,8 +212,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
               firstName: firstName,
               lastName: lastName,
               birthdate: schoolingRegistration.birthdate,
-              samlId: 12345678,
             });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: otherAccount.id });
+
           const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
           databaseBuilder.factory.buildSchoolingRegistration(
             {
@@ -249,8 +253,9 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
               firstName: firstName,
               lastName: lastName,
               birthdate: birthdate,
-              samlId: 145678934,
             });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: otherAccount.id });
+
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
             firstName, lastName, birthdate, organizationId, userId: otherAccount.id });
 
