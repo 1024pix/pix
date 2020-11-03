@@ -132,7 +132,6 @@ class ExportStream {
     return csvSerializer.serializeLine(line);
   }
 
-
   _yesOrNo(value) {
     return value ? 'Oui' : 'Non';
   }
