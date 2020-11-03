@@ -8,36 +8,8 @@
     box-sizing: border-box;
   }
 
-  &--with-row-clickable tbody tr {
-
-    &:hover,
-    &:focus,
-    &:active {
-      cursor: pointer;
-    }
-  }
-
   thead {
     color: $grey-70;
-  }
-
-  tbody {
-    color: $grey-45;
-
-    tr {
-
-      &:hover,
-      &:focus,
-      &:active {
-        color: $grey-80;
-        background-color: $grey-10;
-        transition: 0.25s ease;
-      }
-
-      &:hover .checkbox--unchecked {
-        border-color: $grey-40;
-      }
-    }
   }
 
   tr {
@@ -62,5 +34,27 @@
     &--wide {
       width: 25%;
     }
+  }
+
+  tbody {
+    color: $grey-45;
+
+    tr:hover,
+    tr:focus,
+    tr:active {
+      color: $grey-80;
+      background-color: $grey-10;
+      transition: 0.25s ease;
+    }
+
+    tr:hover .checkbox--unchecked {
+      border-color: $grey-40;
+    }
+  }
+
+  &--with-row-clickable tbody tr:hover,
+  &--with-row-clickable tbody tr:focus,
+  &--with-row-clickable tbody tr:active {
+    cursor: pointer;
   }
 }

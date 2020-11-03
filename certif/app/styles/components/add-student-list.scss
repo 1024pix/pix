@@ -2,16 +2,16 @@
   font-size: 0.875rem;
   position: relative;
 
+  tr {
+    background-color: $white;
+  }
+
   thead tr {
     background: $grey-10;
     border-radius: 4px;
     outline: 4px solid $white;
     outline-offset: -4px;
     border-bottom: 4px solid $grey-10;
-  }
-
-  tr {
-    background-color: $white;
   }
 
   th,
