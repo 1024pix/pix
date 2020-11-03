@@ -6,14 +6,18 @@
         <div class="panel-header__mandatory-warning">Les champs marqués de * sont obligatoires</div>
       {{/if}}
     </div>
-    {{#unless this.isScoSession}}
+    {{#if this.isScoSession}}
+      <LinkTo @route="authenticated.sessions.add-student" @model={{@sessionId}} class="button button--link enrolled-candidate__add-students">
+        Ajouter des candidats
+      </LinkTo>
+    {{else}}
       <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
         <div id="add-candidate" class="certification-candidates-add-button__text">
           Ajouter un candidat
         </div>
         <PixActionButton aria-describedby="add-candidate" @icon='plus'/>
       </div>
-    {{/unless}}
+    {{/if}}
   </div>
   <div class="table content-text content-text--small certification-candidates-table">
     {{#if (or @certificationCandidates this.candidatesInStaging)}}
