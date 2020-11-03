@@ -30,7 +30,7 @@
   &__error-message {
     margin-bottom: 10px;
     text-align: center;
-    font-size: .875rem;
+    font-size: 0.875rem;
   }
 
   &__input-container {
@@ -42,7 +42,7 @@
 
   &__button {
     margin-top: 8px;
-    font-size: .875rem;
+    font-size: 0.875rem;
   }
 
   form {
@@ -51,13 +51,16 @@
 
   &__forgotten-password {
     text-align: left;
-    font-size: .875rem;
+    font-size: 0.875rem;
     color: $communication-dark;
 
     a {
       text-decoration: none;
 
-      &:hover, &:active, &:focus, &:visited  {
+      &:hover,
+      &:active,
+      &:focus,
+      &:visited {
         text-decoration: underline;
         color: $communication-dark;
       }
@@ -90,11 +93,11 @@
         border: none;
       }
 
-      &::-ms-clear, &::-ms-reveal {
+      &::-ms-clear,
+      &::-ms-reveal {
         display: none;
       }
     }
-
   }
 
   &__icon {
@@ -107,9 +110,10 @@
   }
 
   &-icon {
+
     &__eye {
       color: $grey-45;
-      transition: .5s;
+      transition: 0.5s;
       font-size: 1.1rem;
       margin-top: 2px;
 

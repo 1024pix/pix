@@ -1,5 +1,7 @@
-@media all and (-ms-high-contrast:none) {
-  *::-ms-backdrop, .ember-cli-notifications-notification__container {
+@media all and (-ms-high-contrast: none) {
+
+  *::-ms-backdrop,
+  .ember-cli-notifications-notification__container {
     right: 10px;
     bottom: 10px;
     left: auto;
@@ -8,22 +10,30 @@
     width: 80%;
     max-width: 400px;
   }
-  *::-ms-backdrop, .ember-cli-notifications-notification__container > div {
+
+  *::-ms-backdrop,
+  .ember-cli-notifications-notification__container > div {
     background-color: $success;
     border-radius: 3px;
     max-height: 800px;
     margin-bottom: 1rem;
   }
-  *::-ms-backdrop, .ember-cli-notifications-notification__container .c-notification--error {
+
+  *::-ms-backdrop,
+  .ember-cli-notifications-notification__container .c-notification--error {
     background-color: $error;
   }
-  *::-ms-backdrop, .c-notification__icon {
+
+  *::-ms-backdrop,
+  .c-notification__icon {
     padding: 0.5rem 0;
     background-color: rgba(255, 255, 255, 0.2);
     width: 30px;
     color: rgba(255, 255, 255, 0.74);
   }
-  *::-ms-backdrop, .c-notification__content {
+
+  *::-ms-backdrop,
+  .c-notification__content {
     padding: 0.5rem 1rem;
   }
 }
