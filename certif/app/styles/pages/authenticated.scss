@@ -58,6 +58,18 @@
 
 .sidebar-documentation {
 
+  &__icon {
+    margin-right: 8px;
+  }
+
+  &__bar {
+    width: 157px;
+    border: 1px solid $grey-45;
+    opacity: 0.25;
+    margin: 0 auto;
+    transition: 0.5s;
+  }
+
   &__button {
     height: 44px;
     color: $grey-45;
@@ -69,23 +81,11 @@
 
     &:hover {
       background-color: $grey-20;
+
+      .sidebar-documentation__bar {
+        width: 100%;
+      }
     }
-
-    &:hover .sidebar-documentation__bar {
-      width: 100%;
-    }
-  }
-
-  &__icon {
-    margin-right: 8px;
-  }
-
-  &__bar {
-    width: 157px;
-    border: 1px solid $grey-45;
-    opacity: 0.25;
-    margin: 0 auto;
-    transition: 0.5s;
   }
 }
 
