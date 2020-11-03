@@ -37,4 +37,12 @@ module.exports = {
 
     return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
   },
+
+  async findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider }) {
+    const authenticationMethod = await BookshelfAuthenticationMethod
+      .where({ externalIdentifier, identityProvider })
+      .fetch({ require: false });
+
+    return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
+  },
 };
