@@ -100,11 +100,7 @@ class ExportStream {
     placementProfile,
   }) {
     const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
-    let totalEarnedPix = 0;
-    placementProfile.userCompetences.forEach(({ pixScore }) => {
-      totalEarnedPix += pixScore;
-    });
-
+    const totalEarnedPix = this._computeTotalEarnPix(placementProfile.userCompetences);
     const line =  [
       this.organization.name,
       this.campaign.id,
@@ -130,6 +126,15 @@ class ExportStream {
     ];
 
     return csvSerializer.serializeLine(line);
+  }
+
+  _computeTotalEarnPix(userCompetences) {
+    let totalEarnedPix = 0;
+    userCompetences.forEach(({ pixScore }) => {
+      totalEarnedPix += pixScore;
+    });
+
+    return totalEarnedPix;
   }
 
   _yesOrNo(value) {
