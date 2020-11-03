@@ -54,13 +54,12 @@ function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
   });
 }
 
-function _toUserAuthenticationMethods(BookshelfUser) {
-  const rawUser = BookshelfUser.toJSON();
+function _toUserAuthenticationMethods(bookshelfUser) {
+  const rawUser = bookshelfUser.toJSON();
   return new User({
     id: rawUser.id,
     email: rawUser.email,
     username: rawUser.username,
-    samlId: rawUser.samlId,
   });
 }
 
@@ -197,7 +196,7 @@ module.exports = {
   getUserAuthenticationMethods(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true, columns: ['id','email','username','samlId' ] })
+      .fetch({ require: true, columns: ['id','email','username'] })
       .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {

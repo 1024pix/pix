@@ -77,7 +77,7 @@ async function checkIfStudentHasAnAlreadyReconciledAccount(schoolingRegistration
 
 async function _buildStudentReconciliationError(userId, errorContext, userRepository, obfuscationService) {
   const user = await userRepository.getUserAuthenticationMethods(userId);
-  const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+  const authenticationMethod =  await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
   const detailWhenSameOrganization = 'Un compte existe déjà pour l‘élève dans le même établissement.';
   const detailWhenOtherOrganization = 'Un compte existe déjà pour l‘élève dans un autre établissement.';

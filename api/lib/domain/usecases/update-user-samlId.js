@@ -14,7 +14,7 @@ module.exports = async function updateUserSamlId({
 }) {
   if (expectedUserId !== userId) {
     const user = await userRepository.getUserAuthenticationMethods(expectedUserId);
-    const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+    const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     throw new UnexpectedUserAccount({
       code: 'UNEXPECTED_USER_ACCOUNT',
