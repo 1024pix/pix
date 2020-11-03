@@ -25,17 +25,8 @@ class ExportStream {
     const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 
     return bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
-      const placementProfiles = await this.getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService);
-
-      let csvLines = '';
-      for (const placementProfile of placementProfiles) {
-        const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
-        const csvLine = this._createOneLineOfCSV({
-          campaignParticipationResultData,
-          placementProfile,
-        });
-        csvLines = csvLines.concat(csvLine);
-      }
+      const placementProfiles = await this._getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService);
+      const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDatas);
 
       this.stream.write(csvLines);
     });
@@ -65,7 +56,7 @@ class ExportStream {
     return '\uFEFF' + csvSerializer.serializeLine(header);
   }
 
-  async getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
+  async _getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
     const userIdsAndDates = {};
     campaignParticipationResultDataChunk.forEach(({ userId, sharedAt }) => userIdsAndDates[userId] = sharedAt);
 
