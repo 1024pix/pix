@@ -249,7 +249,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     context('when the participant is linked to a schooling registration', () => {
       beforeEach(async () => {
-        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Hubert', lastName: 'Parterre', userId, organizationId: campaign1.organizationId });
+        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Hubert', lastName: 'Parterre', userId, organizationId: campaign1.organizationId, division: '6emeD' });
         await databaseBuilder.commit();
       });
 
@@ -262,10 +262,11 @@ describe('Integration | Repository | Campaign Participation', () => {
 
         // then
         const attributes = participationResultDatas.map((participationResultData) =>
-          _.pick(participationResultData, ['participantFirstName', 'participantLastName']));
+          _.pick(participationResultData, ['participantFirstName', 'participantLastName', 'division']));
         expect(attributes).to.deep.equal([{
           participantFirstName: 'Hubert',
           participantLastName: 'Parterre',
+          division: '6emeD',
         }]);
       });
     });
