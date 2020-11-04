@@ -2,7 +2,7 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCase | compute-campaign-analysis', () => {
+describe('Unit | UseCase | compute-campaign-analysis', () => {
 
   let campaignRepository;
   let campaignAnalysisRepository;
