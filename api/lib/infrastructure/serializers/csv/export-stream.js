@@ -3,6 +3,7 @@ const moment = require('moment');
 const bluebird = require('bluebird');
 const csvSerializer = require('./csv-serializer');
 const constants = require('../../constants');
+const EMPTY_ARRAY = [];
 
 class ExportStream {
 
@@ -20,7 +21,7 @@ class ExportStream {
     // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
     // - https://en.wikipedia.org/wiki/Byte_order_mark
     // - https://stackoverflow.com/a/38192870
-    const headerLine = '\uFEFF' + csvSerializer.serializeLine(headers.map((header) => header.title));
+    const headerLine = '\uFEFF' + csvSerializer.serializeLine(this._buildHeader());
     this.stream.write(headerLine);
 
     const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
@@ -43,7 +44,6 @@ class ExportStream {
       for (const placementProfile of placementProfiles) {
         const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) =>  userId === placementProfile.userId);
         const csvLine = this._createOneLineOfCSV({
-          headers: headers,
           organization: this.organization,
           campaign: this.campaign,
           campaignParticipationResultData,
@@ -148,29 +148,24 @@ class ExportStream {
     return csvSerializer.serializeLine(lineArray);
   }
 
-  _createHeaderOfCSV() {
-    const EMPTY_ARRAY = [];
+  _buildHeader() {
     const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
     return [
-      { title: 'Nom de l\'organisation', property: 'organizationName' },
-      { title: 'ID Campagne', property: 'campaignId' },
-      { title: 'Nom de la campagne', property: 'campaignName' },
-      { title: 'Nom du Participant', property: 'participantLastName' },
-      { title: 'Prénom du Participant', property: 'participantFirstName' },
-
-      ...(displayStudentNumber ? [{ title: 'Numéro Étudiant', property: 'studentNumber' }] : EMPTY_ARRAY),
-
-      ...(this.idPixLabel ? [ { title: this.idPixLabel, property: 'participantExternalId' } ] : EMPTY_ARRAY),
-
-      { title: 'Envoi (O/N)', property: 'isShared' },
-      { title: 'Date de l\'envoi', property: 'sharedAt' },
-      { title: 'Nombre de pix total', property: 'totalEarnedPix' },
-      { title: 'Certifiable (O/N)', property: 'isCertifiable' },
-      { title: 'Nombre de compétences certifiables', property: 'certifiableCompetencesCount' },
-
+      'Nom de l\'organisation',
+      'ID Campagne',
+      'Nom de la campagne',
+      'Nom du Participant',
+      'Prénom du Participant',
+      ...(displayStudentNumber ? ['Numéro Étudiant'] : []),
+      ...(this.idPixLabel ? [ this.idPixLabel] : []),
+      'Envoi (O/N)',
+      'Date de l\'envoi',
+      'Nombre de pix total',
+      'Certifiable (O/N)',
+      'Nombre de compétences certifiables',
       ...(_.flatMap(this.allPixCompetences, (competence) => [
-        { title: `Niveau pour la compétence ${competence.name}`, property: `competence_${competence.id}_level` },
-        { title: `Nombre de pix pour la compétence ${competence.name}`, property: `competence_${competence.id}_earnedPix` },
+        `Niveau pour la compétence ${competence.name}`,
+        `Nombre de pix pour la compétence ${competence.name}`,
       ])),
     ];
   }
