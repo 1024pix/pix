@@ -20,8 +20,7 @@ class ExportStream {
     // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
     // - https://en.wikipedia.org/wiki/Byte_order_mark
     // - https://stackoverflow.com/a/38192870
-    const headerLine = '\uFEFF' + csvSerializer.serializeLine(this._buildHeader());
-    this.stream.write(headerLine);
+    this.stream.write(this._buildHeader());
 
     const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
 
@@ -40,6 +39,30 @@ class ExportStream {
 
       this.stream.write(csvLines);
     });
+  }
+
+  _buildHeader() {
+    const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
+    const header = [
+      'Nom de l\'organisation',
+      'ID Campagne',
+      'Nom de la campagne',
+      'Nom du Participant',
+      'Prénom du Participant',
+      ...(displayStudentNumber ? ['Numéro Étudiant'] : []),
+      ...(this.idPixLabel ? [ this.idPixLabel] : []),
+      'Envoi (O/N)',
+      'Date de l\'envoi',
+      'Nombre de pix total',
+      'Certifiable (O/N)',
+      'Nombre de compétences certifiables',
+      ...(_.flatMap(this.allPixCompetences, (competence) => [
+        `Niveau pour la compétence ${competence.name}`,
+        `Nombre de pix pour la compétence ${competence.name}`,
+      ])),
+    ];
+
+    return '\uFEFF' + csvSerializer.serializeLine(header);
   }
 
   async getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
@@ -92,27 +115,6 @@ class ExportStream {
     return csvSerializer.serializeLine(line);
   }
 
-  _buildHeader() {
-    const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
-    return [
-      'Nom de l\'organisation',
-      'ID Campagne',
-      'Nom de la campagne',
-      'Nom du Participant',
-      'Prénom du Participant',
-      ...(displayStudentNumber ? ['Numéro Étudiant'] : []),
-      ...(this.idPixLabel ? [ this.idPixLabel] : []),
-      'Envoi (O/N)',
-      'Date de l\'envoi',
-      'Nombre de pix total',
-      'Certifiable (O/N)',
-      'Nombre de compétences certifiables',
-      ...(_.flatMap(this.allPixCompetences, (competence) => [
-        `Niveau pour la compétence ${competence.name}`,
-        `Nombre de pix pour la compétence ${competence.name}`,
-      ])),
-    ];
-  }
 
   _yesOrNo(value) {
     return value ? 'Oui' : 'Non';
