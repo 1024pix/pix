@@ -85,7 +85,6 @@ class ExportStream {
   }
 
   _buildLine({ campaignParticipationResultData, placementProfile }) {
-    const totalEarnedPix = this._computeTotalEarnPix(placementProfile.userCompetences);
     const line =  [
       this.organization.name,
       this.campaign.id,
@@ -96,7 +95,7 @@ class ExportStream {
       ...(this._getIdPixLabelColumn(campaignParticipationResultData)),
       this._yesOrNo(campaignParticipationResultData.isShared),
       this._getSharedAtColumn(campaignParticipationResultData),
-      campaignParticipationResultData.isShared ? totalEarnedPix : NOT_SHARED,
+      this._getTotalEarnedPixColumn(placementProfile.userCompetences, campaignParticipationResultData.isShared),
       campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : NOT_SHARED,
       campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : NOT_SHARED,
       ...this._competenceColumns(this.competences, placementProfile.userCompetences, campaignParticipationResultData.isShared),
@@ -119,11 +118,14 @@ class ExportStream {
     return campaignParticipationResultData.isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : NOT_SHARED;
   }
 
-  _computeTotalEarnPix(userCompetences) {
-    let totalEarnedPix = 0;
-    userCompetences.forEach(({ pixScore }) => {
-      totalEarnedPix += pixScore;
-    });
+  _getTotalEarnedPixColumn(userCompetences, isShared) {
+    let totalEarnedPix = NOT_SHARED;
+    if (isShared)  {
+      totalEarnedPix = 0;
+      userCompetences.forEach(({ pixScore }) => {
+        totalEarnedPix += pixScore;
+      });
+    }
 
     return totalEarnedPix;
   }
