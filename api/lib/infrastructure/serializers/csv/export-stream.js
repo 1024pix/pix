@@ -4,6 +4,7 @@ const bluebird = require('bluebird');
 const csvSerializer = require('./csv-serializer');
 const constants = require('../../constants');
 const EMPTY_ARRAY = [];
+const NOT_SHARED = 'NA';
 
 class ExportStream {
 
@@ -97,10 +98,10 @@ class ExportStream {
       ...(this.idPixLabel ? [ campaignParticipationResultData.participantExternalId] : EMPTY_ARRAY),
 
       this._yesOrNo(campaignParticipationResultData.isShared),
-      campaignParticipationResultData.isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : 'NA',
-      campaignParticipationResultData.isShared ? totalEarnedPix : 'NA',
-      campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : 'NA',
-      campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : 'NA',
+      campaignParticipationResultData.isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : NOT_SHARED,
+      campaignParticipationResultData.isShared ? totalEarnedPix : NOT_SHARED,
+      campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : NOT_SHARED,
+      campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : NOT_SHARED,
       ...this._competenceColumns(this.competences, placementProfile.userCompetences, campaignParticipationResultData.isShared),
     ];
 
@@ -128,7 +129,7 @@ class ExportStream {
       if (isShared) {
         columns.push(estimatedLevel, pixScore);
       } else {
-        columns.push('NA', 'NA');
+        columns.push(NOT_SHARED, NOT_SHARED);
       }
     });
 
