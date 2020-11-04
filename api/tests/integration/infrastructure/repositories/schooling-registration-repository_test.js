@@ -3,6 +3,7 @@ const _ = require('lodash');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 const { NotFoundError, SameNationalStudentIdInOrganizationError, SameNationalApprenticeIdInOrganizationError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
 
@@ -1507,7 +1508,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Rambo', user: { email: 'john@rambo.com',  username: null } });
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Willis', user: { email: null, username: 'willy' } });
-          databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Norris', user: { email: null, username: null, samlId: 'chucky' } });
+          const schoolingRegistrationOfUserWithSamlId = databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Norris', user: { email: null, username: null } });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'chucky', userId: schoolingRegistrationOfUserWithSamlId.userId });
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Lee', user: { email: null, username: null } });
           await databaseBuilder.commit();
         });
@@ -1621,10 +1623,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser({
           organizationId: organization.id,
-          samlId: 'samlId',
           username: null,
           email: null,
         });
+        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'samlId', userId: user.id });
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
           userId: user.id,

@@ -10,6 +10,7 @@ const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/ar
 
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 describe('Acceptance | Application | organization-controller', () => {
 
@@ -760,7 +761,8 @@ describe('Acceptance | Application | organization-controller', () => {
     let options;
 
     beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser({ samlId: '234' });
+      user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '234', userId: user.id });
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       await databaseBuilder.commit();
