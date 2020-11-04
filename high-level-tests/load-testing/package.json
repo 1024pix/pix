@@ -11,7 +11,8 @@
   "scripts": {
     "preinstall": "npx check-engine",
     "report": "artillery report report/index.json",
-    "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml"
+    "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml",
+    "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js"
   },
   "license": "ISC",
   "devDependencies": {
