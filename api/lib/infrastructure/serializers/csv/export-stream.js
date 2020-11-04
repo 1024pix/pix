@@ -47,10 +47,7 @@ class ExportStream {
       'Nombre de pix total',
       'Certifiable (O/N)',
       'Nombre de compétences certifiables',
-      ...(_.flatMap(this.competences, (competence) => [
-        `Niveau pour la compétence ${competence.name}`,
-        `Nombre de pix pour la compétence ${competence.name}`,
-      ])),
+      ...(this._competenceColumnHeaders(this.competences)),
     ];
 
     return '\uFEFF' + csvSerializer.serializeLine(_.compact(header));
@@ -136,6 +133,13 @@ class ExportStream {
     });
 
     return columns;
+  }
+
+  _competenceColumnHeaders(competencesList) {
+    return _.flatMap(competencesList, (competence) => [
+      `Niveau pour la compétence ${competence.name}`,
+      `Nombre de pix pour la compétence ${competence.name}`,
+    ]);
   }
 }
 
