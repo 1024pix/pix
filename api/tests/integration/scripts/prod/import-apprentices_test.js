@@ -4,6 +4,10 @@ const importApprentices = require('../../../../scripts/prod/import-apprentices')
 const iconv = require('iconv-lite');
 const { CsvImportError } = require('../../../../lib/domain/errors');
 
+const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+
+const schoolingRegistrationCsvColumns = [...COLUMNS, { label: 'UAI*' }].map((column) => column.label).join(';');
+
 describe('Integration | Scripts | import-apprentices', () => {
   const fileSystem = {
     readFileSync: sinon.stub(),
@@ -18,7 +22,7 @@ describe('Integration | Scripts | import-apprentices', () => {
     context('when the header is correctly formed', () => {
       context('when there is no line', () => {
         it('create no registrations',  async () => {
-          const input = 'Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*;UAI*';
+          const input = schoolingRegistrationCsvColumns;
           const encodedInput = iconv.encode(input, 'utf8');
           fileSystem.readFileSync.withArgs('tmp.csv').returns(encodedInput);
 
@@ -66,7 +70,7 @@ describe('Integration | Scripts | import-apprentices', () => {
             organizationId: organization2.id,
           };
 
-          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*;UAI*
+          const input = `${schoolingRegistrationCsvColumns}
          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
            456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
           `;
@@ -83,7 +87,7 @@ describe('Integration | Scripts | import-apprentices', () => {
 
         context('when there is an error', () => {
           it('throws a CsvImportError', async  () => {
-            const header = 'Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*;UAI*';
+            const header = schoolingRegistrationCsvColumns;
             const lineWithoutUniqueIdentifier = ';Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;';
             const input =
             `${header}
@@ -99,23 +103,7 @@ describe('Integration | Scripts | import-apprentices', () => {
       });
     });
     context('when the header is not correctly formed', () => {
-      const requiredColumns = [
-        'Identifiant unique*',
-        'Premier prénom*',
-        'Deuxième prénom',
-        'Troisième prénom',
-        'Nom de famille*',
-        'Nom d’usage',
-        'Date de naissance (jj/mm/aaaa)*',
-        'Code commune naissance**',
-        'Libellé commune naissance**',
-        'Code département naissance*',
-        'Code pays naissance*',
-        'Statut*',
-        'Code MEF*',
-        'Division*',
-        'UAI*',
-      ];
+      const requiredColumns = [...COLUMNS, { label: 'UAI*' }].map((column) => column.label);
 
       requiredColumns.forEach((missingColumn) =>  {
         it('throws a CsvImportError', async  () => {

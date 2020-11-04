@@ -3,11 +3,13 @@ const { expect, catchErr } = require('../../../../test-helper');
 const SchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
 const { EntityValidationError } = require('../../../../../lib/domain/errors');
 
+const schoolingRegistrationCsvColumns = SchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
+
 describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
   context('when the header is correctly formed', () => {
     context('when there is no line', () => {
       it('returns no registrations', () => {
-        const input = 'Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*';
+        const input = schoolingRegistrationCsvColumns;
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SchoolingRegistrationParser(encodedInput, 123);
 
@@ -18,7 +20,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
     });
     context('when there are lines', () => {
       it('returns a schooling registration for each line', () => {
-        const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+        const input = `${schoolingRegistrationCsvColumns}
         123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
         456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
         `;
@@ -30,7 +32,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
       });
 
       it('returns schooling registrations for each line using the CSV column', () => {
-        const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+        const input = `${schoolingRegistrationCsvColumns}
         123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
         456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
         `;
@@ -75,13 +77,13 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
       context('When the file contains Apprentice (status AP)', () => {
         it('should return schooling registration with nationalApprenticeId', () => {
-          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
           `;
           const organizationId = 789;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
-  
+
           const { registrations } = parser.parse();
           expect(registrations[0]).to.includes({
             nationalStudentId: undefined,
@@ -93,7 +95,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
       context('when the data are not correct', () => {
         it('should throw an EntityValidationError', async () => {
-          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          const input = `${schoolingRegistrationCsvColumns}
       123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;ST;MEF1;Division 1;
       `;
           const encodedInput = iconv.encode(input, 'utf8');
@@ -110,12 +112,12 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
   context('when the header is not correctly formed', () => {
     const organizationId = 123;
 
-    const header = 'Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*;';
     const fieldList = ['Identifiant unique*', 'Nom de famille*', 'Date de naissance (jj/mm/aaaa)*', 'Code département naissance*', 'Code pays naissance*', 'Statut*', 'Code MEF*', 'Division*'];
     fieldList.forEach((field) => {
       context(`when the ${field} column is missing`, () => {
         it('should throw an CsvImportError', async () => {
-          const input = header.replace(`${field};`,  '');
+          let input = schoolingRegistrationCsvColumns.replace(`${field}`,  '');
+          input = input.replace(';;',  ';');
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
 
@@ -128,7 +130,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
     context('when the Premier prénom* column is missing', () => {
       it('should throw an CsvImportError', async () => {
-        const input = 'Identifiant unique*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*';
+        const input = schoolingRegistrationCsvColumns.replace('Premier prénom*;',  '');
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
 

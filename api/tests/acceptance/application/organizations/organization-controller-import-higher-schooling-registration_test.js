@@ -2,7 +2,10 @@ const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader }
 const Membership = require('../../../../lib/domain/models/Membership');
 
 const createServer = require('../../../../server');
+const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-parser');
 let server;
+
+const higherSchoolingRegistrationColumns = COLUMNS.map((column) => column.label).join(';');
 
 describe('Acceptance | Application | organization-controller-import-higher-schooling-registrations', () => {
 
@@ -27,7 +30,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
         await databaseBuilder.commit();
         const buffer =
-          'Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime\n' +
+          `${higherSchoolingRegistrationColumns}\n` +
           'Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1990;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend\n' +
           'O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;';
 
@@ -70,7 +73,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.MEMBER });
         await databaseBuilder.commit();
-        const buffer = 'Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime';
+        const buffer = higherSchoolingRegistrationColumns;
 
         const options = {
           method: 'POST',
@@ -92,7 +95,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
         await databaseBuilder.commit();
-        const buffer = 'Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime';
+        const buffer = higherSchoolingRegistrationColumns;
 
         const options = {
           method: 'POST',
