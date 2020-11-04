@@ -6,7 +6,7 @@ const constants = require('../../constants');
 const EMPTY_ARRAY = [];
 const NOT_SHARED = 'NA';
 
-class ExportStream {
+class CampaignProfileCollectionExport {
 
   constructor(outputStream, organization, campaign, competences) {
     this.stream = outputStream;
@@ -165,4 +165,4 @@ class ExportStream {
   }
 }
 
-module.exports = ExportStream;
+module.exports = CampaignProfileCollectionExport;
