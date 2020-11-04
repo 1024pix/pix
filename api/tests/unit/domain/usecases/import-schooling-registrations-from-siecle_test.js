@@ -33,9 +33,9 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
         456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
         `;
-        const filePath = __dirname + '/siecle.csv';
-        payload = { path: filePath };
-        await fs.writeFile(filePath, input);
+        const path = __dirname + '/siecle.csv';
+        payload = { path };
+        await fs.writeFile(path, input);
 
         // given
         const schoolingRegistration1 = new SchoolingRegistration({
@@ -111,7 +111,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
           { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
         ];
 
-        expect(schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE).to.have.been.calledWith(payload, { externalId: organizationUAI });
+        expect(schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE).to.have.been.calledWith(payload.path, { externalId: organizationUAI });
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.calledWith(schoolingRegistrations, organizationId);
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.not.throw();
       });
@@ -122,7 +122,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
     let result;
 
-    context('because the file is not valid', () => {
+    context('because the file content is invalid', () => {
       beforeEach(() => {
         // given
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
@@ -140,7 +140,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
         // then
         expect(result).to.be.instanceOf(FileValidationError);
-        expect(result.message).to.equal('Aucune inscription d‘élève n‘a pu être importée depuis ce fichier. Vérifiez que le fichier est conforme.');
+        expect(result.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
       });
     });
 
@@ -194,7 +194,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
     });
 
-    context('because a nationalStudentId is twice in the file', () => {
+    context('because a nationalStudentId appears twice in the file', () => {
       beforeEach(async () => {
         // given
         const sameNationalStudentId = 'SAMEID456';

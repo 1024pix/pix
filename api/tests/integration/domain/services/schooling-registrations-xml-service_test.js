@@ -10,8 +10,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const filePath = __dirname + '/siecle-file/siecle-with-two-valid-students.xml';
-      const payload = { path: filePath };
+      const path = __dirname + '/siecle-file/siecle-with-two-valid-students.xml';
       const expectedSchoolingRegistrations = [{
         lastName: 'HANDMADE',
         preferredLastName: '',
@@ -45,7 +44,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       }];
 
       // when
-      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(payload, organization);
+      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
 
       //then
       expect(result).to.deep.equal(expectedSchoolingRegistrations);
@@ -55,12 +54,11 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const filePath = __dirname + '/siecle-file/siecle-with-registrations-no-longer-in-school.xml';
-      const payload = { path: filePath };
+      const path = __dirname + '/siecle-file/siecle-with-registrations-no-longer-in-school.xml';
       const expectedSchoolingRegistrations = [];
 
       // when
-      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(payload, organization);
+      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
 
       //then
       expect(result).to.deep.equal(expectedSchoolingRegistrations);
@@ -71,14 +69,55 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
-      const filePath = __dirname + '/siecle-file/siecle-with-wrong-uai.xml';
-      const payload = { path: filePath };
+      const path = __dirname + '/siecle-file/siecle-with-wrong-uai.xml';
       // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(payload, organization);
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
       expect(error).to.be.instanceof(FileValidationError);
       expect(error.message).to.equal('Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.');
+    });
+
+    it('should abort parsing and reject with not valid UAI error if UAI is missing', async function() {
+
+      // given
+      const wrongUAIFromSIECLE = '123ABC';
+      const organization = { externalId: wrongUAIFromSIECLE };
+      const path = __dirname + '/siecle-file/siecle-with-no-uai.xml';
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
+
+      //then
+      expect(error).to.be.instanceof(FileValidationError);
+      expect(error.message).to.equal('Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.');
+    });
+
+    it('should abort parsing and reject with XML error if file is malformed while scanning for UAI', async function() {
+
+      // given
+      const wrongUAIFromSIECLE = '123ABC';
+      const organization = { externalId: wrongUAIFromSIECLE };
+      const path = __dirname + '/siecle-file/siecle-broken.xml';
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
+
+      //then
+      expect(error).to.be.instanceof(FileValidationError);
+      expect(error.message).to.equal('XML invalide');
+    });
+
+    it('should abort parsing and reject with XML error if file is malformed while scanning students', async function() {
+
+      // given
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const path = __dirname + '/siecle-file/siecle-broken-after-uai.xml';
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
+
+      //then
+      expect(error).to.be.instanceof(FileValidationError);
+      expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
     });
 
     it('should abort parsing and reject with duplicate national student id error', async function() {
@@ -86,10 +125,9 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const filePath = __dirname + '/siecle-file/siecle-with-duplicate-national-student-id.xml';
-      const payload = { path: filePath };
+      const path = __dirname + '/siecle-file/siecle-with-duplicate-national-student-id.xml';
       // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(payload, organization);
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
       //then
       expect(error).to.be.instanceof(SameNationalStudentIdInFileError);

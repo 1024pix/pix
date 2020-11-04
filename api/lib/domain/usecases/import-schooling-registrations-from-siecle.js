@@ -1,25 +1,26 @@
 const { FileValidationError, SameNationalStudentIdInOrganizationError, SameNationalStudentIdInFileError } = require('../errors');
 const fs = require('fs').promises;
 const bluebird = require('bluebird');
-const { CHUNK_SIZE_SCHOOLING_REGISTRATION_DATA_PROCESSING } = require('../../infrastructure/constants');
+const { SCHOOLING_REGISTRATION_CHUNK_SIZE } = require('../../infrastructure/constants');
 const { isEmpty, chunk } = require('lodash');
 const SchoolingRegistrationParser = require('../../infrastructure/serializers/csv/schooling-registration-parser');
 
-const NO_SCHOOLING_REGISTRATIONS_FOUND = 'Aucune inscription d‘élève n‘a pu être importée depuis ce fichier. Vérifiez que le fichier est conforme.';
-const FILE_FORMAT_NOT_VALID = 'Format de fichier non valide.';
+const NO_SCHOOLING_REGISTRATIONS_FOUND = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
+const INVALID_FILE_FORMAT = 'Format de fichier non valide.';
 
 module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository }) {
   let schoolingRegistrationData = [];
 
+  const path = payload.path;
   if (format === 'xml') {
     const organization = await organizationRepository.get(organizationId);
-    schoolingRegistrationData = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(payload, organization, schoolingRegistrationsXmlService);
+    schoolingRegistrationData = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization, schoolingRegistrationsXmlService);
   } else if (format === 'csv') {
-    const buffer = await fs.readFile(payload.path);
+    const buffer = await fs.readFile(path);
     const csvSiecleParser = new SchoolingRegistrationParser(buffer, organizationId);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
-    throw new FileValidationError(FILE_FORMAT_NOT_VALID);
+    throw new FileValidationError(INVALID_FILE_FORMAT);
   }
 
   fs.unlink(payload.path);
@@ -29,7 +30,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
   }
 
   try {
-    const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, CHUNK_SIZE_SCHOOLING_REGISTRATION_DATA_PROCESSING);
+    const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
     await bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
       return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
     });
