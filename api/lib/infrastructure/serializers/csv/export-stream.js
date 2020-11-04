@@ -93,9 +93,7 @@ class ExportStream {
       campaignParticipationResultData.participantLastName,
       campaignParticipationResultData.participantFirstName,
       ...(this._getStudentNumberColumn(campaignParticipationResultData)),
-
-      ...(this.idPixLabel ? [ campaignParticipationResultData.participantExternalId] : EMPTY_ARRAY),
-
+      ...(this._getIdPixLabelColumn(campaignParticipationResultData)),
       this._yesOrNo(campaignParticipationResultData.isShared),
       campaignParticipationResultData.isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : NOT_SHARED,
       campaignParticipationResultData.isShared ? totalEarnedPix : NOT_SHARED,
@@ -105,6 +103,10 @@ class ExportStream {
     ];
 
     return csvSerializer.serializeLine(line);
+  }
+
+  _getIdPixLabelColumn(campaignParticipationResultData) {
+    return this.idPixLabel ? [campaignParticipationResultData.participantExternalId] : EMPTY_ARRAY;
   }
 
   _getStudentNumberColumn(campaignParticipationResultData) {
