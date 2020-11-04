@@ -168,7 +168,7 @@ module('Acceptance | Session Add Students', function(hooks) {
         hooks.beforeEach(async () => {
           // given
           sessionWithEnrolledStudent = server.create('session', { certificationCenterId: certificationCenter.id });
-          server.createList('student', 3, { isSelected: false, isEnrolled: false });
+          server.create('student', { isSelected: false, isEnrolled: false });
           const enrolledStudent = server.create('student', { isSelected: false, isEnrolled: true });
           server.create('certification-candidate', { schoolingRegistrationId: enrolledStudent.id, sessionId: sessionWithEnrolledStudent.id });
           await visit(`/sessions/${sessionWithEnrolledStudent.id}/ajout-eleves`);
@@ -186,6 +186,21 @@ module('Acceptance | Session Add Students', function(hooks) {
 
           // then
           assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà ajouté(s) à la session');
+          assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
+        });
+
+        test('it is impossible to select enrolled student', async function(assert) {
+          // given
+          const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+
+          // when
+          const checkboxSelector = 'button.checkbox';
+          const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
+          const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
+          await click(firstCheckbox);
+          await click(secondCheckbox);
+
+          // then
           assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
         });
       });
