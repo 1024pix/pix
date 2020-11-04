@@ -95,7 +95,7 @@ class ExportStream {
       ...(this._getStudentNumberColumn(campaignParticipationResultData)),
       ...(this._getIdPixLabelColumn(campaignParticipationResultData)),
       this._yesOrNo(campaignParticipationResultData.isShared),
-      campaignParticipationResultData.isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : NOT_SHARED,
+      this._getSharedAtColumn(campaignParticipationResultData),
       campaignParticipationResultData.isShared ? totalEarnedPix : NOT_SHARED,
       campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : NOT_SHARED,
       campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : NOT_SHARED,
@@ -113,6 +113,10 @@ class ExportStream {
     const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
 
     return displayStudentNumber ? [campaignParticipationResultData.studentNumber] : EMPTY_ARRAY;
+  }
+
+  _getSharedAtColumn(campaignParticipationResultData) {
+    return campaignParticipationResultData.isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : NOT_SHARED;
   }
 
   _computeTotalEarnPix(userCompetences) {
