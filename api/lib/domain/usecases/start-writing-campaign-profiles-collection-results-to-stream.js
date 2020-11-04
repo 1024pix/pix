@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const moment = require('moment');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const ExportStream  = require('../../infrastructure/serializers/csv/export-stream');
