@@ -21,6 +21,17 @@ module.exports = {
     campaignAnalysis.finalize(participantCount);
     return campaignAnalysis;
   },
+
+  async getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfile, tutorials) {
+    const campaignAnalysis = new CampaignAnalysis({ campaignId, targetProfile, tutorials });
+
+    const validatedKnowledgeElementsByTube =
+      await knowledgeElementRepository.findValidatedTargetedGroupedByTubes({ [campaignParticipation.userId]: campaignParticipation.sharedAt }, targetProfile);
+    campaignAnalysis.addValidatedKnowledgeElementsToTubeRecommendations(validatedKnowledgeElementsByTube);
+
+    campaignAnalysis.finalize(1);
+    return campaignAnalysis;
+  },
 };
 
 async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
