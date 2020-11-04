@@ -5,9 +5,9 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 describe('Integration | UseCase | compute-campaign-participation-analysis', () => {
 
   let campaignRepository;
+  let campaignAnalysisRepository;
   let campaignParticipationRepository;
   let targetProfileWithLearningContentRepository;
-  let knowledgeElementRepository;
   let tutorialRepository;
 
   const userId = 1;
@@ -18,8 +18,8 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
   beforeEach(() => {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     campaignParticipationRepository = { get: sinon.stub() };
+    campaignAnalysisRepository = { getCampaignParticipationAnalysis: sinon.stub() };
     targetProfileWithLearningContentRepository = { getByCampaignId: sinon.stub() };
-    knowledgeElementRepository = { findValidatedTargetedGroupedByTubes: sinon.stub() };
     tutorialRepository = { list: sinon.stub() };
 
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, isShared: true });
@@ -29,98 +29,59 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
     context('Participant has shared its results', () => {
       it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async () => {
         // given
-        const tutorial = domainBuilder.buildTutorial({ id: 'recTuto1' });
-        const skill1Tube1 = domainBuilder.buildTargetedSkill({ id: 'recSkill11', name: '@url1', tubeId: 'recTube1', tutorialIds: [tutorial.id] });
-        const skill1Tube2 = domainBuilder.buildTargetedSkill({ id: 'recSkill21', name: '@url2', tubeId: 'recTube2' });
-        const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetence', practicalTitle: 'TubeName1', skills: [skill1Tube1] });
-        const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetence', practicalTitle: 'TubeName2', skills: [skill1Tube2] });
-        const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence', areaId: 'recArea', tubes: [tube1, tube2] });
-        const area = domainBuilder.buildTargetedArea({ id: 'recArea', competences: [competence], color: 'black' });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-          skills: [skill1Tube1, skill1Tube2],
-          tubes: [tube1, tube2],
-          competences: [competence],
-          areas: [area],
-        });
-        const knowledgeElementSkill1 = { skillId: 'recSkill11', userId: 1 };
-        const knowledgeElementSkill2 = { skillId: 'recSkill21', userId: 1 };
-
-        const campaignTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
-          campaignId,
-          tube: tube1,
-          competence,
-          area,
-          validatedKnowledgeElements: [knowledgeElementSkill1],
-          maxSkillLevelInTargetProfile:  2,
-          participantsCount: 1,
-          tutorials: [tutorial],
-        });
-
-        const campaignOtherTubeRecommendation = domainBuilder.buildCampaignTubeRecommendation({
-          campaignId,
-          tube: tube2,
-          competence,
-          validatedKnowledgeElements: [knowledgeElementSkill2],
-          area,
-          maxSkillLevelInTargetProfile:  2,
-          participantsCount: 1,
-          tutorials: [],
-        });
-
-        targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId }).resolves(targetProfile);
+        const targetProfile = Symbol('targetProfile');
+        const tutorials = Symbol('tutorials');
+        const campaignParticipationAnalysis = Symbol('analysis');
+        campaignParticipation.userId = userId;
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-        targetProfileWithLearningContentRepository.getByCampaignId.withArgs(campaignId).resolves(targetProfile);
-        knowledgeElementRepository.findValidatedTargetedGroupedByTubes
-          .withArgs({ [campaignParticipation.userId]: campaignParticipation.sharedAt }, targetProfile)
-          .resolves({ 'recTube1': [knowledgeElementSkill1], 'recTube2': [knowledgeElementSkill2] });
-        tutorialRepository.list.resolves([tutorial]);
-
-        const expectedResult = {
-          id: campaignId,
-          campaignTubeRecommendations: [campaignTubeRecommendation, campaignOtherTubeRecommendation],
-        };
+        targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId }).resolves(targetProfile);
+        tutorialRepository.list.resolves(tutorials);
+        campaignAnalysisRepository.getCampaignParticipationAnalysis
+          .withArgs(campaignId, campaignParticipation, targetProfile, tutorials).resolves(campaignParticipationAnalysis);
 
         // when
-        const actualCampaignAnalysis = await computeCampaignParticipationAnalysis({
+        const actualCampaignParticipationAnalysis = await computeCampaignParticipationAnalysis({
           userId,
           campaignParticipationId,
           campaignRepository,
+          campaignAnalysisRepository,
           campaignParticipationRepository,
           targetProfileWithLearningContentRepository,
-          knowledgeElementRepository,
           tutorialRepository,
         });
 
         // then
-        expect(actualCampaignAnalysis).to.deep.equal(expectedResult);
+        expect(actualCampaignParticipationAnalysis).to.deep.equal(campaignParticipationAnalysis);
       });
     });
 
     context('Participant has not shared its results', () => {
       it('should returns null', async () => {
         // given
+        campaignParticipation.userId = userId;
         campaignParticipation.isShared = false;
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
 
         // when
-        const actualCampaignAnalysis = await computeCampaignParticipationAnalysis({
+        const actualCampaignParticipationAnalysis = await computeCampaignParticipationAnalysis({
           userId,
           campaignParticipationId,
           campaignRepository,
+          campaignAnalysisRepository,
           campaignParticipationRepository,
           targetProfileWithLearningContentRepository,
           tutorialRepository,
         });
 
         // then
-        expect(actualCampaignAnalysis).to.be.null;
+        expect(actualCampaignParticipationAnalysis).to.be.null;
       });
     });
   });
 
-  context('User does not belong to the organization', () => {
+  context('User does not have access to this result', () => {
     beforeEach(() => {
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
@@ -133,6 +94,7 @@ describe('Integration | UseCase | compute-campaign-participation-analysis', () =
         campaignParticipationId,
         campaignRepository,
         campaignParticipationRepository,
+        campaignAnalysisRepository,
         targetProfileWithLearningContentRepository,
         tutorialRepository,
       });

@@ -1,13 +1,11 @@
-const CampaignAnalysis = require('../models/CampaignAnalysis');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function computeCampaignAnalysis(
   {
     userId,
     campaignId,
-    campaignParticipationRepository,
     campaignRepository,
-    knowledgeElementRepository,
+    campaignAnalysisRepository,
     targetProfileWithLearningContentRepository,
     tutorialRepository,
   } = {}) {
@@ -20,15 +18,6 @@ module.exports = async function computeCampaignAnalysis(
 
   const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
   const tutorials = await tutorialRepository.list();
-  const sharedParticipationsUserIdsAndDates = await campaignParticipationRepository.findSharedParticipationsWithUserIdsAndDates(campaignId);
 
-  const validatedKnowledgeElementsByTube = await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(sharedParticipationsUserIdsAndDates, targetProfile);
-
-  return new CampaignAnalysis({
-    campaignId,
-    targetProfile,
-    validatedKnowledgeElementsByTube,
-    participantsCount: Object.keys(sharedParticipationsUserIdsAndDates).length,
-    tutorials,
-  });
+  return campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfile, tutorials);
 };
