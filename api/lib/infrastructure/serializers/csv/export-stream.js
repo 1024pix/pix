@@ -35,12 +35,14 @@ class ExportStream {
 
   _buildHeader() {
     const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
+    const displayDivision = this.organization.isSco;
     const header = [
       'Nom de l\'organisation',
       'ID Campagne',
       'Nom de la campagne',
       'Nom du Participant',
       'Prénom du Participant',
+      displayDivision && 'Classe',
       displayStudentNumber && 'Numéro Étudiant',
       this.idPixLabel,
       'Envoi (O/N)',
@@ -84,6 +86,7 @@ class ExportStream {
       this.campaign.name,
       campaignParticipationResultData.participantLastName,
       campaignParticipationResultData.participantFirstName,
+      ...(this._getDivisionColumn(campaignParticipationResultData)),
       ...(this._getStudentNumberColumn(campaignParticipationResultData)),
       ...(this._getIdPixLabelColumn(campaignParticipationResultData)),
       this._yesOrNo(campaignParticipationResultData.isShared),
@@ -95,6 +98,10 @@ class ExportStream {
     ];
 
     return csvSerializer.serializeLine(line);
+  }
+
+  _getDivisionColumn(campaignParticipationResultData) {
+    return this.organization.isSco ? [campaignParticipationResultData.division] : EMPTY_ARRAY;
   }
 
   _getCompetencesCountColumn(placementProfile, isShared) {
