@@ -40,8 +40,8 @@ class ExportStream {
       'Nom de la campagne',
       'Nom du Participant',
       'Prénom du Participant',
-      ...(displayStudentNumber ? ['Numéro Étudiant'] : []),
-      ...(this.idPixLabel ? [ this.idPixLabel] : []),
+      displayStudentNumber && 'Numéro Étudiant',
+      this.idPixLabel,
       'Envoi (O/N)',
       'Date de l\'envoi',
       'Nombre de pix total',
@@ -53,7 +53,7 @@ class ExportStream {
       ])),
     ];
 
-    return '\uFEFF' + csvSerializer.serializeLine(header);
+    return '\uFEFF' + csvSerializer.serializeLine(_.compact(header));
   }
 
   async _getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
