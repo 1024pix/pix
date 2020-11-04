@@ -71,14 +71,7 @@ class ExportStream {
     let csvLines = '';
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) => userId === placementProfile.userId);
-      const csvLine = this._buildLine({
-        campaignParticipationResultData,
-        placementProfile,
-
-        participantFirstName: campaignParticipationResultData.participantFirstName,
-        participantLastName: campaignParticipationResultData.participantLastName,
-        studentNumber: campaignParticipationResultData.studentNumber,
-      });
+      const csvLine = this._buildLine({ campaignParticipationResultData, placementProfile });
       csvLines = csvLines.concat(csvLine);
     }
     return csvLines;
