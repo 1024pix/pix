@@ -11,7 +11,7 @@ const organizationRepository = require('../../../../lib/infrastructure/repositor
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 
-describe.only('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
+describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
 
   describe('#startWritingCampaignProfilesCollectionResultsToStream', () => {
 
@@ -130,7 +130,7 @@ describe.only('Integration | Domain | Use Cases | start-writing-profiles-collec
         organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono' });
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono', division: '4emeC' });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
@@ -162,6 +162,80 @@ describe.only('Integration | Domain | Use Cases | start-writing-profiles-collec
           `"'${campaign.name}";` +
           `"'${schoolingRegistration.lastName}";` +
           `"'${schoolingRegistration.firstName}";` +
+          `"${schoolingRegistration.division}";` +
+          `"'${campaignParticipation.participantExternalId}";` +
+          '"Oui";' +
+          '2019-03-01;' +
+          '52;' +
+          '"Non";' +
+          '2;' +
+          '1;' +
+          '12;' +
+          '5;' +
+          '40';
+
+        // when
+        startWritingCampaignProfilesCollectionResultsToStream({
+          userId: user.id,
+          campaignId: campaign.id,
+          writableStream,
+          campaignRepository,
+          userRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          placementProfileService,
+        });
+
+        const csv = await csvPromise;
+        const csvLines = csv.split('\n');
+        const csvFirstLineCells = csvLines[0].split(';');
+
+        // then
+        expect(csvFirstLineCells[0]).to.equal(expectedCsvFirstCell);
+        expect(csvLines[1]).to.equal(expectedCsvSecondLine);
+      });
+    });
+
+    context('When the organization is SCO', () => {
+
+      beforeEach(async () => {
+        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+        databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
+
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono', division: '3emeG' });
+
+        campaign = databaseBuilder.factory.buildCampaign({
+          name: '@Campagne de Test N°2',
+          code: 'QWERTY456',
+          organizationId: organization.id,
+          idPixLabel: 'Mail Perso',
+          targetProfileId: null,
+          type: 'PROFILES_COLLECTION',
+          title: null,
+        });
+
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          createdAt,
+          sharedAt: new Date('2019-03-01T23:04:05Z'),
+          participantExternalId: '+Mon mail pro',
+          campaignId: campaign.id,
+          isShared: true,
+          userId: participant.id,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return the complete line', async () => {
+        // given
+        const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
+        const expectedCsvSecondLine = `"${organization.name}";` +
+          `${campaign.id};` +
+          `"'${campaign.name}";` +
+          `"'${schoolingRegistration.lastName}";` +
+          `"'${schoolingRegistration.firstName}";` +
+          `"${schoolingRegistration.division}";` +
           `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +

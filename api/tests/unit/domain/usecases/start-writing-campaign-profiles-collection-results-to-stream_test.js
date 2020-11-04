@@ -4,7 +4,7 @@ const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test
 const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
 const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 
-describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', () => {
+describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', () => {
 
   const user = domainBuilder.buildUser({ firstName: '@Jean', lastName: '=Bono' });
   const organization = user.memberships[0].organization;
@@ -80,6 +80,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
           '"Nom de la campagne";' +
           '"Nom du Participant";' +
           '"Prénom du Participant";' +
+          '"Classe";' +
           '"Envoi (O/N)";' +
           '"Date de l\'envoi";' +
           '"Nombre de pix total";' +
@@ -126,6 +127,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
+            division: '6emeA',
           };
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
@@ -134,6 +136,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
+            `"${campaignParticipationResultData.division}";` +
             '"Oui";' +
             '2019-03-01;' +
             '13;' +
@@ -178,6 +181,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
+            division: '5emeB',
           };
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
@@ -186,6 +190,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
+            `"${campaignParticipationResultData.division}";` +
             '"Oui";' +
             '2019-03-01;' +
             '13;' +
@@ -231,6 +236,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
+            division: '4emeC',
           };
 
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
@@ -241,6 +247,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
+            `"${campaignParticipationResultData.division}";` +
             '"Non";' +
             '"NA";' +
             '"NA";' +
@@ -549,6 +556,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
           '"Nom de la campagne";' +
           '"Nom du Participant";' +
           '"Prénom du Participant";' +
+          '"Classe";' +
           '"Mail Pro";' +
           '"Envoi (O/N)";' +
           '"Date de l\'envoi";' +
@@ -592,6 +600,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
           userId: 123,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
+          division: '3emeD',
         };
 
         findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
@@ -602,6 +611,7 @@ describe.only('Unit | Domain | Use Cases | start-writing-campaign-profiles-coll
           `"'${campaign.name}";` +
           `"'${user.lastName}";` +
           `"'${user.firstName}";` +
+          `"${campaignParticipationResultData.division}";` +
           `"'${campaignParticipationResultData.participantExternalId}";` +
           '"Non";' +
           '"NA";' +
