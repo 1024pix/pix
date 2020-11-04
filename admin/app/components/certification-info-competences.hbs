@@ -1,5 +1,5 @@
 <div class="certification-info-competences">
-  {{#if this.isEdited}}
+  {{#if @edition}}
     {{#each this.competenceList as |competenceItem key|}}
       <div class="row form-group certification-info-field">
         <label class="col-sm-3 col-form-label" for={{concat 'certification-info-score_' key}}>{{competenceItem}}</label>

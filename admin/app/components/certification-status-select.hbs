@@ -1,4 +1,4 @@
-{{#if this.isEdited}}
+{{#if @edition}}
   <div class="row form-group certification-status-select edited">
     <label class="col-form-label" for={{this.id}}>Statut :</label>
     <div class="certificate">
@@ -6,7 +6,7 @@
           @options={{this.statusOptions}}
           @selected={{this.selectedOption}}
           @searchEnabled={{false}}
-          @onchange={{this.selectOption}}
+          @onChange={{this.selectOption}}
           as |option|>
         {{option.label}}
       </PowerSelect>

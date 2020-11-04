@@ -22,7 +22,6 @@ export default class CertificationInformationsController extends Controller {
   @tracked displayConfirm = false;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
-  @tracked confirmAction = 'onSave';
 
   // private properties
   _competencesCopy = null;
@@ -69,7 +68,6 @@ export default class CertificationInformationsController extends Controller {
 
     this.confirmMessage = confirmMessage;
     this.confirmErrorMessage = confirmErrorMessage;
-    this.confirmAction = 'onSave';
     this.displayConfirm = true;
   }
 
@@ -120,18 +118,6 @@ export default class CertificationInformationsController extends Controller {
   @action
   onUpdateLevel(code, value) {
     this._updatePropForCompetence(code, value, 'level', 'score');
-  }
-
-  @action
-  onTogglePublishConfirm() {
-    const state = this.certification.isPublished;
-    if (state) {
-      this.confirmMessage = 'Souhaitez-vous dépublier cette certification ?';
-    } else {
-      this.confirmMessage = 'Souhaitez-vous publier cette certification ?';
-    }
-    this.confirmAction = 'onTogglePublish';
-    this.displayConfirm = true;
   }
 
   @action
