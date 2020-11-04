@@ -2,6 +2,8 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
+import ENV from 'mon-pix/config/environment';
+
 export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
@@ -32,6 +34,10 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
   }
 
   _shouldShowTutorial(assessment) {
+    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+      return false;
+    }
+
     return (
       !this.userHasJustConsultedTutorial
       && assessment.answers.length === 0
