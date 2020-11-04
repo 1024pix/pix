@@ -16,7 +16,6 @@ class ExportStream {
   }
 
   export(campaignParticipationResultDatas, placementProfileService) {
-    const headers = this._createHeaderOfCSV();
 
     // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
     // - https://en.wikipedia.org/wiki/Byte_order_mark
