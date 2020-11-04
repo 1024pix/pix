@@ -14,8 +14,34 @@
     border-bottom: 4px solid $grey-10;
   }
 
-  th,
-  td {
+  &__row {
+    background-color: $white;
+
+    &--disabled {
+      background: $grey-10;
+      border-top: 1px solid $grey-50;
+      border-bottom: 1px solid $grey-50;
+      color: $grey-40;
+
+      &:hover {
+        background: initial;
+        color: initial;
+      }
+
+      .add-student-list__column-checkbox .checkbox {
+        background-color: $grey-40;
+        border-color: $grey-40;
+        pointer-events: none;
+
+        &:hover {
+          cursor: initial;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  th, td {
     text-align: left;
     padding-left: 30px;
   }
