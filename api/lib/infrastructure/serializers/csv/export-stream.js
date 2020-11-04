@@ -85,7 +85,6 @@ class ExportStream {
   }
 
   _buildLine({ campaignParticipationResultData, placementProfile }) {
-    const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
     const totalEarnedPix = this._computeTotalEarnPix(placementProfile.userCompetences);
     const line =  [
       this.organization.name,
@@ -93,7 +92,7 @@ class ExportStream {
       this.campaign.name,
       campaignParticipationResultData.participantLastName,
       campaignParticipationResultData.participantFirstName,
-      ...(displayStudentNumber ? [campaignParticipationResultData.studentNumber] : EMPTY_ARRAY),
+      ...(this._getStudentNumberColumn(campaignParticipationResultData)),
 
       ...(this.idPixLabel ? [ campaignParticipationResultData.participantExternalId] : EMPTY_ARRAY),
 
@@ -106,6 +105,12 @@ class ExportStream {
     ];
 
     return csvSerializer.serializeLine(line);
+  }
+
+  _getStudentNumberColumn(campaignParticipationResultData) {
+    const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
+
+    return displayStudentNumber ? [campaignParticipationResultData.studentNumber] : EMPTY_ARRAY;
   }
 
   _computeTotalEarnPix(userCompetences) {
