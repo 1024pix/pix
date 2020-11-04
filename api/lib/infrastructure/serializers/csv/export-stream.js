@@ -96,12 +96,16 @@ class ExportStream {
       this._yesOrNo(campaignParticipationResultData.isShared),
       this._getSharedAtColumn(campaignParticipationResultData),
       this._getTotalEarnedPixColumn(placementProfile.userCompetences, campaignParticipationResultData.isShared),
-      campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : NOT_SHARED,
+      this._getIsCertifiableColumn(placementProfile, campaignParticipationResultData.isShared),
       campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : NOT_SHARED,
       ...this._competenceColumns(this.competences, placementProfile.userCompetences, campaignParticipationResultData.isShared),
     ];
 
     return csvSerializer.serializeLine(line);
+  }
+
+  _getIsCertifiableColumn(placementProfile, isShared) {
+    return isShared ? this._yesOrNo(placementProfile.isCertifiable()) : NOT_SHARED;
   }
 
   _getIdPixLabelColumn(campaignParticipationResultData) {
