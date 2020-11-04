@@ -30,7 +30,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     email: faker.internet.exampleEmail().toLowerCase(),
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
-    samlId: 'some-saml-id',
     shouldChangePassword: false,
   };
 
@@ -564,7 +563,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return the "isAuthenticatedFromGAR" property to false', async () => {
         // given
-        const userInDB = databaseBuilder.factory.buildUser({ ...userToInsert, samlId: null });
+        const userInDB = databaseBuilder.factory.buildUser({ ...userToInsert });
         await databaseBuilder.commit();
 
         // when
@@ -849,6 +848,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     beforeEach(async () => {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'samlId', userId: userInDb.id });
       await databaseBuilder.commit();
     });
 

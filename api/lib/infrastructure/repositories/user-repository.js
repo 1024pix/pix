@@ -17,8 +17,8 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 
 const PIX_MASTER_ROLE_ID = 1;
 
-function _toUserDetailsForAdminDomain(BookshelfUser) {
-  const rawUserDetailsForAdmin = BookshelfUser.toJSON();
+function _toUserDetailsForAdminDomain(bookshelfUser) {
+  const rawUserDetailsForAdmin = bookshelfUser.toJSON();
   return new UserDetailsForAdmin({
     id: rawUserDetailsForAdmin.id,
     firstName: rawUserDetailsForAdmin.firstName,
@@ -30,9 +30,14 @@ function _toUserDetailsForAdminDomain(BookshelfUser) {
     cgu: rawUserDetailsForAdmin.cgu,
     pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR: !!rawUserDetailsForAdmin.samlId,
+    isAuthenticatedFromGAR: _isUserAuthenticatedFromGAR(bookshelfUser),
     schoolingRegistrations: _toSchoolingRegistrationsForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
   });
+}
+
+function _isUserAuthenticatedFromGAR(bookshelfUser) {
+  const authenticationMethods = bookshelfUser.related('authenticationMethods').toJSON();
+  return authenticationMethods.some((authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.GAR);
 }
 
 function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
@@ -211,12 +216,14 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true,
-        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'samlId'],
+        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'],
         withRelated: [{
           schoolingRegistrations: (query) => { query
             .leftJoin('organizations', 'schooling-registrations.organizationId','organizations.id')
             .where({ type: 'SCO' })
-            .orderBy('id'); } }, 'schoolingRegistrations.organization',
+            .orderBy('id'); } },
+        'schoolingRegistrations.organization',
+        'authenticationMethods',
         ],
       })
       .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
