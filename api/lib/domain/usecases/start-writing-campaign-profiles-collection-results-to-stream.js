@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
-const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 const ExportStream  = require('../../infrastructure/serializers/csv/export-stream');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
