@@ -48,10 +48,6 @@ class ExportStream {
           campaign: this.campaign,
           campaignParticipationResultData,
           placementProfile,
-
-          participantFirstName: campaignParticipationResultData.participantFirstName,
-          participantLastName: campaignParticipationResultData.participantLastName,
-          studentNumber: campaignParticipationResultData.studentNumber,
         });
         csvLines = csvLines.concat(csvLine);
       }
@@ -60,92 +56,43 @@ class ExportStream {
     });
   }
 
-  _getCommonColumns({
+  _createOneLineOfCSV({
     organization,
     campaign,
     campaignParticipationResultData,
-    participantFirstName,
-    participantLastName,
-    studentNumber,
-  }) {
-    const EMPTY_LINE = '';
-    const displayStudentNumber = studentNumber && organization.isSup && organization.isManagingStudents;
-    return {
-      organizationName: organization.name,
-      campaignId: campaign.id,
-      campaignName: campaign.name,
-      participantLastName,
-      participantFirstName,
-      studentNumber: displayStudentNumber ? studentNumber : EMPTY_LINE,
-      isShared: campaignParticipationResultData.isShared ? 'Oui' : 'Non',
-      ...(campaign.idPixLabel ? { participantExternalId: campaignParticipationResultData.participantExternalId } : {}),
-    };
-  }
-
-  _getSharedColumns({
-    campaignParticipationResultData,
     placementProfile,
   }) {
-    const competenceStats = _.map(placementProfile.userCompetences, (userCompetence) => {
-
-      return {
-        id: userCompetence.id,
-        earnedPix: userCompetence.pixScore,
-        level: userCompetence.estimatedLevel,
-      };
-    });
-
-    const lineMap = {
-      sharedAt: moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD'),
-      totalEarnedPix: _.sumBy(competenceStats, 'earnedPix'),
-      isCertifiable: placementProfile.isCertifiable() ? 'Oui' : 'Non',
-      certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
-    };
-
+    const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
     let totalEarnedPix = 0;
-    placementProfile.userCompetences.forEach(({ id, pixScore, estimatedLevel }) => {
-      lineMap[`competence_${id}_level`] = estimatedLevel;
-      lineMap[`competence_${id}_earnedPix`] = pixScore;
+    placementProfile.userCompetences.forEach(({ pixScore }) => {
       totalEarnedPix += pixScore;
     });
 
-    lineMap['totalEarnedPix'] = totalEarnedPix;
+    const line =  [
+      this.organization.name,
+      this.campaign.id,
+      this.campaign.name,
+      campaignParticipationResultData.participantLastName,
+      campaignParticipationResultData.participantFirstName,
+      ...(displayStudentNumber ? [campaignParticipationResultData.studentNumber] : EMPTY_ARRAY),
 
-    return lineMap;
-  }
+      ...(this.idPixLabel ? [ campaignParticipationResultData.participantExternalId] : EMPTY_ARRAY),
 
-  _createOneLineOfCSV({
-    headers,
-    organization,
-    campaign,
-    campaignParticipationResultData,
-    placementProfile,
-    participantFirstName,
-    participantLastName,
-    studentNumber,
-  }) {
-    const lineMap = this._getCommonColumns({
-      organization,
-      campaign,
-      campaignParticipationResultData,
+      this._yesOrNo(campaignParticipationResultData.isShared),
+      campaignParticipationResultData.isShared ? moment.utc(campaignParticipationResultData.sharedAt).format('YYYY-MM-DD') : 'NA',
+      campaignParticipationResultData.isShared ? totalEarnedPix : 'NA',
+      campaignParticipationResultData.isShared ? this._yesOrNo(placementProfile.isCertifiable()) : 'NA',
+      campaignParticipationResultData.isShared ? placementProfile.getCertifiableCompetencesCount() : 'NA',
+      ...(_.flatMap(this.allPixCompetences, (competence) => {
+        if (campaignParticipationResultData.isShared) {
+          const userCompetence = placementProfile.userCompetences.find(({ id }) => id === competence.id);
+          return [ userCompetence.estimatedLevel, userCompetence.pixScore];
+        }
+        return ['NA', 'NA'];
+      })),
+    ];
 
-      participantFirstName,
-      participantLastName,
-      studentNumber,
-    });
-
-    if (campaignParticipationResultData.isShared) {
-      _.assign(lineMap, this._getSharedColumns({
-        campaignParticipationResultData,
-        placementProfile,
-      }));
-    }
-
-    const lineArray = headers.map(({ property }) => {
-      return property in lineMap ? lineMap[property] : 'NA';
-    });
-
-    return csvSerializer.serializeLine(lineArray);
+    return csvSerializer.serializeLine(line);
   }
 
   _buildHeader() {
@@ -170,6 +117,9 @@ class ExportStream {
     ];
   }
 
+  _yesOrNo(value) {
+    return value ? 'Oui' : 'Non';
+  }
 }
 
 module.exports = ExportStream;
