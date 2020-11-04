@@ -78,6 +78,23 @@ class ExportStream {
     return placementProfiles;
   }
 
+  _buildLines(placementProfiles, campaignParticipationResultDatas) {
+    let csvLines = '';
+    for (const placementProfile of placementProfiles) {
+      const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) => userId === placementProfile.userId);
+      const csvLine = this._createOneLineOfCSV({
+        campaignParticipationResultData,
+        placementProfile,
+
+        participantFirstName: campaignParticipationResultData.participantFirstName,
+        participantLastName: campaignParticipationResultData.participantLastName,
+        studentNumber: campaignParticipationResultData.studentNumber,
+      });
+      csvLines = csvLines.concat(csvLine);
+    }
+    return csvLines;
+  }
+
   _createOneLineOfCSV({
     campaignParticipationResultData,
     placementProfile,
