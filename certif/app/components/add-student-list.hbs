@@ -18,7 +18,7 @@
     </thead>
     <tbody>
       {{#each @studentList as |student|}}
-        <tr class="add-student-list__row {{if student.isEnrolled 'add-student-list__row--disabled'}}">
+        <tr class="add-student-list__row {{if student.isEnrolled 'add-student-list__row--disabled'}}" {{on 'click' (fn this.toggleItem student)}}>
           <td class="add-student-list__column-checkbox">
             {{#if student.isEnrolled}}
               <CertifCheckbox @state='checked' />
