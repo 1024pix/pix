@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
+import sinon from 'sinon';
 
 module('Integration | Component | add-student-list', function(hooks) {
   setupRenderingTest(hooks);
@@ -323,7 +324,7 @@ module('Integration | Component | add-student-list', function(hooks) {
     address = '13 rue des petits champs',
     accessCode = 'ABCDE',
     status = 'started',
-    save = () => {},
+    save = sinon.stub(),
   ) {
     return EmberObject.create({
       address,

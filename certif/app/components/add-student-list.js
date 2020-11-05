@@ -31,12 +31,9 @@ export default class AddStudentList extends Component {
     return this.hasCheckedSomething || thereIsAlreadySomeCandidates;
   }
 
-  get studentsSelectedInformation() {
-    const countStudents = (count, student) => student.isSelected ? count + 1 : count;
-    const numberOfStudentsSelected = this.args.studentList.reduce(countStudents, 0);
-    return numberOfStudentsSelected > 0
-      ? `${numberOfStudentsSelected} candidat(s) sélectionné(s)`
-      : 'Aucun candidat sélectionné';
+  get numberOfStudentsSelected() {
+    const selectedStudents = this.args.studentList.filter((student) => student.isSelected);
+    return selectedStudents.length;
   }
 
   @action
