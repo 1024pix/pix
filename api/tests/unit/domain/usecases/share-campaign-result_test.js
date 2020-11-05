@@ -1,259 +1,127 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
-const { NotFoundError, UserNotAuthorizedToAccessEntity, CampaignAlreadyArchivedError } = require('../../../../lib/domain/errors');
+const { AssessmentNotCompletedError, UserNotAuthorizedToAccessEntity, CampaignAlreadyArchivedError } = require('../../../../lib/domain/errors');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const usecases = require('../../../../lib/domain/usecases');
-const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
-const dataFetcher = require('../../../../lib/domain/services/smart-random/data-fetcher');
 
-describe('Unit | UseCase | share-campaign-result', () => {
-
-  let userId;
-  let campaignParticipationId;
-  let assessment;
-  let assessmentId;
-  let campaign;
-  let campaignParticipation;
+describe('Unit | UseCase | share-campaign-result2', () => {
   const campaignParticipationRepository = {
-    share() {},
-    get() {},
-  };
-  const assessmentRepository = {
-    getByCampaignParticipationId() {},
+    get: sinon.stub(),
+    share: sinon.stub(),
+    isAssessmentCompleted: sinon.stub(),
   };
   const campaignRepository = {
-    get() {},
+    get: sinon.stub(),
   };
-  const answerRepository = Symbol('answer repository');
-  const challengeRepository = Symbol('challenge repository');
-  const knowledgeElementRepository = Symbol('knowledge element repository');
-  const targetProfileRepository = Symbol('target profile repository');
-  const improvementService = Symbol('improvement service');
+  const userId = 123;
+  const campaignParticipationId = 456;
+  const campaignId = 789;
+  const organizationId = 159;
 
-  beforeEach(() => {
-    userId = domainBuilder.buildUser().id;
+  it('should throw a UserNotAuthorizedToAccessEntity error when user is not the owner of the campaign participation', async () => {
+    // given
+    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId: userId + 1 });
+
+    // when
+    const error = await catchErr(usecases.shareCampaignResult)({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
+
+    // then
+    expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
   });
 
-  context('when campaign is of type ASSESSMENT', () => {
+  it('should throw a CampaignAlreadyArchivedError error when campaign is archived', async () => {
+    // given
+    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId, campaignId });
+    campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ id: campaignId, archivedAt: new Date('1990-11-04') }));
 
-    beforeEach(() => {
-      campaign = domainBuilder.buildCampaign.ofTypeAssessment();
-      campaignParticipation = domainBuilder.buildCampaignParticipation({
-        campaignId: campaign.id,
-      });
-      campaignParticipationId = campaignParticipation.id;
-      assessment = domainBuilder.buildAssessment.ofTypeCampaign({ userId });
-      assessmentId = assessment.id;
+    // when
+    const error = await catchErr(usecases.shareCampaignResult)({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
 
-      sinon.stub(campaignRepository, 'get').resolves(campaign);
-      sinon.stub(campaignParticipationRepository, 'get').resolves(campaignParticipation);
-      sinon.stub(assessmentRepository, 'getByCampaignParticipationId').resolves();
-      sinon.stub(dataFetcher, 'fetchForCampaigns').resolves();
-      sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').returns({ hasAssessmentEnded: true });
-    });
-
-    context('when the share request comes from the owner of the assessment', () => {
-
-      context('when the assessmentId is in the database', () => {
-
-        beforeEach(() => {
-          assessmentRepository.getByCampaignParticipationId.resolves(assessment);
-          sinon.stub(campaignParticipationRepository, 'share').resolves();
-
-          // when
-          return usecases.shareCampaignResult({
-            userId,
-            campaignParticipationId,
-            assessmentId,
-            assessmentRepository,
-            answerRepository,
-            challengeRepository,
-            campaignParticipationRepository,
-            knowledgeElementRepository,
-            campaignRepository,
-            targetProfileRepository,
-            improvementService,
-          });
-
-        });
-
-        it('should have retrieved the assessment by campaign participation id', () => {
-          expect(assessmentRepository.getByCampaignParticipationId).to.have.been.calledWithExactly(campaignParticipationId);
-        });
-
-        it('should fetch the next challenge', () => {
-          expect(dataFetcher.fetchForCampaigns).to.have.been.calledWithExactly({
-            assessment,
-            answerRepository,
-            challengeRepository,
-            targetProfileRepository,
-            knowledgeElementRepository,
-            improvementService,
-          });
-        });
-
-        it('should return a CampaignParticipationResultsShared event', async () => {
-          // when
-          const result = await usecases.shareCampaignResult({
-            userId,
-            campaignParticipationId,
-            assessmentId,
-            assessmentRepository,
-            answerRepository,
-            campaignParticipationRepository,
-            knowledgeElementRepository,
-            challengeRepository,
-            campaignRepository,
-            targetProfileRepository,
-            improvementService,
-          });
-
-          // then
-          expect(result).to.be.an.instanceof(CampaignParticipationResultsShared);
-          expect(result.campaignParticipationId).to.equal(campaignParticipationId);
-          expect(result.userId).to.equal(userId);
-        });
-      });
-
-      context('when the assessment is not in the database', () => {
-
-        beforeEach(() => {
-          assessmentRepository.getByCampaignParticipationId.rejects(new NotFoundError());
-        });
-
-        it('should reject with a Not Found Error', () => {
-          // when
-          const promise = usecases.shareCampaignResult({
-            userId,
-            assessmentRepository,
-            answerRepository,
-            challengeRepository,
-            campaignParticipationRepository,
-            knowledgeElementRepository,
-            campaignRepository,
-            targetProfileRepository,
-            improvementService,
-          });
-
-          // then
-          return expect(promise).to.have.been.rejectedWith(NotFoundError);
-        });
-      });
-
-      context('when the campaign is archived', () => {
-
-        beforeEach(() => {
-          // given
-          campaign = domainBuilder.buildCampaign.ofTypeAssessment({ archivedAt: new Date() });
-
-          assessmentRepository.getByCampaignParticipationId.resolves(assessment);
-          campaignRepository.get.resolves(campaign);
-        });
-
-        it('should reject an CampaignAlreadyArchivedError error', async () => {
-          // when
-          const err = await catchErr(usecases.shareCampaignResult)({
-            userId,
-            campaignParticipationId,
-            assessmentId,
-            assessmentRepository,
-            answerRepository,
-            challengeRepository,
-            campaignParticipationRepository,
-            knowledgeElementRepository,
-            campaignRepository,
-            targetProfileRepository,
-            improvementService,
-          });
-
-          // then
-          expect(err).to.be.instanceOf(CampaignAlreadyArchivedError);
-        });
-      });
-    });
-
-    context('when the share request does not come from the owner of the assessment', () => {
-
-      beforeEach(() => {
-        assessmentRepository.getByCampaignParticipationId.resolves(assessment);
-      });
-
-      it('should reject an UserNotAuthorizedToAccessEntity error', () => {
-        // given
-        const wrongUserId = userId + 1;
-
-        // when
-        const promise = usecases.shareCampaignResult({
-          userId: wrongUserId,
-          campaignParticipationId,
-          assessmentId,
-          assessmentRepository,
-          answerRepository,
-          challengeRepository,
-          campaignParticipationRepository,
-          knowledgeElementRepository,
-          campaignRepository,
-          targetProfileRepository,
-          improvementService,
-        });
-
-        // then
-        return expect(promise).to.have.been.rejectedWith(UserNotAuthorizedToAccessEntity);
-      });
-    });
+    // then
+    expect(error).to.be.instanceOf(CampaignAlreadyArchivedError);
   });
 
-  context('when campaign is of type PROFILES_COLLECTION', () => {
-
-    beforeEach(() => {
-      campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
-      campaignParticipation = domainBuilder.buildCampaignParticipation({
-        campaignId: campaign.id,
-      });
-      campaignParticipationId = campaignParticipation.id;
-
-      sinon.stub(campaignRepository, 'get').resolves(campaign);
-      sinon.stub(campaignParticipationRepository, 'get').resolves(campaignParticipation);
-    });
-
-    it('should return a CampaignParticipationResultsShared event', async () => {
+  context('when the campaign is of type assessment', () => {
+    it('should throw a AssessmentNotCompletedError error when latest assessment of participation is not completed', async () => {
       // given
-      sinon.stub(campaignParticipationRepository, 'share').resolves();
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId, campaignId });
+      campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign.ofTypeAssessment({ id: campaignId, archivedAt: null }));
+      campaignParticipationRepository.isAssessmentCompleted.withArgs(campaignParticipationId).resolves(false);
 
       // when
-      const result = await usecases.shareCampaignResult({
-        userId,
-        campaignParticipationId,
-        campaignParticipationRepository,
-        campaignRepository,
-      });
+      const error = await catchErr(usecases.shareCampaignResult)({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
 
       // then
-      expect(result).to.be.an.instanceof(CampaignParticipationResultsShared);
-      expect(result.campaignParticipationId).to.equal(campaignParticipationId);
-      expect(result.userId).to.equal(userId);
+      expect(error).to.be.instanceOf(AssessmentNotCompletedError);
     });
 
-    context('when the campaign is archived', () => {
+    it('should share successfully the participation when latest assessment is completed', async () => {
+      // given
+      const campaignParticipation = { id: campaignParticipationId, userId, campaignId };
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign.ofTypeAssessment({ id: campaignId, archivedAt: null }));
+      campaignParticipationRepository.isAssessmentCompleted.withArgs(campaignParticipationId).resolves(true);
 
-      beforeEach(() => {
-        // given
-        campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({ archivedAt: new Date() });
-        campaignRepository.get.resolves(campaign);
-      });
+      // when
+      await usecases.shareCampaignResult({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
 
-      it('should reject an CampaignAlreadyArchivedError error', async () => {
-        // when
-        const error = await catchErr(usecases.shareCampaignResult)({
-          userId,
-          campaignParticipationId,
-          campaignParticipationRepository,
-          campaignRepository,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(CampaignAlreadyArchivedError);
-      });
+      // then
+      expect(campaignParticipationRepository.share).to.have.been.calledWith(campaignParticipation);
     });
 
+    it('should return the CampaignParticipationResultsShared event', async () => {
+      // given
+      const campaignParticipation = { id: campaignParticipationId, userId, campaignId };
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign.ofTypeAssessment({ id: campaignId, archivedAt: null, organizationId }));
+      campaignParticipationRepository.isAssessmentCompleted.withArgs(campaignParticipationId).resolves(true);
+
+      // when
+      const actualEvent = await usecases.shareCampaignResult({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
+
+      // then
+      expect(actualEvent).to.deep.equal({
+        campaignId,
+        isAssessment: true,
+        campaignParticipationId,
+        userId,
+        organizationId,
+      });
+      expect(actualEvent).to.be.instanceOf(CampaignParticipationResultsShared);
+    });
+  });
+
+  context('when the campaign is of type profiles collection', () => {
+    it('should share successfully the participation', async () => {
+      // given
+      const campaignParticipation = { id: campaignParticipationId, userId, campaignId };
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign.ofTypeProfilesCollection({ id: campaignId, archivedAt: null }));
+
+      // when
+      await usecases.shareCampaignResult({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
+
+      // then
+      expect(campaignParticipationRepository.share).to.have.been.calledWith(campaignParticipation);
+    });
+
+    it('should return the CampaignParticipationResultsShared event', async () => {
+      // given
+      const campaignParticipation = { id: campaignParticipationId, userId, campaignId };
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+      campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign.ofTypeProfilesCollection({ id: campaignId, archivedAt: null, organizationId }));
+
+      // when
+      const actualEvent = await usecases.shareCampaignResult({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
+
+      // then
+      expect(actualEvent).to.deep.equal({
+        campaignId,
+        isAssessment: false,
+        campaignParticipationId,
+        userId,
+        organizationId,
+      });
+      expect(actualEvent).to.be.instanceOf(CampaignParticipationResultsShared);
+    });
   });
 });
