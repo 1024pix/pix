@@ -36,6 +36,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
           externalId: 'ABCDEF123',
           birthdate: '1990-07-12',
           extraTimePercentage: '0.05',
+          schoolingRegistrationId: null,
         });
 
         delete certificationCandidate.id;

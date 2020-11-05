@@ -34,18 +34,37 @@
     </tbody>
   </table>
 
-  {{#if this.hasCheckedSomething}}
+  {{#if this.showStickyBar}}
     <div class="add-student-list__bottom-action-bar">
-      <LinkTo 
-        @route="authenticated.sessions.details.certification-candidates" 
-        @model={{@session.id}}
-        class="add-student-list__cancel-button button button--link button--grey"
-        type="button">
-        Annuler
-      </LinkTo>
-      <PixButton
-        {{on 'click' this.enrollStudents}}
-        class="button button--link">Ajouter</PixButton>
+
+      <div class="bottom-action-bar__informations">
+        <p class="bottom-action-bar__informations--candidates-selected">
+          {{#if this.numberOfStudentsSelected}}
+            {{this.numberOfStudentsSelected}} candidat(s) sélectionné(s)
+          {{else}}
+            Aucun candidat sélectionné
+          {{/if}}
+        </p>
+        <span class="bottom-action-bar__seperator"></span>
+        <p class="bottom-action-bar__informations--candidates-already-added">
+          {{this.numberOfStudentsAlreadyCandidate}} candidat(s) déjà ajouté(s) à la session
+        </p>
+      </div>
+
+      <div class="bottom-action-bar__actions">
+        <LinkTo
+          @route="authenticated.sessions.details.certification-candidates"
+          @model={{@session.id}}
+          class="bottom-action-bar__actions--cancel-button button button--link button--grey"
+          type="button">
+          Annuler
+        </LinkTo>
+        <PixButton {{on 'click' this.enrollStudents}}
+          class="bottom-action-bar__actions--add-button button button--link {{if this.hasCheckedSomething "" "button--disabled"}}">
+          Ajouter
+        </PixButton>
+      </div>
+
     </div>
   {{/if}}
 </div>

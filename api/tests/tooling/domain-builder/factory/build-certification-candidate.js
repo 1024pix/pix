@@ -23,6 +23,7 @@ module.exports = function buildCertificationCandidate(
     // references
     sessionId = faker.random.number(),
     userId = faker.random.number(),
+    schoolingRegistrationId,
   } = {}) {
 
   const certificationCandidate = new CertificationCandidate({
@@ -42,6 +43,7 @@ module.exports = function buildCertificationCandidate(
     hasSeendEndTestScreen,
     createdAt,
     userId,
+    schoolingRegistrationId,
   });
 
   return certificationCandidate;
