@@ -3,7 +3,6 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { schedule } from '@ember/runloop';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 
@@ -15,17 +14,17 @@ export default class CertificationInformationsController extends Controller {
   MAX_REACHABLE_LEVEL = 5;
   MAX_REACHABLE_PIX_BY_COMPETENCE = 40;
 
+  // Dependency injection
+  @service notifications;
+  @service markStore;
+
   // Properties
   @alias('model') certification;
-  @tracked edition = false;
-  @service notifications;
   @tracked displayConfirm = false;
-  @tracked confirmMessage = '';
-  @tracked confirmErrorMessage = '';
+  @tracked confirmErrorMessage = null;
 
   // private properties
   _competencesCopy = null;
-  @service('mark-store') _markStore;
 
   @computed('certification.status')
   get isValid() {
@@ -46,13 +45,11 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onEdit() {
-    this.edition = true;
     this._competencesCopy = this._copyCompetences();
   }
 
   @action
   onCancel() {
-    this.edition = false;
     this.certification.rollbackAttributes();
     if (this._competencesCopy) {
       this.certification.competencesWithMark = this._competencesCopy;
@@ -62,12 +59,8 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onSaveConfirm() {
-    const confirmMessage = 'Souhaitez-vous mettre à jour cette certification ?';
     const errors = this._getCertificationErrorsAfterJuryUpdateIfAny();
-    const confirmErrorMessage = this._formatErrorsToHtmlString(errors);
-
-    this.confirmMessage = confirmMessage;
-    this.confirmErrorMessage = confirmErrorMessage;
+    this.confirmErrorMessage = this._formatErrorsToHtmlString(errors);
     this.displayConfirm = true;
   }
 
@@ -78,8 +71,8 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   async onSave() {
-    const markUpdatedRequired = this.certification.hasDirtyAttributes;
     this.displayConfirm = false;
+    const markUpdatedRequired = this.certification.hasDirtyAttributes;
     try {
       await this.saveWithoutUpdatingCompetenceMarks();
 
@@ -88,7 +81,6 @@ export default class CertificationInformationsController extends Controller {
       }
 
       this.notifications.success('Modifications enregistrées');
-      this.edition = false;
       this._competencesCopy = null;
 
     } catch (e) {
@@ -122,8 +114,8 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onCheckMarks() {
-    if (this._markStore.hasState()) {
-      const state = this._markStore.getState();
+    if (this.markStore.hasState()) {
+      const state = this.markStore.getState();
       this.certification.pixScore = state.score ;
       const newCompetences = Object.entries(state.marks)
         .map(([code, mark]) => {
@@ -136,9 +128,6 @@ export default class CertificationInformationsController extends Controller {
           };
         });
       this.certification.competencesWithMark = A(newCompetences);
-      schedule('afterRender', this, () => {
-        this.edition = true;
-      });
     }
   }
 

@@ -1,6 +1,6 @@
 /* Layout */
 
-.display_flex {
+.flex {
   display: flex;
 }
 
@@ -18,13 +18,62 @@
   margin-right: 5px;
 }
 
+.mr_10 {
+  margin-right: 10px;
+}
+
 .ml_5 {
   margin-left: 5px;
 }
 
+/* Paddings */
+.p_0 {
+  padding: 0;
+}
 
 /* Others */
 
 .hidden {
   display: none;
+}
+
+/* Item numbers */
+
+.item-number {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 6px 14px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 36px;
+  margin-right: 10px;
+  font-family: Arial, sans-serif;
+
+  &.one {
+    color: #3E68FF;
+    background: #EBEEFF;
+
+    &::after {
+      content: "1";
+    }
+  }
+
+  &.two {
+    color: #8C49FF;
+    background: #F2EBFF;
+
+    &::after {
+      content: "2";
+    }
+  }
+
+  &.three {
+    color: #1B8D87;
+    background: #E9F2F2;
+
+    &::after {
+      content: "3";
+    }
+  }
 }

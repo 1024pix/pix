@@ -1,0 +1,25 @@
+.entry-field {
+  margin-bottom: 20px;
+
+  label {
+    margin-bottom: 4px;
+    color: #7A869A;
+  }
+
+  input, textarea {
+    width: 100%;
+  }
+
+  textarea {
+    margin-bottom: 20px;
+  }
+
+  .ember-flatpickr-input.form-control.input {
+    line-height: 24px;
+    border: 1px solid #767676;
+    padding: 1px 2px;
+    height: 30px;
+    border-radius: 3px;
+    color: #000000;
+  }
+}

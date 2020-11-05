@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
-import { getSettledState, settled } from '@ember/test-helpers';
 
 import EmberObject from '@ember/object';
 
@@ -208,9 +207,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // when
         await controller.onSaveConfirm();
         // then
-        assert.equal(controller.confirmAction, 'onSave');
         assert.ok(controller.displayConfirm);
-        assert.ok(controller.confirmMessage);
         assert.notOk(controller.confirmErrorMessage);
 
       });
@@ -239,9 +236,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // then
         const levelErrorRegexp = `.*niveau.*${anExistingCompetenceCode}.*${controller.MAX_REACHABLE_LEVEL}`;
         const scoreErrorRegexp = `.*nombre de pix.*${anotherExistingCompetenceCode}.*${controller.MAX_REACHABLE_PIX_BY_COMPETENCE}`;
-        assert.equal(controller.confirmAction, 'onSave');
         assert.ok(controller.displayConfirm);
-        assert.ok(controller.confirmMessage);
         assert.ok(controller.confirmErrorMessage.match(new RegExp(levelErrorRegexp)));
         assert.ok(controller.confirmErrorMessage.match(new RegExp(scoreErrorRegexp)));
       });
@@ -294,15 +289,10 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
         // when
         await controller.onCheckMarks();
-        const state = await getSettledState();
 
         // then
         assert.equal(controller.certification.pixScore, score);
         assert.deepEqual(controller.certification.competencesWithMark, expectedCompetencesWithMark);
-        assert.ok(state.hasPendingTimers);
-
-        await settled();
-        assert.ok(controller.edition);
       });
     });
   });

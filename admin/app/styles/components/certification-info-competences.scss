@@ -1,0 +1,24 @@
+.certification-info-competences {
+  padding: 0 20px;
+
+  &__headers {
+    display: flex;
+    font-weight: 500;
+  }
+
+  &__header {
+    flex: 1;
+    padding: 5px;
+  }
+
+  &__row {
+    display: flex;
+    border-top: 1px solid #DFE1E6;
+  }
+
+  &__cell {
+    flex: 1;
+    padding: 5px;
+  }
+}
+

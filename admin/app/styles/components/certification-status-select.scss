@@ -1,0 +1,16 @@
+.certification-status-select {
+
+  .ember-basic-dropdown-trigger {
+    min-height: 0;
+  }
+
+  .ember-power-select-trigger {
+    line-height: 24px;
+    border: 1px solid #767676;
+    padding: 1px 2px;
+    height: 30px;
+    border-radius: 3px;
+    color: #000000;
+    width: 100%;
+  }
+}

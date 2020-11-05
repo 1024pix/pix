@@ -1,20 +1,48 @@
 .certification-informations {
-  padding: 20px;
-
-  &__actions {
-    text-align: center;
-  }
-
-  &__published-float {
-    float: right;
-  }
 
   &__clea--acquired .certification-info-value {
     color: $success;
     font-weight: bold;
   }
+
   &__clea--rejected .certification-info-value {
     color: $error;
     font-weight: bold;
+  }
+
+  .page-section {
+    padding: 0;
+    margin-bottom: 20px;
+
+    &__header {
+      margin-bottom: 0;
+    }
+  }
+
+  .highlight-block {
+    background: #F4F5F7;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+
+    > .entry-field {
+      margin-bottom: 0;
+    }
+  }
+
+  .workflow-step {
+
+    &--candidate,
+    &--verdict {
+      flex: 1;
+    }
+
+    &--results {
+      flex: 2;
+    }
+  }
+
+  .btn--save {
+    width: 120px;
   }
 }

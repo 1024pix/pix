@@ -1,4 +1,4 @@
-import CertificationInfoField from './certification-info-field';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import find from 'lodash/find';
@@ -10,7 +10,7 @@ const options = [
   { value: 'rejected', label: 'Rejetée' },
 ];
 
-export default class CertificationStatusSelect extends CertificationInfoField {
+export default class CertificationStatusSelect extends Component {
 
   @tracked selectedOption = null;
 
@@ -18,6 +18,13 @@ export default class CertificationStatusSelect extends CertificationInfoField {
     super(...arguments);
     this.statusOptions = options;
     this.selectedOption = this.getOption(this.args.certification.status);
+  }
+
+  get certificationStatusTitle() {
+    if (!this.args.certification) {
+      return 'N/A';
+    }
+    return this.getOption(this.args.certification.status).label;
   }
 
   getOption(optionValue) {
