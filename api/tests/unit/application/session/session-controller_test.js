@@ -15,6 +15,7 @@ const requestResponseUtils = require('../../../../lib/infrastructure/utils/reque
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
+const { UserAlreadyLinkedEvent, UserLinkedEvent  } = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
 
 function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
   return {
@@ -521,7 +522,9 @@ describe('Unit | Controller | sessionController', () => {
       // given
       firstName = 'firstName';
       lastName = 'lastName';
-      sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(linkedCertificationCandidate).returns(serializedCertificationCandidate);
+      sinon.stub(certificationCandidateSerializer, 'serialize')
+        .withArgs(linkedCertificationCandidate)
+        .returns(serializedCertificationCandidate);
     });
 
     it('trims the firstname and lastname', async () => {
@@ -546,21 +549,18 @@ describe('Unit | Controller | sessionController', () => {
 
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
-            linkCreated: false,
-            certificationCandidate: linkedCertificationCandidate,
-          });
+          .withArgs({ userId, sessionId, firstName, lastName, birthdate })
+          .resolves(new UserAlreadyLinkedEvent(linkedCertificationCandidate));
       });
 
       it('should return a certification candidate', async () => {
         // given
         const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
         // when
-        await sessionController.createCandidateParticipation(request, hFake);
+        const response = await sessionController.createCandidateParticipation(request, hFake);
 
         // then
-        sinon.assert.calledOnce(certificationCandidateSerializer.serialize);
-        sinon.assert.calledWith(certificationCandidateSerializer.serialize, linkedCertificationCandidate);
+        expect(response).to.equals(serializedCertificationCandidate);
       });
 
     });
@@ -569,10 +569,8 @@ describe('Unit | Controller | sessionController', () => {
 
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
-            linkCreated: true,
-            certificationCandidate: linkedCertificationCandidate,
-          });
+          .withArgs({ userId, sessionId, firstName, lastName, birthdate })
+          .resolves(new UserLinkedEvent(linkedCertificationCandidate));
       });
 
       it('should return a certification candidate', async () => {
@@ -583,9 +581,8 @@ describe('Unit | Controller | sessionController', () => {
         const response = await sessionController.createCandidateParticipation(request, hFake);
 
         // then
-        sinon.assert.calledOnce(certificationCandidateSerializer.serialize);
-        sinon.assert.calledWith(certificationCandidateSerializer.serialize, linkedCertificationCandidate);
         expect(response.statusCode).to.equal(201);
+        expect(response.source).to.equals(serializedCertificationCandidate);
       });
 
     });

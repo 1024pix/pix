@@ -1,4 +1,4 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
+const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const usecases = require('../../../../lib/domain/usecases');
 const {
@@ -9,6 +9,7 @@ const {
   CertificationCandidatePersonalInfoWrongFormat,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../../../../lib/domain/errors');
+const { UserLinkedEvent, UserAlreadyLinkedEvent } = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
 
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
   const sessionId = 42;
@@ -134,7 +135,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       context('when the linked user is the same as the user being linked', () => {
 
         beforeEach(() => {
-          certificationCandidate = { userId };
+          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId });
           sinon.stub(certificationCandidateRepository,
             'findBySessionIdAndPersonalInfo')
             .withArgs({
@@ -157,15 +158,16 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
 
           // then
-          expect(result.linkCreated).to.be.false;
-          expect(result.certificationCandidate).to.equal(certificationCandidate);
+          expect(result).to.deep.equal(
+            new UserAlreadyLinkedEvent(certificationCandidate),
+          );
         });
       });
 
       context('when the linked user is the not the same as the user being linked', () => {
 
         beforeEach(() => {
-          certificationCandidate = { userId: 'otherUserId' };
+          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: 'otherUserId' });
           sinon.stub(certificationCandidateRepository,
             'findBySessionIdAndPersonalInfo')
             .withArgs({
@@ -197,7 +199,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       context('when the user is already linked to another candidate in the session', () => {
 
         beforeEach(() => {
-          certificationCandidate = { userId: null };
+          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null });
           sinon.stub(certificationCandidateRepository,
             'findBySessionIdAndPersonalInfo')
             .withArgs({
@@ -229,7 +231,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       context('when the user is not linked to any candidate in this session', () => {
 
         beforeEach(() => {
-          certificationCandidate = { userId: null, id: 'candidateId' };
+          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null, id: 'candidateId' });
           sinon.stub(certificationCandidateRepository, 'findBySessionIdAndPersonalInfo')
             .withArgs({
               sessionId,
@@ -259,7 +261,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
 
           // then
-          expect(result.linkCreated).to.be.true;
+          expect(result).to.deep.equal(new UserLinkedEvent(certificationCandidate));
           sinon.assert.calledWith(certificationCandidateRepository.linkToUser, { id: certificationCandidate.id, userId });
         });
       });

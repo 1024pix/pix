@@ -7,7 +7,7 @@ const {
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../errors');
 
-module.exports = async function linkUserToSessionCertificationCandidate({
+async function linkUserToSessionCertificationCandidate({
   userId,
   sessionId,
   firstName,
@@ -25,47 +25,37 @@ module.exports = async function linkUserToSessionCertificationCandidate({
 
   const certificationCandidate = await _getSessionCertificationCandidateByPersonalInfo({
     sessionId,
-    firstName: participatingCertificationCandidate.firstName,
-    lastName: participatingCertificationCandidate.lastName,
-    birthdate: participatingCertificationCandidate.birthdate,
+    participatingCertificationCandidate,
     certificationCandidateRepository,
   });
 
-  if (_.isNil(certificationCandidate.userId)) {
+  if (!certificationCandidate.isLinkedToAUser()) {
     const linkedCertificationCandidate = await _linkUserToCandidate({
       sessionId,
       userId,
       certificationCandidate,
       certificationCandidateRepository,
     });
-    return {
-      linkCreated: true,
-      certificationCandidate: linkedCertificationCandidate,
-    };
+    return new UserLinkedEvent(linkedCertificationCandidate);
   }
 
-  if (certificationCandidate.userId === userId) {
-    return {
-      linkCreated: false,
-      certificationCandidate,
-    };
+  if (certificationCandidate.isLinkedToUserId(userId)) {
+    return new UserAlreadyLinkedEvent(certificationCandidate);
+  } else {
+    throw new CertificationCandidateAlreadyLinkedToUserError();
   }
-
-  throw new CertificationCandidateAlreadyLinkedToUserError('A user has already been linked to the certification candidate');
-};
+}
 
 async function _getSessionCertificationCandidateByPersonalInfo({
   sessionId,
-  firstName,
-  lastName,
-  birthdate,
+  participatingCertificationCandidate,
   certificationCandidateRepository,
 }) {
   const matchingSessionCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({
     sessionId,
-    firstName,
-    lastName,
-    birthdate,
+    firstName: participatingCertificationCandidate.firstName,
+    lastName: participatingCertificationCandidate.lastName,
+    birthdate: participatingCertificationCandidate.birthdate,
   });
   if (_.isEmpty(matchingSessionCandidates)) {
     throw new CertificationCandidateByPersonalInfoNotFoundError('No certification candidate matches with the provided personal info');
@@ -98,3 +88,22 @@ async function _linkUserToCandidate({
   });
   return certificationCandidate;
 }
+
+class UserLinkedEvent {
+  constructor(certificationCandidate) {
+    this.certificationCandidate = certificationCandidate;
+  }
+}
+
+class UserAlreadyLinkedEvent {
+  constructor(certificationCandidate) {
+    this.certificationCandidate = certificationCandidate;
+  }
+}
+
+module.exports = {
+  linkUserToSessionCertificationCandidate,
+  UserAlreadyLinkedEvent,
+  UserLinkedEvent,
+};
+
