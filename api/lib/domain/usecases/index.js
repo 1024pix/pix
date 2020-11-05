@@ -193,7 +193,7 @@ module.exports = injectDependencies({
   importHigherSchoolingRegistrations: require('./import-higher-schooling-registrations'),
   importSchoolingRegistrationsFromSIECLEFormat: require('./import-schooling-registrations-from-siecle'),
   improveCompetenceEvaluation: require('./improve-competence-evaluation'),
-  linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate'),
+  linkUserToSessionCertificationCandidate: require('./link-user-to-session-certification-candidate').linkUserToSessionCertificationCandidate,
   reconcileHigherSchoolingRegistration: require('./reconcile-higher-schooling-registration'),
   reconcileSchoolingRegistration: require('./reconcile-schooling-registration'),
   reconcileUserToOrganization: require('./reconcile-user-to-organization'),
