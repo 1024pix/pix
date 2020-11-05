@@ -1,6 +1,7 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
+const Assessment = require('../../domain/models/Assessment');
 const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
 const { NotFoundError } = require('../../domain/errors');
@@ -143,6 +144,19 @@ module.exports = {
 
   countSharedParticipationOfCampaign(campaignId) {
     return this.count({ campaignId, isShared: true });
+  },
+
+  async isAssessmentCompleted(campaignParticipationId) {
+    const assessment = await knex('assessments')
+      .select('state')
+      .where({ campaignParticipationId })
+      .orderBy('assessments.createdAt', 'desc')
+      .first();
+
+    if (assessment) {
+      return assessment.state === Assessment.states.COMPLETED;
+    }
+    return false;
   },
 };
 
