@@ -10,7 +10,14 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     const certificationCandidates = await this.store.query('certification-candidate', {
       sessionId: params.session_id,
     });
-    return { session, students, certificationCandidates };
+
+    students.forEach((student) => {
+      const isEnrolled = certificationCandidates.toArray()
+        .some((candidate) => candidate.schoolingRegistrationId === student.id);
+      student.isEnrolled = isEnrolled;
+    });
+
+    return { session, students };
   }
 
   setupController(controller, model) {
