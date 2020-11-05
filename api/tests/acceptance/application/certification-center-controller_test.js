@@ -218,20 +218,21 @@ describe('Acceptance | API | Certification Center', () => {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/session/{sessionId}/students', () => {let request;
+  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', () => {
+    let request;
     const externalId = 'XXXX';
 
     function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/session/' + session.id + '/students',
+        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     }
     function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/session/' + session.id + '/students',
+        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students',
       };
     }
 
