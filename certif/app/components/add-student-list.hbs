@@ -18,21 +18,32 @@
     </thead>
     <tbody>
       {{#each @studentList as |student|}}
-        <tr class="add-student-list__row {{if student.isEnrolled 'add-student-list__row--disabled'}}" {{on 'click' (fn this.toggleItem student)}}>
-          <td class="add-student-list__column-checkbox">
-            {{#if student.isEnrolled}}
-              <CertifCheckbox @state='checked' />
-            {{else}}
+        {{#if student.isEnrolled}}
+          <tr class="add-student-list__row add-student-list__row--disabled">
+            <td class="add-student-list__column-checkbox">
               <CertifCheckbox
-                @state={{if student.isSelected 'checked' 'unchecked'}}
-                {{on 'click' (fn this.toggleItem student)}} />
-            {{/if}}
-          </td>
-          <td>{{student.division}}</td>
-          <td>{{student.lastName}}</td>
-          <td>{{student.firstName}}</td>
-          <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
-        </tr>
+                      @state='checked'
+                      class='button--disabled'
+              />
+            </td>
+            <td>{{student.division}}</td>
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
+          </tr>
+        {{else}}
+          <tr class="add-student-list__row" {{on 'click' (fn this.toggleItem student)}}>
+            <td class="add-student-list__column-checkbox">
+                <CertifCheckbox
+                  @state={{if student.isSelected 'checked' 'unchecked'}}
+                />
+            </td>
+            <td>{{student.division}}</td>
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
+          </tr>
+          {{/if}}
       {{/each}}
     </tbody>
   </table>

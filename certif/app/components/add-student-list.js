@@ -18,7 +18,8 @@ export default class AddStudentList extends Component {
   }
 
   get hasCheckedEverything() {
-    const allCertifReportsAreCheck = this.args.studentList.every((student) => student.isSelected);
+    const enrollableStudentList = this.args.studentList.filter((student) => !student.isEnrolled);
+    const allCertifReportsAreCheck = enrollableStudentList.every((student) => student.isSelected);
     return allCertifReportsAreCheck;
   }
 
@@ -49,7 +50,9 @@ export default class AddStudentList extends Component {
       newState = false;
     }
     this.args.studentList.forEach((student) => {
-      student.isSelected = newState;
+      if (!student.isEnrolled) {
+        student.isSelected = newState;
+      }
     });
   }
 
