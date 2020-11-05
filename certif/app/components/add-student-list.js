@@ -63,6 +63,7 @@ export default class AddStudentList extends Component {
     try {
       await this.args.session.save({ adapterOptions: { studentListToAdd, sessionId } });
       this.args.returnToSessionCandidates(sessionId);
+      this.notifications.success('Le(s) élève(s) ont bien été rajouté(s) à la session !');
     } catch (error) {
       this.notifications.error('Une erreur est survenue au moment d‘enregistrer les candidats... ');
     }
