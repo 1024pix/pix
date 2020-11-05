@@ -11,6 +11,7 @@ function _toDomain(courseDataObject) {
     imageUrl: courseDataObject.imageUrl,
     challenges: courseDataObject.challenges,
     competences: courseDataObject.competences,
+    campaignId: courseDataObject.campaignId,
   });
 }
 
@@ -27,10 +28,27 @@ async function _get(id) {
   }
 }
 
+async function _getByCampaignId(campaignId) {
+  try {
+    const courseDataObject = await courseDatasource.getByCampaignId(campaignId);
+    return _toDomain(courseDataObject);
+  }
+  catch (error) {
+    if (error instanceof AirtableResourceNotFound) {
+      throw new NotFoundError();
+    }
+    throw error;
+  }
+}
+
 module.exports = {
 
   async get(id) {
     return _get(id);
+  },
+
+  async getByCampaignId(campaignId) {
+    return _getByCampaignId(campaignId);
   },
 
   async getCourseName(id) {

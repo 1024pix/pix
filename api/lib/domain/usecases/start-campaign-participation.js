@@ -19,6 +19,17 @@ module.exports = async function startCampaignParticipation({ campaignParticipati
 };
 
 async function _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation) {
+  if (process.env.IS_PIX_CONTEST === 'true') {
+    const assessment = new Assessment({
+      userId,
+      state: Assessment.states.STARTED,
+      type: Assessment.types.CAMPAIGN,
+      courseId: createdCampaignParticipation.campaignId,
+      campaignParticipationId: createdCampaignParticipation.id,
+    });
+    return assessmentRepository.save({ assessment });
+  }
+
   const assessment = new Assessment({
     userId,
     state: Assessment.states.STARTED,

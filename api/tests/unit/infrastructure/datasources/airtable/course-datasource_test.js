@@ -29,6 +29,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
               'url': 'https://example.org/course.png',
             },
           ],
+          'Campagne ID': '10000003',
         },
       });
 
@@ -44,6 +45,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () 
         imageUrl: 'https://example.org/course.png',
 
         challenges: ['recChallenge2', 'recChallenge1'],
+        campaignId: '10000003',
       };
 
       expect(course).to.deep.equal(expectedCourse);
