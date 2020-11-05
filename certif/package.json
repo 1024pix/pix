@@ -24,9 +24,10 @@
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
-    "lint": "npm run lint:js",
+    "lint": "npm run lint:js && npm run lint:hbs && npm run lint:scss",
     "lint:js": "eslint .",
     "lint:hbs": "ember-template-lint .",
+    "lint:scss": "stylelint app/styles/**/*.scss",
     "preinstall": "npx check-engine",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --proxy http://localhost:3000",
@@ -88,6 +89,8 @@
     "p-queue": "^6.3.0",
     "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.14.0",
     "qunit-dom": "^1.4.0",
-    "sass": "^1.26.3"
+    "sass": "^1.26.3",
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0"
   }
 }

@@ -29,11 +29,10 @@ $pix-modal-border-radius: 5px;
       margin-bottom: 5px;
       font-size: 1.2em;
 
-      &> a {
+      & > a {
         display: flex;
         align-items: center;
         justify-content: flex-end;
-
         text-decoration: none;
         color: inherit;
 
@@ -58,7 +57,7 @@ $pix-modal-border-radius: 5px;
       }
 
       &--with-padding {
-          padding: 4vh 4vw;
+        padding: 4vh 4vw;
       }
 
       .pix-modal-header {
@@ -152,7 +151,7 @@ $pix-modal-border-radius: 5px;
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .ember-modal-overlay {
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }

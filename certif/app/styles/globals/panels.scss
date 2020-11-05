@@ -23,7 +23,7 @@
     font-family: $roboto;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: all ease-in-out .2s;
+    transition: all ease-in-out 0.2s;
     text-decoration: none;
 
     &:hover {
@@ -34,32 +34,6 @@
   &-item.active {
     border-bottom: 2px solid $communication-dark;
     color: $communication-dark;
-  }
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-
-  &:hover {
-    .tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
-  &__text {
-    position: absolute;
-    z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -75px;
-
-    &::after {
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-    }
   }
 }
 
@@ -81,5 +55,29 @@
     border-width: 5px;
     border-style: solid;
     border-color: $grey-80 transparent transparent transparent;
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+
+  &:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__text {
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -75px;
+
+    &::after {
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+    }
   }
 }
