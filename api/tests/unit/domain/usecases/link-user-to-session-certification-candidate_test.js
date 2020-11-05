@@ -1,5 +1,4 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
-const CertificationCandidate = require('../../../../lib/domain/models/CertificationCandidate');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
 const usecases = require('../../../../lib/domain/usecases');
 const {
@@ -12,7 +11,7 @@ const {
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
-  const sessionId = 'sessionId';
+  const sessionId = 42;
   const userId = 'userId';
   let firstName;
   let lastName;
@@ -22,7 +21,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
     firstName = 'Charlie';
     lastName = 'Bideau';
     birthdate = '2010-10-10';
-    sinon.stub(CertificationCandidate.prototype, 'validateParticipation');
   });
 
   context('when there is a problem with the personal info', () => {
@@ -31,7 +29,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
       it('should throw a CertificationCandidatePersonalInfoFieldMissingError', async () => {
         // given
-        CertificationCandidate.prototype.validateParticipation.throws({ details: { type: 'any.required' } });
+        firstName = undefined;
 
         // when
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
@@ -52,7 +50,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
       it('should throw a CertificationCandidatePersonalInfoWrongFormat', async () => {
         // given
-        CertificationCandidate.prototype.validateParticipation.throws({ details: { type: 'any.format' } });
+        birthdate = 'invalid format';
 
         // when
         const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({

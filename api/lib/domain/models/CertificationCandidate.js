@@ -1,7 +1,11 @@
 const _ = require('lodash');
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
-const { InvalidCertificationCandidate } = require('../errors');
+const {
+  InvalidCertificationCandidate,
+  CertificationCandidatePersonalInfoFieldMissingError,
+  CertificationCandidatePersonalInfoWrongFormat,
+} = require('../errors');
 
 const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
   firstName: Joi.string().required().empty(null),
@@ -99,7 +103,10 @@ class CertificationCandidate {
   validateParticipation() {
     const { error } = certificationCandidateParticipationJoiSchema.validate(this);
     if (error) {
-      throw error;
+      if (_.endsWith(error.details[0].type, 'required')) {
+        throw new CertificationCandidatePersonalInfoFieldMissingError();
+      }
+      throw new CertificationCandidatePersonalInfoWrongFormat();
     }
   }
 }
