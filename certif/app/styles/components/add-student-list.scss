@@ -47,7 +47,8 @@
     }
   }
 
-  th, td {
+  th,
+  td {
     text-align: left;
     padding-left: 30px;
   }
@@ -81,6 +82,7 @@
       &--candidates-selected {
         font-size: 1.125rem;
       }
+
       &--candidates-already-added {
         font-size: 0.875rem;
       }
@@ -95,6 +97,7 @@
     }
 
     .bottom-action-bar__actions {
+
       .button {
         max-height: 44px;
         margin-left: 16px;
@@ -105,5 +108,4 @@
       }
     }
   }
-
 }
