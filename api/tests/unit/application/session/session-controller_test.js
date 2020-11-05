@@ -16,6 +16,27 @@ const sessionValidator = require('../../../../lib/domain/validators/session-vali
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
 
+function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
+  return {
+    params: { id: sessionId },
+    auth: {
+      credentials: {
+        userId,
+      },
+    },
+    payload: {
+      data: {
+        attributes: {
+          'first-name': firstName,
+          'last-name': lastName,
+          'birthdate': birthdate,
+        },
+        type: 'certification-candidates',
+      },
+    },
+  };
+}
+
 describe('Unit | Controller | sessionController', () => {
 
   let request;
@@ -488,36 +509,37 @@ describe('Unit | Controller | sessionController', () => {
   });
 
   describe('#createCandidateParticipation', () => {
-    let request;
     const sessionId = 1;
     const userId = 2;
-    const firstName = Symbol('firstName');
-    const lastName = Symbol('lastName');
+    let firstName;
+    let lastName;
     const birthdate = Symbol('birthdate');
     const linkedCertificationCandidate = Symbol('candidate');
     const serializedCertificationCandidate = Symbol('sCandidate');
 
     beforeEach(() => {
       // given
-      request = {
-        params: { id : sessionId },
-        auth: {
-          credentials : {
-            userId,
-          },
-        },
-        payload: {
-          data: {
-            attributes: {
-              'first-name': firstName,
-              'last-name': lastName,
-              'birthdate': birthdate,
-            },
-            type: 'certification-candidates',
-          },
-        },
-      };
+      firstName = 'firstName';
+      lastName = 'lastName';
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(linkedCertificationCandidate).returns(serializedCertificationCandidate);
+    });
+
+    it('trims the firstname and lastname', async () => {
+      // given
+      firstName = 'firstName     ';
+      lastName = 'lastName    ';
+      sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
+        .withArgs({ userId, sessionId, firstName: 'firstName', lastName: 'lastName', birthdate }).resolves({
+          linkCreated: false,
+          certificationCandidate: linkedCertificationCandidate,
+        });
+      const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
+
+      // when
+      const response = await sessionController.createCandidateParticipation(request, hFake);
+
+      // then
+      expect(response).to.equal(serializedCertificationCandidate);
     });
 
     context('when the participation already exists', () =>  {
@@ -531,6 +553,8 @@ describe('Unit | Controller | sessionController', () => {
       });
 
       it('should return a certification candidate', async () => {
+        // given
+        const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
         // when
         await sessionController.createCandidateParticipation(request, hFake);
 
@@ -552,6 +576,9 @@ describe('Unit | Controller | sessionController', () => {
       });
 
       it('should return a certification candidate', async () => {
+        // given
+        const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
+
         // when
         const response = await sessionController.createCandidateParticipation(request, hFake);
 

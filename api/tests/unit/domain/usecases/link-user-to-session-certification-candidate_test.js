@@ -11,7 +11,7 @@ const {
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
+describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
   const sessionId = 'sessionId';
   const userId = 'userId';
   let firstName;
@@ -250,26 +250,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candid
         });
 
         it('should create a link and return the linked certification candidate', async () => {
-          // when
-          const result = await usecases.linkUserToSessionCertificationCandidate({
-            sessionId,
-            userId,
-            firstName,
-            lastName,
-            birthdate,
-            certificationCandidateRepository,
-          });
-
-          // then
-          expect(result.linkCreated).to.be.true;
-          sinon.assert.calledWith(certificationCandidateRepository.linkToUser, { id: certificationCandidate.id, userId });
-        });
-
-        it('should trim spaces in first and last name when searching for a candidate', async () => {
-          // given
-          firstName = ` \t${firstName} \t`;
-          lastName = `  \t${lastName} \t`;
-
           // when
           const result = await usecases.linkUserToSessionCertificationCandidate({
             sessionId,

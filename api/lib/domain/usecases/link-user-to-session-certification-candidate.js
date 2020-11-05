@@ -17,14 +17,8 @@ module.exports = async function linkUserToSessionCertificationCandidate({
   birthdate,
   certificationCandidateRepository,
 }) {
-  const trimmedFirstName = firstName
-    ? firstName.trim()
-    : firstName;
-  const trimmedLastName = lastName
-    ? lastName.trim()
-    : lastName;
   const participatingCertificationCandidate = new CertificationCandidate({
-    firstName: trimmedFirstName, lastName: trimmedLastName, birthdate, sessionId });
+    firstName, lastName, birthdate, sessionId });
 
   try {
     participatingCertificationCandidate.validateParticipation();
