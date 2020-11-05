@@ -23,7 +23,7 @@ export default class ResumeRoute extends Route {
     }
     const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
 
-    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+    if (ENV.APP.IS_PIX_CONTEST === 'true') {
       return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
     }
 
@@ -108,7 +108,7 @@ export default class ResumeRoute extends Route {
   }
 
   _routeToResults(assessment) {
-    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+    if (ENV.APP.IS_PIX_CONTEST === 'true') {
       return this.replaceWith('profile');
     }
 

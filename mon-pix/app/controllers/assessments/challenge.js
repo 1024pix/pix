@@ -13,7 +13,7 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
 
   get showLevelup() {
-    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+    if (ENV.APP.IS_PIX_CONTEST === 'true') {
       return false;
     }
     return this.model.assessment.showLevelup && this.newLevel;
