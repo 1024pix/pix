@@ -4,8 +4,6 @@ const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidatePersonalInfoWrongFormat,
-  CertificationCandidatePersonalInfoFieldMissingError,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../errors');
 
@@ -18,16 +16,12 @@ module.exports = async function linkUserToSessionCertificationCandidate({
   certificationCandidateRepository,
 }) {
   const participatingCertificationCandidate = new CertificationCandidate({
-    firstName, lastName, birthdate, sessionId });
-
-  try {
-    participatingCertificationCandidate.validateParticipation();
-  } catch (err) {
-    if (_.endsWith(err.details.type, 'required')) {
-      throw new CertificationCandidatePersonalInfoFieldMissingError();
-    }
-    throw new CertificationCandidatePersonalInfoWrongFormat();
-  }
+    firstName,
+    lastName,
+    birthdate,
+    sessionId,
+  });
+  participatingCertificationCandidate.validateParticipation();
 
   const certificationCandidate = await _getSessionCertificationCandidateByPersonalInfo({
     sessionId,
@@ -38,7 +32,12 @@ module.exports = async function linkUserToSessionCertificationCandidate({
   });
 
   if (_.isNil(certificationCandidate.userId)) {
-    const linkedCertificationCandidate = await _linkUserToCandidate({ sessionId, userId, certificationCandidate, certificationCandidateRepository });
+    const linkedCertificationCandidate = await _linkUserToCandidate({
+      sessionId,
+      userId,
+      certificationCandidate,
+      certificationCandidateRepository,
+    });
     return {
       linkCreated: true,
       certificationCandidate: linkedCertificationCandidate,
@@ -84,12 +83,18 @@ async function _linkUserToCandidate({
   certificationCandidate,
   certificationCandidateRepository,
 }) {
-  const existingCandidateLinkedToUser = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
+  const existingCandidateLinkedToUser = await certificationCandidateRepository.findOneBySessionIdAndUserId({
+    sessionId,
+    userId,
+  });
   if (existingCandidateLinkedToUser) {
     throw new UserAlreadyLinkedToCandidateInSessionError('The user is already linked to a candidate in the given session');
   }
 
   certificationCandidate.userId = userId;
-  await certificationCandidateRepository.linkToUser({ id: certificationCandidate.id, userId: certificationCandidate.userId });
+  await certificationCandidateRepository.linkToUser({
+    id: certificationCandidate.id,
+    userId: certificationCandidate.userId,
+  });
   return certificationCandidate;
 }
