@@ -72,6 +72,7 @@
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
     "samlify": "github:1024pix/samlify#no-xml-validation",
+    "sharp": "^0.26.2",
     "sib-api-v3-sdk": "^7.2.4",
     "xlsx": "^0.16.1",
     "xml-buffer-tostring": "^0.2.0",
