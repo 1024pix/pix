@@ -10,6 +10,7 @@ export default class ChallengeStatement extends Component {
 
   @tracked selectedAttachmentUrl;
   @tracked displayAlternativeInstruction = false;
+  fileDownloadHelpCenterUrl= 'https://support.pix.fr/fr/support/solutions/articles/15000036390';
 
   constructor() {
     super(...arguments);
@@ -37,6 +38,10 @@ export default class ChallengeStatement extends Component {
 
   get id() {
     return 'challenge_statement_' + this.args.challenge.id;
+  }
+
+  get fileDownloadHelpCenterUrl() {
+    return this.fileDownloadHelpCenterUrl;
   }
 
   @action

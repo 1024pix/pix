@@ -343,6 +343,17 @@ describe('Integration | Component | ChallengeStatement', function() {
         expect(find('.challenge-statement__help-icon')).to.exist;
       });
 
+      it('should display instructions regarding downloading issues', async function() {
+        // given
+        addChallengeToContext(this, challenge);
+        addAssessmentToContext(this, { id: '267845' });
+
+        // when
+        await renderChallengeStatement();
+        // then
+        expect(find('.challenge-statement__action-help')).to.exist;
+      });
+
     });
 
   });
