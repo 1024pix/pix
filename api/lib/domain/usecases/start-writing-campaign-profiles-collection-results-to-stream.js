@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
-const CampaignProfilCollectionExport  = require('../../infrastructure/serializers/csv/export-stream');
+const CampaignProfilCollectionExport  = require('../../infrastructure/serializers/csv/campaign-profile-collection-export');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   const user = await userRepository.getWithMemberships(userId);
@@ -41,7 +41,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  campaignProfilCollectionExport(campaignParticipationResultDatas, placementProfileService).then(() => {
+  campaignProfilCollectionExport.export(campaignParticipationResultDatas, placementProfileService).then(() => {
     writableStream.end();
   }).catch((error) => {
     writableStream.emit('error', error);
