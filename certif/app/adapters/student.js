@@ -4,8 +4,10 @@ export default class StudentAdapter extends ApplicationAdapter {
 
   urlForFindAll(modelName, snapshot) {
     const certificationCenterId = snapshot.adapterOptions && snapshot.adapterOptions.certificationCenterId;
-    if (certificationCenterId) {
-      return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/students`;
+    const sessionId = snapshot.adapterOptions && snapshot.adapterOptions.sessionId;
+
+    if (certificationCenterId && sessionId) {
+      return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/sessions/${sessionId}/students`;
     }
     return super.urlForFindAll(...arguments);
   }

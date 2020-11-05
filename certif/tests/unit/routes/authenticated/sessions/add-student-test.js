@@ -8,10 +8,8 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
 
   module('#model', function(hooks) {
     const session_id = 1;
-    const session = Symbol('Ma super session 1');
+    const session = { id: session_id };
     const certificationCenterId = Symbol('certificationCenterId');
-    const students = [{ id: '1', firstName: 'Tom', lastName: 'Dupont' }];
-    const certificationCandidates = [{ firstName: 'Tom', lastName: 'Dupont', schoolingRegistrationId: '1' }];
     const studentEnriched = [{ id: '1', firstName: 'Tom', lastName: 'Dupont', isEnrolled: true }];
     const expectedModel = {
       session,
@@ -28,15 +26,14 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       findRecordStub.withArgs('session', session_id).resolves(session);
       route.store.findRecord = findRecordStub;
       route.modelFor = sinon.stub().returns({ id: certificationCenterId });
-      route.store.findAll = sinon.stub().resolves(students);
-      route.store.query = sinon.stub().resolves(certificationCandidates);
+      route.store.findAll = sinon.stub().resolves(studentEnriched);
 
       // when
       const actualModel = await route.model({ session_id });
 
       // then
       sinon.assert.calledWith(route.modelFor, 'authenticated');
-      sinon.assert.calledWith(route.store.findAll, 'student', { adapterOptions : { certificationCenterId } });
+      sinon.assert.calledWith(route.store.findAll, 'student', { adapterOptions : { certificationCenterId, sessionId: session.id } });
       assert.deepEqual(actualModel, expectedModel);
     });
   });
