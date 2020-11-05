@@ -21,7 +21,7 @@ export default function() {
     return schema.sessions.where({ certificationCenterId });
   });
 
-  this.get('/certification-centers/:id/students', (schema) => {
+  this.get('/certification-centers/:certificationCenterId/sessions/:sessionId/students', (schema) => {
     return schema.students.all();
   });
 
