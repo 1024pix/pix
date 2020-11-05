@@ -11,9 +11,11 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
     const session = Symbol('Ma super session 1');
     const certificationCenterId = Symbol('certificationCenterId');
     const students = Symbol('students');
+    const certificationCandidates = Symbol('certificationCandidates');
     const expectedModel = {
       session,
       students,
+      certificationCandidates,
     };
 
     hooks.beforeEach(function() {
@@ -27,6 +29,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       route.store.findRecord = findRecordStub;
       route.modelFor = sinon.stub().returns({ id: certificationCenterId });
       route.store.findAll = sinon.stub().resolves(students);
+      route.store.query = sinon.stub().resolves(certificationCandidates);
 
       // when
       const actualModel = await route.model({ session_id });

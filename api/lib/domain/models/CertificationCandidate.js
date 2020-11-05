@@ -32,6 +32,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   extraTimePercentage: Joi.any().allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
+  schoolingRegistrationId: Joi.any().allow(null).optional(),
 });
 
 class CertificationCandidate {
@@ -54,6 +55,7 @@ class CertificationCandidate {
       // references
       sessionId,
       userId,
+      schoolingRegistrationId = null,
     } = {}) {
     this.id = id;
     // attributes
@@ -71,6 +73,7 @@ class CertificationCandidate {
     // references
     this.sessionId = sessionId;
     this.userId = userId;
+    this.schoolingRegistrationId = schoolingRegistrationId;
   }
 
   validate(version = '1.3') {

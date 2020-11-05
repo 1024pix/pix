@@ -22,6 +22,20 @@ export default class AddStudentList extends Component {
     return allCertifReportsAreCheck;
   }
 
+  get numberOfStudentsAlreadyCandidate() {
+    return this.args.certificationCandidates ? this.args.certificationCandidates.length : 0;
+  }
+
+  get showStickyBar() {
+    const thereIsAlreadySomeCandidates = this.numberOfStudentsAlreadyCandidate > 0;
+    return this.hasCheckedSomething || thereIsAlreadySomeCandidates;
+  }
+
+  get numberOfStudentsSelected() {
+    const selectedStudents = this.args.studentList.filter((student) => student.isSelected);
+    return selectedStudents.length;
+  }
+
   @action
   toggleItem(item) {
     item.isSelected = !item.isSelected;

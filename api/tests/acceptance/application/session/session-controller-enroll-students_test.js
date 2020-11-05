@@ -131,6 +131,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
                 'external-id': null,
                 'extra-time-percentage': null,
                 'result-recipient-email': null,
+                'schooling-registration-id': student.id,
               },
               'id': sinon.match.string,
               'type': 'certification-candidates',
