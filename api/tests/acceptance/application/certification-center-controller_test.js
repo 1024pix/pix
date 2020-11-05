@@ -218,20 +218,20 @@ describe('Acceptance | API | Certification Center', () => {
     });
   });
 
-  describe('GET /api/certification-centers/{id}/students', () => {let request;
+  describe('GET /api/certification-centers/{certificationCenterId}/session/{sessionId}/students', () => {let request;
     const externalId = 'XXXX';
 
-    function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter) {
+    function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/students',
+        url: '/api/certification-centers/' + certificationCenter.id + '/session/' + session.id + '/students',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     }
-    function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter) {
+    function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/students',
+        url: '/api/certification-centers/' + certificationCenter.id + '/session/' + session.id + '/students',
       };
     }
 
@@ -240,11 +240,12 @@ describe('Acceptance | API | Certification Center', () => {
       it('should return 200 HTTP status', async () => {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
-        const organization = _buildOrganization(externalId);
+        const organization = databaseBuilder.factory.buildOrganization({ externalId });
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
         _buildSchoolingRegistrations(organization, { firstName: 'Laura', lastName: 'certifForEver', division: '2ndB' });
         await databaseBuilder.commit();
 
-        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter);
+        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session);
 
         // when
         const response = await server.inject(request);
@@ -256,7 +257,8 @@ describe('Acceptance | API | Certification Center', () => {
       it('should return the schooling registrations asked', async () => {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
-        const organization = _buildOrganization(externalId);
+        const organization = databaseBuilder.factory.buildOrganization({ externalId });
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
         _buildSchoolingRegistrations(
           organization,
           { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
@@ -267,7 +269,7 @@ describe('Acceptance | API | Certification Center', () => {
         );
         await databaseBuilder.commit();
 
-        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter);
+        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session);
 
         // when
         const response = await server.inject(request);
@@ -281,11 +283,12 @@ describe('Acceptance | API | Certification Center', () => {
         it('should return Forbidden Access when the certificationCenter does not exist', async () => {
           // given
           const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
-          _buildOrganization(externalId);
+          databaseBuilder.factory.buildOrganization({ externalId });
+          const session = databaseBuilder.factory.buildSession();
           await databaseBuilder.commit();
 
           const notExistingCertificationCenter = { id: '10203' };
-          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, notExistingCertificationCenter);
+          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, notExistingCertificationCenter, session);
 
           // when
           const response = await server.inject(request);
@@ -303,11 +306,12 @@ describe('Acceptance | API | Certification Center', () => {
         it('should return Forbidden Access when user are not register in the certificationCenter', async () => {
           // given
           const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
-          _buildOrganization(externalId);
+          databaseBuilder.factory.buildOrganization({ externalId });
           certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
+          const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterWhereUserDoesNotHaveAccess.id });
           await databaseBuilder.commit();
 
-          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenterWhereUserDoesNotHaveAccess);
+          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenterWhereUserDoesNotHaveAccess, session);
 
           // when
           const response = await server.inject(request);
@@ -324,11 +328,12 @@ describe('Acceptance | API | Certification Center', () => {
       it('should return 401 HTTP status code if user is not authenticated', async() => {
         // given
         _buildUserWithCertificationCenterMemberShip(externalId);
-        _buildOrganization(externalId);
+        databaseBuilder.factory.buildOrganization({ externalId });
         const certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
+        const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterWhereUserDoesNotHaveAccess.id });
         await databaseBuilder.commit();
 
-        request = _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenterWhereUserDoesNotHaveAccess);
+        request = _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenterWhereUserDoesNotHaveAccess, session);
 
         // when
         const response = await server.inject(request);
@@ -411,10 +416,6 @@ describe('Acceptance | API | Certification Center', () => {
     });
   });
 
-  function _buildOrganization(externalId) {
-    const organization = databaseBuilder.factory.buildOrganization({ externalId });
-    return organization;
-  }
   function _buildSchoolingRegistrations(organization, ...students) {
     return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student }));
   }

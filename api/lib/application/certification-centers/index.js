@@ -57,7 +57,7 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/certification-centers/{id}/students',
+      path: '/api/certification-centers/{certificationCenterId}/session/{sessionId}/students',
       config: {
         handler: certificationCenterController.getStudents,
         notes: [
