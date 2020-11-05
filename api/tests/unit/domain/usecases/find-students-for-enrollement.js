@@ -2,6 +2,9 @@ const _ = require('lodash');
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { ForbiddenAccess, NotFoundError } = require('../../../../lib/domain/errors');
+const StudentForEnrollement = require('../../../../lib/domain/read-models/StudentForEnrollement');
+
+const findStudentsForEnrollement = require('../../../../lib/domain/usecases/find-students-for-enrollement');
 
 describe('Unit | UseCase | find-students-for-enrollement', () => {
 
@@ -18,6 +21,10 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
 
   const certificationCenterMembershipRepository = {
     doesUserHaveMembershipToCertificationCenter: sinon.stub(),
+  };
+
+  const certificationCandidateRepository = {
+    findBySessionId: sinon.stub(),
   };
 
   beforeEach(async () => {
@@ -39,12 +46,13 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
         organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenterId).rejects(new NotFoundError());
 
         // when
-        const studentsFounds = await usecases.findStudentsForEnrollement({
+        const studentsFounds = await findStudentsForEnrollement({
           userId,
           certificationCenterId,
           organizationRepository,
           schoolingRegistrationRepository,
           certificationCenterMembershipRepository,
+          certificationCandidateRepository,
         });
 
         // then
@@ -52,22 +60,30 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
       });
     });
 
-    it('should return all students who belong to the user\'s organization', async () => {
+    it('should return all students, enrolled or enrollable, regarding a session', async () => {
       // given
-      const expectedStudents = _.times(5, () => domainBuilder.buildSchoolingRegistration({ organization }));
-      schoolingRegistrationRepository.findByOrganizationIdOrderByDivision
-        .withArgs({ organizationId: organization.id }).resolves(expectedStudents);
+      const sessionId = 3;
+      const enrolledStudent = domainBuilder.buildSchoolingRegistration({ organization });
+      const enrollableStudents = _.times(5, () => domainBuilder.buildSchoolingRegistration({ organization }));
+      const certificationCandidates = [ domainBuilder.buildCertificationCandidate({ sessionId, schoolingRegistrationId: enrolledStudent.id }) ];
+      schoolingRegistrationRepository.findByOrganizationIdOrderByDivision.withArgs({ organizationId: organization.id }).resolves([ enrolledStudent, ...enrollableStudents ]);
+      certificationCandidateRepository.findBySessionId.withArgs(sessionId).resolves(certificationCandidates);
 
       // when
-      const studentsFounds = await usecases.findStudentsForEnrollement({
+      const studentsFounds = await findStudentsForEnrollement({
         userId,
         certificationCenterId,
+        sessionId,
+        certificationCenterMembershipRepository,
         organizationRepository,
         schoolingRegistrationRepository,
-        certificationCenterMembershipRepository,
+        certificationCandidateRepository,
       });
 
       // then
+      const expectedEnrolledStudent = new StudentForEnrollement({ ...enrolledStudent, isEnrolled: true });
+      const exepectedEnrollableStudents = enrollableStudents.map((student) => new StudentForEnrollement({ ...student, isEnrolled: false }));
+      const expectedStudents = [ expectedEnrolledStudent, ...exepectedEnrollableStudents ];
       expect(studentsFounds).to.be.deep.equal(expectedStudents);
     });
 
@@ -79,12 +95,13 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
           .withArgs({ organizationId: organization.id }).resolves([]);
 
         // when
-        const studentsFounds = await usecases.findStudentsForEnrollement({
+        const studentsFounds = await findStudentsForEnrollement({
           userId,
           certificationCenterId,
           organizationRepository,
           schoolingRegistrationRepository,
           certificationCenterMembershipRepository,
+          certificationCandidateRepository,
         });
 
         // then
