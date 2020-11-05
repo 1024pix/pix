@@ -1,5 +1,6 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { updateOrganizationInformation } = require('../../../../lib/domain/usecases');
+const { logoDimensions } = require('../../../../lib/domain/models/Organization');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-organization-information', () => {
@@ -69,8 +70,8 @@ describe('Unit | UseCase | update-organization-information', () => {
       imageUtils.scaleDownBase64FormattedImage
         .withArgs({
           originImage: newLogoUrl,
-          height: sinon.match.number,
-          width: sinon.match.number,
+          height: logoDimensions.HEIGHT,
+          width: logoDimensions.WIDTH,
         }).resolves({ scaledDownImage: scaledDownNewLogo });
 
       // when

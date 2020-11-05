@@ -1,5 +1,4 @@
-const ORGANIZATION_LOGO_URL_HEIGHT = 70;
-const ORGANIZATION_LOGO_URL_WIDTH = 70;
+const { logoDimensions } = require('../models/Organization');
 
 module.exports = async function updateOrganizationInformation({
   id,
@@ -22,8 +21,8 @@ module.exports = async function updateOrganizationInformation({
   if (logoUrl) {
     const { scaledDownImage } = await imageUtils.scaleDownBase64FormattedImage({
       originImage: logoUrl,
-      height: ORGANIZATION_LOGO_URL_HEIGHT,
-      width: ORGANIZATION_LOGO_URL_WIDTH,
+      height: logoDimensions.HEIGHT,
+      width: logoDimensions.WIDTH,
     });
     organization.logoUrl = scaledDownImage;
   }

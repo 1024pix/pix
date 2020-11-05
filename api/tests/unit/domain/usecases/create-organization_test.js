@@ -6,6 +6,10 @@ const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization', () => {
 
+  const imageUtils = {
+    scaleDownBase64FormattedImage: sinon.stub(),
+  };
+
   beforeEach(() => {
     sinon.stub(organizationCreationValidator, 'validate');
   });
@@ -27,10 +31,28 @@ describe('Unit | UseCase | create-organization', () => {
 
     it('should validate params (name + type)', async () => {
       // when
-      await createOrganization({ name, type, externalId, provinceCode, organizationRepository });
+      await createOrganization({ name, type, externalId, provinceCode, organizationRepository, imageUtils });
 
       // then
       expect(organizationCreationValidator.validate).to.have.been.calledWithExactly({ name, type });
+    });
+
+    it('should scale down image if one is provided', async () => {
+      // given
+      const newLogoUrl = 'http://new.logo.url';
+      const scaledDownNewLogo = Symbol('scaledDownLogo');
+      imageUtils.scaleDownBase64FormattedImage
+        .withArgs({
+          originImage: newLogoUrl,
+          height: Organization.logoDimensions.HEIGHT,
+          width: Organization.logoDimensions.WIDTH,
+        }).resolves({ scaledDownImage: scaledDownNewLogo });
+
+      // when
+      await createOrganization({ name, type, logoUrl: newLogoUrl, organizationRepository, imageUtils });
+
+      // then
+      expect(organizationRepository.create).to.have.been.calledWithMatch({ name, type, logoUrl: scaledDownNewLogo });
     });
 
     it('should create a new Organization Entity into data repository', async () => {
@@ -38,7 +60,7 @@ describe('Unit | UseCase | create-organization', () => {
       const expectedOrganization = new Organization({ name, type, externalId, provinceCode });
 
       // when
-      await createOrganization({ name, type, externalId, provinceCode, organizationRepository });
+      await createOrganization({ name, type, externalId, provinceCode, organizationRepository, imageUtils });
 
       // then
       expect(organizationRepository.create).to.have.been.calledWithMatch(expectedOrganization);
@@ -56,7 +78,7 @@ describe('Unit | UseCase | create-organization', () => {
       organizationCreationValidator.validate.throws(new EntityValidationError({}));
 
       // when
-      const error = await catchErr(createOrganization)({ name, type, organizationRepository });
+      const error = await catchErr(createOrganization)({ name, type, organizationRepository, imageUtils });
 
       // then
       expect(error).to.be.an.instanceOf(EntityValidationError);

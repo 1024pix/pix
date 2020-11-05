@@ -6,6 +6,11 @@ const types = {
   PRO: 'PRO',
 };
 
+const logoDimensions = {
+  HEIGHT: 70,
+  WIDTH: 70,
+};
+
 class Organization {
 
   constructor({
@@ -71,4 +76,5 @@ class Organization {
 }
 
 Organization.types = types;
+Organization.logoDimensions = logoDimensions;
 module.exports = Organization;
