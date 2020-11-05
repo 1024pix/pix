@@ -42,6 +42,7 @@ const dependencies = {
   getCompetenceLevel: require('../../domain/services/get-competence-level'),
   higherSchoolingRegistrationRepository: require('../../infrastructure/repositories/higher-schooling-registration-repository'),
   improvementService: require('../../domain/services/improvement-service'),
+  imageUtils: require('../../infrastructure/utils/image-utils'),
   juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
   jurySessionRepository: require('../../infrastructure/repositories/jury-session-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),

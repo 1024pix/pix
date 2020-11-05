@@ -6,6 +6,9 @@ describe('Unit | UseCase | update-organization-information', () => {
 
   let originalOrganization;
   let organizationRepository;
+  const imageUtils = {
+    scaleDownBase64FormattedImage: sinon.stub(),
+  };
 
   beforeEach(() => {
     originalOrganization = domainBuilder.buildOrganization({
@@ -36,6 +39,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         name: newName,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -51,25 +55,34 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         type: newType,
         organizationRepository,
+        imageUtils,
       });
 
       // then
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, type: newType });
     });
 
-    it('should allow to update the organization logo URL (only) if modified', async () => {
+    it('should allow to update a scaled down organization logo URL (only) if modified', async () => {
       // given
       const newLogoUrl = 'http://new.logo.url';
+      const scaledDownNewLogo = Symbol('scaledDownLogo');
+      imageUtils.scaleDownBase64FormattedImage
+        .withArgs({
+          originImage: newLogoUrl,
+          height: sinon.match.number,
+          width: sinon.match.number,
+        }).resolves({ scaledDownImage: scaledDownNewLogo });
 
       // when
       await updateOrganizationInformation({
         id: originalOrganization.id,
         logoUrl: newLogoUrl,
         organizationRepository,
+        imageUtils,
       });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, logoUrl: newLogoUrl });
+      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, logoUrl: scaledDownNewLogo });
     });
 
     it('should allow to update the organization external id (only) if modified', async () => {
@@ -81,6 +94,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         externalId,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -96,6 +110,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         externalId,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -111,6 +126,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         provinceCode,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -126,6 +142,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         provinceCode,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -138,6 +155,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         isManagingStudents: false,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -150,6 +168,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         canCollectProfiles: false,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -165,6 +184,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         email: newEmail,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -180,6 +200,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         credit: newCredit,
         organizationRepository,
+        imageUtils,
       });
 
       // then
@@ -198,6 +219,7 @@ describe('Unit | UseCase | update-organization-information', () => {
         id: originalOrganization.id,
         logoUrl: 'http://new.logo.url',
         organizationRepository,
+        imageUtils,
       });
 
       // then
