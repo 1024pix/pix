@@ -3,7 +3,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const usecases = require('../../../../lib/domain/usecases');
 const { ForbiddenAccess, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | find-students-from-certification-center-id', () => {
+describe('Unit | UseCase | find-students-for-enrollement', () => {
 
   const certificationCenterId = 1;
   const userId = 'userId';
@@ -39,7 +39,7 @@ describe('Unit | UseCase | find-students-from-certification-center-id', () => {
         organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenterId).rejects(new NotFoundError());
 
         // when
-        const studentsFounds = await usecases.findStudentsFromCertificationCenterId({
+        const studentsFounds = await usecases.findStudentsForEnrollement({
           userId,
           certificationCenterId,
           organizationRepository,
@@ -59,7 +59,7 @@ describe('Unit | UseCase | find-students-from-certification-center-id', () => {
         .withArgs({ organizationId: organization.id }).resolves(expectedStudents);
 
       // when
-      const studentsFounds = await usecases.findStudentsFromCertificationCenterId({
+      const studentsFounds = await usecases.findStudentsForEnrollement({
         userId,
         certificationCenterId,
         organizationRepository,
@@ -79,7 +79,7 @@ describe('Unit | UseCase | find-students-from-certification-center-id', () => {
           .withArgs({ organizationId: organization.id }).resolves([]);
 
         // when
-        const studentsFounds = await usecases.findStudentsFromCertificationCenterId({
+        const studentsFounds = await usecases.findStudentsForEnrollement({
           userId,
           certificationCenterId,
           organizationRepository,
@@ -101,7 +101,7 @@ describe('Unit | UseCase | find-students-from-certification-center-id', () => {
         .withArgs(userId, wrongCertificationCenterId).resolves(false);
 
       // when
-      const error = await catchErr(usecases.findStudentsFromCertificationCenterId)({
+      const error = await catchErr(usecases.findStudentsForEnrollement)({
         userId,
         certificationCenterId: wrongCertificationCenterId,
         organizationRepository,
