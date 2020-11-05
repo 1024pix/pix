@@ -23,7 +23,7 @@ export default class AddStudentList extends Component {
   }
 
   get numberOfStudentsAlreadyCandidate() {
-    return this.args.certificationCandidates ? this.args.certificationCandidates.length : 0;
+    return this.args.studentList.reduce((count, student) => student.isEnrolled ? count + 1 : count, 0);
   }
 
   get showStickyBar() {
