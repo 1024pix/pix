@@ -36,7 +36,7 @@ module.exports = {
   async getStudents(request) {
     const certificationCenterId = parseInt(request.params.id);
     const userId = parseInt(request.auth.credentials.userId);
-    const students = await usecases.findStudentsFromCertificationCenterId({ userId, certificationCenterId });
+    const students = await usecases.findStudentsForEnrollement({ userId, certificationCenterId });
     return studentCertificationSerializer.serialize(students);
   },
 };

@@ -1,7 +1,7 @@
-const { ForbiddenAccess } = require('../../domain/errors');
-const { NotFoundError } = require('../../domain/errors');
+const { ForbiddenAccess } = require('../errors');
+const { NotFoundError } = require('../errors');
 
-module.exports = async function findStudentsFromCertificationCenterId({
+module.exports = async function findStudentsForEnrollement({
   userId,
   certificationCenterId,
   organizationRepository,
