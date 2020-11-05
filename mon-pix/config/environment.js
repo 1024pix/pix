@@ -51,7 +51,7 @@ module.exports = function(environment) {
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
       FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU: process.env.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU || false,
-      IS_PIX_CONCOURS: process.env.IS_PIX_CONCOURS || false,
+      IS_PIX_CONTEST: process.env.IS_PIX_CONTEST || false,
 
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {

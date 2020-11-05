@@ -34,7 +34,7 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
   }
 
   _shouldShowTutorial(assessment) {
-    if (ENV.APP.IS_PIX_CONCOURS === 'true') {
+    if (ENV.APP.IS_PIX_CONTEST === 'true') {
       return false;
     }
 
