@@ -1,5 +1,6 @@
 const { domainBuilder, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/student-certification-serializer');
+const StudentForEnrollement = require('../../../../../lib/domain/read-models/StudentForEnrollement');
 
 describe('Unit | Serializer | JSONAPI | student-certification-serializer', () => {
 
@@ -8,10 +9,10 @@ describe('Unit | Serializer | JSONAPI | student-certification-serializer', () =>
     it('should convert a StudentEnrollementReadmodel model object into JSON API data', () => {
       // given
       const student = domainBuilder.buildSchoolingRegistration();
-      const studentEnrollementReadmodel = {
+      const studentEnrollementReadmodel = new StudentForEnrollement({
         ...student,
         isEnrolled: true,
-      };
+      });
 
       const expectedSerializedStudent = {
         data: {
