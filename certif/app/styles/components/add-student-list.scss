@@ -1,6 +1,7 @@
 .add-student-list {
   font-size: 0.875rem;
   position: relative;
+  box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 
   thead tr {
     background: $grey-10;
@@ -13,21 +14,20 @@
   tr.add-student-list__row--disabled {
     border-top-color: $grey-20;
     border-bottom: 2px solid $grey-20;
+
+    &:hover {
+      background: $grey-15;
+    }
   }
 
   &__row {
     background-color: $white;
+    color: $grey-60;
 
     &--disabled {
-      background: $grey-10;
+      background: $grey-15;
       border-top: 1px solid $grey-50;
       border-bottom: 1px solid $grey-50;
-      color: $grey-40;
-
-      &:hover {
-        background: initial;
-        color: initial;
-      }
 
       .add-student-list__column-checkbox .checkbox {
         background-color: $grey-40;

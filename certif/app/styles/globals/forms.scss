@@ -85,7 +85,7 @@ input[type=number] {
   &:hover,
   &:active,
   &:focus {
-    background-color: darken($communication-dark, 10%);
+    background-color: darken($communication-dark, 5%);
     transition: background-color 0.2s ease;
   }
 
@@ -230,7 +230,7 @@ input[type=number] {
   transition: box-shadow 0.1s linear;
 
   &--unchecked {
-    border: 2px solid $grey-20;
+    border: 2px solid $grey-60;
 
     &:hover {
       background-color: $grey-10;
@@ -240,7 +240,7 @@ input[type=number] {
   }
 
   &--checked {
-    background-color: $communication-light;
-    border: 2px solid $communication-light;
+    background-color: $communication-dark;
+    border: 2px solid $communication-dark;
   }
 }
