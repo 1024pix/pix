@@ -364,7 +364,8 @@
                         "download": "Download"
                     },
                     "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
-                    "file-type": "file .{fileExtension}"
+                    "file-type": "file .{fileExtension}",
+                    "help": ""
                 }
             },
             "skip-error-message": {

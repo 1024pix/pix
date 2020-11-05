@@ -364,7 +364,8 @@
                         "download": "Télécharger"
                     },
                     "description": "Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.",
-                    "file-type": "fichier .{fileExtension}"
+                    "file-type": "fichier .{fileExtension}",
+                    "help": "Besoin d'aide pour '<'a href=\"{url}\" class=\"challenge-statement__action-help--link\" target=\"_blank\"'>'ouvrir, modifier ou retrouver ce fichier'</a>'."
                 }
             },
             "skip-error-message": {
