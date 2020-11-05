@@ -16,7 +16,7 @@
   margin-left: auto;
 }
 
-.app-modal-body{
+.app-modal-body {
 
   &__attention {
     color: $grey-100;
@@ -24,13 +24,13 @@
     font-size: 1.2rem;
   }
 
-  &__warning{
+  &__warning {
     color: $grey-90;
     font-weight: 300;
     font-size: 1em;
   }
 
-  &__contextual{
+  &__contextual {
     border: 2px solid $grey-20;
     background-color: $grey-20;
     border-radius: 4px;
