@@ -38,7 +38,13 @@
     <div class="add-student-list__bottom-action-bar">
 
       <div class="bottom-action-bar__informations">
-        <p class="bottom-action-bar__informations--candidates-selected">{{this.studentsSelectedInformation}}</p>
+        <p class="bottom-action-bar__informations--candidates-selected">
+          {{#if this.numberOfStudentsSelected}}
+            {{this.numberOfStudentsSelected}} candidat(s) sélectionné(s)
+          {{else}}
+            Aucun candidat sélectionné
+          {{/if}}
+        </p>
         <span class="bottom-action-bar__seperator"></span>
         <p class="bottom-action-bar__informations--candidates-already-added">
           {{this.numberOfStudentsAlreadyCandidate}} candidat(s) déjà ajouté(s) à la session
