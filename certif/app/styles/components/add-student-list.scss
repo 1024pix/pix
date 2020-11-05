@@ -17,12 +17,17 @@
 
     &:hover {
       background: $grey-15;
+      cursor: default;
     }
   }
 
   &__row {
     background-color: $white;
     color: $grey-60;
+
+    &:hover {
+      cursor: pointer;
+    }
 
     &--disabled {
       background: $grey-15;
