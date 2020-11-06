@@ -55,8 +55,8 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
-  it('should export a CampaignAlreadyArchivedError',() => {
-    expect(errors.CampaignAlreadyArchivedError).to.exist;
+  it('should export a ArchivedCampaignError',() => {
+    expect(errors.ArchivedCampaignError).to.exist;
   });
 
   it('should export a UserNotAuthorizedToUpdatePasswordError', () => {
