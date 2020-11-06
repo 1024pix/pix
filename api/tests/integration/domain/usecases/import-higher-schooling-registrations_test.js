@@ -5,6 +5,8 @@ const importHigherSchoolingRegistration = require('../../../../lib/domain/usecas
 const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
 const HigherSchoolingRegistrationParser = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-parser');
 
+const higherSchoolingRegistrationColumns = HigherSchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
+
 describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
   afterEach(() => {
@@ -13,7 +15,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
   context('when there is no schooling registrations for the organization',() => {
     it('parses the csv received and creates the HigherSchoolingRegistration', async () => {
-      const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+      const input = `${higherSchoolingRegistrationColumns}
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
           O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
       `.trim();
@@ -22,9 +24,9 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
       const organization = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
-      await importHigherSchoolingRegistration({ 
-        organizationId: organization.id, 
-        higherSchoolingRegistrationRepository, 
+      await importHigherSchoolingRegistration({
+        organizationId: organization.id,
+        higherSchoolingRegistrationRepository,
         higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
       });
 
@@ -37,7 +39,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
     context('when there is a supernumerary schooling registrations matching by student number',() => {
       context('which matches by student number but not by first name',() => {
         it('creates a new schooling registration with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -54,9 +56,9 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           });
 
           await databaseBuilder.commit();
-          await importHigherSchoolingRegistration({ 
-            organizationId: organization.id, 
-            higherSchoolingRegistrationRepository, 
+          await importHigherSchoolingRegistration({
+            organizationId: organization.id,
+            higherSchoolingRegistrationRepository,
             higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
           });
 
@@ -73,7 +75,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
       context('which matches by student number, first name, lastName and birthdate',() => {
         it('updates the existing schooling registration which have matched with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -91,9 +93,9 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           });
 
           await databaseBuilder.commit();
-          await importHigherSchoolingRegistration({ 
-            organizationId: organization.id, 
-            higherSchoolingRegistrationRepository, 
+          await importHigherSchoolingRegistration({
+            organizationId: organization.id,
+            higherSchoolingRegistrationRepository,
             higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
           });
 
@@ -105,7 +107,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
       context('which matches by student number but not by birthdate',() => {
         it('creates a new schooling registration with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -122,8 +124,8 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           });
 
           await databaseBuilder.commit();
-          await importHigherSchoolingRegistration({ 
-            organizationId: organization.id, 
+          await importHigherSchoolingRegistration({
+            organizationId: organization.id,
             higherSchoolingRegistrationRepository,
             higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
           });
@@ -142,7 +144,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
       context('which matches by student number but not by lastName',() => {
         it('creates a new schooling registration with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -178,7 +180,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
       context('which matches by student number but when there is an acceptable error in the first name',() => {
         it('updates the existing schooling registration which have matched with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Estelle;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -210,7 +212,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
       context('which matches by student number but when there is an acceptable error in the last name',() => {
         it('updates the existing schooling registration which have matched with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Estelle;The;Bride;Landry;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -244,7 +246,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
     context('when there are several supernumerary schooling registrations which match by student number',() => {
       context('when there are several supernumerary schooling registrations matching',() => {
         it('creates a new schooling registration with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;email3@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -288,7 +290,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
       context('when there one supernumerary schooling registration matching',() => {
         it('updates a the schooling registration with csv data', async () => {
-          const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+          const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;email@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
 
@@ -335,7 +337,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
     context('when there is a schooling registration not supernumerary matching by student number',() => {
       it('updates the existing schooling registration which have matched with csv data', async () => {
-        const input = `Premier prénom;Deuxième prénom;Troisième prénom;Nom de famille;Nom d’usage;Date de naissance (jj/mm/aaaa);Email;Numéro étudiant;Composante;Équipe pédagogique;Groupe;Diplôme;Régime
+        const input = `${higherSchoolingRegistrationColumns}
             Estelle;;;Landry;;01/01/2000;landry@elpresidente.com;123456;Négociation de ticket;;Merci pour le wording de VINCI!;Doctorat
         `.trim();
 

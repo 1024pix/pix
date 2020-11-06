@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
         '"Deuxième prénom";' +
         '"Troisième prénom";' +
         '"Nom de famille";' +
-        '"Nom d’usage";' +
+        '"Nom d\'usage";' +
         '"Date de naissance (jj/mm/aaaa)";' +
         '"Email";' +
         '"Numéro étudiant";' +
@@ -80,7 +80,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
         '"Deuxième prénom";' +
         '"Troisième prénom";' +
         '"Nom de famille*";' +
-        '"Nom d’usage";' +
+        '"Nom d\'usage";' +
         '"Date de naissance (jj/mm/aaaa)*";' +
         '"Code commune naissance**";' +
         '"Libellé commune naissance**";' +
