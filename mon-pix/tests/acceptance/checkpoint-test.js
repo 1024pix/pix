@@ -37,7 +37,7 @@ describe('Acceptance | Checkpoint', () => {
       expect(find('.checkpoint-progression-gauge-wrapper')).to.exist;
       expect(find('.assessment-results__list')).to.exist;
       expect(findAll('.result-item')).to.have.lengthOf(NB_ANSWERS);
-      expect(find('.checkpoint__continue').textContent).to.contain('Continuer mon parcours');
+      expect(find('.checkpoint__continue').textContent).to.contain('Continuer');
       expect(find('.checkpoint-no-answer')).to.not.exist;
     });
   });
