@@ -6,6 +6,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
   const studentNumberPresenceModifier = (organization.type === 'SUP' && organization.isManagingStudents) ? 1 : 0;
   const externalIdPresenceModifier = campaign.idPixLabel ? 1 : 0;
+  const divisionPresenceModifier = organization.type === 'SCO' ? 1 : 0;
   const badgePresenceModifier = badges.length;
   const stagesPresenceModifier = stages[0] ? 1 : 0;
 
@@ -16,16 +17,17 @@ function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
     TARGET_PROFILE_NAME: 3,
     PARTICIPANT_LAST_NAME: 4,
     PARTICIPANT_FIRST_NAME: 5,
-    STUDENT_NUMBER_COL: 6,
-    EXTERNAL_ID: 6 + studentNumberPresenceModifier,
-    PARTICIPATION_PROGRESSION: 6 + studentNumberPresenceModifier + externalIdPresenceModifier,
-    PARTICIPATION_CREATED_AT: 7 + studentNumberPresenceModifier + externalIdPresenceModifier,
-    PARTICIPATION_IS_SHARED: 8 + studentNumberPresenceModifier + externalIdPresenceModifier,
-    PARTICIPATION_SHARED_AT: 9 + studentNumberPresenceModifier + externalIdPresenceModifier,
-    BADGE: 10 + studentNumberPresenceModifier + externalIdPresenceModifier,
-    STAGE_REACHED: 10 + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier,
-    PARTICIPATION_PERCENTAGE: 10 + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier + stagesPresenceModifier,
-    DETAILS_START: 11 + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier + stagesPresenceModifier,
+    DIVISION: 6,
+    STUDENT_NUMBER_COL: 6 + divisionPresenceModifier,
+    EXTERNAL_ID: 6 + studentNumberPresenceModifier + divisionPresenceModifier,
+    PARTICIPATION_PROGRESSION: 6 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_CREATED_AT: 7 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_IS_SHARED: 8 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
+    PARTICIPATION_SHARED_AT: 9 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
+    BADGE: 10 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier,
+    STAGE_REACHED: 10 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier,
+    PARTICIPATION_PERCENTAGE: 10 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier + stagesPresenceModifier,
+    DETAILS_START: 11 + divisionPresenceModifier + studentNumberPresenceModifier + externalIdPresenceModifier + badgePresenceModifier + stagesPresenceModifier,
   };
 }
 
@@ -611,6 +613,33 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal('NA');
 
           expect(csvLine).to.have.lengthOf(currentColumn);
+        });
+      });
+
+      context('division', () =>  {
+        it('displays the division column', () =>  {
+          const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+          const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
+          const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false, division: '4eme1' });
+          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+          const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+            organization,
+            campaign,
+            campaignParticipationInfo,
+            targetProfile,
+            stages: [],
+            participantKnowledgeElementsByCompetenceId: {
+              [targetProfile.competences[0].id]: [],
+            },
+            campaignParticipationService,
+          });
+
+          // when
+          const csvLine = campaignAssessmentCsvLine.toCsvLine();
+
+          // then
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [], []);
+          expect(csvLine[cols.DIVISION]).to.equal('4eme1');
         });
       });
     });
