@@ -61,6 +61,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
             participantFirstName: 'First',
             participantLastName: 'Last',
             studentNumber: null,
+            division: null,
           },
         ]);
         expect(campaignParticipationInfos[0].isShared).to.be.true;
@@ -122,6 +123,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
           participantFirstName: 'The',
           participantLastName: 'Narrator',
           studentNumber: null,
+          division: null,
         });
         expect(campaignParticipationInfosOrdered[0].isShared).to.equal(true);
 
@@ -134,6 +136,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
           participantFirstName: 'Tyler',
           participantLastName: 'Durden',
           studentNumber: null,
+          division: null,
         });
         expect(campaignParticipationInfosOrdered[1].isShared).to.equal(false);
       });
@@ -185,6 +188,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
           participantFirstName: 'The',
           participantLastName: 'Narrator',
           studentNumber: null,
+          division: null,
         }]);
       });
     });
@@ -230,6 +234,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
           organizationId: campaign.organizationId,
           userId,
           studentNumber: 'Pipon et Jambon',
+          division: '6eme',
         });
         databaseBuilder.factory.buildSchoolingRegistration({
           userId,
@@ -256,6 +261,15 @@ describe('Integration | Repository | Campaign Participation Info', () => {
         // then
         expect(campaignParticipationInfos[0].participantFirstName).to.equal(schoolingRegistration.firstName);
         expect(campaignParticipationInfos[0].participantLastName).to.equal(schoolingRegistration.lastName);
+      });
+
+      it('should return the division', async () => {
+
+        // when
+        const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
+
+        // then
+        expect(campaignParticipationInfos[0].division).to.equal(schoolingRegistration.division);
       });
     });
   });

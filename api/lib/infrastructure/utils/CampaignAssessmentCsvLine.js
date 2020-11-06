@@ -89,6 +89,7 @@ class CampaignAssessmentCsvLine {
       this.targetProfile.name,
       this.campaignParticipationInfo.participantLastName,
       this.campaignParticipationInfo.participantFirstName,
+      ...(this.organization.isSco ? [this.campaignParticipationInfo.division] : []),
       ...this._studentNumber,
       ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
       this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.targetedKnowledgeElementsCount, this.targetProfile.skills.length),
