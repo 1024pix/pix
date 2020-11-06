@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError, CampaignAlreadyArchivedError } = require('../errors');
+const { UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError, ArchivedCampaignError } = require('../errors');
 const CampaignParticipationResultsShared = require('../events/CampaignParticipationResultsShared');
 
 module.exports = async function shareCampaignResult({
@@ -14,7 +14,7 @@ module.exports = async function shareCampaignResult({
 
   const campaign = await campaignRepository.get(campaignParticipation.campaignId);
   if (campaign.isArchived()) {
-    throw new CampaignAlreadyArchivedError();
+    throw new ArchivedCampaignError('Cannot share results on an archived campaign.');
   }
 
   if (campaign.isAssessment()) {

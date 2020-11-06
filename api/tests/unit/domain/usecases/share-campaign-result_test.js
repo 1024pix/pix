@@ -1,5 +1,5 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
-const { AssessmentNotCompletedError, UserNotAuthorizedToAccessEntity, CampaignAlreadyArchivedError } = require('../../../../lib/domain/errors');
+const { AssessmentNotCompletedError, UserNotAuthorizedToAccessEntity, ArchivedCampaignError } = require('../../../../lib/domain/errors');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -28,7 +28,7 @@ describe('Unit | UseCase | share-campaign-result2', () => {
     expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
   });
 
-  it('should throw a CampaignAlreadyArchivedError error when campaign is archived', async () => {
+  it('should throw a ArchivedCampaignError error when campaign is archived', async () => {
     // given
     campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId, campaignId });
     campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ id: campaignId, archivedAt: new Date('1990-11-04') }));
@@ -37,7 +37,7 @@ describe('Unit | UseCase | share-campaign-result2', () => {
     const error = await catchErr(usecases.shareCampaignResult)({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
 
     // then
-    expect(error).to.be.instanceOf(CampaignAlreadyArchivedError);
+    expect(error).to.be.instanceOf(ArchivedCampaignError);
   });
 
   context('when the campaign is of type assessment', () => {
