@@ -13,6 +13,7 @@ module.exports = {
           knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
           knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
           'schooling-registrations.studentNumber',
+          'schooling-registrations.division',
         ])
           .from('campaign-participations')
           .join('users', 'campaign-participations.userId', 'users.id')
@@ -45,5 +46,6 @@ function _rowToCampaignParticipationInfo(row) {
     isCompleted: row.state === Assessment.states.COMPLETED,
     createdAt: new Date(row.createdAt),
     sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
+    division: row.division,
   });
 }
