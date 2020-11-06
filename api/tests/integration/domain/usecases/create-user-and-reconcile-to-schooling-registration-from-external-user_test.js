@@ -4,6 +4,7 @@ const campaignRepository = require('../../../../lib/infrastructure/repositories/
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
+const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
@@ -225,15 +226,18 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           // when
           const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
             birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService, schoolingRegistrationRepository, studentRepository,
-            userRepository, userReconciliationService, obfuscationService });
-          const reconciledSchoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistration.id);
+            userRepository, userReconciliationService, obfuscationService, authenticationMethodRepository });
 
           // then
           expect(user.firstName).to.equal(firstName);
           expect(user.lastName).to.equal(lastName);
-          expect(user.samlId).to.equal(samlId);
           expect(user.id).to.equal(otherAccount.id);
-          expect(reconciledSchoolingRegistration.userId).to.equal(otherAccount.id);
+
+          const schoolingRegistrationInDB = await knex('schooling-registrations').where({ id: schoolingRegistration.id });
+          expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);
+
+          const authenticationMethodInDB = await knex('authentication-methods').where({ identityProvider: AuthenticationMethod.identityProviders.GAR, userId: otherAccount.id });
+          expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
         });
       });
 
@@ -258,18 +262,22 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           // when
           const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
             birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService, schoolingRegistrationRepository, studentRepository,
-            userRepository, userReconciliationService, obfuscationService });
-          const reconciledSchoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistration.id);
+            userRepository, userReconciliationService, obfuscationService, authenticationMethodRepository });
 
           // then
           expect(user.firstName).to.equal(firstName);
           expect(user.lastName).to.equal(lastName);
-          expect(user.samlId).to.equal(samlId);
           expect(user.id).to.equal(otherAccount.id);
-          expect(reconciledSchoolingRegistration.userId).to.equal(otherAccount.id);
+
+          const schoolingRegistrationInDB = await knex('schooling-registrations').where({ id: schoolingRegistration.id });
+          expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);
+
+          const authenticationMethodInDB = await knex('authentication-methods').where({ identityProvider: AuthenticationMethod.identityProviders.GAR, userId: otherAccount.id });
+          expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
         });
       });
     });
+
     context('When the external user is already created', () => {
 
       it('should return the already created user', async () => {
