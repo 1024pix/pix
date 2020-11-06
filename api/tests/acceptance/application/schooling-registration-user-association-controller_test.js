@@ -530,11 +530,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.payload).to.contains('access-token');
-
-          const result = await knex('users').where({ samlId: externalUser.samlId }).select();
-          const userFoundByNewSamlId = result[0];
-          expect(userFoundByNewSamlId.firstName).to.equal(externalUser.firstName);
-          expect(userFoundByNewSamlId.lastName).to.equal(externalUser.lastName);
+          const result = await knex('authentication-methods').where({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
+          const garAuthenticationMethod = result[0];
+          expect(garAuthenticationMethod.externalIdentifier).to.equal(externalUser.samlId);
         });
 
         it('should replace the existing user samlId already reconciled in the same organization found with the authenticated user samlId', async () => {
@@ -574,10 +572,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.payload).to.contains('access-token');
-          const result = await knex('users').where({ samlId: externalUser.samlId }).select();
-          const userFoundByNewSamlId = result[0];
-          expect(userFoundByNewSamlId.firstName).to.equal(externalUser.firstName);
-          expect(userFoundByNewSamlId.lastName).to.equal(externalUser.lastName);
+          const result = await knex('authentication-methods').where({ userId: userWithSamlIdOnly.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
+          const garAuthenticationMethod = result[0];
+          expect(garAuthenticationMethod.externalIdentifier).to.equal(externalUser.samlId);
         });
       });
 

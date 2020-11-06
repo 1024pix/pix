@@ -848,34 +848,29 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     beforeEach(async () => {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'samlId', userId: userInDb.id });
       await databaseBuilder.commit();
     });
 
-    it('should update samlId of the user', async () => {
+    it('should update lang of the user', async () => {
       // given
-      const patchUserSamlId = {
-        id : userInDb.id,
-        samlId : '123456789',
+      const userAttributes = {
+        lang : 'en',
       };
 
       // when
-      const updatedUser = await userRepository.updateUserAttributes(userInDb.id, patchUserSamlId);
+      const updatedUser = await userRepository.updateUserAttributes(userInDb.id, userAttributes);
 
       // then
       expect(updatedUser).to.be.an.instanceOf(User);
-      expect(updatedUser.samlId).to.equal(patchUserSamlId.samlId);
+      expect(updatedUser.lang).to.equal(userAttributes.lang);
     });
 
     it('should throw UserNotFoundError when user id not found', async () => {
       // given
       const wrongUserId = 0;
-      const patchUserSamlId = {
-        samlId : '123456789',
-      };
 
       // when
-      const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, patchUserSamlId);
+      const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, { lang: 'en' });
 
       // then
       expect(error).to.be.instanceOf(UserNotFoundError);
@@ -889,6 +884,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     beforeEach(async () => {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'samlId', userId: userInDb.id });
       await databaseBuilder.commit();
     });
 
