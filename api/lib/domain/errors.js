@@ -246,8 +246,15 @@ class CertificationCandidateAlreadyLinkedToUserError extends DomainError {
     super(message);
   }
 }
+
 class CertificationCandidateByPersonalInfoNotFoundError extends DomainError {
   constructor(message = 'Aucun candidat de certification n\'a été trouvé avec ces informations.') {
+    super(message);
+  }
+}
+
+class MatchingReconciledStudentNotFoundError extends DomainError {
+  constructor(message = 'Aucun candidat de certification SCO n\'a été trouvé avec ces informations.') {
     super(message);
   }
 }
@@ -645,6 +652,7 @@ module.exports = {
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
+  MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
