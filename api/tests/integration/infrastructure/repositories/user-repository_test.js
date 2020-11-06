@@ -1342,6 +1342,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
 
     afterEach(async () => {
+      await knex('authentication-methods').delete();
       await knex('schooling-registrations').delete();
       await knex('users').delete();
     });
@@ -1378,6 +1379,22 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         // then
         const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
         expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
+      });
+
+      context('when an authentication method is provided', () => {
+
+        it('should create the authentication method for the created user', async () => {
+          // given
+          const samlId = 'samlId';
+
+          // when
+          const result = await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId, samlId });
+
+          // then
+          const foundAuthenticationMethod = await knex('authentication-methods').where({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId });
+          expect(foundAuthenticationMethod).to.have.lengthOf(1);
+          expect(result).to.equal(foundAuthenticationMethod[0].userId);
+        });
       });
     });
 

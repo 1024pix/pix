@@ -1,4 +1,4 @@
-const { catchErr, databaseBuilder, expect } = require('../../../test-helper');
+const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helper');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
@@ -147,27 +147,14 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       token = tokenService.createIdTokenForUserReconciliation(externalUser);
     });
 
-    it('should create and reconcile the external user', async () => {
+    afterEach(async () => {
+      await knex('authentication-methods').delete();
+      await knex('schooling-registrations').delete();
+    });
+
+    it('should create the external user, reconcile it and create GAR authentication method', async () => {
       // given
       const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
-      const otherAccount = databaseBuilder.factory.buildUser(
-        {
-          firstName: firstName,
-          lastName: lastName,
-          birthdate: schoolingRegistration.birthdate,
-        });
-      databaseBuilder.factory.buildAuthenticationMethod({ externalIdentifier: '12345678', userId: otherAccount.id });
-
-      const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
-      databaseBuilder.factory.buildSchoolingRegistration(
-        {
-          organizationId: otherOrganization.id,
-          firstName: schoolingRegistration.firstName,
-          lastName: schoolingRegistration.lastName,
-          birthdate: schoolingRegistration.birthdate,
-          nationalStudentId: schoolingRegistration.nationalStudentId,
-          userId: otherAccount.id,
-        });
       schoolingRegistration.userId = undefined;
       await databaseBuilder.commit();
 
@@ -179,7 +166,14 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       // then
       expect(user.firstName).to.equal(firstName);
       expect(user.lastName).to.equal(lastName);
-      expect(user.samlId).to.equal(samlId);
+      expect(user.password).to.be.empty;
+      expect(user.cgu).to.be.false;
+
+      const schoolingRegistrationInDB = await knex('schooling-registrations').where({ id: schoolingRegistration.id });
+      expect(schoolingRegistrationInDB[0].userId).to.equal(user.id);
+
+      const authenticationMethodInDB = await knex('authentication-methods').where({ identityProvider: AuthenticationMethod.identityProviders.GAR, userId: user.id });
+      expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
     });
 
     context('When the external user is already reconciled by another account without samlId authentication method', () => {

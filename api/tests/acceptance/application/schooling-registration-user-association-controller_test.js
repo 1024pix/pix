@@ -453,6 +453,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       await databaseBuilder.commit();
     });
 
+    afterEach(() => {
+      return knex('authentication-methods').delete();
+    });
+
     context('when an external user try to reconcile for the first time', () => {
 
       it('should return an 200 status after having successfully created the user and associated it to schoolingRegistration', async () => {
