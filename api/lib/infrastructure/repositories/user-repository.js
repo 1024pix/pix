@@ -357,6 +357,7 @@ module.exports = {
       const updatedUser = await BookshelfUser
         .where({ id })
         .save(userAttributes, { patch: true, method: 'update' });
+      await updatedUser.related('authenticationMethods').fetch();
       return _toUserDetailsForAdminDomain(updatedUser);
     } catch (err) {
       if (err instanceof BookshelfUser.NoRowsUpdatedError) {
@@ -474,19 +475,6 @@ module.exports = {
       .where({ id: userId })
       .save({ password: hashedNewPassword, shouldChangePassword: false }, { patch: true, method: 'update' })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity())
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
-          throw new UserNotFoundError(`User not found for ID ${userId}`);
-        }
-        throw err;
-      });
-  },
-
-  async updateSamlId({ userId, samlId }) {
-    return BookshelfUser
-      .where({ id: userId })
-      .save({ samlId }, { patch: true, method: 'update' })
-      .then(() => true)
       .catch((err) => {
         if (err instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
