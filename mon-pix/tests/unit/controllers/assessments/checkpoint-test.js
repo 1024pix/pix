@@ -21,7 +21,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
       controller.set('finalCheckpoint', false);
 
       // then
-      expect(controller.nextPageButtonText).to.equal('Continuer mon parcours');
+      expect(controller.nextPageButtonText).to.equal('Continuer');
     });
 
     it('should propose to see the results of the assessment if it is the final checkpoint', function() {
