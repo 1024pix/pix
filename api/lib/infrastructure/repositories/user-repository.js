@@ -404,12 +404,17 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
-  async createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId }) {
+  async createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId, samlId }) {
     const userToCreate = _adaptModelToDb(domainUser);
 
     const trx = await Bookshelf.knex.transaction();
     try {
       const [userId] = await trx('users').insert(userToCreate, 'id');
+
+      if (samlId) {
+        const authenticationMethod = new AuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId, userId });
+        await trx('authentication-methods').insert(authenticationMethod);
+      }
 
       const updatedSchoolingRegistrationsCount = await trx('schooling-registrations')
         .where('id', schoolingRegistrationId)

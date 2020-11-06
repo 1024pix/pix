@@ -34,7 +34,6 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   const domainUser = new User({
     firstName: externalUser.firstName,
     lastName: externalUser.lastName,
-    samlId: externalUser.samlId,
     password: '',
     cgu: false,
   });
@@ -64,6 +63,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     userId = await userRepository.createAndReconcileUserToSchoolingRegistration({
       domainUser,
       schoolingRegistrationId: matchedSchoolingRegistration.id,
+      samlId: externalUser.samlId,
     });
 
   } catch (error) {
