@@ -2,7 +2,7 @@ const BookshelfAuthenticationMethod = require('../../infrastructure/data/authent
 const bookshelfUtils = require('../utils/knex-utils');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const DomainTransaction = require('../DomainTransaction');
-const { AlreadyExistingEntity } = require('../../domain/errors');
+const { AlreadyExistingEntity, NotFoundError } = require('../../domain/errors');
 
 function _toDomainEntity(bookshelfAuthenticationMethod) {
   const attributes = bookshelfAuthenticationMethod.toJSON();
@@ -45,4 +45,19 @@ module.exports = {
 
     return authenticationMethod ? _toDomainEntity(authenticationMethod) : null;
   },
+
+  async updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider }) {
+    try {
+      const bookshelfAuthenticationMethod = await BookshelfAuthenticationMethod
+        .where({ userId, identityProvider })
+        .save({ externalIdentifier }, { method: 'update', patch: true, require: true });
+      return _toDomainEntity(bookshelfAuthenticationMethod);
+    } catch (err) {
+      if (err instanceof BookshelfAuthenticationMethod.NoRowsUpdatedError) {
+        throw new NotFoundError(`No rows updated for authentication method of type ${identityProvider} for user ${userId}.`);
+      }
+      throw err;
+    }
+  },
+
 };

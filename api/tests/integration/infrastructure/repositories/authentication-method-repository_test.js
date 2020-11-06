@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, knex, catchErr, domainBuilder } = require('../../../test-helper');
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { AlreadyExistingEntity } = require('../../../../lib/domain/errors');
+const { AlreadyExistingEntity, NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | AuthenticationMethod', () => {
 
@@ -158,4 +158,50 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
+  describe('#updateExternalIdentifierByUserIdAndIdentityProvider', () => {
+
+    context('When authentication method exists', async () => {
+
+      let authenticationMethod;
+
+      beforeEach(() => {
+        const userId = databaseBuilder.factory.buildUser().id;
+        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: 'to_be_updated',
+          userId,
+        });
+        return databaseBuilder.commit();
+      });
+
+      it('should update external identifier by userId and identity provider', async () => {
+        // given
+        const userId = authenticationMethod.userId;
+        const identityProvider = authenticationMethod.identityProvider;
+        const externalIdentifier = 'new_saml_id';
+
+        // when
+        const updatedAuthenticationMethod = await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider });
+
+        // then
+        expect(updatedAuthenticationMethod.externalIdentifier).to.equal(externalIdentifier);
+      });
+    });
+
+    context('When authentication method does not exist', async () => {
+
+      it('should throw a not found error', async () => {
+        // given
+        const userId = 12345;
+        const identityProvider = AuthenticationMethod.identityProviders.GAR;
+        const externalIdentifier = 'new_saml_id';
+
+        // when
+        const error = await catchErr(authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider)({ externalIdentifier, userId, identityProvider });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+  });
 });
