@@ -9,6 +9,7 @@ function buildCampaignParticipationInfo({
   isCompleted = true,
   createdAt = new Date('2020-01-01'),
   sharedAt = new Date('2020-02-02'),
+  division,
 } = {}) {
   return new CampaignParticipationInfo({
     participantFirstName,
@@ -19,6 +20,7 @@ function buildCampaignParticipationInfo({
     isCompleted,
     createdAt,
     sharedAt,
+    division,
   });
 }
 
