@@ -4,6 +4,7 @@ const { linkUserToSessionCertificationCandidate } = require('../../../../lib/dom
 const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
+  MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidatePersonalInfoFieldMissingError,
   CertificationCandidatePersonalInfoWrongFormat,
@@ -275,7 +276,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             .resolves();
         });
 
-        it('should create a link and return the linked certification candidate', async () => {
+        it('should create a link with between the candidate and the user and return the linked certification candidate', async () => {
           // given
           const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
 
@@ -292,39 +293,178 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
           // then
           expect(result).to.deep.equal(new UserLinkedEvent(certificationCandidate));
-          sinon.assert.calledWith(certificationCandidateRepository.linkToUser, { id: certificationCandidate.id, userId });
+          sinon.assert.calledWith(certificationCandidateRepository.linkToUser, {
+            id: certificationCandidate.id,
+            userId,
+          });
         });
       });
     });
   });
 
   context('when the session is of type SCO', () => {
-    it('throws an exception (temporary for building test)', async () => {
-      // given
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId });
-      sinon.stub(certificationCandidateRepository,
-        'findBySessionIdAndPersonalInfo')
-        .withArgs({
+    context('when the user does not match with a session candidate', () => {
+      it('throws', async () => {
+        // given
+        const certificationCandidateRepository = _buildFakeCertificationCandidateRepository();
+        certificationCandidateRepository.findBySessionIdAndPersonalInfo.withArgs({
           sessionId,
-          firstName: firstName,
-          lastName: lastName,
-          birthdate: birthdate,
-        }).resolves([certificationCandidate]);
+          firstName,
+          lastName,
+          birthdate,
+        }).resolves([]);
+        const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: true });
 
-      const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: true });
+        // when
+        const err = await catchErr(linkUserToSessionCertificationCandidate)({
+          sessionId,
+          userId,
+          firstName,
+          lastName,
+          birthdate,
+          certificationCandidateRepository,
+          sessionRepository,
+        });
 
-      // when
-      const err = await catchErr(linkUserToSessionCertificationCandidate)({
-        sessionId,
-        userId,
-        firstName,
-        lastName,
-        birthdate,
-        certificationCandidateRepository,
-        sessionRepository,
+        // then
+        expect(err).to.be.instanceOf(CertificationCandidateByPersonalInfoNotFoundError);
       });
+    });
 
-      expect(err).to.be.instanceOf(Error);
+    context('when the user does not match with a session candidate and its schooling registration', () => {
+      it('throws CertificationCandidateSCOByPersonalInfoNotFoundError', async () => {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          userId: null,
+          firstName, lastName, birthdate,
+        });
+        const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: true });
+        const certificationCandidateRepository = _buildFakeCertificationCandidateRepository();
+        certificationCandidateRepository.findBySessionIdAndPersonalInfo.withArgs({
+          sessionId,
+          firstName,
+          lastName,
+          birthdate,
+        }).resolves([certificationCandidate]);
+        const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository({
+          findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationData: [],
+        });
+
+        // when
+        const err = await catchErr(linkUserToSessionCertificationCandidate)({
+          sessionId,
+          userId,
+          firstName,
+          lastName,
+          birthdate,
+          certificationCandidateRepository,
+          schoolingRegistrationRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(err).to.be.instanceOf(MatchingReconciledStudentNotFoundError);
+      });
+    });
+
+    context('when the user matches with a session candidate and its schooling registration', () => {
+      context('when no other candidates is already linked to that user', () => {
+        it('should create a link between the candidate and the user and return an event to notify it, ', async () => {
+          // given
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            userId: null,
+            firstName, lastName, birthdate,
+            schoolingRegistrationId: schoolingRegistration.id,
+          });
+          const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: true });
+          const certificationCandidateRepository = _buildFakeCertificationCandidateRepository();
+          certificationCandidateRepository.findBySessionIdAndPersonalInfo.withArgs({
+            sessionId,
+            firstName,
+            lastName,
+            birthdate,
+          }).resolves([certificationCandidate]);
+          certificationCandidateRepository.findOneBySessionIdAndUserId.withArgs({
+            sessionId,
+            userId,
+          }).resolves(null);
+          const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository({
+            findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationData: [
+              schoolingRegistration,
+            ],
+          });
+          const scoCertificationCandidateRepository = _buildFakeSCOCertificationCandidateRepository();
+
+          // when
+          const event = await linkUserToSessionCertificationCandidate({
+            sessionId,
+            userId,
+            firstName,
+            lastName,
+            birthdate,
+            certificationCandidateRepository,
+            schoolingRegistrationRepository,
+            sessionRepository,
+            scoCertificationCandidateRepository,
+          });
+
+          // then
+          expect(certificationCandidateRepository.linkToUser).to.have.been.calledWith({
+            id: certificationCandidate.id,
+            userId,
+          });
+          expect(event).to.deep.equal(new UserLinkedEvent(
+            certificationCandidate,
+          ));
+        });
+      });
+      context('when another candidates is already linked to that user', () => {
+        it('throws', async () => {
+          // given
+          const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+            userId: null,
+            firstName, lastName, birthdate,
+            schoolingRegistrationId: schoolingRegistration.id,
+          });
+          const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: true });
+          const certificationCandidateRepository = _buildFakeCertificationCandidateRepository();
+          certificationCandidateRepository.findBySessionIdAndPersonalInfo.withArgs({
+            sessionId,
+            firstName,
+            lastName,
+            birthdate,
+          }).resolves([certificationCandidate]);
+          certificationCandidateRepository.findOneBySessionIdAndUserId.withArgs({
+            sessionId,
+            userId,
+          }).resolves(domainBuilder.buildCertificationCandidate({ id: 'another candidate' }));
+
+          const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository({
+            findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationData: [
+              schoolingRegistration,
+            ],
+          });
+          const scoCertificationCandidateRepository = _buildFakeSCOCertificationCandidateRepository();
+
+          // when
+          const error = await catchErr(linkUserToSessionCertificationCandidate)({
+            sessionId,
+            userId,
+            firstName,
+            lastName,
+            birthdate,
+            certificationCandidateRepository,
+            schoolingRegistrationRepository,
+            sessionRepository,
+            scoCertificationCandidateRepository,
+          });
+
+          // then
+          expect(error).to.be.an.instanceof(UserAlreadyLinkedToCandidateInSessionError);
+        });
+      });
     });
   });
 });
@@ -333,4 +473,23 @@ function _buildFakeSessionRepository({ sessionId, isSco }) {
   const isScoStub = sinon.stub();
   isScoStub.withArgs(sessionId).resolves(isSco);
   return { isSco: isScoStub };
+}
+
+function _buildFakeSchoolingRegistrationRepository({ findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationData }) {
+  const findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationStub = sinon.stub();
+  findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationStub.resolves(findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationData);
+  return { findByUserIdAndSchoolingRegistrationIdAndSCOOrganization: findByUserIdAndSchoolingRegistrationIdAndSCOOrganizationStub };
+}
+
+function _buildFakeCertificationCandidateRepository() {
+  return {
+    findBySessionIdAndPersonalInfo: sinon.stub(),
+    findOneBySessionIdAndUserId: sinon.stub(),
+  };
+}
+
+function _buildFakeSCOCertificationCandidateRepository() {
+  return {
+    linkToUser: sinon.stub(),
+  };
 }

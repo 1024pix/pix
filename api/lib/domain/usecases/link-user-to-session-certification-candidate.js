@@ -3,6 +3,7 @@ const CertificationCandidate = require('../models/CertificationCandidate');
 const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
+  MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../errors');
@@ -15,12 +16,8 @@ async function linkUserToSessionCertificationCandidate({
   birthdate,
   certificationCandidateRepository,
   sessionRepository,
+  schoolingRegistrationRepository,
 }) {
-  const isSco = await sessionRepository.isSco(sessionId);
-  if (isSco) {
-    throw Error('sco!');
-  }
-
   const participatingCertificationCandidate = new CertificationCandidate({
     firstName,
     lastName,
@@ -35,18 +32,27 @@ async function linkUserToSessionCertificationCandidate({
     certificationCandidateRepository,
   });
 
+  const isSco = await sessionRepository.isSco(sessionId);
+
   if (!certificationCandidate.isLinkedToAUser()) {
-    const linkedCertificationCandidate = await _linkUserToCandidate({
+    if (isSco) {
+      await _checkCandidateMatchTheReconciledStudent({
+        userId,
+        certificationCandidate,
+        schoolingRegistrationRepository,
+      });
+    }
+    await _linkUserToCandidate({
       sessionId,
       userId,
       certificationCandidate,
       certificationCandidateRepository,
     });
-    return new UserLinkedEvent(linkedCertificationCandidate);
+    return new UserLinkedEvent();
   }
 
   if (certificationCandidate.isLinkedToUserId(userId)) {
-    return new UserAlreadyLinkedEvent(certificationCandidate);
+    return new UserAlreadyLinkedEvent();
   } else {
     throw new CertificationCandidateAlreadyLinkedToUserError();
   }
@@ -96,14 +102,18 @@ async function _linkUserToCandidate({
 }
 
 class UserLinkedEvent {
-  constructor(certificationCandidate) {
-    this.certificationCandidate = certificationCandidate;
-  }
 }
 
 class UserAlreadyLinkedEvent {
-  constructor(certificationCandidate) {
-    this.certificationCandidate = certificationCandidate;
+}
+
+async function _checkCandidateMatchTheReconciledStudent({ userId, certificationCandidate, schoolingRegistrationRepository }) {
+  const students = await schoolingRegistrationRepository.findByUserIdAndSchoolingRegistrationIdAndSCOOrganization({
+    userId,
+    schoolingRegistrationId: certificationCandidate.schoolingRegistrationId,
+  });
+  if (_.isEmpty(students)) {
+    throw new MatchingReconciledStudentNotFoundError();
   }
 }
 
@@ -112,4 +122,3 @@ module.exports = {
   UserAlreadyLinkedEvent,
   UserLinkedEvent,
 };
-

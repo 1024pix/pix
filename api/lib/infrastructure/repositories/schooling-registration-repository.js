@@ -79,6 +79,17 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
+  // FIXME find or get => on a uniquement besoin du nationalStudentId
+  async findByUserIdAndSchoolingRegistrationIdAndSCOOrganization({ userId, schoolingRegistrationId }) {
+    const schoolingRegistrations = await BookshelfSchoolingRegistration
+      .query((qb) => qb.join('organizations', 'schooling-registrations.organizationId', 'organizations.id'))
+      .where({ userId, type: 'SCO', 'schooling-registrations.id': schoolingRegistrationId })
+      //FIXME do not fetch everything
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+  },
+
   async findByUserIdAndSCOOrganization({ userId }) {
     const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => qb.join('organizations', 'schooling-registrations.organizationId', 'organizations.id'))
