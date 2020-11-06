@@ -25,12 +25,12 @@
     <div class="certification-candidates-input-wrapper">
       <OneWayDateMask
           required
-          pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
           @placeholder='dd/mm/yyyy'
           @options={{hash inputFormat='dd/mm/yyyy' outputFormat='yyyy-mm-dd'}}
           @class="certification-candidates-input {{if this.birthdateFocused 'focused'}}"
+          id="certification-candidates-input-birthdate"
           {{on 'focus' this.focusBirthdate}}
-          @value={{undefined}}
+          @value={{this.maskedBirthdate}}
           @update={{this.updateCandidateDataBirthdate}}>
       </OneWayDateMask>
     </div>
