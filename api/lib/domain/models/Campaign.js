@@ -64,6 +64,10 @@ class Campaign {
   isProfilesCollection() {
     return this.type === types.PROFILES_COLLECTION;
   }
+
+  isArchived() {
+    return Boolean(this.archivedAt);
+  }
 }
 
 Campaign.types = types;

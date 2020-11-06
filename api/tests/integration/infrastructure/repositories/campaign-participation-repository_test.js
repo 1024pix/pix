@@ -2,6 +2,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
@@ -515,4 +516,53 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#isAssessmentCompleted', () => {
+
+    it('should return true when latest assessment is completed', async () => {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+      const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+      // oldest assessment
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId, state: Assessment.states.STARTED, createdAt: new Date('2019-01-04') });
+      // latest assessment
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId, state: Assessment.states.COMPLETED, createdAt: new Date('2019-02-05') });
+      // noise
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId: otherCampaignParticipationId, state: Assessment.states.STARTED, createdAt: new Date('2019-04-05') });
+      await databaseBuilder.commit();
+
+      // when
+      const isAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(campaignParticipationId);
+
+      // then
+      expect(isAssessmentCompleted).to.be.true;
+    });
+
+    it('should return false when latest assessment is not completed', async () => {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+      // oldest assessment
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId, state: Assessment.states.COMPLETED, createdAt: new Date('2019-01-04') });
+      // latest assessment
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId, state: Assessment.states.STARTED, createdAt: new Date('2019-02-05') });
+      await databaseBuilder.commit();
+
+      // when
+      const isAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(campaignParticipationId);
+
+      // then
+      expect(isAssessmentCompleted).to.be.false;
+    });
+
+    it('should return false when campaignParticipation has no assessment', async () => {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+      await databaseBuilder.commit();
+
+      // when
+      const isAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(campaignParticipationId);
+
+      // then
+      expect(isAssessmentCompleted).to.be.false;
+    });
+  });
 });

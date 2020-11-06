@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
@@ -296,36 +295,22 @@ describe('Acceptance | API | Campaign Participations', () => {
       return cache.flushAll();
     });
 
-    context('when there is no remaining challenges', () => {
-      beforeEach(async () => {
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb1Id });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb2Id });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb3Id });
-
-        campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
+    context('when assessment is completed', () => {
+      beforeEach(() => {
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           id: campaignParticipationId,
+          userId: user.id,
           isShared: false,
           sharedAt: null,
-          campaignId: campaign.id,
         });
         assessment = databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation.id,
           userId: user.id,
           type: Assessment.types.CAMPAIGN,
+          state: Assessment.states.COMPLETED,
         });
 
-        _([
-          { skillId: skillWeb1Id, status: 'validated' },
-          { skillId: skillWeb2Id, status: 'validated' },
-          { skillId: skillWeb3Id, status: 'validated' },
-        ]).each((ke, id) => {
-          databaseBuilder.factory.buildKnowledgeElement({ ...ke, id, userId: user.id, assessmentId: assessment.id });
-        });
-
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
       });
 
       it('should allow the user to share his campaign participation', async () => {
@@ -338,28 +323,22 @@ describe('Acceptance | API | Campaign Participations', () => {
       });
     });
 
-    context('when there is some remaining challenges', () => {
-      beforeEach(async () => {
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
-
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb1Id });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb2Id });
-        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb3Id });
-
-        campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
+    context('when assessment is not completed', () => {
+      beforeEach(() => {
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           id: campaignParticipationId,
+          userId: user.id,
           isShared: false,
           sharedAt: null,
-          campaignId: campaign.id,
         });
         assessment = databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation.id,
           userId: user.id,
           type: Assessment.types.CAMPAIGN,
+          state: Assessment.states.STARTED,
         });
 
-        await databaseBuilder.commit();
+        return databaseBuilder.commit();
       });
 
       it('should disallow the user to share his campaign participation', async () => {
