@@ -1,24 +1,37 @@
 const Assessment = require('../models/Assessment');
-const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const { AssessmentNotCompletedError, AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
 module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipationId,
   userId,
   assessmentRepository,
-  campaignParticipationRepository,
+  campaignAssessmentInfoRepository,
 }) {
 
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {});
-  if (campaignParticipation.userId !== userId) {
+  const campaignAssessmentInfo = await campaignAssessmentInfoRepository.getByCampaignParticipationId(campaignParticipationId);
+  if (campaignAssessmentInfo.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  if (campaignParticipation.isShared) {
+  if (campaignAssessmentInfo.isShared) {
     throw new AlreadySharedCampaignParticipationError();
   }
+
+  if (campaignAssessmentInfo.hasOngoingImprovment) {
+    return {
+      created: false,
+    };
+  }
+
+  if (!campaignAssessmentInfo.isCompleted) {
+    throw new AssessmentNotCompletedError();
+  }
+
   await _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository });
 
-  return campaignParticipation;
+  return {
+    created: true,
+  };
 };
 
 function _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository }) {

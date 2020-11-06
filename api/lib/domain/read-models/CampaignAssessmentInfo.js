@@ -38,6 +38,10 @@ class CampaignAssessmentParticipation {
     return this.status !== CampaignAssessmentParticipation.statuses.NOT_STARTED;
   }
 
+  get hasOngoingImprovment() {
+    return this.isOngoing && this.isImproving;
+  }
+
   get isOngoing() {
     return this.status === CampaignAssessmentParticipation.statuses.ONGOING;
   }

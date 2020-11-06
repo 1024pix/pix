@@ -109,4 +109,35 @@ describe('Unit | Domain | Models | CampaignAssessmentInfo', () => {
       expect(campaignAssessmentInfo.hasStarted).to.be.false;
     });
   });
+
+  describe('#hasOngoingImprovment', () => {
+
+    it('should return false when campaign assessment is neither ongoing nor is improving', () => {
+      let campaignAssessmentInfo = new CampaignAssessmentInfo({
+        assessmentState: Assessment.states.STARTED,
+        isShared: false,
+        isImproving: false,
+      });
+      expect(campaignAssessmentInfo.hasOngoingImprovment).to.be.true;
+
+      campaignAssessmentInfo = new CampaignAssessmentInfo({
+        assessmentState: Assessment.states.COMPLETED,
+        isShared: false,
+        isImproving: true,
+      });
+      expect(campaignAssessmentInfo.hasOngoingImprovment).to.be.true;
+    });
+
+    it('should return true when campaign assessment is ongoing and is improving', () => {
+      // given
+      const campaignAssessmentInfo = new CampaignAssessmentInfo({
+        assessmentState: Assessment.states.STARTED,
+        isShared: false,
+        isImproving: true,
+      });
+
+      // when / then
+      expect(campaignAssessmentInfo.hasOngoingImprovment).to.be.true;
+    });
+  });
 });

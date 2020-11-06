@@ -49,16 +49,16 @@ module.exports = {
     return null;
   },
 
-  async beginImprovement(request) {
+  async beginImprovement(request, h) {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = parseInt(request.params.id);
 
-    const campaignParticipation = await usecases.beginCampaignParticipationImprovement({
+    const { created } = await usecases.beginCampaignParticipationImprovement({
       campaignParticipationId,
       userId,
     });
-    return serializer.serialize(campaignParticipation);
 
+    return created ? h.response().created() : null;
   },
 
   async getAnalysis(request) {
