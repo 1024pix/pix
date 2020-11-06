@@ -2,7 +2,10 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const iconv = require('iconv-lite');
 const importSchoolingRegistrationsFromSIECLEFormat = require('../../../../lib/domain/usecases/import-schooling-registrations-from-siecle');
 const { FileValidationError, SchoolingRegistrationsCouldNotBeSavedError, SameNationalStudentIdInFileError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
-const  SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+
+const schoolingRegistrationCsvColumns = COLUMNS.map((column) => column.label).join(';');
 
 describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
@@ -27,7 +30,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
     context('when the format is CSV', () => {
       it('should save these informations', async () => {
         format = 'csv';
-        const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+        const input = `${schoolingRegistrationCsvColumns}
         123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
         456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
         `;

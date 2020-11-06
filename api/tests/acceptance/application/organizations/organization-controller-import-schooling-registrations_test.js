@@ -8,6 +8,9 @@ const {
 const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');
+const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+
+const schoolingRegistrationCsvColumns = COLUMNS.map((column) => column.label).join(';');
 
 describe('Acceptance | Application | organization-controller-import-schooling-registrations', () => {
 
@@ -759,7 +762,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
       context('when no schooling registration has been imported yet, and the file is well formatted', () => {
         beforeEach(() => {
-          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
@@ -791,7 +794,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       context('when some schooling registrations data are not well formatted', () => {
         beforeEach(() => {
           // given
-          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           456F;O-Ren;;;;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
@@ -815,7 +818,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
       context('when a schooling registration has the same national student id than an other one in the file', () => {
         beforeEach(() => {
-          const input = `Identifiant unique*;Premier prénom*;Deuxième prénom;Troisième prénom;Nom de famille*;Nom d’usage;Date de naissance (jj/mm/aaaa)*;Code commune naissance**;Libellé commune naissance**;Code département naissance*;Code pays naissance*;Statut*;Code MEF*;Division*
+          const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           123F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
