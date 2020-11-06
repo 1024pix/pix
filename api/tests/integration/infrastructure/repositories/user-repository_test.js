@@ -1481,39 +1481,4 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#updateSamlId', () => {
-
-    let userId;
-
-    beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser({ samlId: null }).id;
-      await databaseBuilder.commit();
-    });
-
-    it('should update the user\'s samlId', async () => {
-      // given
-      const expectedSamlId = 'abcd';
-
-      // when
-      const result = await userRepository.updateSamlId({ userId, samlId: expectedSamlId });
-
-      // then
-      expect(result).to.be.true;
-      const foundUsers = await knex('users').where({ id: userId });
-      expect(foundUsers[0].samlId).to.equal(expectedSamlId);
-    });
-
-    it('should throw UserNotFoundError when user id is not found', async () => {
-      // given
-      const wrongUserId = 0;
-      const samlId = 'abcd';
-
-      // when
-      const error = await catchErr(userRepository.updateSamlId)({ userId: wrongUserId, samlId });
-
-      // then
-      expect(error).to.be.instanceOf(UserNotFoundError);
-    });
-  });
-
 });

@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../test-helper');
 const querystring = require('querystring');
 
 const createServer = require('../../../server');
@@ -134,6 +134,10 @@ describe('Acceptance | Controller | authentication-controller', () => {
       };
 
       await databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('authentication-methods').delete();
     });
 
     it('should return an 200 with accessToken when authentication is ok', async () => {
