@@ -138,7 +138,6 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: 'gar',
     email: null,
     username: null,
-    samlId: '1234567',
     rawPassword: defaultPassword,
     cgu: false,
   });
