@@ -1,10 +1,11 @@
-const { UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError, ArchivedCampaignError } = require('../errors');
+const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError, ArchivedCampaignError } = require('../errors');
 const CampaignParticipationResultsShared = require('../events/CampaignParticipationResultsShared');
 
 module.exports = async function shareCampaignResult({
   userId,
   campaignParticipationId,
   campaignParticipationRepository,
+  campaignAssessmentInfoRepository,
   campaignRepository,
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
@@ -18,8 +19,11 @@ module.exports = async function shareCampaignResult({
   }
 
   if (campaign.isAssessment()) {
-    const isLatestAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(campaignParticipationId);
-    if (!isLatestAssessmentCompleted) {
+    const campaignAssessmentInfo = await campaignAssessmentInfoRepository.getByCampaignParticipationId(campaignParticipationId);
+    if (campaignAssessmentInfo.isShared) {
+      throw new AlreadySharedCampaignParticipationError();
+    }
+    if (!campaignAssessmentInfo.isCompleted) {
       throw new AssessmentNotCompletedError();
     }
   }
