@@ -40,7 +40,6 @@ function usersBuilder({ databaseBuilder }) {
     email: null,
     rawPassword: 'Password123',
     cgu: false,
-    samlId: 'samlId',
   });
 
   databaseBuilder.factory.buildAuthenticationMethod({

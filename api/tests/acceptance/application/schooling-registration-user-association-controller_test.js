@@ -63,7 +63,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: 'john.harry@example.net',
-            samlId: null,
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
           schoolingRegistration.userId = userWithEmailOnly.id;
@@ -100,7 +99,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
             email: null,
-            samlId: null,
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
           schoolingRegistration.userId = userWithUsernameOnly.id;
@@ -220,7 +218,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: 'john.harry@example.net',
-            samlId: null,
           });
           const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
           otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
@@ -262,7 +259,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             email: null,
             username: 'john.harry0702',
-            samlId: null,
           });
 
           const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
@@ -917,7 +913,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: 'john.harry@example.net',
-            samlId: null,
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: userWithEmailOnly.id });
           await databaseBuilder.commit();
@@ -953,7 +948,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
             email: null,
-            samlId: null,
           });
           const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: userWithUsernameOnly.id });
           await databaseBuilder.commit();
@@ -1047,7 +1041,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: 'john.harry@example.net',
-            samlId: null,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             nationalStudentId: schoolingRegistration.nationalStudentId,
@@ -1089,7 +1082,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
             email: null,
-            samlId: null,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             nationalStudentId: schoolingRegistration.nationalStudentId,
