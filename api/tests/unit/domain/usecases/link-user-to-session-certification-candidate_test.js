@@ -31,6 +31,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       it('should throw a CertificationCandidatePersonalInfoFieldMissingError', async () => {
         // given
         firstName = undefined;
+        const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
 
         // when
         const err = await catchErr(linkUserToSessionCertificationCandidate)({
@@ -40,6 +41,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           lastName,
           birthdate,
           certificationCandidateRepository,
+          sessionRepository,
         });
 
         // then
@@ -52,6 +54,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       it('should throw a CertificationCandidatePersonalInfoWrongFormat', async () => {
         // given
         birthdate = 'invalid format';
+        const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
 
         // when
         const err = await catchErr(linkUserToSessionCertificationCandidate)({
@@ -61,6 +64,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           lastName,
           birthdate,
           certificationCandidateRepository,
+          sessionRepository,
         });
 
         // then
@@ -82,6 +86,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       });
 
       it('should throw a CertificationCandidateByPersonalInfoNotFoundError', async () => {
+        // given
+        const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
+
         // when
         const err = await catchErr(linkUserToSessionCertificationCandidate)({
           sessionId,
@@ -90,6 +97,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           lastName,
           birthdate,
           certificationCandidateRepository,
+          sessionRepository,
         });
 
         // then
@@ -111,6 +119,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       });
 
       it('should throw a CertificationCandidateByPersonalInfoTooManyMatchesError', async () => {
+        // given
+        const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
+
         // when
         const err = await catchErr(linkUserToSessionCertificationCandidate)({
           sessionId,
@@ -119,6 +130,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           lastName,
           birthdate,
           certificationCandidateRepository,
+          sessionRepository,
         });
 
         // then
@@ -147,6 +159,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
 
         it('should not create a link and return the matching certification candidate', async () => {
+          // given
+          const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
+
           // when
           const result = await linkUserToSessionCertificationCandidate({
             sessionId,
@@ -155,6 +170,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             lastName,
             birthdate,
             certificationCandidateRepository,
+            sessionRepository,
           });
 
           // then
@@ -179,6 +195,10 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
 
         it('should throw a CertificationCandidateAlreadyLinkedToUserError', async () => {
+          // given
+          const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
+
+          // when
           const err = await catchErr(linkUserToSessionCertificationCandidate)({
             sessionId,
             userId,
@@ -186,6 +206,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             lastName,
             birthdate,
             certificationCandidateRepository,
+            sessionRepository,
           });
 
           // then
@@ -214,6 +235,10 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
 
         it('should throw a UserAlreadyLinkedToCandidateInSessionError', async () => {
+          // given
+          const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
+
+          // when
           const err = await catchErr(linkUserToSessionCertificationCandidate)({
             sessionId,
             userId,
@@ -221,6 +246,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             lastName,
             birthdate,
             certificationCandidateRepository,
+            sessionRepository,
           });
 
           // then
@@ -250,6 +276,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
 
         it('should create a link and return the linked certification candidate', async () => {
+          // given
+          const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: false });
+
           // when
           const result = await linkUserToSessionCertificationCandidate({
             sessionId,
@@ -258,6 +287,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             lastName,
             birthdate,
             certificationCandidateRepository,
+            sessionRepository,
           });
 
           // then
@@ -267,4 +297,40 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       });
     });
   });
+
+  context('when the session is of type SCO', () => {
+    it('throws an exception (temporary for building test)', async () => {
+      // given
+      const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId });
+      sinon.stub(certificationCandidateRepository,
+        'findBySessionIdAndPersonalInfo')
+        .withArgs({
+          sessionId,
+          firstName: firstName,
+          lastName: lastName,
+          birthdate: birthdate,
+        }).resolves([certificationCandidate]);
+
+      const sessionRepository = _buildFakeSessionRepository({ sessionId, isSco: true });
+
+      // when
+      const err = await catchErr(linkUserToSessionCertificationCandidate)({
+        sessionId,
+        userId,
+        firstName,
+        lastName,
+        birthdate,
+        certificationCandidateRepository,
+        sessionRepository,
+      });
+
+      expect(err).to.be.instanceOf(Error);
+    });
+  });
 });
+
+function _buildFakeSessionRepository({ sessionId, isSco }) {
+  const isScoStub = sinon.stub();
+  isScoStub.withArgs(sessionId).resolves(isSco);
+  return { isSco: isScoStub };
+}

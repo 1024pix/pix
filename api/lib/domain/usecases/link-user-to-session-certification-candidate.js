@@ -14,7 +14,13 @@ async function linkUserToSessionCertificationCandidate({
   lastName,
   birthdate,
   certificationCandidateRepository,
+  sessionRepository,
 }) {
+  const isSco = await sessionRepository.isSco(sessionId);
+  if (isSco) {
+    throw Error('sco!');
+  }
+
   const participatingCertificationCandidate = new CertificationCandidate({
     firstName,
     lastName,
