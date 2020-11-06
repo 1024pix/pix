@@ -1,6 +1,6 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const certificationCandidateRepository = require('../../../../lib/infrastructure/repositories/certification-candidate-repository');
-const usecases = require('../../../../lib/domain/usecases');
+const { linkUserToSessionCertificationCandidate } = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
 const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
@@ -33,7 +33,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         firstName = undefined;
 
         // when
-        const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+        const err = await catchErr(linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
           firstName,
@@ -54,7 +54,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         birthdate = 'invalid format';
 
         // when
-        const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+        const err = await catchErr(linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
           firstName,
@@ -83,7 +83,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
       it('should throw a CertificationCandidateByPersonalInfoNotFoundError', async () => {
         // when
-        const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+        const err = await catchErr(linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
           firstName,
@@ -112,7 +112,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
       it('should throw a CertificationCandidateByPersonalInfoTooManyMatchesError', async () => {
         // when
-        const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+        const err = await catchErr(linkUserToSessionCertificationCandidate)({
           sessionId,
           userId,
           firstName,
@@ -148,7 +148,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
         it('should not create a link and return the matching certification candidate', async () => {
           // when
-          const result = await usecases.linkUserToSessionCertificationCandidate({
+          const result = await linkUserToSessionCertificationCandidate({
             sessionId,
             userId,
             firstName,
@@ -179,7 +179,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
 
         it('should throw a CertificationCandidateAlreadyLinkedToUserError', async () => {
-          const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+          const err = await catchErr(linkUserToSessionCertificationCandidate)({
             sessionId,
             userId,
             firstName,
@@ -214,7 +214,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
 
         it('should throw a UserAlreadyLinkedToCandidateInSessionError', async () => {
-          const err = await catchErr(usecases.linkUserToSessionCertificationCandidate)({
+          const err = await catchErr(linkUserToSessionCertificationCandidate)({
             sessionId,
             userId,
             firstName,
@@ -251,7 +251,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
         it('should create a link and return the linked certification candidate', async () => {
           // when
-          const result = await usecases.linkUserToSessionCertificationCandidate({
+          const result = await linkUserToSessionCertificationCandidate({
             sessionId,
             userId,
             firstName,
