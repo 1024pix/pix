@@ -548,7 +548,7 @@ class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   }
 }
 
-class CampaignAlreadyArchivedError extends DomainError {
+class ArchivedCampaignError extends DomainError {
   constructor(message = 'Cette campagne est déjà archivée.') {
     super(message);
   }
@@ -639,7 +639,7 @@ module.exports = {
   AssessmentEndedError,
   AssessmentNotCompletedError,
   AssessmentResultNotCreatedError,
-  CampaignAlreadyArchivedError,
+  ArchivedCampaignError,
   CampaignCodeError,
   CertificateVerificationCodeGenerationTooManyTrials,
   CertificationCandidateForbiddenDeletionError,
