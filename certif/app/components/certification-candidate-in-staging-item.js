@@ -26,6 +26,9 @@ export default class CertificationCandidateInStagingItem extends Component {
   birthCityFocused = false;
 
   @tracked
+  maskedBirthdate = undefined;
+
+  @tracked
   birthProvinceCodeFocused = false;
 
   @tracked
@@ -80,8 +83,9 @@ export default class CertificationCandidateInStagingItem extends Component {
   }
 
   @action
-  updateCandidateDataBirthdate(value) {
-    this.args.updateCandidateBirthdate(this.args.candidateData, value);
+  updateCandidateDataBirthdate(unmasked, masked) {
+    this.maskedBirthdate = masked;
+    this.args.updateCandidateBirthdate(this.args.candidateData, unmasked);
   }
 
   @action
