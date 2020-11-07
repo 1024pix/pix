@@ -1,6 +1,6 @@
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import cloneDeep from 'lodash/cloneDeep';
@@ -26,7 +26,6 @@ export default class CertificationInformationsController extends Controller {
   // private properties
   _competencesCopy = null;
 
-  @computed('certification.status')
   get isValid() {
     return this.certification.status !== 'missing-assessment';
   }
