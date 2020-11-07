@@ -35,6 +35,12 @@
         </p>
       </div>
     </div>
+    <div class="page-section__row">
+      <div class="page-section__cell">
+        <p class="page-section__cell-label">Commentaire du surveillant</p>
+        <p class="page-section__cell-value">{{this.certification.examinerComment}}</p>
+      </div>
+    </div>
   </section>
 
   <section class="page-section">
@@ -122,7 +128,6 @@
       {{/if}}
     </div>
   </section>
-
 
   <ConfirmPopup
           @message="Souhaitez-vous mettre à jour cette certification ?"

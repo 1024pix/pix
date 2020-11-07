@@ -31,23 +31,6 @@ export default class CertificationInformationsController extends Controller {
     return this.certification.status !== 'missing-assessment';
   }
 
-  @computed('certification.{isCleaCertificationIsAcquired,isCleaCertificationIsRejected}')
-  get cleaStatusClass() {
-    const cleaClass = 'certification-informations__clea--';
-    if (this.certification.isCleaCertificationIsAcquired) {
-      return `${cleaClass}acquired`;
-    }
-    if (this.certification.isCleaCertificationIsRejected) {
-      return `${cleaClass}rejected`;
-    }
-    return '';
-  }
-
-  @action
-  onEdit() {
-    this._competencesCopy = this._copyCompetences();
-  }
-
   @action
   onCancel() {
     this.certification.rollbackAttributes();
@@ -74,10 +57,10 @@ export default class CertificationInformationsController extends Controller {
     this.displayConfirm = false;
     const markUpdatedRequired = this.certification.hasDirtyAttributes;
     try {
-      await this.saveWithoutUpdatingCompetenceMarks();
+      await this.certification.saveWithoutUpdatingCompetenceMarks();
 
       if (markUpdatedRequired) {
-        await this.saveWithUpdatingCompetenceMarks();
+        await this.certification.saveCompetenceMarks();
       }
 
       this.notifications.success('Modifications enregistrées');
@@ -92,14 +75,6 @@ export default class CertificationInformationsController extends Controller {
         this.notifications.error(e);
       }
     }
-  }
-
-  saveWithUpdatingCompetenceMarks() {
-    return this.certification.save({ adapterOptions: { updateMarks: true } });
-  }
-
-  saveWithoutUpdatingCompetenceMarks() {
-    return this.certification.save({ adapterOptions: { updateMarks: false } });
   }
 
   @action

@@ -88,4 +88,12 @@ export default class Certification extends Model {
   get isCleaCertificationIsRejected() {
     return this.cleaCertificationStatus === REJECTED;
   }
+
+  saveCompetenceMarks() {
+    return this.save({ adapterOptions: { updateMarks: true } });
+  }
+
+  saveWithoutUpdatingCompetenceMarks() {
+    return this.save({ adapterOptions: { updateMarks: false } });
+  }
 }
