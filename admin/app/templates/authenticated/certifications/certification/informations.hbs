@@ -1,138 +1,33 @@
 <div class="certification-informations">
 
-  <section class="page-section">
-    <div class="page-section__row">
-      <div class="page-section__cell">
-        <p class="page-section__cell-label">Session</p>
-        <p class="page-section__cell-value">
-          <LinkTo @route="authenticated.sessions.session" @model={{this.certification.sessionId}}>
-            {{this.certification.sessionId}}
-          </LinkTo>
-        </p>
-      </div>
-      <div class="page-section__cell">
-        <p class="page-section__cell-label">Date de passage</p>
-        <p class="page-section__cell-value">{{this.certification.creationDate}}</p>
-      </div>
-      <div class="page-section__cell">
-        <p class="page-section__cell-label">Date de finalisation</p>
-        <p class="page-section__cell-value">{{this.certification.completionDate}}</p>
-      </div>
-      <div class="page-section__cell">
-        <p class="page-section__cell-label">Publication</p>
-        <p class="page-section__cell-value">{{this.certification.publishedText}}</p>
-      </div>
-      <div class="page-section__cell">
-        <p class="page-section__cell-label">Certification CléA numérique</p>
-        <p class="page-section__cell-value">{{this.certification.displayCleaCertificationStatus}}</p>
-      </div>
-      <div class="page-section__cell">
-        <p class="page-section__cell-label">Identifiant jury</p>
-        <p class="page-section__cell-value">
-          <LinkTo @route="authenticated.users.get" @model={{this.certification.juryId}}>
-            {{this.certification.juryId}}
-          </LinkTo>
-        </p>
-      </div>
-    </div>
-    <div class="page-section__row">
-      <div class="page-section__cell">
-        <p class="page-section__cell-label">Commentaire du surveillant</p>
-        <p class="page-section__cell-value">{{this.certification.examinerComment}}</p>
-      </div>
-    </div>
-  </section>
+  <Certification::CertificationInfoPageSection @certification={{this.model}} />
 
   <section class="page-section">
     <div class="page-section__row">
-      <div class="page-section__cell workflow-step--candidate">
-        <div class="page-section__header">
-          <h3 class="page-section__title"><span class="item-number one"></span>Candidat</h3>
-        </div>
+      <div class="page-section__cell page-section__cell--no-padding page-section__cell--candidate">
+        <Certification::CertificationCandidatePanel @certification={{this.model}} />
       </div>
-      <div class="page-section__cell workflow-step--results">
-        <div class="page-section__header">
-          <h3 class="page-section__title"><span class="item-number two"></span>Résultats</h3>
-        </div>
+      <div class="page-section__cell page-section__cell--no-padding page-section__cell--results no-padding">
+        <Certification::CertificationResultsPanel @certification={{this.model}} />
       </div>
-      <div class="page-section__cell workflow-step--verdict">
-        <div class="page-section__header">
-          <h3 class="page-section__title"><span class="item-number three"></span>Verdict</h3>
-        </div>
+      <div class="page-section__cell page-section__cell--no-padding page-section__cell--verdict">
+        <Certification::CertificationVerdictPanel @certification={{this.model}} />
       </div>
     </div>
 
     <div class="page-section__row">
-      <div class="page-section__cell workflow-step--candidate">
-        <div class="entry-field">
-          <label for="candidate-first-name">Prénom :</label>
-          <Input @id="candidate-first-name" @type="text" @value={{this.certification.firstName}} />
-        </div>
-        <div class="entry-field">
-          <label for="candidate-last-name">Nom :</label>
-          <Input @id="candidate-last-name" @type="text" @value={{this.certification.lastName}} />
-        </div>
-        <div class="entry-field">
-          <label for="candidate-birth-date">Date de naissance :</label>
-          <EmberFlatpickr
-              @id="candidate-birth-date"
-              @altFormat="d/m/Y"
-              @altInput={{true}}
-              @onChange={{this.onUpdateCertificationBirthdate}}
-              @dateFormat="Y-m-d"
-              @locale="fr"
-              @date={{this.certification.birthdate}} />
-        </div>
-        <div class="entry-field">
-          <label for="candidate-birth-place">Lieu de naissance :</label>
-          <Input @id="candidate-birth-place" @type="text" @value={{this.certification.birthplace}} />
-        </div>
+      <div class="page-section__cell">
+        <PixButton class="btn btn-primary btn--save" @action={{this.showConfirm}} @loading-color="white">
+          Enregistrer
+        </PixButton>
       </div>
-
-      <div class="page-section__cell workflow-step--results">
-        <div class="highlight-block">
-          <div class="entry-field">
-            <label for="certification-score">Total (en pix) :</label>
-            <Input @id="certification-score" @type="text" @value={{this.certification.pixScore}} />
-          </div>
-        </div>
-
-        <CertificationInfoCompetences
-            @competences={{this.certification.competences}}
-            @onUpdateScore={{this.onUpdateScore}}
-            @onUpdateLevel={{this.onUpdateLevel}} />
-      </div>
-
-      <div class="page-section__cell workflow-step--verdict">
-        <div class="highlight-block">
-          <CertificationStatusSelect @certification={{this.certification}} />
-        </div>
-        <div class="entry-field">
-          <label for="comments-for-candidate">Commentaires pour le candidat :</label>
-          <Textarea @id="comments-for-candidate" rows="5" @value={{this.certification.commentForCandidate}} />
-        </div>
-        <div class="entry-field">
-          <label for="comments-for-jury">Notes pour le jury :</label>
-          <Textarea @id="comments-for-jury" rows="5" @value={{this.certification.commentForJury}} />
-        </div>
-      </div>
-    </div>
-
-    <div class="page-section__row justify-content-start">
-      {{#if this.isValid}}
-        <div class="page-section__cell">
-          <PixButton class="btn btn-primary btn--save" @action={{this.onSaveConfirm}} @loading-color="white">
-            Enregistrer
-          </PixButton>
-        </div>
-      {{/if}}
     </div>
   </section>
 
   <ConfirmPopup
           @message="Souhaitez-vous mettre à jour cette certification ?"
           @error={{this.confirmErrorMessage}}
-          @confirm={{this.onSave}}
-          @cancel={{this.onCancelConfirm}}
+          @confirm={{this.saveCertification}}
+          @cancel={{this.cancelCertificationSaving}}
           @show={{this.displayConfirm}} />
 </div>

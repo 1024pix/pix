@@ -17,6 +17,33 @@
     &__header {
       margin-bottom: 0;
     }
+
+    &__cell {
+
+      &--candidate {
+        flex: 1;
+      }
+
+      &--results {
+        flex:1;
+      }
+
+      &--verdict {
+        flex: 1;
+      }
+    }
+
+    &__panel {
+
+      &-header {
+        padding: 20px;
+        border-bottom: 1px solid #DFE1E6;
+      }
+
+      &-body {
+        padding: 20px;
+      }
+    }
   }
 
   .highlight-block {

@@ -71,6 +71,10 @@
         border-right: 1px solid #DFE1E6;
       }
 
+      &--no-padding {
+        padding: 0;
+      }
+
       &-label {
         color: #7A869A;
         font-size: .875rem;

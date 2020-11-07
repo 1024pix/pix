@@ -1,0 +1,20 @@
+<div class="page-section__panel">
+  <div class="page-section__panel-header">
+    <h3><span class="item-number three"></span>Verdict</h3>
+  </div>
+
+  <div class="page-section__panel-body">
+    <div class="highlight-block">
+      <CertificationStatusSelect @certification={{@certification}} />
+    </div>
+    <div class="entry-field">
+      <label for="comments-for-candidate">Commentaires pour le candidat :</label>
+      <Textarea @id="comments-for-candidate" rows="5" @value={{@certification.commentForCandidate}} />
+    </div>
+    <div class="entry-field">
+      <label for="comments-for-jury">Notes pour le jury :</label>
+      <Textarea @id="comments-for-jury" rows="5" @value={{@certification.commentForJury}} />
+    </div>
+  </div>
+</div>
+

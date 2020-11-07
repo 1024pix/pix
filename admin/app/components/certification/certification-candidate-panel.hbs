@@ -1,0 +1,31 @@
+<div class="page-section__panel">
+  <div class="page-section__panel-header">
+    <h3><span class="item-number one"></span>Candidat</h3>
+  </div>
+
+  <div class="page-section__panel-body">
+    <div class="entry-field">
+      <label for="candidate-first-name">Prénom :</label>
+      <Input @id="candidate-first-name" @type="text" @value={{@certification.firstName}} />
+    </div>
+    <div class="entry-field">
+      <label for="candidate-last-name">Nom :</label>
+      <Input @id="candidate-last-name" @type="text" @value={{@certification.lastName}} />
+    </div>
+    <div class="entry-field">
+      <label for="candidate-birth-date">Date de naissance :</label>
+      <EmberFlatpickr
+          @id="candidate-birth-date"
+          @altFormat="d/m/Y"
+          @altInput={{true}}
+          @onChange={{this.onUpdateCertificationBirthdate}}
+          @dateFormat="Y-m-d"
+          @locale="fr"
+          @date={{@certification.birthdate}} />
+    </div>
+    <div class="entry-field">
+      <label for="candidate-birth-place">Lieu de naissance :</label>
+      <Input @id="candidate-birth-place" @type="text" @value={{@certification.birthplace}} />
+    </div>
+  </div>
+</div>

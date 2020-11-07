@@ -1,0 +1,42 @@
+<section class="page-section">
+  <div class="page-section__row">
+    <div class="page-section__cell">
+      <p class="page-section__cell-label">Session</p>
+      <p class="page-section__cell-value">
+        <LinkTo @route="authenticated.sessions.session" @model={{@certification.sessionId}}>
+          {{@certification.sessionId}}
+        </LinkTo>
+      </p>
+    </div>
+    <div class="page-section__cell">
+      <p class="page-section__cell-label">Date de passage</p>
+      <p class="page-section__cell-value">{{@certification.creationDate}}</p>
+    </div>
+    <div class="page-section__cell">
+      <p class="page-section__cell-label">Date de finalisation</p>
+      <p class="page-section__cell-value">{{@certification.completionDate}}</p>
+    </div>
+    <div class="page-section__cell">
+      <p class="page-section__cell-label">Publication</p>
+      <p class="page-section__cell-value">{{@certification.publishedText}}</p>
+    </div>
+    <div class="page-section__cell">
+      <p class="page-section__cell-label">Certification CléA numérique</p>
+      <p class="page-section__cell-value">{{@certification.displayCleaCertificationStatus}}</p>
+    </div>
+    <div class="page-section__cell">
+      <p class="page-section__cell-label">Identifiant jury</p>
+      <p class="page-section__cell-value">
+        <LinkTo @route="authenticated.users.get" @model={{@certification.juryId}}>
+          {{@certification.juryId}}
+        </LinkTo>
+      </p>
+    </div>
+  </div>
+  <div class="page-section__row">
+    <div class="page-section__cell">
+      <p class="page-section__cell-label">Commentaire du surveillant</p>
+      <p class="page-section__cell-value">{{@certification.examinerComment}}</p>
+    </div>
+  </div>
+</section>

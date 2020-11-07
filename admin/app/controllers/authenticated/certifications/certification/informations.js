@@ -3,9 +3,6 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import cloneDeep from 'lodash/cloneDeep';
-import find from 'lodash/find';
-
 import { tracked } from '@glimmer/tracking';
 
 export default class CertificationInformationsController extends Controller {
@@ -31,29 +28,24 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onCancel() {
+  cancelCertificationSaving() {
     this.certification.rollbackAttributes();
     if (this._competencesCopy) {
       this.certification.competencesWithMark = this._competencesCopy;
       this._competencesCopy = null;
     }
+    this.displayConfirm = false;
   }
 
   @action
-  onSaveConfirm() {
+  showConfirm() {
+    this.displayConfirm = true;
     const errors = this._getCertificationErrorsAfterJuryUpdateIfAny();
     this.confirmErrorMessage = this._formatErrorsToHtmlString(errors);
-    this.displayConfirm = true;
   }
 
   @action
-  onCancelConfirm() {
-    this.displayConfirm = false;
-  }
-
-  @action
-  async onSave() {
-    this.displayConfirm = false;
+  async saveCertification() {
     const markUpdatedRequired = this.certification.hasDirtyAttributes;
     try {
       await this.certification.saveWithoutUpdatingCompetenceMarks();
@@ -73,17 +65,9 @@ export default class CertificationInformationsController extends Controller {
       } else {
         this.notifications.error(e);
       }
+    } finally {
+      this.displayConfirm = false;
     }
-  }
-
-  @action
-  onUpdateScore(code, value) {
-    this._updatePropForCompetence(code, value, 'score', 'level');
-  }
-
-  @action
-  onUpdateLevel(code, value) {
-    this._updatePropForCompetence(code, value, 'level', 'score');
   }
 
   @action
@@ -105,15 +89,7 @@ export default class CertificationInformationsController extends Controller {
     }
   }
 
-  @action
-  onUpdateCertificationBirthdate(selectedDates, lastSelectedDateFormatted) {
-    this.certification.birthdate = lastSelectedDateFormatted;
-  }
-
   // Private methods
-  _copyCompetences() {
-    return cloneDeep(this.certification.competencesWithMark);
-  }
 
   _getCertificationErrorsAfterJuryUpdateIfAny() {
     return this._getCertificationErrorsAfterJuryUpdate(this.certification.competencesWithMark);
@@ -146,28 +122,5 @@ export default class CertificationInformationsController extends Controller {
   _removeFromArray(array, element) {
     const index = array.indexOf(element);
     array.splice(index, 1);
-  }
-
-  _updatePropForCompetence(competenceCode, value, propName, linkedPropName) {
-    const competences = this._copyCompetences();
-    const competence = find(competences, { competence_code: competenceCode });
-    if (competence) {
-      if (value.trim().length === 0) {
-        if (competence[linkedPropName]) {
-          competence[propName] = null;
-        } else {
-          this._removeFromArray(competences, competence);
-        }
-      } else {
-        competence[propName] = parseInt(value);
-      }
-    } else if (value.trim().length > 0) {
-      competences.addObject({
-        competence_code: competenceCode,
-        [propName]: parseInt(value),
-        area_code: competenceCode.substr(0, 1),
-      });
-    }
-    this.certification.competencesWithMark = competences;
   }
 }
