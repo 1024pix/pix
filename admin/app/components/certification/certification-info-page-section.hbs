@@ -18,25 +18,49 @@
     </div>
     <div class="page-section__cell">
       <p class="page-section__cell-label">Publication</p>
-      <p class="page-section__cell-value">{{@certification.publishedText}}</p>
+      <p class="page-section__cell-value">
+        {{#if @certification.isPublished}}
+          <PixTag @color='green-light' aria-label="Publiée">Publiée</PixTag>
+        {{else}}
+          <PixTag @color='blue-light' aria-label="Non publiée">Non publiée</PixTag>
+        {{/if}}
+      </p>
     </div>
     <div class="page-section__cell">
       <p class="page-section__cell-label">Certification CléA numérique</p>
-      <p class="page-section__cell-value">{{@certification.displayCleaCertificationStatus}}</p>
+      <p class="page-section__cell-value">
+        {{#if @certification.isCleaCertificationIsAcquired}}
+          <PixTag @color='green-light' aria-label="Validée">Validée</PixTag>
+        {{else if @certification.isCleaCertificationIsRejected}}
+          <PixTag @color='purple-light' aria-label="Rejetée">Rejetée</PixTag>
+        {{else}}
+          <PixTag @color='blue-light' aria-label="Non passée">Non passée</PixTag>
+        {{/if}}
+      </p>
     </div>
     <div class="page-section__cell">
       <p class="page-section__cell-label">Identifiant jury</p>
       <p class="page-section__cell-value">
-        <LinkTo @route="authenticated.users.get" @model={{@certification.juryId}}>
-          {{@certification.juryId}}
-        </LinkTo>
+        {{#if @certification.juryId}}
+          <LinkTo @route="authenticated.users.get" @model={{@certification.juryId}}>
+            {{@certification.juryId}}
+          </LinkTo>
+        {{else}}
+          --
+        {{/if}}
       </p>
     </div>
   </div>
   <div class="page-section__row">
     <div class="page-section__cell">
       <p class="page-section__cell-label">Commentaire du surveillant</p>
-      <p class="page-section__cell-value">{{@certification.examinerComment}}</p>
+      <p class="page-section__cell-value">
+        {{#if @certification.examinerComment}}
+          {{@certification.examinerComment}}
+        {{else}}
+          --
+        {{/if}}
+      </p>
     </div>
   </div>
 </section>

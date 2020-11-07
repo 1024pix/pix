@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class CertificationRoute extends Route {
 
-  @service errorNotifier
+  @service errorNotifier;
 
   setupController(controller, model) {
     super.setupController(controller, model);

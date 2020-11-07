@@ -22,10 +22,10 @@ export default class Certification extends ApplicationAdapter {
       data.data.type = 'results';
       data.data.attributes['jury-id'] = null;
       data.data.attributes['emitter'] = 'Jury Pix';
-      return this.ajax(this.urlForUpdateMarks(), 'POST', { data: data });
+      return this.ajax(this.urlForUpdateMarks(), 'POST', { data });
     } else {
       serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation: true });
-      return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data });
+      return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data });
     }
   }
 

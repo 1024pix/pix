@@ -8,7 +8,7 @@
         <Certification::CertificationCandidatePanel @certification={{this.model}} />
       </div>
       <div class="page-section__cell page-section__cell--no-padding page-section__cell--results no-padding">
-        <Certification::CertificationResultsPanel @certification={{this.model}} />
+        <Certification::CertificationResultsPanel @certification={{this.model}} @onChange={{fn (mut this.markUpdateRequired true)}}/>
       </div>
       <div class="page-section__cell page-section__cell--no-padding page-section__cell--verdict">
         <Certification::CertificationVerdictPanel @certification={{this.model}} />
@@ -17,7 +17,7 @@
 
     <div class="page-section__row">
       <div class="page-section__cell">
-        <PixButton class="btn btn-primary btn--save" @action={{this.showConfirm}} @loading-color="white">
+        <PixButton class="btn btn-primary btn--save" @action={{this.openConfirm}} @loading-color="white">
           Enregistrer
         </PixButton>
       </div>

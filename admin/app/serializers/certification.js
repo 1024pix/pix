@@ -1,6 +1,13 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
+import sortBy from 'lodash/sortBy';
 
 export default class Certification extends JSONAPISerializer {
+
+  normalize(typeHash, hash) {
+    const competencesWithMark = hash.attributes['competences-with-mark'];
+    hash.attributes['competences-with-mark'] = sortBy(competencesWithMark, ['competence_code']);
+    return super.normalize(typeHash, hash);
+  }
 
   normalizeFindRecordResponse(store, primaryModelClass, payload, id) {
     payload.data.id = id;
@@ -20,7 +27,7 @@ export default class Certification extends JSONAPISerializer {
       if (options.includeId) {
         data.id = parseInt(snapshot.id);
       }
-      return { data: data };
+      return { data };
     } else {
       return super.serialize(...arguments);
     }

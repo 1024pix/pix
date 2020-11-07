@@ -2,13 +2,13 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | certification-info-competences', function(hooks) {
+module('Unit | Component | certification-competence-list', function(hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function() {
-    component = createGlimmerComponent('component:certification-info-competences');
+    component = createGlimmerComponent('component:certification-competence-list');
   });
 
   test('it computes indexed values correctly', function(assert) {

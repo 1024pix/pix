@@ -7,14 +7,30 @@
     <div class="highlight-block">
       <div class="entry-field">
         <label for="certification-score">Total (en pix) :</label>
-        <Input @id="certification-score" @type="text" @value={{@certification.pixScore}} />
+        <Input @id="certification-score" @type="text" @value={{@certification.pixScore}} {{on 'change' @onChange}} />
       </div>
     </div>
 
-    <CertificationInfoCompetences
-        @competences={{@certification.competences}}
-        @onUpdateScore={{this.onUpdateScore}}
-        @onUpdateLevel={{this.onUpdateLevel}} />
+    <div class="certification-competence-list">
+      <div class="certification-competence-list__headers">
+        <div class="certification-competence-list__header">Compétence</div>
+        <div class="certification-competence-list__header">Score (en pix)</div>
+        <div class="certification-competence-list__header">Niveau</div>
+      </div>
+      {{#each @certification.competencesWithMark as |competence key|}}
+        <div class="certification-competence-list__row">
+          <div class="certification-competence-list__cell">
+            <span class="certification-competence-item__index">{{competence.competence_code}}</span>
+          </div>
+          <div class="certification-competence-list__cell">
+            <Input class="certification-competence-item__score" @type="text" @value={{competence.score}} {{on 'change' @onChange}} />
+          </div>
+          <div class="certification-competence-list__cell">
+            <Input class="certification-competence-item__level" @type="text" @value={{competence.level}} {{on 'change' @onChange}}/>
+          </div>
+        </div>
+      {{/each}}
+    </div>
   </div>
 </div>
 

@@ -14,8 +14,7 @@ export default class CertificationDetailsCompetence extends Component {
   }
 
   get answers() {
-    const competence = this.args.competence;
-    return competence.answers;
+    return this.args.competence.answers;
   }
 
   get competenceJury() {
