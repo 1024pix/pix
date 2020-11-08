@@ -1,16 +1,26 @@
 const js2xmlparser = require('js2xmlparser');
 const faker = require('faker');
 const fs = require('fs');
+require('dotenv').config();
 
 const run = function() {
 
   const DEFAULT_USER_COUNT = 5;
-  const userCount = process.argv[2] || DEFAULT_USER_COUNT;
+  const userCount = process.env.SCHOOLING_REGISTRATION_USER_COUNT || process.argv[2] || DEFAULT_USER_COUNT;
 
   const DEFAULT_ORGANIZATION_UAJ = '1237457A';
-  const organizationUAJ =  process.argv[3] || DEFAULT_ORGANIZATION_UAJ;
+  const organizationUAJ =  process.env.SCHOOLING_REGISTRATION_UAJ || process.argv[3] || DEFAULT_ORGANIZATION_UAJ;
 
-  console.log(`Generating SIECLE file on organization ${organizationUAJ} for ${userCount} users`);
+  const DEFAULT_FILE_NAME = `SIECLE-organization-${organizationUAJ}-${userCount}-users.xml`;
+  const fileName =  process.env.SCHOOLING_REGISTRATION_FILE_NAME || DEFAULT_FILE_NAME;
+
+  generate({ userCount, organizationUAJ, fileName });
+
+};
+
+const generate = function({ userCount, organizationUAJ, fileName }) {
+
+  console.log(`Generating ${fileName} file on organization ${organizationUAJ} for ${userCount} users`);
 
   const PARAMETRES = {
     UAJ: organizationUAJ,
@@ -38,12 +48,10 @@ const run = function() {
 
   const rootXMLNode = 'BEE_ELEVES';
   const SIECLEFileContent = js2xmlparser.parse(rootXMLNode, BEE_ELEVES);
-  const fileName = `SIECLE-organization-${organizationUAJ}-${userCount}-users.xml`;
 
-  fs.writeFile(fileName , SIECLEFileContent, function(err) {
-    if (err) throw err;
-    console.log(`SIECLE file for ${userCount} users in file ${fileName}`);
-  });
+  fs.writeFileSync(fileName , SIECLEFileContent);
+
+  console.log('Successfully generated');
 
 };
 
@@ -136,5 +144,3 @@ const generateSTRUCTURES = function(ELEVES) {
 };
 
 run();
-
-module.exports = { run };

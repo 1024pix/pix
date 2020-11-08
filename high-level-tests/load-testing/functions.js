@@ -1,5 +1,6 @@
 const faker = require('faker');
 const fs = require('fs');
+require('dotenv').config();
 
 function setupSignupFormData(context, events, done) {
   context.vars['firstName'] = faker.name.firstName();
@@ -16,7 +17,7 @@ function foundNextChallenge(context, next) {
 
 const loadXMLFile = function(context, events, done) {
 
-  fs.readFile('./data/schooling-registration/1-user.xml', 'utf8', function(err, data) {
+  fs.readFile(process.env.SCHOOLING_REGISTRATION_FILE_NAME, 'utf8', function(err, data) {
     if (err) {
       return console.log(err);
     }
