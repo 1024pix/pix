@@ -1,6 +1,12 @@
 <div class="page-section__panel">
   <div class="page-section__panel-header">
-    <h3><span class="item-number two"></span>Résultats</h3>
+    <h3>
+      <span class="item-number two"></span>
+      Résultats
+      <PixButton class="btn btn-outline-default" @action={{this.openScoringSimulator}} @loading-color="white">
+        Ouvrir le simulateur de scoring
+      </PixButton>
+    </h3>
   </div>
 
   <div class="page-section__panel-body">
@@ -34,3 +40,21 @@
   </div>
 </div>
 
+{{#if this.displayScoringSimulator}}
+  <ModalDialog
+      @targetAttachment="center"
+      @translucentOverlay={{true}}
+      @targetAttachment="none"
+      @containerClass="centered-scrolling-container"
+      @overlayClass="centered-scrolling-overlay"
+      @wrapperClass="centered-scrolling-wrapper"
+      @onClose={{this.closeScoringSimulator}}>
+
+    <Certification::ScoringSimulator::CertificationScoringSimulator
+        @certification={{@certification}}
+        @details={{this.certificationDetails}}
+        @onClose={{this.closeScoringSimulator}}
+    />
+
+  </ModalDialog>
+{{/if}}

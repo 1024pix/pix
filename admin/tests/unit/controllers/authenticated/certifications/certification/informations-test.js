@@ -272,21 +272,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
           }),
         ];
 
-        const store = this.owner.lookup('service:mark-store');
-        store.storeState({
-          score,
-          marks: {
-            [anExistingCompetenceCode]: {
-              level: anExistingCompetence.level + 1,
-              score: anExistingCompetence.score + 1,
-            },
-            [aNewCompetenceCode]: {
-              level: 5,
-              score: 6,
-            },
-          },
-        });
-
         // when
         await controller.onCheckMarks();
 

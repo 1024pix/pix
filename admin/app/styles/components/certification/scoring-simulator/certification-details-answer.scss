@@ -1,4 +1,5 @@
 .certification-details-answer {
+
   .certification-details-answer-skill {
     font-size: 0.8em;
   }
@@ -8,6 +9,10 @@
     font-size: 10px;
   }
 
+  .answer-result {
+    display: flex;
+    justify-content: center;
+  }
 
   .jury select {
     color: $error;

@@ -38,7 +38,7 @@
         </div>
       </div>
       {{#each this.details.competences as |competence|}}
-        <CertificationDetailsCompetence
+        <Certification::ScoringSimulator::CertificationDetailsCompetence
             @competence={{competence}}
             @rate={{this.rate}}
             @juryRate={{this.juryRate}}

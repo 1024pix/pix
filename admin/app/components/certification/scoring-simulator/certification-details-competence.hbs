@@ -40,7 +40,7 @@
         {{/if}}
         <div class="card-deck">
           {{#each this.answers as |answer|}}
-            <CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{@onUpdateRate}} />
+            <Certification::ScoringSimulator::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{@onUpdateRate}} />
           {{/each}}
         </div>
       </div>

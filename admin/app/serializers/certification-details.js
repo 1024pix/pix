@@ -1,4 +1,5 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
+import sortBy from 'lodash/sortBy';
 
 export default class CertificationDetails extends JSONAPISerializer {
 
@@ -6,7 +7,7 @@ export default class CertificationDetails extends JSONAPISerializer {
     if (!payload.data) {
       payload.data = {
         attributes: {
-          competencesWithMark: payload.competencesWithMark,
+          competencesWithMark: sortBy(payload.competencesWithMark, ['index']),
           totalScore: payload.totalScore,
           percentageCorrectAnswers: payload.percentageCorrectAnswers,
           createdAt: payload.createdAt,

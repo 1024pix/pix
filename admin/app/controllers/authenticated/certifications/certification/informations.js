@@ -10,7 +10,6 @@ const MAX_REACHABLE_PIX_BY_COMPETENCE = 40;
 export default class CertificationInformationsController extends Controller {
 
   @service notifications;
-  @service markStore;
   @service router;
 
   @alias('model') certification;

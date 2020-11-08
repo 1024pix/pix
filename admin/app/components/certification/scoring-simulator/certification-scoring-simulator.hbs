@@ -1,0 +1,58 @@
+<div class="certification-scoring-simulator">
+  <div class="certification-details">
+
+    <div class="row">
+      <div class="col">
+        <div class="card border-primary sticky-top certification-details__info">
+          <div class='card-body'>
+            <div class="row">
+              <div class="col">Statut :</div>
+              <div class="col">{{@details.status}}</div>
+            </div>
+            <div class="row">
+              <div class="col">Nombre d'épreuves répondues :</div>
+              <div class="col">{{@details.listChallengesAndAnswers.length}}</div>
+            </div>
+            <div class="row">
+              <div class="col">Score :</div>
+              <div class="col certificate">{{@details.totalScore}}</div>
+            </div>
+            {{#if this.juryScore includeZero=true}}
+              <div class="row jury">
+                <div class="col">Score corrigé :</div>
+                <div class="col jury">
+                  {{this.juryScore}}
+                </div>
+              </div>
+            {{/if}}
+            <div class="row">
+              <div class="col">Taux de reproductibilité :</div>
+              <div class="col certificate">{{@details.percentageCorrectAnswers}}</div>
+            </div>
+            {{#if this.juryRate}}
+              <div class="row">
+                <div class="col">Taux corrigé :</div>
+                <div class="col jury">{{this.juryRate}}</div>
+              </div>
+            {{/if}}
+          </div>
+        </div>
+        {{#each @details.competences as |competence|}}
+          <Certification::ScoringSimulator::CertificationDetailsCompetence
+              @competence={{competence}}
+              @rate={{@details.percentageCorrectAnswers}}
+              @juryRate={{this.juryRate}}
+              @onUpdateRate={{this.changeAnswerResult}} />
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col certification-details__actions">
+        <p>En cliquant sur le bouton ci-dessous, vous allez mettre à jour les informations de scoring (le nombre total de pix ainsi que le nombre de pix et le niveau par compétence) de la certification. Pensez à "sauvegarder" pour que les changements soient bien pris en compte.</p>
+        <PixButton class="btn btn-primary" @action={{this.updateCertificationScoring}} @loading-color="white">
+          Appliquer
+        </PixButton>
+      </div>
+    </div>
+  </div>
+</div>

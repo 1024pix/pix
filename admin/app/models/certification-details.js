@@ -1,5 +1,5 @@
-import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
+import values from 'lodash/values';
 
 export default class CertificationDetails extends Model {
 
@@ -12,41 +12,36 @@ export default class CertificationDetails extends Model {
   @attr() completedAt;
   @attr() listChallengesAndAnswers;
 
-  @computed('competencesWithMark', 'listChallengesAndAnswers')
   get competences() {
-    const competenceData = this.competencesWithMark;
-    const answers = this.listChallengesAndAnswers;
-    let count = 1;
-    answers.forEach((answer) => {
-      answer.order = count;
-      count++;
+    let competences = {};
+
+    this.listChallengesAndAnswers.forEach((answer, index) => {
+      answer.order = index + 1;
     });
-    let competences = competenceData.reduce((accumulator, value) => {
-      accumulator[value.index] = value;
+
+    competences = this.competencesWithMark.reduce((accumulator, competence) => {
+      accumulator[competence.index] = competence;
       return accumulator;
-    }, {});
-    competences = answers.reduce((accumulator, value) => {
-      if (accumulator[value.competence]) {
-        if (!accumulator[value.competence].answers) {
-          accumulator[value.competence].answers = [];
+    }, competences);
+
+    competences = this.listChallengesAndAnswers.reduce((accumulator, answerResult) => {
+      const competenceIndex = answerResult.competence;
+      if (accumulator[competenceIndex]) {
+        if (!accumulator[competenceIndex].answers) {
+          accumulator[competenceIndex].answers = [];
         }
-        accumulator[value.competence].answers.push(value);
+        accumulator[competenceIndex].answers.push(answerResult);
       }
       return accumulator;
     }, competences);
-    const sortedCompetences = [];
-    Object.keys(competences).sort().forEach((key) => {
-      sortedCompetences.push(competences[key]);
-    });
-    return sortedCompetences;
+
+    return values(competences);
   }
 
-  @computed('createdAt')
   get creationDate() {
     return (new Date(this.createdAt)).toLocaleString('fr-FR');
   }
 
-  @computed('completedAt')
   get completionDate() {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
   }

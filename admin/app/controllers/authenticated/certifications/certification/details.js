@@ -1,5 +1,4 @@
 import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { schedule } from '@ember/runloop';
@@ -8,8 +7,6 @@ export default class CertificationDetailsController extends Controller {
   juryRate = false;
   juryScore = false;
   requestedId = '';
-
-  @service('mark-store') _markStore;
 
   @alias('details.percentageCorrectAnswers') rate;
   @alias('details.totalScore') score;
@@ -46,7 +43,7 @@ export default class CertificationDetailsController extends Controller {
 
   @action
   onStoreMarks() {
-    this._markStore.storeState({
+    this.markStore.storeState({
       score: (this.juryScore === false) ? this.score : this.juryScore,
       marks: this.details.competences.reduce((marks, competence) => {
         marks[competence.index] = {

@@ -31,9 +31,10 @@
 @import 'authenticated/tools';
 
 /* components */
+@import 'components/certification/scoring-simulator/certification-scoring-simulator';
+@import 'components/certification/scoring-simulator/certification-details-answer';
+@import 'components/certification/scoring-simulator/certification-details-competence';
 @import 'components/certification-center-form';
-@import 'components/certification-details-answer';
-@import 'components/certification-details-competence';
 @import 'components/certification-competence-list';
 @import 'components/certification-list';
 @import 'components/certification-status-select';

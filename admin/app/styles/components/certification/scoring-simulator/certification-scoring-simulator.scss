@@ -1,0 +1,38 @@
+.certification-scoring-simulator {
+  width: 768px;
+}
+
+body.centered-modal-showing {
+  overflow: hidden;
+}
+.centered-scrolling-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+  z-index: 1;
+}
+
+.centered-scrolling-overlay {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  padding: 1em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* basic modal style (an example, this is not necessary for the centering) */
+.centered-scrolling-container {
+  position: relative;
+  background-color: white;
+  min-height: 20em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 25px 4px rgba(0,0,0,0.30);
+}
+
