@@ -108,7 +108,7 @@ Allouer
 
 ## Builder l'APi à tester
 Builder l'image manuellement
-```
+``` shell script
 cd ../../api
 docker build --tag api-local --file ../high-level-tests/load-testing/Dockerfile
 cd ../high-level-tests/load-testing
@@ -117,18 +117,25 @@ cd ../high-level-tests/load-testing
 ## Exécuter
 
 Exécuter les tests
-```
+``` shell script
 npm run start:import-schooling-registration  
 ```
 
 Consulter le rapport JSON
-```
+``` shell script
 cat report/index.json
 ``` 
 
 ## Monitorer
-Suivre l'avancement des tests
-````
+
+### Principal
+
+Suivre l'avancement des tests dans le terminal
+En particulier, vérifier
+ - les codes HTTP
+ - le nombre de requêtes non servies en temps (`ESOCKETTIMEDOUT` = plus de 30 secondes)
+
+```` shell script
 Started phase 0, duration: 10s @ 19:21:49(+0100) 2020-11-06
 Report @ 19:21:59(+0100) 2020-11-06
 Elapsed time: 10 seconds
@@ -149,8 +156,12 @@ Elapsed time: 10 seconds
 
 ````
 
-Dans une autre fenêtre, ouvrir le monitoring Docker
-````
+### Annexe
+
+Vous pouvez également effectuer les actions suivantes 
+
+Ouvrir le monitoring Docker
+```` shell script
 docker stats
 CONTAINER ID        NAME                      CPU %               MEM USAGE / LIMIT   MEM %               NET I/O             BLOCK I/O           PIDS
 4a6aa8cb2e52        load-testing_cache_1      0.08%               1.559MiB / 50MiB    3.12%               7.51kB / 28.8kB     0B / 0B             4
@@ -158,13 +169,41 @@ CONTAINER ID        NAME                      CPU %               MEM USAGE / LI
 e5ad8e754ce8        load-testing_api_1        72.31%              2.615GiB / 8GiB     32.69%              4.96GB / 209MB      0B / 8.19kB         22
 ````
 
-Dans une autre fenêtre, consulter les logs des services
-````
+Consulter les logs des services
+```` shell script
 docker-compose logs --follow api
 api_1       | 201106/185552.187, (1604688952187:e5ad8e754ce8:17:kh6m354a:18496) [response,api,user] http://e5ad8e754ce8:3000: get /api/users/me {} 200 (28256ms)
 api_1       | 201106/185552.188, (1604688952188:e5ad8e754ce8:17:kh6m354a:18497) [response,api,user] http://e5ad8e754ce8:3000: get /api/users/me {} 200 (28256ms)
 ````
 
+Consulter les requêtes reçues par la BDD
+```` shell script
+docker-compose exec database sh            
+ls /tmp/postgres*.log
+vi /tmp/postgresql-2020-11-09_071831.log
+````        
+
+Vous obtenez
+```` shell script
+2020-11-09 07:19:16.546 UTC [34] LOCATION:  exec_bind_message, postgres.c:1917                                           
+2020-11-09 07:19:16.546 UTC [34] LOG:  00000: execute <unnamed>: update "schooling-registrations" set "lastName" = $1, "p
+2020-11-09 07:19:16.546 UTC [34] DETAIL:  parameters: $1 = 'Bauch', $2 = NULL, $3 = 'Braeden', $4 = 'Emile', $5 = 'Eino',
+2020-11-09 07:19:16.546 UTC [34] LOCATION:  exec_execute_message, postgres.c:2055                                        
+2020-11-09 07:19:16.546 UTC [33] LOG:  00000: duration: 0.028 ms      
+````
+
+Vérifier l'utilisation mémoire / CPU des processus
+- `node node_modules/.bin/artillery run` => code de test (Artillery)
+- `node bin/www` => code testé (API)
+
+```` shell script
+htop 
+````
+
+Vérifier la T° des CPUS 
+```` shell script
+watch sensors 
+````
 
 ## Tirer conclusions
 

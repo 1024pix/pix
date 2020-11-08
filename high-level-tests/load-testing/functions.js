@@ -1,6 +1,17 @@
 const faker = require('faker');
 const fs = require('fs');
-require('dotenv').config();
+const sizeof = require('sizeof');
+let schoolingRegistrationXMLFormat;
+
+function loadXMLFile(){
+  require('dotenv').config();
+  const XMLFileName = process.env.SCHOOLING_REGISTRATION_FILE_NAME;
+  schoolingRegistrationXMLFormat = fs.readFileSync(XMLFileName, 'utf8');
+  console.log(`Schooling registration in XML format from file ${XMLFileName} have been loaded in memory`);
+  console.log('Memory used: ' + sizeof.sizeof(schoolingRegistrationXMLFormat, true));
+}
+
+loadXMLFile();
 
 function setupSignupFormData(context, events, done) {
   context.vars['firstName'] = faker.name.firstName();
@@ -15,19 +26,15 @@ function foundNextChallenge(context, next) {
   return next(continueLooping);
 }
 
-const loadXMLFile = function(context, events, done) {
+const setVarInContext = function(context, events, done) {
 
-  fs.readFile(process.env.SCHOOLING_REGISTRATION_FILE_NAME, 'utf8', function(err, data) {
-    if (err) {
-      return console.log(err);
-    }
-    context.vars['XML'] = data;
-    return done();
-  });
+  context.vars['schoolingRegistrationXMLFormat'] = schoolingRegistrationXMLFormat;
+  return done();
+
 };
 
 module.exports = {
   setupSignupFormData,
   foundNextChallenge,
-  loadXMLFile,
+  setVarInContext,
 };

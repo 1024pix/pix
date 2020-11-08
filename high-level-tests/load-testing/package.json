@@ -27,6 +27,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.12.1",
     "faker": "^5.1.0",
-    "js2xmlparser": "^4.0.1"
+    "js2xmlparser": "^4.0.1",
+    "sizeof": "^1.0.0"
   }
 }

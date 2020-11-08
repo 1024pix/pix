@@ -1,20 +1,27 @@
 config:
   phases:
     #  duration unit is in seconds
+    #  Arrival rate = Virtual user count per second
+    #  Arrival rate = 10 => In 1 second, 10 VU are created and execute the scenario
     - duration: 10
       arrivalRate: 1
       name: "Start with minimal load"
     - pause: 10
-      name: "Pause to cool down"
-    - duration: 100
+      name: "Pause a bit to cool down"
+    - duration: 60
       arrivalRate: 0
       rampTo: 10
       name: "Ramp up to maximum load"
     - pause: 10
-    - duration: 600
+    - duration: 120
       arrivalRate: 10
-      name: "Sustained maximum load"
-
+      name: "Sustain maximum load"
+  http:
+    # Use Scalingo 30 second timeout
+    # From https://doc.scalingo.com/platform/internals/routing#timeouts
+    # Default Artillery is 120 seconds
+    # From https://artillery.io/docs/http-reference/#request-timeout
+    timeout: 30
 scenarios:
   - name: 'Import du fichier SIECLE'
     flow:
@@ -39,10 +46,10 @@ scenarios:
             Authorization: "Bearer {{ accessToken }}"
 
       # Import XML file
-      - function: "loadXMLFile"
+      - function: "setVarInContext"
       - post:
           url: "/api/organizations/3/schooling-registrations/import-siecle?format=xml"
           headers:
             Authorization: "Bearer {{ accessToken }}"
             Content-Type: "application/xml"
-          body:  "{{ XML }}"
+          body:  "{{ schoolingRegistrationXMLFormat }}"

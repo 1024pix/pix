@@ -26,6 +26,7 @@ services:
 
   database:
     image: postgres:12.4-alpine
+    command: ["postgres", "-c", "logging_collector=on", "-c", "log_destination=stderr", "-c", "log_directory=/tmp", "-c", "log_duration=on", "-c",  "log_error_verbosity=VERBOSE", "-c", "log_statement=all"]
     ports:
       - "5432:5432"
     environment:
