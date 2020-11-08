@@ -1,7 +1,7 @@
 config:
   phases:
-    - duration: 60     # in seconds
-      arrivalRate: 10  # action per second
+    - duration: 10     # in seconds
+      arrivalRate: 1   # action per second
 scenarios:
   - name: 'Import du fichier SIECLE'
     flow:
@@ -26,76 +26,10 @@ scenarios:
             Authorization: "Bearer {{ accessToken }}"
 
       # Import XML file
+      - function: "loadXMLFile"
       - post:
           url: "/api/organizations/3/schooling-registrations/import-siecle?format=xml"
           headers:
             Authorization: "Bearer {{ accessToken }}"
             Content-Type: "application/xml"
-          body: <?xml version="1.0" encoding="ISO-8859-15"?>
-            <BEE_ELEVES VERSION="3.0">
-            <PARAMETRES>
-            <UAJ>1237457A</UAJ>
-            <ANNEE_SCOLAIRE>2019</ANNEE_SCOLAIRE>
-            <DATE_EXPORT>29/08/2019</DATE_EXPORT>
-            <HORODATAGE>29/08/2019 15:25:08</HORODATAGE>
-            </PARAMETRES>
-            <DONNEES>
-            <ELEVES>
-            <ELEVE ELEVE_ID="1223189" ELENOET="6202">
-            <ID_NATIONAL>123456789AB</ID_NATIONAL>
-            <INE_BEA>1234567890A</INE_BEA>
-            <INE_RNIE>123456789AB</INE_RNIE>
-            <ELENOET>6202</ELENOET>
-            <ID_ELEVE_ETAB>12345678901</ID_ELEVE_ETAB>
-            <NOM_DE_FAMILLE>DUPOND</NOM_DE_FAMILLE>
-            <PRENOM>Marie</PRENOM>
-            <PRENOM2>Ursule</PRENOM2>
-            <PRENOM3>Ophra</PRENOM3>
-            <DATE_NAISS>01/03/2001</DATE_NAISS>
-            <DOUBLEMENT>1</DOUBLEMENT>
-            <CODE_PAYS>100</CODE_PAYS>
-            <ACCEPTE_SMS>0</ACCEPTE_SMS>
-            <DATE_MODIFICATION>27/08/2019</DATE_MODIFICATION>
-            <CODE_REGIME>0</CODE_REGIME>
-            <DATE_ENTREE>01/09/2015</DATE_ENTREE>
-            <VILLE_NAISS></VILLE_NAISS>
-            <CODE_SEXE>2</CODE_SEXE>
-            <CODE_PAYS_NAT>100</CODE_PAYS_NAT>
-            <CODE_STATUT>ST</CODE_STATUT>
-            <CODE_MEF>12345678911</CODE_MEF>
-            <CODE_DEPARTEMENT_NAISS>041</CODE_DEPARTEMENT_NAISS>
-            <CODE_COMMUNE_INSEE_NAISS>41018</CODE_COMMUNE_INSEE_NAISS>
-            <ADHESION_TRANSPORT>0</ADHESION_TRANSPORT>
-            <CODE_PROVENANCE>1</CODE_PROVENANCE>
-            <SCOLARITE_AN_DERNIER>
-            <CODE_MEF>12345678911</CODE_MEF>
-            <CODE_STRUCTURE>3E 4</CODE_STRUCTURE>
-            <CODE_RNE>0180777X</CODE_RNE>
-            <CODE_NATURE>340</CODE_NATURE>
-            <SIGLE>CLG</SIGLE>
-            <DENOM_PRINC>COLLEGE</DENOM_PRINC>
-            <DENOM_COMPL>JEAN RENOIR</DENOM_COMPL>
-            <LIGNE1_ADRESSE>40 rue des Fileuses</LIGNE1_ADRESSE>
-            <BOITE_POSTALE></BOITE_POSTALE>
-            <MEL>ce.0180777X@ac-orleans-tours.fr</MEL>
-            <TELEPHONE>0248202445</TELEPHONE>
-            <CODE_COMMUNE_INSEE>18033</CODE_COMMUNE_INSEE>
-            <LL_COMMUNE_INSEE>BOURGES</LL_COMMUNE_INSEE>
-            </SCOLARITE_AN_DERNIER>
-            </ELEVE>
-            </ELEVES>
-            <OPTIONS />
-            <STRUCTURES>
-            <STRUCTURES_ELEVE ELEVE_ID="1223189" ELENOET="6202">
-            <STRUCTURE>
-            <CODE_STRUCTURE>3E 2</CODE_STRUCTURE>
-            <TYPE_STRUCTURE>D</TYPE_STRUCTURE>
-            </STRUCTURE>
-            </STRUCTURES_ELEVE>
-            </STRUCTURES>
-            <BOURSES />
-            <ADRESSES />
-            </DONNEES>
-            </BEE_ELEVES>"
-
-
+          body:  "{{ XML }}"
