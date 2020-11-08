@@ -14,9 +14,12 @@
     "lint:fix": "eslint . --fix",
     "report": "artillery report report/index.json",
     "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml",
-    "import-schooling-registration": "npm run import-schooling-registration:generate-bulk-data & npm run import-schooling-registration:execute-test",
+    "import-schooling-registration": "npm run import-schooling-registration:generate-bulk-data && npm run import-schooling-registration:build-image && npm run import-schooling-registration:start-environment && npm run import-schooling-registration:prepare-db && npm run import-schooling-registration:launch-test",
     "import-schooling-registration:generate-bulk-data": "node ./generate-data/generate-schooling-registrations.js",
-    "import-schooling-registration:execute-test": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/import-schooling-registration.yml"
+    "import-schooling-registration:build-image": "exit 0 && cd ../../api && docker build --tag api-local --file ../high-level-tests/load-testing/Dockerfile",
+    "import-schooling-registration:start-environment": "docker-compose up --detach --force-recreate",
+    "import-schooling-registration:prepare-db": "cd ../../api && npm run db:migrate && npm run db:seed",
+    "import-schooling-registration:launch-test": "artillery run --config config/common.yml --environment localhost -o report/index.json scenarios/import-schooling-registration.yml"
   },
   "license": "ISC",
   "devDependencies": {

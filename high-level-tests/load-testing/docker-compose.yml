@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  api:
+    image: api-local:latest
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.api
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+          cpus: "4"
+
+  cache:
+    image: redis:5.0.7-alpine
+    ports:
+      - "6379:6379"
+    deploy:
+      resources:
+        limits:
+          memory: 50m
+          cpus: "0.5"
+
+  database:
+    image: postgres:12.4-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: pix
+      POSTGRES_HOST_AUTH_METHOD: trust
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+          cpus: "2"
+
+networks:
+  default:
+    driver: bridge

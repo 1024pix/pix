@@ -1,7 +1,20 @@
 config:
   phases:
-    - duration: 10     # in seconds
-      arrivalRate: 1   # action per second
+    #  duration unit is in seconds
+    - duration: 10
+      arrivalRate: 1
+      name: "Start with minimal load"
+    - pause: 10
+      name: "Pause to cool down"
+    - duration: 100
+      arrivalRate: 0
+      rampTo: 10
+      name: "Ramp up to maximum load"
+    - pause: 10
+    - duration: 600
+      arrivalRate: 10
+      name: "Sustained maximum load"
+
 scenarios:
   - name: 'Import du fichier SIECLE'
     flow:
