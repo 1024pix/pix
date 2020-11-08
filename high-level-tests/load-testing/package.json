@@ -10,6 +10,8 @@
   },
   "scripts": {
     "preinstall": "npx check-engine",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "report": "artillery report report/index.json",
     "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml",
     "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js"
@@ -17,6 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "artillery": "^1.6.1",
+    "eslint": "^7.12.1",
     "faker": "^5.1.0",
     "js2xmlparser": "^4.0.1"
   }
