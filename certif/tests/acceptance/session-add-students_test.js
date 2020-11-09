@@ -189,7 +189,7 @@ module('Acceptance | Session Add Students', function(hooks) {
           assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
         });
 
-        test('it is impossible to select enrolled student', async function(assert) {
+        test('it should be impossible to select enrolled student', async function(assert) {
           // given
           const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
 
@@ -203,6 +203,23 @@ module('Acceptance | Session Add Students', function(hooks) {
           // then
           assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
         });
+
+        module('when toggle all click', function() {
+          test('it should show "1 candidat sélectionné | 1 candidats déjà ajoutés à la session"', async function(assert) {
+            // given
+            const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
+            const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
+            const toggleAllCheckBox = '.add-student-list__checker';
+
+            // when
+            await click(toggleAllCheckBox);
+
+            // then
+            assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
+          });
+        });
+
       });
 
     });
