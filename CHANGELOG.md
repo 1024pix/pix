@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v2.216.0 (09/11/2020)
+
+- [#2121](https://github.com/1024pix/pix/pull/2121) [FEATURE] Modifier le message d'erreur des embed auto
+- [#2122](https://github.com/1024pix/pix/pull/2122) [FEATURE] Modification du message lors du timeout d'une épreuve
+- [#2111](https://github.com/1024pix/pix/pull/2111) [FEATURE] Ajout d'un message de redirection vers le support pour les téléchargement de fichiers (PIX-1451).
+- [#2105](https://github.com/1024pix/pix/pull/2105) [FEATURE]Ajout la classe dans l'export CSV de campagne de collecte de profil pour les organisation SCO (Pix-1548)
+- [#2101](https://github.com/1024pix/pix/pull/2101) [FEATURE] Cacher le bas de la page présentation quand on démarre les campagnes Pix Concours (PIX-1563).
+- [#2094](https://github.com/1024pix/pix/pull/2094) [FEATURE] Ajouter à nouveau des étudiants pour une session de certification - PART 2 (PIX-1378)
+- [#2102](https://github.com/1024pix/pix/pull/2102) [FEATURE] Pix Concours: Cacher le didacticiel (PIX-1516).
+- [#2086](https://github.com/1024pix/pix/pull/2086) [FEATURE] Ajouter à nouveau des étudiants pour une session de certification - PART 1 (PIX-1378)
+- [#2097](https://github.com/1024pix/pix/pull/2097) [FEATURE] Pix Concours: cacher la notification de gain de niveau
+- [#2096](https://github.com/1024pix/pix/pull/2096) [FEATURE] Ne plus afficher les checkpoints sur Pix-Concours (PIX-1515).
+- [#2058](https://github.com/1024pix/pix/pull/2058) [FEATURE] Afficher les candidats SCO d'une certification (PIX-1376)
+- [#2092](https://github.com/1024pix/pix/pull/2092) [FEATURE] Amélioration du contraste sur la page compétence
+- [#2099](https://github.com/1024pix/pix/pull/2099) [BUGFIX] Modification du message d'erreur sur la page de fin de résultats de fin de campagne (PIX-1533).
+- [#2107](https://github.com/1024pix/pix/pull/2107) [BUGFIX] S'assurer de faire les vérifications d'assessment sur celui le plus récent d'une participation lors du partage des résultats (PIX-1571)
+- [#2074](https://github.com/1024pix/pix/pull/2074) [BUGFIX] Corriger l'erreur sur l'assessmentId lors de  la requête GET /api/campaign-participations (PIX-1472).
+- [#2103](https://github.com/1024pix/pix/pull/2103) [TECH] Remplacement de l'apostrophe ’ par l'apostrophe droite ' dans le modèle d'import CSV (PIX-1564)
+- [#2112](https://github.com/1024pix/pix/pull/2112) [TECH] Corriger l'url de connexion à lcms dans sample.env
+- [#2100](https://github.com/1024pix/pix/pull/2100) [TECH] Correction du lint certif
+- [#2071](https://github.com/1024pix/pix/pull/2071) [TECH] Ajouter un script de création en masse des apprentis (Pix-1353).
+- [#2062](https://github.com/1024pix/pix/pull/2062) [TECH] Récupérer le référentiel de contenu depuis l'API LCMS.
+- [#2075](https://github.com/1024pix/pix/pull/2075) [TECH] Passer par une nouvelle route pour avec le pixScore et les compétences (PIX-1467).
+- [#2093](https://github.com/1024pix/pix/pull/2093) [TECH] Rendre le déclenchement du job e2e dépendant du succès des jobs des applications (PIX-1553)
+- [#2119](https://github.com/1024pix/pix/pull/2119) [FIX] Corrige le champs date de naissance lors de l'ajout manuel d'un candidat à une session de certification
+- [#2115](https://github.com/1024pix/pix/pull/2115) Ajout de la classe dans l'export de csv de campagne d'évaluations pour les organisations SCO (PIX-1294).
+
 ## v2.215.0 (02/11/2020)
 
 - [#2079](https://github.com/1024pix/pix/pull/2079) [FEATURE] Création du script d'ajout de tags aux organisations (PIX-1461).
