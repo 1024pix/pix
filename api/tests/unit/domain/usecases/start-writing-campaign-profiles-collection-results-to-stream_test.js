@@ -80,6 +80,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           '"Nom de la campagne";' +
           '"Nom du Participant";' +
           '"Prénom du Participant";' +
+          '"Classe";' +
           '"Envoi (O/N)";' +
           '"Date de l\'envoi";' +
           '"Nombre de pix total";' +
@@ -90,7 +91,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           '"Niveau pour la compétence Competence2";' +
           '"Nombre de pix pour la compétence Competence2"\n';
         findProfilesCollectionResultDataByCampaignIdStub.resolves([]);
-  
+
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
           userId: user.id,
@@ -103,20 +104,20 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           campaignParticipationRepository,
           placementProfileService,
         });
-  
+
         const csv = await csvPromise;
-  
+
         // then
         expect(csv).to.equal(expectedHeader);
       });
-  
+
       context('when isShared is true', () => {
-  
+
         it('should return the complete line with 1 certifiable competence', async () => {
           // given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(1);
-  
+
           const campaignParticipationResultData = {
             id: 1,
             isShared: true,
@@ -126,14 +127,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
+            division: '6emeA',
           };
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-  
+
           const csvSecondLine = `"${organization.name}";` +
             `${campaign.id};` +
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
+            `"${campaignParticipationResultData.division}";` +
             '"Oui";' +
             '2019-03-01;' +
             '13;' +
@@ -143,7 +146,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             '9;' +
             '0;' +
             '4';
-  
+
           // when
           startWritingCampaignProfilesCollectionResultsToStream({
             userId: user.id,
@@ -156,19 +159,19 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             campaignParticipationRepository,
             placementProfileService,
           });
-  
+
           const csv = await csvPromise;
           const csvLines = csv.split('\n');
-  
+
           // then
           expect(csvLines[1]).to.equal(csvSecondLine);
         });
-  
+
         it('should return the complete line with 5 certifiable competence', async () => {
           // given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
-  
+
           const campaignParticipationResultData = {
             id: 1,
             isShared: true,
@@ -178,14 +181,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
+            division: '5emeB',
           };
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-  
+
           const csvSecondLine = `"${organization.name}";` +
             `${campaign.id};` +
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
+            `"${campaignParticipationResultData.division}";` +
             '"Oui";' +
             '2019-03-01;' +
             '13;' +
@@ -195,7 +200,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             '9;' +
             '0;' +
             '4';
-  
+
           // when
           startWritingCampaignProfilesCollectionResultsToStream({
             userId: user.id,
@@ -208,17 +213,17 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             campaignParticipationRepository,
             placementProfileService,
           });
-  
+
           const csv = await csvPromise;
           const csvLines = csv.split('\n');
-  
+
           // then
           expect(csvLines[1]).to.equal(csvSecondLine);
         });
       });
-  
+
       context('when isShared is false', () => {
-  
+
         it('should return the beginning of the line with user information for her participation', async () => {
           // given
           const campaignParticipationResultData = {
@@ -231,16 +236,18 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
+            division: '4emeC',
           };
-  
+
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-  
+
           const csvSecondLine =
             `"${organization.name}";` +
             `${campaign.id};` +
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
+            `"${campaignParticipationResultData.division}";` +
             '"Non";' +
             '"NA";' +
             '"NA";' +
@@ -250,7 +257,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             '"NA";' +
             '"NA";' +
             '"NA"';
-  
+
           // when
           startWritingCampaignProfilesCollectionResultsToStream({
             userId: user.id,
@@ -263,16 +270,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             campaignParticipationRepository,
             placementProfileService,
           });
-  
+
           const csv = await csvPromise;
           const csvLines = csv.split('\n');
-  
+
           // then
           expect(csvLines[1]).to.equal(csvSecondLine);
         });
       });
     });
-    
+
     context('When organization is SUP and isManagingStudent', () => {
       beforeEach(() => {
         organization.type = 'SUP';
@@ -297,7 +304,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           '"Nombre de pix pour la compétence Competence1";' +
           '"Niveau pour la compétence Competence2";' +
           '"Nombre de pix pour la compétence Competence2"';
-  
+
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
           userId: user.id,
@@ -310,14 +317,14 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           campaignParticipationRepository,
           placementProfileService,
         });
-  
+
         const csv = await csvPromise;
         const csvLines = csv.split('\n');
-  
+
         // then
         expect(csvLines[0]).to.equal(expectedHeader);
       });
-  
+
       context ('when the participant does not have a student number', () => {
         it('should return the csv without student number information', async () => {
           // given
@@ -332,9 +339,9 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             participantLastName: user.lastName,
             studentNumber: '',
           };
-  
+
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-  
+
           const csvSecondLine =
             `"${organization.name}";` +
             `${campaign.id};` +
@@ -351,7 +358,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             '"NA";' +
             '"NA";' +
             '"NA"';
-  
+
           // when
           startWritingCampaignProfilesCollectionResultsToStream({
             userId: user.id,
@@ -364,15 +371,15 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             campaignParticipationRepository,
             placementProfileService,
           });
-  
+
           const csv = await csvPromise;
           const csvLines = csv.split('\n');
-  
+
           // then
           expect(csvLines[1]).to.equal(csvSecondLine);
         });
       });
-  
+
       context ('when the participant have a student number', () => {
         it('should return the csv with student number information', async () => {
           // given
@@ -387,9 +394,9 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             participantLastName: user.lastName,
             studentNumber: '12345A',
           };
-  
+
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-  
+
           const csvSecondLine =
             `"${organization.name}";` +
             `${campaign.id};` +
@@ -406,7 +413,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             '"NA";' +
             '"NA";' +
             '"NA"';
-  
+
           // when
           startWritingCampaignProfilesCollectionResultsToStream({
             userId: user.id,
@@ -419,10 +426,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             campaignParticipationRepository,
             placementProfileService,
           });
-  
+
           const csv = await csvPromise;
           const csvLines = csv.split('\n');
-  
+
           // then
           expect(csvLines[1]).to.equal(csvSecondLine);
         });
@@ -435,7 +442,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
         organization.isManagingStudents = false;
         sinon.stub(organizationRepository, 'get').resolves(organization);
       });
-  
+
       it('should return the header in CSV without Student Number', async () => {
         // given
         const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
@@ -452,7 +459,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             '"Nombre de pix pour la compétence Competence1";' +
             '"Niveau pour la compétence Competence2";' +
             '"Nombre de pix pour la compétence Competence2"';
-    
+
         // when
         startWritingCampaignProfilesCollectionResultsToStream({
           userId: user.id,
@@ -465,10 +472,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           campaignParticipationRepository,
           placementProfileService,
         });
-    
+
         const csv = await csvPromise;
         const csvLines = csv.split('\n');
-    
+
         // then
         expect(csvLines[0]).to.equal(expectedHeader);
       });
@@ -487,9 +494,9 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             participantLastName: user.lastName,
             studentNumber: '12345A',
           };
-  
+
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
-  
+
           const csvSecondLine =
             `"${organization.name}";` +
             `${campaign.id};` +
@@ -505,7 +512,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             '"NA";' +
             '"NA";' +
             '"NA"';
-  
+
           // when
           startWritingCampaignProfilesCollectionResultsToStream({
             userId: user.id,
@@ -518,16 +525,16 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             campaignParticipationRepository,
             placementProfileService,
           });
-  
+
           const csv = await csvPromise;
           const csvLines = csv.split('\n');
-  
+
           // then
           expect(csvLines[1]).to.equal(csvSecondLine);
         });
       });
     });
-    
+
     context('When campaign has an idPixLabel', () => {
       beforeEach(() => {
         organization.type = 'SCO';
@@ -549,6 +556,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           '"Nom de la campagne";' +
           '"Nom du Participant";' +
           '"Prénom du Participant";' +
+          '"Classe";' +
           '"Mail Pro";' +
           '"Envoi (O/N)";' +
           '"Date de l\'envoi";' +
@@ -592,6 +600,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           userId: 123,
           participantFirstName: user.firstName,
           participantLastName: user.lastName,
+          division: '3emeD',
         };
 
         findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
@@ -602,6 +611,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           `"'${campaign.name}";` +
           `"'${user.lastName}";` +
           `"'${user.firstName}";` +
+          `"${campaignParticipationResultData.division}";` +
           `"'${campaignParticipationResultData.participantExternalId}";` +
           '"Non";' +
           '"NA";' +
