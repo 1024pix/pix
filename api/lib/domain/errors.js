@@ -106,6 +106,22 @@ class SameNationalStudentIdInOrganizationError extends DomainError {
   }
 }
 
+class SameNationalApprenticeIdInOrganizationError extends DomainError {
+  constructor(errorDetail) {
+    let message = 'Un INA est déjà présent pour cette organisation.';
+    let nationalApprenticeId;
+    const regex = /([a-zA-Z0-9]+)\)/;
+    if (errorDetail) {
+      const regexMatches = errorDetail.match(regex);
+      nationalApprenticeId = regexMatches[1];
+      message = `L’INA ${nationalApprenticeId} est déjà présent pour cette organisation.`;
+    }
+
+    super(message);
+    this.nationalApprenticeId = errorDetail ? nationalApprenticeId : null;
+  }
+}
+
 class SameNationalStudentIdInFileError extends DomainError {
   constructor(nationalStudentId) {
     const message = nationalStudentId ?
@@ -693,6 +709,7 @@ module.exports = {
   PasswordResetDemandNotFoundError,
   SameNationalStudentIdInFileError,
   SameNationalStudentIdInOrganizationError,
+  SameNationalApprenticeIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationsCouldNotBeSavedError,
   SchoolingRegistrationNotFound,

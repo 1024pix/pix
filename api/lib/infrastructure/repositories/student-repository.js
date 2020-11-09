@@ -31,6 +31,7 @@ module.exports = {
 
     return this._toStudents(results);
   },
+
   async getReconciledStudentByNationalStudentId(nationalStudentId) {
 
     const result = await this.findReconciledStudentsByNationalStudentId([nationalStudentId]);
