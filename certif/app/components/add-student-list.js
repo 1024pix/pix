@@ -49,11 +49,8 @@ export default class AddStudentList extends Component {
     if (state === 'checked') {
       newState = false;
     }
-    this.args.studentList.forEach((student) => {
-      if (!student.isEnrolled) {
-        student.isSelected = newState;
-      }
-    });
+    this.args.studentList
+      .forEach((student) => student.setSelected(newState));
   }
 
   @action

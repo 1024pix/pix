@@ -293,12 +293,24 @@ module('Integration | Component | add-student-list', function(hooks) {
   function _buildUnselectedStudent(firstName = 'firstName', lastName = 'lastName', division = 'division', birthdate = 'birthdate', isEnrolled = false) {
     return EmberObject.create({
       firstName, lastName, division, birthdate, isSelected: false, isEnrolled,
+      setSelected: function(newState) {
+        if (this.isEnrolled) {
+          return;
+        }
+        this.isSelected = newState;
+      },
     });
   }
 
   function _buildSelectedStudent(firstName = 'firstName', lastName = 'lastName', division = 'division', birthdate = 'birthdate') {
     return EmberObject.create({
       firstName, lastName, division, birthdate, isSelected: true, isEnrolled: false,
+      setSelected: function(newState) {
+        if (this.isEnrolled) {
+          return;
+        }
+        this.isSelected = newState;
+      },
     });
   }
 
