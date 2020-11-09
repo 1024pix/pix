@@ -376,7 +376,7 @@
                 "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passez."
             },
             "timed" : {
-                "cannot-answer": "Le temps accordé est écoulé."
+                "cannot-answer": "Le temps imparti est écoulé."
             }
         },
         "checkpoint": {
