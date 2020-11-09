@@ -175,8 +175,8 @@ module.exports = {
       userId, sessionId, firstName, lastName, birthdate,
     });
 
-    const serialized = await certificationCandidateSerializer.serialize(event.certificationCandidate);
-
+    const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
+    const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
     return (event instanceof UserLinkedEvent) ? h.response(serialized).created() : serialized;
   },
 
