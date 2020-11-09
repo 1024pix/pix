@@ -40,7 +40,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       model,
     });
 
-    component.transitionToRoute = sinon.stub();
+    component.router.transitionTo = sinon.stub();
   });
 
   describe('#shareCampaignParticipation', function() {
@@ -67,7 +67,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       await component.actions.improvementCampaignParticipation.call(component);
 
       // then
-      sinon.assert.calledWith(component.transitionToRoute, 'campaigns.start-or-resume');
+      sinon.assert.calledWith(component.router.transitionTo, 'campaigns.start-or-resume');
     });
   });
 
