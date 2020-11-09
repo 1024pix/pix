@@ -160,6 +160,7 @@
 
 .challenge-statement__action {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -177,6 +178,27 @@
 .challenge-statement__action-link:hover,
 .challenge-statement__action-link:focus {
   color: $white;
+}
+
+.challenge-statement__action-help {
+  position: relative;
+  top: 16px;
+  font-size: 0.825rem;
+
+  &--link {
+    text-decoration: underline;
+    color: $blue;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $blue-hover;
+    }
+
+    &:visited {
+      color: $blue;
+    }
+  }
 }
 
 .challenge-statement__action-label {
