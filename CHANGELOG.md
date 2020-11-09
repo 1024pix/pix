@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.217.0 (09/11/2020)
+
+- [#2131](https://github.com/1024pix/pix/pull/2131) [BUGFIX] Utiliser replaceWith au lieu de transitionTo.
+
 ## v2.216.0 (09/11/2020)
 
 - [#2121](https://github.com/1024pix/pix/pull/2121) [FEATURE] Modifier le message d'erreur des embed auto
