@@ -3,6 +3,15 @@
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
       {{#if this.currentUser.isAgriculture}}
+        <PixTooltip
+          @text={{this.textTooltipForAgri}}
+          @position='bottom'
+          @class="pix-orga-tooltip list-students-page__tooltip">
+            <span class="list-students-page__tooltip-title">
+              <span>En savoir plus</span>
+              <FaIcon @icon="info-circle" class="info-icon"/>
+            </span>
+        </PixTooltip>
         <a class="button button--link button--no-color"
           href="{{this.urlToDownloadCsvTemplate}}" target="_blank" rel="noopener noreferrer" download>
           Télécharger le modèle
