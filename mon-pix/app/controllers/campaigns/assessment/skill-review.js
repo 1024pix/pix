@@ -2,6 +2,8 @@ import { action } from '@ember/object';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
+import ENV from 'mon-pix/config/environment';
+
 export default class SkillReviewController extends Controller {
   @tracked displayLoadingButton = false;
   @tracked displayErrorMessage = false;
@@ -40,6 +42,10 @@ export default class SkillReviewController extends Controller {
 
   get stageCount() {
     return this.model.campaignParticipation.campaignParticipationResult.get('stageCount');
+  }
+
+  get isPixContest() {
+    return ENV.APP.IS_PIX_CONTEST === 'true';
   }
 
   @action
