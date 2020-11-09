@@ -295,6 +295,10 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           assert.notContains('Télécharger le modèle');
         });
 
+        test('it should not display the tooltip for agriculture organization', async function(assert) {
+          assert.notContains('En savoir plus');
+        });
+
         test('it should display the dissociate action', async function(assert) {
           // when
           await click('[aria-label="Afficher les actions"]');
@@ -323,6 +327,10 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
         test('it should display download template csv button', async function(assert) {
           // then
           assert.contains('Télécharger le modèle');
+        });
+
+        test('it should not display the tooltip', async function(assert) {
+          assert.contains('En savoir plus');
         });
       });
     });
