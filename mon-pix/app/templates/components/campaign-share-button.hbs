@@ -8,23 +8,15 @@
   </LinkTo>
 {{else}}
 
-  {{#if @displayErrorMessage}}
-    <div class="skill-review-share__error" aria-live="polite">
-      {{t 'pages.skill-review.not-finished'}}
-    </div>
-  {{/if}}
+      <PixButton
+              class="button button--green button--round skill-review-share__button"
+              aria-hidden="true"
+              @action={{@shareCampaignParticipation}}
+              @loading-color="white">
+        {{t 'pages.skill-review.actions.send'}}
+      </PixButton>
 
-  {{#if @displayLoadingButton}}
-    <div class="button button--green button--round skill-review-share__button" aria-hidden="true">
-      <span class="loader-in-button">&nbsp;</span>
-    </div>
-    <span class="sr-only">{{t 'pages.skill-review.send-status.in-progress'}}</span>
-  {{else}}
-    <button class="button button--green button--round skill-review-share__button" {{on "click" @shareCampaignParticipation}} type="button">
-      {{t 'pages.skill-review.actions.send'}}
-    </button>
-  {{/if}}
-  <p class="skill-review-share__legal">
-    {{t 'pages.skill-review.send-results'}}
-  </p>
+      <p class="skill-review-share__legal">
+      {{t 'pages.skill-review.send-results'}}
+    </p>
 {{/if}}
