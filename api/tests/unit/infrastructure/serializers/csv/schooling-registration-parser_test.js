@@ -75,15 +75,15 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
         });
       });
 
-      context('When the file contains Apprentice (status AP)', () => {
+      context('When the organization hasApprentice and file contain status AP', () => {
         it('should return schooling registration with nationalApprenticeId', () => {
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
           `;
           const organizationId = 789;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
-
+          const parser = new SchoolingRegistrationParser(encodedInput, organizationId, true);
+  
           const { registrations } = parser.parse();
           expect(registrations[0]).to.includes({
             nationalStudentId: undefined,
