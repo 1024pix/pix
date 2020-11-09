@@ -4,7 +4,9 @@ const schoolingRegistrationRepository = require('../../../../lib/infrastructure/
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
 
-const { NotFoundError, SameNationalStudentIdInOrganizationError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError, SameNationalApprenticeIdInOrganizationError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
+
+const STATUS = SchoolingRegistration.STATUS;
 
 describe('Integration | Infrastructure | Repository | schooling-registration-repository', () => {
 
@@ -353,7 +355,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       let schoolingRegistrations;
       let organizationId;
-      let schoolingRegistration_1, schoolingRegistration_2;
+      let schoolingRegistration_1;
 
       beforeEach(async () => {
         organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -367,15 +369,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           organizationId,
         });
 
-        schoolingRegistration_2 = new SchoolingRegistration({
-          firstName: 'Harry',
-          lastName: 'Covert',
-          birthdate: '1990-01-01',
-          nationalStudentId: 'INE2',
-          organizationId,
-        });
-
-        schoolingRegistrations = [schoolingRegistration_1, schoolingRegistration_2];
+        schoolingRegistrations = [schoolingRegistration_1];
       });
 
       afterEach(() => {
@@ -388,14 +382,16 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // then
         const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-        expect(actualSchoolingRegistrations).to.have.lengthOf(2);
-        expect(_.map(actualSchoolingRegistrations, 'firstName')).to.have.members([schoolingRegistration_1.firstName, schoolingRegistration_2.firstName]);
+        
+        expect(actualSchoolingRegistrations).to.have.lengthOf(1);
+        expect(actualSchoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1.firstName);
+        expect(actualSchoolingRegistrations[0].nationalStudentId).to.be.equal(schoolingRegistration_1.nationalStudentId);
+        expect(actualSchoolingRegistrations[0].nationalApprenticeId).to.be.null;
       });
     });
 
     context('when there are only schoolingRegistrations to update', () => {
       let schoolingRegistration_1;
-      let schoolingRegistration_2;
       let organizationId;
 
       beforeEach(async () => {
@@ -407,41 +403,29 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           nationalStudentId: 'INE1',
           organizationId,
         };
-        schoolingRegistration_2 = {
-          firstName: 'Harry',
-          lastName: 'Covert',
-          birthdate: '1990-01-01',
-          nationalStudentId: 'INE2',
-          organizationId,
-        };
-        _.each([schoolingRegistration_1, schoolingRegistration_2], (schoolingRegistration) => databaseBuilder.factory.buildSchoolingRegistration(schoolingRegistration));
+
+        databaseBuilder.factory.buildSchoolingRegistration(schoolingRegistration_1);
 
         await databaseBuilder.commit();
       });
 
       context('when a schoolingRegistration is already imported', async function() {
 
-        let schoolingRegistration_1_updated, schoolingRegistration_2_updated;
+        let schoolingRegistration_1_updated;
         let schoolingRegistrations;
 
         beforeEach(() => {
           // given
           schoolingRegistration_1_updated = new SchoolingRegistration({
-            firstName: 'Lili',
-            lastName: schoolingRegistration_1.lastName,
-            birthdate: schoolingRegistration_1.birthdate,
-            nationalStudentId: schoolingRegistration_1.nationalStudentId,
-            organizationId,
-          });
-          schoolingRegistration_2_updated = new SchoolingRegistration({
-            firstName: 'Mimi',
-            lastName: schoolingRegistration_2.lastName,
-            birthdate: schoolingRegistration_2.birthdate,
-            nationalStudentId: schoolingRegistration_2.nationalStudentId,
+            firstName: 'Boba',
+            lastName: 'Fett',
+            birthdate: '1986-01-05',
+            nationalStudentId: 'INE1',
+            status : schoolingRegistration_1.status,
             organizationId,
           });
 
-          schoolingRegistrations = [schoolingRegistration_1_updated, schoolingRegistration_2_updated];
+          schoolingRegistrations = [schoolingRegistration_1_updated];
         });
 
         it('should update schoolingRegistrations attributes', async () => {
@@ -451,16 +435,16 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           // then
           const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
 
-          expect(updated_organization_schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.find(updated_organization_schoolingRegistrations, { 'nationalStudentId': schoolingRegistration_1.nationalStudentId }).firstName).to.equal('Lili');
-          expect(_.find(updated_organization_schoolingRegistrations, { 'nationalStudentId': schoolingRegistration_2.nationalStudentId }).firstName).to.equal('Mimi');
+          expect(updated_organization_schoolingRegistrations).to.have.lengthOf(1);
+          expect(updated_organization_schoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1_updated.firstName);
+          expect(updated_organization_schoolingRegistrations[0].lastName).to.be.equal(schoolingRegistration_1_updated.lastName);
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.be.equal(schoolingRegistration_1_updated.birthdate);        
         });
       });
 
       context('when a schoolingRegistration is already imported in several organizations', async () => {
 
         let schoolingRegistration_1_updated;
-        let schoolingRegistration_2_updated;
         let schoolingRegistration_1_bis;
         let otherOrganizationId;
         let schoolingRegistrations;
@@ -472,6 +456,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Handmad',
             birthdate: '1990-12-31',
             nationalStudentId: schoolingRegistration_1.nationalStudentId,
+            status : schoolingRegistration_1.status,
             organizationId: otherOrganizationId,
           });
 
@@ -483,16 +468,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             birthdate: schoolingRegistration_1.birthdate,
             nationalStudentId: schoolingRegistration_1.nationalStudentId,
             organizationId,
-          });
-          schoolingRegistration_2_updated = new SchoolingRegistration({
-            firstName: 'Mimi',
-            lastName: schoolingRegistration_2.lastName,
-            birthdate: schoolingRegistration_2.birthdate,
-            nationalStudentId: schoolingRegistration_2.nationalStudentId,
-            organizationId,
+            status : schoolingRegistration_1.status,
           });
 
-          schoolingRegistrations = [schoolingRegistration_1_updated, schoolingRegistration_2_updated];
+          schoolingRegistrations = [schoolingRegistration_1_updated];
         });
 
         it('should update the schoolingRegistration only in the organization that imports the file', async () => {
@@ -501,15 +480,19 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           // then
           const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-
-          expect(updated_organization_schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.find(updated_organization_schoolingRegistrations, { 'nationalStudentId': schoolingRegistration_1.nationalStudentId }).firstName).to.equal(schoolingRegistration_1_updated.firstName);
-          expect(_.find(updated_organization_schoolingRegistrations, { 'nationalStudentId': schoolingRegistration_2.nationalStudentId }).firstName).to.equal(schoolingRegistration_2_updated.firstName);
-
           const not_updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId: otherOrganizationId });
 
+          expect(updated_organization_schoolingRegistrations).to.have.lengthOf(1);
+
+          expect(updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_updated.firstName);
+          expect(updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_updated.lastName);
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);        
+
           expect(not_updated_organization_schoolingRegistrations).to.have.lengthOf(1);
+
           expect(not_updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_bis.firstName);
+          expect(not_updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_bis.lastName);
+          expect(not_updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_bis.birthdate);        
         });
       });
 
@@ -640,6 +623,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         // then
         const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
         expect(actualSchoolingRegistrations).to.have.lengthOf(2);
+        
         expect(_.map(actualSchoolingRegistrations, 'firstName')).to.have.members([schoolingRegistrationUpdated.firstName, schoolingRegistrationToCreate.firstName]);
       });
     });
@@ -689,7 +673,6 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
 
     context('whenever a schooling-registration is updated', () => {
-
       it('should update the updatedAt column in row', async () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -712,6 +695,300 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // when
         await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration_updated], organizationId);
+
+        // then
+        const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+
+        expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
+      });
+    });
+  });
+
+  describe('#addOrUpdateOrganizationAgriSchoolingRegistrations', () => {
+    context('when there are only schoolingRegistrations to create', () => {
+      let schoolingRegistrations;
+      let organizationId;
+      let schoolingRegistration_1;
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        await databaseBuilder.commit();
+
+        schoolingRegistration_1 = new SchoolingRegistration({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalApprenticeId: 'INA1',
+          status : STATUS.APPRENTICE,
+          organizationId,
+        });
+
+        schoolingRegistrations = [schoolingRegistration_1];
+      });
+
+      afterEach(() => {
+        return knex('schooling-registrations').delete();
+      });
+
+      it('should create all schoolingRegistrations', async function() {
+        // when
+        await schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+        // then
+        const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+        expect(actualSchoolingRegistrations).to.have.lengthOf(1);
+
+        expect(actualSchoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1.firstName);
+        expect(actualSchoolingRegistrations[0].nationalApprenticeId).to.be.equal(schoolingRegistration_1.nationalApprenticeId);
+        expect(actualSchoolingRegistrations[0].nationalStudentId).to.be.null;
+      });
+    });
+
+    context('when there are only schoolingRegistrations to update', () => {
+      let schoolingRegistration_1;
+      let organizationId;
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        schoolingRegistration_1 = {
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalApprenticeId: 'INA1',
+          nationalStudentId : null,
+          status : STATUS.APPRENTICE,
+          organizationId,
+        };
+
+        databaseBuilder.factory.buildSchoolingRegistration(schoolingRegistration_1);
+
+        await databaseBuilder.commit();
+      });
+
+      context('when a schoolingRegistration is already imported', async function() {
+        let schoolingRegistration_1_updated;
+        let schoolingRegistrations;
+
+        beforeEach(() => {
+          // given
+          schoolingRegistration_1_updated = new SchoolingRegistration({
+            firstName: 'Boba',
+            lastName: 'Fett',
+            birthdate: '1986-01-05',
+            nationalApprenticeId: 'INA1',
+            nationalStudentId : null,
+            status : schoolingRegistration_1.status,
+            organizationId,
+          });
+
+          schoolingRegistrations = [schoolingRegistration_1_updated];
+        });
+
+        it('should update schoolingRegistrations attributes', async () => {
+          // when
+          await schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+          // then
+          const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+
+          expect(updated_organization_schoolingRegistrations).to.have.lengthOf(1);
+
+          expect(updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_updated.firstName);
+          expect(updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_updated.lastName);
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);
+          expect(updated_organization_schoolingRegistrations[0].nationalStudentId).to.be.null;
+        });
+      });
+
+      context('when a schoolingRegistration is already imported in several organizations', async () => {
+
+        let schoolingRegistration_1_updated;
+        let schoolingRegistration_1_bis;
+        let otherOrganizationId;
+        let schoolingRegistrations;
+
+        beforeEach(async () => {
+          otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+          schoolingRegistration_1_bis = databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'Lucie',
+            lastName: 'Handmad',
+            birthdate: '1990-12-31',
+            nationalApprenticeId: schoolingRegistration_1.nationalApprenticeId,
+            nationalStudentId : null,
+            status : schoolingRegistration_1.status,
+            organizationId: otherOrganizationId,
+          });
+
+          await databaseBuilder.commit();
+
+          schoolingRegistration_1_updated = new SchoolingRegistration({
+            firstName: 'Lili',
+            lastName: schoolingRegistration_1.lastName,
+            birthdate: schoolingRegistration_1.birthdate,
+            nationalApprenticeId: schoolingRegistration_1.nationalApprenticeId,
+            nationalStudentId : null,
+            organizationId,
+            status : schoolingRegistration_1.status,
+          });
+
+          schoolingRegistrations = [schoolingRegistration_1_updated];
+        });
+
+        it('should update the schoolingRegistration only in the organization that imports the file', async () => {
+          // when
+          await schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+          // then
+          const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          const not_updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId: otherOrganizationId });
+
+          expect(updated_organization_schoolingRegistrations).to.have.lengthOf(1);
+
+          expect(updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_updated.firstName);
+          expect(updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_updated.lastName);
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);        
+
+          expect(not_updated_organization_schoolingRegistrations).to.have.lengthOf(1);
+
+          expect(not_updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_bis.firstName);
+          expect(not_updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_bis.lastName);
+          expect(not_updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_bis.birthdate);
+        });
+      });
+
+    });
+
+    context('when there are schoolingRegistrations to create and schoolingRegistrations to update', () => {
+
+      let schoolingRegistrations;
+      let organizationId;
+      let schoolingRegistrationToCreate, schoolingRegistrationUpdated;
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildSchoolingRegistration({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalApprenticeId: 'INA1',
+          nationalStudentId : null,
+          status : STATUS.APPRENTICE,
+          organizationId,
+        });
+        await databaseBuilder.commit();
+
+        schoolingRegistrationUpdated = new SchoolingRegistration({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalApprenticeId: 'INA1',
+          nationalStudentId : null,
+          status : STATUS.APPRENTICE,
+          organizationId,
+        });
+
+        schoolingRegistrationToCreate = new SchoolingRegistration({
+          firstName: 'Harry',
+          lastName: 'Covert',
+          birthdate: '1990-01-01',
+          nationalApprenticeId: 'INA2',
+          nationalStudentId : null,
+          status : STATUS.APPRENTICE,
+          organizationId,
+        });
+
+        schoolingRegistrations = [schoolingRegistrationUpdated, schoolingRegistrationToCreate];
+      });
+
+      afterEach(() => {
+        return knex('schooling-registrations').delete();
+      });
+
+      it('should update and create all schoolingRegistrations', async function() {
+        // when
+        await schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrations, organizationId);
+
+        // then
+        const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+        expect(actualSchoolingRegistrations).to.have.lengthOf(2);
+        expect(_.map(actualSchoolingRegistrations, 'firstName')).to.have.members([schoolingRegistrationUpdated.firstName, schoolingRegistrationToCreate.firstName]);
+      });
+    });
+
+    context('when the same nationalApprenticeId is twice in schoolingRegistrations to create', () => {
+
+      let schoolingRegistrations;
+      let organizationId;
+      let schoolingRegistration_1, schoolingRegistration_2;
+      const sameNationalApprenticeId = 'SAMEID123';
+
+      beforeEach(async () => {
+        organizationId = databaseBuilder.factory.buildOrganization().id;
+        await databaseBuilder.commit();
+
+        schoolingRegistration_1 = new SchoolingRegistration({
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalApprenticeId: sameNationalApprenticeId,
+          nationalStudentId : null,
+          status : STATUS.APPRENTICE,
+          organizationId,
+        });
+
+        schoolingRegistration_2 = new SchoolingRegistration({
+          firstName: 'Harry',
+          lastName: 'Covert',
+          birthdate: '1990-01-01',
+          status : STATUS.APPRENTICE,
+          nationalApprenticeId: sameNationalApprenticeId,
+          nationalStudentId : null,
+          organizationId,
+        });
+
+        schoolingRegistrations = [schoolingRegistration_1, schoolingRegistration_2];
+      });
+
+      afterEach(() => {
+        return knex('schooling-registrations').delete();
+      });
+
+      it('should return a SameNationalStudentIdInOrganizationError', async () => {
+        // when
+        const error = await catchErr(schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations, schoolingRegistrationRepository)(schoolingRegistrations, organizationId);
+
+        // then
+        expect(error).to.be.instanceof(SameNationalApprenticeIdInOrganizationError);
+        expect(error.message).to.equal('L’INA SAMEID123 est déjà présent pour cette organisation.');
+      });
+    });
+
+    context('whenever a schooling-registration is updated', () => {
+
+      it('should update the updatedAt column in row', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const baseSchoolingRegistration = {
+          firstName: 'Lucy',
+          lastName: 'Handmade',
+          birthdate: '1990-12-31',
+          nationalApprenticeId: 'INA1',
+          nationalStudentId : null,
+          status : STATUS.APPRENTICE,
+          organizationId,
+        };
+        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration(baseSchoolingRegistration).id;
+        await databaseBuilder.commit();
+        await knex('schooling-registrations').update({ updatedAt: new Date('2019-01-01') }).where({ id: schoolingRegistrationId });
+        const { updatedAt: beforeUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
+
+        const schoolingRegistration_updated = new SchoolingRegistration({
+          ...baseSchoolingRegistration,
+          firstName: 'Lili',
+        });
+
+        // when
+        await schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations([schoolingRegistration_updated], organizationId);
 
         // then
         const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
