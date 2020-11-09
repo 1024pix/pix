@@ -146,6 +146,9 @@ export default Factory.extend({
   cgu() {
     return false;
   },
+  lang() {
+    return 'fr';
+  },
   shouldChangePassword: trait({
     shouldChangePassword: true,
   }),
