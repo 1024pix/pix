@@ -1,7 +1,9 @@
 const SchoolingRegistration = require('../../../domain/models/SchoolingRegistration');
 const { checkValidation } = require('../../../domain/validators/schooling-registration-validator');
+const { checkValidationUnicity } = require('../../../domain/validators/schooling-registration-set-validator');
 
 const { CsvRegistrationParser, CsvColumn } = require('./csv-registration-parser');
+const { CsvImportError } = require('../../../../lib/domain/errors');
 
 const STATUS = SchoolingRegistration.STATUS;
 
@@ -33,6 +35,7 @@ class SchoolingRegistrationSet {
     const transformedAttributes = this._transform(registrationAttributes);
     const registration = new SchoolingRegistration(transformedAttributes);
     this.registrations.push(registration);
+    checkValidationUnicity(this);
   }
 
   _transform(registrationAttributes)  {
@@ -40,7 +43,7 @@ class SchoolingRegistrationSet {
     let nationalApprenticeId;
     const { birthCountryCode, nationalIdentifier, status } = registrationAttributes;
 
-    if (status === STATUS.STUDENT) {
+    if (!this.hasApprentice || status === STATUS.STUDENT) {
       nationalStudentId = nationalIdentifier;
     } else if (this.hasApprentice && status === STATUS.APPRENTICE) {
       nationalApprenticeId = nationalIdentifier;
@@ -61,6 +64,14 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
     const registrationSet = new SchoolingRegistrationSet(hasApprentice);
 
     super(input, organizationId, COLUMNS, registrationSet);
+  }
+
+  _handleError(err, index) {
+    if (err.why === 'uniqueness') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Identifiant unique” doit être unique au sein du fichier.`);
+    }
+   
+    super._handleError(...arguments);
   }
 }
 
