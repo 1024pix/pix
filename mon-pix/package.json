@@ -105,7 +105,7 @@
     "eslint-plugin-mocha": "^6.2.2",
     "eslint-plugin-node": "^10.0.0",
     "faker": "^5.1.0",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.0",
     "jwt-decode": "^3.0.0",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.15",
