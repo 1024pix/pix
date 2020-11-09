@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 
 export default class SkillReview extends Component {
   @service intl
+  @service router
 
   @tracked displayErrorMessage = false;
 
@@ -64,7 +65,7 @@ export default class SkillReview extends Component {
     const assessment = this.args.model.assessment;
     const campaignParticipation = this.args.model.campaignParticipation;
     await campaignParticipation.save({ adapterOptions: { beginImprovement: true } });
-    return this.transitionToRoute('campaigns.start-or-resume', assessment.codeCampaign);
+    return this.router.transitionTo('campaigns.start-or-resume', assessment.codeCampaign);
   }
 
 }
