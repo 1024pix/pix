@@ -79,6 +79,17 @@ module.exports = {
     return userSerializer.serialize(updatedUser);
   },
 
+  async changeLang(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const lang = request.params.lang;
+    const updatedUser = await usecases.changeUserLang({
+      userId: authenticatedUserId,
+      lang,
+    });
+
+    return userSerializer.serialize(updatedUser);
+  },
+
   async acceptPixOrgaTermsOfService(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
