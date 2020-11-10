@@ -78,6 +78,10 @@ export default class ChallengeItemGeneric extends Component {
     }
   }
 
+  get hideFeedbackPanel() {
+    return ENV.APP.IS_PIX_CONTEST === 'true';
+  }
+
   @action
   validateAnswer() {
     if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {

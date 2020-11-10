@@ -58,7 +58,9 @@
     </form>
   {{/if}}
 
-  <div class="challenge-item__feedback">
-    <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}}/>
-  </div>
+  {{#unless this.hideFeedbackPanel}}
+    <div class="challenge-item__feedback">
+      <FeedbackPanel @assessment={{@assessment}} @challenge={{@challenge}}/>
+    </div>
+  {{/unless}}
 </article>
