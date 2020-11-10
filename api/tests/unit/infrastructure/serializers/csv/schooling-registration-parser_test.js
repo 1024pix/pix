@@ -1,7 +1,7 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
 const SchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
-const { EntityValidationError } = require('../../../../../lib/domain/errors');
+const { EntityValidationError, CsvImportError } = require('../../../../../lib/domain/errors');
 
 const schoolingRegistrationCsvColumns = SchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
 
@@ -91,19 +91,94 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
             status: 'AP',
           });
         });
+
+        it('should return not return error given nationalIdentifier with different status', () => {
+          const input = `${schoolingRegistrationCsvColumns}
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
+          `;
+          const organizationId = 789;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new SchoolingRegistrationParser(encodedInput, organizationId, true);
+  
+          const { registrations } = parser.parse();
+          
+          expect(registrations[0]).to.includes({
+            nationalStudentId: undefined,
+            nationalApprenticeId: '123F',
+            status: 'AP',
+          });
+
+          expect(registrations[1]).to.includes({
+            nationalStudentId: '123F',
+            nationalApprenticeId: undefined,
+            status: 'ST',
+          });
+        });
       });
 
       context('when the data are not correct', () => {
         it('should throw an EntityValidationError', async () => {
+          //given wrong birthDate
           const input = `${schoolingRegistrationCsvColumns}
-      123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;ST;MEF1;Division 1;
-      `;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;ST;MEF1;Division 1;
+          `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, 123);
 
           const error = await catchErr(parser.parse, parser)();
-
+          
+          //then
           expect(error).to.be.an.instanceOf(EntityValidationError);
+        });
+
+        context('when organization is SCO and CSV has duplicates on national identifier' , () => {
+          it('should throw an CsvImportError', async () => {
+            const input = `${schoolingRegistrationCsvColumns}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+            `;
+
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 123);
+  
+            const error = await catchErr(parser.parse, parser)();
+            
+            //then
+            expect(error).to.be.an.instanceOf(CsvImportError);
+          });
+        });
+
+        context('when organization is SCO Agriculture and CSV has duplicates on national identifier' , () => {
+          it('should throw an CsvImportError, with all status AP', async () => {
+            const input = `${schoolingRegistrationCsvColumns}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+            `;
+
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 123, true);
+  
+            const error = await catchErr(parser.parse, parser)();
+            
+            //then
+            expect(error).to.be.an.instanceOf(CsvImportError);
+          });
+
+          it('should throw an CsvImportError, with all status ST', async () => {
+            const input = `${schoolingRegistrationCsvColumns}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
+            `;
+
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 123, true);
+  
+            const error = await catchErr(parser.parse, parser)();
+            
+            //then
+            expect(error).to.be.an.instanceOf(CsvImportError);
+          });
         });
       });
     });

@@ -864,15 +864,16 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = buffer;
         });
 
-        it('should not import any schoolingRegistration and return a 422', async () => {
+        it('should not import any schoolingRegistration and return a 412', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          
           expect(schoolingRegistrations).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('L’INE 123F est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+          expect(response.statusCode).to.equal(412);
+          expect(response.result.errors[0].detail).to.contains('Le champ “Identifiant unique” ne doit pas contenir de doublon.');
         });
       });
     });
