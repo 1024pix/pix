@@ -186,17 +186,6 @@ module.exports = {
     return h.response({}).code(204);
   },
 
-  async updateUserSamlId(request, h) {
-    const userId = parseInt(request.params.id);
-    const {
-      'external-user-token': externalUserToken,
-      'expected-user-id': expectedUserId,
-    } = request.payload.data.attributes;
-
-    await usecases.updateUserSamlId({ userId, externalUserToken, expectedUserId });
-    return h.response().code(204);
-  },
-
   async dissociateSchoolingRegistrations(request) {
     const userId = parseInt(request.params.id);
     const userDetailsForAdmin = await usecases.dissociateSchoolingRegistrations({ userId });

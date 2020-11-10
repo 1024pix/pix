@@ -19,7 +19,6 @@ describe('Integration | Application | Users | Routes', () => {
 
     sinon.stub(userController, 'getUserDetailsForAdmin').returns('ok');
     sinon.stub(userController, 'updateUserDetailsForAdministration').returns('updated');
-    sinon.stub(userController, 'updateUserSamlId').returns('updated');
     sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
@@ -134,45 +133,6 @@ describe('Integration | Application | Users | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
-    });
-  });
-
-  describe('PATCH /api/users/{id}/authentication-methods/saml', () => {
-
-    const url = '/api/users/1/authentication-methods/saml';
-
-    beforeEach(() => {
-      payload = {
-        data: {
-          id: 1,
-          type: 'external-users',
-          attributes: {
-            'external-user-token': 'TOKEN',
-            'expected-user-id': 1,
-          },
-        },
-      };
-    });
-
-    it('should update user samlId when payload is valid', async () => {
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return bad request with invalid message when externalUserToken is not valid', async () => {
-      // given
-      payload.data.attributes = {};
-
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-      const firstError = response.result.errors[0];
-      expect(firstError.detail).to.equal('"data.attributes.external-user-token" is required');
     });
   });
 
