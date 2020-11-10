@@ -8,15 +8,40 @@ $margin-right: 32px;
 
   &__header {
     display: flex;
+    align-items: baseline;
+    justify-content: space-between;
     margin: 1em;
   }
 
-  &__import-students-button {
-    margin-top: 20px;
-    margin-left: auto;
+  &__tooltip {
+    display: inline-block;
+    color: $grey-40;
 
-    & :last-child {
-      margin-left: 10px;
+    .pix-tooltip ul {
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      padding-inline-start: 40px;
+    }
+
+    .pix-tooltip li {
+      list-style: disc;
+      padding: initial;
+    }
+  }
+
+  &__tooltip-title {
+    font-size: 0.75rem;
+    svg {
+      margin-left: 4px;
+    }
+  }
+
+  &__import-students-button {
+    > * {
+      margin-right: 10px;
+    }
+    > *:last-child {
+      margin-right: 0px;
     }
   }
 
