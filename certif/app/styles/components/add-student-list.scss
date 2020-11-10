@@ -1,10 +1,7 @@
 .add-student-list {
   font-size: 0.875rem;
   position: relative;
-
-  tr {
-    background-color: $white;
-  }
+  box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 
   thead tr {
     background: $grey-10;
@@ -12,6 +9,42 @@
     outline: 4px solid $white;
     outline-offset: -4px;
     border-bottom: 4px solid $grey-10;
+  }
+
+  tr.add-student-list__row--disabled {
+    border-top-color: $grey-20;
+    border-bottom: 2px solid $grey-20;
+
+    &:hover {
+      background: $grey-15;
+      cursor: default;
+    }
+  }
+
+  &__row {
+    background-color: $white;
+    color: $grey-60;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--disabled {
+      background: $grey-15;
+      border-top: 1px solid $grey-50;
+      border-bottom: 1px solid $grey-50;
+
+      .add-student-list__column-checkbox .checkbox {
+        background-color: $grey-40;
+        border-color: $grey-40;
+        pointer-events: none;
+
+        &:hover {
+          cursor: initial;
+          box-shadow: none;
+        }
+      }
+    }
   }
 
   th,
@@ -49,6 +82,7 @@
       &--candidates-selected {
         font-size: 1.125rem;
       }
+
       &--candidates-already-added {
         font-size: 0.875rem;
       }
@@ -63,6 +97,7 @@
     }
 
     .bottom-action-bar__actions {
+
       .button {
         max-height: 44px;
         margin-left: 16px;
@@ -73,5 +108,4 @@
       }
     }
   }
-
 }

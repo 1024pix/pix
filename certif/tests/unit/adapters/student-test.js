@@ -18,13 +18,14 @@ module('Unit | Adapter | student', function(hooks) {
     test('should build query url from student id', async function(assert) {
       // given
       const certificationCenterId = 1;
-      const adapterOptions = { certificationCenterId };
+      const sessionId = 3;
+      const adapterOptions = { certificationCenterId, sessionId };
 
       // when
       const url = await adapter.urlForFindAll(undefined, { adapterOptions });
 
       // then
-      assert.equal(url.endsWith(`certification-centers/${certificationCenterId}/students`), true);
+      assert.equal(url.endsWith(`certification-centers/${certificationCenterId}/sessions/${sessionId}/students`), true);
     });
   });
 });
