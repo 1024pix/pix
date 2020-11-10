@@ -1,4 +1,5 @@
 {
+    "current-lang": "fr",
     "api-error-messages": {
         "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
         "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
