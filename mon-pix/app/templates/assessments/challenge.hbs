@@ -11,7 +11,9 @@
   </div>
 
   <div class="assessment-challenge__content rounded-panel--over-background-banner">
-    <ProgressBar @assessment={{@model.assessment}} @answerId={{@model.answer.id}}/>
+    {{#unless this.hideProgressBar}}
+      <ProgressBar @assessment={{@model.assessment}} @answerId={{@model.answer.id}}/>
+    {{/unless}}
     <main>
       {{component (get-challenge-component-class @model.challenge)
                 challenge=@model.challenge
