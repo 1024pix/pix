@@ -108,11 +108,11 @@ class UserAlreadyLinkedEvent {
 }
 
 async function _checkCandidateMatchTheReconciledStudent({ userId, certificationCandidate, schoolingRegistrationRepository }) {
-  const students = await schoolingRegistrationRepository.findByUserIdAndSchoolingRegistrationIdAndSCOOrganization({
+  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
     userId,
     schoolingRegistrationId: certificationCandidate.schoolingRegistrationId,
   });
-  if (_.isEmpty(students)) {
+  if (!isSchoolingRegistrationIdLinkedToUserAndSCOOrganization) {
     throw new MatchingReconciledStudentNotFoundError();
   }
 }

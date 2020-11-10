@@ -311,8 +311,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#findByUserIdAndSchoolingRegistrationIdAndSCOOrganization', () => {
-    it('should return the schoolingRegistration that matches an id and matches also a given user id and a SCO organization', async () => {
+  describe('#isSchoolingRegistrationIdLinkedToUserAndSCOOrganization', () => {
+    it('should return true when a schoolingRegistration matches an id and matches also a given user id and a SCO organization', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const otherUserId = databaseBuilder.factory.buildUser().id;
@@ -326,14 +326,24 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByUserIdAndSchoolingRegistrationIdAndSCOOrganization({
+      const isLinked = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
         userId,
         schoolingRegistrationId : matchingSchoolingRegistrationId,
       });
 
       // then
-      expect(schoolingRegistrations).to.have.a.lengthOf(1);
-      expect(schoolingRegistrations[0].id).to.equal(matchingSchoolingRegistrationId);
+      expect(isLinked).to.be.true;
+    });
+
+    it('should return false when no schoolingRegistration matches an id and matches also a given user id and a SCO organization', async () => {
+      // when
+      const isLinked = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
+        userId: 42,
+        schoolingRegistrationId : 42,
+      });
+
+      // then
+      expect(isLinked).to.be.false;
     });
   });
 
