@@ -350,9 +350,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             resolves: [certificationCandidate] });
 
         const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
-          .withFindByUserIdAndSchoolingRegistrationIdAndSCOOrganization({
+          .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
             args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId },
-            resolves: [],
+            resolves: false,
           });
 
         // when
@@ -403,7 +403,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             });
 
           const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
-            .withFindByUserIdAndSchoolingRegistrationIdAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: [schoolingRegistration] });
+            .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
 
           const scoCertificationCandidateRepository = _buildFakeSCOCertificationCandidateRepository();
           // when
@@ -455,7 +455,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             }, resolves: domainBuilder.buildCertificationCandidate({ id: 'another candidate' }) });
 
           const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
-            .withFindByUserIdAndSchoolingRegistrationIdAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: [schoolingRegistration] });
+            .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
 
           const scoCertificationCandidateRepository = _buildFakeSCOCertificationCandidateRepository();
 
@@ -492,11 +492,11 @@ function _buildFakeSessionRepository() {
 }
 
 function _buildFakeSchoolingRegistrationRepository() {
-  const findByUserIdAndSchoolingRegistrationIdAndSCOOrganization = sinon.stub();
+  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = sinon.stub();
   return {
-    findByUserIdAndSchoolingRegistrationIdAndSCOOrganization,
-    withFindByUserIdAndSchoolingRegistrationIdAndSCOOrganization({ args, resolves }) {
-      this.findByUserIdAndSchoolingRegistrationIdAndSCOOrganization.withArgs(args).resolves(resolves);
+    isSchoolingRegistrationIdLinkedToUserAndSCOOrganization,
+    withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args, resolves }) {
+      this.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization.withArgs(args).resolves(resolves);
       return this;
     },
   };

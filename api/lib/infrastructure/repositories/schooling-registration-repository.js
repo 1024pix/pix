@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
+const { knex } = require('../bookshelf');
 const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
@@ -79,15 +80,15 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  // FIXME find or get => on a uniquement besoin du nationalStudentId
-  async findByUserIdAndSchoolingRegistrationIdAndSCOOrganization({ userId, schoolingRegistrationId }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration
-      .query((qb) => qb.join('organizations', 'schooling-registrations.organizationId', 'organizations.id'))
-      .where({ userId, type: 'SCO', 'schooling-registrations.id': schoolingRegistrationId })
-      //FIXME do not fetch everything
-      .fetchAll();
+  async isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ userId, schoolingRegistrationId }) {
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+    const exist = await knex('schooling-registrations')
+      .select('schooling-registrations.id')
+      .join('organizations', 'schooling-registrations.organizationId', 'organizations.id')
+      .where({ userId, type: 'SCO', 'schooling-registrations.id': schoolingRegistrationId })
+      .first();
+
+    return Boolean(exist);
   },
 
   async findByUserIdAndSCOOrganization({ userId }) {
