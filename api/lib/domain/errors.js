@@ -254,8 +254,9 @@ class CertificationCandidateByPersonalInfoNotFoundError extends DomainError {
 }
 
 class MatchingReconciledStudentNotFoundError extends DomainError {
-  constructor(message = 'Aucun candidat de certification SCO n\'a été trouvé avec ces informations.') {
+  constructor(message = 'Le candidat de certification ne correspond pas à l\'étudiant trouvé avec ces informations.') {
     super(message);
+    this.code = 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
   }
 }
 
