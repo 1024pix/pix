@@ -113,7 +113,7 @@
     "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.15.1",
     "sass": "^1.29.0",
     "showdown": "^1.9.1",
-    "stylelint": "^13.6.1",
+    "stylelint": "^13.7.2",
     "stylelint-config-standard": "^20.0.0"
   }
 }
