@@ -6,4 +6,14 @@ export default class StudentModel extends Model {
   @attr('date-only') birthdate;
   @attr('string') division;
   @attr('boolean', { defaultValue: false }) isSelected;
+  @attr('boolean', { defaultValue: false }) isEnrolled;
+
+  setSelected(newState) {
+    if (this.isEnrolled) {
+      return;
+    }
+
+    this.isSelected = newState;
+  }
+
 }

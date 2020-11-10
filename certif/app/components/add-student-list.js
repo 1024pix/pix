@@ -18,12 +18,13 @@ export default class AddStudentList extends Component {
   }
 
   get hasCheckedEverything() {
-    const allCertifReportsAreCheck = this.args.studentList.every((student) => student.isSelected);
+    const enrollableStudentList = this.args.studentList.filter((student) => !student.isEnrolled);
+    const allCertifReportsAreCheck = enrollableStudentList.every((student) => student.isSelected);
     return allCertifReportsAreCheck;
   }
 
   get numberOfStudentsAlreadyCandidate() {
-    return this.args.certificationCandidates ? this.args.certificationCandidates.length : 0;
+    return this.args.studentList.reduce((count, student) => student.isEnrolled ? count + 1 : count, 0);
   }
 
   get showStickyBar() {
@@ -48,9 +49,8 @@ export default class AddStudentList extends Component {
     if (state === 'checked') {
       newState = false;
     }
-    this.args.studentList.forEach((student) => {
-      student.isSelected = newState;
-    });
+    this.args.studentList
+      .forEach((student) => student.setSelected(newState));
   }
 
   @action
@@ -60,6 +60,7 @@ export default class AddStudentList extends Component {
     try {
       await this.args.session.save({ adapterOptions: { studentListToAdd, sessionId } });
       this.args.returnToSessionCandidates(sessionId);
+      this.notifications.success('Le(s) élève(s) ont bien été rajouté(s) à la session !');
     } catch (error) {
       this.notifications.error('Une erreur est survenue au moment d‘enregistrer les candidats... ');
     }

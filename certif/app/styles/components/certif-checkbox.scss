@@ -1,8 +1,8 @@
 .checkbox {
 
   &__done-icon {
-    width: 10px;
-    height: 9px;
+    min-width: 10px;
+    min-height: 9px;
   }
 
   &__checker {

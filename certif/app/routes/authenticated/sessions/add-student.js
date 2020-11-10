@@ -4,13 +4,12 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
   async model(params) {
     const session = await this.store.findRecord('session', params.session_id);
     const { id: certificationCenterId } = this.modelFor('authenticated');
+
     const students = await this.store.findAll('student',
-      { adapterOptions : { certificationCenterId } },
+      { adapterOptions : { certificationCenterId, sessionId: session.id } },
     );
-    const certificationCandidates = await this.store.query('certification-candidate', {
-      sessionId: params.session_id,
-    });
-    return { session, students, certificationCandidates };
+
+    return { session, students };
   }
 
   setupController(controller, model) {
