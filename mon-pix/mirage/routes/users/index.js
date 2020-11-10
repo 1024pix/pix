@@ -38,6 +38,4 @@ export default function index(config) {
     user.hasSeenAssessmentInstructions = true;
     return user;
   });
-  config.patch('/users/:id/authentication-methods/saml', () => new Response(204));
-
 }
