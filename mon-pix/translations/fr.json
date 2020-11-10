@@ -381,12 +381,12 @@
         },
         "checkpoint": {
             "title": {
-                "assessment-progress": "Avancement du parcours",
+                "assessment-progress": "Avancement",
                 "end-of-assessment": "Fin de votre évaluation"
             },
             "actions": {
                 "next-page": {
-                    "continue": "Continuer mon parcours",
+                    "continue": "Continuer",
                     "results": "Voir mes résultats"
                 }
             },
@@ -399,7 +399,7 @@
             },
             "completion-percentage": {
                 "label": "'<p class=\"sr-only\">'Vous avez effectué '</p>'{completionPercentage}%'<p class=\"sr-only\">' de votre parcours.'</p>'",
-                "caption": "avancement du parcours"
+                "caption": "avancement"
             }
         },
         "comparison-window": {
