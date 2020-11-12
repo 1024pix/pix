@@ -96,8 +96,8 @@ class CampaignAssessmentCsvLine {
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
-      ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfile.badges.length)),
       ...(this.stages[0] ? [this._getReachedStage()] : []),
+      ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfile.badges.length)),
       this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
     ];
   }
