@@ -1,6 +1,8 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
+const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { handleCampaignParticipationResultsSending } = require('../../../../lib/domain/events')._forTestOnly.handlers;
@@ -8,11 +10,15 @@ const { handleCampaignParticipationResultsSending } = require('../../../../lib/d
 describe('Unit | Domain | Events | handle-campaign-participation-results-sending', () => {
   let event;
   let campaignRepositoryStub;
+  let campaignParticipationRepositoryStub;
+  let campaignParticipationResultRepositoryStub;
   let organizationRepositoryStub;
   let userRepositoryStub;
 
   const dependencies = {
     campaignRepository,
+    campaignParticipationRepository,
+    campaignParticipationResultRepository,
     organizationRepository,
     userRepository,
   };
@@ -41,16 +47,16 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       '"dateDebut":"2020-01-02T00:00:00.000Z",' +
       '"dateProgression":"2020-01-03T00:00:00.000Z",' +
       '"dateValidation":"2020-01-03T00:00:00.000Z",' +
-      '"evaluationCible":62.47,' +
+      '"evaluationCible":70,' +
       '"uniteEvaluation":"A",' +
       '"elementsEvalues":[{' +
         '"libelle":"Gérer des données",' +
         '"categorie":"competence",' +
         '"type":"competence Pix",' +
         '"domaineRattachement":"Information et données",' +
-        '"nbSousElements":3,' +
+        '"nbSousElements":4,' +
         '"evaluation":{' +
-          '"scoreObtenu":66.6,' +
+          '"scoreObtenu":50,' +
           '"uniteScore":"A",' +
           '"nbSousElementValide":2' +
         '}' +
@@ -58,13 +64,13 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       ',' +
       '{' +
         '"libelle":"Gérer des données 2",' +
-        '"categorie":"competence 2",' +
-        '"type":"competence Pix 2",' +
+        '"categorie":"competence",' +
+        '"type":"competence Pix",' +
         '"domaineRattachement":"Information et données",' +
-        '"nbSousElements":5,' +
+        '"nbSousElements":3,' +
         '"evaluation":{' +
-          '"scoreObtenu":60,' +
-          '"uniteScore":"B",' +
+          '"scoreObtenu":100,' +
+          '"uniteScore":"A",' +
           '"nbSousElementValide":3' +
         '}' +
       '}]' +
@@ -73,6 +79,8 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
   beforeEach(() => {
     campaignRepositoryStub = sinon.stub(campaignRepository, 'get');
+    campaignParticipationRepositoryStub = sinon.stub(campaignParticipationRepository, 'get');
+    campaignParticipationResultRepositoryStub = sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
     organizationRepositoryStub = sinon.stub(organizationRepository, 'get');
     userRepositoryStub = sinon.stub(userRepository, 'get');
   });
@@ -114,6 +122,30 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
           archivedAt: new Date('2020-02-01'),
           type: 'ASSESSMENT',
         }));
+        campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(domainBuilder.buildCampaignParticipation({
+          id: 55667788,
+          sharedAt: new Date('2020-01-03'),
+          createdAt: new Date('2020-01-02'),
+        }));
+        campaignParticipationResultRepositoryStub.withArgs(campaignParticipationId).resolves(domainBuilder.buildCampaignParticipationResult({
+          totalSkillsCount: 10,
+          validatedSkillsCount: 7,
+          competenceResults: [
+            domainBuilder.buildCompetenceResult({
+              name: 'Gérer des données',
+              totalSkillsCount: 4,
+              testedSkillsCount: 2,
+              validatedSkillsCount: 2,
+            }),
+            domainBuilder.buildCompetenceResult({
+              name: 'Gérer des données 2',
+              totalSkillsCount: 3,
+              testedSkillsCount: 3,
+              validatedSkillsCount: 3,
+            }),
+          ],
+        }));
+
         sinon.stub(console, 'log');
       });
 
