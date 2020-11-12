@@ -4,6 +4,7 @@ module.exports = {
   buildAssessment: require('./build-assessment'),
   buildAssessmentFromParticipation: require('./build-assessment-from-participation'),
   buildAssessmentResult: require('./build-assessment-result'),
+  buildAuthenticationMethod: require('./build-authentication-method'),
   buildBadge: require('./build-badge'),
   buildBadgeAcquisition: require('./build-badge-acquisition'),
   buildBadgeCriterion: require('./build-badge-criterion'),
