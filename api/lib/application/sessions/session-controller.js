@@ -14,7 +14,7 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const { getCertificationResultsCsv } = require('../../infrastructure/utils/csv/certification-results');
 const trim = require('lodash/trim');
-const { UserLinkedEvent } = require('../../domain/usecases/link-user-to-session-certification-candidate');
+const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
 
 module.exports = {
 
@@ -177,7 +177,7 @@ module.exports = {
 
     const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
     const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
-    return (event instanceof UserLinkedEvent) ? h.response(serialized).created() : serialized;
+    return (event instanceof UserLinkedToCertificationCandidate) ? h.response(serialized).created() : serialized;
   },
 
   async finalize(request) {

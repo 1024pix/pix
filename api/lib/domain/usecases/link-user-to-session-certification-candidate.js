@@ -7,6 +7,8 @@ const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../errors');
+const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate');
+const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate');
 
 async function linkUserToSessionCertificationCandidate({
   userId,
@@ -48,11 +50,11 @@ async function linkUserToSessionCertificationCandidate({
       certificationCandidate,
       certificationCandidateRepository,
     });
-    return new UserLinkedEvent();
+    return new UserLinkedToCertificationCandidate();
   }
 
   if (certificationCandidate.isLinkedToUserId(userId)) {
-    return new UserAlreadyLinkedEvent();
+    return new UserAlreadyLinkedToCertificationCandidate();
   } else {
     throw new CertificationCandidateAlreadyLinkedToUserError();
   }
@@ -101,12 +103,6 @@ async function _linkUserToCandidate({
   return certificationCandidate;
 }
 
-class UserLinkedEvent {
-}
-
-class UserAlreadyLinkedEvent {
-}
-
 async function _checkCandidateMatchTheReconciledStudent({ userId, certificationCandidate, schoolingRegistrationRepository }) {
   const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
     userId,
@@ -119,6 +115,4 @@ async function _checkCandidateMatchTheReconciledStudent({ userId, certificationC
 
 module.exports = {
   linkUserToSessionCertificationCandidate,
-  UserAlreadyLinkedEvent,
-  UserLinkedEvent,
 };
