@@ -1,13 +1,19 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
+const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { handleCampaignParticipationResultsSending } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-campaign-participation-results-sending', () => {
   let event;
+  let organizationRepositoryStub;
+  let userRepositoryStub;
 
   const dependencies = {
+    campaignRepository,
     organizationRepository,
+    userRepository,
   };
 
   const expectedResults = '{' +
@@ -64,6 +70,11 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
     '}' +
   '}';
 
+  beforeEach(() => {
+    organizationRepositoryStub = sinon.stub(organizationRepository, 'get');
+    userRepositoryStub = sinon.stub(userRepository, 'get');
+  });
+
   it('fails when event is not of correct type', async () => {
     // given
     const event = 'not an event of the correct type';
@@ -92,7 +103,8 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
           organizationId,
         });
 
-        sinon.stub(organizationRepository, 'get').withArgs(organizationId).resolves({ isPoleEmploi: true });
+        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
+        userRepositoryStub.withArgs(userId).resolves({ firstName: 'Jean', lastName: 'Bonneau' });
         sinon.stub(console, 'log').resolves();
       });
 
@@ -119,7 +131,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
           organizationId,
         });
 
-        sinon.stub(organizationRepository, 'get').withArgs(organizationId).resolves({ isPoleEmploi: false });
+        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
         sinon.stub(console, 'log').resolves();
       });
 
@@ -144,7 +156,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
           organizationId,
         });
 
-        sinon.stub(organizationRepository, 'get').withArgs(organizationId).resolves({ isPoleEmploi: true });
+        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
         sinon.stub(console, 'log').resolves();
       });
 

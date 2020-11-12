@@ -6,12 +6,18 @@ const eventType = CampaignParticipationResultsShared;
 async function handleCampaignParticipationResultsSending({
   event,
   organizationRepository,
+  userRepository,
 }) {
   checkEventType(event, eventType);
 
-  const organization = await organizationRepository.get(event.organizationId);
-  if (event.isAssessment && organization.isPoleEmploi) {
+  const { organizationId, userId, isAssessment } = event;
 
+  const organization = await organizationRepository.get(organizationId);
+  
+  if (isAssessment && organization.isPoleEmploi) {
+    
+    const user = await userRepository.get(userId);
+  
     const resultsToSend = {
       campagne: {
         nom: 'Campagne Pôle Emploi',
@@ -25,8 +31,8 @@ async function handleCampaignParticipationResultsSending({
         typeOrganisme: 'externe',
       },
       individu: {
-        nom: 'Bonneau',
-        prenom: 'Jean',
+        nom: user.lastName,
+        prenom: user.firstName,
       },
       test: {
         etat: 4,
