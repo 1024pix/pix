@@ -12,10 +12,10 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     test('it should count no unchecked box if no report', function(assert) {
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const sessions = ArrayProxy.create({
+      const session = ArrayProxy.create({
         certificationReports: [],
       });
-      controller.model = sessions;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -28,7 +28,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
 
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const sessions = ArrayProxy.create({
+      const session = ArrayProxy.create({
         certificationReports: [
           { hasSeenEndTestScreen: true },
           { hasSeenEndTestScreen: false },
@@ -37,7 +37,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
           { hasSeenEndTestScreen: true },
         ],
       });
-      controller.model = sessions;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -50,12 +50,12 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
 
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const sessions = ArrayProxy.create({
+      const session = ArrayProxy.create({
         certificationReports: [
           { hasSeenEndTestScreen: false },
         ],
       });
-      controller.model = sessions;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -71,13 +71,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
 
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const sessions = ArrayProxy.create({
+      const session = ArrayProxy.create({
         certificationReports: [
           { hasSeenEndTestScreen: true },
           { hasSeenEndTestScreen: true },
         ],
       });
-      controller.model = sessions;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
@@ -90,13 +90,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
 
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const sessions = ArrayProxy.create({
+      const session = ArrayProxy.create({
         certificationReports: [
           { hasSeenEndTestScreen: false },
           { hasSeenEndTestScreen: true },
         ],
       });
-      controller.model = sessions;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
@@ -113,7 +113,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const initialValue = null;
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const session = { examinerGlobalComment: initialValue };
-      controller.model = session;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
       controller.examinerGlobalCommentMaxLength = 5;
 
       // when
@@ -129,7 +129,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const newValue = 'hello';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const session = { examinerGlobalComment: initialValue };
-      controller.model = session;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
       // when
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
@@ -144,7 +144,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const newValue = '  ';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const session = { examinerGlobalComment: initialValue };
-      controller.model = session;
+      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
       // when
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
@@ -227,19 +227,19 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
         // given
         const someWereChecked = hasSeenEndTestScreen1 || hasSeenEndTestScreen2;
         const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-        const sessions = {
+        const session = {
           certificationReports: [
             { hasSeenEndTestScreen: hasSeenEndTestScreen1 },
             { hasSeenEndTestScreen: hasSeenEndTestScreen2 },
           ],
         };
-        controller.model = sessions;
+        controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
 
         // when
         controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);
 
         // then
-        sessions.certificationReports.forEach((certif) => {
+        session.certificationReports.forEach((certif) => {
           assert.equal(certif.hasSeenEndTestScreen, expectedState);
         });
       }),
