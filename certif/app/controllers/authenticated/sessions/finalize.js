@@ -11,7 +11,9 @@ export default class SessionsFinalizeController extends Controller {
 
   @service notifications;
 
-  @alias('model') session;
+  @alias('model.session') session;
+  @alias('model.isReportsCategorizationFeatureToggleEnabled') isReportsCategorizationFeatureToggleEnabled;
+
   examinerGlobalCommentMaxLength = 500;
   examinerCommentMaxLength = 500;
   @tracked isLoading = false;

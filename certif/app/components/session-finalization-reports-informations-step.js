@@ -9,10 +9,6 @@ export default class SessionFinalizationReportsInformationsStep extends Componen
   @tracked
   showExaminerReportModal = false;
 
-  get myFeatureToggle() {
-    return true;
-  }
-
   get certifReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
   }

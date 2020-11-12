@@ -13,23 +13,27 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
   module('#model', function(hooks) {
     const session_id = 1;
     const returnedSession = Symbol('session');
+    const featureToggles = { reportsCategorization: false };
 
     hooks.beforeEach(function() {
       route.store.findRecord = sinon.stub().resolves(returnedSession);
+      route.store.peekRecord = sinon.stub().returns(featureToggles);
     });
 
-    test('it should return the session', async function(assert) {
+    test('it should return the model with session and feature toggle', async function(assert) {
       // when
-      const actualSession = await route.model({ session_id });
+      const actualModel = await route.model({ session_id });
 
       // then
+      const expectedModel = { session: returnedSession, isReportsCategorizationFeatureToggleEnabled: false };
       sinon.assert.calledWith(route.store.findRecord, 'session', session_id, { reload: true });
-      assert.equal(actualSession, returnedSession);
+      sinon.assert.calledWith(route.store.peekRecord, 'feature-toggle', 0);
+      assert.deepEqual(actualModel, expectedModel);
     });
   });
 
   module('#afterModel', function(hooks) {
-    const model = {};
+    const model = { session: {} };
     let transition;
 
     hooks.beforeEach(function() {
@@ -40,7 +44,7 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
     module('when model is already finalized', function(hooks) {
 
       hooks.beforeEach(function() {
-        model.isFinalized = true;
+        model.session.isFinalized = true;
       });
 
       test('it should abort transition', async function(assert) {
@@ -65,7 +69,7 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
     module('when model is not finalized', function(hooks) {
 
       hooks.beforeEach(function() {
-        model.isFinalized = false;
+        model.session.isFinalized = false;
       });
 
       test('it should not abort transition', async function(assert) {
