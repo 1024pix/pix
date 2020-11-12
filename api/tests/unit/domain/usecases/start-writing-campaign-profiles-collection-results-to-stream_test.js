@@ -73,44 +73,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
         sinon.stub(organizationRepository, 'get').resolves(organization);
       });
 
-      it('should return the header in CSV styles with all competences', async () => {
-        // given
-        const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"Classe";' +
-          '"Envoi (O/N)";' +
-          '"Date de l\'envoi";' +
-          '"Nombre de pix total";' +
-          '"Certifiable (O/N)";' +
-          '"Nombre de compétences certifiables";' +
-          '"Niveau pour la compétence Competence1";' +
-          '"Nombre de pix pour la compétence Competence1";' +
-          '"Niveau pour la compétence Competence2";' +
-          '"Nombre de pix pour la compétence Competence2"\n';
-        findProfilesCollectionResultDataByCampaignIdStub.resolves([]);
-
-        // when
-        startWritingCampaignProfilesCollectionResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationRepository,
-          placementProfileService,
-        });
-
-        const csv = await csvPromise;
-
-        // then
-        expect(csv).to.equal(expectedHeader);
-      });
-
       context('when isShared is true', () => {
 
         it('should return the complete line with 1 certifiable competence', async () => {
@@ -287,44 +249,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
         sinon.stub(organizationRepository, 'get').resolves(organization);
       });
 
-      it('should return the header in CSV with Student Number', async () => {
-        // given
-        const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"Numéro Étudiant";' +
-          '"Envoi (O/N)";' +
-          '"Date de l\'envoi";' +
-          '"Nombre de pix total";' +
-          '"Certifiable (O/N)";' +
-          '"Nombre de compétences certifiables";' +
-          '"Niveau pour la compétence Competence1";' +
-          '"Nombre de pix pour la compétence Competence1";' +
-          '"Niveau pour la compétence Competence2";' +
-          '"Nombre de pix pour la compétence Competence2"';
-
-        // when
-        startWritingCampaignProfilesCollectionResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationRepository,
-          placementProfileService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[0]).to.equal(expectedHeader);
-      });
-
       context ('when the participant does not have a student number', () => {
         it('should return the csv without student number information', async () => {
           // given
@@ -443,43 +367,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
         sinon.stub(organizationRepository, 'get').resolves(organization);
       });
 
-      it('should return the header in CSV without Student Number', async () => {
-        // given
-        const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-            '"ID Campagne";' +
-            '"Nom de la campagne";' +
-            '"Nom du Participant";' +
-            '"Prénom du Participant";' +
-            '"Envoi (O/N)";' +
-            '"Date de l\'envoi";' +
-            '"Nombre de pix total";' +
-            '"Certifiable (O/N)";' +
-            '"Nombre de compétences certifiables";' +
-            '"Niveau pour la compétence Competence1";' +
-            '"Nombre de pix pour la compétence Competence1";' +
-            '"Niveau pour la compétence Competence2";' +
-            '"Nombre de pix pour la compétence Competence2"';
-
-        // when
-        startWritingCampaignProfilesCollectionResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationRepository,
-          placementProfileService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[0]).to.equal(expectedHeader);
-      });
-
       context ('when the participant have a student number', () => {
         it('should return the csv without student number information', async () => {
           // given
@@ -547,45 +434,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
 
         campaignRepository.get.resolves(campaign);
         sinon.stub(organizationRepository, 'get').resolves(organization);
-      });
-
-      it('should return the header in CSV styles with all competence, domain and skills', async () => {
-        // given
-        const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"Classe";' +
-          '"Mail Pro";' +
-          '"Envoi (O/N)";' +
-          '"Date de l\'envoi";' +
-          '"Nombre de pix total";' +
-          '"Certifiable (O/N)";' +
-          '"Nombre de compétences certifiables";' +
-          '"Niveau pour la compétence Competence1";' +
-          '"Nombre de pix pour la compétence Competence1";' +
-          '"Niveau pour la compétence Competence2";' +
-          '"Nombre de pix pour la compétence Competence2"';
-
-        // when
-        startWritingCampaignProfilesCollectionResultsToStream({
-          userId: user.id,
-          campaignId: campaign.id,
-          writableStream,
-          campaignRepository,
-          userRepository,
-          competenceRepository,
-          organizationRepository,
-          campaignParticipationRepository,
-          placementProfileService,
-        });
-
-        const csv = await csvPromise;
-        const csvLines = csv.split('\n');
-
-        // then
-        expect(csvLines[0]).to.equal(expectedHeader);
       });
 
       it('should return the csv with external id label', async () => {
