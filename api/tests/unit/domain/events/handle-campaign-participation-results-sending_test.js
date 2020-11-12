@@ -1,4 +1,4 @@
-const { catchErr, expect, sinon } = require('../../../test-helper');
+const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -7,6 +7,7 @@ const { handleCampaignParticipationResultsSending } = require('../../../../lib/d
 
 describe('Unit | Domain | Events | handle-campaign-participation-results-sending', () => {
   let event;
+  let campaignRepositoryStub;
   let organizationRepositoryStub;
   let userRepositoryStub;
 
@@ -71,6 +72,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
   '}';
 
   beforeEach(() => {
+    campaignRepositoryStub = sinon.stub(campaignRepository, 'get');
     organizationRepositoryStub = sinon.stub(organizationRepository, 'get');
     userRepositoryStub = sinon.stub(userRepository, 'get');
   });
@@ -97,7 +99,6 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       beforeEach(() => {
         event = new CampaignParticipationResultsShared({
           campaignId,
-          isAssessment: true,
           campaignParticipationId,
           userId,
           organizationId,
@@ -105,6 +106,14 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
         userRepositoryStub.withArgs(userId).resolves({ firstName: 'Jean', lastName: 'Bonneau' });
+        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({
+          id: 11223344,
+          name: 'Campagne Pôle Emploi',
+          code: 'CODEPE123',
+          createdAt: new Date('2020-01-01'),
+          archivedAt: new Date('2020-02-01'),
+          type: 'ASSESSMENT',
+        }));
         sinon.stub(console, 'log').resolves();
       });
 
@@ -125,12 +134,11 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       beforeEach(() => {
         event = new CampaignParticipationResultsShared({
           campaignId,
-          isAssessment: true,
           campaignParticipationId,
           userId,
           organizationId,
         });
-
+        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT' }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
         sinon.stub(console, 'log').resolves();
       });
@@ -150,12 +158,12 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       beforeEach(() => {
         event = new CampaignParticipationResultsShared({
           campaignId,
-          isAssessment: false,
           campaignParticipationId,
           userId,
           organizationId,
         });
 
+        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION' }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
         sinon.stub(console, 'log').resolves();
       });

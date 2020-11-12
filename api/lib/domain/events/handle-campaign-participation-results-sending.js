@@ -1,34 +1,42 @@
 const { checkEventType } = require('./check-event-type');
 const CampaignParticipationResultsShared = require('./CampaignParticipationResultsShared');
+const config = require('../../config');
 
 const eventType = CampaignParticipationResultsShared;
 
+const PAYLOAD_CAMPAIGN_TYPE = 'EVALUATION';
+const PAYLOAD_STRUCTURE_NAME = 'Pix';
+const PAYLOAD_STRUCTURE_TYPE = 'externe';
+const PAYLOAD_CAMPAIGN_URL = `${config.domain.pixApp}${config.domain.tldFr}/campagnes`;
+
 async function handleCampaignParticipationResultsSending({
   event,
+  campaignRepository,
   organizationRepository,
   userRepository,
 }) {
   checkEventType(event, eventType);
 
-  const { organizationId, userId, isAssessment } = event;
+  const { organizationId, campaignId, userId } = event;
 
+  const campaign = await campaignRepository.get(campaignId);
   const organization = await organizationRepository.get(organizationId);
   
-  if (isAssessment && organization.isPoleEmploi) {
+  if (campaign.isAssessment() && organization.isPoleEmploi) {
     
     const user = await userRepository.get(userId);
   
     const resultsToSend = {
       campagne: {
-        nom: 'Campagne Pôle Emploi',
-        dateDebut: new Date('2020-01-01'),
-        dateFin: new Date('2020-02-01'),
-        type: 'EVALUATION',
-        idCampagne: 11223344,
-        codeCampagne: 'CODEPE123',
-        urlCampagne: 'https://app.pix.fr/campagnes/CODEPE123',
-        nomOrganisme: 'Pix',
-        typeOrganisme: 'externe',
+        nom: campaign.name,
+        dateDebut: campaign.createdAt,
+        dateFin: campaign.archivedAt,
+        type: PAYLOAD_CAMPAIGN_TYPE,
+        idCampagne: campaign.id,
+        codeCampagne: campaign.code,
+        urlCampagne: `${PAYLOAD_CAMPAIGN_URL}/${campaign.code}`,
+        nomOrganisme: PAYLOAD_STRUCTURE_NAME,
+        typeOrganisme: PAYLOAD_STRUCTURE_TYPE,
       },
       individu: {
         nom: user.lastName,

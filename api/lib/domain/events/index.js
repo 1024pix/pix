@@ -7,6 +7,7 @@ const dependencies = {
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../services/badge-criteria-service'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
+  campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
   certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
@@ -16,6 +17,7 @@ const dependencies = {
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
+  userRepository: require('../../infrastructure/repositories/user-repository'),
 };
 
 const partnerCertificationRepository = injectDependencies(
