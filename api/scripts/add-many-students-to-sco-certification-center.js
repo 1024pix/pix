@@ -6,7 +6,7 @@ const { SchoolingRegistrationsCouldNotBeSavedError } = require('../lib/domain/er
 const { knex } = require('../lib/infrastructure/bookshelf');
 const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
 
-function buildSchoolingRegistration() {
+function _buildSchoolingRegistration() {
   return new SchoolingRegistration({
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -17,7 +17,7 @@ function buildSchoolingRegistration() {
 }
 
 async function addManyStudentsToScoCertificationCenter(numberOfStudents) {
-  const manyStudents = times(numberOfStudents, () => buildSchoolingRegistration());
+  const manyStudents = times(numberOfStudents, _buildSchoolingRegistration);
   try {
     await knex
       .batchInsert('schooling-registrations', manyStudents)
@@ -32,13 +32,9 @@ async function main() {
 
   const numberOfStudents = process.argv[2];
 
-  try {
-    await addManyStudentsToScoCertificationCenter(numberOfStudents);
-    console.log('\nDone.');
-  } catch (error) {
-    console.error('\n', error);
-    process.exit(1);
-  }
+  await addManyStudentsToScoCertificationCenter(numberOfStudents);
+
+  console.log('\nDone.');
 }
 
 if (require.main === module) {

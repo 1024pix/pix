@@ -1,7 +1,7 @@
 const { expect } = require('../../test-helper');
 const { MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
 
-const { knex } = require('../../../lib/infrastructure/bookshelf')
+const { knex } = require('../../../lib/infrastructure/bookshelf');
 const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/data/schooling-registration');
 const { databaseBuilder } = require('../../test-helper');
 
@@ -10,11 +10,6 @@ const { addManyStudentsToScoCertificationCenter } = require('../../../scripts/ad
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', () => {
 
   describe('#addManyStudentsToScoCertificationCenter', () => {
-
-    const getNumberOfSchoolingRegistrations = () => {
-      return BookshelfSchoolingRegistration.count()
-        .then((number) => parseInt(number, 10));
-    };
 
     afterEach(() => {
       return knex('schooling-registrations').delete();
@@ -37,10 +32,15 @@ describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.
 
       // when
       await addManyStudentsToScoCertificationCenter(numberOfSchoolingRegistrationToCreate);
-      const numberAfter = await getNumberOfSchoolingRegistrations();
+      const numberAfter = await _getNumberOfSchoolingRegistrations();
 
       // then
       expect(numberAfter).to.equal(numberOfSchoolingRegistrationToCreate);
     });
   });
 });
+
+function _getNumberOfSchoolingRegistrations() {
+  return BookshelfSchoolingRegistration.count()
+    .then((number) => parseInt(number, 10));
+}
