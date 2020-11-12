@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 
@@ -23,7 +23,7 @@ module('Integration | Component | session-finalization-reports-informations-step
       certificationCourseId: 3,
       firstName: 'Bob',
       lastName: 'Bober',
-      examinerComment: 'heeeeeyyy',
+      examinerComment: null,
       hasSeenEndTestScreen: true,
     }));
     this.set('certificationReports', [reportA, reportB]);
@@ -50,14 +50,10 @@ module('Integration | Component | session-finalization-reports-informations-step
     assert.dom(`[data-test-id="finalization-report-last-name_${reportB.certificationCourseId}"]`).hasText(reportB.lastName);
     assert.dom(`[data-test-id="finalization-report-first-name_${reportB.certificationCourseId}"]`).hasText(reportB.firstName);
     assert.dom(`[data-test-id="finalization-report-certification-number_${reportB.certificationCourseId}"]`).hasText(reportB.certificationCourseId.toString());
-    // assert.dom(`[data-test-id="finalization-report-examiner-comment_${reportA.certificationCourseId}"]`).hasText('zegzegzeg');
   });
 
-  test('it fills in the examinerComment', async function(assert) {
-    const examinerComment = 'This is an examiner comment !';
-    await fillIn(`[data-test-id="finalization-report-examiner-comment_${reportA.certificationCourseId}"]`, examinerComment);
-
-    assert.equal(reportA.examinerComment, examinerComment);
+  test('it shows "1 Signalement" only if there is an examinerComment', async function(assert) {
+    assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${reportA.certificationCourseId}"]`).hasText('1 signalement');
+    assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${reportB.certificationCourseId}"]`).doesNotExist();
   });
-
 });
