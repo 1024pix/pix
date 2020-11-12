@@ -36,7 +36,9 @@ class CampaignProfileCollectionResultLine {
   }
 
   _getDivisionColumn() {
-    return this.organization.isSco ? [this.campaignParticipationResult.division] : EMPTY_ARRAY;
+    const displayDivision = this.organization.isSco && this.isManagingStudents;
+     
+    return displayDivision ? [this.campaignParticipationResult.division] : EMPTY_ARRAY;
   }
 
   _getCompetencesCountColumn() {
