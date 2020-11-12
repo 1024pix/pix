@@ -19,7 +19,7 @@ $pix-modal-border-radius: 5px;
 
     &--wide {
       @include device-is('desktop') {
-        width: 50vw;
+        width: max-content;
       }
     }
 

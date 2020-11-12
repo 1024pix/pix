@@ -163,6 +163,16 @@ input[type=number] {
     text-decoration: none;
   }
 
+  &--showed-as-link {
+    text-decoration: underline;
+    border: none;
+    background: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   &--with-icon {
     display: flex;
     align-items: center;
