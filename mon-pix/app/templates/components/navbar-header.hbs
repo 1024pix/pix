@@ -3,7 +3,7 @@
     <ResumeCampaignBanner  @campaignParticipations={{@campaignParticipations}}/>
   {{/if}}
   {{#if (media 'isDesktop')}}
-    <NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainExtension}}/>
+    <NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainExtension}} @isPixContest={{this.isPixContest}}/>
   {{else}}
     <NavbarMobileHeader @burger={{@burger}} @shouldShowTheMarianneLogo={{this.isFrenchDomainExtension}} />
   {{/if}}
