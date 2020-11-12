@@ -4,6 +4,7 @@ module.exports = {
   buildAreaAirtableDataObject: require('./build-area-airtable-data-object'),
   buildAssessment: require('./build-assessment'),
   buildAssessmentResult: require('./build-assessment-result'),
+  buildAuthenticationMethod: require('./build-authentication-method'),
   buildBadge: require('./build-badge'),
   buildBadgeAcquisition: require('./build-badge-acquisition'),
   buildBadgeCriterion: require('./build-badge-criterion'),
