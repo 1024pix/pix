@@ -9,7 +9,8 @@ const {
   CertificationCandidatePersonalInfoWrongFormat,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../../../../lib/domain/errors');
-const { UserLinkedEvent, UserAlreadyLinkedEvent } = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
+const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
+const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
 
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
   const sessionId = 42;
@@ -178,7 +179,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
           // then
           expect(result).to.deep.equal(
-            new UserAlreadyLinkedEvent(certificationCandidate),
+            new UserAlreadyLinkedToCertificationCandidate(),
           );
         });
       });
@@ -287,7 +288,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
 
           // then
-          expect(result).to.deep.equal(new UserLinkedEvent(certificationCandidate));
+          expect(result).to.deep.equal(new UserAlreadyLinkedToCertificationCandidate());
           sinon.assert.calledWith(certificationCandidateRepository.linkToUser, {
             id: certificationCandidate.id,
             userId,
@@ -424,7 +425,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             id: certificationCandidate.id,
             userId,
           });
-          expect(event).to.be.instanceOf(UserLinkedEvent);
+          expect(event).to.be.instanceOf(UserLinkedToCertificationCandidate);
         });
       });
 

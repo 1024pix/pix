@@ -15,28 +15,8 @@ const requestResponseUtils = require('../../../../lib/infrastructure/utils/reque
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
-const { UserAlreadyLinkedEvent, UserLinkedEvent } = require('../../../../lib/domain/usecases/link-user-to-session-certification-candidate');
-
-function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
-  return {
-    params: { id: sessionId },
-    auth: {
-      credentials: {
-        userId,
-      },
-    },
-    payload: {
-      data: {
-        attributes: {
-          'first-name': firstName,
-          'last-name': lastName,
-          'birthdate': birthdate,
-        },
-        type: 'certification-candidates',
-      },
-    },
-  };
-}
+const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
+const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -535,7 +515,7 @@ describe('Unit | Controller | sessionController', () => {
       firstName = 'firstName     ';
       lastName = 'lastName    ';
       sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-        .withArgs({ userId, sessionId, firstName: 'firstName', lastName: 'lastName', birthdate }).resolves(new UserAlreadyLinkedEvent());
+        .withArgs({ userId, sessionId, firstName: 'firstName', lastName: 'lastName', birthdate }).resolves(new UserAlreadyLinkedToCertificationCandidate());
       sinon.stub(usecases, 'getCertificationCandidate')
         .withArgs({ userId, sessionId })
         .resolves(linkedCertificationCandidate);
@@ -553,7 +533,7 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, firstName, lastName, birthdate })
-          .resolves(new UserAlreadyLinkedEvent());
+          .resolves(new UserAlreadyLinkedToCertificationCandidate());
         sinon.stub(usecases, 'getCertificationCandidate')
           .withArgs({ userId, sessionId })
           .resolves(linkedCertificationCandidate);
@@ -576,7 +556,7 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
           .withArgs({ userId, sessionId, firstName, lastName, birthdate })
-          .resolves(new UserLinkedEvent());
+          .resolves(new UserLinkedToCertificationCandidate());
         sinon.stub(usecases, 'getCertificationCandidate')
           .withArgs({ userId, sessionId })
           .resolves(linkedCertificationCandidate);
@@ -826,3 +806,24 @@ describe('Unit | Controller | sessionController', () => {
 
   });
 });
+
+function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
+  return {
+    params: { id: sessionId },
+    auth: {
+      credentials: {
+        userId,
+      },
+    },
+    payload: {
+      data: {
+        attributes: {
+          'first-name': firstName,
+          'last-name': lastName,
+          'birthdate': birthdate,
+        },
+        type: 'certification-candidates',
+      },
+    },
+  };
+}
