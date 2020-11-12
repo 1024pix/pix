@@ -8,6 +8,7 @@ const PAYLOAD_CAMPAIGN_TYPE = 'EVALUATION';
 const PAYLOAD_STRUCTURE_NAME = 'Pix';
 const PAYLOAD_STRUCTURE_TYPE = 'externe';
 const PAYLOAD_CAMPAIGN_URL = `${config.domain.pixApp}${config.domain.tldFr}/campagnes`;
+const PAYLOAD_TEST_STATE = { STARTED: 2, FINISHED: 3, SENT: 4 };
 
 async function handleCampaignParticipationResultsSending({
   event,
@@ -43,7 +44,7 @@ async function handleCampaignParticipationResultsSending({
         prenom: user.firstName,
       },
       test: {
-        etat: 4,
+        etat: PAYLOAD_TEST_STATE.SENT,
         progression: 100,
         typeTest: 'DI',
         referenceExterne: 55667788,
