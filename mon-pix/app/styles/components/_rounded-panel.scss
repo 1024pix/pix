@@ -149,3 +149,28 @@
     font-variant-caps: all-small-caps;
   }
 }
+
+.rounded-panel-links {
+  text-align: center;
+  font-weight: $font-light;
+
+  @include device-is('tablet') {
+    display: block;
+    text-align: left;
+  }
+
+  &__link {
+    margin-bottom: 24px;
+  }
+}
+
+.rounded-panel-rules {
+  text-align: center;
+  font-weight: $font-normal;
+  font-size: 1rem;
+
+  @include device-is('tablet') {
+    display: block;
+    text-align: left;
+  }
+}
