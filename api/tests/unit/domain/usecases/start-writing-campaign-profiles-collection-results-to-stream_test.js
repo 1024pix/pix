@@ -89,7 +89,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
-            division: '6emeA',
           };
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
@@ -98,7 +97,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
-            `"${campaignParticipationResultData.division}";` +
             '"Oui";' +
             '2019-03-01;' +
             '13;' +
@@ -143,7 +141,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
-            division: '5emeB',
           };
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
 
@@ -152,7 +149,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
-            `"${campaignParticipationResultData.division}";` +
             '"Oui";' +
             '2019-03-01;' +
             '13;' +
@@ -198,7 +194,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
-            division: '4emeC',
           };
 
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
@@ -209,7 +204,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
-            `"${campaignParticipationResultData.division}";` +
             '"Non";' +
             '"NA";' +
             '"NA";' +
@@ -249,7 +243,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
         sinon.stub(organizationRepository, 'get').resolves(organization);
       });
 
-      context ('when the participant does not have a student number', () => {
+      context('when the participant does not have a student number', () => {
         it('should return the csv without student number information', async () => {
           // given
           const campaignParticipationResultData = {
@@ -261,7 +255,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             userId: 123,
             participantFirstName: user.firstName,
             participantLastName: user.lastName,
-            studentNumber: '',
+            studentNumber: null,
           };
 
           findProfilesCollectionResultDataByCampaignIdStub.resolves([campaignParticipationResultData]);
@@ -272,7 +266,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
             `"'${campaign.name}";` +
             `"'${user.lastName}";` +
             `"'${user.firstName}";` +
-            `"${campaignParticipationResultData.studentNumber}";` +
+            '"";' +
             '"Non";' +
             '"NA";' +
             '"NA";' +
@@ -459,7 +453,6 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
           `"'${campaign.name}";` +
           `"'${user.lastName}";` +
           `"'${user.firstName}";` +
-          `"${campaignParticipationResultData.division}";` +
           `"'${campaignParticipationResultData.participantExternalId}";` +
           '"Non";' +
           '"NA";' +
