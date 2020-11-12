@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, catchErr } = require('../../../../test-helper');
 
 const csvSerializer = require('../../../../../lib/infrastructure/serializers/csv/csv-serializer');
 
@@ -59,6 +59,30 @@ describe('Unit | Serializer | CSV | csv-serializer', () => {
 
       // then
       expect(csv).to.equal(csvExpected);
+    });
+
+    context('should throw exceptions invalid format', () => {
+      it('given object', async () => {
+        // when
+        const err = await catchErr(csvSerializer.serializeLine)([{}]);
+        // then
+        expect(err).to.be.an.instanceOf(Error);    
+      });
+  
+      it('given null', async () => {
+        // when
+        const err = await catchErr(csvSerializer.serializeLine)([null]);
+        // then
+        expect(err).to.be.an.instanceOf(Error);    
+      });
+  
+      it('given undefined', async () => {
+        // when
+        const err = await catchErr(csvSerializer.serializeLine)([undefined]);
+        // then
+        expect(err).to.be.an.instanceOf(Error);    
+      });
+  
     });
   });
 });
