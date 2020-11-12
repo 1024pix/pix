@@ -125,4 +125,24 @@ module('Unit | Model | student', function(hooks) {
       assert.equal(student.isStudentAssociated, true);
     });
   });
+
+  module('#displayAddUsernameAuthentication', function(hooks) {
+    let store;
+    hooks.beforeEach(function() {
+      store = this.owner.lookup('service:store');
+    });
+
+    test('it returns true if the student is authenticated by email only', function(assert) {
+      const student = store.createRecord('student', { email: 'john.harry@example.net', username: null, isAuthenticatedFromGar: false });
+
+      assert.equal(student.displayAddUsernameAuthentication, true);
+    });
+
+    test('it returns true if the student is authenticated from mediacenter only', function(assert) {
+      const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: true });
+
+      assert.equal(student.displayAddUsernameAuthentication, true);
+    });
+
+  });
 });
