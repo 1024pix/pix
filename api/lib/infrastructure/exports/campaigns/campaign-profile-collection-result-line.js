@@ -36,9 +36,11 @@ class CampaignProfileCollectionResultLine {
   }
 
   _getDivisionColumn() {
-    const displayDivision = this.organization.isSco && this.isManagingStudents;
-     
-    return displayDivision ? [this.campaignParticipationResult.division] : EMPTY_ARRAY;
+    if (this.organization.isSco && this.organization.isManagingStudents) {
+      return [this.campaignParticipationResult.division || ''];
+    }
+
+    return EMPTY_ARRAY;
   }
 
   _getCompetencesCountColumn() {
@@ -54,9 +56,11 @@ class CampaignProfileCollectionResultLine {
   }
 
   _getStudentNumberColumn() {
-    const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
+    if (this.organization.isSup && this.organization.isManagingStudents) {
+      return [this.campaignParticipationResult.studentNumber || ''];
+    }
 
-    return displayStudentNumber ? [this.campaignParticipationResult.studentNumber] : EMPTY_ARRAY;
+    return EMPTY_ARRAY;
   }
 
   _getSharedAtColumn() {
