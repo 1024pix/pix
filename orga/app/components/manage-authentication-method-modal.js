@@ -73,8 +73,11 @@ export default class ManageAuthenticationMethodModal extends Component {
     try {
       await schoolingRegistrationDependentUser.save({ adapterOptions: { generateUsernameAndTemporaryPassword: true } });
       this.args.student.username = schoolingRegistrationDependentUser.username;
-      this.generatedPassword = schoolingRegistrationDependentUser.generatedPassword;
-      this.isUniquePasswordVisible = !this.isUniquePasswordVisible;
+
+      if (!this.args.student.email) {
+        this.generatedPassword = schoolingRegistrationDependentUser.generatedPassword;
+        this.isUniquePasswordVisible = !this.isUniquePasswordVisible;
+      }
     } catch (response) {
       const errorDetail = get(response, 'errors[0].detail', this.defaultErrorMessage);
       this.notifications.sendError(errorDetail);
