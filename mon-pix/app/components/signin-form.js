@@ -10,11 +10,17 @@ export default class SigninForm extends Component {
 
   @service url;
   @service intl;
+  @service featureToggles;
+
   @tracked hasFailed = false;
   @tracked errorMessage;
 
   username = '';
   password = '';
+
+  get isPoleEmploiEnabled() {
+    return this.featureToggles.featureToggles.isPoleEmploiEnabled;
+  }
 
   get homeUrl() {
     return this.url.homeUrl;

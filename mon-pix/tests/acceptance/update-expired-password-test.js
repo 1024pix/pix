@@ -82,7 +82,6 @@ describe('Acceptance | Update Expired Password', function() {
 
     // when
     await click('.button');
-
     // then
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
     expect(contains(expectedErrorMessage)).to.exist;

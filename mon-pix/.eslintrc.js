@@ -39,8 +39,6 @@ module.exports = {
     }],
     /* Recommended rules */
     'ember/no-mixins': 'off',
-    /* Avoid lodash default import */
-    'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
   },
   overrides: [
     // node files
