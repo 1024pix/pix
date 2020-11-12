@@ -32,6 +32,15 @@ module.exports = function(environment) {
       },
     },
 
+    'ember-simple-auth-oidc': {
+      afterLogoutUri: process.env.POLE_EMPLOI_AFTER_LOGOUT_URI,
+      authEndpoint: '/connexion/oauth2/authorize',
+      clientId: process.env.POLE_EMPLOI_CLIENT_ID,
+      endSessionEndpoint: '/compte/deconnexion',
+      expiresIn: 60000, // Short expire time (60s) for testing purpose
+      host: process.env.POLE_EMPLOI_AUTHENTICATION_URL,
+    },
+
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
@@ -140,6 +149,10 @@ module.exports = function(environment) {
       ENV.matomo.debug = true;
     }
     ENV.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
+
+    ENV.APP.IS_POLE_EMPLOI_ENABLED = true;
+    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat.pole-emploi.fr',
+    ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost:8080/';
   }
 
   if (environment === 'test') {

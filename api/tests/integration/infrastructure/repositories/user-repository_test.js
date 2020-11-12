@@ -140,6 +140,40 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         return expect(user).to.be.null;
       });
     });
+
+    describe('#findByExternalIdentityId', () => {
+
+      const externalIdentityId = 'external-identity-id';
+
+      let userInDb;
+
+      beforeEach(async () => {
+        userInDb = databaseBuilder.factory.buildUser({
+          externalIdentityId,
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('should return user informations for the given external identity id', async () => {
+        // when
+        const user = await userRepository.findByExternalIdentityId(externalIdentityId);
+
+        // then
+        expect(user).to.be.an.instanceof(User);
+        expect(user.id).to.equal(userInDb.id);
+      });
+
+      it('should return undefined when no user was found with this external identity id', async () => {
+        // given
+        const badId = 'not-exist-external-identity-id';
+
+        // when
+        const user = await userRepository.findByExternalIdentityId(badId);
+
+        // then
+        return expect(user).to.be.null;
+      });
+    });
   });
 
   describe('#getUserAuthenticationMethods', () => {

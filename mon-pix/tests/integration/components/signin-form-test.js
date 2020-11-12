@@ -1,3 +1,6 @@
+/* eslint ember/no-classic-classes: 0 */
+/* eslint ember/require-tagless-components: 0 */
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
@@ -10,6 +13,8 @@ import {
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
+import Service from '@ember/service';
+
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
@@ -18,6 +23,15 @@ const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 describe('Integration | Component | signin form', function() {
 
   setupIntlRenderingTest();
+
+  beforeEach(function() {
+    const featureTogglesStub = Service.extend({
+      featureToggles: {
+        isPoleEmploiEnabled: false,
+      },
+    });
+    this.owner.register('service:featureToggles', featureTogglesStub);
+  });
 
   describe('Rendering', async function() {
 
@@ -51,6 +65,35 @@ describe('Integration | Component | signin form', function() {
 
       // then
       expect(document.querySelector('a.sign-form-body__forgotten-password-link')).to.exist;
+    });
+
+    it('should not display a Pole emploi button when Pole emploi connection is disabled', async function() {
+      // given
+      const linkTitle = this.intl.t('pages.sign-in.pole-emploi.link.title');
+
+      // when
+      await render(hbs `<SigninForm />`);
+
+      // then
+      expect(find(`a[aria-label="${linkTitle}"]`)).not.to.exist;
+    });
+
+    it('should display a Pole emploi button when Pole emploi connection is enabled', async function() {
+      // given
+      const linkTitle = this.intl.t('pages.sign-in.pole-emploi.link.title');
+
+      const featureTogglesStub = Service.extend({
+        featureToggles: {
+          isPoleEmploiEnabled: true,
+        },
+      });
+      this.owner.register('service:featureToggles', featureTogglesStub);
+
+      // when
+      await render(hbs `<SigninForm />`);
+
+      // then
+      expect(find(`a[aria-label="${linkTitle}"]`)).to.exist;
     });
 
     it('should not display any error by default', async function() {
@@ -107,7 +150,6 @@ describe('Integration | Component | signin form', function() {
         // then
         expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
         expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE));
-
       });
     });
   });
@@ -115,14 +157,17 @@ describe('Integration | Component | signin form', function() {
   describe('Behaviours', function() {
 
     it('should authenticate user when she submitted sign-in form', async function() {
+      let actualEmail;
+      let actualPassword;
+
       // given
       const expectedEmail = 'email@example.fr';
       const expectedPassword = 'azerty';
 
       this.set('onSubmitAction', function(email, password) {
         // then
-        expect(email).to.equal(expectedEmail);
-        expect(password).to.equal(expectedPassword);
+        actualEmail = email;
+        actualPassword = password;
         return Promise.resolve();
       });
 
@@ -135,7 +180,10 @@ describe('Integration | Component | signin form', function() {
 
       // when
       await click('button.button');
-    });
 
+      // Then
+      expect(actualEmail).to.equal(expectedEmail);
+      expect(actualPassword).to.equal(expectedPassword);
+    });
   });
 });

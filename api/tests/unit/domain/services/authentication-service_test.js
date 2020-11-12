@@ -1,9 +1,15 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
+const axios = require('axios');
+
 const { UserNotFoundError, PasswordNotMatching } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 
+const settings = require('../../../../lib/config');
+
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
+const tokenService = require('../../../../lib/domain/services/token-service');
+
 const service = require('../../../../lib/domain/services/authentication-service');
 
 describe('Unit | Domain | Services | authentication', () => {
@@ -82,6 +88,72 @@ describe('Unit | Domain | Services | authentication', () => {
         // then
         expect(error).to.be.an.instanceof(PasswordNotMatching);
       });
+    });
+  });
+
+  describe('#generateAccessToken', () => {
+
+    it('should return access token and id token', async () => {
+      // given
+      const code = 'code';
+      const clientId = 'clientId';
+      const redirectUri = 'redirectUri';
+      const accessToken = 'accessToken';
+      const idToken = 'idToken';
+
+      const expectedResult = { accessToken, idToken };
+
+      const expectedUrl = settings.poleEmploi.tokenUrl;
+      const expectedData = `client_secret=${settings.poleEmploi.clientSecret}&grant_type=authorization_code&code=${code}&client_id=${clientId}&redirect_uri=${redirectUri}`;
+      const expectedHeaders = { headers: { 'content-type': 'application/x-www-form-urlencoded' } };
+
+      const response = {
+        data: {
+          access_token: accessToken,
+          id_token: idToken,
+        },
+      };
+      sinon.stub(axios, 'post').resolves(response);
+
+      // when
+      const result = await service.generateAccessToken({ code, clientId, redirectUri });
+
+      // then
+      expect(result).to.deep.equal(expectedResult);
+      expect(axios.post).to.have.been.calledWith(expectedUrl, expectedData, expectedHeaders);
+    });
+  });
+
+  describe('#getPoleEmploiUserInfo', () => {
+
+    beforeEach(() => {
+      sinon.stub(tokenService, 'extractPayloadFromPoleEmploiIdToken');
+    });
+
+    it('should return email, firstName, lastName and external identity id', async () => {
+      // given
+      const idToken = 'ID_TOKEN';
+      const payloadFromIdToken = {
+        given_name: 'givenName',
+        family_name: 'familyName',
+        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+        idIdentiteExterne: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+      };
+
+      tokenService.extractPayloadFromPoleEmploiIdToken.resolves(payloadFromIdToken);
+
+      const expectedResult = {
+        firstName: payloadFromIdToken.given_name,
+        lastName: payloadFromIdToken.family_name,
+        nonce: payloadFromIdToken.nonce,
+        externalIdentityId: payloadFromIdToken.idIdentiteExterne,
+      };
+
+      // when
+      const result = await service.getPoleEmploiUserInfo(idToken);
+
+      // then
+      expect(result).to.deep.equal(expectedResult);
     });
   });
 

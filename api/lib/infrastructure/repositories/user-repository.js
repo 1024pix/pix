@@ -492,4 +492,11 @@ module.exports = {
     }
   },
 
+  async findByExternalIdentityId(externalIdentityId) {
+    const bookshelfUser = await BookshelfUser
+      .where({ externalIdentityId })
+      .fetch();
+    return bookshelfUser ? _toDomain(bookshelfUser) : null;
+  },
+
 };

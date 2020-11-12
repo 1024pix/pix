@@ -1,7 +1,9 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 
+const { featureToggles } = require('../../../../lib/config');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const { BadRequestError } = require('../../../../lib/application/http-errors');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
@@ -139,6 +141,73 @@ describe('Unit | Application | Controller | Authentication', () => {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.source.data.attributes['access-token']).to.equal(accessToken);
+    });
+  });
+
+  describe('#authenticatePoleEmploiUser', () => {
+
+    const code = 'ABCD';
+    const client_id = 'CLIENT_ID';
+    const redirect_uri = 'http://redirectUri.fr';
+
+    let request;
+
+    beforeEach(() => {
+      featureToggles.isPoleEmploiEnabled = true;
+      request = {
+        payload: {
+          code,
+          client_id,
+          redirect_uri,
+        },
+      };
+
+      sinon.stub(usecases, 'authenticatePoleEmploiUser').resolves();
+    });
+
+    it('should return 400 when feature is off', async () => {
+      // given
+      featureToggles.isPoleEmploiEnabled = false;
+      const expectedErrorMessage = 'This feature is not enable!';
+
+      // when
+      const error = await catchErr(authenticationController.authenticatePoleEmploiUser)(request, hFake);
+
+      // then
+      expect(error).to.be.an.instanceOf(BadRequestError);
+      expect(error.message).to.equal(expectedErrorMessage);
+
+    });
+
+    it('should call usecase with payload parameters', async () => {
+      // given
+      const expectedParameters = {
+        code,
+        clientId: client_id,
+        redirectUri: redirect_uri,
+      };
+
+      // when
+      await authenticationController.authenticatePoleEmploiUser(request, hFake);
+
+      // then
+      expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWith(expectedParameters);
+    });
+
+    it('should return http status code 200, access token and ID token', async () => {
+      // given
+      const expectedResult = {
+        access_token: 'ACCESS TOKEN',
+        id_token: 'ID TOKEN',
+      };
+      usecases.authenticatePoleEmploiUser.resolves(expectedResult);
+
+      // when
+      const response = await authenticationController.authenticatePoleEmploiUser(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.source).to.deep.equal(expectedResult);
     });
   });
 });
