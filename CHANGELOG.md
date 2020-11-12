@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.218.0 (12/11/2020)
+
+- [#2132](https://github.com/1024pix/pix/pull/2132) [FEATURE] Ajouter une page de fin aux campagnes de Pix Concours (PIX-1541).
+- [#2089](https://github.com/1024pix/pix/pull/2089) [FEATURE] Mise en place du socle permettant le refacto des méthodes de connexion (PIX-1168).
+- [#2108](https://github.com/1024pix/pix/pull/2108) [FEATURE] Adapter l'algo des campagnes pour les tests Pix Concours (PIX-1573).
+- [#2129](https://github.com/1024pix/pix/pull/2129) [FEATURE] Retirer la barre de progression durant les épreuves Pix-Concours (PIX-1582).
+- [#2130](https://github.com/1024pix/pix/pull/2130) [FEATURE] Retirer les liens "Signaler un problème" des différents challenges de Pix-Concours (PIX-1583).
+- [#2104](https://github.com/1024pix/pix/pull/2104) [FEATURE] Griser les élèves déjà candidats lors de l'ajout (PIX-1379)
+- [#2124](https://github.com/1024pix/pix/pull/2124) [BUGFIX] Retirer les mots Parcours de l'application (PIX-1577)
+- [#2133](https://github.com/1024pix/pix/pull/2133) [TECH] Créer un script permettant d'ajouter un nombre important d'élèves (PIX-1572)
+- [#2135](https://github.com/1024pix/pix/pull/2135) [TECH] Mise à jour des messages d'erreurs de réconciliation dans Mon-Pix (PIX-1426)
+- [#2117](https://github.com/1024pix/pix/pull/2117) [TECH] Suppression du endpoint /api/users/{id}/authentication-methods/saml (PIX-1578).
+- [#2127](https://github.com/1024pix/pix/pull/2127) [ORGA] Ajout d'un tooltip pour l'import des orga SCO Agri (PIX-1565)
+
 ## v2.217.0 (09/11/2020)
 
 - [#2131](https://github.com/1024pix/pix/pull/2131) [BUGFIX] Utiliser replaceWith au lieu de transitionTo.
