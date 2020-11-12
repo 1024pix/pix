@@ -89,7 +89,7 @@ class CampaignAssessmentCsvLine {
       this.targetProfile.name,
       this.campaignParticipationInfo.participantLastName,
       this.campaignParticipationInfo.participantFirstName,
-      ...(this.organization.isSco ? [this.campaignParticipationInfo.division] : []),
+      ...this._division,
       ...this._studentNumber,
       ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
       this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.targetedKnowledgeElementsCount, this.targetProfile.skills.length),
@@ -160,11 +160,19 @@ class CampaignAssessmentCsvLine {
   }
 
   get _studentNumber() {
-    let studentNumber = null;
     if (this.organization.isSup && this.organization.isManagingStudents) {
-      studentNumber = this.campaignParticipationInfo.studentNumber || '';
+      return [this.campaignParticipationInfo.studentNumber || ''];
+    } 
+    
+    return [];
+  }
+
+  get _division() {
+    if (this.organization.isSco && this.organization.isManagingStudents) {
+      return [this.campaignParticipationInfo.division || ''];
     }
-    return [studentNumber].filter((value) => value != null);
+    
+    return [];
   }
 }
 
