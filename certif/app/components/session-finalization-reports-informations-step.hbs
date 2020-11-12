@@ -5,7 +5,11 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>N° de certification</th>
-        <th>Signalement (à renseigner le cas échéant)</th>
+        {{#if this.myFeatureToggle}}
+          <th>Signalement</th>
+        {{else}}
+          <th>Signalement (à renseigner le cas échéant)</th>
+        {{/if}}
         <th>
           <div class="session-finalization-reports-informations-step__row">
             <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @toggleAllCertificationReportsHasSeenEndTestScreen this.hasCheckedSomething)}}>
@@ -23,13 +27,17 @@
           <td data-test-id="finalization-report-first-name_{{report.certificationCourseId}}">{{report.firstName}}</td>
           <td data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}">{{report.certificationCourseId}}</td>
           <td>
-            <Textarea
-              data-test-id="finalization-report-examiner-comment_{{report.certificationCourseId}}"
-              @class="session-finalization-reports-informations-step__textarea"
-              @value={{report.examinerComment}}
-              {{on 'input' (fn @updateCertificationReportExaminerComment report)}}
-              @maxlength={{@examinerCommentMaxLength}}
-            />
+            {{#if this.myFeatureToggle}}
+              <button type="button" class="button--showed-as-link" {{on 'click' (fn this.openExaminerReportModal report)}}>Signalement ?</button>
+            {{else}}
+              <Textarea
+                data-test-id="finalization-report-examiner-comment_{{report.certificationCourseId}}"
+                @class="session-finalization-reports-informations-step__textarea"
+                @value={{report.examinerComment}}
+                {{on 'input' (fn @updateCertificationReportExaminerComment report)}}
+                @maxlength={{@examinerCommentMaxLength}}
+              />
+            {{/if}}
           </td>
           <td>
             <CertifCheckbox
@@ -42,4 +50,11 @@
       {{/each}}
     </tbody>
   </table>
+  {{#if this.showExaminerReportModal}}
+    <ExaminerReportModal
+      @closeModal={{this.closeExaminerReportModal}}
+      @report={{this.reportToEdit}}
+      @maxlength={{@examinerCommentMaxLength}}
+      />
+  {{/if}}
 </div>
