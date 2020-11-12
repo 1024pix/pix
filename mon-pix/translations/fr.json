@@ -3,22 +3,22 @@
         "bad-request-error": "Les données que vous avez soumises ne sont pas au bon format.",
         "internal-server-error": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
         "join-error": {
-            "r11": "Vous possédez déjà un compte Pix avec l’adresse e-mail '<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R11)",
-            "r12": "Vous possédez déjà un compte Pix utilisé avec l’identifiant '<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R12)",
-            "r13": "Vous possédez déjà un compte Pix via l’ENT dans un autre établissement scolaire.'<br>'Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l’aide de Pix Orga.",
-            "r31": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R31)",
-            "r32": "Vous possédez déjà un compte Pix utilisé avec l’identifiant'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code R32)",
+            "r11": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R11)",
+            "r12": "Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R12)",
+            "r13": "Vous possédez déjà un compte Pix via l’ENT dans un autre établissement scolaire.'<br><br>'Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l’aide de Pix Orga.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R13)",
+            "r31": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R31)",
+            "r32": "Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R32)",
             "r33": "Vous possédez déjà un compte Pix via l’ENT. Utilisez-le pour rejoindre le parcours.",
             "r70": "Une erreur est survenue. Déconnectez-vous et recommencez."
         },
         "login-unauthorized-error": "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects.",
         "register-error": {
-            "s51": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S51)",
-            "s52": "Vous possédez déjà un compte Pix avec l’identifiant'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S52)",
+            "s51": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R51)",
+            "s52": "Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R52)",
             "s53": "Vous possédez déjà un compte Pix via l’ENT.'<br>'Utilisez-le pour rejoindre le parcours.",
-            "s61": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S61)",
-            "s62": "Vous possédez déjà un compte Pix utilisé avec l’identifiant'<br>'{ value }.'<br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br>'(Code S62)",
-            "s63": "Vous possédez déjà un compte Pix via l’ENT dans un autre établissement scolaire.'<br>'Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l’aide de Pix Orga.'<br>'(Code S63)"
+            "s61": "Vous possédez déjà un compte Pix avec l’adresse e-mail'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R61)",
+            "s62": "Vous possédez déjà un compte Pix utilisé avec l’identifiant sous la forme prénom.nom suivi de 4 chiffres:'<br>'{ value }'<br><br>'Pour continuer, connectez-vous à ce compte ou demandez de l’aide à un enseignant.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R62)",
+            "s63": "Vous possédez déjà un compte Pix via l’ENT dans un autre établissement scolaire.'<br><br>'Pour continuer, contactez un enseignant qui pourra vous donner l’accès à ce compte à l’aide de Pix Orga.'<br><br>'(Pour l’enseignant : voir le ’Kit de dépannage’ dans Pix Orga &gt; Documentation - Code R63)"
         }
     },
     "application": {
