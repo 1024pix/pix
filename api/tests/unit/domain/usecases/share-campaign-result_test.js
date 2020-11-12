@@ -81,7 +81,6 @@ describe('Unit | UseCase | share-campaign-result2', () => {
       // then
       expect(actualEvent).to.deep.equal({
         campaignId,
-        isAssessment: true,
         campaignParticipationId,
         userId,
         organizationId,
@@ -116,7 +115,6 @@ describe('Unit | UseCase | share-campaign-result2', () => {
       // then
       expect(actualEvent).to.deep.equal({
         campaignId,
-        isAssessment: false,
         campaignParticipationId,
         userId,
         organizationId,
