@@ -137,6 +137,7 @@ module.exports = (function() {
     featureToggles: {
       certifPrescriptionSco: isFeatureEnabled(process.env.FT_CERTIF_PRESCRIPTION_SCO),
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
+      reportsCategorization: isFeatureEnabled(process.env.FT_REPORTS_CATEGORISATION),
     },
 
     infra: {
@@ -177,6 +178,7 @@ module.exports = (function() {
     config.features.garAccessV2 = false;
 
     config.featureToggles.certifPrescriptionSco = false;
+    config.featureToggles.reportsCategorization = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
