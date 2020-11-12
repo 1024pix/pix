@@ -14,6 +14,7 @@ module.exports = datasource.extend({
     'Competence (id persistant)',
     'Épreuves (id persistant)',
     'Image',
+    'Campagne ID',
   ],
 
   fromAirTableObject(airtableRecord) {
@@ -29,7 +30,13 @@ module.exports = datasource.extend({
       competences: airtableRecord.get('Competence (id persistant)'),
       challenges: _.reverse(airtableRecord.get('Épreuves (id persistant)')),
       imageUrl,
+      campaignId: airtableRecord.get('Campagne ID'),
     };
+  },
+
+  async getByCampaignId(campaignId) {
+    const courses = await this.list();
+    return courses.find((course) => course.campaignId === campaignId);
   },
 
 });

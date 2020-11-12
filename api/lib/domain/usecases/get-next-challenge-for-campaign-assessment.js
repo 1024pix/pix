@@ -2,12 +2,14 @@
 const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
+const getNextChallengeForDemo = require('./get-next-challenge-for-demo');
 
 module.exports = async function getNextChallengeForCampaignAssessment({
   knowledgeElementRepository,
   targetProfileRepository,
   challengeRepository,
   answerRepository,
+  courseRepository,
   improvementService,
   assessment,
   pickChallengeService,
@@ -19,6 +21,10 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   }
 
   const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
+
+  if (process.env.IS_PIX_CONTEST === 'true') {
+    return getNextChallengeForDemo({ assessment, answerRepository, challengeRepository, courseRepository });
+  }
 
   const {
     possibleSkillsForNextChallenge,

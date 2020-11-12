@@ -9,7 +9,15 @@ module.exports = function getNextChallengeForDemo({
   courseRepository,
 }) {
 
-  const courseId = assessment.courseId;
+  let courseId;
+  let campaignId;
+
+  if (process.env.IS_PIX_CONTEST === 'true') {
+    campaignId = assessment.courseId;
+  }
+  else {
+    courseId = assessment.courseId;
+  }
 
   const logContext = {
     zone: 'usecase.getNextChallengeForDemo',
@@ -20,7 +28,9 @@ module.exports = function getNextChallengeForDemo({
   logger.trace(logContext, 'looking for next challenge in DEMO assessment');
 
   return Promise.all([
-    courseRepository.get(courseId),
+    process.env.IS_PIX_CONTEST === 'true' ?
+      courseRepository.getByCampaignId(campaignId)
+      : courseRepository.get(courseId),
     answerRepository.findByAssessment(assessment.id),
   ])
     .then(([course, answers]) => {
