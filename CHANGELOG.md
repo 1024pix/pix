@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.219.0 (13/11/2020)
+
+- [#2085](https://github.com/1024pix/pix/pull/2085) [FEATURE] Permettre l'accès à Mon-Pix en se connectant avec un compte Pole Emploi (PIX-1418).
+- [#2136](https://github.com/1024pix/pix/pull/2136) [BUGFIX] Remplacer studentNumber ou une division à null par une chaîne vide pour permettre le téléchargement des CSV dans Pix Orga (PIX-1586).
+- [#2061](https://github.com/1024pix/pix/pull/2061) [TECH] Réduire le pic mémoire lors du parsing des fichiers SIECLE volumineux et optimiser le traitement (Pix-1405)
+- [#2118](https://github.com/1024pix/pix/pull/2118) [TECH] Mettre à jour les paquets Mon Pix.
+- [#2140](https://github.com/1024pix/pix/pull/2140) [FIX] Correction de l'ordre des colonnes badges et paliers dans l'export CSV (PIX-1587)
+
 ## v2.218.0 (12/11/2020)
 
 - [#2132](https://github.com/1024pix/pix/pull/2132) [FEATURE] Ajouter une page de fin aux campagnes de Pix Concours (PIX-1541).
