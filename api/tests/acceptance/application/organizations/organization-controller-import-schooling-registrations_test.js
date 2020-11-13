@@ -873,7 +873,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].detail).to.contains('Le champ “Identifiant unique” ne doit pas contenir de doublon.');
+          expect(response.result.errors[0].detail).to.contains('Le champ “Identifiant unique” de cette ligne est présent plusieurs fois dans le fichier.');
         });
       });
     });
