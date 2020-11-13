@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
+const { knex } = require('../bookshelf');
 const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
@@ -77,6 +78,17 @@ module.exports = {
       .fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+  },
+
+  async isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ userId, schoolingRegistrationId }) {
+
+    const exist = await knex('schooling-registrations')
+      .select('schooling-registrations.id')
+      .join('organizations', 'schooling-registrations.organizationId', 'organizations.id')
+      .where({ userId, type: 'SCO', 'schooling-registrations.id': schoolingRegistrationId })
+      .first();
+
+    return Boolean(exist);
   },
 
   async findByUserIdAndSCOOrganization({ userId }) {

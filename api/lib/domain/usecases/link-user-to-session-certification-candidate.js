@@ -3,76 +3,73 @@ const CertificationCandidate = require('../models/CertificationCandidate');
 const {
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
+  MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidatePersonalInfoWrongFormat,
-  CertificationCandidatePersonalInfoFieldMissingError,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../errors');
+const UserLinkedToCertificationCandidate = require('../events/UserLinkedToCertificationCandidate');
+const UserAlreadyLinkedToCertificationCandidate = require('../events/UserAlreadyLinkedToCertificationCandidate');
 
-module.exports = async function linkUserToSessionCertificationCandidate({
+async function linkUserToSessionCertificationCandidate({
   userId,
   sessionId,
   firstName,
   lastName,
   birthdate,
   certificationCandidateRepository,
+  sessionRepository,
+  schoolingRegistrationRepository,
 }) {
-  const trimmedFirstName = firstName
-    ? firstName.trim()
-    : firstName;
-  const trimmedLastName = lastName
-    ? lastName.trim()
-    : lastName;
   const participatingCertificationCandidate = new CertificationCandidate({
-    firstName: trimmedFirstName, lastName: trimmedLastName, birthdate, sessionId });
-
-  try {
-    participatingCertificationCandidate.validateParticipation();
-  } catch (err) {
-    if (_.endsWith(err.details.type, 'required')) {
-      throw new CertificationCandidatePersonalInfoFieldMissingError();
-    }
-    throw new CertificationCandidatePersonalInfoWrongFormat();
-  }
+    firstName,
+    lastName,
+    birthdate,
+    sessionId,
+  });
+  participatingCertificationCandidate.validateParticipation();
 
   const certificationCandidate = await _getSessionCertificationCandidateByPersonalInfo({
     sessionId,
-    firstName: participatingCertificationCandidate.firstName,
-    lastName: participatingCertificationCandidate.lastName,
-    birthdate: participatingCertificationCandidate.birthdate,
+    participatingCertificationCandidate,
     certificationCandidateRepository,
   });
 
-  if (_.isNil(certificationCandidate.userId)) {
-    const linkedCertificationCandidate = await _linkUserToCandidate({ sessionId, userId, certificationCandidate, certificationCandidateRepository });
-    return {
-      linkCreated: true,
-      certificationCandidate: linkedCertificationCandidate,
-    };
-  }
+  const isSco = await sessionRepository.isSco(sessionId);
 
-  if (certificationCandidate.userId === userId) {
-    return {
-      linkCreated: false,
+  if (!certificationCandidate.isLinkedToAUser()) {
+    if (isSco) {
+      await _checkCandidateMatchTheReconciledStudent({
+        userId,
+        certificationCandidate,
+        schoolingRegistrationRepository,
+      });
+    }
+    await _linkUserToCandidate({
+      sessionId,
+      userId,
       certificationCandidate,
-    };
+      certificationCandidateRepository,
+    });
+    return new UserLinkedToCertificationCandidate();
   }
 
-  throw new CertificationCandidateAlreadyLinkedToUserError('A user has already been linked to the certification candidate');
-};
+  if (certificationCandidate.isLinkedToUserId(userId)) {
+    return new UserAlreadyLinkedToCertificationCandidate();
+  } else {
+    throw new CertificationCandidateAlreadyLinkedToUserError();
+  }
+}
 
 async function _getSessionCertificationCandidateByPersonalInfo({
   sessionId,
-  firstName,
-  lastName,
-  birthdate,
+  participatingCertificationCandidate,
   certificationCandidateRepository,
 }) {
   const matchingSessionCandidates = await certificationCandidateRepository.findBySessionIdAndPersonalInfo({
     sessionId,
-    firstName,
-    lastName,
-    birthdate,
+    firstName: participatingCertificationCandidate.firstName,
+    lastName: participatingCertificationCandidate.lastName,
+    birthdate: participatingCertificationCandidate.birthdate,
   });
   if (_.isEmpty(matchingSessionCandidates)) {
     throw new CertificationCandidateByPersonalInfoNotFoundError('No certification candidate matches with the provided personal info');
@@ -90,12 +87,32 @@ async function _linkUserToCandidate({
   certificationCandidate,
   certificationCandidateRepository,
 }) {
-  const existingCandidateLinkedToUser = await certificationCandidateRepository.findOneBySessionIdAndUserId({ sessionId, userId });
+  const existingCandidateLinkedToUser = await certificationCandidateRepository.findOneBySessionIdAndUserId({
+    sessionId,
+    userId,
+  });
   if (existingCandidateLinkedToUser) {
     throw new UserAlreadyLinkedToCandidateInSessionError('The user is already linked to a candidate in the given session');
   }
 
   certificationCandidate.userId = userId;
-  await certificationCandidateRepository.linkToUser({ id: certificationCandidate.id, userId: certificationCandidate.userId });
+  await certificationCandidateRepository.linkToUser({
+    id: certificationCandidate.id,
+    userId: certificationCandidate.userId,
+  });
   return certificationCandidate;
 }
+
+async function _checkCandidateMatchTheReconciledStudent({ userId, certificationCandidate, schoolingRegistrationRepository }) {
+  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
+    userId,
+    schoolingRegistrationId: certificationCandidate.schoolingRegistrationId,
+  });
+  if (!isSchoolingRegistrationIdLinkedToUserAndSCOOrganization) {
+    throw new MatchingReconciledStudentNotFoundError();
+  }
+}
+
+module.exports = {
+  linkUserToSessionCertificationCandidate,
+};

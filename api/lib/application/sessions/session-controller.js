@@ -13,6 +13,8 @@ const jurySessionRepository = require('../../infrastructure/repositories/jury-se
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const { getCertificationResultsCsv } = require('../../infrastructure/utils/csv/certification-results');
+const trim = require('lodash/trim');
+const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
 
 module.exports = {
 
@@ -165,17 +167,17 @@ module.exports = {
   async createCandidateParticipation(request, h) {
     const userId = request.auth.credentials.userId;
     const sessionId = request.params.id;
-    const firstName = request.payload.data.attributes['first-name'];
-    const lastName = request.payload.data.attributes['last-name'];
+    const firstName = trim(request.payload.data.attributes['first-name']);
+    const lastName = trim(request.payload.data.attributes['last-name']);
     const birthdate = request.payload.data.attributes['birthdate'];
 
-    const { linkCreated, certificationCandidate } = await usecases.linkUserToSessionCertificationCandidate({
+    const event = await usecases.linkUserToSessionCertificationCandidate({
       userId, sessionId, firstName, lastName, birthdate,
     });
 
+    const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
     const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
-
-    return linkCreated ? h.response(serialized).created() : serialized;
+    return (event instanceof UserLinkedToCertificationCandidate) ? h.response(serialized).created() : serialized;
   },
 
   async finalize(request) {
