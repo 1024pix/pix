@@ -6,6 +6,7 @@ const {
 } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
+require('events').EventEmitter.defaultMaxListeners = 60;
 
 const Membership = require('../../../../lib/domain/models/Membership');
 const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
@@ -753,7 +754,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('Aucune inscription d’élève n’a pu être importée depuis ce fichier. Vérifiez que le fichier est conforme.');
+          expect(response.result.errors[0].detail).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
         });
       });
     });
