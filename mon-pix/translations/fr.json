@@ -373,6 +373,7 @@
                 "qcu": "Pour valider, sélectionnez une réponse. Sinon, passez.",
                 "qroc": "Pour valider, veuillez remplir le champ texte. Sinon, passez.",
                 "qroc-auto-reply": "“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.",
+                "qroc-number": "Pour valider, veuillez saisir un nombre sinon passez.",
                 "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passez."
             },
             "timed" : {
