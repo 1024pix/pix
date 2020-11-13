@@ -14,6 +14,10 @@ module.exports = {
       .where({ id })
       .fetch({ withRelated: ['skillIds'] });
 
+    if (!targetProfileBookshelf) {
+      throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
+    }
+
     return _getWithAirtableSkills(targetProfileBookshelf);
   },
 

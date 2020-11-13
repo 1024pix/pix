@@ -43,6 +43,15 @@ describe('Integration | Repository | Target-profile', () => {
         expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
       });
     });
+
+    context('when the targetProfile does not exist', () => {
+      it('throws an error', async () => {
+        const error = await catchErr(targetProfileRepository.get)(1);
+
+        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(error.message).to.have.string('Le profil cible avec l\'id 1 n\'existe pas');
+      });
+    });
   });
 
   describe('#findAllTargetProfilesOrganizationCanUse', () => {
