@@ -11,13 +11,15 @@ const INVALID_FILE_FORMAT = 'Format de fichier non valide.';
 module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository }) {
   let schoolingRegistrationData = [];
 
+  const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
+
   if (format === 'xml') {
-    const organization = await organizationRepository.get(organizationId);
     schoolingRegistrationData = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization, schoolingRegistrationsXmlService);
   } else if (format === 'csv') {
     const buffer = await fs.readFile(path);
-    const csvSiecleParser = new SchoolingRegistrationParser(buffer, organizationId);
+    
+    const csvSiecleParser = new SchoolingRegistrationParser(buffer, organizationId, organization.isAgriculture);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
     throw new FileValidationError(INVALID_FILE_FORMAT);
@@ -31,8 +33,13 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
 
   try {
     const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
+    
     await bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
-      return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
+      if (organization.isAgriculture) {
+        return schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(chunk, organizationId);
+      } else {
+        return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
+      }
     });
   } catch (err) {
     if (err instanceof SameNationalStudentIdInOrganizationError) {

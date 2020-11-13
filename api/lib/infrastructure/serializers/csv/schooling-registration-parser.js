@@ -3,6 +3,8 @@ const { checkValidation } = require('../../../domain/validators/schooling-regist
 
 const { CsvRegistrationParser, CsvColumn } = require('./csv-registration-parser');
 
+const STATUS = SchoolingRegistration.STATUS;
+
 const COLUMNS = [
   new CsvColumn({ name: 'nationalIdentifier', label: 'Identifiant unique*', isRequired: true }),
   new CsvColumn({ name: 'firstName', label: 'Premier prénom*', isRequired: true, checkEncoding: true }),
@@ -21,8 +23,9 @@ const COLUMNS = [
 ];
 
 class SchoolingRegistrationSet {
-  constructor() {
+  constructor(hasApprentice) {
     this.registrations = [];
+    this.hasApprentice = hasApprentice;
   }
 
   addRegistration(registrationAttributes) {
@@ -37,9 +40,9 @@ class SchoolingRegistrationSet {
     let nationalApprenticeId;
     const { birthCountryCode, nationalIdentifier, status } = registrationAttributes;
 
-    if (status === SchoolingRegistration.STATUS.STUDENT) {
+    if (status === STATUS.STUDENT) {
       nationalStudentId = nationalIdentifier;
-    } else if (status === SchoolingRegistration.STATUS.APPRENTICE) {
+    } else if (this.hasApprentice && status === STATUS.APPRENTICE) {
       nationalApprenticeId = nationalIdentifier;
     }
 
@@ -54,8 +57,8 @@ class SchoolingRegistrationSet {
 
 class SchoolingRegistrationParser extends CsvRegistrationParser {
 
-  constructor(input, organizationId) {
-    const registrationSet = new SchoolingRegistrationSet();
+  constructor(input, organizationId, hasApprentice = false) {
+    const registrationSet = new SchoolingRegistrationSet(hasApprentice);
 
     super(input, organizationId, COLUMNS, registrationSet);
   }

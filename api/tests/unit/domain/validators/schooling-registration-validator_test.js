@@ -91,7 +91,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
         try {
           checkValidation({ ...validAttributes, status: 'ST' });
         } catch (e) {
-          expect.fail('SchoolingRegistration is valid valid when status is \'ST\'');
+          expect.fail('SchoolingRegistration is valid when status is \'ST\'');
         }
       });
 
@@ -99,7 +99,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
         try {
           checkValidation({ ...validAttributes, status: 'AP' });
         } catch (e) {
-          expect.fail('SchoolingRegistration is valid valid when status is \'AP\'');
+          expect.fail('SchoolingRegistration is valid when status is \'AP\'');
         }
       });
     });

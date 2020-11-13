@@ -40,6 +40,7 @@ const validationSchema = Joi.object({
 module.exports = {
   checkValidation(registration) {
     const { error } = validationSchema.validate(registration, validationConfiguration);
+
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
       const { type, context } = error.details[0];
