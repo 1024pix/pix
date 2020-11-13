@@ -92,7 +92,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           });
         });
 
-        it('should return not return error given nationalIdentifier with different status', () => {
+        it('should not return error given nationalIdentifier with different status', () => {
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
@@ -118,8 +118,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
       });
 
       context('when the data are not correct', () => {
-        it('should throw an EntityValidationError', async () => {
-          //given wrong birthDate
+        it('should throw an EntityValidationError with malformated birthDate', async () => {
+          //given
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;ST;MEF1;Division 1;
           `;
