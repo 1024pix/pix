@@ -14,13 +14,80 @@ const PAYLOAD_EVALUATION_CATEGORY = 'competence';
 const PAYLOAD_EVALUATION_TYPE = 'competence Pix';
 const PAYLOAD_PROGRESSION = { FINISHED: 100 };
 
-function getTypeTest(targetProfileName) {
-  if (targetProfileName.includes('Diagnostic initial')) {
-    return 'DI';
-  } else if (targetProfileName.includes('Parcours complet')) {
-    return 'PC';
+class PoleEmploiPayload {
+  constructor({ user, campaign, targetProfile, participation, participationResult }) {
+    this.individu = this._buildIndividu(user);
+    this.campagne = this._buildCampaign(campaign);
+    this.test = this._buildTest(targetProfile, participation, participationResult);
   }
-  return 'CP';
+
+  toString() {
+    return JSON.stringify({
+      campagne: this.campagne,
+      individu: this.individu,
+      test: this.test,
+    });
+  }
+
+  _buildIndividu(user) {
+    return {
+      nom: user.lastName,
+      prenom: user.firstName,
+    };
+  }
+
+  _buildCampaign(campaign) {
+    return {
+      nom: campaign.name,
+      dateDebut: campaign.createdAt,
+      dateFin: campaign.archivedAt,
+      type: PAYLOAD_CAMPAIGN_TYPE,
+      idCampagne: campaign.id,
+      codeCampagne: campaign.code,
+      urlCampagne: `${PAYLOAD_CAMPAIGN_URL}/${campaign.code}`,
+      nomOrganisme: PAYLOAD_STRUCTURE_NAME,
+      typeOrganisme: PAYLOAD_STRUCTURE_TYPE,
+    };
+  }
+
+  _buildTest(targetProfile, participation, participationResult) {
+    return {
+      etat: PAYLOAD_TEST_STATE.SENT,
+      progression: PAYLOAD_PROGRESSION.FINISHED,
+      typeTest: this._getTypeTest(targetProfile.name),
+      referenceExterne: participation.id,
+      dateDebut: participation.createdAt,
+      dateProgression: participation.sharedAt,
+      dateValidation: participation.sharedAt,
+      evaluationCible: participationResult.masteryPercentage,
+      uniteEvaluation: PAYLOAD_UNITS.PERCENTAGE,
+      elementsEvalues: participationResult.competenceResults.map(this._buildElementEvalue),
+    };
+  }
+
+  _buildElementEvalue(competence) {
+    return {
+      libelle: competence.name,
+      categorie: PAYLOAD_EVALUATION_CATEGORY,
+      type: PAYLOAD_EVALUATION_TYPE,
+      domaineRattachement: competence.areaName,
+      nbSousElements: competence.totalSkillsCount,
+      evaluation: {
+        scoreObtenu: competence.masteryPercentage,
+        uniteScore: PAYLOAD_UNITS.PERCENTAGE,
+        nbSousElementValide: competence.validatedSkillsCount,
+      },
+    };
+  }
+
+  _getTypeTest(targetProfileName) {
+    if (targetProfileName.includes('Diagnostic initial')) {
+      return 'DI';
+    } else if (targetProfileName.includes('Parcours complet')) {
+      return 'PC';
+    }
+    return 'CP';
+  }
 }
 
 async function handleCampaignParticipationResultsSending({
@@ -46,47 +113,15 @@ async function handleCampaignParticipationResultsSending({
     const participation = await campaignParticipationRepository.get(campaignParticipationId);
     const participationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
 
-    const resultsToSend = {
-      campagne: {
-        nom: campaign.name,
-        dateDebut: campaign.createdAt,
-        dateFin: campaign.archivedAt,
-        type: PAYLOAD_CAMPAIGN_TYPE,
-        idCampagne: campaign.id,
-        codeCampagne: campaign.code,
-        urlCampagne: `${PAYLOAD_CAMPAIGN_URL}/${campaign.code}`,
-        nomOrganisme: PAYLOAD_STRUCTURE_NAME,
-        typeOrganisme: PAYLOAD_STRUCTURE_TYPE,
-      },
-      individu: {
-        nom: user.lastName,
-        prenom: user.firstName,
-      },
-      test: {
-        etat: PAYLOAD_TEST_STATE.SENT,
-        progression: PAYLOAD_PROGRESSION.FINISHED,
-        typeTest: getTypeTest(targetProfile.name),
-        referenceExterne: participation.id,
-        dateDebut: participation.createdAt,
-        dateProgression: participation.sharedAt,
-        dateValidation: participation.sharedAt,
-        evaluationCible: participationResult.masteryPercentage,
-        uniteEvaluation: PAYLOAD_UNITS.PERCENTAGE,
-        elementsEvalues: participationResult.competenceResults.map((competence) => ({
-          libelle: competence.name,
-          categorie: PAYLOAD_EVALUATION_CATEGORY,
-          type: PAYLOAD_EVALUATION_TYPE,
-          domaineRattachement: competence.areaName,
-          nbSousElements: competence.totalSkillsCount,
-          evaluation: {
-            scoreObtenu: competence.masteryPercentage,
-            uniteScore: PAYLOAD_UNITS.PERCENTAGE,
-            nbSousElementValide: competence.validatedSkillsCount,
-          },
-        })),
-      },
-    };
-    console.log(JSON.stringify(resultsToSend));
+    const payload = new PoleEmploiPayload({
+      user,
+      campaign,
+      targetProfile,
+      participation,
+      participationResult,
+    });
+
+    console.log(payload.toString());
   }
 }
 
