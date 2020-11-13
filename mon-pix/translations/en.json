@@ -373,6 +373,7 @@
                 "qcu": "To validate, select an answer. Otherwise, click Skip.",
                 "qroc": "To validate, please fill in the text field. Otherwise, click Skip.",
                 "qroc-auto-reply": "You did not answer correctly. Try again or skip to the next question.",
+                "qroc-number": "",
                 "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip."
             },
             "timed" : {
