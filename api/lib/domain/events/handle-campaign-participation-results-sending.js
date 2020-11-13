@@ -12,6 +12,16 @@ const PAYLOAD_TEST_STATE = { STARTED: 2, FINISHED: 3, SENT: 4 };
 const PAYLOAD_UNITS = { PERCENTAGE: 'A', SCORE: 'B' };
 const PAYLOAD_EVALUATION_CATEGORY = 'competence';
 const PAYLOAD_EVALUATION_TYPE = 'competence Pix';
+const PAYLOAD_PROGRESSION = { FINISHED: 100 };
+
+function getTypeTest(targetProfileName) {
+  if (targetProfileName.includes('Diagnostic initial')) {
+    return 'DI';
+  } else if (targetProfileName.includes('Parcours complet')) {
+    return 'PC';
+  }
+  return 'CP';
+}
 
 async function handleCampaignParticipationResultsSending({
   event,
@@ -19,6 +29,7 @@ async function handleCampaignParticipationResultsSending({
   campaignParticipationRepository,
   campaignParticipationResultRepository,
   organizationRepository,
+  targetProfileRepository,
   userRepository,
 }) {
   checkEventType(event, eventType);
@@ -31,6 +42,7 @@ async function handleCampaignParticipationResultsSending({
   if (campaign.isAssessment() && organization.isPoleEmploi) {
     
     const user = await userRepository.get(userId);
+    const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
     const participation = await campaignParticipationRepository.get(campaignParticipationId);
     const participationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
 
@@ -52,8 +64,8 @@ async function handleCampaignParticipationResultsSending({
       },
       test: {
         etat: PAYLOAD_TEST_STATE.SENT,
-        progression: 100,
-        typeTest: 'DI',
+        progression: PAYLOAD_PROGRESSION.FINISHED,
+        typeTest: getTypeTest(targetProfile.name),
         referenceExterne: participation.id,
         dateDebut: participation.createdAt,
         dateProgression: participation.sharedAt,

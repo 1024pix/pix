@@ -4,6 +4,7 @@ const campaignRepository = require('../../../../lib/infrastructure/repositories/
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { handleCampaignParticipationResultsSending } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
@@ -13,6 +14,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
   let campaignParticipationRepositoryStub;
   let campaignParticipationResultRepositoryStub;
   let organizationRepositoryStub;
+  let targetProfileRepositoryStub;
   let userRepositoryStub;
 
   const dependencies = {
@@ -20,6 +22,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
     campaignParticipationRepository,
     campaignParticipationResultRepository,
     organizationRepository,
+    targetProfileRepository,
     userRepository,
   };
 
@@ -82,6 +85,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
     campaignParticipationRepositoryStub = sinon.stub(campaignParticipationRepository, 'get');
     campaignParticipationResultRepositoryStub = sinon.stub(campaignParticipationResultRepository, 'getByParticipationId');
     organizationRepositoryStub = sinon.stub(organizationRepository, 'get');
+    targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get');
     userRepositoryStub = sinon.stub(userRepository, 'get');
   });
 
@@ -121,7 +125,9 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
           createdAt: new Date('2020-01-01'),
           archivedAt: new Date('2020-02-01'),
           type: 'ASSESSMENT',
+          targetProfileId: 'targetProfileId1',
         }));
+        targetProfileRepositoryStub.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
         campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(domainBuilder.buildCampaignParticipation({
           id: 55667788,
           sharedAt: new Date('2020-01-03'),
