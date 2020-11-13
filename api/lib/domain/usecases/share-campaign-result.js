@@ -28,7 +28,6 @@ module.exports = async function shareCampaignResult({
 
   return new CampaignParticipationResultsShared({
     campaignId: campaign.id,
-    isAssessment: campaign.isAssessment(),
     campaignParticipationId: campaignParticipation.id,
     userId,
     organizationId: campaign.organizationId,
