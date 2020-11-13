@@ -1,0 +1,83 @@
+.examiner-report-modal {
+
+  min-width: 480px;
+
+  &__title {
+    font-family: $open-sans;
+    padding: 12px 32px;
+    
+    h1 {
+      font-size: 1.25rem;
+      color: $grey-80;
+      margin: 0;
+      margin-bottom: 4px;
+    }
+
+    h3 {
+      font-size: 0.875rem;
+      color: $grey-50;
+      margin: 0;
+    }
+  }
+
+  &__content {
+    font-size: 0.875rem;
+    color: $grey-70;
+    border-top: 1px solid $grey-20;
+    border-bottom: 1px solid $grey-20;
+    padding: 22px 32px;
+    background-color: $grey-10;
+
+    .content__report-type-button {
+
+      display: flex;
+      align-items: center;
+
+      input[id="report-of-type-other__radio-button"] {
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FF */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+        transform: scale(1.5);
+        margin: 0;
+      }
+
+      label[for="report-of-type-other__radio-button"] {
+        margin-left: 16px;
+      }
+    }
+    
+
+    .content__report-type-details {
+      margin-top: 16px;
+      padding: 0 30px;
+
+      textarea {
+        box-sizing: border-box;
+        margin-top: 8px;
+        border: 1.2px solid $blue-zodia;
+        min-height: 82px;
+        padding: 8px 16px;
+      }
+    }
+  }
+
+  &__actions {
+    background-color: $grey-10;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 0px 0px 5px 5px;
+
+    .button--showed-as-link {
+      font-family: $roboto;
+      text-decoration: none;
+      margin-right: 24px;
+      font-size: 0.875rem;
+
+      &:hover {
+        color: inherit;
+      }
+    }
+  }
+}

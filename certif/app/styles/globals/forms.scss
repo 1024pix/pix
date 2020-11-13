@@ -167,9 +167,13 @@ input[type=number] {
     text-decoration: underline;
     border: none;
     background: none;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    color: $blue-zodia;
 
     &:hover {
       cursor: pointer;
+      color: $communication-dark;
     }
   }
 
