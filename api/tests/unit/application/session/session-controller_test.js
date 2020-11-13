@@ -15,6 +15,8 @@ const requestResponseUtils = require('../../../../lib/infrastructure/utils/reque
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
+const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
+const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -169,7 +171,7 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: 1 } },
-        params: { id : 1 },
+        params: { id: 1 },
         payload: {},
       };
 
@@ -211,7 +213,7 @@ describe('Unit | Controller | sessionController', () => {
 
     beforeEach(() => {
       request = {
-        params: { id : sessionId },
+        params: { id: sessionId },
         payload: {},
         query: {
           accessToken,
@@ -279,7 +281,7 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       // given
       request = {
-        params: { id : sessionId },
+        params: { id: sessionId },
       };
       sinon.stub(usecases, 'getSessionCertificationCandidates').withArgs({ sessionId }).resolves(certificationCandidates);
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(certificationCandidates).returns(certificationCandidatesJsonApi);
@@ -305,10 +307,13 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       // given
       request = {
-        params: { id : sessionId },
+        params: { id: sessionId },
       };
       sinon.stub(certificationCandidateSerializer, 'deserialize').resolves(certificationCandidate);
-      sinon.stub(usecases, 'addCertificationCandidateToSession').withArgs({ sessionId, certificationCandidate }).resolves(addedCertificationCandidate);
+      sinon.stub(usecases, 'addCertificationCandidateToSession').withArgs({
+        sessionId,
+        certificationCandidate,
+      }).resolves(addedCertificationCandidate);
       sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(addedCertificationCandidate).returns(certificationCandidateJsonApi);
     });
 
@@ -331,7 +336,7 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       // given
       request = {
-        params: { id : sessionId, certificationCandidateId },
+        params: { id: sessionId, certificationCandidateId },
       };
       sinon.stub(usecases, 'deleteUnlinkedCertificationCandidate').withArgs({ certificationCandidateId }).resolves();
     });
@@ -355,9 +360,9 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       // given
       request = {
-        params: { id : sessionId },
+        params: { id: sessionId },
         auth: {
-          credentials : {
+          credentials: {
             userId,
           },
         },
@@ -380,14 +385,14 @@ describe('Unit | Controller | sessionController', () => {
     let request;
     const session = { id: 1, date: '2020/01/01', time: '12:00' };
     const certificationResults = [];
-    const fileName =  `20200101_1200_resultats_session_${session.id}.csv`;
+    const fileName = `20200101_1200_resultats_session_${session.id}.csv`;
 
     beforeEach(() => {
       // given
       request = {
         params: { id: session.id },
         auth: {
-          credentials : {
+          credentials: {
             userId,
           },
         },
@@ -417,7 +422,7 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       // given
       request = {
-        params: { id : sessionId },
+        params: { id: sessionId },
       };
       sinon.stub(usecases, 'getSessionCertificationReports').withArgs({ sessionId }).resolves(certificationReports);
       sinon.stub(certificationReportSerializer, 'serialize').withArgs(certificationReports).returns(serializedCertificationReports);
@@ -439,23 +444,23 @@ describe('Unit | Controller | sessionController', () => {
     const userId = 2;
     const student1 = { id: 1 };
     const student2 = { id: 2 };
-    const studentIds = [ student1.id, student2.id ];
-    const studentList = [ student1, student2 ];
+    const studentIds = [student1.id, student2.id];
+    const studentList = [student1, student2];
     const serializedCertificationCandidate = Symbol('CertificationCandidates');
 
     beforeEach(() => {
       // given
       request = {
-        params: { id : sessionId },
+        params: { id: sessionId },
         auth: {
-          credentials : {
+          credentials: {
             userId,
           },
         },
         payload: {
           data: {
             attributes: {
-              'student-ids': [ student1.id, student2.id ],
+              'student-ids': [student1.id, student2.id],
             },
           },
         },
@@ -488,55 +493,60 @@ describe('Unit | Controller | sessionController', () => {
   });
 
   describe('#createCandidateParticipation', () => {
-    let request;
     const sessionId = 1;
     const userId = 2;
-    const firstName = Symbol('firstName');
-    const lastName = Symbol('lastName');
+    let firstName;
+    let lastName;
     const birthdate = Symbol('birthdate');
     const linkedCertificationCandidate = Symbol('candidate');
     const serializedCertificationCandidate = Symbol('sCandidate');
 
     beforeEach(() => {
       // given
-      request = {
-        params: { id : sessionId },
-        auth: {
-          credentials : {
-            userId,
-          },
-        },
-        payload: {
-          data: {
-            attributes: {
-              'first-name': firstName,
-              'last-name': lastName,
-              'birthdate': birthdate,
-            },
-            type: 'certification-candidates',
-          },
-        },
-      };
-      sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(linkedCertificationCandidate).returns(serializedCertificationCandidate);
+      firstName = 'firstName';
+      lastName = 'lastName';
+      sinon.stub(certificationCandidateSerializer, 'serialize')
+        .withArgs(linkedCertificationCandidate)
+        .returns(serializedCertificationCandidate);
     });
 
-    context('when the participation already exists', () =>  {
+    it('trims the firstname and lastname', async () => {
+      // given
+      firstName = 'firstName     ';
+      lastName = 'lastName    ';
+      sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
+        .withArgs({ userId, sessionId, firstName: 'firstName', lastName: 'lastName', birthdate }).resolves(new UserAlreadyLinkedToCertificationCandidate());
+      sinon.stub(usecases, 'getCertificationCandidate')
+        .withArgs({ userId, sessionId })
+        .resolves(linkedCertificationCandidate);
+      const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
+
+      // when
+      const response = await sessionController.createCandidateParticipation(request, hFake);
+
+      // then
+      expect(response).to.equal(serializedCertificationCandidate);
+    });
+
+    context('when the participation already exists', () => {
 
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
-            linkCreated: false,
-            certificationCandidate: linkedCertificationCandidate,
-          });
+          .withArgs({ userId, sessionId, firstName, lastName, birthdate })
+          .resolves(new UserAlreadyLinkedToCertificationCandidate());
+        sinon.stub(usecases, 'getCertificationCandidate')
+          .withArgs({ userId, sessionId })
+          .resolves(linkedCertificationCandidate);
       });
 
       it('should return a certification candidate', async () => {
+        // given
+        const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
         // when
-        await sessionController.createCandidateParticipation(request, hFake);
+        const response = await sessionController.createCandidateParticipation(request, hFake);
 
         // then
-        sinon.assert.calledOnce(certificationCandidateSerializer.serialize);
-        sinon.assert.calledWith(certificationCandidateSerializer.serialize, linkedCertificationCandidate);
+        expect(response).to.equals(serializedCertificationCandidate);
       });
 
     });
@@ -545,20 +555,23 @@ describe('Unit | Controller | sessionController', () => {
 
       beforeEach(() => {
         sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-          .withArgs({ userId, sessionId, firstName, lastName, birthdate }).resolves({
-            linkCreated: true,
-            certificationCandidate: linkedCertificationCandidate,
-          });
+          .withArgs({ userId, sessionId, firstName, lastName, birthdate })
+          .resolves(new UserLinkedToCertificationCandidate());
+        sinon.stub(usecases, 'getCertificationCandidate')
+          .withArgs({ userId, sessionId })
+          .resolves(linkedCertificationCandidate);
       });
 
       it('should return a certification candidate', async () => {
+        // given
+        const request = buildRequest(sessionId, userId, firstName, lastName, birthdate);
+
         // when
         const response = await sessionController.createCandidateParticipation(request, hFake);
 
         // then
-        sinon.assert.calledOnce(certificationCandidateSerializer.serialize);
-        sinon.assert.calledWith(certificationCandidateSerializer.serialize, linkedCertificationCandidate);
         expect(response.statusCode).to.equal(201);
+        expect(response.source).to.equals(serializedCertificationCandidate);
       });
 
     });
@@ -603,7 +616,11 @@ describe('Unit | Controller | sessionController', () => {
       await sessionController.finalize(request);
 
       // then
-      expect(usecases.finalizeSession).to.have.been.calledWithExactly({ sessionId, examinerGlobalComment, certificationReports: [aCertificationReport] });
+      expect(usecases.finalizeSession).to.have.been.calledWithExactly({
+        sessionId,
+        examinerGlobalComment,
+        certificationReports: [aCertificationReport],
+      });
     });
   });
 
@@ -618,7 +635,7 @@ describe('Unit | Controller | sessionController', () => {
           id: sessionId,
         },
         payload: {
-          data: { attributes : {} },
+          data: { attributes: {} },
         },
       };
     });
@@ -628,7 +645,10 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         request.payload.data.attributes.toPublish = true;
         const usecaseResult = session;
-        sinon.stub(usecases, 'updatePublicationSession').withArgs({ sessionId, toPublish: true }).resolves(usecaseResult);
+        sinon.stub(usecases, 'updatePublicationSession').withArgs({
+          sessionId,
+          toPublish: true,
+        }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
@@ -647,7 +667,10 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         request.payload.data.attributes.toPublish = false;
         const usecaseResult = session;
-        sinon.stub(usecases, 'updatePublicationSession').withArgs({ sessionId, toPublish: false }).resolves(usecaseResult);
+        sinon.stub(usecases, 'updatePublicationSession').withArgs({
+          sessionId,
+          toPublish: false,
+        }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
@@ -755,14 +778,17 @@ describe('Unit | Controller | sessionController', () => {
     beforeEach(() => {
       // given
       request = {
-        params: { id : sessionId },
+        params: { id: sessionId },
         auth: {
-          credentials : {
+          credentials: {
             userId,
           },
         },
       };
-      sinon.stub(usecases, 'assignCertificationOfficerToJurySession').withArgs({ sessionId, certificationOfficerId: userId }).resolves(session);
+      sinon.stub(usecases, 'assignCertificationOfficerToJurySession').withArgs({
+        sessionId,
+        certificationOfficerId: userId,
+      }).resolves(session);
       sinon.stub(jurySessionSerializer, 'serialize').withArgs(session).returns(sessionJsonApi);
     });
 
@@ -771,9 +797,33 @@ describe('Unit | Controller | sessionController', () => {
       const response = await sessionController.assignCertificationOfficer(request, hFake);
 
       // then
-      expect(usecases.assignCertificationOfficerToJurySession).to.have.been.calledWithExactly({ sessionId, certificationOfficerId: userId });
+      expect(usecases.assignCertificationOfficerToJurySession).to.have.been.calledWithExactly({
+        sessionId,
+        certificationOfficerId: userId,
+      });
       expect(response).to.deep.equal(sessionJsonApi);
     });
 
   });
 });
+
+function buildRequest(sessionId, userId, firstName, lastName, birthdate) {
+  return {
+    params: { id: sessionId },
+    auth: {
+      credentials: {
+        userId,
+      },
+    },
+    payload: {
+      data: {
+        attributes: {
+          'first-name': firstName,
+          'last-name': lastName,
+          'birthdate': birthdate,
+        },
+        type: 'certification-candidates',
+      },
+    },
+  };
+}

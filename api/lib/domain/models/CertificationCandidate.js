@@ -1,7 +1,12 @@
-const _ = require('lodash');
+const isNil = require('lodash/isNil');
+const endsWith = require('lodash/endsWith');
 const Joi = require('@hapi/joi')
   .extend(require('@hapi/joi-date'));
-const { InvalidCertificationCandidate } = require('../errors');
+const {
+  InvalidCertificationCandidate,
+  CertificationCandidatePersonalInfoFieldMissingError,
+  CertificationCandidatePersonalInfoWrongFormat,
+} = require('../errors');
 
 const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
   firstName: Joi.string().required().empty(null),
@@ -68,7 +73,7 @@ class CertificationCandidate {
     this.resultRecipientEmail = resultRecipientEmail;
     this.externalId = externalId;
     this.birthdate = birthdate;
-    this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
+    this.extraTimePercentage = !isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
     this.createdAt = createdAt;
     // references
     this.sessionId = sessionId;
@@ -99,8 +104,19 @@ class CertificationCandidate {
   validateParticipation() {
     const { error } = certificationCandidateParticipationJoiSchema.validate(this);
     if (error) {
-      throw error;
+      if (endsWith(error.details[0].type, 'required')) {
+        throw new CertificationCandidatePersonalInfoFieldMissingError();
+      }
+      throw new CertificationCandidatePersonalInfoWrongFormat();
     }
+  }
+
+  isLinkedToAUser() {
+    return !isNil(this.userId);
+  }
+
+  isLinkedToUserId(userId) {
+    return this.userId === userId;
   }
 }
 

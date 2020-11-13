@@ -311,6 +311,42 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
+  describe('#isSchoolingRegistrationIdLinkedToUserAndSCOOrganization', () => {
+    it('should return true when a schoolingRegistration matches an id and matches also a given user id and a SCO organization', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      const firstScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+      const secondScoOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
+      const supOrganizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
+      const matchingSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: firstScoOrganizationId }).id;
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: secondScoOrganizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId: otherUserId, organizationId: secondScoOrganizationId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: supOrganizationId });
+      await databaseBuilder.commit();
+
+      // when
+      const isLinked = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
+        userId,
+        schoolingRegistrationId : matchingSchoolingRegistrationId,
+      });
+
+      // then
+      expect(isLinked).to.be.true;
+    });
+
+    it('should return false when no schoolingRegistration matches an id and matches also a given user id and a SCO organization', async () => {
+      // when
+      const isLinked = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
+        userId: 42,
+        schoolingRegistrationId : 42,
+      });
+
+      // then
+      expect(isLinked).to.be.false;
+    });
+  });
+
   describe('#addOrUpdateOrganizationSchoolingRegistrations', () => {
 
     context('when there are only schoolingRegistrations to create', () => {
