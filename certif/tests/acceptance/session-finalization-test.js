@@ -56,17 +56,24 @@ module('Acceptance | Session Finalization', function(hooks) {
 
       let finalizeController;
 
-      module('when categorizationOfReports toggle is on', function() {
-        test('it should show "Ajouter ?" button', async function(assert) {
-          // given
-          const expectedText = 'Ajouter ?';
-          server.create('feature-toggle', { id: 0, categorizationOfReports: true  });
+      module('when reportsCategorization toggle is on', function() {
 
-          // when
-          await visit(`/sessions/${session.id}/finalisation`);
-          // then
-          assert.dom('.button--showed-as-link').exists();
-          assert.dom('.button--showed-as-link').hasText(expectedText);
+        module('when there is no examiner comment reports', function() {
+          test('it should show "Ajouter ?" button', async function(assert) {
+          // given
+            const expectedText = 'Ajouter ?';
+            server.create('feature-toggle', { id: 0, reportsCategorization: true  });
+            const certificationReportsWithoutExaminerComment = server.create('certification-report', { examinerComment: null, certificationCourseId: 1 });
+            const certificationReports = [certificationReportsWithoutExaminerComment];
+            session.update({ certificationReports });
+
+            // when
+            await visit(`/sessions/${session.id}/finalisation`);
+
+            // then
+            // assert.dom('.button--showed-as-link').hasText(expectedText);
+            assert.dom('[data-test-id="finalization-report-examiner-comment_1"] .button--showed-as-link').hasText(expectedText);
+          });
         });
 
         module('when there are examiner comment reports', function() {
