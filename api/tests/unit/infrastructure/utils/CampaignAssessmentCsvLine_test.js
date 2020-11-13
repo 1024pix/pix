@@ -6,7 +6,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
   const studentNumberPresenceModifier = (organization.type === 'SUP' && organization.isManagingStudents) ? 1 : 0;
   const externalIdPresenceModifier = campaign.idPixLabel ? 1 : 0;
-  const divisionPresenceModifier = organization.type === 'SCO' ? 1 : 0;
+  const divisionPresenceModifier = organization.type === 'SCO' && organization.isManagingStudents ? 1 : 0;
   const badgePresenceModifier = badges.length;
   const stagesPresenceModifier = stages[0] ? 1 : 0;
 
@@ -618,7 +618,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
 
       context('division', () =>  {
         it('displays the division column', () =>  {
-          const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+          const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false, division: '4eme1' });
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();

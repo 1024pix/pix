@@ -33,7 +33,8 @@ class CampaignProfileCollectionExport {
 
   _buildHeader() {
     const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
-    const displayDivision = this.organization.isSco;
+    const displayDivision = this.organization.isSco && this.organization.isManagingStudents;
+    
     const header = [
       'Nom de l\'organisation',
       'ID Campagne',

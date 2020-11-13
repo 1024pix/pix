@@ -111,7 +111,7 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organiz
     'Nom du Profil Cible',
     'Nom du Participant',
     'Prénom du Participant',
-    ...((organizationType === 'SCO') ? ['Classe'] : []),
+    ...((organizationType === 'SCO' && organizationIsManagingStudents) ? ['Classe'] : []),
     ...((organizationType === 'SUP' && organizationIsManagingStudents) ? ['Numéro Étudiant'] : []),
 
     ...(idPixLabel ? [idPixLabel] : []),

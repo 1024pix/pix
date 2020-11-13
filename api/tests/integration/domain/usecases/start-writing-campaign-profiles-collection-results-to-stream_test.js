@@ -124,13 +124,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
       return cache.flushAll();
     });
 
-    context('When the organization is not SUP', () => {
+    context('When the organization is PRO', () => {
 
       beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+        organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
-
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono', division: '4emeC' });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
@@ -160,9 +158,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
         const expectedCsvSecondLine = `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
-          `"'${schoolingRegistration.lastName}";` +
-          `"'${schoolingRegistration.firstName}";` +
-          `"${schoolingRegistration.division}";` +
+          `"${participant.lastName}";` +
+          `"${participant.firstName}";` +
           `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +
@@ -197,10 +194,10 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
       });
     });
 
-    context('When the organization is SCO', () => {
+    context('When the organization is SCO and managing student', () => {
 
       beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono', division: '3emeG' });
