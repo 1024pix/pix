@@ -105,10 +105,9 @@ module.exports = {
 
   async importSchoolingRegistrationsFromSIECLE(request, h) {
     const organizationId = parseInt(request.params.id);
-    const buffer = request.payload;
     const { format } = request.query;
 
-    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, buffer, format });
+    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload : request.payload, format });
     return h.response(null).code(204);
   },
 
