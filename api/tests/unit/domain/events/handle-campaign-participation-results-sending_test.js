@@ -114,7 +114,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
           archivedAt: new Date('2020-02-01'),
           type: 'ASSESSMENT',
         }));
-        sinon.stub(console, 'log').resolves();
+        sinon.stub(console, 'log');
       });
 
       it('it should console.log results', async () => {
@@ -140,7 +140,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
         });
         campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT' }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
-        sinon.stub(console, 'log').resolves();
+        sinon.stub(console, 'log');
       });
 
       it('it should not console.log results', async () => {
@@ -165,7 +165,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
         campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION' }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
-        sinon.stub(console, 'log').resolves();
+        sinon.stub(console, 'log');
       });
 
       it('it should not console.log results', async () => {
