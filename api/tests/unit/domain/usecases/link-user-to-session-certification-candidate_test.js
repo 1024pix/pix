@@ -406,7 +406,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
             .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
 
-          const scoCertificationCandidateRepository = _buildFakeSCOCertificationCandidateRepository();
           // when
           const event = await linkUserToSessionCertificationCandidate({
             sessionId,
@@ -416,7 +415,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             birthdate,
             certificationCandidateRepository,
             schoolingRegistrationRepository,
-            scoCertificationCandidateRepository,
             sessionRepository,
           });
 
@@ -458,8 +456,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
             .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
 
-          const scoCertificationCandidateRepository = _buildFakeSCOCertificationCandidateRepository();
-
           // when
           const error = await catchErr(linkUserToSessionCertificationCandidate)({
             sessionId,
@@ -470,7 +466,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             certificationCandidateRepository,
             schoolingRegistrationRepository,
             sessionRepository,
-            scoCertificationCandidateRepository,
           });
 
           // then
@@ -523,12 +518,5 @@ function _buildFakeCertificationCandidateRepository() {
       this.linkToUser.withArgs(args).resolves(resolves);
       return this;
     },
-  };
-}
-
-function _buildFakeSCOCertificationCandidateRepository() {
-  const linkToUser = sinon.stub();
-  return {
-    linkToUser,
   };
 }
