@@ -56,11 +56,11 @@ module('Acceptance | Session Finalization', function(hooks) {
 
       let finalizeController;
 
-      module('when reportsCategorization toggle is on', function() {
+      module('when categorizationOfReports toggle is on', function() {
         test('it should show "Ajouter ?" button', async function(assert) {
           // given
           const expectedText = 'Ajouter ?';
-          server.create('feature-toggle', { id: 0, reportsCategorization: true  });
+          server.create('feature-toggle', { id: 0, categorizationOfReports: true  });
 
           // when
           await visit(`/sessions/${session.id}/finalisation`);
