@@ -29,6 +29,10 @@
     display: flex;
     width: 100%;
   }
+
+  &--number {
+    width: 100px;
+  }
 }
 
 .challenge-response__proposal-label {
