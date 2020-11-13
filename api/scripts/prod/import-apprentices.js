@@ -10,7 +10,7 @@ const column = new CsvColumn({ name: 'uai', label:'UAI*', isRequired: true });
 
 class CsvApprenticesParser extends SchoolingRegistrationParser {
   constructor(input, oranizationByUAI) {
-    super(input, null);
+    super(input, null, true);
     this.organizationByUai = oranizationByUAI;
     this._columns.push(column);
   }

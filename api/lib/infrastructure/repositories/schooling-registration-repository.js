@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
-const { NotFoundError, SameNationalStudentIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
+const { NotFoundError, SameNationalStudentIdInOrganizationError, SameNationalApprenticeIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
 const studentRepository = require('./student-repository');
@@ -10,6 +10,8 @@ const Bookshelf = require('../bookshelf');
 const BookshelfSchoolingRegistration = require('../data/schooling-registration');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const bookshelfUtils = require('../utils/knex-utils');
+
+const STATUS = SchoolingRegistration.STATUS;
 
 function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
 
@@ -42,7 +44,7 @@ function _setSchoolingRegistrationFilters(qb, { lastName, firstName, connexionTy
 }
 
 function _isReconciled(schoolingRegistration) {
-  return schoolingRegistration.userId;
+  return Boolean(schoolingRegistration.userId);
 }
 
 module.exports = {
@@ -100,35 +102,73 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
-
-    const nationalStudentIdsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
-    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
-
+  async addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
     const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
 
-    const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
-      const currentSchoolingRegistration   = currentSchoolingRegistrations.find((currentSchoolingRegistration) => currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId);
-      if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
-        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
-        if (student) {
-          schoolingRegistration.userId = student.account.userId;
-        }
-      }
-      return !!currentSchoolingRegistration;
+    const [ schoolingRegistrationStudent, schoolingRegistrationApprentice ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
+      return schoolingRegistration.status === STATUS.STUDENT;
     });
+
+    const [ schoolingRegistrationsStudentToUpdate, schoolingRegistrationsStudentToCreate ] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations);
+    const [ schoolingRegistrationsApprenticeToUpdate, schoolingRegistrationsApprenticeToCreate ] = this._getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations);
+
+    const schoolingRegistrationsToUpdate = _.concat(schoolingRegistrationsStudentToUpdate, schoolingRegistrationsApprenticeToUpdate);
+    const schoolingRegistrationsToCreate = _.concat(schoolingRegistrationsStudentToCreate, schoolingRegistrationsApprenticeToCreate);
 
     const trx = await Bookshelf.knex.transaction();
     try {
       await Promise.all([
         bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
           const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
+          const whereConditions = {
+            'organizationId': organizationId,
+          };
+
+          if (schoolingRegistrationToUpdate.status === STATUS.STUDENT) {
+            whereConditions['nationalStudentId'] = schoolingRegistrationToUpdate.nationalStudentId;
+          } else if (schoolingRegistrationToUpdate.status === STATUS.APPRENTICE) {
+            whereConditions['nationalApprenticeId'] = schoolingRegistrationToUpdate.nationalApprenticeId;
+          }
+
           await trx('schooling-registrations')
-            .where({
-              'organizationId': organizationId,
-              'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
-            })
+            .where(whereConditions)
+            .update({ ...attributesToUpdate, updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') });
+        }),
+        trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
+      ]);
+      await trx.commit();
+    } catch (err) {
+      await trx.rollback();
+      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+        if (err.detail.includes('nationalApprenticeId')) {
+          throw new SameNationalApprenticeIdInOrganizationError(err.detail);
+        } else {
+          throw new SameNationalStudentIdInOrganizationError(err.detail);
+        }
+      }
+      throw new SchoolingRegistrationsCouldNotBeSavedError();
+    }
+  },
+
+  async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
+    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
+    const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
+
+    const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationsFromFile, currentSchoolingRegistrations);
+
+    const trx = await Bookshelf.knex.transaction();
+    try {
+      await Promise.all([
+        bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
+          const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
+          const whereConditions = {
+            'organizationId': organizationId,
+            'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
+          };
+
+          await trx('schooling-registrations')
+            .where(whereConditions)
             .update({ ...attributesToUpdate, updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') });
         }),
         trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
@@ -141,6 +181,38 @@ module.exports = {
       }
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
+  },
+
+  _getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations) {
+    return _.partition(schoolingRegistrationApprentice, (schoolingRegistration) => {
+
+      const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
+        return currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId; 
+      });
+
+      return !!currentSchoolingRegistration;
+    });
+  },
+
+  async _getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations) {
+    const nationalStudentIdsFromFile = schoolingRegistrationStudent.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
+    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
+
+    return _.partition(schoolingRegistrationStudent, (schoolingRegistration) => {
+
+      const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
+        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId; 
+      });
+
+      if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
+        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
+        if (student) {
+          schoolingRegistration.userId = student.account.userId;
+        }
+      }
+      
+      return !!currentSchoolingRegistration;
+    });
   },
 
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {

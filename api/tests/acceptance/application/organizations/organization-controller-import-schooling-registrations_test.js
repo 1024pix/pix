@@ -760,8 +760,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
     });
 
     context('When a CSV SIECLE file is loaded', () => {
-
-      context('when no schooling registration has been imported yet, and the file is well formatted', () => {
+      context('SCO : when no schooling registration has been imported yet, and the file is well formatted', () => {
         beforeEach(() => {
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
@@ -789,6 +788,42 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(2);
           expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
+        });
+      });
+
+      context('SCO AGRI - when no schooling registration has been imported yet, and the file is well formatted', () => {
+        beforeEach(async () => {
+          const tag = databaseBuilder.factory.buildTag({ name : 'AGRICULTURE' });
+          databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId: tag.id });
+
+          await databaseBuilder.commit();
+
+          const input = `${schoolingRegistrationCsvColumns}
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+          456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+          `;
+          const buffer = iconv.encode(input, 'UTF-8');
+
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
+          options.payload = buffer;
+        });
+
+        it('should respond with a 204 - no content', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+
+        it('should create all schoolingRegistrations', async () => {
+          // when
+          await server.inject(options);
+
+          // then
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(2);
+          expect(_.map(schoolingRegistrations, 'nationalApprenticeId')).to.have.members([null, '456F']);
         });
       });
 
