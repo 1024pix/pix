@@ -52,6 +52,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
+        assert.contains('Identifiant');
         assert.dom('#username').hasValue(username);
       });
 
@@ -114,6 +115,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithEmailOnly}} @display={{this.display}} />`);
 
         // then
+        assert.contains('Adresse e-mail');
         assert.dom('#email').hasValue(email);
         assert.contains('Ajouter une connexion avec un identifiant');
       });
@@ -207,7 +209,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`);
 
       // then
-      assert.contains('Connecté avec Médiacentre');
+      assert.contains('Médiacentre');
       assert.contains('Ajouter une connexion avec un identifiant');
 
     });
