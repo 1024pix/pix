@@ -6,20 +6,22 @@
       </a>
     </div>
 
-    <PixBlock>
+    <div class="pix-modal__container pix-modal__container--white">
       <div class="examiner-report-modal__title">
         <h1>Signalement du candidat</h1>
         <h3>{{@report.firstName}} {{@report.lastName}}</h3>
       </div>
 
       <div class="examiner-report-modal__content">
-        <input
-            id="report-of-type-other__radio-button"
-            type="radio"
-            name="other"
-            checked={{this.isReportOfTypeOtherChecked}}
-            {{on 'click' this.toggleShowReportOfTypeOther}} />
-        <label for="report-of-type-other__radio-button">Autre incident</label>
+        <div class="content__report-type-button">
+          <input
+              id="report-of-type-other__radio-button"
+              type="radio"
+              name="other"
+              checked={{this.isReportOfTypeOtherChecked}}
+              {{on 'click' this.toggleShowReportOfTypeOther}} />
+          <label for="report-of-type-other__radio-button">Autre incident</label>
+        </div>
         {{#if this.isReportOfTypeOtherChecked}}
           <div class="content__report-type-details">
             <label for="report-of-type-other__text-area">Détaillez l'incident</label>
@@ -36,11 +38,9 @@
       </div>
 
       <div class="examiner-report-modal__actions">
-        <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-          <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
-          <button type="button" class="button button--extra-thin" {{on "click" this.submitReport}}>Valider</button>
-        </div>
+        <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
+        <button type="button" class="button button--extra-thin" {{on "click" this.submitReport}}>Valider</button>
       </div>
-    </PixBlock>
+    </div>
   </div>
 </AppModal>
