@@ -1,5 +1,6 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
+const TargetProfileDTO = require('../../../../../lib/domain/read-models/TargetProfileDTO');
 
 describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
@@ -7,8 +8,18 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
     it('should serialize target profile to JSONAPI', function() {
       // given
-      const organizationId = domainBuilder.buildOrganization({ id: 456, name: 'organization 3.0' }).id;
-      const targetProfile = domainBuilder.buildTargetProfile({ id: 132, organizationId, name: 'Les compétences de BRO 2.0' });
+      const targetProfile = new TargetProfileDTO({
+        id: 132,
+        organizationId: 12,
+        name: 'Les compétences de BRO 2.0',
+        outdated: true,
+        ispublic: false,
+        organizations: [
+          { id: 1, name: 'Name1' },
+          { id: 2, name: 'Name2' },
+        ],
+      });
+
       const meta = { some: 'meta' };
 
       const expectedTargetProfile = {
@@ -38,5 +49,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
       // then
       return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
     });
+
   });
+
 });
