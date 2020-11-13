@@ -76,7 +76,7 @@ async function handleCampaignParticipationResultsSending({
           libelle: competence.name,
           categorie: PAYLOAD_EVALUATION_CATEGORY,
           type: PAYLOAD_EVALUATION_TYPE,
-          domaineRattachement: 'Information et données',
+          domaineRattachement: competence.areaName,
           nbSousElements: competence.totalSkillsCount,
           evaluation: {
             scoreObtenu: competence.masteryPercentage,

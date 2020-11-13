@@ -139,12 +139,14 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
           competenceResults: [
             domainBuilder.buildCompetenceResult({
               name: 'Gérer des données',
+              areaName: 'Information et données',
               totalSkillsCount: 4,
               testedSkillsCount: 2,
               validatedSkillsCount: 2,
             }),
             domainBuilder.buildCompetenceResult({
               name: 'Gérer des données 2',
+              areaName: 'Information et données',
               totalSkillsCount: 3,
               testedSkillsCount: 3,
               validatedSkillsCount: 3,

@@ -5,6 +5,7 @@ class CompetenceResult {
     name,
     index,
     areaColor,
+    areaName,
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
@@ -14,6 +15,7 @@ class CompetenceResult {
     this.name = name;
     this.index = index;
     this.areaColor = areaColor;
+    this.areaName = areaName;
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
