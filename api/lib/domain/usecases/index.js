@@ -94,6 +94,7 @@ module.exports = injectDependencies({
   addTutorialToUser: require('./add-tutorial-to-user'),
   anonymizeUser: require('./anonymize-user'),
   attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
+  attachOrganizationsToTargetProfile: require('./attach-organizations-to-target-profile'),
   archiveCampaign: require('./archive-campaign'),
   assignCertificationOfficerToJurySession: require('./assign-certification-officer-to-jury-session'),
   authenticatePoleEmploiUser: require('./authenticate-pole-emploi-user'),
