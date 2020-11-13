@@ -54,6 +54,60 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
+  describe('#getReadModel', () => {
+
+    it('should return the attributes of target profile', async () => {
+      const organization = databaseBuilder.factory.buildOrganization();
+      const targetProfileInDatabase = databaseBuilder.factory.buildTargetProfile({
+        id: 2,
+        name: 'Profil Cible 1',
+        outdated: true,
+        isPublic: true,
+        organizationId: organization.id,
+      });
+      await databaseBuilder.commit();
+
+      const targetProfile = await targetProfileRepository.getReadModel(2);
+
+      expect(targetProfile.id).to.equal(targetProfileInDatabase.id);
+      expect(targetProfile.name).to.equal(targetProfileInDatabase.name);
+      expect(targetProfile.outdated).to.equal(targetProfileInDatabase.outdated);
+      expect(targetProfile.isPublic).to.equal(targetProfileInDatabase.isPublic);
+      expect(targetProfile.organizationId).to.equal(targetProfileInDatabase.organizationId);
+    });
+
+    context('organizations', () => {
+      it('should return the target profile with the list of organizations which could access it', async () => {
+        databaseBuilder.factory.buildTargetProfile({ id: 2 });
+        const organization1 = databaseBuilder.factory.buildOrganization({ name: 'O1' });
+        const organization2 = databaseBuilder.factory.buildOrganization({ name: 'O2' });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 2, organizationId: organization1.id });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 2, organizationId: organization2.id });
+        databaseBuilder.factory.buildTargetProfileShare();
+        await databaseBuilder.commit();
+
+        // when
+        const targetProfile = await targetProfileRepository.getReadModel(2);
+        const organizations = targetProfile.organizations.sort((a, b) => a.name > b.name);
+
+        expect(organizations.length).to.equal(2);
+        expect(organizations[0].id).to.equal(organization1.id);
+        expect(organizations[0].name).to.equal(organization1.name);
+        expect(organizations[1].id).to.equal(organization2.id);
+        expect(organizations[1].name).to.equal(organization2.name);
+      });
+    });
+
+    context('when the targetProfile does not exist', () => {
+      it('throws an error', async () => {
+        const error = await catchErr(targetProfileRepository.get)(1);
+
+        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(error.message).to.have.string('Le profil cible avec l\'id 1 n\'existe pas');
+      });
+    });
+  });
+
   describe('#findAllTargetProfilesOrganizationCanUse', () => {
 
     let organizationId;
