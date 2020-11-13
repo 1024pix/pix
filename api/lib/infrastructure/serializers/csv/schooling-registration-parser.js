@@ -68,7 +68,7 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
 
   _handleError(err, index) {
     if (err.why === 'uniqueness') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Identifiant unique” ne doit pas contenir de doublon.`);
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Identifiant unique” de cette ligne est présent plusieurs fois dans le fichier.`);
     }
    
     super._handleError(...arguments);
