@@ -1,37 +1,33 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/string';
 
 export default class CertificationDetailsCompetence extends Component {
 
-  classNames = ['card', 'border-primary', 'certification-details-competence'];
-
-  competence = null;
-  rate = 0;
   juryRate = false;
 
-  @computed('competence.obtainedLevel')
+  constructor() {
+    super(...arguments);
+    this.juryRate = false;
+  }
+
   get certifiedWidth() {
-    const obtainedLevel = this.competence.obtainedLevel;
+    const obtainedLevel = this.args.competence.obtainedLevel;
     return htmlSafe('width:' + Math.round((obtainedLevel / 8) * 100) + '%');
   }
 
-  @computed('competence.positionedLevel')
   get positionedWidth() {
-    const positionedLevel = this.competence.positionedLevel;
+    const positionedLevel = this.args.competence.positionedLevel;
     return htmlSafe('width:' + Math.round((positionedLevel / 8) * 100) + '%');
   }
 
-  @computed('competence')
   get answers() {
-    const competence = this.competence;
+    const competence = this.args.competence;
     return competence.answers;
   }
 
-  @computed('juryRate', 'competence')
   get competenceJury() {
-    const juryRate = this.juryRate;
-    const competence = this.competence;
+    const juryRate = this.args.juryRate;
+    const competence = this.args.competence;
     if (juryRate === false) {
       competence.juryScore = false;
       competence.juryLevel = false;
@@ -42,11 +38,11 @@ export default class CertificationDetailsCompetence extends Component {
     if (newScore.score != score) {
       competence.juryScore = newScore.score;
       competence.juryLevel = newScore.level;
-      return ({
+      return {
         score: newScore.score,
         level: newScore.level,
         width: htmlSafe('width:' + Math.round((newScore.level / 8) * 100) + '%'),
-      });
+      };
     } else {
       competence.juryScore = false;
       competence.juryLevel = false;
@@ -58,7 +54,7 @@ export default class CertificationDetailsCompetence extends Component {
     if (rate < 50) {
       return { score: 0, level: -1 };
     }
-    const competence = this.competence;
+    const competence = this.args.competence;
     const score = competence.positionedScore;
     const level = competence.positionedLevel;
     const answers = competence.answers;
