@@ -2,7 +2,7 @@
   {{#if @edition}}
     {{#each this.competenceList as |competenceItem key|}}
       <div class="row form-group certification-info-field">
-        <label class="col-sm-3 col-form-label" for={{concat 'certification-info-score_' key}}>{{competenceItem}}</label>
+        <label class="col-sm-1 col-form-label" for={{concat 'certification-info-score_' key}}>{{competenceItem}}</label>
         <div class="col-sm-2 certificate">
           <Input @type="text"
                  id={{concat 'certification-info-score_' key}}
@@ -14,7 +14,7 @@
         <label class='col-sm-2 certificate text-right col-form-label' for={{concat 'certification-info-level_' key}}>
           Niveau :
         </label>
-        <div class='col-sm-4 certificate'>
+        <div class='col-sm-2 certificate'>
           <Input @type="text"
                  id={{concat 'certification-info-level_' key}}
                  @value={{get this.indexedValues.levels key}}
