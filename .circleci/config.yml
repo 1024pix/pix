@@ -69,6 +69,12 @@ jobs:
       - image: circleci/node:12.18.0
     working_directory: ~/pix
     steps:
+      - run:
+          command: |
+            if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+              echo "This commit is not a Pull Request - failing build."
+              exit 1
+            fi
       - checkout
       - run:
           command: |
