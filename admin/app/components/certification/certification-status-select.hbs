@@ -1,0 +1,18 @@
+{{#if @edition}}
+  <div class="row form-group certification-status-select">
+    <label class="col-form-label" for={{this.id}}>Statut :</label>
+    <div class="certificate">
+      <XSelect @value={{@certification.status}} @onChange={{this.selectOption}} as |xs|>
+        <xs.option @value="started">started</xs.option>
+        <xs.option @value="error">error</xs.option>
+        <xs.option @value="validated">validated</xs.option>
+        <xs.option @value="rejected">rejected</xs.option>
+      </XSelect>
+    </div>
+  </div>
+{{else}}
+  <div class="row certification-status-select">
+    <div class="certification-info-label">Statut :</div>
+    <div class="certification-info-value">{{@certification.status}}</div>
+  </div>
+{{/if}}

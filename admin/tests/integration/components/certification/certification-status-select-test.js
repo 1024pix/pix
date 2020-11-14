@@ -16,16 +16,24 @@ module('Integration | Component | certification-status-select', function(hooks) 
     module('rendering', function() {
 
       test('it renders the select', async function(assert) {
+        // given
+        const certification = EmberObject.create({ status: 'started' });
+        this.set('certification', certification);
+
         // when
-        await render(hbs`<CertificationStatusSelect @edition={{true}} />`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
 
         // then
         assert.dom('.certification-status-select select').exists();
       });
 
       test('it has a label', async function(assert) {
+        // given
+        const certification = EmberObject.create({ status: 'started' });
+        this.set('certification', certification);
+
         // when
-        await render(hbs`{{certification-status-select edition=true}}`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
 
         // then
         assert.dom('.certification-status-select label').hasText('Statut :');
@@ -33,10 +41,12 @@ module('Integration | Component | certification-status-select', function(hooks) 
 
       test('it has values', async function(assert) {
         // given
+        const certification = EmberObject.create({ status: 'started' });
+        this.set('certification', certification);
         const expectedValues = ['started', 'error', 'validated', 'rejected'];
 
         // when
-        await render(hbs`{{certification-status-select edition=true}}`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
 
         // then
         assert.deepEqual(xselect.options().map((option) => option.value), expectedValues);
@@ -49,7 +59,7 @@ module('Integration | Component | certification-status-select', function(hooks) 
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
-        await render(hbs`<CertificationStatusSelect @edition={{true}} @value={{certification.status}} />`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
 
         // when
         await xselect.select('validated');
@@ -63,8 +73,12 @@ module('Integration | Component | certification-status-select', function(hooks) 
   module('when not in edition mode', function() {
 
     test('it does not render the select', async function(assert) {
+      // given
+      const certification = EmberObject.create({ status: 'started' });
+      this.set('certification', certification);
+
       // when
-      await render(hbs`{{certification-status-select}}`);
+      await render(hbs`<Certification::CertificationStatusSelect @certification={{certification}} />`);
 
       // then
       assert.dom('.certification-status-select select').doesNotExist();

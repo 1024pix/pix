@@ -1,15 +1,13 @@
-{{!-- template-lint-disable no-action --}}
-
 {{#if @edition}}
-  <div class="row form-group certification-info-field">
-    <label class="{{this.leftWidth}} col-form-label" for={{@id}}>{{@label}}</label>
-    <div class="{{this.rightWidth}} certificate">
+  <div class="row form-group certification-info-field edited">
+    <label class="col-form-label" for={{@id}}>{{@label}}</label>
+    <div>
       {{#if @isDate}}
         <EmberFlatpickr
           @id={{@fieldId}}
           @altFormat="d/m/Y"
           @altInput={{true}}
-          @onChange={{action @onUpdateCertificationBirthdate}}
+          @onChange={{@onUpdateCertificationBirthdate}}
           @dateFormat="Y-m-d"
           @locale="fr"
           @date={{@value}}
@@ -17,22 +15,25 @@
           @class="form-control" />
       {{else}}
         <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" />
+        {{#if @suffix}}
+          <span class="certification-info-suffix">{{@suffix}}</span>
+        {{/if}}
       {{/if}}
     </div>
   </div>
 {{else}}
   <div class="row certification-info-field">
-    <div class="{{this.leftWidth}} certification-info-label">{{@label}}</div>
-    <div class="{{this.rightWidth}} certification-info-value">
+    <div class="certification-info-label">{{@label}}</div>
+    <div class="certification-info-value">
       {{#if @linkRoute}}
         <LinkTo @route={{@linkRoute}} @model={{@value}}>
-          {{@value}} {{@suffix}}
+          {{this.valueWithSuffix}}
         </LinkTo>
       {{else}}
         {{#if @isDate}}
           {{moment-format @value 'DD/MM/YYYY' allow-empty=true}}
         {{else}}
-          {{@value}} {{@suffix}}
+          {{this.valueWithSuffix}}
         {{/if}}
       {{/if}}
     </div>
