@@ -1,4 +1,4 @@
-<div class="content-text content-text--small table-admin__wrapper">
+<div class="content-text content-text--small table-admin__wrapper session-list">
   <table class="table-admin table-admin__auto-width">
     <thead>
       <tr>
@@ -28,28 +28,28 @@
                  class="table-admin-input" />
         </th>
         <th>
-          <XSelect id='certificationCenterType' @value={{@certificationCenterType}} @onChange={{perform @triggerFiltering 'certificationCenterType'}} as |xs|>
-            {{#each @certificationCenterTypeAndLabels as |certificationCenterTypeAndLabel| }}
-              <xs.option @value={{certificationCenterTypeAndLabel.certificationCenterType}}>{{certificationCenterTypeAndLabel.label}}</xs.option>
+          <select class="certification-center-type-selector" id="certificationCenterType" name="certificationCenterType" {{on 'change' this.selectCertificationCenterType}}>
+            {{#each this.certificationCenterTypeOptions as |item|}}
+              <option value={{item.value}} selected="{{if (eq @certificationCenterType item.value) true}}">{{item.label}}</option>
             {{/each}}
-          </XSelect>
+          </select>
         </th>
         <th></th>
         <th>
-          <XSelect id='status' @value={{@status}} @onChange={{perform @triggerFiltering 'status'}} as |xs|>
-            {{#each @sessionStatusAndLabels as |sessionStatusAndLabel|}}
-              <xs.option @value={{sessionStatusAndLabel.status}}>{{sessionStatusAndLabel.label}}</xs.option>
+          <select class="session-status-selector" id="status" name="status" {{on 'change' this.selectSessionStatus}}>
+            {{#each this.sessionStatusOptions as |item|}}
+              <option value={{item.value}} selected="{{if (eq @status item.value) true}}">{{item.label}}</option>
             {{/each}}
-          </XSelect>
+          </select>
         </th>
         <th></th>
         <th></th>
         <th>
-          <XSelect id='resultsSentToPrescriberAt' @value={{@resultsSentToPrescriberAt}} @onChange={{perform @triggerFiltering 'resultsSentToPrescriberAt'}} as |xs|>
-            {{#each @sessionResultsSentToPrescriberAtAndLabels as |sessionResultsSentToPrescriberAtAndLabel|}}
-              <xs.option @value={{sessionResultsSentToPrescriberAtAndLabel.value}}>{{sessionResultsSentToPrescriberAtAndLabel.label}}</xs.option>
+          <select class="results-status-selector" id="resultsSentToPrescriberAt" name="resultsSentToPrescriberAt" {{on 'change' this.selectSessionResultsSentToPrescriber}}>
+            {{#each this.sessionResultsSentToPrescriberOptions as |item|}}
+              <option value={{item.value}} selected="{{if (eq @resultsSentToPrescriberAt item.value) true}}">{{item.label}}</option>
             {{/each}}
-          </XSelect>
+          </select>
         </th>
         <th></th>
       </tr>
