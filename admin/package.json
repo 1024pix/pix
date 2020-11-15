@@ -85,7 +85,6 @@
     "ember-source": "~3.21.3",
     "ember-toggle": "^7.0.0",
     "ember-truth-helpers": "^3.0.0",
-    "emberx-select": "^4.0.0-beta.2",
     "eslint": "^7.9.0",
     "eslint-plugin-ember": "^9.0.0",
     "eslint-plugin-mocha": "^8.0.0",
