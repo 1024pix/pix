@@ -1,13 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import XSelectInteractor from 'emberx-select/test-support/interactor';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | certification-status-select', function(hooks) {
-
-  const xselect = new XSelectInteractor('.certification-status-select select');
+module('Integration | Component | <Certification::CertificationStatusSelect/>', function(hooks) {
 
   setupRenderingTest(hooks);
 
@@ -15,41 +12,52 @@ module('Integration | Component | certification-status-select', function(hooks) 
 
     module('rendering', function() {
 
-      test('it renders the select', async function(assert) {
+      test('it displays a label', async function(assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
 
         // when
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
-        assert.dom('.certification-status-select select').exists();
+        assert.dom('.certification-status-select__label').hasText('Statut :');
       });
 
-      test('it has a label', async function(assert) {
+      test('it displays a select list', async function(assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
 
         // when
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
-        assert.dom('.certification-status-select label').hasText('Statut :');
+        assert.dom('.certification-status-select__select').exists();
       });
 
       test('it has values', async function(assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
-        const expectedValues = ['started', 'error', 'validated', 'rejected'];
+        const expectedOptions = [
+          { value: 'started', label: 'Démarrée' },
+          { value: 'error', label: 'En erreur' },
+          { value: 'validated', label: 'Validée' },
+          { value: 'rejected', label: 'Rejetée' },
+        ];
 
         // when
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // then
-        assert.deepEqual(xselect.options().map((option) => option.value), expectedValues);
+        const elementOptions = this.element.querySelectorAll('.certification-status-select__select > option');
+        assert.equal(elementOptions.length, 4);
+        elementOptions.forEach((elementOption, index) => {
+          const expectedOption = expectedOptions[index];
+          assert.dom(elementOption).hasText(expectedOption.label);
+          assert.dom(elementOption).hasValue(expectedOption.value);
+        });
       });
     });
 
@@ -59,10 +67,10 @@ module('Integration | Component | certification-status-select', function(hooks) 
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{certification}} />`);
+        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // when
-        await xselect.select('validated');
+        await fillIn('.certification-status-select__select', 'validated');
 
         // then
         assert.equal(certification.status, 'validated');
@@ -78,10 +86,10 @@ module('Integration | Component | certification-status-select', function(hooks) 
       this.set('certification', certification);
 
       // when
-      await render(hbs`<Certification::CertificationStatusSelect @certification={{certification}} />`);
+      await render(hbs`<Certification::CertificationStatusSelect @certification={{this.certification}} />`);
 
       // then
-      assert.dom('.certification-status-select select').doesNotExist();
+      assert.dom('.certification-status-select__select').doesNotExist();
     });
   });
 });
