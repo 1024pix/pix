@@ -198,6 +198,14 @@
     &:visited {
       color: $blue;
     }
+
+    &::after {
+      @include external-link;
+
+      position: relative;
+      top: 4px;
+      left: 2px;
+    }
   }
 }
 
