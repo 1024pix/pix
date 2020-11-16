@@ -2,11 +2,11 @@ const { expect } = require('../../../test-helper');
 
 const campaignParticipationService = require('./../../../../lib/domain/services/campaign-participation-service');
 
-describe('Unit | Service | Campaign Participation Service',() => {
+describe('Unit | Service | Campaign Participation Service', () => {
   describe('progress', () => {
 
-    context('when campaign participation is completed ',() => {
-      it('should return 1',() => {
+    context('when campaign participation is completed ', () => {
+      it('should return 1', () => {
         // when
         const progress = campaignParticipationService.progress(true, 10, 20);
 

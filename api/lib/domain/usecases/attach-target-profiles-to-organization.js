@@ -20,7 +20,7 @@ module.exports = async function attachTargetProfilesToOrganization({
     throw new NotFoundError(`Le profil cible ${targetProfileIdNotExisting} n'existe pas.`);
   }
 
-  const targetProfileIdOfOrganization = _.map(organization.targetProfileShares,'targetProfileId');
+  const targetProfileIdOfOrganization = _.map(organization.targetProfileShares, 'targetProfileId');
   const targetProfileShareToAttach = _.difference(uniqueTargetProfileIdsToAttach, targetProfileIdOfOrganization);
 
   if (targetProfileShareToAttach.length === 0) {

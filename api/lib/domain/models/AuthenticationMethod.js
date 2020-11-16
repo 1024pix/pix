@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const { validateEntity } = require('../validators/entity-validator');
 
 const identityProviders = {
-  PIX : 'PIX',
+  PIX: 'PIX',
   GAR: 'GAR',
   POLE_EMPLOI: 'POLE_EMPLOI',
 };

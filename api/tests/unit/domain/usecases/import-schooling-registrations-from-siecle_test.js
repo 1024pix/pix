@@ -4,7 +4,7 @@ const { FileValidationError, SchoolingRegistrationsCouldNotBeSavedError, SameNat
 const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
 
 const schoolingRegistrationCsvColumns = COLUMNS.map((column) => column.label).join(';');
-const  SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const fs = require('fs').promises;
 
 describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
@@ -20,10 +20,10 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   beforeEach(() => {
     format = 'xml';
     schoolingRegistrationsXmlServiceStub = { extractSchoolingRegistrationsInformationFromSIECLE: sinon.stub() };
-    schoolingRegistrationRepositoryStub = { 
-      addOrUpdateOrganizationSchoolingRegistrations: sinon.stub(), 
+    schoolingRegistrationRepositoryStub = {
+      addOrUpdateOrganizationSchoolingRegistrations: sinon.stub(),
       addOrUpdateOrganizationAgriSchoolingRegistrations: sinon.stub(),
-      findByOrganizationId: sinon.stub(), 
+      findByOrganizationId: sinon.stub(),
     };
     organizationRepositoryStub = { get: sinon.stub() };
   });
@@ -127,7 +127,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
           organizationId,
         });
 
-        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI, isAgriculture : true });
+        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI, isAgriculture: true });
 
         // when
         await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
@@ -160,7 +160,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         schoolingRegistrationRepositoryStub.findByOrganizationId.resolves(schoolingRegistrationsToUpdate);
 
         // when
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload , format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         const schoolingRegistrations = [

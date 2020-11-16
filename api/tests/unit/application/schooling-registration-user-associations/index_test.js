@@ -22,7 +22,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
   });
 
   describe('PATCH /api/organizations/id/schooling-registration-user-associations/studentId', () => {
-    
+
     context('when the user is authenticated', () => {
       beforeEach(() => {
         preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) => h.response(true));
@@ -48,14 +48,14 @@ describe('Unit | Application | Router | campaign-router ', function() {
             },
           },
         };
-      
+
         // when
         const response = await server.inject(options);
-      
+
         // then
         expect(response.statusCode).to.equal(200);
       });
-      
+
       it('should return a 422 status error when student-number parameter is not a string', async () => {
         // given
         const options = {
@@ -72,12 +72,12 @@ describe('Unit | Application | Router | campaign-router ', function() {
             },
           },
         };
-        
+
         // when
         const response = await server.inject(options);
 
         const payload = JSON.parse(response.payload);
-        
+
         // then
         expect(response.statusCode).to.equal(422);
         expect(payload.errors[0].title).to.equal('Unprocessable entity');
@@ -100,12 +100,12 @@ describe('Unit | Application | Router | campaign-router ', function() {
             },
           },
         };
-        
+
         // when
         const response = await server.inject(options);
 
         const payload = JSON.parse(response.payload);
-        
+
         // then
         expect(response.statusCode).to.equal(404);
         expect(payload.errors[0].title).to.equal('Not Found');
@@ -128,12 +128,12 @@ describe('Unit | Application | Router | campaign-router ', function() {
             },
           },
         };
-        
+
         // when
         const response = await server.inject(options);
 
         const payload = JSON.parse(response.payload);
-        
+
         // then
         expect(response.statusCode).to.equal(404);
         expect(payload.errors[0].title).to.equal('Not Found');
@@ -146,7 +146,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       beforeEach(() => {
         preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) => h.response().code(403).takeover());
       });
-    
+
       afterEach(() => {
         preHandler.checkUserIsAdminInSUPOrganizationManagingStudents.restore();
       });
@@ -167,10 +167,10 @@ describe('Unit | Application | Router | campaign-router ', function() {
             },
           },
         };
-      
+
         // when
         const response = await server.inject(options);
-      
+
         // then
         expect(response.statusCode).to.equal(403);
       });

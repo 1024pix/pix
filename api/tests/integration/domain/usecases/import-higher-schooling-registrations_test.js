@@ -13,7 +13,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
     return knex('schooling-registrations').delete();
   });
 
-  context('when there is no schooling registrations for the organization',() => {
+  context('when there is no schooling registrations for the organization', () => {
     it('parses the csv received and creates the HigherSchoolingRegistration', async () => {
       const input = `${higherSchoolingRegistrationColumns}
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -35,9 +35,9 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
     });
   });
 
-  context('when there are schooling registration for the organization',() => {
-    context('when there is a supernumerary schooling registrations matching by student number',() => {
-      context('which matches by student number but not by first name',() => {
+  context('when there are schooling registration for the organization', () => {
+    context('when there is a supernumerary schooling registrations matching by student number', () => {
+      context('which matches by student number but not by first name', () => {
         it('creates a new schooling registration with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -73,7 +73,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
         });
       });
 
-      context('which matches by student number, first name, lastName and birthdate',() => {
+      context('which matches by student number, first name, lastName and birthdate', () => {
         it('updates the existing schooling registration which have matched with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -105,7 +105,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
         });
       });
 
-      context('which matches by student number but not by birthdate',() => {
+      context('which matches by student number but not by birthdate', () => {
         it('creates a new schooling registration with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -142,7 +142,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
         });
       });
 
-      context('which matches by student number but not by lastName',() => {
+      context('which matches by student number but not by lastName', () => {
         it('creates a new schooling registration with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -178,7 +178,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
         });
       });
 
-      context('which matches by student number but when there is an acceptable error in the first name',() => {
+      context('which matches by student number but when there is an acceptable error in the first name', () => {
         it('updates the existing schooling registration which have matched with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Estelle;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -210,7 +210,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
         });
       });
 
-      context('which matches by student number but when there is an acceptable error in the last name',() => {
+      context('which matches by student number but when there is an acceptable error in the last name', () => {
         it('updates the existing schooling registration which have matched with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Estelle;The;Bride;Landry;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -243,8 +243,8 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
       });
     });
 
-    context('when there are several supernumerary schooling registrations which match by student number',() => {
-      context('when there are several supernumerary schooling registrations matching',() => {
+    context('when there are several supernumerary schooling registrations which match by student number', () => {
+      context('when there are several supernumerary schooling registrations matching', () => {
         it('creates a new schooling registration with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;email3@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -288,7 +288,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
         });
       });
 
-      context('when there one supernumerary schooling registration matching',() => {
+      context('when there one supernumerary schooling registration matching', () => {
         it('updates a the schooling registration with csv data', async () => {
           const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;email@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
@@ -335,7 +335,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
       });
     });
 
-    context('when there is a schooling registration not supernumerary matching by student number',() => {
+    context('when there is a schooling registration not supernumerary matching by student number', () => {
       it('updates the existing schooling registration which have matched with csv data', async () => {
         const input = `${higherSchoolingRegistrationColumns}
             Estelle;;;Landry;;01/01/2000;landry@elpresidente.com;123456;Négociation de ticket;;Merci pour le wording de VINCI!;Doctorat
@@ -372,7 +372,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
         });
 
-        const [registration1,registration2] = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
+        const [registration1, registration2] = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
 
         expect(registration1.firstName).to.equal('Estelle');
         expect(registration1.lastName).to.equal('Landry');

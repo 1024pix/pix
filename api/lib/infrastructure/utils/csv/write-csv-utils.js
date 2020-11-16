@@ -9,7 +9,7 @@ async function getCsvContent({
   withBOM = true,
 }) {
   try {
-    const options = { delimiter, eol, fields: fileHeaders,  withBOM };
+    const options = { delimiter, eol, fields: fileHeaders, withBOM };
     const csvContent = await parseAsync(data, options);
     return csvContent;
   } catch (err) {

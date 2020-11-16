@@ -7,7 +7,7 @@ const SchoolingRegistrationParser = require('../../lib/infrastructure/serializer
 const fs = require('fs');
 const { knex } = require('../../db/knex-database-connection');
 
-const column = new CsvColumn({ name: 'uai', label:'UAI*', isRequired: true });
+const column = new CsvColumn({ name: 'uai', label: 'UAI*', isRequired: true });
 
 class CsvApprenticesParser extends SchoolingRegistrationParser {
   constructor(input, oranizationByUAI) {
@@ -53,7 +53,7 @@ async function importApprentices(filePath, fileSystem) {
   const input = fileSystem.readFileSync(filePath);
   const organizationByUai = await findOrganizationByUai();
 
-  const csvApprenticesParser = new  CsvApprenticesParser(input, organizationByUai);
+  const csvApprenticesParser = new CsvApprenticesParser(input, organizationByUai);
   const schoolingRegistrationSet = csvApprenticesParser.parse();
   await knex.batchInsert('schooling-registrations', schoolingRegistrationSet.registrations);
 }

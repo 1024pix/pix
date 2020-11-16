@@ -11,7 +11,7 @@ const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/us
 
 describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
-  const userRelatedToStudent = domainBuilder.buildUser({ username: null, password:'' });
+  const userRelatedToStudent = domainBuilder.buildUser({ username: null, password: '' });
   const organization = userRelatedToStudent.memberships[0].organization;
   const organizationId = userRelatedToStudent.memberships[0].organization.id;
 
@@ -90,7 +90,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
     const username = 'john.doe2510';
     const userEmail = 'john.doe@example.net';
     const userPassword = 'Pix12345';
-    let  userWithEmail;
+    let userWithEmail;
     let organization;
     let organizationId;
     let schoolingRegistration;
@@ -110,7 +110,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
       sinon.stub(userReconciliationService, 'createUsernameByUser').resolves(username);
       sinon.stub(userRepository, 'get').resolves(userWithEmail);
-      sinon.stub(userRepository, 'addUsername').resolves({ ...userWithEmail, username : username });
+      sinon.stub(userRepository, 'addUsername').resolves({ ...userWithEmail, username: username });
 
       sinon.stub(schoolingRegistrationRepository, 'get').resolves(schoolingRegistration);
 

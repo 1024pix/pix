@@ -18,7 +18,7 @@ module.exports = async function computeCampaignParticipationAnalysis(
     throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
-  if (!campaignParticipation.isShared)  {
+  if (!campaignParticipation.isShared) {
     return null;
   }
 

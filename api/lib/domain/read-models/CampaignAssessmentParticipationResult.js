@@ -22,7 +22,7 @@ class CampaignAssessmentParticipationResult {
             targetedArea,
             targetedCompetence,
             targetedSkillsCount: targetedCompetence.skillCount,
-            validatedTargetedKnowledgeElementsCount : validatedTargetedKnowledgeElementsCountByCompetenceId[targetedCompetence.id],
+            validatedTargetedKnowledgeElementsCount: validatedTargetedKnowledgeElementsCountByCompetenceId[targetedCompetence.id],
           });
         });
     }

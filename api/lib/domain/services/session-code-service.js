@@ -25,7 +25,7 @@ function _generateSessionCode() {
 module.exports = {
 
   async getNewSessionCode() {
-    const newSessionCode =  _generateSessionCode();
+    const newSessionCode = _generateSessionCode();
     const codeAvailable = await sessionRepository.isSessionCodeAvailable(newSessionCode);
     return codeAvailable ? newSessionCode : this.getNewSessionCode();
   },

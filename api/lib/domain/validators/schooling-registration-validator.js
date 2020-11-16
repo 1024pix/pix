@@ -1,8 +1,8 @@
 const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
 const { EntityValidationError } = require('../errors');
-const  SchoolingRegistration = require('../models/SchoolingRegistration');
+const SchoolingRegistration = require('../models/SchoolingRegistration');
 
-const { STUDENT , APPRENTICE } = SchoolingRegistration.STATUS;
+const { STUDENT, APPRENTICE } = SchoolingRegistration.STATUS;
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
 const INA_PATTERN = /^[0-9]{10}[a-zA-Z]{1}$/;
@@ -13,8 +13,8 @@ const COUNTRY_CODE_LENGTH = 5;
 const FRANCE_COUNTRY_CODE = '99100';
 
 const INSEE_REGEX = {
-  COUNTRY_CODE : /9{2}[1-5]{1}[0-9]{2}/,
-  FRANCE_CITY_CODE : /[0-9]{5}|[0-9]{1}[a,b,A,B]{1}[0-9]{3}/,
+  COUNTRY_CODE: /9{2}[1-5]{1}[0-9]{2}/,
+  FRANCE_CITY_CODE: /[0-9]{5}|[0-9]{1}[a,b,A,B]{1}[0-9]{3}/,
 };
 
 const validationSchema = Joi.object({
@@ -34,7 +34,7 @@ const validationSchema = Joi.object({
     .length(COUNTRY_CODE_LENGTH)
     .regex(INSEE_REGEX.COUNTRY_CODE)
     .required(),
-  status: Joi.string().valid(STUDENT,APPRENTICE).required(),
+  status: Joi.string().valid(STUDENT, APPRENTICE).required(),
   MEFCode: Joi.string().max(MAX_LENGTH).required(),
   division: Joi.string().max(MAX_LENGTH).required(),
   organizationId: Joi.number().integer().required(),
@@ -76,7 +76,7 @@ module.exports = {
         err.why = 'min_length';
         err.limit = context.limit;
       }
-      if (type === 'string.pattern.base' && ['birthCountryCode','birthCityCode'].includes(context.key)) {
+      if (type === 'string.pattern.base' && ['birthCountryCode', 'birthCityCode'].includes(context.key)) {
         err.why = 'not_valid_insee_code';
       }
       if (type === 'date.format') {

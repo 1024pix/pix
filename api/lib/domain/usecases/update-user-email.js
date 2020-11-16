@@ -1,4 +1,4 @@
-const {  UserNotAuthorizedToUpdateEmailError } = require('../errors');
+const { UserNotAuthorizedToUpdateEmailError } = require('../errors');
 const isEmpty = require('lodash/isEmpty');
 
 module.exports = async function updateUserEmail({

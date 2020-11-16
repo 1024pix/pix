@@ -119,7 +119,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return application/json',async () => {
+      it('should return application/json', async () => {
         // when
         const response = await promise;
 
@@ -139,7 +139,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
       it('should return persisted answer', async () => {
         // then
-        const response =  await promise;
+        const response = await promise;
         const answer = response.result.data;
 
         const model = await BookshelfAnswer.where({ id: answer.id }).fetch();

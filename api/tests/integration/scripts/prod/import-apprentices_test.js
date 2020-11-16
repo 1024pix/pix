@@ -21,7 +21,7 @@ describe('Integration | Scripts | import-apprentices', () => {
 
     context('when the header is correctly formed', () => {
       context('when there is no line', () => {
-        it('create no registrations',  async () => {
+        it('create no registrations', async () => {
           const input = schoolingRegistrationCsvColumns;
           const encodedInput = iconv.encode(input, 'utf8');
           fileSystem.readFileSync.withArgs('tmp.csv').returns(encodedInput);
@@ -89,25 +89,25 @@ describe('Integration | Scripts | import-apprentices', () => {
           it('throws a OrganizationNotFoundError when externalId not found', async () => {
             databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '12345' });
             databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '678910' });
-            
+
             await databaseBuilder.commit();
-  
+
             const input = `${schoolingRegistrationCsvColumns}
             9876543210F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
             0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
             `;
-  
+
             const encodedInput = iconv.encode(input, 'utf8');
-  
+
             fileSystem.readFileSync.withArgs('tmp.csv').returns(encodedInput);
-  
+
             const err = await catchErr(importApprentices)('tmp.csv', fileSystem);
             expect(err).to.be.an.instanceOf(OrganizationNotFoundError);
           });
 
-          it('throws a CsvImportError', async  () => {
+          it('throws a CsvImportError', async () => {
             databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '12345' });
-            
+
             await databaseBuilder.commit();
 
             const header = schoolingRegistrationCsvColumns;
@@ -128,9 +128,9 @@ describe('Integration | Scripts | import-apprentices', () => {
     context('when the header is not correctly formed', () => {
       const requiredColumns = [...COLUMNS, { label: 'UAI*' }].map((column) => column.label);
 
-      requiredColumns.forEach((missingColumn) =>  {
-        it('throws a CsvImportError', async  () => {
-          const input = requiredColumns.filter((column)  => column != missingColumn).join(';');
+      requiredColumns.forEach((missingColumn) => {
+        it('throws a CsvImportError', async () => {
+          const input = requiredColumns.filter((column) => column != missingColumn).join(';');
 
           const encodedInput = iconv.encode(input, 'utf8');
           fileSystem.readFileSync.withArgs('tmp.csv').returns(encodedInput);

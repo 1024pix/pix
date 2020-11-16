@@ -49,7 +49,7 @@ describe('Integration | Repository | CertificationReport', function() {
           certificationIssueReports: [],
           hasSeenEndTestScreen: certificationCourse2.hasSeenEndTestScreen,
         };
-        expect(certificationReports).to.deep.equal([expectedCertificationReport1 , expectedCertificationReport2]);
+        expect(certificationReports).to.deep.equal([expectedCertificationReport1, expectedCertificationReport2]);
       });
     });
 
@@ -233,7 +233,7 @@ describe('Integration | Repository | CertificationReport', function() {
         const certificationReport1 = domainBuilder.buildCertificationReport({
           certificationCourseId: certificationCourseId1,
           hasSeenEndTestScreen: false,
-          examinerComment:'J\'aime les fruits et les poulets',
+          examinerComment: 'J\'aime les fruits et les poulets',
           sessionId,
         });
 

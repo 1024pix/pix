@@ -32,11 +32,11 @@ function _createDomainUser(userAttributes, encryptedPawsword) {
   });
 }
 
-function  _manageEmailAvailabilityError(error) {
+function _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
 }
 
-function  _manageUsernameAvailabilityError(error) {
+function _manageUsernameAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredUsernameError, 'username', 'Cet identifiant n’est plus disponible, merci de recharger la page.');
 }
 

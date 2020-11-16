@@ -13,7 +13,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
       it('should convert a Campaign model object into JSON API data', function() {
         // given
-        const targetProfile = domainBuilder.buildTargetProfile({ 
+        const targetProfile = domainBuilder.buildTargetProfile({
           id: '123',
           name: 'TargetProfile1',
           imageUrl: 'http://url.fr',

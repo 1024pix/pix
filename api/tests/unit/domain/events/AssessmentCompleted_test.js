@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const AssessmentCompleted  = require('../../../../lib/domain/events/AssessmentCompleted');
+const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | Domain | Events | AssessmentCompleted', () => {
 

@@ -1,4 +1,4 @@
-const { DEFAULT_TUTORIAL_ID, DEFAULT_PIX_VALUE, DEFAULT_NAME, DEFAULT_COMPETENCE_ID, DEFAULT_HINT_STATUS, DEFAULT_ID, DEFAULT_HINT, DEFAULT_TUBE_ID }  = require('../../fixtures/infrastructure/skillRawAirTableFixture');
+const { DEFAULT_TUTORIAL_ID, DEFAULT_PIX_VALUE, DEFAULT_NAME, DEFAULT_COMPETENCE_ID, DEFAULT_HINT_STATUS, DEFAULT_ID, DEFAULT_HINT, DEFAULT_TUBE_ID } = require('../../fixtures/infrastructure/skillRawAirTableFixture');
 
 module.exports = function({
   id = DEFAULT_ID,

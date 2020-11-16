@@ -620,7 +620,7 @@ describe('Unit | Controller | user-controller', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'getUserProfile').resolves({
-        pixScore:3,
+        pixScore: 3,
         scorecards: [],
       });
       sinon.stub(profileSerializer, 'serialize').resolves();

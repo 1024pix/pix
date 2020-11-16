@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
 
   describe('validate', () => {
 
-    context('when a status is given',()   => {
+    context('when a status is given', () => {
 
       forIn(AssessmentResult.status, (status, key) => {
         it(`should returns "${status}" status`, () => {
@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
       });
     });
 
-    context('when no status is given',()   => {
+    context('when no status is given', () => {
 
       it('should return "started"', () => {
         // when

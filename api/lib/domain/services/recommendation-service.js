@@ -12,7 +12,7 @@ function _getSkillOfMaxDifficulty(skills) {
 
 function computeRecommendationScore(skillsOfTube, maxSkillLevelInTargetProfile, validatedKnowledgeElements) {
   const skillOfMaxDifficulty = _getSkillOfMaxDifficulty(skillsOfTube);
-  const reachedLevelInTube =  _getReachedLevelInTube(validatedKnowledgeElements, skillsOfTube);
+  const reachedLevelInTube = _getReachedLevelInTube(validatedKnowledgeElements, skillsOfTube);
 
   const reachedLevelScore = _computeReachedLevelScore(skillOfMaxDifficulty, reachedLevelInTube);
   const difficultyScore = _computeDifficultyScore(maxSkillLevelInTargetProfile, skillOfMaxDifficulty);

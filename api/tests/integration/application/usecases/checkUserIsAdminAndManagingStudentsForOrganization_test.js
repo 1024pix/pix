@@ -7,7 +7,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     it('returns false', async () => {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-      const  user = databaseBuilder.factory.buildUser();
+      const user = databaseBuilder.factory.buildUser();
 
       await databaseBuilder.commit();
 
@@ -21,7 +21,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     it('returns false', async () => {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-      const  user = databaseBuilder.factory.buildUser();
+      const user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id, organizationRole: Membership.roles.ADMIN });
       await databaseBuilder.commit();
 
@@ -35,7 +35,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     it('returns false', async () => {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-      const  user = databaseBuilder.factory.buildUser();
+      const user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id, organizationRole: Membership.roles.MEMBER });
       await databaseBuilder.commit();
 
@@ -49,7 +49,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     it('returns false', async () => {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: false });
-      const  user = databaseBuilder.factory.buildUser();
+      const user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id, organizationRole: Membership.roles.ADMIN });
       await databaseBuilder.commit();
 
@@ -63,7 +63,7 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     it('returns false', async () => {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      const  user = databaseBuilder.factory.buildUser();
+      const user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id, organizationRole: Membership.roles.ADMIN });
       await databaseBuilder.commit();
 

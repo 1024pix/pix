@@ -424,29 +424,29 @@ function pixEmploiTargetProfileBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    name : 'Rechercher des informations sur internet',
-    color : 'jaffa',
+    name: 'Rechercher des informations sur internet',
+    color: 'jaffa',
     skillIds: buildBadgePartnerCompetence1Skills.map((s) => s.skillId),
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    name : 'Utiliser des outils informatiques',
-    color : 'wild-strawberry',
+    name: 'Utiliser des outils informatiques',
+    color: 'wild-strawberry',
     skillIds: buildBadgePartnerCompetence2Skills.map((s) => s.skillId),
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    name : 'Naviguer sur internet',
-    color : 'jaffa',
+    name: 'Naviguer sur internet',
+    color: 'jaffa',
     skillIds: buildBadgePartnerCompetence3Skills.map((s) => s.skillId),
     badgeId: badge.id,
   });
 
   databaseBuilder.factory.buildBadgePartnerCompetence({
-    name : 'Partager sur les réseaux sociaux',
-    color : 'emerald',
+    name: 'Partager sur les réseaux sociaux',
+    color: 'emerald',
     skillIds: buildBadgePartnerCompetence4Skills.map((s) => s.skillId),
     badgeId: badge.id,
   });

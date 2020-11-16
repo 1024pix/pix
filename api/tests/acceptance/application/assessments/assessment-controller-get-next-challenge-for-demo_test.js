@@ -12,7 +12,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
 
   before(() => {
     const course = airtableBuilder.factory.buildCourse({
-      'id':'course_id',
+      'id': 'course_id',
       'competence': ['competence_id'],
       'epreuves': [
         'second_challenge',
@@ -41,19 +41,19 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
     const firstChallenge = airtableBuilder.factory.buildChallenge({
       'id': 'first_challenge',
       'competences': ['competence_id'],
-      'acquix':['@web1'],
+      'acquix': ['@web1'],
     });
     const secondChallenge = airtableBuilder.factory.buildChallenge({
       'id': 'second_challenge',
       'competences': ['competence_id'],
-      'acquix':['@web1'],
+      'acquix': ['@web1'],
     });
     const thirdChallenge = airtableBuilder.factory.buildChallenge({
       'id': 'third_challenge',
       'competences': ['competence_id'],
-      'acquix':['@web1'],
+      'acquix': ['@web1'],
     });
-    
+
     airtableBuilder
       .mockList({ tableName: 'Epreuves' })
       .returns([firstChallenge, secondChallenge, thirdChallenge])

@@ -1,6 +1,6 @@
 const TABLE_NAME = 'knowledge-elements';
 
-exports.up = async (knex) =>  {
+exports.up = async (knex) => {
 
   const info = await knex(TABLE_NAME).columnInfo();
   if (!info.createdAt) {

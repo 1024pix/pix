@@ -26,7 +26,7 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
     beforeEach(async () => {
       databaseBuilder.factory.buildUser({ id: userId });
       competence = airtableBuilder.factory.buildCompetence({ id: competenceId });
-      
+
       const campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isShared: true, sharedAt });
 

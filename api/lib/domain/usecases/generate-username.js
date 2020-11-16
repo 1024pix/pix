@@ -1,6 +1,6 @@
 const { CampaignCodeError, SchoolingRegistrationNotFound, SchoolingRegistrationAlreadyLinkedToUserError } = require('../errors');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
-const { find ,get } = require('lodash');
+const { find, get } = require('lodash');
 
 module.exports = async function generateUsername({
   studentInformation,
@@ -23,7 +23,7 @@ module.exports = async function generateUsername({
   const student = await studentRepository.getReconciledStudentByNationalStudentId(matchedSchoolingRegistration.nationalStudentId);
   await checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService);
 
-  return userReconciliationService.createUsernameByUser({ user: studentInformation , userRepository });
+  return userReconciliationService.createUsernameByUser({ user: studentInformation, userRepository });
 
 };
 
@@ -45,7 +45,7 @@ async function findMatchedSchoolingRegistrationForGivenOrganizationIdAndStudentI
 }
 
 async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository, obfuscationService) {
-  if (get(matchingSchoolingRegistration, 'userId'))  {
+  if (get(matchingSchoolingRegistration, 'userId')) {
     const userId = matchingSchoolingRegistration.userId ;
     const user = await userRepository.getForObfuscation(userId);
     const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);

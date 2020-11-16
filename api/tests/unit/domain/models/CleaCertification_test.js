@@ -15,7 +15,7 @@ describe('Unit | Domain | Models | CleaCertification', () => {
         hasAcquiredBadge: true,
         reproducibilityRate: 80,
         cleaCompetenceMarks: [1],
-        maxReachablePixByCompetenceForClea: { competence1:1 },
+        maxReachablePixByCompetenceForClea: { competence1: 1 },
       };
     });
 
@@ -231,7 +231,7 @@ function _buildCleaCertification({
   withBadge = false,
   reproducibilityRate = 0,
   cleaCompetenceMarks = [domainBuilder.buildCompetenceMark()],
-  maxReachablePixByCompetenceForClea = { competence1:1 },
+  maxReachablePixByCompetenceForClea = { competence1: 1 },
 }) {
   const certificationCourseId = 42;
 

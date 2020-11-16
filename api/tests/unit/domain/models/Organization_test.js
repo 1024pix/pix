@@ -106,7 +106,7 @@ describe('Unit | Domain | Models | Organization', () => {
 
   describe('get#isAgriculture', () => {
 
-    context('when organization is not SCO', ()  =>  {
+    context('when organization is not SCO', () => {
       it('should return false when the organization has the "AGRICULTURE" tag', () => {
         // given
         const tag = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | Organization', () => {
       });
     });
 
-    context('when organization is SCO', ()  =>  {
+    context('when organization is SCO', () => {
       it('should return true when organization is of type SCO and has the "AGRICULTURE" tag', () => {
         // given
         const tag1 = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
@@ -162,7 +162,7 @@ describe('Unit | Domain | Models | Organization', () => {
   });
 
   describe('get#isCFA', () => {
-    context('when organization is not SCO', ()  =>  {
+    context('when organization is not SCO', () => {
       it('should return false when the organization has the "CFA" tag', () => {
         // given
         const tag = domainBuilder.buildTag({ name: Tag.CFA });
@@ -173,7 +173,7 @@ describe('Unit | Domain | Models | Organization', () => {
       });
     });
 
-    context('when organization is SCO', ()  =>  {
+    context('when organization is SCO', () => {
       it('should return true when organization is of type SCO and has the "CFA" tag', () => {
         // given
         const tag1 = domainBuilder.buildTag({ name: Tag.CFA });

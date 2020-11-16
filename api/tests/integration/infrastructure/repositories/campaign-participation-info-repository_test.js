@@ -88,7 +88,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
 
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId: campaignParticipation1.id,
-          userId:  user1Id,
+          userId: user1Id,
           state: 'started',
         });
 
@@ -111,7 +111,7 @@ describe('Integration | Repository | Campaign Participation Info', () => {
       it('should return all the campaign-participation', async () => {
         // when
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
-        const campaignParticipationInfosOrdered =  campaignParticipationInfos.sort((a, b) =>  a.lastName < b.lastName);
+        const campaignParticipationInfosOrdered = campaignParticipationInfos.sort((a, b) => a.lastName < b.lastName);
         // then
         expect(campaignParticipationInfosOrdered.length).to.equal(2);
         expect(campaignParticipationInfosOrdered[0]).to.deep.equal({

@@ -14,7 +14,7 @@ module.exports = async function getUserProfile({
     competenceEvaluationRepository.findByUserId(userId),
   ]);
 
-  const scorecards =  _.map(competencesWithArea, (competence) => {
+  const scorecards = _.map(competencesWithArea, (competence) => {
     const competenceId = competence.id;
     const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competenceId];
     const competenceEvaluation = _.find(competenceEvaluations, { competenceId });

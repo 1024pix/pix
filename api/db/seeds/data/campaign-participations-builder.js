@@ -36,7 +36,7 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     const sharedAt = isShared ? new Date() : null;
     const participantExternalId = member.firstName.toLowerCase() + member.lastName.toLowerCase();
 
-    const { id: campaignParticipationId } =  databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, participantExternalId, isShared, sharedAt });
+    const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, participantExternalId, isShared, sharedAt });
     if (['Jaune', 'Antoine'].includes(member.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID });
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({

@@ -1,4 +1,4 @@
-const _ = require ('lodash');
+const _ = require('lodash');
 const SibApiV3Sdk = require('sib-api-v3-sdk');
 
 const MailingProvider = require('./MailingProvider');

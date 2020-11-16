@@ -254,7 +254,7 @@ describe('Integration | Repository | Campaign', () => {
         const createdAtInTheFuture = new Date('2030-07-30T09:35:45Z');
 
         const campaignBInThePastId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: createdAtInThePast }).id;
-        const campaignAInThePresentId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A', createdAt: createdAtInThePresent  }).id;
+        const campaignAInThePresentId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'A', createdAt: createdAtInThePresent }).id;
         const campaignBInTheFutureId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'B', createdAt: createdAtInTheFuture }).id;
         await databaseBuilder.commit();
 

@@ -10,7 +10,7 @@ describe('Integration | Scripts | mark-users-for-TermsOfService-revalidation_tes
 
     it('should not revalidate terms of service if he did not validate them before', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser({ cgu: false  }).id;
+      const userId = databaseBuilder.factory.buildUser({ cgu: false }).id;
       await databaseBuilder.commit();
 
       // when

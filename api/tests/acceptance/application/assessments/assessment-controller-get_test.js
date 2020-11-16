@@ -325,7 +325,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
     beforeEach(async () => {
       const campaignId = databaseBuilder.factory.buildCampaign({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }).id;
-      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({  campaignId });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
       assessmentId = databaseBuilder.factory.buildAssessment(
         {
           userId,

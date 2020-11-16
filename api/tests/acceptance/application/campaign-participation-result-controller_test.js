@@ -112,7 +112,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
 
     const jaffaArea = airtableBuilder.factory.buildArea({ id: 1, competenceIds: ['1'], couleur: JAFFA_COLOR });
     const emeraldArea = airtableBuilder.factory.buildArea({ id: 2, competenceIds: ['2', '3'], couleur: EMERALD_COLOR });
-    const wildStrawberryArea = airtableBuilder.factory.buildArea({ id:3, competenceIds: ['4'], couleur: WILD_STRAWBERRY_COLOR });
+    const wildStrawberryArea = airtableBuilder.factory.buildArea({ id: 3, competenceIds: ['4'], couleur: WILD_STRAWBERRY_COLOR });
     areas = [jaffaArea, emeraldArea, wildStrawberryArea];
 
     competences = [

@@ -22,7 +22,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const skill1 = domainBuilder.buildSkill({ name: '@web3' });
       const targetProfile = new TargetProfile({ skills: [skill1] });
       const knowledgeElements = [];
-      const tubes =  [
+      const tubes = [
         new Tube({ skills: [skill1] }),
       ];
       setPlayableSkills(targetProfile.skills);
@@ -43,7 +43,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const skill1 = domainBuilder.buildSkill({ name: '@web4' });
       const targetProfile = new TargetProfile({ skills: [skill1] });
       const knowledgeElements = [];
-      const tubes =  [
+      const tubes = [
         new Tube({ skills: [skill1] }),
       ];
       setPlayableSkills(targetProfile.skills);
@@ -66,9 +66,9 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const skillFromEasyTubeLevel2 = domainBuilder.buildSkill({ name: '@url2' });
       const skillFromEasyTubeLevel1 = domainBuilder.buildSkill({ name: '@url1' });
 
-      const targetProfile = new TargetProfile({ skills: [skillTube1Level2,skillTube1Level4,skillFromEasyTubeLevel2,skillFromEasyTubeLevel1] });
+      const targetProfile = new TargetProfile({ skills: [skillTube1Level2, skillTube1Level4, skillFromEasyTubeLevel2, skillFromEasyTubeLevel1] });
       const knowledgeElements = [];
-      const tubes =  [
+      const tubes = [
         new Tube({ skills: [skillTube1Level4, skillTube1Level2] }),
         new Tube({ skills: [skillFromEasyTubeLevel2, skillFromEasyTubeLevel1] }),
       ];
@@ -90,9 +90,9 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const skillTube1Level2Timed = domainBuilder.buildSkill({ name: '@web2' });
       skillTube1Level2Timed.timed = true;
       const skillTube2Level2 = domainBuilder.buildSkill({ name: '@url2' });
-      const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed,skillTube2Level2] });
+      const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed, skillTube2Level2] });
       const knowledgeElements = [];
-      const tubes =  [
+      const tubes = [
         new Tube({ skills: [skillTube1Level2Timed] }),
         new Tube({ skills: [skillTube2Level2] }),
       ];
@@ -115,9 +115,9 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       skillTube1Level2Timed.timed = true;
       const skillTube2Level2Timed = domainBuilder.buildSkill({ name: '@url2' });
       skillTube2Level2Timed.timed = true;
-      const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed,skillTube2Level2Timed] });
+      const targetProfile = new TargetProfile({ skills: [skillTube1Level2Timed, skillTube2Level2Timed] });
       const knowledgeElements = [];
-      const tubes =  [
+      const tubes = [
         new Tube({ skills: [skillTube1Level2Timed] }),
         new Tube({ skills: [skillTube2Level2Timed] }),
       ];
@@ -140,7 +140,7 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
       const notPlayableSkill = domainBuilder.buildSkill({ name: '@url2' });
       const targetProfile = new TargetProfile({ skills: [playableSkill, notPlayableSkill] });
       const knowledgeElements = [];
-      const tubes =  [
+      const tubes = [
         new Tube({ skills: [playableSkill, notPlayableSkill] }),
       ];
       playableSkill.isPlayable = true;
@@ -244,13 +244,13 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
     describe('Verify rules : Remove skill too difficult', () => {
       it('should return skills with level maximum of user level + 2', () => {
         // given
-        const [skill1, skill2, skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 1, maxLevel: 6 });
+        const [skill1, skill2, skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 6 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] });
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
           domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
-        const tubes =  [
+        const tubes = [
           new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] }),
         ];
         setPlayableSkills(targetProfile.skills);
@@ -271,14 +271,14 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
     describe('Verify rules : Focus on easy tubes first', () => {
       it('should return skills from tubes of max level 3', () => {
         // given
-        const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
-        const [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] = domainBuilder.buildSkillCollection({ name:'url', minLevel: 1, maxLevel: 3 });
+        const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 3, maxLevel: 6 });
+        const [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] = domainBuilder.buildSkillCollection({ name: 'url', minLevel: 1, maxLevel: 3 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill3, skill4, skill5, skill6, easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] });
 
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ skillId: easyTubeSkill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
-        const tubes =  [
+        const tubes = [
           new Tube({ skills: [skill3, skill4, skill5, skill6] }),
           new Tube({ skills: [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] }),
         ];
@@ -300,13 +300,13 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
 
       it('should return skills from all tubes if there is not easy tubes', () => {
         // given
-        const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
+        const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 3, maxLevel: 6 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill3, skill4, skill5, skill6] });
 
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ skillId: skill3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
-        const tubes =  [
+        const tubes = [
           new Tube({ skills: [skill3, skill4, skill5, skill6] }),
         ];
         setPlayableSkills(targetProfile.skills);
@@ -327,11 +327,11 @@ describe('Unit | Domain | services | smart-random | skillsFilter', () => {
     describe('Verify rules: Remove skills not playable', function() {
       it('should return only playable skills', function() {
         // given
-        const [notPlayableSkill, playableSkill] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
+        const [notPlayableSkill, playableSkill] = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 3, maxLevel: 6 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [ notPlayableSkill, playableSkill] });
 
         const knowledgeElements = [];
-        const tubes =  [
+        const tubes = [
           new Tube({ skills: [notPlayableSkill, playableSkill] }),
         ];
         notPlayableSkill.isPlayable = false;

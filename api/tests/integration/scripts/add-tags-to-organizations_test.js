@@ -20,11 +20,11 @@ describe('Integration | Scripts | add-tags-to-organizations.js', () => {
     it('should retrieve tags by tag name', async () => {
       // given
       const checkedData = [
-        { organizationId: 1,  tagName: firstTag.name },
-        { organizationId: 2,  tagName: secondTag.name },
-        { organizationId: 3,  tagName: firstTag.name },
-        { organizationId: 4,  tagName: thirdTag.name },
-        { organizationId: 5,  tagName: secondTag.name },
+        { organizationId: 1, tagName: firstTag.name },
+        { organizationId: 2, tagName: secondTag.name },
+        { organizationId: 3, tagName: firstTag.name },
+        { organizationId: 4, tagName: thirdTag.name },
+        { organizationId: 5, tagName: secondTag.name },
       ];
 
       // when
@@ -41,7 +41,7 @@ describe('Integration | Scripts | add-tags-to-organizations.js', () => {
       // given
       const tagName = 'unknown_tag_name';
       const checkedData = [
-        { organizationId: 1,  tagName },
+        { organizationId: 1, tagName },
       ];
 
       // when
@@ -80,9 +80,9 @@ describe('Integration | Scripts | add-tags-to-organizations.js', () => {
       ]);
 
       const checkedData = [
-        { organizationId: firstOrganizationId,  tagName: firstTag.name },
-        { organizationId: secondOrganizationId,  tagName: secondTag.name },
-        { organizationId: thirdOrganizationId,  tagName: thirdTag.name },
+        { organizationId: firstOrganizationId, tagName: firstTag.name },
+        { organizationId: secondOrganizationId, tagName: secondTag.name },
+        { organizationId: thirdOrganizationId, tagName: thirdTag.name },
       ];
 
       // when
@@ -110,7 +110,7 @@ describe('Integration | Scripts | add-tags-to-organizations.js', () => {
         ]);
 
         const checkedData = [
-          { organizationId: firstOrganizationId,  tagName: firstTag.name },
+          { organizationId: firstOrganizationId, tagName: firstTag.name },
         ];
 
         // when

@@ -1,7 +1,7 @@
 const AirtableRecord = require('airtable').Record;
 
 module.exports = function tubeRawAirTableFixture(id = 'recTIddrkopID23Fp') {
-  return new AirtableRecord('Tubes', id,{
+  return new AirtableRecord('Tubes', id, {
     'id': id,
     'fields': {
       'id persistant': id,

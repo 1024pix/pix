@@ -30,7 +30,7 @@ module.exports = {
     const {
       event,
       campaignParticipation: campaignParticipationCreated,
-    } =  await DomainTransaction.execute((domainTransaction) => {
+    } = await DomainTransaction.execute((domainTransaction) => {
       return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
     });
     await events.eventDispatcher.dispatch(event);

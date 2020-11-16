@@ -22,7 +22,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const request = {
       headers: { authorization },
       auth: {
-        credentials : {
+        credentials: {
           userId,
         },
       },
@@ -44,7 +44,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     it('should call the usecases to get the user campaign participation', async () => {
       // given
-      options = { filter: { assessmentId } , include: [] };
+      options = { filter: { assessmentId }, include: [] };
 
       queryParamsUtils.extractParameters.withArgs(query).returns(options);
       usecases.findCampaignParticipationsRelatedToAssessment.withArgs({ userId, assessmentId }).resolves(result);
@@ -67,7 +67,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         authorization: 'token',
       },
       auth: {
-        credentials : {
+        credentials: {
           userId,
         },
       },

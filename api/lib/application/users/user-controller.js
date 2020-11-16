@@ -45,7 +45,7 @@ module.exports = {
   },
 
   async updateEmail(request, h) {
-    const { email }  = request.payload.data.attributes;
+    const { email } = request.payload.data.attributes;
     const userId = parseInt(request.params.id);
 
     await usecases.updateUserEmail({

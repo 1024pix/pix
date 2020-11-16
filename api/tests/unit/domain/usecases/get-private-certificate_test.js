@@ -148,7 +148,7 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
       await getPrivateCertificate({ certificationId, userId, ...dependencies });
 
       // then
-      expect(certificationRepository.saveVerificationCode).to.have.been.calledWith(certificationId,verificationCode);
+      expect(certificationRepository.saveVerificationCode).to.have.been.calledWith(certificationId, verificationCode);
     });
 
     it('should return the certification with the resultCompetenceTree', async () => {

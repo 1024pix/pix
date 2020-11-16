@@ -33,7 +33,7 @@ module.exports = {
     }
 
     await new CertificationCourseBookshelf({ id: certificationReport.certificationCourseId })
-      .save({ hasSeenEndTestScreen :certificationReport.hasSeenEndTestScreen }, saveOptions);
+      .save({ hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen }, saveOptions);
 
     if (certificationReport.examinerComment) {
       await new CertificationIssueReportBookshelf({

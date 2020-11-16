@@ -11,7 +11,7 @@ async function findChallengesWithSkills() {
   const knowledgeElementsToCreateForEachChallenges = [];
   _.forEach(challenges, (challenge) => {
     knowledgeElementsToCreateForEachChallenges[challenge.id] = [];
-    const skillsOfChallenges =  _getSkillsOfChallenge(challenge.skills, skills);
+    const skillsOfChallenges = _getSkillsOfChallenge(challenge.skills, skills);
     const skillsValidatedIfChallengeIsSuccessful = _getValidatedSkills(skillsOfChallenges);
     const skillsInvalidatedIfChallengeIsFailed = _getInvalidatedSkills(skillsOfChallenges, skills);
 
@@ -34,7 +34,7 @@ async function _getReferentialData() {
 
   // Récupération des challenges qui ont des acquis
   let challenges = await challengeRepository.findValidated();
-  challenges = _.filter(challenges,(c) => {
+  challenges = _.filter(challenges, (c) => {
     return c.skills.length > 0;
   });
 

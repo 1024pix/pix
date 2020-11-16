@@ -21,7 +21,7 @@ module.exports = Bookshelf.model(modelName, {
   },
 
   tags() {
-    return this.belongsToMany('Tag', 'organization-tags', 'organizationId',  'tagId');
+    return this.belongsToMany('Tag', 'organization-tags', 'organizationId', 'tagId');
   },
 }, {
   modelName,

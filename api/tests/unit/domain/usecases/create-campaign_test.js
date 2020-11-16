@@ -25,7 +25,7 @@ describe('Unit | UseCase | create-campaign', () => {
   }
 
   beforeEach(() => {
-    campaignToCreate = domainBuilder.buildCampaign.ofTypeAssessment({ id: '', code: '', targetProfileId  });
+    campaignToCreate = domainBuilder.buildCampaign.ofTypeAssessment({ id: '', code: '', targetProfileId });
     sinon.stub(campaignCodeGenerator, 'generate');
     sinon.stub(campaignRepository, 'create');
     sinon.stub(campaignValidator, 'validate');

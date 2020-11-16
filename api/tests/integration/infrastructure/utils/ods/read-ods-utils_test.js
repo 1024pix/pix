@@ -84,7 +84,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
 
     });
 
-    context('when the conf header contains new line but the file headers does not',  () => {
+    context('when the conf header contains new line but the file headers does not', () => {
 
       const TRANSFORM_STRUCT_NONE = [
         {
@@ -102,11 +102,11 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
       it('should return the data extracted from the table in the ods file', async () => {
         // given
         const expectedCertificationCandidatesData = {
-          '7' : {
+          '7': {
             property1: 'Valeur1_ligne1',
             property2: 'Valeur2_ligne1',
           },
-          '8' : {
+          '8': {
             property1: 'Valeur1_ligne2',
             property2: 'Valeur2_ligne2',
           },
@@ -170,11 +170,11 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', () => {
     it('should return the data extracted from the table in the ods file', async () => {
       // given
       const expectedCertificationCandidatesData = {
-        '7' : {
+        '7': {
           property1: 'Valeur1_ligne1toto',
           property2: 'Valeur2_ligne1JAIMEPIX',
         },
-        '8' : {
+        '8': {
           property1: 'Valeur1_ligne2toto',
           property2: 'Valeur2_ligne2JAIMEPIX',
         },

@@ -28,7 +28,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
       getCertificationAttestation: sinon.stub().withArgs(certificationId).resolves(certificate),
     };
     const cleaCertificationStatusRepository = {
-      getCleaCertificationStatus: sinon.stub().withArgs({ id:  certificationId }).resolves(cleaCertificationStatus),
+      getCleaCertificationStatus: sinon.stub().withArgs({ id: certificationId }).resolves(cleaCertificationStatus),
     };
     const competenceTreeRepository = { get: sinon.stub().resolves(competenceTree) };
     const assessmentResultRepository = {
