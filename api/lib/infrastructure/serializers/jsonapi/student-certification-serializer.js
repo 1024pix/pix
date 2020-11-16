@@ -1,7 +1,7 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize(students) {
+  serialize(students, pagination) {
     return new Serializer('students', {
       attributes: [
         'lastName',
@@ -10,6 +10,7 @@ module.exports = {
         'division',
         'isEnrolled',
       ],
+      meta: pagination,
     }).serialize(students);
   },
 };
