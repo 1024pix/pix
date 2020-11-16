@@ -34,7 +34,7 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
     this.set('externalAction', () => resolve());
 
     // when
-    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate=60 @juryRate=false @onUpdateRate=(action externalAction)/>`);
+    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`);
 
     // then
     assert.dom('.certification-details-competence').exists();
@@ -46,7 +46,7 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
     this.set('externalAction', () => resolve());
 
     // when
-    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate=60 @juryRate=false @onUpdateRate={{externalAction}}/>`);
+    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`);
 
     // then
     assert.dom('.jury').doesNotExist();
@@ -58,7 +58,7 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
     this.set('externalAction', resolve());
 
     // when
-    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate=60 juryRate=70 @onUpdateRate={{externalAction}} />`);
+    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`);
 
     // then
     assert.dom('.jury.competence-level').exists();
