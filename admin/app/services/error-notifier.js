@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import { inject as service } from '@ember/service';
 import Service from '@ember/service';
 
-export default class ErrorNotifierService extends Service  {
+export default class ErrorNotifierService extends Service {
   @service notifications
 
   notify(anError) {

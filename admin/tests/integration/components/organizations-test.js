@@ -17,10 +17,10 @@ module('Integration | Component | target-profiles organizations', function(hooks
 
   test('it should display the organizations', async function(assert) {
     // given
-    const organization1 = EmberObject.create({ id: 123, name: 'Orga1', externalId:  'O1' });
-    const organization2 = EmberObject.create({ id: 456, name: 'Orga2', externalId:  'O2' });
+    const organization1 = EmberObject.create({ id: 123, name: 'Orga1', externalId: 'O1' });
+    const organization2 = EmberObject.create({ id: 456, name: 'Orga2', externalId: 'O2' });
     const organizations = [organization1, organization2];
-    organizations.meta = { page: 1, pageSize:  1 };
+    organizations.meta = { page: 1, pageSize: 1 };
     this.set('organizations', organizations);
 
     // when
@@ -35,7 +35,7 @@ module('Integration | Component | target-profiles organizations', function(hooks
   test('it displays a message when there is no organizations', async function(assert) {
     // given
     const organizations = [];
-    organizations.meta = { page: 1, pageSize:  1 };
+    organizations.meta = { page: 1, pageSize: 1 };
     this.set('organizations', organizations);
 
     // when
@@ -49,7 +49,7 @@ module('Integration | Component | target-profiles organizations', function(hooks
     const attachOrganizations = sinon.stub();
     // given
     const organizations = [];
-    organizations.meta = { page: 1, pageSize:  1 };
+    organizations.meta = { page: 1, pageSize: 1 };
     this.set('organizations', organizations);
     this.set('organizationsToAttach', null);
     this.set('attachOrganizations', attachOrganizations);

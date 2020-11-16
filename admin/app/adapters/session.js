@@ -20,7 +20,7 @@ export default class SessionAdapter extends ApplicationAdapter {
       return this.ajax(url, 'PUT');
     }
     if (snapshot.adapterOptions.updatePublishedCertifications) {
-      const data =  { data: { attributes: { toPublish: snapshot.adapterOptions.toPublish } } };
+      const data = { data: { attributes: { toPublish: snapshot.adapterOptions.toPublish } } };
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/publication';
       return this.ajax(url, 'PATCH', { data });
     }

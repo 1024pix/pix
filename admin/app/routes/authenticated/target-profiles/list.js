@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import isEmpty  from 'lodash/isEmpty';
+import isEmpty from 'lodash/isEmpty';
 
 export default class ListRoute extends Route.extend(AuthenticatedRouteMixin) {
   @service notifications;

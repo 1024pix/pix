@@ -66,7 +66,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
 
         await controller.attachOrganizations();
 
-        assert.ok(controller.model.attachOrganizations.calledWith({ 'organization-ids' : [1, 2] }));
+        assert.ok(controller.model.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
         assert.equal(controller.organizationsToAttach, null);
         assert.ok(controller.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.'));
         assert.ok(controller.send.calledWith('refreshModel'));
@@ -82,7 +82,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
 
         await controller.attachOrganizations();
 
-        assert.ok(controller.model.attachOrganizations.calledWith({ 'organization-ids' : [1, 2, 3] }));
+        assert.ok(controller.model.attachOrganizations.calledWith({ 'organization-ids': [1, 2, 3] }));
         assert.equal(controller.organizationsToAttach, null);
         assert.ok(controller.send.calledWith('refreshModel'));
       });
