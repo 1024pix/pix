@@ -1,4 +1,4 @@
-import Service  from '@ember/service';
+import Service from '@ember/service';
 import last from 'lodash/last';
 
 export default class CurrentDomainService extends Service {

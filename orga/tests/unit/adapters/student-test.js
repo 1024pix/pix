@@ -26,7 +26,7 @@ module('Unit | Adapters | student', function(hooks) {
   });
 
   module('#dissociateUser', function() {
-    
+
     test('it performs the request to dissociate user from student', async function(assert) {
       // given
       const model = { id: 12345 };

@@ -24,7 +24,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     // when
     await render(hbs`<OrganizationCreditInfo />`);
     const displayedCreditInfo = document.querySelector('.organization-credit-info').textContent;
-  
+
     // then
     assert.contains(displayedCreditInfo.trim());
   });
@@ -39,7 +39,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     assert.contains(expectedCredit);
     assert.equal(displayedCredit, expectedCredit);
   });
-  
+
   test('should display tooltip info', async function(assert) {
     // when
     await render(hbs`<OrganizationCreditInfo />`);

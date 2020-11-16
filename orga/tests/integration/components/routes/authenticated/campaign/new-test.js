@@ -110,7 +110,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
         organization = EmberObject.create({ canCollectProfiles: false });
         isSCOManagingStudents = true;
       }
-      this.owner.register('service:current-user',  CurrentUserStub);
+      this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when
@@ -129,7 +129,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
         organization = EmberObject.create({ canCollectProfiles: false });
         isSCOManagingStudents = false;
       }
-      this.owner.register('service:current-user',  CurrentUserStub);
+      this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when
@@ -147,7 +147,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
         organization = EmberObject.create();
         isSCOManagingStudents = true;
       }
-      this.owner.register('service:current-user',  CurrentUserStub);
+      this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = EmberObject.create({});
 
       // when

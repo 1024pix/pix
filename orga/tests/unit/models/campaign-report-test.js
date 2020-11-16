@@ -7,7 +7,7 @@ module('Unit | Model | campaign report', function(hooks) {
   module('#hasStages', () => {
     test('returns true while campaign contains stages', function(assert) {
       const store = this.owner.lookup('service:store');
-      const stage =  store.createRecord('stage', { threshold: 45 });
+      const stage = store.createRecord('stage', { threshold: 45 });
       const model = store.createRecord('campaign-report', {
         participationCount: 3,
         sharedParticipationsCount: 1,

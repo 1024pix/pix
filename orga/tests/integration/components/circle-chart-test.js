@@ -25,7 +25,7 @@ module('Integration | Component | circle-chart', function(hooks) {
       await render(hbs`<CircleChart @value={{value}}/>`);
 
       // then
-      assert.dom('.circle--slice').hasAttribute('stroke-dasharray',`${value}, 100`);
+      assert.dom('.circle--slice').hasAttribute('stroke-dasharray', `${value}, 100`);
     });
 
     test('should not display the progressing circle when circle is disabled', async function(assert) {
