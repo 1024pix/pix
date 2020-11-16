@@ -30,7 +30,7 @@
                data-uid="qroc-proposal-uid"
                disabled={{if @answer true}}>
       {{else if (eq @format 'nombre')}}
-        <input class="challenge-response__proposal"
+        <input class="challenge-response__proposal challenge-response__proposal--number"
                type="number"
                id="qroc_input"
                {{on 'keydown' this.onInputChange}}
