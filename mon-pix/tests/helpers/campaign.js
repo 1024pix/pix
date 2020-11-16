@@ -25,7 +25,7 @@ export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExte
 
 export async function resumeCampaignOfTypeProfilesCollectionByCode(campaignCode, hasExternalParticipantId) {
   await visit(`/campagnes/${campaignCode}`);
-  await click(contains('C’est parti !'));
+  await click(contains('C\'est parti !'));
   if (hasExternalParticipantId) {
     await fillIn('#id-pix-label', 'monmail@truc.fr');
     await click(contains('Continuer'));
