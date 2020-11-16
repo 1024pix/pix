@@ -137,8 +137,8 @@ module('Integration | Component | login-form', function(hooks) {
   test('it should display an internal server error message when unhandled error', async function(assert) {
 
     // given
-    const msgErrorNotLinkedCertification =  {
-      'errors' : [{ 'status' : '502', 'title' : 'Bad Gateway' , 'detail' : 'Bad gateway occured' }],
+    const msgErrorNotLinkedCertification = {
+      'errors': [{ 'status': '502', 'title': 'Bad Gateway', 'detail': 'Bad gateway occured' }],
     };
 
     sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedCertification);

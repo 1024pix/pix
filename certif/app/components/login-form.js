@@ -51,7 +51,7 @@ export default class LoginForm extends Component {
     }
   }
 
-  _showErrorMessages(statusCode,apiError) {
+  _showErrorMessages(statusCode, apiError) {
     const httpStatusCodeMessages = {
 
       '400': ENV.APP.API_ERROR_MESSAGES.BAD_REQUEST.MESSAGE,

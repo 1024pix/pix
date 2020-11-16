@@ -60,7 +60,7 @@ module('Integration | Component | add-student-list', function(hooks) {
         firstStudent,
         _buildUnselectedStudent(),
       ]);
-      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
       this.set('divisions', divisions);
 
       // when
@@ -79,7 +79,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       this.set('students', [
         _buildUnselectedStudent(),
       ]);
-      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
       this.set('divisions', divisions);
 
       await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
@@ -97,7 +97,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       this.set('students', [
         _buildSelectedStudent(),
       ]);
-      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
       this.set('divisions', divisions);
 
       await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
@@ -129,7 +129,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       test(testLabel, async function(assert) {
         // given
         this.set('students', students);
-        const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+        const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
         this.set('divisions', divisions);
 
         await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
@@ -149,7 +149,7 @@ module('Integration | Component | add-student-list', function(hooks) {
         _buildSelectedStudent(),
         _buildSelectedStudent(),
       ]);
-      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
       this.set('divisions', divisions);
 
       await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
@@ -224,7 +224,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('studentList', studentList);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
-            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
             this.set('divisions', divisions);
 
             // when
@@ -256,7 +256,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 0);
-            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
             this.set('divisions', divisions);
 
             // when
@@ -290,7 +290,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 2);
-            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
             this.set('divisions', divisions);
 
             // when
@@ -334,7 +334,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 2);
-            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label: '3C', value: '3C' }];
             this.set('divisions', divisions);
 
             // when

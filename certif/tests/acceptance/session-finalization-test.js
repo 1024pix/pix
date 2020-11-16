@@ -62,7 +62,7 @@ module('Acceptance | Session Finalization', function(hooks) {
           test('it should show "Ajouter ?" button', async function(assert) {
           // given
             const expectedText = 'Ajouter ?';
-            server.create('feature-toggle', { id: 0, reportsCategorization: true  });
+            server.create('feature-toggle', { id: 0, reportsCategorization: true });
             const certificationReportsWithoutExaminerComment = server.create('certification-report', { examinerComment: null, certificationCourseId: 1 });
             const certificationReports = [certificationReportsWithoutExaminerComment];
             session.update({ certificationReports });
@@ -81,7 +81,7 @@ module('Acceptance | Session Finalization', function(hooks) {
             // given
             const expectedTextWithComment = 'Ajouter / modifier';
             const expectedTextWithoutComment = 'Ajouter ?';
-            server.create('feature-toggle', { id: 0, reportsCategorization: true  });
+            server.create('feature-toggle', { id: 0, reportsCategorization: true });
             const certificationReportsWithoutExaminerComment = server.create('certification-report', { examinerComment: null, certificationCourseId: 1 });
             const certificationReportsWithExaminerComment = server.create('certification-report', { examinerComment: 'Coucou', certificationCourseId: 2 });
             const certificationReports = [certificationReportsWithExaminerComment, certificationReportsWithoutExaminerComment];

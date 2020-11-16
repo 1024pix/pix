@@ -120,7 +120,7 @@ module('Unit | Component | add-student-list', function(hooks) {
       await component.enrollStudents();
 
       // then
-      sinon.assert.calledWith(component.args.session.save , { adapterOptions: { sessionId, studentListToAdd: selectedStudents } });
+      sinon.assert.calledWith(component.args.session.save, { adapterOptions: { sessionId, studentListToAdd: selectedStudents } });
       sinon.assert.calledWith(component.args.returnToSessionCandidates, sessionId);
       assert.ok(component);
     });

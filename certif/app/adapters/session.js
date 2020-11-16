@@ -4,7 +4,7 @@ export default class SessionAdapter extends ApplicationAdapter {
 
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     const url = super.urlForUpdateRecord(...arguments);
-    if (adapterOptions && adapterOptions.finalization)  {
+    if (adapterOptions && adapterOptions.finalization) {
       delete adapterOptions.finalization;
       return url + '/finalization';
     }

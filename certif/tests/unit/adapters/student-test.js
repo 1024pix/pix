@@ -19,15 +19,15 @@ module('Unit | Adapter | student', function(hooks) {
       // given
       const certificationCenterId = 1;
       const sessionId = 3;
-      const query = { 
+      const query = {
         page: {
           number: 1,
           size: 1,
         },
-        filter : {
-          certificationCenterId, 
-          sessionId, 
-        } ,
+        filter: {
+          certificationCenterId,
+          sessionId,
+        },
       };
 
       // when
