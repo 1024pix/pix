@@ -3,25 +3,41 @@
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
   <h1 class="sr-only">{{t 'pages.profile.accessibility.title'}}</h1>
-    <div class="rounded-panel-header-with-components">
-      <div class="rounded-panel-header__left-wrapper">
-        <div class="rounded-panel-header-text__content rounded-panel-title rounded-panel-header-text__content--first-title">
-        {{t 'pages.profile.first-title' htmlSafe=true}}
+    {{#if this.isPixContest}}
+      <div class="rounded-panel-header-with-components">
+          <div class="rounded-panel-header-text__content rounded-panel-title rounded-panel-header-text__content--first-title">
+            {{t 'pages.profile.pix-contest.title' }}
+          </div>
+      </div>
+      <p class="rounded-panel-header-text__content rounded-panel-rules">{{t 'pages.profile.pix-contest.rules'}}</p>
+      <div class="rounded-panel-header-text__content rounded-panel-links">
+        <p class="rounded-panel-links__link">{{t 'pages.profile.pix-contest.links.link1' htmlSafe=true}}</p>
+        <p class="rounded-panel-links__link">{{t 'pages.profile.pix-contest.links.link2' htmlSafe=true}}</p>
+        <p class="rounded-panel-links__link">{{t 'pages.profile.pix-contest.links.link3' htmlSafe=true}}</p>
+        <p class="rounded-panel-links__link">{{t 'pages.profile.pix-contest.links.link4' htmlSafe=true}}</p>
+        <p class="rounded-panel-links__link">{{t 'pages.profile.pix-contest.links.link5' htmlSafe=true}}</p>
+      </div>
+    {{else}}
+      <div class="rounded-panel-header-with-components">
+        <div class="rounded-panel-header__left-wrapper">
+          <div class="rounded-panel-header-text__content rounded-panel-title rounded-panel-header-text__content--first-title">
+          {{t 'pages.profile.first-title' htmlSafe=true}}
+          </div>
+        </div>
+        <div class="rounded-panel-header__right-wrapper">
+          <h2 class="sr-only">{{t 'pages.profile.accessibility.user-score'}}</h2>
+          <HexagonScore @pixScore={{@model.profile.pixScore}} />
         </div>
       </div>
-      <div class="rounded-panel-header__right-wrapper">
-        <h2 class="sr-only">{{t 'pages.profile.accessibility.user-score'}}</h2>
-        <HexagonScore @pixScore={{@model.profile.pixScore}} />
-      </div>
-    </div>
 
-    {{#if @model.profile.scorecards}}
-      <ProfileScorecards @interactive={{true}} @areasCode={{@model.profile.areasCode}} @scorecards={{@model.profile.scorecards}}/>
-    {{else}}
-      <p class="app-loader__image">
-        <img src="/images/interwind.gif" alt="" role="presentation" />
-        <br>{{t 'common.loading.default'}}
-      </p>
-   {{/if}}
+      {{#if @model.profile.scorecards}}
+        <ProfileScorecards @interactive={{true}} @areasCode={{@model.profile.areasCode}} @scorecards={{@model.profile.scorecards}}/>
+      {{else}}
+        <p class="app-loader__image">
+          <img src="/images/interwind.gif" alt="" role="presentation" />
+          <br>{{t 'common.loading.default'}}
+        </p>
+     {{/if}}
+    {{/if}}
   </div>
 </div>

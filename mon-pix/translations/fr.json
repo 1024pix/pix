@@ -640,6 +640,17 @@
                 "details": "détails"
             },
             "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
+            "pix-contest": {
+                "title": "Bienvenue dans cette session Pix-concours.",
+                "links": {
+                    "link1": "'<a href=\"Premier lien\">'Nom du premier module'</a>'",
+                    "link2": "'<a href=\"Second lien\">'Nom du second module'</a>'",
+                    "link3": "'<a href=\"Troisième lien\">'Nom du troisième module'</a>'",
+                    "link4": "'<a href=\"Quatrième lien\">'Nom du quatrième module'</a>'",
+                    "link5": "'<a href=\"Cinquième lien\">'Nom du cinquième module'</a>'"
+                },
+                "rules": "Règles de l'épreuve"
+            },
             "resume-campaign-banner": {
                 "accessibility": {
                     "resume": "Continuer votre parcours",

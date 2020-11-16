@@ -42,6 +42,8 @@
 /* Pour faire en sorte que les pages gardent le gris car sinon c'est blanc */
 .ember-burger-menu > .bm-outlet > .bm-content {
   background-color: transparent;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Pour permettre à `resume-campaign-banner.hbs` de rester sticky sur les moteurs Chrome */

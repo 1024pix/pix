@@ -640,6 +640,17 @@
                 "details": "details"
             },
             "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go!",
+            "pix-contest": {
+                "title": "",
+                "links": {
+                    "link1": "",
+                    "link2": "",
+                    "link3": "",
+                    "link4": "",
+                    "link5": ""
+                },
+                "rules": ""
+            },
             "resume-campaign-banner": {
                 "accessibility": {
                     "resume": "Resume your personalised test",
