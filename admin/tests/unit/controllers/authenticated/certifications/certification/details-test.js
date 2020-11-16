@@ -8,11 +8,11 @@ module('Unit | Controller | authenticated/certifications/certification/details',
 
   const answer = (result) => {
     return {
-      skill:'@skill1',
-      challengeId:'rec12345',
-      order:'1',
-      result:'ok',
-      jury:result,
+      skill: '@skill1',
+      challengeId: 'rec12345',
+      order: '1',
+      result: 'ok',
+      jury: result,
     };
   };
 
@@ -25,7 +25,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
       obtainedLevel: 3,
       obtainedScore: 26,
       answers: results.slice(0, 3).map(answer),
-      juryScore:juryScore ? 12 : false,
+      juryScore: juryScore ? 12 : false,
     };
   };
 
@@ -33,7 +33,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     // given
     const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
     controller.set('model', EmberObject.create({
-      competences:[competence(false,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(false,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(false,'ok', 'ok', 'ok')],
+      competences: [competence(false, 'ok', 'ok', 'skip'), competence(false, 'ok', 'ko', 'ok'), competence(false, 'ok', 'aband', 'ok'), competence(false, 'ok', 'timedout', 'ok'), competence(false, 'ok', 'ok', 'ok')],
     }));
 
     // when
@@ -49,7 +49,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     // given
     const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
     controller.set('model', EmberObject.create({
-      competences:[competence(true,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(true,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(true,'ok', 'ok', 'ok')],
+      competences: [competence(true, 'ok', 'ok', 'skip'), competence(false, 'ok', 'ko', 'ok'), competence(true, 'ok', 'aband', 'ok'), competence(false, 'ok', 'timedout', 'ok'), competence(true, 'ok', 'ok', 'ok')],
     }));
 
     // when

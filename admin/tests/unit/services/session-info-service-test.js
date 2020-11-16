@@ -112,7 +112,7 @@ module('Unit | Service | session-info-service', function(hooks) {
     test('should include certification with not checked end screen from examiner', async function(assert) {
       const session = EmberObject.create({ id: 5 });
       const certifications = A([
-        buildCertification({ id: '1', status: 'validated', sessionId: 5, hasSeenEndTestScreen: false,  displayCleaCertificationStatus: 'Validée' }),
+        buildCertification({ id: '1', status: 'validated', sessionId: 5, hasSeenEndTestScreen: false, displayCleaCertificationStatus: 'Validée' }),
         buildCertification({ id: '2', status: 'validated', sessionId: 5 }),
         buildCertification({ id: '3', status: 'validated', sessionId: 5 }),
       ]);

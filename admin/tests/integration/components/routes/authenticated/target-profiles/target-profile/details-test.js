@@ -33,7 +33,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
 
   test('it should display target profile data', async function(assert) {
     // given
-    this.skills =  [{ id: 'rec1', name: '@url2' }];
+    this.skills = [{ id: 'rec1', name: '@url2' }];
 
     // when
     await render(hbs`<TargetProfiles::Details @skills={{this.skills}} />`);

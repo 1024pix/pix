@@ -10,10 +10,10 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
   setupRenderingTest(hooks);
 
   const answerData = {
-    skill:'@skill5',
-    challengeId:'rec12345',
-    order:5,
-    result:'partially',
+    skill: '@skill5',
+    challengeId: 'rec12345',
+    order: 5,
+    result: 'partially',
   };
 
   test('info are correctly displayed', async function(assert) {

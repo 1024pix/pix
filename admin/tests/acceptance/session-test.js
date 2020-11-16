@@ -59,7 +59,7 @@ module('Acceptance | Session pages', function(hooks) {
           assert.equal(document.querySelector('.page-actions form input').value, '1');
         });
 
-        test('it loads new session when user give a new sessionId', async  function(assert) {
+        test('it loads new session when user give a new sessionId', async function(assert) {
           // when
           const sessionIdInput = document.querySelector('.page-actions form input');
           await fillIn(sessionIdInput, '2');

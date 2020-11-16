@@ -36,8 +36,8 @@ function findPaginatedTargetProfileOrganizations(schema, request) {
 
 function _getPaginationFromQueryParams(queryParams) {
   return {
-    pageSize: parseInt(_get(queryParams, 'page[size]',  10)),
-    page: parseInt(_get(queryParams, 'page[number]',  1)),
+    pageSize: parseInt(_get(queryParams, 'page[size]', 10)),
+    page: parseInt(_get(queryParams, 'page[number]', 1)),
   };
 }
 

@@ -58,10 +58,10 @@ module('Unit | Model | certification', function(hooks) {
           const certification = run(() => store.createRecord('certification', {
             cleaCertificationStatus: cleaStatus,
           }));
-  
+
           // when
           const result = certification.isCleaCertificationIsRejected;
-  
+
           // then
           assert.equal(result, expectedResult);
         });

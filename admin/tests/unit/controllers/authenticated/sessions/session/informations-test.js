@@ -8,7 +8,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
   let store;
   let controller;
   let model;
-  const err = { error : 'some error' };
+  const err = { error: 'some error' };
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/sessions/session/informations');
@@ -24,7 +24,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
   module('#downloadSessionResultFile', function() {
 
     let url, fileName, validToken;
-    
+
     hooks.beforeEach(function() {
       url = `/api/admin/sessions/${model.id}/results`;
       fileName = 'resultats-session.csv';

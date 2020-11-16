@@ -48,7 +48,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
-    controller.certification =  EmberObject.create({
+    controller.certification = EmberObject.create({
       competencesWithMark,
     });
   });
@@ -262,7 +262,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       test('should set competencesWithMark', async function(assert) {
         // given
         const score = 100;
-        const anExistingCompetence =  _getCompetenceWithMark(anExistingCompetenceCode);
+        const anExistingCompetence = _getCompetenceWithMark(anExistingCompetenceCode);
 
         const expectedCompetencesWithMark = [
           createMark({

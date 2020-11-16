@@ -31,7 +31,7 @@ export default class CertificationDetailsController extends Controller {
       const competences = this.details.competences;
       const newScore = competences.reduce((value, competence) => {
         const isJuryScoreCorrect = (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false);
-        value +=  isJuryScoreCorrect
+        value += isJuryScoreCorrect
           ? competence.juryScore
           : competence.obtainedScore;
         return value;
