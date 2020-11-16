@@ -1,6 +1,6 @@
 /* eslint ember/no-computed-properties-in-native-classes: 0 */
 
-import Model, { attr, belongsTo  } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 
 export default class Tutorial extends Model {

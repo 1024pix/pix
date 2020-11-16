@@ -82,7 +82,7 @@ export default class ChallengeItemGeneric extends Component {
   validateAnswer() {
     if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
 
-      if (this._hasError()  && !this.hasChallengeTimedOut) {
+      if (this._hasError() && !this.hasChallengeTimedOut) {
         const errorMessage = this._getErrorMessage();
         this.errorMessage = errorMessage;
         return;

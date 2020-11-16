@@ -28,7 +28,7 @@ export default class JoinScoInformationModal extends Component {
       const error = this.args.reconciliationError;
       this.displayContinueButton = !ACCOUNT_WITH_SAMLID_ALREADY_EXISTS_ERRORS.includes(error.meta.shortCode);
       const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-      this.message = this.intl.t(getJoinErrorsMessageByShortCode(error.meta), { value: error.meta.value, htmlSafe: true })  || defaultMessage;
+      this.message = this.intl.t(getJoinErrorsMessageByShortCode(error.meta), { value: error.meta.value, htmlSafe: true }) || defaultMessage;
     }
   }
 
@@ -41,6 +41,6 @@ export default class JoinScoInformationModal extends Component {
   @action
   async goToCampaignConnectionForm() {
     await this.session.invalidate();
-    return this.router.replaceWith('campaigns.start-or-resume', this.args.campaignCode,  { queryParams: { hasUserSeenJoinPage: true } });
+    return this.router.replaceWith('campaigns.start-or-resume', this.args.campaignCode, { queryParams: { hasUserSeenJoinPage: true } });
   }
 }

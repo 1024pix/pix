@@ -1,4 +1,4 @@
-import Service, { inject as service }  from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 
 export default class CompetenceEvaluationService extends Service {
   @service store;

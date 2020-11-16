@@ -23,7 +23,7 @@ export default function index(config) {
 
   config.patch('/users/:id/password-update', (schema, request) => {
     const body = JSON.parse(request.requestBody);
-    const user =  schema.users.find(request.params.id);
+    const user = schema.users.find(request.params.id);
 
     const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.queryParams['temporary-key'] });
     if (user.email !== demand.email) {
@@ -34,7 +34,7 @@ export default function index(config) {
     }
   });
   config.patch('/users/:id/remember-user-has-seen-assessment-instructions', (schema, request) => {
-    const user =  schema.users.find(request.params.id);
+    const user = schema.users.find(request.params.id);
     user.hasSeenAssessmentInstructions = true;
     return user;
   });

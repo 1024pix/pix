@@ -43,7 +43,7 @@ export default class ProgressBar extends Component {
   }
 
   get progressionWidth() {
-    const widthPercent = this.MINIMUM_WIDTH_STEP_IN_PERCENT + (100 - this.MINIMUM_WIDTH_STEP_IN_PERCENT) * this.currentStepIndex  / (this.maxStepsNumber - 1);
+    const widthPercent = this.MINIMUM_WIDTH_STEP_IN_PERCENT + (100 - this.MINIMUM_WIDTH_STEP_IN_PERCENT) * this.currentStepIndex / (this.maxStepsNumber - 1);
 
     const width = this.currentStepIndex === 0 ? `${this.MINIMUM_WIDTH_STEP_IN_PIXEL}px` : `${widthPercent}%`;
 

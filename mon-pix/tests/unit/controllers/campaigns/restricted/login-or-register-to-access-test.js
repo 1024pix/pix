@@ -88,7 +88,7 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
       const expectedCampaignCode = campaignCode;
 
       const expectedStoreOptions = { arg1: 'schooling-registration-user-association', arg2: { userId: expectedUserId, campaignCode: expectedCampaignCode } };
-      const expectedSaveOptions =  { adapterOptions: { tryReconciliation: true } };
+      const expectedSaveOptions = { adapterOptions: { tryReconciliation: true } };
 
       const saveStub = sinon.stub();
       const storeStub = { createRecord: sinon.stub().returns({ save: saveStub }) };

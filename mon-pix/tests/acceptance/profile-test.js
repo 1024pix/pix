@@ -74,7 +74,7 @@ describe('Acceptance | Profile', function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
           server.create('campaign-participation',
-            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
           await visit('/');
@@ -89,7 +89,7 @@ describe('Acceptance | Profile', function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
           server.create('campaign-participation',
-            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
           await visit('/');
@@ -103,7 +103,7 @@ describe('Acceptance | Profile', function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle', type: 'ASSESSMENT' });
           server.create('campaign-participation',
-            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
           await visit('/');
@@ -120,7 +120,7 @@ describe('Acceptance | Profile', function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
           const campaignParticipation = server.create('campaign-participation',
-            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
           campaignParticipation.assessment.update({ state: 'completed' });
 
           // when
@@ -135,7 +135,7 @@ describe('Acceptance | Profile', function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle', type: 'ASSESSMENT' });
           const campaignParticipation = server.create('campaign-participation',
-            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
           campaignParticipation.assessment.update({ state: 'completed' });
 
           // when
@@ -154,7 +154,7 @@ describe('Acceptance | Profile', function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
           server.create('campaign-participation',
-            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
           await visit('/');
@@ -170,7 +170,7 @@ describe('Acceptance | Profile', function() {
           // given
           const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle', type: 'PROFILES_COLLECTION' });
           const campaignParticipation = server.create('campaign-participation',
-            { campaign, user, isShared: false , createdAt: new Date('2020-04-20T04:05:06Z') });
+            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
           campaignParticipation.assessment.update({ state: 'completed' });
 
           // when
