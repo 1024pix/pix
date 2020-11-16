@@ -22,8 +22,8 @@ module.exports = async function computeCampaignParticipationAnalysis(
     return null;
   }
 
-  const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
   const tutorials = await tutorialRepository.list();
 
-  return campaignAnalysisRepository.getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfile, tutorials);
+  return campaignAnalysisRepository.getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfileWithLearningContent, tutorials);
 };

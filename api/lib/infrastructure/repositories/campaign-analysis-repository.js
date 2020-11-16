@@ -7,34 +7,35 @@ const constants = require('../constants');
 
 module.exports = {
 
-  async getCampaignAnalysis(campaignId, targetProfile, tutorials) {
-    const campaignAnalysis = new CampaignAnalysis({ campaignId, targetProfile, tutorials });
-    const userIdsAndSharedDatesChunks = await _getChunksSharedParticipationsWithUserIdsAndDates(campaignId);
+  async getCampaignAnalysis(campaignId, targetProfileWithLearningContent, tutorials) {
+    const userIdsAndSharedDates = await _getSharedParticipationsWithUserIdsAndDates(campaignId);
+    const userIdsAndSharedDatesChunks = _.chunk(userIdsAndSharedDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+    const participantCount = userIdsAndSharedDates.length;
 
-    let participantCount = 0;
+    const campaignAnalysis = new CampaignAnalysis({ campaignId, targetProfileWithLearningContent, tutorials, participantCount });
+
     await bluebird.mapSeries(userIdsAndSharedDatesChunks, async (userIdsAndSharedDates) => {
-      participantCount += userIdsAndSharedDates.length;
-      const validatedKnowledgeElementsByTube =
-        await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(Object.fromEntries(userIdsAndSharedDates), targetProfile);
-      campaignAnalysis.addValidatedKnowledgeElementsToTubeRecommendations(validatedKnowledgeElementsByTube);
+      const knowledgeElementsByTube =
+        await knowledgeElementRepository.findValidatedTargetedGroupedByTubes(Object.fromEntries(userIdsAndSharedDates), targetProfileWithLearningContent);
+      campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
     });
-    campaignAnalysis.finalize(participantCount);
+    campaignAnalysis.finalize();
     return campaignAnalysis;
   },
 
-  async getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfile, tutorials) {
-    const campaignAnalysis = new CampaignAnalysis({ campaignId, targetProfile, tutorials });
+  async getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfileWithLearningContent, tutorials) {
+    const campaignAnalysis = new CampaignAnalysis({ campaignId, targetProfileWithLearningContent, tutorials, participantCount: 1 });
 
-    const validatedKnowledgeElementsByTube =
-      await knowledgeElementRepository.findValidatedTargetedGroupedByTubes({ [campaignParticipation.userId]: campaignParticipation.sharedAt }, targetProfile);
-    campaignAnalysis.addValidatedKnowledgeElementsToTubeRecommendations(validatedKnowledgeElementsByTube);
+    const knowledgeElementsByTube =
+      await knowledgeElementRepository.findValidatedTargetedGroupedByTubes({ [campaignParticipation.userId]: campaignParticipation.sharedAt }, targetProfileWithLearningContent);
+    campaignAnalysis.addToTubeRecommendations({ knowledgeElementsByTube });
 
     campaignAnalysis.finalize(1);
     return campaignAnalysis;
   },
 };
 
-async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
+async function _getSharedParticipationsWithUserIdsAndDates(campaignId) {
   const results = await knex('campaign-participations')
     .select('userId', 'sharedAt')
     .where({ campaignId, isShared: true });
@@ -44,5 +45,5 @@ async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
     userIdsAndDates.push([result.userId, result.sharedAt]);
   }
 
-  return _.chunk(userIdsAndDates, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+  return userIdsAndDates;
 }

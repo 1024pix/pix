@@ -8,7 +8,7 @@ function _createUserWithSharedCampaignParticipation(userName, campaignId, shared
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    isShared: true,
+    isShared: Boolean(sharedAt),
     sharedAt,
   });
 
@@ -150,20 +150,25 @@ describe('Integration | Repository | Campaign analysis repository', () => {
 
         beforeEach(() => {
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
-          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, new Date());
-          const userWithCampaignParticipationJoe = _createUserWithSharedCampaignParticipation('Joe', campaignId, new Date());
-          const userWithNonSharedParticipation = _createUserWithNonSharedCampaignParticipation('Paul', campaignId, new Date());
+          const shareDate = new Date('2019-01-02');
+          const afterShareDate = new Date('2019-01-03');
+          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, shareDate);
+          const userWithCampaignParticipationJoe = _createUserWithSharedCampaignParticipation('Joe', campaignId, shareDate);
+          const userWithNonSharedParticipation = _createUserWithNonSharedCampaignParticipation('Paul', campaignId, shareDate);
           const fredId = userWithCampaignParticipationFred.userId;
           const joeId = userWithCampaignParticipationJoe.userId;
           const paulId = userWithNonSharedParticipation.userId;
+          const anotherCampaignId = databaseBuilder.factory.buildCampaign().id;
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: anotherCampaignId, userId: paulId, sharedAt: shareDate, isShared: true });
 
           _.each([
-            { userId: paulId, skillId: 'recUrl1', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId: fredId, skillId: 'recUrl1', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId: fredId, skillId: 'recUrl2', status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId: joeId, skillId: 'recUrl1', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId: fredId, skillId: 'recFile2', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId: fredId, skillId: 'recFile3', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+            { userId: paulId, skillId: 'recUrl1', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: 'recUrl1', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: 'recUrl2', status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: joeId, skillId: 'recUrl1', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: joeId, skillId: 'recUrl2', status: 'validated', createdAt: afterShareDate },
+            { userId: fredId, skillId: 'recFile2', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: 'recFile3', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
             { userId: fredId, skillId: 'someUntargetedSkill', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
           ], (knowledgeElement) => {
             databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
@@ -172,7 +177,7 @@ describe('Integration | Repository | Campaign analysis repository', () => {
           return databaseBuilder.commit();
         });
 
-        it('should resolves an analysis based on participant score ignoring untargeted or non validated knowledge elements', async () => {
+        it('should resolves an analysis based on participant score ignoring untargeted | non validated | outdated knowledge elements', async () => {
           // when
           const tutorials = [];
           const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfile, tutorials);
@@ -267,11 +272,11 @@ describe('Integration | Repository | Campaign analysis repository', () => {
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
 
           _.each([
-            { userId, skillId: 'recUrl1', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId, skillId: 'recUrl2', status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId, skillId: 'recFile2', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId, skillId: 'recFile3', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-            { userId, skillId: 'someUntargetedSkill', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+            { userId, skillId: 'recUrl1', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId, skillId: 'recUrl2', status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+            { userId, skillId: 'recFile2', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId, skillId: 'recFile3', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId, skillId: 'someUntargetedSkill', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
           ], (knowledgeElement) => {
             databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
           });
