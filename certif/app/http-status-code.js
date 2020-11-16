@@ -6,7 +6,7 @@ export const HttpStatusCodes = {
     CODE: '500',
     MESSAGE: 'Le service est momentanément indisponible. Veuillez réessayer ultérieurement.',
   },
-  UNAUTHORIZED: { CODE: '401' , MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
+  UNAUTHORIZED: { CODE: '401', MESSAGE: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' },
   FORBIDDEN: '403',
   NOT_FOUND: '404',
 };

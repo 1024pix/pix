@@ -98,7 +98,7 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
           @maxlength={{@examinerCommentMaxLength}}
         />
       `);
-      
+
       // then
       assert.dom(TEXT_AREA_SELECTOR).doesNotExist();
       assert.dom(LABEL_FOR_RADIO_BUTTON_SELECTOR).hasText('Autre incident');

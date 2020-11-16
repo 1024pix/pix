@@ -25,15 +25,15 @@ export function createUserAndMembership(pixCertifTermsOfServiceAccepted = false,
 }
 
 export function createScoUserWithMembershipAndTermsOfServiceAccepted() {
-  return createUserWithMembershipAndTermsOfServiceAccepted('SCO' , 'Centre de certification SCO du pix');
+  return createUserWithMembershipAndTermsOfServiceAccepted('SCO', 'Centre de certification SCO du pix');
 }
 
 export function createUserAndMembershipAndTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
-  return createUserAndMembership(true, certificationCenterType , certificationCenterName);
+  return createUserAndMembership(true, certificationCenterType, certificationCenterName);
 }
 
 export function createUserWithMembershipAndTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
-  const { user } = createUserAndMembership(true, certificationCenterType , certificationCenterName);
+  const { user } = createUserAndMembership(true, certificationCenterType, certificationCenterName);
   return user;
 }
 export function createUserWithMembershipAndTermsOfServiceNotAccepted() {

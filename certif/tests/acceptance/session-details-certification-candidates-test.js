@@ -13,7 +13,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'pix-certif/config/environment';
 
 module('Acceptance | Session Details Certification Candidates', function(hooks) {
-  
+
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -23,7 +23,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
   const validBirthProvinceCode = '974';
   const validBirthCountry = 'MonPays';
   const validBirthdate = '01021990';
-  
+
   hooks.afterEach(function() {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
@@ -34,7 +34,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       const session = server.create('session');
-      
+
       // when
       await visit(`/sessions/${session.id}/candidats`);
 
@@ -94,7 +94,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
         // when
         await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-    
+
         // then
         assert.dom('table tbody tr').exists({ count: 3 });
         assert.dom(`[data-test-id="panel-candidate__lastName__${aCandidate.id}"]`).hasText(`${aCandidate.lastName}`);
@@ -113,10 +113,10 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           // given
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new File(['foo'], `${sessionWithCandidates.id}.addTwoCandidates`);
-  
+
           // when
           await upload('#upload-attendance-sheet', file);
-  
+
           // then
           assert.dom('table tbody tr').exists({ count: 2 });
         });
@@ -125,10 +125,10 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           // given
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           const file = new File(['foo'], 'valid-file');
-          
+
           // when
           await upload('#upload-attendance-sheet', file);
-  
+
           // then
           assert.dom('[data-test-notification-message="success"]').hasText('La liste des candidats a été importée avec succès.');
         });
@@ -164,7 +164,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
           // when
           await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
-      
+
           // then
           assert.dom('.panel-actions__warning').hasText(
             'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.');
@@ -247,7 +247,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
             // when
             await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
             await click('[data-test-id="add-certification-candidate-staging__button"]');
-  
+
             // then
             assert.dom('[data-test-id="panel-candidate__lastName__add-staging"]').exists();
             await click('[data-test-id="panel-candidate__action__cancel"]');

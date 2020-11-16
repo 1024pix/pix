@@ -25,7 +25,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
 
       component.store = store;
       component.args = {
-        certificationCandidates : [],
+        certificationCandidates: [],
         sessionId,
         reloadCertificationCandidate: sinon.stub().returns(),
       };
@@ -43,7 +43,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       sinon.assert.calledOnce(component.args.reloadCertificationCandidate);
       assert.ok(true);
     });
-  
+
     test('should throw an exception when the student is already added', async function(assert) {
       // given
       const sessionId = 'sessionId';
@@ -52,18 +52,18 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
         { ...certificationCandidateData },
         { save: sinon.stub().resolves(), deleteRecord: sinon.stub() });
       const store = { createRecord: sinon.stub().returns(savableCandidate) };
-  
+
       component.store = store;
       component.args = {
-        certificationCandidates : [_buildCandidate({
+        certificationCandidates: [_buildCandidate({
           ...certificationCandidateData,
         })],
         sessionId,
       };
-  
+
       // when
       await component.saveCertificationCandidate(certificationCandidateData);
-  
+
       // then
       sinon.assert.notCalled(savableCandidate.save);
       sinon.assert.calledOnce(savableCandidate.deleteRecord);
@@ -76,9 +76,9 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     test('should delete the candidate action with appropriate adapter options', async function(assert) {
       // given
       const sessionId = 'sessionId';
-      const candidate = _buildCandidate({},  { destroyRecord: sinon.stub() });
+      const candidate = _buildCandidate({}, { destroyRecord: sinon.stub() });
       component.args = {
-        certificationCandidates : [],
+        certificationCandidates: [],
         sessionId,
       };
 
