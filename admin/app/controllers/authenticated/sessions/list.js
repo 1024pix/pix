@@ -52,20 +52,23 @@ export default class SessionListController extends Controller {
 
   @action
   updateCertificationCenterTypeFilter(newValue) {
-    this.certificationCenterType = newValue === 'all' ? null : newValue;
+    this.certificationCenterType = this._getOrNullForOptionAll(newValue);
     this.triggerFiltering.perform();
   }
 
   @action
   updateSessionStatusFilter(newValue) {
-    this.status = newValue === 'all' ? null : newValue;
+    this.status = this._getOrNullForOptionAll(newValue);
     this.triggerFiltering.perform();
   }
 
   @action
   updateSessionResultsSentToPrescriberFilter(newValue) {
-    this.resultsSentToPrescriberAt = newValue === 'all' ? null : newValue;
+    this.resultsSentToPrescriberAt = this._getOrNullForOptionAll(newValue);
     this.triggerFiltering.perform();
   }
 
+  _getOrNullForOptionAll(value) {
+    return value === 'all' ? null : value;
+  }
 }
