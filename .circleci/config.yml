@@ -78,6 +78,12 @@ jobs:
       - checkout
       - run:
           command: |
+            cd scripts/ensure-pr-is-ready-for-review
+            npm ci
+            cd ../..
+            node scripts/ensure-pr-is-ready-for-review
+      - run:
+          command: |
             npm ci
             npm run lint:scripts
             npm run test:scripts
