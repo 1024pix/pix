@@ -26,7 +26,13 @@ export default function index(config) {
     const campaignCode = params.data.attributes['campaign-code'];
 
     const schoolingRegistration = schema.schoolingRegistrationUserAssociations.findBy({ campaignCode });
-    return schoolingRegistration ? schoolingRegistration : new Response(422);
+    return schoolingRegistration ? schoolingRegistration : new Response(422, {}, {
+      errors: [{
+        status: '422',
+        title: 'Unprocessable entity',
+        detail: 'Cet utilisateur n\'a pas pu être rattaché à une organisation.',
+      }],
+    });
   });
 
   config.put('/schooling-registration-user-associations/possibilities', () => {
