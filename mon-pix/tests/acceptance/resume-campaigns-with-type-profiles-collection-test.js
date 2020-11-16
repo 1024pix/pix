@@ -31,7 +31,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collecti
       // Reset state, invalidateSession() is not doing it...
       this.owner.lookup('route:campaigns.start-or-resume')._resetState();
       await visit(`/campagnes/${campaign.code}`);
-      await click(contains('C’est parti !'));
+      await click(contains('C\'est parti !'));
     });
 
     it('should propose to signup', function() {
