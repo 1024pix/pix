@@ -17,10 +17,10 @@ export default Factory.extend({
 
   afterCreate(competenceResult) {
     if (!competenceResult.testedSkillsCount) {
-      competenceResult.update({ testedSkillsCount : competenceResult.totalSkillsCounts - 1 });
+      competenceResult.update({ testedSkillsCount: competenceResult.totalSkillsCounts - 1 });
     }
     if (!competenceResult.validatedSkillsCount) {
-      competenceResult.update({ validatedSkillsCount : competenceResult.testedSkillsCount - 1 });
+      competenceResult.update({ validatedSkillsCount: competenceResult.testedSkillsCount - 1 });
     }
   },
 });

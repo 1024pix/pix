@@ -1,6 +1,6 @@
 export default function(hexStart, hexEnd, colorCount) {
   const rgbStart = convertToRGB(hexStart);
-  const rgbEnd   = convertToRGB (hexEnd);
+  const rgbEnd = convertToRGB(hexEnd);
 
   //Alpha blending amount
   let alpha = 0.0;
@@ -42,5 +42,5 @@ function _hex(c) {
   const s = '0123456789abcdef';
   const i = parseInt(c);
 
-  return s.charAt ((i - i % 16) / 16) + s.charAt (i % 16);
+  return s.charAt((i - i % 16) / 16) + s.charAt(i % 16);
 }

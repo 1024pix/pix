@@ -44,7 +44,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return false when the feedback has not already been sent', function() {
       // given
-      component._sendButtonStatus =  'unrecorded';
+      component._sendButtonStatus = 'unrecorded';
 
       // when
       const result = component.isSendButtonDisabled;

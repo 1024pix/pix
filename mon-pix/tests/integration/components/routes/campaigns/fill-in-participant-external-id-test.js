@@ -30,7 +30,7 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
       // then
       expect(find('img')).to.exist;
       expect(find('img').getAttribute('alt')).to.contain(campaign.alternativeTextToExternalIdHelpImage);
-      
+
     });
   });
 
@@ -49,5 +49,5 @@ describe('Integration | Component | routes/campaigns/restricted/fill-in-particip
       expect(find('img')).to.not.exist;
     });
   });
-  
+
 });

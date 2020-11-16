@@ -11,7 +11,7 @@ describe('Unit | Service | peeker', function() {
   beforeEach(function() {
     service = this.owner.lookup('service:peeker');
 
-    obj1 = EmberObject.create({ name: 'Michel', lastName: 'Essentiel', age: 20 , fruit: 'apple' });
+    obj1 = EmberObject.create({ name: 'Michel', lastName: 'Essentiel', age: 20, fruit: 'apple' });
     obj2 = EmberObject.create({ name: 'Michel', lastName: 'Essentiel', age: 40, address: '42 baker street' });
     obj3 = EmberObject.create({ name: 'Jacqueline', lastName: 'Jackson', age: 57, address: '42 baker street' });
 

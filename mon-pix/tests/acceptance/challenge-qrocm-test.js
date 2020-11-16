@@ -115,7 +115,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         value: 'station1: \'Republique\'\nstation2: \'Chatelet\'\n',
         result: 'ko',
         assessmentId: assessment.id,
-        challengeId :qrocmDepChallenge.id,
+        challengeId: qrocmDepChallenge.id,
         correction: correctionDep,
       });
       correctionInd = server.create('correction', {
@@ -128,7 +128,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         value: 'titre: \'Le rouge et le noir\'\nauteur: \'Stendhal\'\n',
         result: 'ko',
         assessmentId: assessment.id,
-        challengeId :qrocmIndChallenge.id,
+        challengeId: qrocmIndChallenge.id,
         correction: correctionInd,
       });
 
@@ -139,12 +139,12 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
     it('should show the result of previous challenges in checkpoint', async () => {
       // then
       expect(findAll('.result-item__icon')[0].title).to.equal('Réponse incorrecte');
-      const instructionStripped = qrocmDepChallenge.instruction.slice(0,102);
+      const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);
       expect(findAll('.result-item__instruction')[0].textContent.trim()).to.equal(`${instructionStripped}...`);
       expect(findAll('.result-item__correction-button')[0].textContent.trim()).to.equal('Réponses et tutos');
 
       expect(findAll('.result-item__icon')[1].title).to.equal('Réponse incorrecte');
-      const instructionStrippedInd = qrocmIndChallenge.instruction.slice(0,104);
+      const instructionStrippedInd = qrocmIndChallenge.instruction.slice(0, 104);
       expect(findAll('.result-item__instruction')[1].textContent.trim()).to.equal(`${instructionStrippedInd}....`);
       expect(findAll('.result-item__correction-button')[1].textContent.trim()).to.equal('Réponses et tutos');
     });

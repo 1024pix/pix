@@ -72,7 +72,7 @@ export default class JoinSco extends Component {
   }
 
   get isDisabled() {
-    return (undefined !== get(this.session,'data.externalUser'));
+    return (undefined !== get(this.session, 'data.externalUser'));
   }
 
   @action

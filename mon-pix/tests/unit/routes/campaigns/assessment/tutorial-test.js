@@ -15,7 +15,7 @@ describe('Unit | Route | campaigns/evaluation/tutorial', function() {
   let route;
   const tutorialPages = {
     tutorial: {
-      page0 : {
+      page0: {
         title: 'Vous pouvez rechercher sur internet',
         icon: 'icn-recherche.svg',
         explanation: 'Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.',

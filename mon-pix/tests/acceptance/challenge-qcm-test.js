@@ -116,7 +116,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
         value: '2',
         result: 'ko',
         assessmentId: assessment.id,
-        challengeId :qcmChallenge.id,
+        challengeId: qcmChallenge.id,
         correction,
       });
 

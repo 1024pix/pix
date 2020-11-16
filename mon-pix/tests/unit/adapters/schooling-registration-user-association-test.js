@@ -78,7 +78,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function()
             return {
               data: {
                 attributes: {
-                  'campaign-code' : 'AZERTY123',
+                  'campaign-code': 'AZERTY123',
                 },
               },
             };

@@ -30,12 +30,12 @@ export default Factory.extend({
   afterCreate(campaign, server) {
     if (!campaign.targetProfile) {
       campaign.update({
-        targetProfile : server.create('target-profile', { name: 'Target Profile' }),
+        targetProfile: server.create('target-profile', { name: 'Target Profile' }),
       });
     }
     if (!campaign.type) {
       campaign.update({
-        type : 'ASSESSMENT',
+        type: 'ASSESSMENT',
       });
     }
   },
@@ -57,7 +57,7 @@ export default Factory.extend({
   ofTypeAssessment: trait({
     afterCreate(campaign) {
       campaign.update({
-        type : 'ASSESSMENT',
+        type: 'ASSESSMENT',
       });
     },
   }),
@@ -65,7 +65,7 @@ export default Factory.extend({
   ofTypeProfilesCollection: trait({
     afterCreate(campaign) {
       campaign.update({
-        type : 'PROFILES_COLLECTION',
+        type: 'PROFILES_COLLECTION',
       });
     },
   }),
@@ -73,7 +73,7 @@ export default Factory.extend({
   restricted: trait({
     afterCreate(campaign) {
       campaign.update({
-        isRestricted : true,
+        isRestricted: true,
       });
     },
   }),
