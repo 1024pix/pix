@@ -240,7 +240,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('filterTargetedKnowledgeElementAndGroupByCompetence()', () => {
+  describe('getKnowledgeElementsGroupedByCompetence()', () => {
 
     it('should return knowledge elements of targeted skill by targeted competence id', () => {
       // given
@@ -262,7 +262,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1, knowledgeElement2_1, knowledgeElement2_2];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
@@ -285,7 +285,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
@@ -307,7 +307,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
@@ -330,7 +330,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1, knowledgeElement2];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
@@ -339,7 +339,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('filterValidatedTargetedKnowledgeElementAndGroupByTube()', () => {
+  describe('getValidatedKnowledgeElementsGroupedByTube()', () => {
 
     it('should return knowledge elements of targeted skill by targeted tube id', () => {
       // given
@@ -361,7 +361,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1, knowledgeElement2_1, knowledgeElement2_2];
 
       // when
-      const knowledgeElementsByTube = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByTube(knowledgeElements);
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
 
       // then
       expect(knowledgeElementsByTube).to.deep.equal({
@@ -384,7 +384,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1];
 
       // when
-      const knowledgeElementsByTube = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByTube(knowledgeElements);
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
 
       // then
       expect(knowledgeElementsByTube).to.deep.equal({
@@ -407,7 +407,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1, knowledgeElement2];
 
       // when
-      const knowledgeElementsByTube = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByTube(knowledgeElements);
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
 
       // then
       expect(knowledgeElementsByTube).to.deep.equal({
@@ -430,7 +430,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1, knowledgeElement2];
 
       // when
-      const knowledgeElementsByTube = targetProfile.filterValidatedTargetedKnowledgeElementAndGroupByTube(knowledgeElements);
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
 
       // then
       expect(knowledgeElementsByTube).to.deep.equal({

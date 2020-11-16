@@ -6,11 +6,11 @@ const targetProfileWithLearningContentRepository = require('./target-profile-wit
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
-    const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
 
     const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
-    return _buildCampaignAssessmentParticipationResults(result, targetProfile);
+    return _buildCampaignAssessmentParticipationResults(result, targetProfileWithLearningContent);
   },
 };
 
@@ -43,14 +43,14 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
   return campaignAssessmentParticipationResult;
 }
 
-async function _buildCampaignAssessmentParticipationResults(result, targetProfile) {
+async function _buildCampaignAssessmentParticipationResults(result, targetProfileWithLearningContent) {
   const validatedTargetedKnowledgeElementsCountByCompetenceId = await knowledgeElementRepository
-    .countValidatedTargetedByCompetencesForOneUser(result.userId ,result.sharedAt , targetProfile);
+    .countValidatedTargetedByCompetencesForOneUser(result.userId ,result.sharedAt , targetProfileWithLearningContent);
 
   return new CampaignAssessmentParticipationResult({
     ...result,
-    targetedCompetences: targetProfile.competences,
+    targetedCompetences: targetProfileWithLearningContent.competences,
     validatedTargetedKnowledgeElementsCountByCompetenceId,
-    targetProfile,
+    targetProfile: targetProfileWithLearningContent,
   });
 }

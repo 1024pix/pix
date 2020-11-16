@@ -67,11 +67,11 @@ class TargetProfileWithLearningContent {
     return area || null;
   }
 
-  filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements) {
+  getKnowledgeElementsGroupedByCompetence(knowledgeElements) {
     return this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
   }
 
-  filterValidatedTargetedKnowledgeElementAndGroupByTube(knowledgeElements) {
+  getValidatedKnowledgeElementsGroupedByTube(knowledgeElements) {
     return this._filterTargetedKnowledgeElementAndGroupByTube(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
   }
 
