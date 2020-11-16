@@ -283,7 +283,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
 
     it('respond 403 when the user is not member of the SCO organization managing students', async () => {
       const userId = databaseBuilder.factory.buildUser().id;
-      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
 
       await databaseBuilder.commit();
 
@@ -301,7 +301,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
 
     it('respond 200 when the user is admin in the orga and it is SCO orga managing students', async () => {
       const userId = databaseBuilder.factory.buildUser().id;
-      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({
         userId,
         organizationId,
@@ -339,7 +339,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
 
     it('respond 403 when the user is not member of the SUP organization managing students', async () => {
       const userId = databaseBuilder.factory.buildUser().id;
-      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
 
       await databaseBuilder.commit();
 
@@ -357,7 +357,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
 
     it('respond 200 when the user is admin in the organization and which id not a SUP organization managing students', async () => {
       const userId = databaseBuilder.factory.buildUser().id;
-      const  organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({
         userId,
         organizationId,

@@ -175,7 +175,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       const user = databaseBuilder.factory.buildUser();
 
-      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, division:'3A' });
+      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, division: '3A' });
       const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, userId: user.id, division: '3A' });
       databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_2.id });
 
@@ -441,7 +441,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       // when
       const isLinked = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
         userId,
-        schoolingRegistrationId : matchingSchoolingRegistrationId,
+        schoolingRegistrationId: matchingSchoolingRegistrationId,
       });
 
       // then
@@ -452,7 +452,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       // when
       const isLinked = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
         userId: 42,
-        schoolingRegistrationId : 42,
+        schoolingRegistrationId: 42,
       });
 
       // then
@@ -532,7 +532,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Fett',
             birthdate: '1986-01-05',
             nationalStudentId: 'INE1',
-            status : schoolingRegistration_1.status,
+            status: schoolingRegistration_1.status,
             organizationId,
           });
 
@@ -567,7 +567,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Handmad',
             birthdate: '1990-12-31',
             nationalStudentId: schoolingRegistration_1.nationalStudentId,
-            status : schoolingRegistration_1.status,
+            status: schoolingRegistration_1.status,
             organizationId: otherOrganizationId,
           });
 
@@ -579,7 +579,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             birthdate: schoolingRegistration_1.birthdate,
             nationalStudentId: schoolingRegistration_1.nationalStudentId,
             organizationId,
-            status : schoolingRegistration_1.status,
+            status: schoolingRegistration_1.status,
           });
 
           schoolingRegistrations = [schoolingRegistration_1_updated];
@@ -830,7 +830,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           lastName: 'Handmade',
           birthdate: '1990-12-31',
           nationalApprenticeId: 'INA1',
-          status : STATUS.APPRENTICE,
+          status: STATUS.APPRENTICE,
           organizationId,
         });
 
@@ -866,8 +866,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           lastName: 'Handmade',
           birthdate: '1990-12-31',
           nationalApprenticeId: 'INA1',
-          nationalStudentId : null,
-          status : STATUS.APPRENTICE,
+          nationalStudentId: null,
+          status: STATUS.APPRENTICE,
           organizationId,
         };
 
@@ -887,8 +887,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Fett',
             birthdate: '1986-01-05',
             nationalApprenticeId: 'INA1',
-            nationalStudentId : null,
-            status : schoolingRegistration_1.status,
+            nationalStudentId: null,
+            status: schoolingRegistration_1.status,
             organizationId,
           });
 
@@ -925,8 +925,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Handmad',
             birthdate: '1990-12-31',
             nationalApprenticeId: schoolingRegistration_1.nationalApprenticeId,
-            nationalStudentId : null,
-            status : schoolingRegistration_1.status,
+            nationalStudentId: null,
+            status: schoolingRegistration_1.status,
             organizationId: otherOrganizationId,
           });
 
@@ -937,9 +937,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: schoolingRegistration_1.lastName,
             birthdate: schoolingRegistration_1.birthdate,
             nationalApprenticeId: schoolingRegistration_1.nationalApprenticeId,
-            nationalStudentId : null,
+            nationalStudentId: null,
             organizationId,
-            status : schoolingRegistration_1.status,
+            status: schoolingRegistration_1.status,
           });
 
           schoolingRegistrations = [schoolingRegistration_1_updated];
@@ -982,8 +982,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           lastName: 'Handmade',
           birthdate: '1990-12-31',
           nationalApprenticeId: 'INA1',
-          nationalStudentId : null,
-          status : STATUS.APPRENTICE,
+          nationalStudentId: null,
+          status: STATUS.APPRENTICE,
           organizationId,
         });
         await databaseBuilder.commit();
@@ -993,8 +993,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           lastName: 'Handmade',
           birthdate: '1990-12-31',
           nationalApprenticeId: 'INA1',
-          nationalStudentId : null,
-          status : STATUS.APPRENTICE,
+          nationalStudentId: null,
+          status: STATUS.APPRENTICE,
           organizationId,
         });
 
@@ -1003,8 +1003,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           lastName: 'Covert',
           birthdate: '1990-01-01',
           nationalApprenticeId: 'INA2',
-          nationalStudentId : null,
-          status : STATUS.APPRENTICE,
+          nationalStudentId: null,
+          status: STATUS.APPRENTICE,
           organizationId,
         });
 
@@ -1042,8 +1042,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           lastName: 'Handmade',
           birthdate: '1990-12-31',
           nationalApprenticeId: sameNationalApprenticeId,
-          nationalStudentId : null,
-          status : STATUS.APPRENTICE,
+          nationalStudentId: null,
+          status: STATUS.APPRENTICE,
           organizationId,
         });
 
@@ -1051,9 +1051,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           firstName: 'Harry',
           lastName: 'Covert',
           birthdate: '1990-01-01',
-          status : STATUS.APPRENTICE,
+          status: STATUS.APPRENTICE,
           nationalApprenticeId: sameNationalApprenticeId,
-          nationalStudentId : null,
+          nationalStudentId: null,
           organizationId,
         });
 
@@ -1084,8 +1084,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           lastName: 'Handmade',
           birthdate: '1990-12-31',
           nationalApprenticeId: 'INA1',
-          nationalStudentId : null,
-          status : STATUS.APPRENTICE,
+          nationalStudentId: null,
+          status: STATUS.APPRENTICE,
           organizationId,
         };
         const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration(baseSchoolingRegistration).id;
@@ -1551,14 +1551,14 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         expect(_.map(data, 'firstName')).to.deep.equal(['Jane']);
       });
 
-      describe('When schoolingRegistration is filtered by user connexion type' , () => {
+      describe('When schoolingRegistration is filtered by user connexion type', () => {
         let organizationId;
 
         beforeEach(async () => {
           // given
           organizationId = databaseBuilder.factory.buildOrganization().id;
 
-          databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Rambo', user: { email: 'john@rambo.com',  username: null } });
+          databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Rambo', user: { email: 'john@rambo.com', username: null } });
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Willis', user: { email: null, username: 'willy' } });
           const schoolingRegistrationOfUserWithSamlId = databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Norris', user: { email: null, username: null } });
           databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'chucky', userId: schoolingRegistrationOfUserWithSamlId.userId });
@@ -1705,7 +1705,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
     });
 
-    describe('When schoolingRegistration is not reconciled' , () => {
+    describe('When schoolingRegistration is not reconciled', () => {
 
       it('should return empty email, username, userId', async () => {
         // given
@@ -1716,21 +1716,21 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
-          id : schoolingRegistration.id,
-          firstName : schoolingRegistration.firstName,
-          lastName : schoolingRegistration.lastName,
-          birthdate : schoolingRegistration.birthdate,
-          organizationId : schoolingRegistration.organizationId,
-          username : null,
-          email : null,
+          id: schoolingRegistration.id,
+          firstName: schoolingRegistration.firstName,
+          lastName: schoolingRegistration.lastName,
+          birthdate: schoolingRegistration.birthdate,
+          organizationId: schoolingRegistration.organizationId,
+          username: null,
+          email: null,
           userId: schoolingRegistration.userId,
-          isAuthenticatedFromGAR : false,
+          isAuthenticatedFromGAR: false,
           studentNumber: schoolingRegistration.studentNumber,
         });
         await databaseBuilder.commit();
 
         // when
-        const { data }  = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization.id });
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({ organizationId: organization.id });
 
         // then
         expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);

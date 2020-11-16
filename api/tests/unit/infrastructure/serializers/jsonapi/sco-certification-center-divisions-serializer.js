@@ -8,8 +8,8 @@ describe('Unit | Serializer | JSONAPI | sco-certification-center-divisions-seria
     it('should convert divisions array into JSON API data', () => {
       // given
       const divisionList = [
-        { name: '3A', id:'3A' },
-        { name: '3B', id:'3B' },
+        { name: '3A', id: '3A' },
+        { name: '3B', id: '3B' },
         { name: '4C', id: '4C' },
       ];
       const expectedJSON = {

@@ -1,12 +1,12 @@
 const Promise = require('bluebird');
 
 const indexes = {
-  answers : ['assessmentId'],
-  assessments : ['type'],
-  'certification-challenges' : ['courseId'],
-  feedbacks : ['assessmentId'],
-  marks : ['assessmentId'],
-  snapshots : ['organizationId'],
+  answers: ['assessmentId'],
+  assessments: ['type'],
+  'certification-challenges': ['courseId'],
+  feedbacks: ['assessmentId'],
+  marks: ['assessmentId'],
+  snapshots: ['organizationId'],
 };
 exports.up = function(knex) {
   const promises = Object.keys(indexes).map((tableForIndexes) => {

@@ -122,7 +122,7 @@ module.exports = {
 
   async getSessionResults(request, h) {
     const sessionId = request.params.id;
-    const { session, certificationResults, fileName } =  await usecases.getSessionResults({ sessionId });
+    const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
     const csvResult = await getCertificationResultsCsv({ session, certificationResults });
 
     return h.response(csvResult)

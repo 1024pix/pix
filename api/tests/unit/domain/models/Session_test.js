@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | Session', () => {
       });
 
       context('when session assignedCertificationOfficerId is not defined', () => {
-      
+
         context('when session finalizedAt timestamp is defined', () => {
 
           it('should return FINALIZED', () => {

@@ -39,7 +39,7 @@ describe('Acceptance | Controller | membership-controller', () => {
                 },
               },
               organization: {
-                data : {
+                data: {
                   type: 'organizations',
                   id: organizationId,
                 },
@@ -162,7 +162,7 @@ describe('Acceptance | Controller | membership-controller', () => {
                 },
               },
               organization: {
-                data : {
+                data: {
                   type: 'organizations',
                   id: organizationId,
                 },

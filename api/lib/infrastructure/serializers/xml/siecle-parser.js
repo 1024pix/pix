@@ -67,8 +67,8 @@ class SiecleParser {
             if (err) throw err;// Si j'enleve cette ligne les tests passent
 
             if (_isNodeImportableStudent(nodeData)) {
-              this.schoolingRegistrationsSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);            }
-            else if (_isNodeImportableStructures(nodeData, this.schoolingRegistrationsSet)) {
+              this.schoolingRegistrationsSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);
+            } else if (_isNodeImportableStructures(nodeData, this.schoolingRegistrationsSet)) {
               this.schoolingRegistrationsSet.updateDivision(nodeData);
             }
           } catch (err) {

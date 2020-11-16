@@ -1,7 +1,7 @@
 const { expect } = require('../../../test-helper');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 const Joi = require('@hapi/joi');
-const { validateEntity } =  require('../../../../lib/domain/validators/entity-validator');
+const { validateEntity } = require('../../../../lib/domain/validators/entity-validator');
 
 describe('Unit | Domain | Validators | entity-validator', function() {
 

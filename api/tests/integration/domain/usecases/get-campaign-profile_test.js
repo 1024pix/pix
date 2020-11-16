@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, airtableBuilder,  catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, catchErr } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');

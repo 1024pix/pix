@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summar
           participantExternalId: 'Thief',
           status: 'ONGOING',
           masteryPercentage: '99%',
-          badges: [domainBuilder.buildBadge({ id:1, title: 'b1', imageUrl: 'http://toto.svg', altMessage: 'alt' })],
+          badges: [domainBuilder.buildBadge({ id: 1, title: 'b1', imageUrl: 'http://toto.svg', altMessage: 'alt' })],
         },
       ];
       const pagination = {

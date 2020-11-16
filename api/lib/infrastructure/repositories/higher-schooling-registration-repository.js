@@ -69,7 +69,7 @@ module.exports = {
       await knex
         .batchInsert('schooling-registrations', registrationsToInsert)
         .transacting(domainTransaction.knexTransaction);
-    }  catch (error) {
+    } catch (error) {
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
   },

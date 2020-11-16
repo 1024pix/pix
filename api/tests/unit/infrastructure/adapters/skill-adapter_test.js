@@ -1,7 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const skillAdapter = require('../../../../lib/infrastructure/adapters/skill-adapter');
 const Skill = require('../../../../lib/domain/models/Skill');
-const { DEFAULT_TUTORIAL_ID }  = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const { DEFAULT_TUTORIAL_ID } = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 
 describe('Unit | Infrastructure | Adapter | skillAdapter', () => {
 

@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { first } = require ('lodash');
+const { first } = require('lodash');
 const { EntityValidationError } = require('../errors');
 const Campaign = require('../models/Campaign');
 

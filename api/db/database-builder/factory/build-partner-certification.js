@@ -9,6 +9,6 @@ module.exports = function buildPartnerCertification({
 }) {
   partnerKey = partnerKey ? partnerKey : buildBadge().key;
   return databaseBuffer.objectsToInsert.push({
-    tableName: 'partner-certifications', values : { certificationCourseId, partnerKey, acquired },
+    tableName: 'partner-certifications', values: { certificationCourseId, partnerKey, acquired },
   });
 };

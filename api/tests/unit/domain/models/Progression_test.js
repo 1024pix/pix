@@ -9,7 +9,7 @@ describe('Unit | Domain | Models | Progression', () => {
 
     context('when the profile is not fully evaluated', () => {
 
-      context('and there is no knowledge elements',() => {
+      context('and there is no knowledge elements', () => {
 
         it('should return a completionRate of 0', () => {
           // Given
@@ -70,7 +70,7 @@ describe('Unit | Domain | Models | Progression', () => {
           ];
 
           // When
-          const progression = new Progression({ targetedSkills, knowledgeElements, isProfileCompleted: false  });
+          const progression = new Progression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
 
           // Then
           expect(progression.completionRate).to.eq(1);

@@ -208,7 +208,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
   context('When file does not match requirements', () => {
     const columns = [
-      new CsvColumn({ name: 'col1', label: 'Column 1',  isRequired: true }),
+      new CsvColumn({ name: 'col1', label: 'Column 1', isRequired: true }),
       new CsvColumn({ name: 'col2', label: 'Column 2' }),
     ];
 
@@ -250,7 +250,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
   context('When the file has different encoding', () => {
     const columns = [
-      new CsvColumn({ name: 'firstName', label: 'Prénom',  isRequired: true, checkEncoding: true }),
+      new CsvColumn({ name: 'firstName', label: 'Prénom', isRequired: true, checkEncoding: true }),
       new CsvColumn({ name: 'lastName', label: 'Nom' }),
     ];
 

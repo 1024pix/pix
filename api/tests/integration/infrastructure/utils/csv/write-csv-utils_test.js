@@ -23,8 +23,8 @@ describe('Integration | Infrastructure | Utils | csv | write-csv-utils', () => {
     const result = await getCsvContent({ data, fileHeaders });
 
     // then
-    const expectedResult =  '\uFEFF' +
-      '"firstName";"competenceWithMarks"\n' + 
+    const expectedResult = '\uFEFF' +
+      '"firstName";"competenceWithMarks"\n' +
       '"Julie";"[{""1.1"":0},{""1.2"":2}]"';
     expect(result).to.deep.equal(expectedResult);
   });

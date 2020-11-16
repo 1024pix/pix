@@ -55,7 +55,7 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
-  it('should export a ArchivedCampaignError',() => {
+  it('should export a ArchivedCampaignError', () => {
     expect(errors.ArchivedCampaignError).to.exist;
   });
 
@@ -354,7 +354,7 @@ describe('Unit | Domain | Errors', () => {
       it('should return an InvalidCertificationCandidateError', () => {
         // given
         const joiErrorDetail = {
-          context : { key: 'someKey' },
+          context: { key: 'someKey' },
           type: 'someType',
         };
 
@@ -368,7 +368,7 @@ describe('Unit | Domain | Errors', () => {
       it('should assign key from joiErrorDetail context', () => {
         // given
         const joiErrorDetail = {
-          context : { key: 'someKey' },
+          context: { key: 'someKey' },
           type: 'someType',
         };
 
@@ -391,7 +391,7 @@ describe('Unit | Domain | Errors', () => {
         it(`should assign why "${why}" to error when joi error type is "${type}"`, async () => {
           // given
           const joiErrorDetail = {
-            context : { key: 'someKey' },
+            context: { key: 'someKey' },
             type,
           };
 
@@ -406,7 +406,7 @@ describe('Unit | Domain | Errors', () => {
       it('should let why empty when type is unknown', async () => {
         // given
         const joiErrorDetail = {
-          context : { key: 'someKey' },
+          context: { key: 'someKey' },
           type: 'someUnknownType',
         };
 

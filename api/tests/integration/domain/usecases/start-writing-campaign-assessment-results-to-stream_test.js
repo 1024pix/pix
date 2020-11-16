@@ -76,8 +76,8 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
       });
 
       campaign = databaseBuilder.factory.buildCampaign({
-        name:'@Campagne de Test N°1',
-        code:'AZERTY123',
+        name: '@Campagne de Test N°1',
+        code: 'AZERTY123',
         organizationId: organization.id,
         idPixLabel: 'Mail Pro',
         type: 'ASSESSMENT',

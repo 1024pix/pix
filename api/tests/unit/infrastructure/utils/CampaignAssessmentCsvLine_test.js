@@ -615,8 +615,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         });
       });
 
-      context('division', () =>  {
-        it('displays the division column', () =>  {
+      context('division', () => {
+        it('displays the division column', () => {
           const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false, division: '4eme1' });
@@ -669,7 +669,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
           // then
-          const cols = _computeExpectedColumnsIndex(campaign, organization, [badge],  []);
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [badge], []);
           const EMPTY_CONTENT = 'NA';
           expect(csvLine[cols.BADGE], 'badge').to.equal(EMPTY_CONTENT);
         });
@@ -740,7 +740,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
           // then
-          const cols = _computeExpectedColumnsIndex(campaign, organization, [badge],  []);
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [badge], []);
           expect(csvLine[cols.BADGE], 'badge').to.equal('Non');
         });
       });
@@ -757,7 +757,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
             const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
             const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_3', tubeId: 'recTube1' });
-            const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2,  skill3], competenceId: 'recCompetence1' });
+            const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2, skill3], competenceId: 'recCompetence1' });
             const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube], areaId: 'recArea1' });
             const area = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence] });
             const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
@@ -819,7 +819,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
             const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
             const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_3', tubeId: 'recTube1' });
-            const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2,  skill3], competenceId: 'recCompetence1' });
+            const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2, skill3], competenceId: 'recCompetence1' });
             const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube], areaId: 'recArea1' });
             const area = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence] });
             const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
@@ -882,7 +882,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
           const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
           const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_3', tubeId: 'recTube1' });
-          const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2,  skill3], competenceId: 'recCompetence1' });
+          const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2, skill3], competenceId: 'recCompetence1' });
           const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube], areaId: 'recArea1' });
           const area = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence] });
           const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({

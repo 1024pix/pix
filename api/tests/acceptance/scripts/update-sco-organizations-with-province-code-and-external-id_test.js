@@ -54,27 +54,27 @@ describe('Acceptance | Scripts | update-sco-organizations-with-province-code-and
       const csvParsingResult = {
         data: [{
           'Orga_ID': '1',
-          'Code établissement (code UAI)' : '',
+          'Code établissement (code UAI)': '',
         }, {
           'Orga_ID': '2',
-          'Code établissement (code UAI)' : '9752145V',
+          'Code établissement (code UAI)': '9752145V',
         }, {
           'Orga_ID': '3',
-          'Code établissement (code UAI)' : '01A4556S',
+          'Code établissement (code UAI)': '01A4556S',
         }],
       };
       const expectedOrganizations = [{
         id: 1,
-        externalId : '',
-        provinceCode : '',
+        externalId: '',
+        provinceCode: '',
       }, {
         id: 2,
-        externalId : '9752145V',
-        provinceCode : '975',
+        externalId: '9752145V',
+        provinceCode: '975',
       }, {
         id: 3,
-        externalId : '01A4556S',
-        provinceCode : '01A',
+        externalId: '01A4556S',
+        provinceCode: '01A',
       }];
 
       // when

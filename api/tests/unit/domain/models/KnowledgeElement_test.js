@@ -212,7 +212,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
-              createdAt:undefined,
+              createdAt: undefined,
               userId,
             });
           });
@@ -226,7 +226,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
               skillId: skill.id,
-              createdAt:undefined,
+              createdAt: undefined,
               userId,
               competenceId: skill.competenceId,
             });
@@ -238,7 +238,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
               skillId: easierSkill.id,
-              createdAt:undefined,
+              createdAt: undefined,
               userId,
               competenceId: easierSkill.competenceId,
             });
@@ -250,7 +250,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
               skillId: muchEasierSkill.id,
-              createdAt:undefined,
+              createdAt: undefined,
               userId,
               competenceId: muchEasierSkill.competenceId,
             });
@@ -277,7 +277,7 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
-              createdAt:undefined,
+              createdAt: undefined,
               userId,
             });
           });

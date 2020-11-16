@@ -15,8 +15,8 @@ function buildRequestObject(baseUrl, authToken, assessmentId) {
         },
         'relationships': {
           'assessment': {
-            'data':{
-              'id':assessmentId,
+            'data': {
+              'id': assessmentId,
             },
 
           },

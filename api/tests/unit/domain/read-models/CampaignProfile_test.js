@@ -178,7 +178,7 @@ describe('Unit | Domain | Read-Models | CampaignProfile', () => {
 
   describe('#externalId', () => {
     it('returns the externalId', () => {
-      const params = {  participantExternalId: 'BabaYaga' };
+      const params = { participantExternalId: 'BabaYaga' };
 
       const campaignProfile = new CampaignProfile(params);
 

@@ -285,7 +285,7 @@ describe('Unit | Service | ScorecardService', function() {
           campaignParticipationRepository.findOneByAssessmentIdWithSkillIds.withArgs(assessmentId2).resolves(campaignParticipation4);
 
           //when
-          [resetKnowledgeElements, resetCampaignParticipation] =  await scorecardService.resetScorecard({
+          [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
             userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
           });
           //then
@@ -305,7 +305,7 @@ describe('Unit | Service | ScorecardService', function() {
             .onSecondCall().resolves(resetKnowledgeElement2);
 
           //when
-          [resetKnowledgeElements, resetCampaignParticipation] =  await scorecardService.resetScorecard({
+          [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
             userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
           });
 

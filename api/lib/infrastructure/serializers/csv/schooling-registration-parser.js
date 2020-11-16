@@ -38,7 +38,7 @@ class SchoolingRegistrationSet {
     checkValidationUnicity(this);
   }
 
-  _transform(registrationAttributes)  {
+  _transform(registrationAttributes) {
     let nationalStudentId;
     let nationalApprenticeId;
     const { birthCountryCode, nationalIdentifier, status } = registrationAttributes;
@@ -80,7 +80,7 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
     if (err.why === 'not_valid_insee_code') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” n'est pas au format INSEE.`);
     }
-   
+
     super._handleError(...arguments);
   }
 }

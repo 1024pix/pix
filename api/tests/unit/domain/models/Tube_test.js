@@ -135,7 +135,7 @@ describe('Unit | Domain | Models | Tube', () => {
     it('should not add skill if skill is already present to the list of skills', () => {
       // given
       const skillWeb1 = new Skill({ name: '@web1' });
-      const tube = new Tube({ skills : [skillWeb1] });
+      const tube = new Tube({ skills: [skillWeb1] });
 
       // when
       tube.addSkill(skillWeb1);

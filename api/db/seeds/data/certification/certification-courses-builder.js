@@ -39,7 +39,7 @@ function certificationCoursesBuilder({ databaseBuilder }) {
     { userId: CERTIF_FAILURE_USER_ID, sessionId: NO_PROBLEM_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_IN_NO_PROBLEM_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, examinerComment: null, hasSeenEndTestScreen: true, isPublished: false, verificationCode: null },
     { userId: CERTIF_SUCCESS_USER_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_SUCCESS_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_SUCCESS, examinerComment: 'A regardé son téléphone pendant le test', hasSeenEndTestScreen: true, isPublished: false, verificationCode: null },
     { userId: CERTIF_FAILURE_USER_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, examinerComment: 'Son ordinateur a explosé', hasSeenEndTestScreen: false, isPublished: false, verificationCode: null },
-    { userId: CERTIF_REGULAR_USER5_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_STARTED, examinerComment: 'Elle a pas finis sa certif', hasSeenEndTestScreen: false, isPublished: false, verificationCode: null  },
+    { userId: CERTIF_REGULAR_USER5_ID, sessionId: PROBLEMS_FINALIZED_SESSION_ID, assessmentId: ASSESSMENT_STARTED_IN_PROBLEMS_FINALIZED_SESSION_ID, candidateData: CANDIDATE_DATA_STARTED, examinerComment: 'Elle a pas finis sa certif', hasSeenEndTestScreen: false, isPublished: false, verificationCode: null },
     { id: CERTIFICATION_COURSE_SUCCESS_ID, userId: CERTIF_SUCCESS_USER_ID, sessionId: PUBLISHED_SESSION_ID, assessmentId: ASSESSMENT_SUCCESS_PUBLISHED_SESSION_ID, candidateData: CANDIDATE_DATA_SUCCESS, hasSeenEndTestScreen: true, isPublished: true, verificationCode: null },
     { id: CERTIFICATION_COURSE_FAILURE_ID, userId: CERTIF_FAILURE_USER_ID, sessionId: PUBLISHED_SESSION_ID, assessmentId: ASSESSMENT_FAILURE_PUBLISHED_SESSION_ID, candidateData: CANDIDATE_DATA_FAILURE, hasSeenEndTestScreen: true, isPublished: true, verificationCode: null },
   ], (certificationCourseData) => {
@@ -50,7 +50,7 @@ function certificationCoursesBuilder({ databaseBuilder }) {
 function _buildCertificationCourse(databaseBuilder, { id, assessmentId, userId, sessionId, candidateData, examinerComment, hasSeenEndTestScreen, isPublished, verificationCode }) {
   const createdAt = new Date('2020-01-31T00:00:00Z');
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-    ...candidateData, id,  createdAt, isPublished, isV2Certification: true, examinerComment, hasSeenEndTestScreen, sessionId, userId, verificationCode,
+    ...candidateData, id, createdAt, isPublished, isV2Certification: true, examinerComment, hasSeenEndTestScreen, sessionId, userId, verificationCode,
   }).id;
   if (examinerComment) {
     databaseBuilder.factory.buildCertificationIssueReport({

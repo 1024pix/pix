@@ -161,7 +161,7 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/schooling-registrations/import-siecle',
       config: {
         pre: [{
-          method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents ,
+          method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
           assign: 'isAdminInOrganizationManagingStudents',
         }],
         validate: {

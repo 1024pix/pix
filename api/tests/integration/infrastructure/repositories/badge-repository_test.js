@@ -82,7 +82,7 @@ describe('Integration | Repository | Badge', () => {
     };
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_1, badgeId: badgeWithSameTargetProfile_1.id });
 
-    badgeWithSameTargetProfile_2 =  databaseBuilder.factory.buildBadge({
+    badgeWithSameTargetProfile_2 = databaseBuilder.factory.buildBadge({
       id: 4,
       altMessage: 'You won the GREEN badge!',
       imageUrl: '/img/toto.svg',

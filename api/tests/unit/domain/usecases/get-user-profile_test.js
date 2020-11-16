@@ -152,7 +152,7 @@ describe('Unit | UseCase | get-user-profile', () => {
         }).returns(expectedUserScorecard[2]);
 
         const expectedPixScore = _.sumBy(expectedUserScorecard, 'earnedPix');
-        
+
         // when
         const userProfile = await getUserProfile({
           userId,

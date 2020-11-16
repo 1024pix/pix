@@ -62,7 +62,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Nom du candidat': 'Stark',
           'Date de naissance du candidat': '29/05/1970',
           'Lieu de naissance du candidat': 'Long Island, New York',
-          'Identifiant Externe' : '',
+          'Identifiant Externe': '',
         }, {
           'ID de certification': '2',
           'ID de session': '1000',
@@ -70,7 +70,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Nom du candidat': 'Rogers',
           'Date de naissance du candidat': '04/07/1918',
           'Lieu de naissance du candidat': 'New York, New York',
-          'Identifiant Externe' : 'GendarmeId',
+          'Identifiant Externe': 'GendarmeId',
         }, {
           'ID de certification': '3',
           'ID de session': '1000',
@@ -78,7 +78,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Nom du candidat': 'Howlett',
           'Date de naissance du candidat': '17/04/1882',
           'Lieu de naissance du candidat': 'Alberta',
-          'Identifiant Externe' : 'numero eleve',
+          'Identifiant Externe': 'numero eleve',
         }],
       };
       const expectedCertifications = [{
@@ -87,21 +87,21 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
-        externalId : '',
+        externalId: '',
       }, {
         id: 2,
         firstName: 'Steven',
         lastName: 'Rogers',
         birthdate: '04/07/1918',
         birthplace: 'New York, New York',
-        externalId : 'GendarmeId',
+        externalId: 'GendarmeId',
       }, {
         id: 3,
         firstName: 'James',
         lastName: 'Howlett',
         birthdate: '17/04/1882',
         birthplace: 'Alberta',
-        externalId : 'numero eleve',
+        externalId: 'numero eleve',
       }];
 
       // when

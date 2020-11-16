@@ -66,23 +66,23 @@ describe('Unit | Serializer | CSV | csv-serializer', () => {
         // when
         const err = await catchErr(csvSerializer.serializeLine)([{}]);
         // then
-        expect(err).to.be.an.instanceOf(Error);    
+        expect(err).to.be.an.instanceOf(Error);
       });
-  
+
       it('given null', async () => {
         // when
         const err = await catchErr(csvSerializer.serializeLine)([null]);
         // then
-        expect(err).to.be.an.instanceOf(Error);    
+        expect(err).to.be.an.instanceOf(Error);
       });
-  
+
       it('given undefined', async () => {
         // when
         const err = await catchErr(csvSerializer.serializeLine)([undefined]);
         // then
-        expect(err).to.be.an.instanceOf(Error);    
+        expect(err).to.be.an.instanceOf(Error);
       });
-  
+
     });
   });
 });

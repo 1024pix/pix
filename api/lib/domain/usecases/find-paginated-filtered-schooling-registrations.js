@@ -1,4 +1,4 @@
-module.exports =  function findPaginatedFilteredSchoolingRegistrations({ 
+module.exports = function findPaginatedFilteredSchoolingRegistrations({
   organizationId,
   filter,
   page,

@@ -23,11 +23,11 @@ module.exports = async function importHigherSchoolingRegistration({
     const [registrationsToUpdate, registrationsToCheck] = _.partition(higherSchoolingRegistrationSet.registrations, (registration) => {
       return studentNumbersInOrga.includes(registration.studentNumber);
     });
-  
+
     for (const registration of registrationsToUpdate) {
       await higherSchoolingRegistrationRepository.saveNonSupernumerary(registration, domainTransaction);
     }
-    
+
     const supernumeraryRegistrations = await higherSchoolingRegistrationRepository.findSupernumerary(organizationId, domainTransaction);
 
     const registrationsToCreate = [];
@@ -35,7 +35,7 @@ module.exports = async function importHigherSchoolingRegistration({
       const existingRegistrations = _.filter(supernumeraryRegistrations, ({ studentNumber }) => registration.studentNumber === studentNumber);
       const matchingRegistration = getMatchingSchoolingRegistration(registration, existingRegistrations);
       if (matchingRegistration) {
-        await higherSchoolingRegistrationRepository.save({ id: matchingRegistration.id, ...registration } , domainTransaction);
+        await higherSchoolingRegistrationRepository.save({ id: matchingRegistration.id, ...registration }, domainTransaction);
       } else {
         registrationsToCreate.push(registration);
       }

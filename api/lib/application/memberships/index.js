@@ -53,7 +53,7 @@ exports.register = async function(server) {
             order: 2,
           },
         },
-        tags: ['api','memberships'],
+        tags: ['api', 'memberships'],
       },
     },
     {

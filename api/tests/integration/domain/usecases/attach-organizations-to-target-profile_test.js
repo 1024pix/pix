@@ -11,7 +11,7 @@ describe('Integration | UseCase | attach-organizations-to-target-profile', () =>
     return knex('target-profile-shares').delete();
   });
   describe('#attachOrganizationsToTargetProfile', () => {
-    it('attaches organization to target profile', async  () => {
+    it('attaches organization to target profile', async () => {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();

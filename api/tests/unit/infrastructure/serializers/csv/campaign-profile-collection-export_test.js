@@ -8,7 +8,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
     let writableStream, csvPromise, organization, campaign, competences;
 
     const placementProfileServiceStub = {
-      getPlacementProfilesWithSnapshotting : sinon.stub(), 
+      getPlacementProfilesWithSnapshotting: sinon.stub(),
     };
 
     beforeEach(() => {
@@ -58,9 +58,9 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
           '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
-      
+
       writableStream.end();
-      
+
       const csv = await csvPromise;
 
       // then
@@ -91,9 +91,9 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
           '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
-      
+
       writableStream.end();
-      
+
       const csv = await csvPromise;
 
       // then
@@ -124,9 +124,9 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
           '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
-      
+
       writableStream.end();
-      
+
       const csv = await csvPromise;
 
       // then
@@ -155,9 +155,9 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
           '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
-      
+
       writableStream.end();
-      
+
       const csv = await csvPromise;
 
       // then

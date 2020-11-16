@@ -61,11 +61,11 @@ describe('Unit | Router | Password router', () => {
   describe('POST /api/expired-password-updates', () => {
 
     const method = 'POST';
-    const url =  '/api/expired-password-updates';
+    const url = '/api/expired-password-updates';
 
     it('should return 201 http status code', async () => {
       // given
-      const payload =  {
+      const payload = {
         data: {
           attributes: {
             username: 'firstName.lastName0110',
@@ -87,7 +87,7 @@ describe('Unit | Router | Password router', () => {
 
       it('should return 400 http status code', async () => {
         // given
-        const payload =  {
+        const payload = {
           data: {
             attributes: {
               username: 'firstName.lastName0110',

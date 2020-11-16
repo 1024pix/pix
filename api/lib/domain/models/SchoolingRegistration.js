@@ -1,6 +1,6 @@
 const STATUS = {
-  STUDENT : 'ST',
-  APPRENTICE : 'AP',
+  STUDENT: 'ST',
+  APPRENTICE: 'AP',
 };
 class SchoolingRegistration {
 

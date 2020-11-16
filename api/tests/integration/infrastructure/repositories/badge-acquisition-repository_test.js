@@ -93,7 +93,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
     it('should return badge ids acquired by user for a campaign', async () => {
       // when
-      const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ 
+      const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({
         campaignId: campaign.id,
         userIds: [user1.id, user2.id],
       });

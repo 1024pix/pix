@@ -271,7 +271,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
             domainBuilder.buildKnowledgeElement({ answerId: 456, competenceId: competenceFlipper.id, skillId: challengeForSkillCitation4AndMoteur3.skills[0].id }),
             domainBuilder.buildKnowledgeElement({ answerId: 456, competenceId: competenceFlipper.id, skillId: challengeForSkillCitation4AndMoteur3.skills[1].id }),
           ]);
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 456]).resolves(['challengeRecordIdFour','challengeRecordIdTwo']);
+        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 456]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
         const expectedSkills = [skillCitation4.name, skillRecherche4.name, skillMoteur3.name];
 
         // when
@@ -300,7 +300,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
             domainBuilder.buildKnowledgeElement({ answerId: 456, competenceId: competenceFlipper.id, skillId: challengeForSkillCitation4AndMoteur3.skills[0].id }),
             domainBuilder.buildKnowledgeElement({ answerId: 456, competenceId: competenceFlipper.id, skillId: challengeForSkillCitation4AndMoteur3.skills[1].id }),
           ]);
-        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 456]).resolves(['challengeRecordIdFour','challengeRecordIdTwo']);
+        answerRepository.findChallengeIdsFromAnswerIds.withArgs([123, 456, 456]).resolves(['challengeRecordIdFour', 'challengeRecordIdTwo']);
         const expectedSkills = [skillCitation4, skillRecherche4, skillMoteur3];
 
         // when

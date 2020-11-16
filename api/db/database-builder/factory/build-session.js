@@ -2,7 +2,7 @@ const faker = require('faker');
 const buildCertificationCenter = require('./build-certification-center');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
-const moment = require ('moment');
+const moment = require('moment');
 
 module.exports = function buildSession({
   id,

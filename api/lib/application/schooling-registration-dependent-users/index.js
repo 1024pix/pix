@@ -95,7 +95,7 @@ exports.register = async function(server) {
             return sendJsonApiError(new BadRequestError('The server could not understand the request due to invalid syntax.'), h);
           },
         },
-        notes : [
+        notes: [
           '- Met à jour le mot de passe d\'un utilisateur identifié par son identifiant élève\n' +
           '- La demande de modification du mot de passe doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.',
         ],
@@ -124,7 +124,7 @@ exports.register = async function(server) {
             },
           }),
         },
-        notes : [
+        notes: [
           '- Génère un identifiant pour l\'élève avec un mot de passe temporaire \n' +
           '- La demande de génération d\'identifiant doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.',
         ],

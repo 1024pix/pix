@@ -55,7 +55,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
 
       context('on room attribute', () => {
 
-        it('should reject with error when room is missing', async  () => {
+        it('should reject with error when room is missing', async () => {
           // given
           const expectedErrors = [{
             attribute: 'room',

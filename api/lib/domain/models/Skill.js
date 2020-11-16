@@ -28,7 +28,7 @@ class Skill {
   }
 
   get tubeName() {
-    return this.name.slice(0, -1);  //with skill'@sourceImage2', returns '@sourceImage'
+    return this.name.slice(0, -1); //with skill'@sourceImage2', returns '@sourceImage'
   }
 
   get tubeNameWithoutPrefix() {

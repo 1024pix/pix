@@ -56,7 +56,7 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
   context('when user asked for answer is not the user of the assessment', () => {
     it('should return null', async () => {
       // when
-      const result = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId: userId + 1 , answerRepository, assessmentRepository });
+      const result = await findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId: userId + 1, answerRepository, assessmentRepository });
 
       // then
       return expect(result).to.be.null;

@@ -66,7 +66,7 @@ describe('Integration | Route | AssessmentRoute', () => {
 
     it('should exist', async () => {
       // when
-      const response = await httpTestServer.request(method,url);
+      const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -74,7 +74,7 @@ describe('Integration | Route | AssessmentRoute', () => {
 
     it('should call pre-handler', async () => {
       // when
-      await httpTestServer.request(method,url);
+      await httpTestServer.request(method, url);
 
       // then
       sinon.assert.called(assessmentAuthorization.verify);

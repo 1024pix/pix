@@ -184,7 +184,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
       it('should have the competence level not capped at the maximum value if we allow it', () => {
         //when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, allowExcessLevel : true });
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, allowExcessLevel: true });
 
         expect(actualScorecard.level).to.equal(15);
         expect(actualScorecard.earnedPix).to.equal(40);

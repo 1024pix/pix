@@ -1,9 +1,9 @@
 const { performance } = require('perf_hooks');
 
-class PerfTimer  {
+class PerfTimer {
 
   constructor() {
-    this._start  = {};
+    this._start = {};
     this._time = {};
   }
 

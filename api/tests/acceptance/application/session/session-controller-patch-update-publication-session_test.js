@@ -23,7 +23,7 @@ describe('PATCH /api/admin/sessions/:id/publication', () => {
       // given
       options.url = '/api/admin/sessions/1/publication';
       options.payload = {
-        data: { attributes : { toPublish: true } },
+        data: { attributes: { toPublish: true } },
       };
       options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
 
@@ -51,7 +51,7 @@ describe('PATCH /api/admin/sessions/:id/publication', () => {
         // given
         options.url = '/api/admin/sessions/any/publication';
         options.payload = {
-          data: { attributes : { toPublish: true } },
+          data: { attributes: { toPublish: true } },
         };
 
         // when
@@ -68,7 +68,7 @@ describe('PATCH /api/admin/sessions/:id/publication', () => {
         // given
         options.url = '/api/admin/sessions/1/publication';
         options.payload = {
-          data: { attributes : { toPublish: 'salut' } },
+          data: { attributes: { toPublish: 'salut' } },
         };
 
         // when
@@ -87,7 +87,7 @@ describe('PATCH /api/admin/sessions/:id/publication', () => {
           // given
           options.url = '/api/admin/sessions/1/publication';
           options.payload = {
-            data: { attributes : { toPublish: true } },
+            data: { attributes: { toPublish: true } },
           };
 
           // when
@@ -115,7 +115,7 @@ describe('PATCH /api/admin/sessions/:id/publication', () => {
           beforeEach(() => {
             // given
             options.payload = {
-              data: { attributes : { toPublish } },
+              data: { attributes: { toPublish } },
             };
             certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false }).id;
             return databaseBuilder.commit();
@@ -154,7 +154,7 @@ describe('PATCH /api/admin/sessions/:id/publication', () => {
           beforeEach(() => {
             // given
             options.payload = {
-              data: { attributes : { toPublish } },
+              data: { attributes: { toPublish } },
             };
             certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: true }).id;
             return databaseBuilder.commit();

@@ -14,7 +14,7 @@ module.exports = {
 
   async save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
-    const options = { transacting : domainTransaction.knexTransaction };
+    const options = { transacting: domainTransaction.knexTransaction };
     const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(null, options);
 
     // FIXME : Save all challenges in a single DB request

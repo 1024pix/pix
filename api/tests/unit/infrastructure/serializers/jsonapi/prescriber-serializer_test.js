@@ -229,7 +229,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           userOrgaSettings,
         });
 
-        const  expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'can-collect-profiles', field: 'canCollectProfiles' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'can-collect-profiles', field: 'canCollectProfiles' });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -274,7 +274,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           userOrgaSettings,
         });
 
-        const  expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -319,7 +319,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           userOrgaSettings,
         });
 
-        const  expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-managing-students', field: 'isManagingStudents' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-managing-students', field: 'isManagingStudents' });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -364,7 +364,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           userOrgaSettings,
         });
 
-        const  expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -410,7 +410,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           userOrgaSettings,
         });
 
-        const  expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-agriculture', field: 'isAgriculture' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-agriculture', field: 'isAgriculture' });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -456,7 +456,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           userOrgaSettings,
         });
 
-        const  expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
 
         // when
         const result = serializer.serialize(prescriber);

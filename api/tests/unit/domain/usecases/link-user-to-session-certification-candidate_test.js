@@ -238,7 +238,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               },
               resolves: [certificationCandidate],
             })
-            .withFindOneBySessionIdAndUserId({ args:{ sessionId, userId },  resolves: 'existingLinkedCandidateToUser' });
+            .withFindOneBySessionIdAndUserId({ args: { sessionId, userId }, resolves: 'existingLinkedCandidateToUser' });
 
           // when
           const err = await catchErr(linkUserToSessionCertificationCandidate)({
@@ -273,7 +273,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               },
               resolves: [certificationCandidate],
             })
-            .withFindOneBySessionIdAndUserId({ args:{ sessionId, userId },  resolves:undefined })
+            .withFindOneBySessionIdAndUserId({ args: { sessionId, userId }, resolves: undefined })
             .withLinkToUser({});
 
           // when
@@ -304,7 +304,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         // given
         const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
           .withFindBySessionIdAndPersonalInfo({
-            args:{
+            args: {
               sessionId,
               firstName,
               lastName,
@@ -352,7 +352,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
         const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
           .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
-            args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId },
+            args: { userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId },
             resolves: false,
           });
 
@@ -404,7 +404,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             });
 
           const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
-            .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
+            .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args: { userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
 
           // when
           const event = await linkUserToSessionCertificationCandidate({
@@ -440,21 +440,21 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             .withIsSco({ args: sessionId, resolves: true });
           const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
             .withFindBySessionIdAndPersonalInfo({
-              args:{
+              args: {
                 sessionId,
                 firstName,
                 lastName,
                 birthdate,
               },
-              resolves:[certificationCandidate],
+              resolves: [certificationCandidate],
             })
-            .withFindOneBySessionIdAndUserId({ args:{
+            .withFindOneBySessionIdAndUserId({ args: {
               sessionId,
               userId,
             }, resolves: domainBuilder.buildCertificationCandidate({ id: 'another candidate' }) });
 
           const schoolingRegistrationRepository = _buildFakeSchoolingRegistrationRepository()
-            .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args:{ userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
+            .withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args: { userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId }, resolves: true });
 
           // when
           const error = await catchErr(linkUserToSessionCertificationCandidate)({
