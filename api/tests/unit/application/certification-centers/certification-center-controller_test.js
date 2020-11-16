@@ -19,28 +19,37 @@ describe('Unit | Controller | certifications-center-controller', () => {
           certificationCenterId: '99',
           sessionId: '88',
         },
+        query: { 'page[size]': 10, 'page[number]': 1 },
       };
-      const expectedSerializedStudents = { data: [{
-        'attributes': {
-          'birthdate': student.birthdate,
-          'division': student.division,
-          'first-name': student.firstName,
-          'last-name': student.lastName,
-        },
-        'id': student.id + '',
-        'type': 'students',
-      }] };
 
       sinon
         .stub(usecases, 'findStudentsForEnrollement')
-        .withArgs({ userId: 111, certificationCenterId: 99, sessionId: 88 })
-        .resolves([student]);
+        .withArgs({ userId: 111, certificationCenterId: 99, sessionId: 88, page: { size: 10, number: 1 } })
+        .resolves({
+          data: [student],
+          pagination: { page: 1, pageSize: 10, rowCount: 1, pageCount: 1 },
+        });
 
       // when
       const response = await certificationCenterController.getStudents(request, hFake);
 
       // then
-      expect(response).to.deep.equal(expectedSerializedStudents);
+      expect(response).to.deep.equal(
+        {
+          data: [{
+            'attributes': {
+              'birthdate': student.birthdate,
+              'division': student.division,
+              'first-name': student.firstName,
+              'last-name': student.lastName,
+            },
+            'id': `${student.id}`,
+            'type': 'students',
+
+          }],
+          meta: { page: 1, pageSize: 10, rowCount: 1, pageCount: 1 },
+        },
+      );
     });
   });
 
