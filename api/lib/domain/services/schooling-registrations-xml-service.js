@@ -6,7 +6,7 @@ const xml2js = require('xml2js');
 const sax = require('sax');
 const saxPath = require('saxpath');
 const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
-const { isEmpty, isNil, each, isUndefined } = require('lodash');
+const { isEmpty, isNil, each, isUndefined, noop } = require('lodash');
 
 const DEFAULT_FILE_ENCODING = 'iso-8859-15';
 const DIVISION = 'D';
@@ -37,86 +37,80 @@ async function extractSchoolingRegistrationsInformationFromSIECLE(path, organiza
 }
 
 function _extractUAI(path, encoding) {
-  return _withSiecleStream(path, encoding, _extractUAIFromStream);
+  return _withSiecleStream(path, encoding, _UAIextractor);
 }
 
 async function _processSiecleFile(path, encoding) {
-  return _withSiecleStream(path, encoding, _extractStudentRegistrationsFromStream);
+  return _withSiecleStream(path, encoding, _registrationExtractor);
 }
 
-async function _withSiecleStream(path, encoding, fn) {
+async function _withSiecleStream(path, encoding, extractor) {
   const rawStream = fs.createReadStream(path);
   const siecleFileStream = rawStream.pipe(iconv.decodeStream(encoding));
 
   try {
-    return await fn(siecleFileStream);
+    return await new Promise((resolve, reject_) => {
+      const saxParser = sax.createStream(true);
+
+      const reject = (e) => {
+        saxParser.removeAllListeners();
+        saxParser.on('error', noop);
+        return reject_(e);
+      };
+
+      saxParser.on('error', () => {
+        reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
+      });
+
+      extractor(saxParser, resolve, reject);
+
+      siecleFileStream.pipe(saxParser);
+    });
   } finally {
     rawStream.close();
   }
 }
 
-function _extractUAIFromStream(siecleFileStream) {
-  return new Promise(function(resolve, reject) {
-    const saxParser = sax.createStream(true);
-    saxParser.on('error', () => {
-      reject(new FileValidationError('XML invalide'));
+function _UAIextractor(saxParser, resolve, reject) {
+  const streamerToParseOrganizationUAI = new saxPath.SaXPath(saxParser, NODE_ORGANIZATION_UAI);
+
+  streamerToParseOrganizationUAI.once('match', (xmlNode) => {
+    xml2js.parseString(xmlNode, (err, nodeData) => {
+      if (err) return reject(err);
+      if (nodeData.PARAMETRES) {
+        const UAIFromSIECLE = _getValueFromParsedElement(nodeData.PARAMETRES.UAJ);
+        resolve(UAIFromSIECLE);
+      }
     });
+  });
 
-    const streamerToParseOrganizationUAI = new saxPath.SaXPath(saxParser, NODE_ORGANIZATION_UAI);
-
-    streamerToParseOrganizationUAI.once('match', (xmlNode) => {
-      xml2js.parseString(xmlNode, (err, nodeData) => {
-        if (err) return reject(err);
-        if (nodeData.PARAMETRES) {
-          const UAIFromSIECLE = _getValueFromParsedElement(nodeData.PARAMETRES.UAJ);
-          resolve(UAIFromSIECLE);
-        }
-      });
-    });
-
-    saxParser.on('end', () => {
-      reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
-    });
-
-    siecleFileStream.pipe(saxParser);
+  saxParser.on('end', () => {
+    reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
   });
 }
 
-function _extractStudentRegistrationsFromStream(siecleFileStream) {
-  return new Promise(function(resolve, reject_) {
-    const saxParser = sax.createStream(true);
-    saxParser.on('error', () => {
-      reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
-    });
+function _registrationExtractor(saxParser, resolve, reject) {
+  const mapSchoolingRegistrationsByStudentId = new Map();
+  const nationalStudentIds = [];
 
-    const reject = (e) => {
-      saxParser.removeAllListeners();
-      return reject_(e);
-    };
+  const streamerToParseSchoolingRegistrations = new saxPath.SaXPath(saxParser, NODES_SCHOOLING_REGISTRATIONS);
 
-    const mapSchoolingRegistrationsByStudentId = new Map();
-    const nationalStudentIds = [];
+  streamerToParseSchoolingRegistrations.on('match', (xmlNode) => {
+    if (_isSchoolingRegistrationNode(xmlNode)) {
+      xml2js.parseString(xmlNode, (err, nodeData) => {
+        try {
+          if (err) throw err;
+          _processStudentsNodes(mapSchoolingRegistrationsByStudentId, nodeData, nationalStudentIds);
+          _processStudentsStructureNodes(mapSchoolingRegistrationsByStudentId, nodeData);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }
+  });
 
-    const streamerToParseSchoolingRegistrations = new saxPath.SaXPath(saxParser, NODES_SCHOOLING_REGISTRATIONS);
-    streamerToParseSchoolingRegistrations.on('match', (xmlNode) => {
-      if (_isSchoolingRegistrationNode(xmlNode)) {
-        xml2js.parseString(xmlNode, (err, nodeData) => {
-          try {
-            if (err) throw err;
-            processStudentsNodes(mapSchoolingRegistrationsByStudentId, nodeData, nationalStudentIds);
-            processStudentsStructureNodes(mapSchoolingRegistrationsByStudentId, nodeData);
-          } catch (err) {
-            reject(err);
-          }
-        });
-      }
-    });
-
-    siecleFileStream.pipe(saxParser);
-
-    streamerToParseSchoolingRegistrations.on('end', () => {
-      resolve(Array.from(mapSchoolingRegistrationsByStudentId.values()));
-    });
+  streamerToParseSchoolingRegistrations.on('end', () => {
+    resolve(Array.from(mapSchoolingRegistrationsByStudentId.values()));
   });
 }
 
@@ -188,7 +182,7 @@ async function _detectEncodingFromFirstLineOfSiecleFile(path) {
   return xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
 }
 
-function processStudentsNodes(mapSchoolingRegistrationsByStudentId, nodeData, nationalStudentIds) {
+function _processStudentsNodes(mapSchoolingRegistrationsByStudentId, nodeData, nationalStudentIds) {
   const studentData = nodeData.ELEVE;
   if (studentData && _isStudentEligible(studentData, mapSchoolingRegistrationsByStudentId)) {
     const nationalStudentId = _getValueFromParsedElement(nodeData.ELEVE.ID_NATIONAL);
@@ -198,7 +192,7 @@ function processStudentsNodes(mapSchoolingRegistrationsByStudentId, nodeData, na
   }
 }
 
-function processStudentsStructureNodes(mapSchoolingRegistrationsByStudentId, nodeData) {
+function _processStudentsStructureNodes(mapSchoolingRegistrationsByStudentId, nodeData) {
   if (nodeData.STRUCTURES_ELEVE && mapSchoolingRegistrationsByStudentId.has(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID)) {
     const currentStudent = mapSchoolingRegistrationsByStudentId.get(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID);
     const structureElement = nodeData.STRUCTURES_ELEVE.STRUCTURE;
