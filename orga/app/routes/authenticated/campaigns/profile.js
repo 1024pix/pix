@@ -7,7 +7,7 @@ export default class ProfileRoute extends Route {
     const { 'campaign_id': campaignId, 'campaign_participation_id': campaignParticipationId } = params;
     return RSVP.hash({
       campaign: this.store.findRecord('campaign', campaignId),
-      campaignProfile: this.store.queryRecord('campaign-profile', { campaignId,  campaignParticipationId }),
+      campaignProfile: this.store.queryRecord('campaign-profile', { campaignId, campaignParticipationId }),
     });
   }
 }

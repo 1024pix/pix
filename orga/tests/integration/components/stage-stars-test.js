@@ -25,7 +25,7 @@ module('Integration | Component | stage-stars', function(hooks) {
   test('should render a star only when threshold > 0 and reached', async function(assert) {
     // given
     this.set('result', 50);
-    this.set('stages', [{ threshold: 0 },{ threshold: 20 }, { threshold: 70 }]);
+    this.set('stages', [{ threshold: 0 }, { threshold: 20 }, { threshold: 70 }]);
 
     // when
     await render(hbs`<StageStars @result={{this.result}} @stages={{this.stages}} />`);

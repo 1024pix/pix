@@ -59,7 +59,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
         targetProfile,
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared : true }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared: true }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -85,16 +85,16 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
         targetProfile,
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared : true }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared: true }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
       this.set('participations', participations);
       this.set('goToAssessmentPage', () => {});
-      
+
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-      
+
       // then
       assert.dom('.pix-tooltip__content').exists();
       assert.dom('img[src="url-badge"]').exists();
@@ -149,16 +149,16 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
         targetProfile,
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared : false }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared: false }];
       participations.meta = { rowCount: 1 };
-  
+
       this.set('campaign', campaign);
       this.set('participations', participations);
       this.set('goToAssessmentPage', () => {});
-  
+
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-  
+
       // then
       assert.dom('.pix-tooltip__content').doesNotExist();
       assert.dom('img[src="url-badge"]').doesNotExist();

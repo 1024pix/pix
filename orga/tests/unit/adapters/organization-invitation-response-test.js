@@ -12,7 +12,7 @@ module('Unit | Adapters | organization-invitation-response', function(hooks) {
 
   module('#urlForCreateRecord', function() {
 
-    test('should build update url from organization-invitation-response id', async  function(assert) {
+    test('should build update url from organization-invitation-response id', async function(assert) {
       // given
       const organizationInvitationId = 123;
       const options = {

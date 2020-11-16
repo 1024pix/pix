@@ -282,7 +282,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
           class CurrentUserStub extends Service {
             isAdminInOrganization = true;
           }
-          this.owner.register('service:current-user',  CurrentUserStub);
+          this.owner.register('service:current-user', CurrentUserStub);
           this.set('importStudentsSpy', () => {});
           return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
         });
@@ -369,7 +369,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
         class CurrentUserStub extends Service {
           isAdminInOrganization = false;
         }
-        this.owner.register('service:current-user',  CurrentUserStub);
+        this.owner.register('service:current-user', CurrentUserStub);
         return render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
       });
 
