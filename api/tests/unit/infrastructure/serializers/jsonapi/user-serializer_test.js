@@ -22,6 +22,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         pixCertifTermsOfServiceAccepted: false,
         hasSeenAssessmentInstructions: false,
         password: 'Password123',
+        finishedPixContestAt: '2020-05-06T13:18:26.323Z',
       });
     });
 
@@ -44,6 +45,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'pix-orga-terms-of-service-accepted': userModelObject.pixOrgaTermsOfServiceAccepted,
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
+              'finished-pix-contest-at': userModelObject.finishedPixContestAt,
             },
             relationships: {
               memberships: {

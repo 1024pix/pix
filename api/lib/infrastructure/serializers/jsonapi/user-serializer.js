@@ -16,6 +16,7 @@ module.exports = {
         'memberships', 'certificationCenterMemberships',
         'pixScore', 'scorecards', 'profile',
         'campaignParticipations', 'hasSeenAssessmentInstructions', 'isCertifiable',
+        'finishedPixContestAt',
       ],
       memberships: {
         ref: 'id',
