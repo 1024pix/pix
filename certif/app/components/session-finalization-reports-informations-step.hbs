@@ -5,7 +5,11 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>N° de certification</th>
-        <th>Signalement (à renseigner le cas échéant)</th>
+        {{#if @isReportsCategorizationFeatureToggleEnabled}}
+          <th>Signalement</th>
+        {{else}}
+          <th>Signalement (à renseigner le cas échéant)</th>
+        {{/if}}
         <th>
           <div class="session-finalization-reports-informations-step__row">
             <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @toggleAllCertificationReportsHasSeenEndTestScreen this.hasCheckedSomething)}}>
@@ -22,14 +26,28 @@
           <td data-test-id="finalization-report-last-name_{{report.certificationCourseId}}">{{report.lastName}}</td>
           <td data-test-id="finalization-report-first-name_{{report.certificationCourseId}}">{{report.firstName}}</td>
           <td data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}">{{report.certificationCourseId}}</td>
-          <td>
-            <Textarea
-              data-test-id="finalization-report-examiner-comment_{{report.certificationCourseId}}"
-              @class="session-finalization-reports-informations-step__textarea"
-              @value={{report.examinerComment}}
-              {{on 'input' (fn @updateCertificationReportExaminerComment report)}}
-              @maxlength={{@examinerCommentMaxLength}}
-            />
+          <td data-test-id="finalization-report-examiner-comment_{{report.certificationCourseId}}">
+            {{#if @isReportsCategorizationFeatureToggleEnabled}}
+              <div class="finalization-report-examiner-comment">
+                {{#if report.examinerComment}}
+                  <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openExaminerReportModal report)}}>
+                    Ajouter / modifier
+                  </button>
+                  <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}"> 1 signalement </p>
+                {{else}}
+                  <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openExaminerReportModal report)}}>
+                    Ajouter ?
+                  </button>
+                {{/if}}
+              </div>
+            {{else}}
+              <Textarea
+                @class="session-finalization-reports-informations-step__textarea"
+                @value={{report.examinerComment}}
+                {{on 'input' (fn @updateCertificationReportExaminerComment report)}}
+                @maxlength={{@examinerCommentMaxLength}}
+              />
+            {{/if}}
           </td>
           <td>
             <CertifCheckbox
@@ -42,4 +60,11 @@
       {{/each}}
     </tbody>
   </table>
+  {{#if this.showExaminerReportModal}}
+    <ExaminerReportModal
+      @closeModal={{this.closeExaminerReportModal}}
+      @report={{this.reportToEdit}}
+      @maxlength={{@examinerCommentMaxLength}}
+      />
+  {{/if}}
 </div>
