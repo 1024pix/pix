@@ -236,6 +236,7 @@
         },
         "challenge": {
             "title": "Question {stepNumber} of {totalChallengeNumber}",
+            "title-pix-contest": "Question {stepNumber}",
             "actions": {
                 "continue": "Continue",
                 "validate": "Validate",
