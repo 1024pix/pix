@@ -19,4 +19,12 @@
       Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}> {{@model.organizationId}} </LinkTo><br>
     </div>
   </section>
+
+  <nav class="navbar">
+    <LinkTo @route="authenticated.target-profiles.target-profile.organizations" @model={{@model}} class="navbar-item">
+      Organisations
+    </LinkTo>
+  </nav>
+
+  {{outlet}}
 </main>

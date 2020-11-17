@@ -21,6 +21,13 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
             'is-public': targetProfile.isPublic,
             'organization-id': targetProfile.organizationId,
           },
+          relationships: {
+            organizations: {
+              links: {
+                related: `/api/target-profiles/${targetProfile.id}/organizations`,
+              },
+            },
+          },
         },
         meta,
       };
@@ -31,7 +38,5 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
       // then
       return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
     });
-
   });
-
 });
