@@ -25,7 +25,16 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _getErrorMessage() {
-    const errorMessage = this.args.challenge.autoReply ? 'pages.challenge.skip-error-message.qroc-auto-reply' : 'pages.challenge.skip-error-message.qroc';
+    let errorMessage;
+    if (this.args.challenge.autoReply) {
+      errorMessage = 'pages.challenge.skip-error-message.qroc-auto-reply';
+    }
+    else if (this.args.challenge.format === 'nombre') {
+      errorMessage = 'pages.challenge.skip-error-message.qroc-number';
+    }
+    else {
+      errorMessage = 'pages.challenge.skip-error-message.qroc';
+    }
     return this.intl.t(errorMessage);
   }
 
