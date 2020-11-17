@@ -26,6 +26,9 @@ export default class ChallengeController extends Controller {
   get pageTitle() {
     const stepNumber = progressInAssessment.getCurrentStepNumber(this.model.assessment, get(this.model, 'answer.id'));
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
+    if (ENV.APP.IS_PIX_CONTEST === 'true') {
+      return this.intl.t('pages.challenge.title-pix-contest', { stepNumber });
+    }
 
     return this.intl.t('pages.challenge.title', { stepNumber, totalChallengeNumber });
   }

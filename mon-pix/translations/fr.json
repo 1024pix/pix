@@ -236,6 +236,7 @@
         },
         "challenge": {
             "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
+            "title-pix-contest": "Épreuve {stepNumber}",
             "actions": {
                 "continue": "Poursuivre",
                 "validate": "Je valide",
@@ -643,7 +644,7 @@
             "pix-contest": {
                 "title": "Bienvenue dans cette session Pix-concours.",
                 "links": {
-                    "link1": "'<a href=\"Premier lien\">'Nom du premier module'</a>'",
+                    "link1": "'<a href=\"/campagnes/CAMPTEST\">'Module 1'</a>'",
                     "link2": "'<a href=\"Second lien\">'Nom du second module'</a>'",
                     "link3": "'<a href=\"Troisième lien\">'Nom du troisième module'</a>'",
                     "link4": "'<a href=\"Quatrième lien\">'Nom du quatrième module'</a>'",
