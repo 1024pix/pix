@@ -57,6 +57,34 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/target-profiles/{id}/organizations',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+          query: Joi.object({
+            'filter[name]': Joi.string().empty('').allow(null).optional(),
+            'filter[type]': Joi.string().empty('').allow(null).optional(),
+            'filter[external-id]': Joi.string().empty('').allow(null).optional(),
+            'page[number]': Joi.number().integer().empty('').allow(null).optional(),
+            'page[size]': Joi.number().integer().empty('').allow(null).optional(),
+          }).options({ allowUnknown: true }),
+        },
+        handler: targetProfileController.findPaginatedFilteredTargetProfileOrganizations,
+        tags: ['api', 'target-profiles', 'organizations'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer les organizations auxquelles est rattaché le profil cible',
+        ],
+      },
+    },
   ]);
 };
 
