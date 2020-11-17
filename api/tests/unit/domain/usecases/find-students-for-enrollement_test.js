@@ -41,13 +41,17 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
         const studentsFounds = await findStudentsForEnrollement({
           userId,
           certificationCenterId,
+          page: { size: 10, number: 1 },
           organizationRepository,
           schoolingRegistrationRepository,
           certificationCandidateRepository,
         });
 
         // then
-        expect(studentsFounds).to.deep.equal([]);
+        expect(studentsFounds).to.deep.equal({
+          data: [],
+          pagination: { page: 1, pageSize: 10, rowCount: 0, pageCount: 0 },
+        });
       });
     });
 
@@ -57,7 +61,12 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
       const enrolledStudent = domainBuilder.buildSchoolingRegistration({ organization });
       const enrollableStudents = _.times(5, () => domainBuilder.buildSchoolingRegistration({ organization }));
       const certificationCandidates = [ domainBuilder.buildCertificationCandidate({ sessionId, schoolingRegistrationId: enrolledStudent.id }) ];
-      schoolingRegistrationRepository.findByOrganizationIdOrderByDivision.withArgs({ organizationId: organization.id }).resolves([ enrolledStudent, ...enrollableStudents ]);
+      schoolingRegistrationRepository.findByOrganizationIdOrderByDivision
+        .withArgs({ page: { number: 1, size: 10 }, organizationId: organization.id })
+        .resolves({
+          data: [ enrolledStudent, ...enrollableStudents ],
+          pagination: { page: 1, pageSize: 10, rowCount: 5, pageCount: 1 },
+        });
       certificationCandidateRepository.findBySessionId.withArgs(sessionId).resolves(certificationCandidates);
 
       // when
@@ -65,6 +74,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
         userId,
         certificationCenterId,
         sessionId,
+        page: { number: 1, size: 10 },
         organizationRepository,
         schoolingRegistrationRepository,
         certificationCandidateRepository,
@@ -72,9 +82,12 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
 
       // then
       const expectedEnrolledStudent = new StudentForEnrollement({ ...enrolledStudent, isEnrolled: true });
-      const expectedEnrollableStudents = enrollableStudents.map((student) => new StudentForEnrollement({ ...student, isEnrolled: false }));
-      const expectedStudents = [ expectedEnrolledStudent, ...expectedEnrollableStudents ];
-      expect(studentsFounds).to.be.deep.equal(expectedStudents);
+      const exepectedEnrollableStudents = enrollableStudents.map((student) => new StudentForEnrollement({ ...student, isEnrolled: false }));
+      const expectedStudents = [ expectedEnrolledStudent, ...exepectedEnrollableStudents ];
+      expect(studentsFounds).to.be.deep.equal({
+        data: expectedStudents,
+        pagination: { page: 1, pageSize: 10, rowCount: 5, pageCount: 1 },
+      });
     });
 
     context('when the linked organization has no student', () => {
@@ -82,19 +95,26 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
       it('should return empty array', async () => {
         // given
         schoolingRegistrationRepository.findByOrganizationIdOrderByDivision
-          .withArgs({ organizationId: organization.id }).resolves([]);
+          .withArgs({ page: { number: 1, size: 10 }, organizationId: organization.id }).resolves({
+            data: [],
+            pagination: { page: 1, pageSize: 10, rowCount: 0, pageCount: 0 },
+          });
 
         // when
         const studentsFounds = await findStudentsForEnrollement({
           userId,
           certificationCenterId,
+          page: { number: 1, size: 10 },
           organizationRepository,
           schoolingRegistrationRepository,
           certificationCandidateRepository,
         });
 
         // then
-        expect(studentsFounds).to.be.deep.equal([]);
+        expect(studentsFounds).to.be.deep.equal({
+          data: [],
+          pagination: { page: 1, pageSize: 10, rowCount: 0, pageCount: 0 },
+        });
       });
     });
   });
