@@ -1,8 +1,7 @@
 const usecases = require('../../domain/usecases');
-const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-
+const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 module.exports = {
 
   async findPaginatedFilteredTargetProfiles(request) {
@@ -24,5 +23,12 @@ module.exports = {
 
     const { models: organizations, pagination } = await usecases.findPaginatedFilteredTargetProfileOrganizations({ targetProfileId, filter: options.filter, page: options.page });
     return organizationSerializer.serialize(organizations, pagination);
+  },
+
+  async attachOrganizations(request, h) {
+    const organizationIds = request.payload['organization-ids'];
+    const targetProfileId = request.params.id;
+    await usecases.attachOrganizationsToTargetProfile({ targetProfileId, organizationIds });
+    return h.response({}).code(204);
   },
 };

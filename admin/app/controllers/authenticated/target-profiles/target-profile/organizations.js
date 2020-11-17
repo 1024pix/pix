@@ -1,3 +1,4 @@
+import uniq from 'lodash/uniq';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -16,6 +17,7 @@ export default class TargetProfileOrganizationsController extends Controller {
   @tracked name = null;
   @tracked type = null;
   @tracked externalId = null;
+  @tracked organizationsToAttach = [];
 
   @service notifications;
 
@@ -34,5 +36,37 @@ export default class TargetProfileOrganizationsController extends Controller {
   @action
   goToOrganizationPage(organizationId) {
     this.transitionToRoute('authenticated.organizations.get', organizationId);
+  }
+
+  @action
+  async attachOrganizations() {
+    const targetProfile = this.model;
+    try {
+      await targetProfile.attachOrganizations({ 'organization-ids' : this._getUniqueOrganizations() });
+      this.organizationsToAttach = null;
+      this.send('refreshModel');
+      return this.notifications.success('Organisation(s) rattaché(es) avec succès.');
+    } catch (responseError) {
+      this._handleResponseError(responseError);
+    }
+  }
+
+  _handleResponseError({ errors }) {
+    if (!errors) {
+      return this.notifications.error('Une erreur est survenue.');
+    }
+    errors.forEach((error) => {
+      if (['404', '412'].includes(error.status)) {
+        this.notifications.error(error.detail);
+      }
+      if (error.status === '400') {
+        this.notifications.error('Une erreur est survenue.');
+      }
+    });
+  }
+
+  _getUniqueOrganizations() {
+    const targetProfileIds = this.organizationsToAttach.split(',').map((targetProfileId) => parseInt(targetProfileId.trim()));
+    return uniq(targetProfileIds);
   }
 }

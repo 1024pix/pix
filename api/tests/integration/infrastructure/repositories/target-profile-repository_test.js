@@ -1,9 +1,10 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr, sinon, knex } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
+const { NotFoundError, AlreadyExistingEntity } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', () => {
 
@@ -40,6 +41,69 @@ describe('Integration | Repository | Target-profile', () => {
         expect(foundTargetProfile.skills[0]).to.be.an.instanceOf(Skill);
         expect(foundTargetProfile.skills[0].id).to.equal(skillAssociatedToTargetProfile.id);
         expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
+      });
+    });
+
+    context('when the targetProfile does not exist', () => {
+      it('throws an error', async () => {
+        const error = await catchErr(targetProfileRepository.get)(1);
+
+        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(error.message).to.have.string('Le profil cible avec l\'id 1 n\'existe pas');
+      });
+    });
+  });
+
+  describe('#getReadModel', () => {
+
+    it('should return the attributes of target profile', async () => {
+      const organization = databaseBuilder.factory.buildOrganization();
+      const targetProfileInDatabase = databaseBuilder.factory.buildTargetProfile({
+        id: 2,
+        name: 'Profil Cible 1',
+        outdated: true,
+        isPublic: true,
+        organizationId: organization.id,
+      });
+      await databaseBuilder.commit();
+
+      const targetProfile = await targetProfileRepository.getReadModel(2);
+
+      expect(targetProfile.id).to.equal(targetProfileInDatabase.id);
+      expect(targetProfile.name).to.equal(targetProfileInDatabase.name);
+      expect(targetProfile.outdated).to.equal(targetProfileInDatabase.outdated);
+      expect(targetProfile.isPublic).to.equal(targetProfileInDatabase.isPublic);
+      expect(targetProfile.organizationId).to.equal(targetProfileInDatabase.organizationId);
+    });
+
+    context('organizations', () => {
+      it('should return the target profile with the list of organizations which could access it', async () => {
+        databaseBuilder.factory.buildTargetProfile({ id: 2 });
+        const organization1 = databaseBuilder.factory.buildOrganization({ name: 'O1' });
+        const organization2 = databaseBuilder.factory.buildOrganization({ name: 'O2' });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 2, organizationId: organization1.id });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 2, organizationId: organization2.id });
+        databaseBuilder.factory.buildTargetProfileShare();
+        await databaseBuilder.commit();
+
+        // when
+        const targetProfile = await targetProfileRepository.getReadModel(2);
+        const organizations = targetProfile.organizations.sort((a, b) => a.name > b.name);
+
+        expect(organizations.length).to.equal(2);
+        expect(organizations[0].id).to.equal(organization1.id);
+        expect(organizations[0].name).to.equal(organization1.name);
+        expect(organizations[1].id).to.equal(organization2.id);
+        expect(organizations[1].name).to.equal(organization2.name);
+      });
+    });
+
+    context('when the targetProfile does not exist', () => {
+      it('throws an error', async () => {
+        const error = await catchErr(targetProfileRepository.get)(1);
+
+        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(error.message).to.have.string('Le profil cible avec l\'id 1 n\'existe pas');
       });
     });
   });
@@ -389,6 +453,112 @@ describe('Integration | Repository | Target-profile', () => {
 
         // then
         expect(_.map(matchingTargetProfiles, 'id')).to.have.members([1, 2]);
+      });
+    });
+  });
+
+  describe('#attachOrganizations', () => {
+
+    afterEach(() => {
+      return knex('target-profile-shares').delete();
+    });
+
+    it('add organization to the target profile', async function() {
+      databaseBuilder.factory.buildTargetProfile({ id: 12 });
+      const organization1 = databaseBuilder.factory.buildOrganization();
+      const organization2 = databaseBuilder.factory.buildOrganization();
+
+      await databaseBuilder.commit();
+
+      const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+      targetProfile.addOrganizations([organization1.id, organization2.id]);
+
+      await targetProfileRepository.attachOrganizations(targetProfile);
+
+      const rows = await knex('target-profile-shares')
+        .select('organizationId')
+        .where({ targetProfileId: targetProfile.id });
+      const organizationIds = rows.map(({ organizationId }) => organizationId);
+
+      expect(organizationIds).to.exactlyContain([organization1.id, organization2.id]);
+    });
+
+    context('when the organization does not exist', () => {
+      it('throws an error', async () =>   {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([10, 12]);
+
+        const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
+
+        expect(error).to.be.an.instanceOf(NotFoundError);
+        expect(error.message).to.have.string('L\'organization  avec l\'id 10 n\'existe pas');
+      });
+    });
+
+    context('when the organization is already attached', () => {
+      it('throws an error', async () =>   {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: organization.id });
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([organization.id]);
+
+        const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
+
+        expect(error).to.be.an.instanceOf(AlreadyExistingEntity);
+        expect(error.message).to.have.string(`Le profil cible est déjà associé à l’organisation ${organization.id}.`);
+      });
+    });
+  });
+
+  describe('isAttachedToOrganizations', () => {
+
+    context('when none of given organizations is attached to the targetProfile', () => {
+      it('return true', async function() {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const organization1 = databaseBuilder.factory.buildOrganization();
+        const organization2 = databaseBuilder.factory.buildOrganization();
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([organization1.id, organization2.id]);
+
+        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfile);
+
+        expect(isAttached).to.equal(false);
+      });
+    });
+
+    context('when one of given organizations is attached to the targetProfile', () => {
+      it('return true', async function() {
+        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const organization1 = databaseBuilder.factory.buildOrganization();
+        const organization2 = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: organization1.id });
+
+        await databaseBuilder.commit();
+
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+        targetProfile.addOrganizations([organization1.id, organization2.id]);
+
+        const isAttached = await targetProfileRepository.isAttachedToOrganizations(targetProfile);
+
+        expect(isAttached).to.equal(true);
       });
     });
   });
