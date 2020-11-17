@@ -16,15 +16,16 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   tryImproving,
   locale,
 }) {
+
+  if (process.env.IS_PIX_CONTEST === 'true') {
+    return getNextChallengeForDemo({ assessment, answerRepository, challengeRepository, courseRepository });
+  }
+
   if (tryImproving) {
     assessment.isImproving = true;
   }
 
   const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
-
-  if (process.env.IS_PIX_CONTEST === 'true') {
-    return getNextChallengeForDemo({ assessment, answerRepository, challengeRepository, courseRepository });
-  }
 
   const {
     possibleSkillsForNextChallenge,
