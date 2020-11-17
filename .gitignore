@@ -47,7 +47,6 @@
 api/.vscode/*
 api/.vscode
 api/.nvmrc
-.nvmrc
 .vscode/*
 !.vscode/sample.launch.json
 !.vscode/sample.settings.json
