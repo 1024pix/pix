@@ -203,4 +203,10 @@ module.exports = {
     return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
   },
 
+  async finishPixContest(request) {
+    const userId = parseInt(request.params.id);
+    const updatedUser = await usecases.finishPixContest({ userId });
+    return userSerializer.serialize(updatedUser);
+  },
+
 };

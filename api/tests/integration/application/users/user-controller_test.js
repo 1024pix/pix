@@ -20,6 +20,7 @@ describe('Integration | Application | Users | user-controller', () => {
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
     sandbox.stub(usecases, 'updateUserSamlId');
     sandbox.stub(usecases, 'dissociateSchoolingRegistrations');
+    sandbox.stub(usecases, 'finishPixContest');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -236,4 +237,58 @@ describe('Integration | Application | Users | user-controller', () => {
       });
     });
   });
+
+  describe('#finishPixContest', () => {
+
+    const method = 'PATCH';
+    const url = '/api/users/1/finish-pix-contest';
+
+    let payload;
+
+    beforeEach(() => {
+      securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
+      payload = {
+        data: {
+          id: 1,
+          type: 'external-users',
+          attributes: {
+            'external-user-token': 'TOKEN',
+            'expected-user-id': 1,
+          },
+        },
+      };
+    });
+
+    context('Success cases', () => {
+
+      it('should return a HTTP response with status code 200', async () => {
+        // given
+        usecases.finishPixContest.resolves(domainBuilder.buildUser());
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    context('Error cases', () => {
+
+      it('should return a 403 HTTP response when authenticated user is not authorized to update requested user', async () => {
+        // given
+        securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+    });
+  });
+
 });

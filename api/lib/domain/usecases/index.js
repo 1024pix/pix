@@ -139,6 +139,7 @@ module.exports = injectDependencies({
   findTutorials: require('./find-tutorials'),
   findUserTutorials: require('./find-user-tutorials'),
   findPaginatedFilteredSchoolingRegistrations: require('./find-paginated-filtered-schooling-registrations'),
+  finishPixContest: require('./finish-pix-contest'),
   flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
   generateUsername: require('./generate-username'),
   generateUsernameWithTemporaryPassword: require('./generate-username-with-temporary-password'),
@@ -217,5 +218,4 @@ module.exports = injectDependencies({
   updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
   updateUserPassword: require('./update-user-password'),
   updateUserSamlId: require('./update-user-samlId'),
-
 }, dependencies);
