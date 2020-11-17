@@ -98,7 +98,7 @@
             },
             "profiles-collection": {
                 "title": "Envoyez votre profil",
-                "action": "C’est parti !",
+                "action": "C'est parti !",
                 "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.",
                 "legal": "Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
             }

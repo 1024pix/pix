@@ -162,7 +162,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           campaign = server.create('campaign', { type: PROFILES_COLLECTION });
           await visit(`/campagnes/${campaign.code}`);
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-          expect(find('.campaign-landing-page__start-button').textContent.trim()).to.equal('C’est parti !');
+          expect(find('.campaign-landing-page__start-button').textContent.trim()).to.equal('C\'est parti !');
         });
       });
 
