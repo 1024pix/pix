@@ -650,7 +650,11 @@
                     "link4": "",
                     "link5": ""
                 },
-                "rules": ""
+                "rules": "",
+                "send-results": {
+                    "button": "",
+                    "instructions": ""
+                }
             },
             "resume-campaign-banner": {
                 "accessibility": {

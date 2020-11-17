@@ -650,7 +650,11 @@
                     "link4": "'<a href=\"Quatrième lien\">'Nom du quatrième module'</a>'",
                     "link5": "'<a href=\"Cinquième lien\">'Nom du cinquième module'</a>'"
                 },
-                "rules": "Règles de l'épreuve"
+                "rules": "Règles de l'épreuve",
+                "send-results": {
+                    "button": "J'envoie ma copie",
+                    "instructions": "Instructions à modifier"
+                }
             },
             "resume-campaign-banner": {
                 "accessibility": {
