@@ -29,7 +29,6 @@ module.exports = [
   require('./application/scorecards'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
-  require('./application/system'),
   require('./application/target-profiles'),
   require('./application/tutorial-evaluations'),
   require('./application/user-orga-settings'),
