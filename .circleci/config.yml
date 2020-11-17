@@ -219,6 +219,8 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
     parallelism: 5
     working_directory: ~/pix/high-level-tests/e2e
+    environment:
+      INTERVAL_CHECK_APPLICATION_IS_UP_SECOND: 60
     steps:
       - attach_workspace:
           at: ~/pix
@@ -294,6 +296,8 @@ jobs:
           background: true
           command: npm start
 
+      - run: wget --retry-connrefused -T $INTERVAL_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:3000/api
+
       - run:
           name: Wait for Pix API to be up and running
           command: wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
@@ -306,6 +310,8 @@ jobs:
           background: true
           command: npm start
 
+      - run: wget --retry-connrefused -T $INTERVAL_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4200
+
       - run:
           name: Wait for Pix App to be up and running
           command: wget --retry-connrefused -T 60 -qO- http://localhost:4200
@@ -317,6 +323,7 @@ jobs:
             JOBS: 2
           background: true
           command: npm start
+      - run: wget --retry-connrefused -T $INTERVAL_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4201
 
       - run:
           name: Wait for Pix Orga to be up and running
@@ -329,6 +336,7 @@ jobs:
             JOBS: 1
           background: true
           command: npm start
+      - run: wget --retry-connrefused -T $INTERVAL_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4203
 
       - run:
           name: Wait for Pix Certif to be up and running
