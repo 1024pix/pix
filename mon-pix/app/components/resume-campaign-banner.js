@@ -1,5 +1,6 @@
 import _maxBy from 'lodash/maxBy';
 import Component from '@glimmer/component';
+import ENV from 'mon-pix/config/environment';
 
 export default class ResumeCampaignBanner extends Component {
 
@@ -9,6 +10,11 @@ export default class ResumeCampaignBanner extends Component {
 
   get lastUnsharedCampaignParticipation() {
     return _maxBy(this.unsharedCampaignParticipations, 'createdAt');
+  }
+
+  get showResumeBar() {
+    return ENV.APP.IS_PIX_CONTEST !== 'true' ||
+      (ENV.APP.IS_PIX_CONTEST === 'true' && !this.campaignParticipationState.assessment.get('isCompleted'));
   }
 
   get campaignParticipationState() {

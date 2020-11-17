@@ -1,15 +1,17 @@
-<div class="resume-campaign-banner">
-{{#if campaignParticipationState}}
-  <div class="resume-campaign-banner__container">
-    {{#if campaignParticipationState.isTypeAssessment}}
-      <ResumeCampaignBannerAssessment
-        @isCompleted={{campaignParticipationState.assessment.isCompleted}}
-        @title={{campaignParticipationState.title}}
-        @code={{campaignParticipationState.code}}
-      />
-    {{else}}
-      <ResumeCampaignBannerCollectProfile @code={{campaignParticipationState.code}} />
-    {{/if}}
+{{#if showResumeBar}}
+  <div class="resume-campaign-banner">
+  {{#if campaignParticipationState}}
+    <div class="resume-campaign-banner__container">
+      {{#if campaignParticipationState.isTypeAssessment}}
+        <ResumeCampaignBannerAssessment
+          @isCompleted={{campaignParticipationState.assessment.isCompleted}}
+          @title={{campaignParticipationState.title}}
+          @code={{campaignParticipationState.code}}
+        />
+      {{else}}
+        <ResumeCampaignBannerCollectProfile @code={{campaignParticipationState.code}} />
+      {{/if}}
+    </div>
+  {{/if}}
   </div>
 {{/if}}
-</div>
