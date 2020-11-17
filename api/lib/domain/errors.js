@@ -491,7 +491,7 @@ class ObjectValidationError extends DomainError {
 }
 
 class UserCouldNotBeReconciledError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'a pas pu être rattaché à une organization.') {
+  constructor(message = 'Cet utilisateur n\'a pas pu être rattaché à une organisation.') {
     super(message);
   }
 }
