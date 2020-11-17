@@ -12,6 +12,14 @@ url.pathname = '/postgres';
 
 const client = new PgClient(url.href);
 
+const disconnectAllSessionsButMineQuery =
+  `SELECT pg_terminate_backend(pg_stat_activity.pid)
+  FROM pg_stat_activity
+  WHERE pg_stat_activity.datname = '${DB_TO_DELETE_NAME}'
+  AND pid <> pg_backend_pid();`;
+
+(async () => { await client.query_and_log(disconnectAllSessionsButMineQuery); })();
+
 client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME};`)
   .then(() => {
     console.log('Database dropped');
