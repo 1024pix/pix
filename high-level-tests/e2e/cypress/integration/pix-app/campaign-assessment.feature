@@ -53,7 +53,6 @@ Fonctionnalité: Campagne d'évaluation
 
   Scénario: Je rejoins un parcours prescrit restreint en étant connecté via un organisme externe
     Étant donné que je me connecte à Pix via le GAR
-    Et je vais sur la page d'accès à une campagne
     Lorsque je saisis "WINTER" dans le champ "Ce code permet de démarrer un parcours"
     Et je clique sur "Commencer"
     Alors je vois la page de "rejoindre" de la campagne
