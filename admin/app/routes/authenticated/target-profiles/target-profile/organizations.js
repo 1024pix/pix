@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 
 export default class TargetProfileOrganizationsRoute extends Route {
   queryParams = {
@@ -28,6 +29,12 @@ export default class TargetProfileOrganizationsRoute extends Route {
       controller.name = null;
       controller.type = null;
       controller.externalId = null;
+      controller.organizationsToAttach = [];
     }
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }

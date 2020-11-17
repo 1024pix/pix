@@ -58,6 +58,30 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/target-profiles/{id}/attach-organizations',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          payload: Joi.object({
+            'organization-ids': Joi.array().items(Joi.number().integer()).required(),
+          }),
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
+        handler: targetProfileController.attachOrganizations,
+        tags: ['api', 'target-profiles'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de rattacher des organisations à un profil cible',
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/organizations',
       config: {

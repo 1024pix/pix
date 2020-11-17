@@ -3,6 +3,10 @@ const BookshelfTargetProfile = require('../../infrastructure/data/target-profile
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../bookshelf');
+const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
+const { NotFoundError, AlreadyExistingEntity } = require('../../domain/errors');
+const TargetProfileDTO = require('../../domain/read-models/TargetProfileDTO');
 
 module.exports = {
 
@@ -11,7 +15,23 @@ module.exports = {
       .where({ id })
       .fetch({ withRelated: ['skillIds'] });
 
+    if (!targetProfileBookshelf) {
+      throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
+    }
+
     return _getWithAirtableSkills(targetProfileBookshelf);
+  },
+
+  async getReadModel(id) {
+    const targetProfileBookshelf = await BookshelfTargetProfile
+      .where({ id })
+      .fetch({ withRelated: ['organizations'] });
+
+    const organizations = _getOrganizations(targetProfileBookshelf);
+    if (!targetProfileBookshelf) {
+      throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
+    }
+    return new TargetProfileDTO({ ...targetProfileBookshelf.attributes, organizations });
   },
 
   async getByCampaignId(campaignId) {
@@ -84,6 +104,35 @@ module.exports = {
         return { models: targetProfiles, pagination };
       });
   },
+
+  async attachOrganizations(targetProfile) {
+    const rows = targetProfile.organizations.map((organizationId) => {
+      return {
+        organizationId,
+        targetProfileId: targetProfile.id,
+      };
+    });
+    try {
+      await knex.batchInsert('target-profile-shares', rows);
+    } catch (error) {
+      if (foreignKeyConstraintViolated(error)) {
+        const organizationId = error.detail.match(/=\((\d+)\)/)[1];
+        throw new NotFoundError(`L'organization  avec l'id ${organizationId} n'existe pas`);
+      }
+      if (isUniqConstraintViolated(error)) {
+        const organizationId = error.detail.match(/=\((\d+),/)[1];
+        throw new AlreadyExistingEntity(`Le profil cible est déjà associé à l’organisation ${organizationId}.`);
+      }
+    }
+  },
+
+  async isAttachedToOrganizations(targetProfile) {
+    const attachedOrganizations = await knex('target-profile-shares')
+      .select('organizationId')
+      .whereIn('organizationId', targetProfile.organizations);
+
+    return attachedOrganizations.some((e) => e);
+  },
 };
 
 async function _getWithAirtableSkills(targetProfile) {
@@ -107,4 +156,14 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   if (id) {
     qb.where({ id });
   }
+}
+
+function _getOrganizations(targetProfileBookshelf) {
+  return targetProfileBookshelf.related('organizations')
+    .map((BookshelfOrganization) => {
+      return {
+        id: BookshelfOrganization.get('id'),
+        name: BookshelfOrganization.get('name'),
+      };
+    });
 }

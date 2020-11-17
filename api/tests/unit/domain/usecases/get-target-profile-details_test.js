@@ -9,9 +9,9 @@ describe('Unit | UseCase | get-target-profile-details', () => {
     const targetProfileId = Symbol('target profile id');
 
     const targetProfileRepository = {
-      get: sinon.stub(),
+      getReadModel: sinon.stub(),
     };
-    targetProfileRepository.get.withArgs(targetProfileId).resolves(expectedResult);
+    targetProfileRepository.getReadModel.withArgs(targetProfileId).resolves(expectedResult);
 
     // when
     const response = await usecases.getTargetProfileDetails({ targetProfileId, targetProfileRepository });
