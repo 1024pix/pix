@@ -653,6 +653,7 @@
                 "rules": "Règles de l'épreuve",
                 "send-results": {
                     "button": "J'envoie ma copie",
+                    "finished": "Votre copie a bien été transmise.",
                     "instructions": "Instructions à modifier"
                 }
             },

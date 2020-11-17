@@ -653,6 +653,7 @@
                 "rules": "",
                 "send-results": {
                     "button": "",
+                    "finished": "",
                     "instructions": ""
                 }
             },

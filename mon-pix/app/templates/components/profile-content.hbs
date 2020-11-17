@@ -4,6 +4,7 @@
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
   <h1 class="sr-only">{{t 'pages.profile.accessibility.title'}}</h1>
     {{#if this.isPixContest}}
+      {{#if this.hasNotFinishedPixContest}}
       <div class="rounded-panel-header-with-components">
           <div class="rounded-panel-header-text__content rounded-panel-title rounded-panel-header-text__content--first-title">
             {{t 'pages.profile.pix-contest.title' }}
@@ -23,6 +24,11 @@
           {{t 'pages.profile.pix-contest.send-results.button'}}
         </button>
       </div>
+      {{else}}
+        <div class="rounded-panel-finished-pix-contest">
+          <p>{{t 'pages.profile.pix-contest.send-results.finished'}}</p>
+        </div>
+      {{/if}}
     {{else}}
       <div class="rounded-panel-header-with-components">
         <div class="rounded-panel-header__left-wrapper">

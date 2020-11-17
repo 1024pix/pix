@@ -11,6 +11,10 @@ export default class ProfileContent extends Component {
     return ENV.APP.IS_PIX_CONTEST === 'true';
   }
 
+  get hasNotFinishedPixContest() {
+    return !this.currentUser.user.finishedPixContestAt;
+  }
+
   @action
   sendPixContestResults() {
     this.currentUser.user.save({ adapterOptions: { finishPixContest: true } });
