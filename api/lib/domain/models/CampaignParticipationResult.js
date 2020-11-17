@@ -135,17 +135,24 @@ function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
   const validatedSkillsCount = validatedKnowledgeElementsForCompetence.length;
   const totalSkillsCount = competence.skillIds.length;
   const areaColor = _getCompetenceColor(competence);
+  const areaName = _getAreaName(competence);
 
   return new CompetenceResult({
     id: competence.id,
     name: competence.name,
     index: competence.index,
     areaColor,
+    areaName,
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
     badgeId: competence.badgeId,
   });
+}
+
+function _getAreaName(competence) {
+  if (!competence.area) return;
+  return competence.area.name;
 }
 
 function _getCompetenceColor(competence) {
