@@ -163,6 +163,20 @@ input[type=number] {
     text-decoration: none;
   }
 
+  &--showed-as-link {
+    text-decoration: underline;
+    border: none;
+    background: none;
+    font-family: $roboto;
+    font-size: 0.875rem;
+    color: $blue-zodia;
+
+    &:hover {
+      cursor: pointer;
+      color: $communication-dark;
+    }
+  }
+
   &--with-icon {
     display: flex;
     align-items: center;
