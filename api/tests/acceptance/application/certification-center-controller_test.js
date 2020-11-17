@@ -225,14 +225,14 @@ describe('Acceptance | API | Certification Center', () => {
     function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students',
+        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students?page[size]=10&page[number]=1',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     }
     function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students',
+        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students?page[size]=10&page[number]=1',
       };
     }
 
