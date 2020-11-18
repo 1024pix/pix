@@ -32,7 +32,6 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       dateDebut: '2020-01-01T00:00:00.000Z',
       dateFin: '2020-02-01T00:00:00.000Z',
       type: 'EVALUATION',
-      idCampagne: 11223344,
       codeCampagne: 'CODEPE123',
       urlCampagne: 'https://app.pix.fr/campagnes/CODEPE123',
       nomOrganisme: 'Pix',
@@ -50,7 +49,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       dateDebut: '2020-01-02T00:00:00.000Z',
       dateProgression: '2020-01-03T00:00:00.000Z',
       dateValidation: '2020-01-03T00:00:00.000Z',
-      evaluationCible: 70,
+      evaluation: 70,
       uniteEvaluation: 'A',
       elementsEvalues: [
         {
