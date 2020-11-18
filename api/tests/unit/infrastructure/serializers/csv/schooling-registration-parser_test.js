@@ -113,9 +113,10 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
       context('when the data are not correct', () => {
         it('should throw an EntityValidationError with malformated birthDate', async () => {
+          const wrongData = 'aaaa';
           //given
           const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;aaaaa;97422;;200;99100;ST;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;${wrongData};97422;Shangai;200;99100;ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, 123);
@@ -124,6 +125,36 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           
           //then
           expect(error).to.be.an.instanceOf(EntityValidationError);
+        });
+
+        it('should throw an EntityValidationError with malformated birthCountryCode', async () => {
+          //given
+          const wrongData = 'FRANC';
+          const input = `${schoolingRegistrationCsvColumns}
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;${wrongData};Shangai;200;;ST;MEF1;Division 1;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new SchoolingRegistrationParser(encodedInput, 123);
+
+          const error = await catchErr(parser.parse, parser)();
+          
+          //then
+          expect(error).to.be.an.instanceOf(CsvImportError);
+        });
+
+        it('should throw an EntityValidationError with malformated birthCityCode', async () => {
+          //given
+          const wrongData = 'A1234';
+          const input = `${schoolingRegistrationCsvColumns}
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;99100;France;200;${wrongData};ST;MEF1;Division 1;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new SchoolingRegistrationParser(encodedInput, 123);
+
+          const error = await catchErr(parser.parse, parser)();
+          
+          //then
+          expect(error).to.be.an.instanceOf(CsvImportError);
         });
 
         context('When the organization is Agriculture and file contain status AP', () => {

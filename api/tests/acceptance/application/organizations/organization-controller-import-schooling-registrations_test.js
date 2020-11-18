@@ -828,19 +828,17 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       });
 
       context('when some schooling registrations data are not well formatted', () => {
-        beforeEach(() => {
+        it('should not save any schooling registration with missing family name', async () => {
           // given
           const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-          456F;O-Ren;;;;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
-          `;
+           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
+           456F;O-Ren;;;;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
+           `;
           const buffer = iconv.encode(input, 'UTF-8');
-
+ 
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
           options.payload = buffer;
-        });
 
-        it('should not save any schooling registration', async () => {
           // when
           const response = await server.inject(options);
 
@@ -849,6 +847,50 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
           expect(response.result.errors[0].detail).to.equal('Ligne 3 : Le champ “Nom de famille*” est obligatoire.');
+        });
+
+        it('should not save any schooling registration with wrong birthCountryCode', async () => {
+          const wrongData = 'FRANC';
+          // given
+          const input = `${schoolingRegistrationCsvColumns}
+           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;51430;Reims;200;${wrongData};ST;MEF1;Division 1;
+           `;
+          const buffer = iconv.encode(input, 'UTF-8');
+ 
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
+          options.payload = buffer;
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+
+          expect(schoolingRegistrations).to.have.lengthOf(0);
+          expect(response.statusCode).to.equal(412);
+          expect(response.result.errors[0].detail).to.equal('Ligne 2 : Le champ “Code pays naissance*” n\'est pas au format INSEE.');
+        });
+
+        it('should not save any schooling registration with wrong birthCityCode', async () => {
+          const wrongData = 'A1234';
+          // given
+          const input = `${schoolingRegistrationCsvColumns}
+           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;${wrongData};Reims;200;99100;ST;MEF1;Division 1;
+           `;
+          const buffer = iconv.encode(input, 'UTF-8');
+ 
+          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
+          options.payload = buffer;
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+
+          expect(schoolingRegistrations).to.have.lengthOf(0);
+          expect(response.statusCode).to.equal(412);
+          expect(response.result.errors[0].detail).to.equal('Ligne 2 : Le champ “Code commune naissance**” n\'est pas au format INSEE.');
         });
       });
 
@@ -873,7 +915,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].detail).to.contains('Le champ “Identifiant unique” de cette ligne est présent plusieurs fois dans le fichier.');
+          expect(response.result.errors[0].detail).to.contains('Le champ “Identifiant unique*” de cette ligne est présent plusieurs fois dans le fichier.');
         });
       });
     });
