@@ -18,7 +18,7 @@
         </a>
       {{/if}}
       <FileUpload @name="file-upload" @for="students-file-upload" @accept={{this.acceptedFileType}} @multiple={{false}} @onfileadd={{@importStudents}}>
-        <span class="button" role="button" tabindex="0">Importer ({{this.acceptedFileType}})</span>
+        <span class="button" role="button" tabindex="0">Importer ({{join this.acceptedFileType ' ou '}})</span>
       </FileUpload>
     </div>
   {{/if}}

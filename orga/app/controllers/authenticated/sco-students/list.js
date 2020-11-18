@@ -51,7 +51,6 @@ export default class ListController extends Controller {
     this.notifications.clearAll();
     const { access_token } = this.session.data.authenticated;
     const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
-
     try {
       await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-siecle?format=${format}`, {
         headers: {
