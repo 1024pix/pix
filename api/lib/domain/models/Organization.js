@@ -1,7 +1,7 @@
 const Tag = require('./Tag');
 
 const types = {
-  SCO : 'SCO',
+  SCO: 'SCO',
   SUP: 'SUP',
   PRO: 'PRO',
 };
@@ -66,7 +66,7 @@ class Organization {
   }
 
   get isPoleEmploi() {
-    return process.env['POLE_EMPLOI_ORGANIZATION_ID'] === this.id.toString();
+    return Boolean(this.tags.find((tag) => tag.name === Tag.POLE_EMPLOI));
   }
 }
 

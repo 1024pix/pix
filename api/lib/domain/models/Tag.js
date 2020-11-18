@@ -11,4 +11,5 @@ class Tag {
   }
 }
 Tag.AGRICULTURE = 'AGRICULTURE';
+Tag.POLE_EMPLOI = 'POLE EMPLOI';
 module.exports = Tag;

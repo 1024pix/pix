@@ -141,29 +141,23 @@ describe('Unit | Domain | Models | Organization', () => {
   });
 
   describe('get#isPoleEmploi', () => {
-    beforeEach(() => {
-      process.env['POLE_EMPLOI_ORGANIZATION_ID'] = '1';
-    });
-
-    afterEach(() => {
-      process.env['POLE_EMPLOI_ORGANIZATION_ID'] = null;
-    });
-
-    it('should return true when organization id match Environnement variable POLE_EMPLOI_ORGANIZATION_ID', () => {
+    it('should return false when the organization has not the "POLE_EMPLOI" tag', () => {
       // given
-      const organization = domainBuilder.buildOrganization({ id: '1' });
-
-      // when / then
-      expect(organization.isPoleEmploi).is.true;
-    });
-
-    it('should return false when when organization id doesnt match Environnement variable POLE_EMPLOI_ORGANIZATION_ID', () => {
-      // given
-      const organization = domainBuilder.buildOrganization({ id: '2' });
+      const tag = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
+      const organization = domainBuilder.buildOrganization({ tags: [tag] });
 
       // when / then
       expect(organization.isPoleEmploi).is.false;
     });
-  });
 
+    it('should return true when organization has the "POLE_EMPLOI" tag', () => {
+      // given
+      const tag1 = domainBuilder.buildTag({ name: Tag.POLE_EMPLOI });
+      const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
+      const organization = domainBuilder.buildOrganization({ tags: [tag1, tag2] });
+
+      // when / then
+      expect(organization.isPoleEmploi).is.true;
+    });
+  });
 });
