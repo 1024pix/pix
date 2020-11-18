@@ -42,7 +42,6 @@ class PoleEmploiPayload {
       dateDebut: campaign.createdAt,
       dateFin: campaign.archivedAt,
       type: PAYLOAD_CAMPAIGN_TYPE,
-      idCampagne: campaign.id,
       codeCampagne: campaign.code,
       urlCampagne: `${PAYLOAD_CAMPAIGN_URL}/${campaign.code}`,
       nomOrganisme: PAYLOAD_STRUCTURE_NAME,
@@ -59,7 +58,7 @@ class PoleEmploiPayload {
       dateDebut: participation.createdAt,
       dateProgression: participation.sharedAt,
       dateValidation: participation.sharedAt,
-      evaluationCible: participationResult.masteryPercentage,
+      evaluation: participationResult.masteryPercentage,
       uniteEvaluation: PAYLOAD_UNITS.PERCENTAGE,
       elementsEvalues: participationResult.competenceResults.map(this._buildElementEvalue),
     };
@@ -105,9 +104,9 @@ async function handleCampaignParticipationResultsSending({
 
   const campaign = await campaignRepository.get(campaignId);
   const organization = await organizationRepository.get(organizationId);
-  
+
   if (campaign.isAssessment() && organization.isPoleEmploi) {
-    
+
     const user = await userRepository.get(userId);
     const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
     const participation = await campaignParticipationRepository.get(campaignParticipationId);
