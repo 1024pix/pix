@@ -8,6 +8,7 @@ export default class NavbarDesktopHeader extends Component {
   @service router;
   @service session;
   @service intl;
+  @service currentUser;
 
   @alias('session.isAuthenticated') isUserLogged;
 
@@ -24,5 +25,9 @@ export default class NavbarDesktopHeader extends Component {
 
   get _isExternalUser() {
     return this.session.get('data.externalUser');
+  }
+
+  get hasNotFinishedPixContest() {
+    return !this.currentUser.user.finishedPixContestAt;
   }
 }

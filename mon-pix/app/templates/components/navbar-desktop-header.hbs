@@ -37,6 +37,7 @@
     {{/unless}}
 
     {{#if isUserLogged}}
+      {{#if this.hasNotFinishedPixContest}}
       <ul class="navbar-desktop-header-container__campaign-menu">
         <li class="navbar-desktop-header-campaign-menu__item">
           <LinkTo @route="fill-in-campaign-code"
@@ -45,7 +46,7 @@
           </LinkTo>
         </li>
       </ul>
-
+      {{/if}}
     {{/if}}
 
     <!-- Links (right) -->

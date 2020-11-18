@@ -66,6 +66,11 @@ describe('Integration | Component | navbar-desktop-header', function() {
           },
         },
       }));
+      this.owner.register('service:currentUser', Service.extend({
+        user: {
+          finishedPixContestAt: null,
+        },
+      }));
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>}`);
     });
