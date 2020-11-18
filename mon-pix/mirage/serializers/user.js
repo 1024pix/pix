@@ -7,6 +7,7 @@ export default ApplicationSerializer.extend({
     'email',
     'username',
     'cgu',
+    'lang',
     'pixOrgaTermsOfServiceAccepted',
     'pixCertifTermsOfServiceAccepted',
     'hasSeenAssessmentInstructions',

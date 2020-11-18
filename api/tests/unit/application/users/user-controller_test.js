@@ -294,6 +294,34 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
+  describe('#changeLang', () => {
+    let request;
+    const userId = 1;
+    const lang = 'en';
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId, lang },
+      };
+
+      sinon.stub(usecases, 'changeUserLang');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should modify lang of user', async () => {
+      // given
+      usecases.changeUserLang.withArgs({ userId, lang }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.changeLang(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+  });
+
   describe('#rememberUserHasSeenAssessmentInstructions', () => {
     let request;
     const userId = 1;

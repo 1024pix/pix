@@ -143,6 +143,7 @@ export default Component.extend({
       this.set('isLoading', true);
 
       this._trimNamesAndEmailOfUser();
+      this.set('user.lang', this.intl.t('current-lang'));
 
       const campaignCode = get(this.session, 'attemptedTransition.from.parent.params.code');
       this.user.save({ adapterOptions: { campaignCode } }).then(() => {

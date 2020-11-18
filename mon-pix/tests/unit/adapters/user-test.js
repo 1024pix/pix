@@ -71,6 +71,16 @@ describe('Unit | Adapters | user', function() {
       // then
       expect(url.endsWith('/users/123/password-update?temporary-key=temp%3D%26key')).to.be.true;
     });
+
+    it('should redirect to lang', async function() {
+      // when
+      const options = { adapterOptions: { lang: 'en' } };
+      const url = await adapter.urlForUpdateRecord(123, 'user', options);
+
+      // then
+      expect(url.endsWith('/users/123/lang/en')).to.be.true;
+    });
+
   });
 
   describe('#createRecord', () => {
