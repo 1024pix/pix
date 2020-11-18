@@ -12,6 +12,7 @@ module.exports = function buildUser(
     username = 'jean.bono1234',
     password = 'liuehrfi128743KUUKNSUkuz12Ukun',
     cgu = true,
+    lang = 'fr',
     lastTermsOfServiceValidatedAt = null,
     mustValidateTermsOfService = false,
     pixOrgaTermsOfServiceAccepted = false,
@@ -25,7 +26,7 @@ module.exports = function buildUser(
 
   return new User({
     id, firstName, lastName, email, username, password,
-    cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService,
+    cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService,
     pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions, shouldChangePassword,
     pixRoles, memberships, certificationCenterMemberships,

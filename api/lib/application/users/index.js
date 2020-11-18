@@ -227,6 +227,30 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
+      path: '/api/users/{id}/lang/{lang}',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().positive().required(),
+            lang: Joi.string().valid('fr', 'en'),
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser',
+        }],
+        handler: userController.changeLang,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Modifie la langue de l\'utilisateur\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+          '- La lang contient les deux lettres de la langue choisie.',
+        ],
+        tags: ['api', 'user'],
+      },
+    },
+    {
+      method: 'PATCH',
       path: '/api/users/{id}/pix-certif-terms-of-service-acceptance',
       config: {
         pre: [{

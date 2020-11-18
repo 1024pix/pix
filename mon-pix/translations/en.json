@@ -1,4 +1,5 @@
 {
+    "current-lang": "en",
     "api-error-messages": {
         "bad-request-error": "The data entered was not in the correct format.",
         "internal-server-error": "An error occurred, our teams are working on finding a solution. Please try again later.",

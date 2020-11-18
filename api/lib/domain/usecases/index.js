@@ -105,6 +105,7 @@ module.exports = injectDependencies({
   computeCampaignCollectiveResult: require('./compute-campaign-collective-result'),
   computeCampaignParticipationAnalysis: require('./compute-campaign-participation-analysis'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
+  changeUserLang: require('./change-user-lang'),
   createAndReconcileUserToSchoolingRegistration: require('./create-and-reconcile-user-to-schooling-registration'),
   createUserAndReconcileToSchoolingRegistrationFromExternalUser: require('./create-user-and-reconcile-to-schooling-registration-from-external-user'),
   createCampaign: require('./create-campaign'),

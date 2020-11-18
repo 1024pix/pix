@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         email: 'lskywalker@deathstar.empire',
         username: 'luke.skywalker1234',
         cgu: true,
+        lang: 'fr',
         lastTermsOfServiceValidatedAt: '2020-05-04T13:18:26.323Z',
         mustValidateTermsOfService: true,
         pixOrgaTermsOfServiceAccepted: false,
@@ -39,6 +40,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'email': userModelObject.email,
               'username': userModelObject.username,
               'cgu': userModelObject.cgu,
+              'lang': userModelObject.lang,
               'last-terms-of-service-validated-at' : userModelObject.lastTermsOfServiceValidatedAt,
               'must-validate-terms-of-service': userModelObject.mustValidateTermsOfService,
               'pix-orga-terms-of-service-accepted': userModelObject.pixOrgaTermsOfServiceAccepted,
@@ -106,6 +108,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             email: 'lskywalker@deathstar.empire',
+            lang: 'jp',
             password: '',
           },
           relationships: {},
@@ -123,6 +126,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       expect(user.lastName).to.equal('Skywalker');
       expect(user.email).to.equal('lskywalker@deathstar.empire');
       expect(user.password).to.equal('');
+      expect(user.lang).to.equal('jp');
     });
 
     it('should contain an ID attribute', () => {

@@ -61,6 +61,10 @@ export default class User extends ApplicationAdapter {
       return url + '/pix-terms-of-service-acceptance';
     }
 
+    if (adapterOptions && adapterOptions.lang) {
+      return url + '/lang/' + adapterOptions.lang;
+    }
+
     if (adapterOptions && adapterOptions.rememberUserHasSeenAssessmentInstructions) {
       delete adapterOptions.rememberUserHasSeenAssessmentInstructions;
       return url + '/remember-user-has-seen-assessment-instructions';
