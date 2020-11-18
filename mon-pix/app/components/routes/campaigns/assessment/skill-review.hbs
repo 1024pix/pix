@@ -36,7 +36,7 @@
               {{this.reachedStage.title}}
             </div>
             <div class="stage-congrats__message">
-              {{this.reachedStage.message}}
+              <MarkdownToHtml @markdown={{this.reachedStage.message}} />
             </div>
           </div>
         {{else}}
