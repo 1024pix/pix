@@ -103,7 +103,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
 
       //then
       expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('XML invalide');
+      expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
     });
 
     it('should abort parsing and reject with XML error if file is malformed while scanning students', async function() {
@@ -121,6 +121,20 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
     });
 
     it('should abort parsing and reject with duplicate national student id error', async function() {
+
+      // given
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const path = __dirname + '/siecle-file/siecle-with-duplicate-national-student-id.xml';
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
+
+      //then
+      expect(error).to.be.instanceof(SameNationalStudentIdInFileError);
+      expect(error.message).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+    });
+
+    it('should abort parsing and reject with duplicate national student id error and tag not correctly closed', async function() {
 
       // given
       const validUAIFromSIECLE = '123ABC';
