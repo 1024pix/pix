@@ -7,6 +7,7 @@ const events = require('../../../../lib/domain/events');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
+const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
@@ -130,6 +131,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     beforeEach(() => {
       sinon.stub(usecases, 'startCampaignParticipation');
       sinon.stub(serializer, 'serialize');
+      sinon.stub(events.eventDispatcher, 'dispatch');
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -154,7 +156,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     it('should call the usecases to start the campaign participation', async () => {
       // given
-      usecases.startCampaignParticipation.resolves();
+      usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted());
 
       // when
       await campaignParticipationController.save(request, hFake);
@@ -171,10 +173,22 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       expect(campaignParticipation).to.have.property('participantExternalId', participantExternalId);
     });
 
+    it('should dispatch CampaignParticipationStartedEvent', async () => {
+      // given
+      const campaignParticipationStartedEvent = new CampaignParticipationStarted();
+      usecases.startCampaignParticipation.resolves(campaignParticipationStartedEvent);
+
+      // when
+      await campaignParticipationController.save(request, hFake);
+
+      // then
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationStartedEvent);
+    });
+
     it('should return the serialized campaign participation when it has been successfully created', async () => {
       // given
-      const createdCampaignParticipation = domainBuilder.buildCampaignParticipation();
-      usecases.startCampaignParticipation.resolves(createdCampaignParticipation);
+      const campaignParticipation = domainBuilder.buildCampaignParticipation();
+      usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted({ campaignParticipation }));
 
       const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
       serializer.serialize.returns(serializedCampaignParticipation);
@@ -183,7 +197,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       const response = await campaignParticipationController.save(request, hFake);
 
       // then
-      expect(serializer.serialize).to.have.been.calledWith(createdCampaignParticipation);
+      expect(serializer.serialize).to.have.been.calledWith(campaignParticipation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
     });
