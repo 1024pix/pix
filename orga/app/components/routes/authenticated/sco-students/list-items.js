@@ -20,9 +20,9 @@ export default class ListItems extends Component {
 
   get acceptedFileType() {
     if (this.currentUser.isAgriculture) {
-      return '.csv';
+      return ['.csv'];
     }
-    return '.xml';
+    return ['.xml', '.zip'];
   }
 
   get displayLearnMoreAndLinkTemplate() {
