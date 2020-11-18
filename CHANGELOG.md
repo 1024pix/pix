@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v2.220.0 (18/11/2020)
+
+- [#2126](https://github.com/1024pix/pix/pull/2126) [FEATURE] Garder la langue de l'utilisateur quand il la change (PIX-1566).
+- [#2160](https://github.com/1024pix/pix/pull/2160) [FEATURE] Amélioration de la gestion d'erreur des imports de fichier SIECLE.
+- [#2142](https://github.com/1024pix/pix/pull/2142) [FEATURE] Ajout des évaluations dans le payload Pole Emploi (PIX-1560)
+- [#2148](https://github.com/1024pix/pix/pull/2148) [FEATURE] Permettre de rattacher plusieurs organisations à un profil cible (PIX-1495).
+- [#2144](https://github.com/1024pix/pix/pull/2144) [FEATURE] Mise à jour du message d'erreur lorsque le QROC contient un nombre. (PIX-1574)
+- [#2137](https://github.com/1024pix/pix/pull/2137) [FEATURE] Créer une catégorie "Autre" pour signalement quand on finalise une session (PIX-1470)
+- [#2128](https://github.com/1024pix/pix/pull/2128) [FEATURE] Afficher les organisations liées au profil cible (PIX-1494).
+- [#2147](https://github.com/1024pix/pix/pull/2147) [FEATURE] Réduire la taille du champ réponse lorsque la réponse attendue est un nombre (PIX-1590).
+- [#2146](https://github.com/1024pix/pix/pull/2146) [FEATURE] Modifier les instructions d'aide pour les téléchargements de fichiers (PIX-1591).
+- [#2116](https://github.com/1024pix/pix/pull/2116) [FEATURE] Gestion de la mise à jour des Apprentis lors d'un import CSV (PIX-1552)
+- [#2113](https://github.com/1024pix/pix/pull/2113) [FEATURE] Vérifier l'accès à la session de certification des élèves (PIX-1540)
+- [#2141](https://github.com/1024pix/pix/pull/2141) [FEATURE] Ajout des données individu et campagne pour pole emploi (PIX-1559)
+- [#2155](https://github.com/1024pix/pix/pull/2155) [BUGFIX] Rendre déterministes les tests e2e "... restreint en étant connecté via un organisme externe" (PIX-1607).
+- [#2134](https://github.com/1024pix/pix/pull/2134) [BUGFIX] Ajout d'une contrainte d'unicité sur le nationalStudentId et le nationalApprenticeId avant l'insertion en base (PIX-1581).
+- [#2163](https://github.com/1024pix/pix/pull/2163) [TECH] Mise à jour de la version locale de node avec nvm de 12.18.0 to 14.15.1
+- [#2156](https://github.com/1024pix/pix/pull/2156) [TECH] Rendre le rapport de CI plus lisible.
+- [#2109](https://github.com/1024pix/pix/pull/2109) [TECH] Générer en masse un fichier SIECLE cohérent (production-like).
+- [#2143](https://github.com/1024pix/pix/pull/2143) [TECH] Faciliter le changement de version de node en local.
+- [#2110](https://github.com/1024pix/pix/pull/2110) [TECH] Mise à jour de Node version 12.18.0 à 14.15.1
+- [#2138](https://github.com/1024pix/pix/pull/2138) [DOC] Utiliser le type de données JSONB en base de données.
+- [#2157](https://github.com/1024pix/pix/pull/2157) [CLEANUP] Supprimer les scripts obsolètes à la racine du dépot.
+
 ## v2.219.0 (13/11/2020)
 
 - [#2085](https://github.com/1024pix/pix/pull/2085) [FEATURE] Permettre l'accès à Mon-Pix en se connectant avec un compte Pole Emploi (PIX-1418).
