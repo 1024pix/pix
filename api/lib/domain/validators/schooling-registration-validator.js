@@ -11,6 +11,11 @@ const PROVINCE_CODE_MAX_LENGTH = 3;
 const COUNTRY_CODE_LENGTH = 5;
 const FRANCE_COUNTRY_CODE = '99100';
 
+const INSEE_REGEX = {
+  COUNTRY_CODE : /9{2}[1-5]{1}[0-9]{2}/,
+  FRANCE_CITY_CODE : /[0-9]{5}|[0-9]{1}[a,b,A,B]{1}[0-9]{3}/,
+};
+
 const validationSchema = Joi.object({
   nationalIdentifier: Joi.string().max(MAX_LENGTH).required(),
   firstName: Joi.string().max(MAX_LENGTH).required(),
@@ -26,11 +31,17 @@ const validationSchema = Joi.object({
   }),
   birthCityCode: Joi.alternatives().conditional('birthCountryCode', {
     is: FRANCE_COUNTRY_CODE,
-    then: Joi.string().length(CITY_CODE_LENGTH).required(),
-    otherwise: Joi.string().length(CITY_CODE_LENGTH).optional(),
+    then: Joi.string()
+      .length(CITY_CODE_LENGTH)
+      .regex(INSEE_REGEX.FRANCE_CITY_CODE)
+      .required(),
+    otherwise: Joi.string().max(MAX_LENGTH).optional(),
   }),
   birthProvinceCode: Joi.string().min(PROVINCE_CODE_MIN_LENGTH).max(PROVINCE_CODE_MAX_LENGTH).required(),
-  birthCountryCode: Joi.string().length(COUNTRY_CODE_LENGTH).required(),
+  birthCountryCode: Joi.string()
+    .length(COUNTRY_CODE_LENGTH)
+    .regex(INSEE_REGEX.COUNTRY_CODE)
+    .required(),
   status: Joi.string().valid(STUDENT,APPRENTICE).required(),
   MEFCode: Joi.string().max(MAX_LENGTH).required(),
   division: Joi.string().max(MAX_LENGTH).required(),
@@ -38,6 +49,7 @@ const validationSchema = Joi.object({
 });
 
 module.exports = {
+  FRANCE_COUNTRY_CODE,
   checkValidation(registration) {
     const { error } = validationSchema.validate(registration, validationConfiguration);
 
@@ -58,6 +70,9 @@ module.exports = {
       if (type === 'string.min') {
         err.why = 'min_length';
         err.limit = context.limit;
+      }
+      if (type === 'string.pattern.base' && ['birthCountryCode','birthCityCode'].includes(context.key)) {
+        err.why = 'not_valid_insee_code';
       }
       if (type === 'date.format') {
         err.why = 'not_a_date';
