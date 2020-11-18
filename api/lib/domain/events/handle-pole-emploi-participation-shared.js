@@ -89,7 +89,7 @@ class PoleEmploiPayload {
   }
 }
 
-async function handleCampaignParticipationResultsSending({
+async function handlePoleEmploiParticipationShared({
   event,
   campaignRepository,
   campaignParticipationRepository,
@@ -124,5 +124,5 @@ async function handleCampaignParticipationResultsSending({
   }
 }
 
-handleCampaignParticipationResultsSending.eventType = eventType;
-module.exports = handleCampaignParticipationResultsSending;
+handlePoleEmploiParticipationShared.eventType = eventType;
+module.exports = handlePoleEmploiParticipationShared;

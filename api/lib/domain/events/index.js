@@ -30,7 +30,7 @@ dependencies.partnerCertificationRepository = partnerCertificationRepository;
 
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
-  handleCampaignParticipationResultsSending: require('./handle-campaign-participation-results-sending'),
+  handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handlePartnerCertifications: require('./handle-partner-certification'),
 };
