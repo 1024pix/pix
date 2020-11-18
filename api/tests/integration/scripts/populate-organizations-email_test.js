@@ -12,6 +12,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
     beforeEach(async () => {
       databaseBuilder.factory.buildOrganization({ externalId: externalId1, email: 'first.last@example.net' });
       databaseBuilder.factory.buildOrganization({ externalId: externalId2 });
+      // eslint-disable-next-line no-console
       sinon.stub(console, 'error');
 
       await databaseBuilder.commit();
@@ -33,6 +34,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
       expect(organizations).to.deep.include(csvData[0]);
       expect(organizations).to.deep.include(csvData[1]);
       expect(organizations).to.not.deep.include(csvData[2]);
+      // eslint-disable-next-line no-console
       expect(console.error).to.have.been.calledWith('Organization not found for External ID unknown');
     });
   });

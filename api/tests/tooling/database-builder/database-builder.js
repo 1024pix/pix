@@ -23,6 +23,7 @@ module.exports = class DatabaseBuilder {
       }
       await trx.commit();
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(`Erreur dans databaseBuilder.commit() : ${err}`);
       this._purgeDirtiness();
       throw err;
