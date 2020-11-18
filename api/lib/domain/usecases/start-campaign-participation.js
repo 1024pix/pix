@@ -3,6 +3,7 @@ const _ = require('lodash');
 const Assessment = require('../models/Assessment');
 
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
+const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
 
 module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository }) {
   const campaign = await campaignRepository.get(campaignParticipation.campaignId);
@@ -15,7 +16,8 @@ module.exports = async function startCampaignParticipation({ campaignParticipati
   if (campaign.isAssessment()) {
     await _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation);
   }
-  return createdCampaignParticipation;
+
+  return new CampaignParticipationStarted({ campaignParticipation: createdCampaignParticipation });
 };
 
 async function _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation) {

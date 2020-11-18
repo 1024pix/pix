@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../../../lib/domain/errors');
+const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 
 describe('Unit | UseCase | start-campaign-participation', () => {
 
@@ -106,17 +107,18 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     });
   });
 
-  it('should return the saved campaign participation', async () => {
+  it('should return CampaignParticipationStarted event', async () => {
     // given
     const assessmentId = 987654321;
-    const createdCampaignParticipation = domainBuilder.buildCampaignParticipation();
+    const campaignParticipation = domainBuilder.buildCampaignParticipation();
+    const campaignParticipationStartedEvent = new CampaignParticipationStarted({ campaignParticipation });
     assessmentRepository.save.resolves({ id: assessmentId });
-    campaignParticipationRepository.save.resolves(createdCampaignParticipation);
+    campaignParticipationRepository.save.resolves(campaignParticipation);
 
     // when
-    const campaignParticipationReturned = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+    const event = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
 
     // then
-    expect(campaignParticipationReturned).to.deep.equal(createdCampaignParticipation);
+    expect(event).to.deep.equal(campaignParticipationStartedEvent);
   });
 });
