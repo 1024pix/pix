@@ -18,12 +18,18 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   _checkIfStudentAccountAlreadyHasUsername(studentAccount);
 
   const username = await userReconciliationService.createUsernameByUser({ user: schoolingRegistration , userRepository });
-  const generatedPassword = passwordGenerator.generate();
-  const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
-  await userRepository.updateUsernameAndPassword(studentAccount.id, username, hashedPassword);
+  if (studentAccount.password) {
+    const updatedUser = await userRepository.addUsername(studentAccount.id, username);
+    return { username: updatedUser.username };
+  } else {
+    const generatedPassword = passwordGenerator.generate();
+    const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
-  return { username, generatedPassword };
+    await userRepository.updateUsernameAndPassword(studentAccount.id, username, hashedPassword);
+    return { username, generatedPassword };
+  }
+
 };
 
 function _checkIfStudentHasAccessToOrganization(schoolingRegistration, organizationId) {
