@@ -1,6 +1,11 @@
 # Contribuer à Pix
 
-Pour toute contribution, il est essentiel de respecter *a minima* les points suivants. Pour aller plus loin, vous pouvez parcourir les différents fichiers présentés dans le [README.md](./README.md)
+Pour toute contribution, il est essentiel de respecter *a minima* les points suivants. 
+Pour aller plus loin, vous pouvez parcourir les différents fichiers présentés dans le [README.md](./README.md)
+
+## Applications
+Le nom des applications respecte le modèle suivant <Pix [activity_shortname]>
+Ex : "Pix App", "Pix Admin", "Pix Orga", "Pix API", "Pix Certif"
 
 ## Branche `dev`
 
