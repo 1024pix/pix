@@ -16,11 +16,11 @@ const disconnectAllSessionsButMineQuery =
   `SELECT pg_terminate_backend(pg_stat_activity.pid)
   FROM pg_stat_activity
   WHERE pg_stat_activity.datname = '${DB_TO_DELETE_NAME}'
-  AND pid <> pg_backend_pid();`;
+  AND pid <> pg_backend_pid()`;
 
-(async () => { await client.query_and_log(disconnectAllSessionsButMineQuery); })();
+const dropDatabaseQuery =  `DROP DATABASE ${DB_TO_DELETE_NAME}`;
 
-client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME};`)
+client.query_and_log(`${disconnectAllSessionsButMineQuery};${dropDatabaseQuery};`)
   .then(() => {
     console.log('Database dropped');
     client.end();
