@@ -6,9 +6,9 @@ const campaignParticipationResultRepository = require('../../../../lib/infrastru
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { handleCampaignParticipationResultsSending } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const { handlePoleEmploiParticipationShared } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-campaign-participation-results-sending', () => {
+describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () => {
   let event;
   let campaignRepositoryStub;
   let campaignParticipationRepositoryStub;
@@ -96,13 +96,13 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
     // given
     const event = 'not an event of the correct type';
     // when / then
-    const error = await catchErr(handleCampaignParticipationResultsSending)({ event, ...dependencies });
+    const error = await catchErr(handlePoleEmploiParticipationShared)({ event, ...dependencies });
 
     // then
     expect(error).not.to.be.null;
   });
 
-  context('#handleCampaignParticipationResultsSending', () => {
+  context('#handlePoleEmploiParticipationShared', () => {
     const campaignParticipationId = Symbol('campaignParticipationId');
     const campaignId = Symbol('campaignId');
     const userId = Symbol('userId');
@@ -166,7 +166,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
       it('it should console.log results', async () => {
         // when
-        await handleCampaignParticipationResultsSending({
+        await handlePoleEmploiParticipationShared({
           event,
           ...dependencies,
         });
@@ -193,7 +193,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
       it('it should not console.log results', async () => {
         // when
-        await handleCampaignParticipationResultsSending({
+        await handlePoleEmploiParticipationShared({
           event,
           ...dependencies,
         });
@@ -221,7 +221,7 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
       it('it should not console.log results', async () => {
         // when
-        await handleCampaignParticipationResultsSending({
+        await handlePoleEmploiParticipationShared({
           event,
           ...dependencies,
         });
