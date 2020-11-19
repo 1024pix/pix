@@ -34,6 +34,22 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('get#tubeIds', () => {
+
+    it('should return an array with targeted tubes ids order by id', () => {
+      // given
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'tubeId1' });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'tubeId2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ tubes: [tube1, tube2] });
+
+      // when
+      const targetedTubeIds = targetProfile.tubeIds;
+
+      // then
+      expect(targetedTubeIds).to.exactlyContainInOrder(['tubeId1', 'tubeId2']);
+    });
+  });
+
   describe('get#competenceIds', () => {
 
     it('should return an array with targeted competence ids order by id', () => {
@@ -131,6 +147,37 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('getTubeIdOfSkill()', () => {
+
+    const expectedTubeId = 'tubeId';
+    const skillId = 'skillId';
+    let targetProfile;
+
+    beforeEach(() => {
+      const skillNotInTube = domainBuilder.buildTargetedSkill({ id: 'otherSkillId', tubeId: expectedTubeId });
+      const skillInTube = domainBuilder.buildTargetedSkill({ id: skillId, tubeId: 'anotherTubeId' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: expectedTubeId, skills: [skillInTube] });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'anotherTubeId', skills: [skillNotInTube] });
+      targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skillNotInTube, skillInTube], tubes: [tube1, tube2] });
+    });
+
+    it('should return tubeId of skill', () => {
+      // when
+      const tubeId = targetProfile.getTubeIdOfSkill(skillId);
+
+      // then
+      expect(tubeId).to.equal(expectedTubeId);
+    });
+
+    it('should return null when tubeId of skill is not found', () => {
+      // when
+      const expectedTubeId = targetProfile.getTubeIdOfSkill('@mamèreenslip');
+
+      // then
+      expect(expectedTubeId).to.be.null;
+    });
+  });
+
   describe('getCompetenceIdOfSkill()', () => {
 
     const expectedCompetenceId = 'compId';
@@ -193,7 +240,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('filterTargetedKnowledgeElementAndGroupByCompetence()', () => {
+  describe('getKnowledgeElementsGroupedByCompetence()', () => {
 
     it('should return knowledge elements of targeted skill by targeted competence id', () => {
       // given
@@ -215,7 +262,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1, knowledgeElement2_1, knowledgeElement2_2];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
@@ -238,7 +285,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
@@ -260,7 +307,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
@@ -283,11 +330,111 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       const knowledgeElements = [knowledgeElement1, knowledgeElement2];
 
       // when
-      const knowledgeElementsByCompetence = targetProfile.filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements);
+      const knowledgeElementsByCompetence = targetProfile.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
 
       // then
       expect(knowledgeElementsByCompetence).to.deep.equal({
         'recCompetence1': [knowledgeElement2],
+      });
+    });
+  });
+
+  describe('getValidatedKnowledgeElementsGroupedByTube()', () => {
+
+    it('should return knowledge elements of targeted skill by targeted tube id', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
+      const skill2_2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_2', tubeId: 'recTube2' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', skills: [skill2_1, skill2_2], competenceId: 'recCompetence2' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', tubes: [tube2] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2_1, skill2_2],
+        tubes: [tube1, tube2],
+        competences: [competence1, competence2],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId: 'recSkill1' });
+      const knowledgeElement2_1 = domainBuilder.buildKnowledgeElement({ skillId: 'recSkill2_1' });
+      const knowledgeElement2_2 = domainBuilder.buildKnowledgeElement({ skillId: 'recSkill2_2' });
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2_1, knowledgeElement2_2];
+
+      // when
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByTube).to.deep.equal({
+        'recTube1': [knowledgeElement1],
+        'recTube2': [knowledgeElement2_1, knowledgeElement2_2],
+      });
+    });
+
+    it('should set an empty array to a targeted tube id when no knowledge element belongs to it', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId: 'recOtherSkill' });
+      const knowledgeElements = [knowledgeElement1];
+
+      // when
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByTube).to.deep.equal({
+        'recTube1': [],
+      });
+    });
+
+    it('should filter out non targeted knowledge element', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId: 'recOtherSkill' });
+      const knowledgeElement2 = domainBuilder.buildKnowledgeElement({ skillId: skill1.id });
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2];
+
+      // when
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByTube).to.deep.equal({
+        'recTube1': [knowledgeElement2],
+      });
+    });
+
+    it('should filter out non validated knowledge element', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
+      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
+      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube1] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1],
+        tubes: [tube1],
+        competences: [competence1],
+      });
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: 'not_validated' });
+      const knowledgeElement2 = domainBuilder.buildKnowledgeElement({ skillId: skill1.id });
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2];
+
+      // when
+      const knowledgeElementsByTube = targetProfile.getValidatedKnowledgeElementsGroupedByTube(knowledgeElements);
+
+      // then
+      expect(knowledgeElementsByTube).to.deep.equal({
+        'recTube1': [knowledgeElement2],
       });
     });
   });
