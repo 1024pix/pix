@@ -61,8 +61,7 @@ class Organization {
   }
 
   get isAgriculture() {
-    const tagsName = this.tags.map((tag) => tag.name);
-    return this.isSco && tagsName.includes(Tag.AGRICULTURE);
+    return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.AGRICULTURE));
   }
 
   get isPoleEmploi() {
