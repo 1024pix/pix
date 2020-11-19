@@ -26,10 +26,13 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const campaignParticipation = await serializer.deserialize(request.payload);
   
-    const event = await usecases.startCampaignParticipation({ campaignParticipation, userId });
+    const { 
+      event,
+      campaignParticipation: campaignParticipationCreated,
+    } = await usecases.startCampaignParticipation({ campaignParticipation, userId });
     await events.eventDispatcher.dispatch(event);
 
-    return h.response(serializer.serialize(event.campaignParticipation)).created();
+    return h.response(serializer.serialize(campaignParticipationCreated)).created();
   },
 
   async find(request) {

@@ -111,12 +111,12 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     // given
     const assessmentId = 987654321;
     const campaignParticipation = domainBuilder.buildCampaignParticipation();
-    const campaignParticipationStartedEvent = new CampaignParticipationStarted({ campaignParticipation });
+    const campaignParticipationStartedEvent = new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id });
     assessmentRepository.save.resolves({ id: assessmentId });
     campaignParticipationRepository.save.resolves(campaignParticipation);
 
     // when
-    const event = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+    const { event } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
 
     // then
     expect(event).to.deep.equal(campaignParticipationStartedEvent);
