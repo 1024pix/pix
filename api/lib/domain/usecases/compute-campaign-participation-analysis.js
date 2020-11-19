@@ -1,4 +1,3 @@
-const CampaignAnalysis = require('../models/CampaignAnalysis');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function computeCampaignParticipationAnalysis(
@@ -7,7 +6,7 @@ module.exports = async function computeCampaignParticipationAnalysis(
     campaignParticipationId,
     campaignParticipationRepository,
     campaignRepository,
-    knowledgeElementRepository,
+    campaignAnalysisRepository,
     targetProfileWithLearningContentRepository,
     tutorialRepository,
   } = {}) {
@@ -23,17 +22,8 @@ module.exports = async function computeCampaignParticipationAnalysis(
     return null;
   }
 
-  const [targetProfile, validatedKnowledgeElements, tutorials] = await Promise.all([
-    targetProfileWithLearningContentRepository.getByCampaignId({ campaignId }),
-    knowledgeElementRepository.findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId: campaignParticipation.userId }),
-    tutorialRepository.list(),
-  ]);
+  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+  const tutorials = await tutorialRepository.list();
 
-  return new CampaignAnalysis({
-    campaignId,
-    targetProfile,
-    validatedKnowledgeElements,
-    tutorials,
-    participantsCount: 1,
-  });
+  return campaignAnalysisRepository.getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfileWithLearningContent, tutorials);
 };
