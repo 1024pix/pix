@@ -101,7 +101,7 @@
     "ember-template-lint": "^2.9.1",
     "ember-truth-helpers": "^2.1.0",
     "eslint": "^7.13.0",
-    "eslint-plugin-ember": "^9.5.0",
+    "eslint-plugin-ember": "^9.6.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
     "faker": "^5.1.0",
