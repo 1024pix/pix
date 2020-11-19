@@ -26,8 +26,4 @@ export default class NavbarDesktopHeader extends Component {
   get _isExternalUser() {
     return this.session.get('data.externalUser');
   }
-
-  get hasNotFinishedPixContest() {
-    return !this.currentUser.user.finishedPixContestAt;
-  }
 }
