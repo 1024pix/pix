@@ -513,8 +513,14 @@ module.exports = {
 
   async findByExternalIdentityId(externalIdentityId) {
     const bookshelfUser = await BookshelfUser
-      .where({ externalIdentityId })
-      .fetch();
+      .query((qb) => {
+        qb.innerJoin('authentication-methods', function() {
+          this.on('users.id', 'authentication-methods.userId')
+            .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.POLE_EMPLOI)
+            .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
+        });
+      })
+      .fetch({ withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
