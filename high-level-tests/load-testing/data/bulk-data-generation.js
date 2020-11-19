@@ -47,16 +47,16 @@ function getVariableCommand() {
 
 function getConfiguration() {
   return ({
-    userCount: (1000 || process.env.USER_COUNT),
-    competence_evaluation_count: (1000 || process.env.COMPETENCE_EVALUATION_COUNT),
-    organization_count: (0 || process.env.ORGANIZATION_COUNT),
-    campaign_per_organization_count: (3 || process.env.CAMPAIGN_PER_ORGANIZATION_COUNT),
-    participation_per_campaign_count: (150 || process.env.PARTICIPATION_PER_CAMPAIGN_COUNT),
-    shared_participation_percentage: (65 || process.env.SHARED_PARTICIPATION_PERCENTAGE),
-    answer_per_competence_evaluation_assessment_count: (25 || process.env.ANSWER_PER_COMPETENCE_EVALUATION_ASSESSMENT_COUNT),
-    answer_per_campaign_assessment_count: (25 || process.env.ANSWER_PER_CAMPAIGN_ASSESSMENT_COUNT),
-    validated_knowledge_element_percentage: (60 || process.env.VALIDATED_KNOWLEDGE_ELEMENT_PERCENTAGE),
-    invalidated_knowledge_element_percentage: (30 || process.env.INVALIDATED_KNOWLEDGE_ELEMENT_PERCENTAGE),
+    userCount: (process.env.USER_COUNT || 1000) ,
+    competence_evaluation_count: (process.env.COMPETENCE_EVALUATION_COUNT || 1000),
+    organization_count: (process.env.ORGANIZATION_COUNT || 0),
+    campaign_per_organization_count: (process.env.CAMPAIGN_PER_ORGANIZATION_COUNT || 3),
+    participation_per_campaign_count: (process.env.PARTICIPATION_PER_CAMPAIGN_COUNT || 150),
+    shared_participation_percentage: (process.env.SHARED_PARTICIPATION_PERCENTAGE || 65),
+    answer_per_competence_evaluation_assessment_count: (process.env.ANSWER_PER_COMPETENCE_EVALUATION_ASSESSMENT_COUNT || 25),
+    answer_per_campaign_assessment_count: (process.env.ANSWER_PER_CAMPAIGN_ASSESSMENT_COUNT || 25),
+    validated_knowledge_element_percentage: (process.env.VALIDATED_KNOWLEDGE_ELEMENT_PERCENTAGE || 60),
+    invalidated_knowledge_element_percentage: (process.env.INVALIDATED_KNOWLEDGE_ELEMENT_PERCENTAGE || 30),
   });
 }
 
