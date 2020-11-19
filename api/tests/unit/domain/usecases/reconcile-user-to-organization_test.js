@@ -61,7 +61,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
 
       // then
       expect(result).to.be.instanceof(UserCouldNotBeReconciledError);
-      expect(result.message).to.equal('Cet utilisateur n\'a pas pu être rattaché à une organization.');
+      expect(result.message).to.equal('Cet utilisateur n\'a pas pu être rattaché à une organisation.');
     });
   });
 
@@ -80,7 +80,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
 
       // then
       expect(result).to.be.instanceof(UserCouldNotBeReconciledError);
-      expect(result.message).to.equal('Cet utilisateur n\'a pas pu être rattaché à une organization.');
+      expect(result.message).to.equal('Cet utilisateur n\'a pas pu être rattaché à une organisation.');
     });
   });
 
@@ -99,7 +99,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
 
       // then
       expect(result).to.be.instanceof(UserCouldNotBeReconciledError);
-      expect(result.message).to.equal('Cet utilisateur n\'a pas pu être rattaché à une organization.');
+      expect(result.message).to.equal('Cet utilisateur n\'a pas pu être rattaché à une organisation.');
     });
   });
 
