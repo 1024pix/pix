@@ -72,6 +72,7 @@ module.exports = function organizationsProBuilder({ databaseBuilder }) {
     provinceCode: null,
     email: null,
   });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: 4, tagId: 4 });
 
   databaseBuilder.factory.buildMembership({
     userId: proUser1.id,
