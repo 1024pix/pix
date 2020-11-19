@@ -5,7 +5,7 @@
 /* eslint ember/require-tagless-components: 0 */
 
 import EmberRouter from '@ember/routing/router';
-import config from './config/environment';
+import config from 'mon-pix/config/environment';
 
 export default class Router extends EmberRouter {
   location = config.locationType;
