@@ -377,8 +377,8 @@
                 "qroc-number": "",
                 "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip."
             },
-            "timed" : {
-                "cannot-answer": ""
+            "timed": {
+                "cannot-answer": "You've run out of time."
             }
         },
         "checkpoint": {
@@ -424,8 +424,8 @@
                     "tooltip": "Auto-correct under development ;)"
                 },
                 "feedback": {
-                    "correct": "",
-                    "wrong": ""
+                    "correct": "Correct answer",
+                    "wrong": "Incorrect answer.'<br>'The correct answer is: "
                 },
                 "ko": {
                     "title": "That’s not the right answer",
@@ -448,7 +448,7 @@
                     "tooltip": "Incomplete answer"
                 },
                 "timedout": {
-                    "title": "You ran out of time",
+                    "title": "You've run out of time",
                     "tooltip": "Out of time"
                 }
             }
@@ -540,7 +540,7 @@
             "info": "These tutorial links have been suggested by Pix users."
         },
         "levelup-notif": {
-            "obtained-level": "Level { level } succeeded!"
+            "obtained-level": "Level { level } reached!"
         },
         "login-or-register": {
             "title": "",
@@ -823,7 +823,7 @@
             }
         },
         "time-gauge": {
-            "timeout-placeholder": "You have exceeded the time allowed",
+            "timeout-placeholder": "You've run out of time",
             "remaining-time-placeholder": "There is still more time to complete the test"
         },
         "tutorial": {
@@ -893,8 +893,8 @@
         },
         "fill-in-campaign-code": {
             "title": "I have a code",
-            "first-title-not-connected": "Enter your code",
             "first-title-connected": "{ firstName }, enter your code",
+            "first-title-not-connected": "Enter your code",
             "description": "This code can be used to start a personalised test'<br>'or to submit your profile to an organisation",
             "errors": {
                 "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
