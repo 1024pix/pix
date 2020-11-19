@@ -17,6 +17,7 @@ module.exports = function buildUser(
     pixOrgaTermsOfServiceAccepted = false,
     pixCertifTermsOfServiceAccepted = false,
     hasSeenAssessmentInstructions = false,
+    finishedPixContestAt = new Date(),
     pixRoles = [buildPixRole()],
     memberships = [buildMembership()],
     certificationCenterMemberships = [buildCertificationCenterMembership()],
@@ -29,5 +30,6 @@ module.exports = function buildUser(
     pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions, shouldChangePassword,
     pixRoles, memberships, certificationCenterMemberships,
+    finishedPixContestAt,
   });
 };

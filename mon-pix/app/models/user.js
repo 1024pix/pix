@@ -15,6 +15,7 @@ export default class User extends Model {
   @attr('boolean') mustValidateTermsOfService;
   @attr('boolean') hasSeenAssessmentInstructions;
   @attr('string') recaptchaToken;
+  @attr('date') finishedPixContestAt;
 
   // includes
   @belongsTo('is-certifiable') isCertifiable;

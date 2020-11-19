@@ -435,6 +435,28 @@ exports.register = async function(server) {
         tags: ['api', 'administration' , 'user'],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/finish-pix-contest',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().positive().required(),
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser',
+        }],
+        handler: userController.finishPixContest,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          '- Permet à un utilisateur de cloturer sa session Pix-Concours',
+        ],
+        tags: ['api', 'user'],
+      },
+    },
   ]);
 };
 

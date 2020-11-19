@@ -164,6 +164,21 @@
   }
 }
 
+.rounded-panel-send-results {
+  display: flex;
+  justify-content: flex-end;
+
+  &__instructions {
+    margin-right: 8px;
+  }
+}
+
+.rounded-panel-finished-pix-contest {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .rounded-panel-rules {
   text-align: center;
   font-weight: $font-normal;

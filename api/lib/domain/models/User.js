@@ -19,6 +19,7 @@ class User {
     hasSeenAssessmentInstructions,
     shouldChangePassword,
     mustValidateTermsOfService,
+    finishedPixContestAt,
     // includes
     memberships = [],
     certificationCenterMemberships = [],
@@ -44,6 +45,7 @@ class User {
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.knowledgeElements = knowledgeElements;
     this.shouldChangePassword = shouldChangePassword;
+    this.finishedPixContestAt = finishedPixContestAt;
     // includes
     this.pixRoles = pixRoles;
     this.pixScore = pixScore;

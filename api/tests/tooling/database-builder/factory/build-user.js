@@ -25,6 +25,7 @@ const buildUser = function buildUser({
   hasSeenAssessmentInstructions = false,
   samlId,
   shouldChangePassword = false,
+  finishedPixContestAt = null,
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
@@ -34,7 +35,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword, createdAt, updatedAt,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword, finishedPixContestAt, createdAt, updatedAt,
   };
 
   return databaseBuffer.pushInsertable({
@@ -58,13 +59,14 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   hasSeenAssessmentInstructions = false,
   samlId,
   shouldChangePassword = false,
+  finishedPixContestAt = null,
 }) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword, finishedPixContestAt,
   };
 
   return databaseBuffer.pushInsertable({
@@ -85,11 +87,12 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
+  finishedPixContestAt = null,
 } = {}) {
 
   const values = {
     id, firstName, lastName, email, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, finishedPixContestAt,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -116,11 +119,12 @@ buildUser.withMembership = function buildUserWithMemberships({
   hasSeenAssessmentInstructions = false,
   organizationRole = Membership.roles.ADMIN,
   organizationId = null,
+  finishedPixContestAt = null,
 } = {}) {
 
   const values = {
     id, firstName, lastName, email, password, cgu, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, finishedPixContestAt,
   };
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
