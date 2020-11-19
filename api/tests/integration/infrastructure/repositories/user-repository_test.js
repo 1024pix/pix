@@ -149,8 +149,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       let userInDb;
 
       beforeEach(async () => {
-        userInDb = databaseBuilder.factory.buildUser({
-          externalIdentityId,
+        userInDb = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+          externalIdentifier: externalIdentityId,
+          userId: userInDb.id,
         });
         await databaseBuilder.commit();
       });
