@@ -643,6 +643,13 @@
             "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go!",
             "pix-contest": {
                 "title": "",
+                "descriptions": {
+                    "description1": "",
+                    "description2": "",
+                    "description3": "",
+                    "description4": "",
+                    "description5": ""
+                },
                 "links": {
                     "link1": "",
                     "link2": "",

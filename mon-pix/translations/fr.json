@@ -643,6 +643,13 @@
             "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
             "pix-contest": {
                 "title": "Bienvenue dans cette session Pix-concours.",
+                "descriptions": {
+                    "description1": "Texte à modifier 1",
+                    "description2": "Texte à modifier 2",
+                    "description3": "Texte à modifier 3",
+                    "description4": "Texte à modifier 4",
+                    "description5": "Texte à modifier 5"
+                },
                 "links": {
                     "link1": "'<a href=\"/campagnes/CAMPTEST\">'Module 1'</a>'",
                     "link2": "'<a href=\"Second lien\">'Nom du second module'</a>'",
