@@ -27,6 +27,14 @@ class PoleEmploiPayload {
     });
   }
 
+  static buildForParticipationFinished({ user, campaign, targetProfile, participation, assessment }) {
+    return new PoleEmploiPayload({ 
+      individu: _buildIndividu(user),
+      campagne: _buildCampaign(campaign),
+      test: _buildTest(TEST_STATE.FINISHED, targetProfile, participation, null, assessment),
+    });
+  }
+
   static buildForParticipationShared({ user, campaign, targetProfile, participation, participationResult }) {
     return new PoleEmploiPayload({ 
       individu: _buildIndividu(user),
@@ -64,7 +72,7 @@ function _buildCampaign(campaign) {
   };
 }
 
-function _buildTest(etat, targetProfile, participation, participationResult) {
+function _buildTest(etat, targetProfile, participation, participationResult, assessment) {
   let progression = null;
   let dateProgression = null;
   let dateValidation = null;
@@ -74,6 +82,10 @@ function _buildTest(etat, targetProfile, participation, participationResult) {
   switch (etat) {
     case TEST_STATE.STARTED:
       progression = PROGRESSION.STARTED;
+      break;
+    case TEST_STATE.FINISHED:
+      progression = PROGRESSION.FINISHED;
+      dateProgression = assessment.updatedAt;
       break;
     case TEST_STATE.SHARED:
       progression = PROGRESSION.FINISHED;
