@@ -200,6 +200,7 @@ ALTER TABLE "target-profiles" SET UNLOGGED;
 ALTER TABLE "user-orga-settings" SET UNLOGGED;
 ALTER TABLE "certification-centers" SET UNLOGGED;
 ALTER TABLE "user_tutorials" SET UNLOGGED;
+ALTER TABLE "authentication-methods" SET UNLOGGED;
 ALTER TABLE "users" SET UNLOGGED;
 ALTER TABLE "tutorial-evaluations" SET UNLOGGED;
 
@@ -848,6 +849,7 @@ ALTER TABLE "organizations" SET LOGGED;
 ALTER TABLE "organization-tags" SET LOGGED;
 ALTER TABLE "tutorial-evaluations" SET LOGGED;
 ALTER TABLE "users" SET LOGGED;
+ALTER TABLE "authentication-methods" SET LOGGED;
 ALTER TABLE "user_tutorials" SET LOGGED;
 ALTER TABLE "certification-centers" SET LOGGED;
 ALTER TABLE "user-orga-settings" SET LOGGED;
