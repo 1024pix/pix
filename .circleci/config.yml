@@ -296,7 +296,7 @@ jobs:
 
       - run:
           name: Wait for Pix API to be up and running
-          command: wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
+          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:3000/api
 
       - run:
           name: Start Pix App
@@ -308,7 +308,7 @@ jobs:
 
       - run:
           name: Wait for Pix App to be up and running
-          command: wget --retry-connrefused -T 60 -qO- http://localhost:4200
+          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4200
 
       - run:
           name: Start orga
@@ -320,7 +320,7 @@ jobs:
 
       - run:
           name: Wait for Pix Orga to be up and running
-          command: wget --retry-connrefused -T 60 -qO- http://localhost:4201
+          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4201
 
       - run:
           name: Start Pix Certif
@@ -332,7 +332,7 @@ jobs:
 
       - run:
           name: Wait for Pix Certif to be up and running
-          command: wget --retry-connrefused -T 60 -qO- http://localhost:4203
+          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4203
 
       - run:
           name: Test
