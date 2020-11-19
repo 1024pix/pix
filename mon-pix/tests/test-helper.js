@@ -1,5 +1,5 @@
-import Application from '../app';
-import config from '../config/environment';
+import Application from 'mon-pix/app';
+import config from 'mon-pix/config/environment';
 import { setApplication } from '@ember/test-helpers';
 import { mocha } from 'mocha';
 import start from 'ember-exam/test-support/start';
