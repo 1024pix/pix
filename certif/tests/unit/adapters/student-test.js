@@ -19,10 +19,19 @@ module('Unit | Adapter | student', function(hooks) {
       // given
       const certificationCenterId = 1;
       const sessionId = 3;
-      const adapterOptions = { certificationCenterId, sessionId };
+      const query = { 
+        page: {
+          number: 1,
+          size: 1,
+        },
+        filter : {
+          certificationCenterId, 
+          sessionId, 
+        } ,
+      };
 
       // when
-      const url = await adapter.urlForFindAll(undefined, { adapterOptions });
+      const url = await adapter.urlForQuery(query);
 
       // then
       assert.equal(url.endsWith(`certification-centers/${certificationCenterId}/sessions/${sessionId}/students`), true);

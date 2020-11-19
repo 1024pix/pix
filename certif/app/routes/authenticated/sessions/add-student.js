@@ -1,12 +1,27 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 
 export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
+  queryParams = {
+    pageNumber: { refreshModel: true },
+    pageSize: { refreshModel: true },
+  };
+
   async model(params) {
     const session = await this.store.findRecord('session', params.session_id);
     const { id: certificationCenterId } = this.modelFor('authenticated');
 
-    const students = await this.store.findAll('student',
-      { adapterOptions : { certificationCenterId, sessionId: session.id } },
+    const students = await this.store.query('student',
+      {
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
+        filter : {
+          certificationCenterId,
+          sessionId: session.id,
+        } ,
+      },
     );
 
     return { session, students };
@@ -28,5 +43,10 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
         student.isSelected = false;
       });
     }
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }

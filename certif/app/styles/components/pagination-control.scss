@@ -1,0 +1,69 @@
+.pagination-control {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    font-weight: 500;
+  }
+
+  .page-size {
+    display: flex;
+    align-items: center;
+
+    &__label {
+      margin-right: 16px;
+    }
+
+    &__choice {
+      position: relative;
+      display: flex;
+      align-items: center;
+      color: $grey-70;
+
+      select {
+        height: 35px;
+        width: 70px;
+        background-color: $grey-20;
+        border: none;
+        border-radius: 5px;
+        padding-left: 8px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      select::-ms-expand {
+        display: none;
+      }
+
+      &--icon {
+        right: 8px;
+        position: absolute;
+        pointer-events: none;
+        top: calc(50% - 6px);
+      }
+    }
+  }
+
+  .page-navigation {
+    display: flex;
+    align-items: center;
+
+    &__arrow {
+      &--disabled .icon-button{
+        color: $grey-22;
+        cursor: default;
+
+        &.icon-button:hover, &.icon-button:active {
+          background-color: transparent;
+        }
+      }
+
+      &--previous {
+        margin-right: 8px;
+      }
+
+      &--next {
+        margin-left: 8px;
+      }
+    }
+  }

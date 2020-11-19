@@ -2,13 +2,13 @@ import ApplicationAdapter from './application';
 
 export default class StudentAdapter extends ApplicationAdapter {
 
-  urlForFindAll(modelName, snapshot) {
-    const certificationCenterId = snapshot.adapterOptions && snapshot.adapterOptions.certificationCenterId;
-    const sessionId = snapshot.adapterOptions && snapshot.adapterOptions.sessionId;
-
-    if (certificationCenterId && sessionId) {
+  urlForQuery(query) {
+    const { sessionId, certificationCenterId } = query.filter;
+    if (sessionId && certificationCenterId) {
+      delete query.filter.sessionId;
+      delete query.filter.certificationCenterId;
       return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/sessions/${sessionId}/students`;
     }
-    return super.urlForFindAll(...arguments);
-  }
+    return super.urlForQuery(...arguments);
+  } 
 }
