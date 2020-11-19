@@ -3,6 +3,7 @@ const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
 const _ = require('lodash');
 
 const dependencies = {
+  assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../services/badge-criteria-service'),
@@ -30,10 +31,11 @@ dependencies.partnerCertificationRepository = partnerCertificationRepository;
 
 const handlersToBeInjected = {
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
-  handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
-  handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handlePartnerCertifications: require('./handle-partner-certification'),
+  handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
+  handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
+  handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
 };
 
 function buildEventDispatcher(handlersStubs) {

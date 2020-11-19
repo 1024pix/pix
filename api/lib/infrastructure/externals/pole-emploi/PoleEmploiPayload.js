@@ -21,25 +21,25 @@ class PoleEmploiPayload {
 
   static buildForParticipationStarted({ user, campaign, targetProfile, participation }) {
     return new PoleEmploiPayload({ 
-      individu: _buildIndividu(user),
-      campagne: _buildCampaign(campaign),
-      test: _buildTest(TEST_STATE.STARTED, targetProfile, participation),
+      individu: _buildIndividu({ user }),
+      campagne: _buildCampaign({ campaign }),
+      test: _buildTest({ etat: TEST_STATE.STARTED, targetProfile, participation }),
     });
   }
 
   static buildForParticipationFinished({ user, campaign, targetProfile, participation, assessment }) {
     return new PoleEmploiPayload({ 
-      individu: _buildIndividu(user),
-      campagne: _buildCampaign(campaign),
-      test: _buildTest(TEST_STATE.FINISHED, targetProfile, participation, null, assessment),
+      individu: _buildIndividu({ user }),
+      campagne: _buildCampaign({ campaign }),
+      test: _buildTest({ etat: TEST_STATE.FINISHED, targetProfile, participation, assessment }),
     });
   }
 
   static buildForParticipationShared({ user, campaign, targetProfile, participation, participationResult }) {
     return new PoleEmploiPayload({ 
-      individu: _buildIndividu(user),
-      campagne: _buildCampaign(campaign),
-      test: _buildTest(TEST_STATE.SHARED, targetProfile, participation, participationResult),
+      individu: _buildIndividu({ user }),
+      campagne: _buildCampaign({ campaign }),
+      test: _buildTest({ etat: TEST_STATE.SHARED, targetProfile, participation, participationResult }),
     });
   }
 
@@ -52,14 +52,14 @@ class PoleEmploiPayload {
   }
 }
 
-function _buildIndividu(user) {
+function _buildIndividu({ user }) {
   return {
     nom: user.lastName,
     prenom: user.firstName,
   };
 }
 
-function _buildCampaign(campaign) {
+function _buildCampaign({ campaign }) {
   return {
     nom: campaign.name,
     dateDebut: campaign.createdAt,
@@ -72,7 +72,7 @@ function _buildCampaign(campaign) {
   };
 }
 
-function _buildTest(etat, targetProfile, participation, participationResult, assessment) {
+function _buildTest({ etat, targetProfile, participation, participationResult, assessment }) {
   let progression = null;
   let dateProgression = null;
   let dateValidation = null;
