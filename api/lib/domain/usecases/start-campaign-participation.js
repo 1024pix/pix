@@ -17,7 +17,10 @@ module.exports = async function startCampaignParticipation({ campaignParticipati
     await _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation);
   }
 
-  return new CampaignParticipationStarted({ campaignParticipation: createdCampaignParticipation });
+  return {
+    event: new CampaignParticipationStarted({ campaignParticipationId: createdCampaignParticipation.id }),
+    campaignParticipation: createdCampaignParticipation,
+  };
 };
 
 async function _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation) {

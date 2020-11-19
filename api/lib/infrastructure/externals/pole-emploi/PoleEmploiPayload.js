@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const config = require('../../../config');
 
 const CAMPAIGN_TYPE = 'EVALUATION';
@@ -9,12 +10,21 @@ const UNITS = { PERCENTAGE: 'A', SCORE: 'B' };
 const EVALUATION_CATEGORY = 'competence';
 const EVALUATION_TYPE = 'competence Pix';
 const PROGRESSION = { STARTED: 0, FINISHED: 100 };
+const PROFILE_TYPES = { DI: 'DI', PC: 'PC', CP: 'CP' };
 
 class PoleEmploiPayload {
   constructor({ individu, campagne, test }) {
     this.individu = individu;
     this.campagne = campagne;
     this.test = test;
+  }
+
+  static buildForParticipationStarted({ user, campaign, targetProfile, participation }) {
+    return new PoleEmploiPayload({ 
+      individu: _buildIndividu(user),
+      campagne: _buildCampaign(campaign),
+      test: _buildTest(TEST_STATE.STARTED, targetProfile, participation),
+    });
   }
 
   static buildForParticipationShared({ user, campaign, targetProfile, participation, participationResult }) {
@@ -55,17 +65,36 @@ function _buildCampaign(campaign) {
 }
 
 function _buildTest(etat, targetProfile, participation, participationResult) {
+  let progression = null;
+  let dateProgression = null;
+  let dateValidation = null;
+  let evaluation = null;
+  let elementsEvalues = [];
+
+  switch (etat) {
+    case TEST_STATE.STARTED:
+      progression = PROGRESSION.STARTED;
+      break;
+    case TEST_STATE.SHARED:
+      progression = PROGRESSION.FINISHED;
+      dateProgression = participation.sharedAt;
+      dateValidation = participation.sharedAt;
+      evaluation = participationResult.masteryPercentage;
+      elementsEvalues = _.map(participationResult.competenceResults, _buildElementEvalue);
+      break;
+  }
+
   return {
     etat,
-    progression: PROGRESSION.FINISHED,
+    progression,
     typeTest: _getTypeTest(targetProfile.name),
     referenceExterne: participation.id,
     dateDebut: participation.createdAt,
-    dateProgression: participation.sharedAt,
-    dateValidation: participation.sharedAt,
-    evaluation: participationResult.masteryPercentage,
+    dateProgression,
+    dateValidation,
+    evaluation,
     uniteEvaluation: UNITS.PERCENTAGE,
-    elementsEvalues: participationResult.competenceResults.map(_buildElementEvalue),
+    elementsEvalues,
   };
 }
 
@@ -86,11 +115,11 @@ function _buildElementEvalue(competence) {
 
 function _getTypeTest(targetProfileName) {
   if (targetProfileName.includes('Diagnostic initial')) {
-    return 'DI';
+    return PROFILE_TYPES.DI;
   } else if (targetProfileName.includes('Parcours complet')) {
-    return 'PC';
+    return PROFILE_TYPES.PC;
   }
-  return 'CP';
+  return PROFILE_TYPES.CP;
 }
 
 module.exports = PoleEmploiPayload;

@@ -176,7 +176,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     it('should dispatch CampaignParticipationStartedEvent', async () => {
       // given
       const campaignParticipationStartedEvent = new CampaignParticipationStarted();
-      usecases.startCampaignParticipation.resolves(campaignParticipationStartedEvent);
+      usecases.startCampaignParticipation.resolves({ event: campaignParticipationStartedEvent });
 
       // when
       await campaignParticipationController.save(request, hFake);
@@ -188,7 +188,10 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     it('should return the serialized campaign participation when it has been successfully created', async () => {
       // given
       const campaignParticipation = domainBuilder.buildCampaignParticipation();
-      usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted({ campaignParticipation }));
+      usecases.startCampaignParticipation.resolves({
+        event: new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id }),
+        campaignParticipation,
+      });
 
       const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
       serializer.serialize.returns(serializedCampaignParticipation);
