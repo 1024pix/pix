@@ -809,7 +809,7 @@
             "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
             "pix-contest": {
                 "link": "Cliquez ici pour être redirigé sur la page d'accueil",
-                "title": "Bravo, vous avez terminé ce module!"
+                "title": "Vous avez terminé ce module!"
             },
             "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
             "send-status": {
