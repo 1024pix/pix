@@ -1,5 +1,7 @@
 const { FileValidationError, SameNationalStudentIdInFileError } = require('../errors');
 const fs = require('fs');
+const StreamZip = require('node-stream-zip');
+const FileType = require('file-type');
 const iconv = require('iconv-lite');
 const moment = require('moment');
 const xml2js = require('xml2js');
@@ -16,6 +18,20 @@ const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
 const NO_STUDENTS_IMPORTED_FROM_INVALID_FILE = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
 const UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI = 'Aucun étudiant n’a été importé. L’import n’est pas possible car l’UAI du fichier SIECLE ne correspond pas à celui de votre établissement. En cas de difficulté, contactez support.pix.fr.';
+
+const Stream = require('stream');
+
+class StreamPipe extends Stream.Transform {
+
+  constructor() {
+    super();
+  }
+
+  _transform(chunk, enc, cb) {
+    this.push(chunk);
+    cb();
+  }
+}
 
 module.exports = {
   extractSchoolingRegistrationsInformationFromSIECLE,
@@ -45,7 +61,7 @@ async function _processSiecleFile(path, encoding) {
 }
 
 async function _withSiecleStream(path, encoding, extractor) {
-  const rawStream = fs.createReadStream(path);
+  const rawStream = await createStream(path);
   const siecleFileStream = rawStream.pipe(iconv.decodeStream(encoding));
 
   try {
@@ -67,7 +83,7 @@ async function _withSiecleStream(path, encoding, extractor) {
       siecleFileStream.pipe(saxParser);
     });
   } finally {
-    rawStream.close();
+    rawStream.destroy();
   }
 }
 
@@ -110,8 +126,8 @@ function _registrationExtractor(saxParser, resolve, reject) {
   });
 
   streamerToParseSchoolingRegistrations.on('end', () => {
-    resolve(Array.from(mapSchoolingRegistrationsByStudentId.values()));
-  });
+      resolve(Array.from(mapSchoolingRegistrationsByStudentId.values()));
+    });
 }
 
 function _mapStudentInformationToSchoolingRegistration(nodeData) {
@@ -133,8 +149,8 @@ function _mapStudentInformationToSchoolingRegistration(nodeData) {
 }
 
 async function _readFirstLineFromFile(path) {
+  const readStream = await createStream(path);
   return new Promise((resolve, reject) => {
-    const readStream = fs.createReadStream(path);
     const lineEndingCharacter = '\n';
     const BOM = 0xFEFF;
     let value = '';
@@ -147,7 +163,7 @@ async function _readFirstLineFromFile(path) {
         position += chunk.length;
       } else {
         position += index;
-        readStream.close();
+        readStream.destroy();
       }
     })
       .on('close', () => {
@@ -209,4 +225,34 @@ function _throwIfNationalStudentIdIsDuplicatedInFile(nationalStudentId, national
   if (nationalStudentId && nationalStudentIds.indexOf(nationalStudentId) !== -1) {
     throw new SameNationalStudentIdInFileError(nationalStudentId);
   }
+}
+
+function _unzippedStream(path) {
+  const zip = new StreamZip({ file: path });
+  const stream = new StreamPipe();
+
+  zip.on('entry', (entry) => {
+    zip.stream(entry, (err, stm) => {
+
+      if (!entry.name.includes('/')) {
+        stm.pipe(stream);
+      }
+    });
+  });
+
+  return stream;
+}
+
+async function createStream(path) {
+  const { ext } = await FileType.fromFile(path);
+  let stream = null;
+  if (ext === 'zip') {
+    stream = _unzippedStream(path);
+  }
+  else {
+    stream = fs.createReadStream(path);
+  }
+
+  return stream;
+
 }

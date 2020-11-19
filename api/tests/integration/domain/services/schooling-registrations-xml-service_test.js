@@ -148,5 +148,35 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       expect(error.message).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
     });
 
+    context('when the file is zipped', () => {
+      it('unzip the file', async function() {
+        // given
+        const organization = { externalId: '1237457A' };
+        const path = __dirname + '/siecle-file/siecle-zipped-file.xml.zip';
+        const expectedSchoolingRegistrations = [{
+          lastName: 'Grubber',
+          preferredLastName: null,
+          firstName: 'Hans',
+          middleName: '',
+          thirdName: '',
+          birthdate: '1950-01-01',
+          birthCityCode: '24322',
+          birthCity: '',
+          birthCountryCode: '100',
+          birthProvinceCode: '024',
+          MEFCode: null,
+          status: 'AP',
+          nationalStudentId: '56789',
+          division: '3EME NEW',
+        }];
+
+        // when
+        const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
+
+        //then
+        expect(result).to.deep.equal(expectedSchoolingRegistrations);
+      });
+
+    })
   });
 });
