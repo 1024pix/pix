@@ -978,6 +978,7 @@
         },
         "pix": "Pix",
         "user": {
+            "account": "",
             "certifications": "My certifications",
             "sign-out": "Log out",
             "tutorials": "My tutorials"

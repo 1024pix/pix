@@ -981,6 +981,7 @@
             "details": "Consulter mes informations"
         },
         "user": {
+            "account": "Mon compte",
             "certifications": "Mes certifications",
             "sign-out": "Se déconnecter",
             "tutorials": "Mes tutos"
