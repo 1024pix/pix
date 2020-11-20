@@ -1,5 +1,9 @@
+const Joi = require('@hapi/joi');
+
 const securityPreHandlers = require('../security-pre-handlers');
 const certificationCourseController = require('./certification-course-controller');
+
+const { idSpecification } = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {
   server.route([
@@ -24,6 +28,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/admin/certifications/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: idSpecification,
+          }),
+        },
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
