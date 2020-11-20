@@ -1,7 +1,11 @@
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2, applyPreTreatments } = require('./validation-treatments');
+const {
+  normalizeAndRemoveAccents,
+  removeSpecialCharacters,
+  applyPreTreatments,
+} = require('./validation-treatments');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
@@ -39,25 +43,27 @@ function _applyTreatmentsToSolutions(solution, deactivations) {
   return _.map(pretreatedSolutions, (pretreatedSolution) => {
 
     if (deactivationsService.isDefault(deactivations)) {
-      return t2(t1(pretreatedSolution));
+      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(pretreatedSolution);
+      return removeSpecialCharacters(normalizedWithoutAccentsSolution);
     }
     else if (deactivationsService.hasOnlyT1(deactivations)) {
-      return t2(pretreatedSolution);
+      return removeSpecialCharacters(pretreatedSolution);
     }
     else if (deactivationsService.hasOnlyT2(deactivations)) {
-      return t1(pretreatedSolution);
+      return normalizeAndRemoveAccents(pretreatedSolution);
     }
     else if (deactivationsService.hasOnlyT3(deactivations)) {
-      return t2(t1(pretreatedSolution));
+      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(pretreatedSolution);
+      return removeSpecialCharacters(normalizedWithoutAccentsSolution);
     }
     else if (deactivationsService.hasOnlyT1T2(deactivations)) {
       return pretreatedSolution;
     }
     else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-      return t2(pretreatedSolution);
+      return removeSpecialCharacters(pretreatedSolution);
     }
     else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-      return t1(pretreatedSolution);
+      return normalizeAndRemoveAccents(pretreatedSolution);
     }
     else if (deactivationsService.hasT1T2T3(deactivations)) {
       return pretreatedSolution;
