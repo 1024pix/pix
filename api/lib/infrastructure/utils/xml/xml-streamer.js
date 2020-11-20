@@ -1,3 +1,5 @@
+const { noop } = require('lodash');
+const { FileValidationError } = require('../../../domain/errors');
 const fs = require('fs');
 const readline = require('readline');
 const Stream = require('stream');
@@ -7,6 +9,7 @@ const iconv = require('iconv-lite');
 const sax = require('sax');
 const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
 
+const NO_STUDENTS_IMPORTED_FROM_INVALID_FILE = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
 
 const DEFAULT_FILE_ENCODING = 'iso-8859-15';
 const ZIP = 'zip';
@@ -56,18 +59,17 @@ class XMLStreamer {
     this.encoding = xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
   }
 
-  async getStream(){
+  async getStream() {
     this.stream = await this._getRawStream();
     const saxParser = sax.createStream(true);
     return this.stream.pipe(iconv.decodeStream(this.encoding)).pipe(saxParser);
   }
 
-  async _getRawStream(){
+  async _getRawStream() {
     let stream;
     if (await this._isFileZipped()) {
       stream = _unzippedStream(this.path);
-    }
-    else {
+    } else {
       stream = fs.createReadStream(this.path);
     }
     return stream;
@@ -90,8 +92,30 @@ class XMLStreamer {
     });
   }
 
-  destroyStream() {
+  _destroyStream() {
     this.stream.destroy();
+  }
+
+  async perform(callback) {
+    const siecleFileStream = await this.getStream();
+
+    try {
+      return await new Promise((resolve, reject_) => {
+        const reject = (e) => {
+          siecleFileStream.removeAllListeners();//si j'enlève cette ligne les tests passent
+          siecleFileStream.on('error', noop);
+          return reject_(e);
+        };
+
+        siecleFileStream.on('error', () => {
+          reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
+        });
+
+        callback(siecleFileStream, resolve, reject);
+      });
+    } finally {
+      this._destroyStream();
+    }
   }
 }
 
