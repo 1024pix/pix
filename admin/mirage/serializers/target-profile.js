@@ -1,7 +1,9 @@
 import ApplicationSerializer from './application';
 
-export default ApplicationSerializer.extend({
+const _includes = ['skills'];
 
+export default ApplicationSerializer.extend({
+  include: _includes,
   links(targetProfile) {
     return {
       organizations: {

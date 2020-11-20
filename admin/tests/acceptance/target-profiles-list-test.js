@@ -78,7 +78,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
       await click('[aria-label="Profil cible"]');
 
       // then
-      assert.equal(currentURL(), '/target-profiles/1/organizations');
+      assert.equal(currentURL(), '/target-profiles/1');
     });
   });
 });
