@@ -5,6 +5,28 @@ const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2, applyPreTrea
 
 const AnswerStatus = require('../models/AnswerStatus');
 
+module.exports = {
+
+  match(answer, solution, deactivations) {
+
+    const isIncorrectAnswerFormat = !_.isString(answer);
+    const isIncorrectSolutionFormat = !_.isString(solution) || _.isEmpty(solution);
+    if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
+      return AnswerStatus.KO;
+    }
+    const answerStatus = _verifyStringMatching(answer, solution, deactivations);
+
+    return answerStatus;
+  },
+};
+
+function _verifyStringMatching(answer, solution, deactivations) {
+  const treatedAnswer = applyPreTreatments(answer);
+  const treatedSolutions = _applyTreatmentsToSolutions(solution, deactivations);
+  const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
+  return _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations);
+}
+
 function _applyPreTreatmentsToSolutions(solution) {
   return _.chain(solution)
     .split('\n')
@@ -43,7 +65,7 @@ function _applyTreatmentsToSolutions(solution, deactivations) {
   });
 }
 
-function _formatResult(validations, deactivations) {
+function _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations) {
 
   if (deactivationsService.isDefault(deactivations)) {
     if (validations.t1t2t3Ratio <= 0.25) {
@@ -94,23 +116,3 @@ function _formatResult(validations, deactivations) {
     return AnswerStatus.KO;
   }
 }
-
-module.exports = {
-
-  match(answer, solution, deactivations) {
-
-    // Input checking
-    if (!_.isString(answer)
-      || !_.isString(solution)
-      || _.isEmpty(solution)) {
-      return AnswerStatus.KO;
-    }
-
-    const treatedAnswer = applyPreTreatments(answer);
-    const treatedSolutions = _applyTreatmentsToSolutions(solution, deactivations);
-
-    const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
-
-    return _formatResult(validations, deactivations);
-  },
-};
