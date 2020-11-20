@@ -1,3 +1,3 @@
-module.exports = function getTargetProfileDetails({ targetProfileId, targetProfileRepository }) {
-  return targetProfileRepository.getReadModel(targetProfileId);
+module.exports = function getTargetProfileDetails({ targetProfileId, targetProfileWithLearningContentRepository }) {
+  return targetProfileWithLearningContentRepository.get({ id: targetProfileId });
 };
