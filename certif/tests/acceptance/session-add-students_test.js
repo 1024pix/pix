@@ -77,7 +77,7 @@ module('Acceptance | Session Add Students', function(hooks) {
       const rowSelector = '.add-student-list table tbody tr';
 
       module('when there are no enrolled students', function() {
-        const DEFAULT_PAGE_SIZE = 10;
+        const DEFAULT_PAGE_SIZE = 50;
 
         test('it should show first page of students (with default size)', async function(assert) {
           // given

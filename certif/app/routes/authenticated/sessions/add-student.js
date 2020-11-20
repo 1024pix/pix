@@ -11,11 +11,13 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     const session = await this.store.findRecord('session', params.session_id);
     const { id: certificationCenterId } = this.modelFor('authenticated');
 
+    const DEFAULT_PAGE_SIZE = 50;
+    const FIRST_PAGE_NUMBER = 1;
     const students = await this.store.query('student',
       {
         page: {
-          number: params.pageNumber,
-          size: params.pageSize,
+          number: params.pageNumber || FIRST_PAGE_NUMBER,
+          size: params.pageSize || DEFAULT_PAGE_SIZE,
         },
         filter : {
           certificationCenterId,
