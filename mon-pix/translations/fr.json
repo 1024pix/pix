@@ -985,6 +985,11 @@
         },
         "user": {
             "account": "Mon compte",
+            "account-panel": {
+                "first-name": "Prénom",
+                "last-name": "Nom",
+                "email": "Adresse e-mail"
+            },
             "certifications": "Mes certifications",
             "sign-out": "Se déconnecter",
             "tutorials": "Mes tutos"

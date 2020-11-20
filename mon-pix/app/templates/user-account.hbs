@@ -4,7 +4,18 @@
 
     <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}}/>
 
-    <UserAccountPanel @user={{@model}}/>
+    <main>
+      <div class="background-banner">
+        <div class="user-account__banner">
+          <img src="{{rootURL}}/images/user-account/banner-icon.svg" class="user-tutorials-banner__icon" role="none" alt=""/>
+          <h1 class="user-account-banner__title">{{t 'pages.user-account.title'}}</h1>
+        </div>
+      </div>
+
+      <div class="user-account__panel">
+        <UserAccountPanel @user={{@model}} />
+      </div>
+    </main>
 
     <Footer />
   </burger.outlet>
