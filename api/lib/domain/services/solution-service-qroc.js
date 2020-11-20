@@ -1,5 +1,6 @@
 const utils = require('./solution-service-utils');
-const deactivationsService = require('./deactivations-service');
+const deactivationsService = require('../../../lib/domain/services/deactivations-service');
+const isNumeric = require('../../../lib/infrastructure/utils/string-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const {
   normalizeAndRemoveAccents,
@@ -15,16 +16,24 @@ module.exports = {
 
     const isIncorrectAnswerFormat = !_.isString(answer);
     const isIncorrectSolutionFormat = !_.isString(solution) || _.isEmpty(solution);
+
     if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
       return AnswerStatus.KO;
     }
-    const answerStatus = _verifyStringMatching(answer, solution, deactivations);
 
-    return answerStatus;
+    if (isNumeric(answer.value) && isNumeric(solution)) {
+      return _getAnswerStatusFromNumberMatching(answer, solution);
+    }
+
+    return _getAnswerStatusFromStringMatching(answer, solution, deactivations);
   },
 };
 
-function _verifyStringMatching(answer, solution, deactivations) {
+function _getAnswerStatusFromNumberMatching(answer, solution) {
+  return AnswerStatus.KO;
+}
+
+function _getAnswerStatusFromStringMatching(answer, solution, deactivations) {
   const treatedAnswer = applyPreTreatments(answer);
   const treatedSolutions = _applyTreatmentsToSolutions(solution, deactivations);
   const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
