@@ -1,7 +1,6 @@
 const Bookshelf = require('../bookshelf');
 
 module.exports = {
-
   addTargetProfilesToOrganization({ organizationId, targetProfileIdList }) {
     const targetProfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
       return { organizationId, targetProfileId };
