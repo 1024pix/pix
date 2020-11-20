@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const DatabaseBuilder = require('../../../tooling/database-builder/database-builder');
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
@@ -288,6 +288,30 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(trxStub.commit).to.have.been.calledOnce;
     });
 
+    it('should throw an error when the commit fails', async () => {
+      // given
+      const insertError = new Error('expected error');
+      const trxFake = () => ({ insert: () => { throw insertError; } });
+      databaseBuilder.knex = {
+        client: { database: () => undefined },
+        transaction: sinon.stub().resolves(trxFake),
+      };
+      databaseBuilder.isFirstCommit = false;
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
+        table: 'table1',
+        isDirty: false,
+      }];
+      databaseBuilder.databaseBuffer.objectsToInsert = [
+        { tableName: 'table1', values: 'someValuesForTable1' },
+      ];
+
+      // when
+      const error = await catchErr(databaseBuilder.commit, databaseBuilder)();
+
+      // then
+      expect(error).to.deep.equal(insertError);
+    });
+
     it('should clear the dirtiness map and empty objectsToInsert if something goes wrong when inserting', async () => {
       // given
       const insertStub = sinon.stub().rejects();
@@ -312,7 +336,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       ];
 
       // when
-      await databaseBuilder.commit();
+      await catchErr(databaseBuilder.commit, databaseBuilder)();
 
       // then
       expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([{
