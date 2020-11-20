@@ -20,37 +20,41 @@ const { getTranslatedText } = require('../../domain/services/get-translated-text
 module.exports = {
 
   async get({ id, locale = FRENCH_FRANCE }) {
-    const results = await knex('target-profiles')
-      .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles_skills.skillId')
-      .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
-      .where('target-profiles.id', id);
+    const whereClauseFnc = (queryBuilder) => {
+      return queryBuilder
+        .where('target-profiles.id', id);
+    };
 
-    if (_.isEmpty(results)) {
-      throw new NotFoundError(`Le profil cible ${id} n'existe pas`);
-    }
-    const targetProfile = await _toDomain(results, locale);
-    targetProfile.badges = await _findBadges(targetProfile.id);
-    targetProfile.stages = await _findStages(targetProfile.id);
-    return targetProfile;
+    return _get(whereClauseFnc, locale);
   },
 
   async getByCampaignId({ campaignId, locale = FRENCH_FRANCE }) {
-    const results = await knex('campaigns')
-      .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles_skills.skillId')
-      .join('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
-      .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
-      .where('campaigns.id', campaignId);
+    const whereClauseFnc = (queryBuilder) => {
+      return queryBuilder
+        .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
+        .where('campaigns.id', campaignId);
+    };
 
-    if (_.isEmpty(results)) {
-      throw new NotFoundError(`Le profil cible pour la campagne ${campaignId} n'existe pas`);
-    }
-
-    const targetProfile = await _toDomain(results, locale);
-    targetProfile.badges = await _findBadges(targetProfile.id);
-    targetProfile.stages = await _findStages(targetProfile.id);
-    return targetProfile;
+    return _get(whereClauseFnc, locale);
   },
 };
+
+async function _get(whereClauseFnc, locale) {
+  const baseQueryBuilder = knex('target-profiles')
+    .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles_skills.skillId')
+    .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
+  const finalQueryBuilder = whereClauseFnc(baseQueryBuilder);
+  const results = await finalQueryBuilder;
+
+  if (_.isEmpty(results)) {
+    throw new NotFoundError('Le profil cible n\'existe pas');
+  }
+
+  const targetProfile = await _toDomain(results, locale);
+  targetProfile.badges = await _findBadges(targetProfile.id);
+  targetProfile.stages = await _findStages(targetProfile.id);
+  return targetProfile;
+}
 
 async function _toDomain(results, locale) {
   const skillIds = _.compact(results.map(({ skillId }) => skillId));
