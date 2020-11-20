@@ -4,6 +4,8 @@ class TargetProfileWithLearningContent {
   constructor({
     id,
     name,
+    outdated,
+    isPublic,
     skills = [],
     tubes = [],
     competences = [],
@@ -12,6 +14,8 @@ class TargetProfileWithLearningContent {
   } = {}) {
     this.id = id;
     this.name = name;
+    this.outdated = outdated;
+    this.isPublic = isPublic;
     this.skills = skills;
     this.tubes = tubes;
     this.competences = competences;
