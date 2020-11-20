@@ -37,8 +37,21 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
                 related: `/api/target-profiles/${targetProfileWithLearningContent.id}/organizations`,
               },
             },
+            skills: {
+              data: [{
+                id: targetProfileWithLearningContent.skills[0].id.toString(),
+                type: 'skills',
+              }],
+            },
           },
         },
+        included: [{
+          id: targetProfileWithLearningContent.skills[0].id.toString(),
+          type: 'skills',
+          attributes: {
+            name: targetProfileWithLearningContent.skills[0].name,
+          },
+        }],
       };
 
       // when
