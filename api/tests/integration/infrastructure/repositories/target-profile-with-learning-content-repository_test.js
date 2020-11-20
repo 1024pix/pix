@@ -5,6 +5,25 @@ const cache = require('../../../../lib/infrastructure/caches/learning-content-ca
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
+async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
+  const badgeCriterion1 = domainBuilder.buildBadgeCriterion();
+  const badgeCriterion2 = domainBuilder.buildBadgeCriterion();
+  const badgePartnerCompetence1 = domainBuilder.buildBadgePartnerCompetence({ color: 'someColor' });
+  const badgePartnerCompetence2 = domainBuilder.buildBadgePartnerCompetence();
+  const badge = domainBuilder.buildBadge({ key, targetProfileId });
+  badge.badgeCriteria = [badgeCriterion1, badgeCriterion2];
+  badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
+
+  badge.id = databaseBuilder.factory.buildBadge({ ...badge, id: null }).id;
+  badgeCriterion1.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion1, badgeId: badge.id, id: null }).id;
+  badgeCriterion2.id = databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterion2, badgeId: badge.id, id: null }).id;
+  badgePartnerCompetence1.id = databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence1, badgeId: badge.id, id: null }).id;
+  badgePartnerCompetence2.id = databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence2, badgeId: badge.id, id: null }).id;
+  await databaseBuilder.commit();
+
+  return badge;
+}
+
 describe('Integration | Repository | Target-profile-with-learning-content', () => {
 
   afterEach(() => {
@@ -12,7 +31,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
     return cache.flushAll();
   });
 
-  describe('#getWithBadges', () => {
+  describe('#get', () => {
 
     it('should return target profile with learning content', async () => {
       // given
@@ -75,58 +94,30 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       await databaseBuilder.commit();
 
       // when
-      const targetProfile = await targetProfileWithLearningContentRepository.getWithBadges({ id: targetProfileDB.id });
+      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
 
       // then
       expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
     });
 
-    it('should return target profile with badges', async () => {
+    it('should return target profile badges without imageUrl', async () => {
       // given
-      const skill1_1_1_1 = domainBuilder.buildTargetedSkill({
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        tubeId: 'recArea1_Competence1_Tube1',
-      });
-      const tube1_1_1 = domainBuilder.buildTargetedTube({
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-        skills: [skill1_1_1_1],
-      });
-      const competence1_1 = domainBuilder.buildTargetedCompetence({
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        tubes: [tube1_1_1],
-      });
-      const area1 = domainBuilder.buildTargetedArea({
-        id: 'recArea1',
-        competences: [competence1_1],
-      });
+      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: 'recArea1_Competence1_Tube1_Skill1' });
-      const badge1 = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfileDB.id });
-      const badge2 = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfileDB.id });
-      const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        id: targetProfileDB.id,
-        name: targetProfileDB.name,
-        outdated: targetProfileDB.outdated,
-        isPublic: targetProfileDB.isPublic,
-        skills: [skill1_1_1_1],
-        tubes: [tube1_1_1],
-        competences: [competence1_1],
-        areas: [area1],
-        badges: [badge1.title, badge2.title],
-      });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: expectedTargetProfile });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
+      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
       airtableBuilder.mockLists(airtableObjects);
       await databaseBuilder.commit();
 
+      const badge1 = await _buildDomainAndDatabaseBadge('badge1', targetProfileDB.id);
+      const badge2 = await _buildDomainAndDatabaseBadge('badge2', targetProfileDB.id);
+
       // when
-      const targetProfile = await targetProfileWithLearningContentRepository.getWithBadges({ id: targetProfileDB.id });
+      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
 
       // then
-      expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
-      expect(targetProfile).to.deep.equal(expectedTargetProfile);
+      expect(targetProfile.badges).to.deep.equal([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
     });
 
     it('should return target profile filled with objects with appropriate translation', async () => {
@@ -147,7 +138,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       await databaseBuilder.commit();
 
       // when
-      const targetProfile = await targetProfileWithLearningContentRepository.getWithBadges({ id: targetProfileDB.id, locale: ENGLISH_SPOKEN });
+      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id, locale: ENGLISH_SPOKEN });
 
       // then
       expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
@@ -156,7 +147,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
 
     it('should throw a NotFoundError when targetProfile does not exists', async () => {
       // when
-      const error = await catchErr(targetProfileWithLearningContentRepository.getWithBadges)({ id: 123 });
+      const error = await catchErr(targetProfileWithLearningContentRepository.get)({ id: 123 });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -232,6 +223,26 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       // then
       expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
+    });
+
+    it('should return target profile badges without imageUrl', async () => {
+      // given
+      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
+      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
+      airtableBuilder.mockLists(airtableObjects);
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
+      await databaseBuilder.commit();
+
+      const badge1 = await _buildDomainAndDatabaseBadge('badge1', targetProfileDB.id);
+      const badge2 = await _buildDomainAndDatabaseBadge('badge2', targetProfileDB.id);
+
+      // when
+      const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+
+      // then
+      expect(targetProfile.badges).to.deep.equal([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
     });
 
     it('should return target profile filled with objects with appropriate translation', async () => {

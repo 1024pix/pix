@@ -40,15 +40,15 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
       const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
       const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
         organization,
         campaign,
         campaignParticipationInfo,
-        targetProfile,
+        targetProfileWithLearningContent,
         stages: [],
         participantKnowledgeElementsByCompetenceId: {
-          [targetProfile.competences[0].id]: [],
+          [targetProfileWithLearningContent.competences[0].id]: [],
         },
         campaignParticipationService,
       });
@@ -61,7 +61,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
       expect(csvLine[cols.ORGANIZATION_NAME], 'organization name').to.equal(organization.name);
       expect(csvLine[cols.CAMPAIGN_ID], 'campaign id').to.equal(campaign.id);
       expect(csvLine[cols.CAMPAIGN_NAME], 'campaign name').to.equal(campaign.name);
-      expect(csvLine[cols.TARGET_PROFILE_NAME], 'target profile name').to.equal(targetProfile.name);
+      expect(csvLine[cols.TARGET_PROFILE_NAME], 'target profile name').to.equal(targetProfileWithLearningContent.name);
       expect(csvLine[cols.PARTICIPANT_LAST_NAME], 'participant last name').to.equal(campaignParticipationInfo.participantLastName);
       expect(csvLine[cols.PARTICIPANT_FIRST_NAME], 'participant first name').to.equal(campaignParticipationInfo.participantFirstName);
       expect(csvLine[cols.PARTICIPATION_CREATED_AT], 'participant created at').to.equal('2020-01-01');
@@ -74,15 +74,15 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ studentNumber: 'someStudentNumber' });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+        const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
           campaignParticipationInfo,
-          targetProfile,
+          targetProfileWithLearningContent,
           stages: [],
           participantKnowledgeElementsByCompetenceId: {
-            [targetProfile.competences[0].id]: [],
+            [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
         });
@@ -103,15 +103,15 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
         const campaign = domainBuilder.buildCampaign({ idPixLabel: 'I Have One !' });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ participantExternalId: 'someParticipantExternalId' });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+        const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
           campaignParticipationInfo,
-          targetProfile,
+          targetProfileWithLearningContent,
           stages: [],
           participantKnowledgeElementsByCompetenceId: {
-            [targetProfile.competences[0].id]: [],
+            [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
         });
@@ -129,17 +129,17 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
         const campaign = domainBuilder.buildCampaign({ idPixLabel: 'I Have One !' });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ studentNumber: 'someStudentNumber', participantExternalId: 'someParticipantExternalId' });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+        const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
           areas: [],
           competences: [],
           campaignParticipationInfo,
-          targetProfile,
+          targetProfileWithLearningContent,
           stages: [],
           participantKnowledgeElementsByCompetenceId: {
-            [targetProfile.competences[0].id]: [],
+            [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
         });
@@ -160,15 +160,15 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const organization = domainBuilder.buildOrganization();
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: null });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+        const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
           campaignParticipationInfo,
-          targetProfile,
+          targetProfileWithLearningContent,
           stages: [],
           participantKnowledgeElementsByCompetenceId: {
-            [targetProfile.competences[0].id]: [],
+            [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
         });
@@ -191,21 +191,21 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         const organization = domainBuilder.buildOrganization();
         const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
         const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+        const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
         const knowledgeElement = domainBuilder.buildKnowledgeElement({
           status: KnowledgeElement.StatusType.VALIDATED,
           earnedPix: 3,
-          skillId: targetProfile.skills[0].id,
-          competenceId: targetProfile.competences[0].id,
+          skillId: targetProfileWithLearningContent.skills[0].id,
+          competenceId: targetProfileWithLearningContent.competences[0].id,
         });
         const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
           organization,
           campaign,
           campaignParticipationInfo,
-          targetProfile,
+          targetProfileWithLearningContent,
           stages: [],
           participantKnowledgeElementsByCompetenceId: {
-            [targetProfile.competences[0].id]: [knowledgeElement],
+            [targetProfileWithLearningContent.competences[0].id]: [knowledgeElement],
           },
           campaignParticipationService,
         });
@@ -241,7 +241,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const competence3 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence3', tubes: [tube3], areaId: 'recArea2' });
           const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence3] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
             skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2],
             tubes: [tube1, tube2, tube3],
             competences: [competence1, competence2, competence3],
@@ -280,7 +280,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
@@ -342,7 +342,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const competence3 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence3', tubes: [tube3], areaId: 'recArea2' });
           const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence3] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
             skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2],
             tubes: [tube1, tube2, tube3],
             competences: [competence1, competence2, competence3],
@@ -381,7 +381,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
@@ -445,7 +445,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const competence3 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence3', tubes: [tube3], areaId: 'recArea2' });
           const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence3] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
             skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2],
             tubes: [tube1, tube2, tube3],
             competences: [competence1, competence2, competence3],
@@ -484,7 +484,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
@@ -540,7 +540,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const competence3 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence3', tubes: [tube3], areaId: 'recArea2' });
           const area1 = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1, competence2] });
           const area2 = domainBuilder.buildTargetedArea({ id: 'recArea2', competences: [competence3] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
             skills: [skill1_1, skill1_2, skill2_1, skill3_1, skill3_2],
             tubes: [tube1, tube2, tube3],
             competences: [competence1, competence2, competence3],
@@ -579,7 +579,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
@@ -621,15 +621,15 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), isCompleted: false, division: '4eme1' });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId: {
-              [targetProfile.competences[0].id]: [],
+              [targetProfileWithLearningContent.competences[0].id]: [],
             },
             campaignParticipationService,
           });
@@ -652,15 +652,15 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: null });
           const badge = 'badge title';
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId: {
-              [targetProfile.competences[0].id]: [],
+              [targetProfileWithLearningContent.competences[0].id]: [],
             },
             acquiredBadges: [badge],
             campaignParticipationService,
@@ -682,24 +682,24 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const organization = domainBuilder.buildOrganization();
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
-          const badge = 'badge title';
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
+          const badge = domainBuilder.buildBadge({ title: 'badge title' });
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
           const knowledgeElement = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: 3,
-            skillId: targetProfile.skills[0].id,
-            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfileWithLearningContent.skills[0].id,
+            competenceId: targetProfileWithLearningContent.competences[0].id,
           });
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId: {
-              [targetProfile.competences[0].id]: [knowledgeElement],
+              [targetProfileWithLearningContent.competences[0].id]: [knowledgeElement],
             },
-            acquiredBadges: [badge],
+            acquiredBadges: [badge.title],
             campaignParticipationService,
           });
 
@@ -717,21 +717,21 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
           const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
           const badge = 'badge title';
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
           const knowledgeElement = domainBuilder.buildKnowledgeElement({
             status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: 3,
-            skillId: targetProfile.skills[0].id,
-            competenceId: targetProfile.competences[0].id,
+            skillId: targetProfileWithLearningContent.skills[0].id,
+            competenceId: targetProfileWithLearningContent.competences[0].id,
           });
           const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages: [],
             participantKnowledgeElementsByCompetenceId: {
-              [targetProfile.competences[0].id]: [knowledgeElement],
+              [targetProfileWithLearningContent.competences[0].id]: [knowledgeElement],
             },
             acquiredBadges: [],
             campaignParticipationService,
@@ -761,7 +761,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2,  skill3], competenceId: 'recCompetence1' });
             const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube], areaId: 'recArea1' });
             const area = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence] });
-            const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+            const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
               skills: [skill1, skill2, skill3],
               tubes: [tube],
               competences: [competence],
@@ -797,7 +797,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               organization,
               campaign,
               campaignParticipationInfo,
-              targetProfile,
+              targetProfileWithLearningContent,
               stages,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
@@ -824,7 +824,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2,  skill3], competenceId: 'recCompetence1' });
             const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube], areaId: 'recArea1' });
             const area = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence] });
-            const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+            const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
               skills: [skill1, skill2, skill3],
               tubes: [tube],
               competences: [competence],
@@ -860,7 +860,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               organization,
               campaign,
               campaignParticipationInfo,
-              targetProfile,
+              targetProfileWithLearningContent,
               stages,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
@@ -888,7 +888,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const tube = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1, skill2,  skill3], competenceId: 'recCompetence1' });
           const competence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', tubes: [tube], areaId: 'recArea1' });
           const area = domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence] });
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
             skills: [skill1, skill2, skill3],
             tubes: [tube],
             competences: [competence],
@@ -923,7 +923,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             organization,
             campaign,
             campaignParticipationInfo,
-            targetProfile,
+            targetProfileWithLearningContent,
             stages,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,

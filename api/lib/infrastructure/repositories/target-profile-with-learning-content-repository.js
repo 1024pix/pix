@@ -5,6 +5,9 @@ const TargetedSkill = require('../../domain/models/TargetedSkill');
 const TargetedTube = require('../../domain/models/TargetedTube');
 const TargetedCompetence = require('../../domain/models/TargetedCompetence');
 const TargetedArea = require('../../domain/models/TargetedArea');
+const Badge = require('../../domain/models/Badge');
+const BadgeCriterion = require('../../domain/models/BadgeCriterion');
+const BadgePartnerCompetence = require('../../domain/models/BadgePartnerCompetence');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
 const tubeDatasource = require('../../infrastructure/datasources/airtable/tube-datasource');
 const competenceDatasource = require('../../infrastructure/datasources/airtable/competence-datasource');
@@ -15,19 +18,18 @@ const { getTranslatedText } = require('../../domain/services/get-translated-text
 
 module.exports = {
 
-  async getWithBadges({ id, locale = FRENCH_FRANCE }) {
+  async get({ id, locale = FRENCH_FRANCE }) {
     const results = await knex('target-profiles')
-      .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles_skills.skillId', knex.raw('ARRAY_AGG (badges.title) badges'))
+      .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles_skills.skillId')
       .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
-      .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
-      .where('target-profiles.id', id)
-      .groupBy('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId');
+      .where('target-profiles.id', id);
 
     if (_.isEmpty(results)) {
       throw new NotFoundError(`Le profil cible ${id} n'existe pas`);
     }
-
-    return _toDomain(results, locale);
+    const targetProfile = await _toDomain(results, locale);
+    targetProfile.badges = await _findBadges(targetProfile.id);
+    return targetProfile;
   },
 
   async getByCampaignId({ campaignId, locale = FRENCH_FRANCE }) {
@@ -41,7 +43,9 @@ module.exports = {
       throw new NotFoundError(`Le profil cible pour la campagne ${campaignId} n'existe pas`);
     }
 
-    return _toDomain(results, locale);
+    const targetProfile = await _toDomain(results, locale);
+    targetProfile.badges = await _findBadges(targetProfile.id);
+    return targetProfile;
   },
 };
 
@@ -125,5 +129,49 @@ async function _findTargetedAreas(competences, locale) {
       title,
       competences: competencesByAreaId[airtableArea.id],
     });
+  });
+}
+
+async function _findBadges(targetProfileId) {
+  const badgeRows = await knex('badges')
+    .select('badges.id', 'badges.key', 'badges.message', 'badges.altMessage', 'badges.title', 'badges.targetProfileId')
+    .where('badges.targetProfileId', targetProfileId);
+
+  if (_.isEmpty(badgeRows)) {
+    return [];
+  }
+
+  const badges = badgeRows.map((row) => new Badge({ ...row, imageUrl: null }));
+  await _fillBadgesWithCriteria(badges);
+  await _fillBadgesWithPartnerCompetences(badges);
+
+  return badges;
+}
+
+async function _fillBadgesWithCriteria(badges) {
+  const badgeIds = badges.map((badge) => badge.id);
+  const criteriaRows = await knex('badge-criteria')
+    .select('badge-criteria.id', 'badge-criteria.scope', 'badge-criteria.threshold', 'badge-criteria.badgeId')
+    .whereIn('badge-criteria.badgeId', badgeIds);
+
+  const criteriaRowsByBadgeId = _.groupBy(criteriaRows, 'badgeId');
+
+  badges.forEach((badge) => {
+    const criteriaRowsForBadge = criteriaRowsByBadgeId[badge.id];
+    badge.badgeCriteria = _.map(criteriaRowsForBadge, (criteriaRow) => new BadgeCriterion(criteriaRow));
+  });
+}
+
+async function _fillBadgesWithPartnerCompetences(badges) {
+  const badgeIds = badges.map((badge) => badge.id);
+  const partnerCompetencesRows = await knex('badge-partner-competences')
+    .select('badge-partner-competences.id', 'badge-partner-competences.name', 'badge-partner-competences.color', 'badge-partner-competences.skillIds', 'badge-partner-competences.badgeId')
+    .whereIn('badge-partner-competences.badgeId', badgeIds);
+
+  const partnerCompetencesRowsByBadgeId = _.groupBy(partnerCompetencesRows, 'badgeId');
+
+  badges.forEach((badge) => {
+    const partnerCompetencesRowsForBadge = partnerCompetencesRowsByBadgeId[badge.id];
+    badge.badgePartnerCompetences = _.map(partnerCompetencesRowsForBadge, (partnerCompetenceRow) => new BadgePartnerCompetence(partnerCompetenceRow));
   });
 }
