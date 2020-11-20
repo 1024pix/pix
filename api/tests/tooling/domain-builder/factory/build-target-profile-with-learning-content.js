@@ -14,6 +14,7 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
   competences = [],
   areas = [],
   badges = [],
+  stages = [],
 } = {}) {
   return new TargetProfileWithLearningContent({
     id,
@@ -25,6 +26,7 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
     competences,
     areas,
     badges,
+    stages,
   });
 };
 
@@ -34,6 +36,7 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
   outdated = false,
   isPublic = false,
   badges = [],
+  stages = [],
 } = {}) {
   const skill = buildTargetedSkill({ id: 'skillId', tubeId: 'tubeId' });
   const tube = buildTargetedTube({ id: 'tubeId', competenceId: 'competenceId', skills: [skill] });
@@ -49,6 +52,7 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
     competences: [competence],
     areas: [area],
     badges,
+    stages,
   });
 };
 

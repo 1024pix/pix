@@ -11,7 +11,6 @@ class CampaignAssessmentCsvLine {
     campaignParticipationInfo,
     targetProfileWithLearningContent,
     participantKnowledgeElementsByCompetenceId,
-    stages = [],
     acquiredBadges,
     campaignParticipationService,
   }) {
@@ -19,7 +18,6 @@ class CampaignAssessmentCsvLine {
     this.campaign = campaign;
     this.campaignParticipationInfo = campaignParticipationInfo;
     this.targetProfileWithLearningContent = targetProfileWithLearningContent;
-    this.stages = stages;
     this.targetedKnowledgeElementsCount = _.sum(_.map(participantKnowledgeElementsByCompetenceId, (knowledgeElements) => knowledgeElements.length));
     this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
     this.acquiredBadges = acquiredBadges;
@@ -96,7 +94,7 @@ class CampaignAssessmentCsvLine {
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
       this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
-      ...(this.stages[0] ? [this._getReachedStage()] : []),
+      ...(this.targetProfileWithLearningContent.reachableStages[0] ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfileWithLearningContent.badges.length)),
       this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
     ];
@@ -156,7 +154,7 @@ class CampaignAssessmentCsvLine {
 
     const percentageSkillsValidated = this._percentageSkillsValidated() * 100;
 
-    return this.stages.filter((stage) => percentageSkillsValidated >= stage.threshold).length;
+    return this.targetProfileWithLearningContent.reachableStages.filter((stage) => percentageSkillsValidated >= stage.threshold).length;
   }
 
   get _studentNumber() {

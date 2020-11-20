@@ -24,6 +24,15 @@ async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   return badge;
 }
 
+async function buildDomainAndDatabaseStage(targetProfileId) {
+  const stage = domainBuilder.buildStage();
+
+  stage.id = databaseBuilder.factory.buildStage({ ...stage, id: null, targetProfileId }).id;
+  await databaseBuilder.commit();
+
+  return stage;
+}
+
 describe('Integration | Repository | Target-profile-with-learning-content', () => {
 
   afterEach(() => {
@@ -118,6 +127,25 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
 
       // then
       expect(targetProfile.badges).to.deep.equal([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
+    });
+
+    it('should return target profile stages', async () => {
+      // given
+      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
+      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
+      airtableBuilder.mockLists(airtableObjects);
+      await databaseBuilder.commit();
+
+      const stage1 = await buildDomainAndDatabaseStage(targetProfileDB.id);
+      const stage2 = await buildDomainAndDatabaseStage(targetProfileDB.id);
+
+      // when
+      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
+
+      // then
+      expect(targetProfile.stages).to.deep.equal([ stage1, stage2 ]);
     });
 
     it('should return target profile filled with objects with appropriate translation', async () => {
@@ -223,6 +251,26 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       // then
       expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
+    });
+
+    it('should return target profile stages', async () => {
+      // given
+      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
+      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
+      airtableBuilder.mockLists(airtableObjects);
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
+      await databaseBuilder.commit();
+
+      const stage1 = await buildDomainAndDatabaseStage(targetProfileDB.id);
+      const stage2 = await buildDomainAndDatabaseStage(targetProfileDB.id);
+
+      // when
+      const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+
+      // then
+      expect(targetProfile.stages).to.deep.equal([ stage1, stage2 ]);
     });
 
     it('should return target profile badges without imageUrl', async () => {

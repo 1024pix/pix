@@ -46,7 +46,6 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
         campaign,
         campaignParticipationInfo,
         targetProfileWithLearningContent,
-        stages: [],
         participantKnowledgeElementsByCompetenceId: {
           [targetProfileWithLearningContent.competences[0].id]: [],
         },
@@ -767,7 +766,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               competences: [competence],
               areas: [area],
             });
-            const stages = [
+            targetProfileWithLearningContent.stages = [
               domainBuilder.buildStage({ threshold: 33 }),
               domainBuilder.buildStage({ threshold: 66 }),
               domainBuilder.buildStage({ threshold: 99 }),
@@ -798,7 +797,6 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               campaign,
               campaignParticipationInfo,
               targetProfileWithLearningContent,
-              stages,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
             });
@@ -807,7 +805,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
             // then
-            const cols = _computeExpectedColumnsIndex(campaign, organization,  [],  stages);
+            const cols = _computeExpectedColumnsIndex(campaign, organization, [], targetProfileWithLearningContent.stages);
             expect(csvLine[cols.STAGE_REACHED]).to.equal(2);
           });
         });
@@ -830,7 +828,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               competences: [competence],
               areas: [area],
             });
-            const stages = [
+            targetProfileWithLearningContent.stages = [
               domainBuilder.buildStage({ threshold: 33 }),
               domainBuilder.buildStage({ threshold: 66 }),
               domainBuilder.buildStage({ threshold: 99 }),
@@ -861,7 +859,6 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               campaign,
               campaignParticipationInfo,
               targetProfileWithLearningContent,
-              stages,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
             });
@@ -870,7 +867,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
             // then
-            const cols = _computeExpectedColumnsIndex(campaign, organization,  [],  stages);
+            const cols = _computeExpectedColumnsIndex(campaign, organization, [], targetProfileWithLearningContent.stages);
             expect(csvLine[cols.STAGE_REACHED]).to.equal(3);
           });
         });
@@ -894,7 +891,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             competences: [competence],
             areas: [area],
           });
-          const stages = [
+          targetProfileWithLearningContent.stages = [
             domainBuilder.buildStage({ threshold: 30 }),
             domainBuilder.buildStage({ threshold: 60 }),
           ];
@@ -924,7 +921,6 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             campaign,
             campaignParticipationInfo,
             targetProfileWithLearningContent,
-            stages,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
           });
@@ -933,7 +929,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           const csvLine = campaignAssessmentCsvLine.toCsvLine();
 
           // then
-          const cols = _computeExpectedColumnsIndex(campaign, organization, [], stages);
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [], targetProfileWithLearningContent.stages);
           expect(csvLine[cols.STAGE_REACHED]).to.equal('NA');
         });
       });
