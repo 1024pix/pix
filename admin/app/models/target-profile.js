@@ -8,6 +8,7 @@ export default class TargetProfile extends Model {
   @attr('string') organizationId;
 
   @hasMany('organization') organizations;
+  @hasMany('skill') skills;
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',
