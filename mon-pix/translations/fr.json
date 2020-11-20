@@ -75,9 +75,9 @@
             "assessment": {
                 "title": "Commencez votre parcours",
                 "action": "Je commence",
-                "announcement": "Démarrez votre parcours d'évaluation personnalisé.'<br>' Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
+                "announcement": "",
                 "details": "Durant ce parcours, vous aurez l’opportunité de :",
-                "legal": "Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.",
+                "legal": "",
                 "evaluate": {
                     "title": "Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :",
                     "complement": "Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.",
