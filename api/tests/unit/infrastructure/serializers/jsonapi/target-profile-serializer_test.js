@@ -1,6 +1,6 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
-const TargetProfileDTO = require('../../../../../lib/domain/read-models/TargetProfileDTO');
+const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
 
 describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
     it('should serialize target profile to JSONAPI', function() {
       // given
-      const targetProfile = new TargetProfileDTO({
+      const targetProfile = new TargetProfile({
         id: 132,
         organizationId: 12,
         name: 'Les compétences de BRO 2.0',
