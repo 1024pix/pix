@@ -982,6 +982,11 @@
         "pix": "Pix",
         "user": {
             "account": "",
+            "account-panel": {
+                "first-name": "",
+                "last-name": "",
+                "email": ""
+            },
             "certifications": "My certifications",
             "sign-out": "Log out",
             "tutorials": "My tutorials"
