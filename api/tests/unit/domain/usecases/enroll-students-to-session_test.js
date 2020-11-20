@@ -16,7 +16,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const referentId = Symbol('a referent id');
 
       const studentIds = [1, 2, 3];
-      const { organizationForReferents, schoolingRegistrations } =
+      const { organizationForReferent, schoolingRegistrations } =
         _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
 
       const expectedCertificationCandidates = schoolingRegistrations.map((sr) => {
@@ -32,12 +32,14 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
       schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
-      const membershipRepository = { findByUserId: sinon.stub() };
-      membershipRepository.findByUserId.withArgs({ userId: referentId }).resolves(organizationForReferents);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
+      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
+        organizationForReferent.id,
+      );
 
       // when
       await enrollStudentsToSession({
@@ -46,9 +48,9 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         referentId,
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
-        membershipRepository,
         schoolingRegistrationRepository,
         sessionRepository,
+        organizationRepository,
       });
 
       // then
@@ -63,17 +65,19 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const referentId = Symbol('an unauthorized referent id');
 
       const studentIds = [1, 2, 3];
-      const { organizationForReferents, schoolingRegistrations } =
+      const { organizationForReferent, schoolingRegistrations } =
         _buildNonMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
 
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
       schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
-      const membershipRepository = { findByUserId: sinon.stub() };
-      membershipRepository.findByUserId.withArgs({ userId: referentId }).resolves(organizationForReferents);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(session.id).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
+      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
+        organizationForReferent.id,
+      );
 
       // when
       const error = await catchErr(enrollStudentsToSession)({
@@ -81,7 +85,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         studentIds,
         referentId,
         schoolingRegistrationRepository,
-        membershipRepository,
+        organizationRepository,
         sessionRepository,
         certificationCenterMembershipRepository,
       });
@@ -107,7 +111,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         studentIds,
         referentId,
         certificationCenterMembershipRepository,
-        membershipRepository: undefined,
+        organizationRepository: undefined,
         schoolingRegistrationRepository: undefined,
         sessionRepository,
       });
@@ -122,18 +126,20 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       const sessionId = session.id;
       const studentIds = [];
       const referentId = Symbol('a referent id');
-      const { organizationForReferents, schoolingRegistrations } =
+      const { organizationForReferent, schoolingRegistrations } =
         _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
       schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
-      const membershipRepository = { findByUserId: sinon.stub() };
-      membershipRepository.findByUserId.withArgs({ userId: referentId }).resolves(organizationForReferents);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
       certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
+      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
+        organizationForReferent.id,
+      );
 
       // when
       await enrollStudentsToSession({
@@ -142,7 +148,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
         referentId,
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
-        membershipRepository,
+        organizationRepository,
         schoolingRegistrationRepository,
         sessionRepository,
       });
@@ -189,7 +195,7 @@ function _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds)
     });
   });
 
-  return { organizationForReferents: [{ organization: organizationForReferent }], schoolingRegistrations };
+  return { organizationForReferent, schoolingRegistrations };
 }
 
 function _buildNonMatchingReferentOrganisationAndSchoolingRegistrations(studentIds) {
@@ -199,7 +205,7 @@ function _buildNonMatchingReferentOrganisationAndSchoolingRegistrations(studentI
   });
 
   const organizationForReferent = domainBuilder.buildOrganization();
-  return { organizationForReferents: [{ organization: organizationForReferent }], schoolingRegistrations };
+  return { organizationForReferent, schoolingRegistrations };
 }
 
 class InMemorySCOCertificationCandidateRepository {

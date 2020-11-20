@@ -1,19 +1,13 @@
-const { ForbiddenAccess } = require('../errors');
 const { NotFoundError } = require('../errors');
 const StudentForEnrollement = require('../read-models/StudentForEnrollement');
 
 module.exports = async function findStudentsForEnrollement({
-  userId,
   certificationCenterId,
   sessionId,
-  certificationCenterMembershipRepository,
   organizationRepository,
   schoolingRegistrationRepository,
   certificationCandidateRepository,
 }) {
-  const hasAccess = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterId);
-  if (!hasAccess) throw new ForbiddenAccess(`User ${userId} is not a member of certification center ${certificationCenterId}`);
-
   try {
     const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
     const students = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ organizationId });
