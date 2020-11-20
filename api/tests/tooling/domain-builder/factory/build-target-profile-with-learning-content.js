@@ -7,6 +7,8 @@ const buildTargetedArea = require('./build-targeted-area');
 const buildTargetProfileWithLearningContent = function buildTargetProfileWithLearningContent({
   id = 123,
   name = 'Pour les champions du monde 1998 !! Merci Aimé',
+  outdated = false,
+  isPublic = false,
   skills = [],
   tubes = [],
   competences = [],
@@ -16,6 +18,8 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
   return new TargetProfileWithLearningContent({
     id,
     name,
+    outdated,
+    isPublic,
     skills,
     tubes,
     competences,
@@ -27,6 +31,8 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
 buildTargetProfileWithLearningContent.withSimpleLearningContent = function withSimpleLearningContent({
   id = 123,
   name = 'Pour les champions du monde 1998 !! Merci Aimé',
+  outdated = false,
+  isPublic = false,
   badges = [],
 } = {}) {
   const skill = buildTargetedSkill({ id: 'skillId', tubeId: 'tubeId' });
@@ -36,6 +42,8 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
   return new TargetProfileWithLearningContent({
     id,
     name,
+    outdated,
+    isPublic,
     skills: [skill],
     tubes: [tube],
     competences: [competence],

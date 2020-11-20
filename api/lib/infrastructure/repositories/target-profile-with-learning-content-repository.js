@@ -17,7 +17,7 @@ module.exports = {
 
   async getWithBadges({ id, locale = FRENCH_FRANCE }) {
     const results = await knex('target-profiles')
-      .select('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId', knex.raw('ARRAY_AGG (badges.title) badges'))
+      .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles_skills.skillId', knex.raw('ARRAY_AGG (badges.title) badges'))
       .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
       .leftJoin('badges', 'badges.targetProfileId', 'target-profiles.id')
       .where('target-profiles.id', id)
@@ -32,7 +32,7 @@ module.exports = {
 
   async getByCampaignId({ campaignId, locale = FRENCH_FRANCE }) {
     const results = await knex('campaigns')
-      .select('target-profiles.id', 'target-profiles.name', 'target-profiles_skills.skillId')
+      .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles_skills.skillId')
       .join('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
       .where('campaigns.id', campaignId);
@@ -58,6 +58,8 @@ async function _toDomain(results, locale) {
   return new TargetProfileWithLearningContent({
     id: results[0].id,
     name: results[0].name,
+    outdated: results[0].outdated,
+    isPublic: results[0].isPublic,
     skills,
     tubes,
     competences,

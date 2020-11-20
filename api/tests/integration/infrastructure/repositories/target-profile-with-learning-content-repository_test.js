@@ -57,12 +57,14 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         title: 'area1_Title',
         competences: [competence1_1, competence1_2],
       });
-      const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
+      const targetProfileDB = databaseBuilder.factory.buildTargetProfile({ outdated: false, isPublic: true });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: 'recArea1_Competence1_Tube1_Skill2' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: 'recArea1_Competence2_Tube1_Skill1' });
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
         id: targetProfileDB.id,
         name: targetProfileDB.name,
+        outdated: targetProfileDB.outdated,
+        isPublic: targetProfileDB.isPublic,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
         competences: [competence1_1, competence1_2],
@@ -107,6 +109,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
         id: targetProfileDB.id,
         name: targetProfileDB.name,
+        outdated: targetProfileDB.outdated,
+        isPublic: targetProfileDB.isPublic,
         skills: [skill1_1_1_1],
         tubes: [tube1_1_1],
         competences: [competence1_1],
@@ -131,6 +135,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({
         id: targetProfileDB.id,
         name: targetProfileDB.name,
+        outdated: targetProfileDB.outdated,
+        isPublic: targetProfileDB.isPublic,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
       const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({
@@ -209,6 +215,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
         id: targetProfileDB.id,
         name: targetProfileDB.name,
+        outdated: targetProfileDB.outdated,
+        isPublic: targetProfileDB.isPublic,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
         competences: [competence1_1, competence1_2],
@@ -232,6 +240,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({
         id: targetProfileDB.id,
         name: targetProfileDB.name,
+        outdated: targetProfileDB.outdated,
+        isPublic: targetProfileDB.isPublic,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
