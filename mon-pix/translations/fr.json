@@ -858,6 +858,9 @@
             "title": "Pour réussir la prochaine fois",
             "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
         },
+        "user-account": {
+            "title": "Mon compte"
+        },
         "user-tutorials": {
             "title": "Mes tutos",
             "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
