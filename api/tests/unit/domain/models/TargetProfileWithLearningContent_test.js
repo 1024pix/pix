@@ -111,6 +111,62 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('hasBadges', () => {
+
+    it('should return true when target profile has badges', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const badge = domainBuilder.buildBadge();
+      targetProfile.badges = [badge];
+
+      // when / then
+      expect(targetProfile.hasBadges()).to.be.true;
+    });
+
+    it('should return false when target profile has no badges', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      targetProfile.badges = [];
+
+      // when / then
+      expect(targetProfile.hasBadges()).to.be.false;
+    });
+  });
+
+  describe('hasReachableStages', () => {
+
+    it('should return true when target profile has reachable stages', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const stage1 = domainBuilder.buildStage({ threshold: 0 });
+      const stage2 = domainBuilder.buildStage({ threshold: 50 });
+      const stage3 = domainBuilder.buildStage({ threshold: 10 });
+      targetProfile.stages = [stage1, stage2, stage3];
+
+      // when / then
+      expect(targetProfile.hasReachableStages()).to.be.true;
+    });
+
+    it('should return false when target profile has no reachable stages', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const stage = domainBuilder.buildStage({ threshold: 0 });
+      targetProfile.stages = [stage];
+
+      // when / then
+      expect(targetProfile.hasReachableStages()).to.be.false;
+    });
+
+    it('should return false when target profile has no stages at all', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      targetProfile.stages = [];
+
+      // when / then
+      expect(targetProfile.hasReachableStages()).to.be.false;
+    });
+  });
+
   describe('getCompetence', () => {
 
     it('should return the competence when its in the target profile', () => {
