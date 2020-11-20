@@ -52,6 +52,14 @@ class TargetProfileWithLearningContent {
     return this.skills.some((skill) => skill.id === skillId);
   }
 
+  hasBadges() {
+    return this.badges.length > 0;
+  }
+
+  hasReachableStages() {
+    return this.reachableStages.length > 0;
+  }
+
   getTubeIdOfSkill(skillId) {
     const skillTube = this.tubes.find((tube) => tube.hasSkill(skillId));
 

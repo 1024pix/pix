@@ -55,7 +55,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
       await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent);
 
     let acquiredBadgesByUsers;
-    if (!_.isEmpty(targetProfileWithLearningContent.badges)) {
+    if (targetProfileWithLearningContent.hasBadges()) {
       const userIds = campaignParticipationInfoChunk.map((campaignParticipationInfo) => campaignParticipationInfo.userId);
       acquiredBadgesByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
     }
@@ -115,7 +115,7 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organiz
     'Date de début',
     'Partage (O/N)',
     'Date du partage',
-    ...(targetProfile.reachableStages[0] ? [`Palier obtenu (/${targetProfile.reachableStages.length})`] : []),
+    ...(targetProfile.hasReachableStages() ? [`Palier obtenu (/${targetProfile.reachableStages.length})`] : []),
 
     ...(_.flatMap(targetProfile.badges, (badge) => [
       `${badge.title} obtenu (O/N)`,
