@@ -25,8 +25,10 @@ module.exports = class DatabaseBuilder {
     } catch (err) {
       console.error(`Erreur dans databaseBuilder.commit() : ${err}`);
       this._purgeDirtiness();
+      throw err;
+    } finally {
+      this.databaseBuffer.objectsToInsert = [];
     }
-    this.databaseBuffer.objectsToInsert = [];
   }
 
   async clean() {
