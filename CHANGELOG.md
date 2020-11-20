@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.221.0 (20/11/2020)
+
+- [#2162](https://github.com/1024pix/pix/pull/2162) [FEATURE] Supprimer la règle d'appartenance à Pix Orga pour ajouter des élèves à une session dans Pix Certif (PIX-1614)
+- [#2171](https://github.com/1024pix/pix/pull/2171) [FEATURE] Utiliser le tag "POLE EMPLOI" pour l'envoi des résultats à Pôle Emploi (PIX-1562).
+- [#2161](https://github.com/1024pix/pix/pull/2161) [FEATURE] Ajouter du markdown dans les descriptions de paliers et de badges (PIX-1619).
+- [#2154](https://github.com/1024pix/pix/pull/2154) [BUGFIX] Ne pas afficher la page de réconciliation si l'élève est déjà réconcilié (PIX-1064).
+- [#2166](https://github.com/1024pix/pix/pull/2166) [BUGFIX] 2ème correction du payload d'envoi des résultats à Pôle Emploi (PIX-1622).
+- [#2072](https://github.com/1024pix/pix/pull/2072) [TECH] Amélioration des performances pour l'analyse de campagne (PIX-1598)
+- [#2158](https://github.com/1024pix/pix/pull/2158) [TECH] Limiter le temps d'attente au démarrage des tests E2E sur la CI.
+- [#2170](https://github.com/1024pix/pix/pull/2170) [INFRA] Faire que le DatabaseBuilder lance une exception quand son commit échoue
+- [#2153](https://github.com/1024pix/pix/pull/2153) [TRANSLATION] Mise à jour des traductions Pix
+- [#2168](https://github.com/1024pix/pix/pull/2168) [FIX] Correction d'un flacky test sur la création de campagne (PIX-1474)
+
 ## v2.220.0 (18/11/2020)
 
 - [#2126](https://github.com/1024pix/pix/pull/2126) [FEATURE] Garder la langue de l'utilisateur quand il la change (PIX-1566).
