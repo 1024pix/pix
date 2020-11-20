@@ -858,6 +858,9 @@
             "title": "For better results next time",
             "info": "These tutorial links have been suggested by Pix users."
         },
+        "user-account": {
+            "title": ""
+        },
         "user-tutorials": {
             "title": "My tutorials",
             "description": "Improve with the help of tutorials suggested by the Pix user community.",

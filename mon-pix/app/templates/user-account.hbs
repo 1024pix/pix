@@ -1,0 +1,11 @@
+{{page-title (t 'pages.user-account.title')}}
+<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+  <burger.outlet>
+
+    <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}}/>
+
+    <UserAccountPanel />
+
+    <Footer />
+  </burger.outlet>
+</BurgerMenu>
