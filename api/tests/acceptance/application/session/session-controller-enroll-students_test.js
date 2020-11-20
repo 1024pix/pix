@@ -1,6 +1,5 @@
 const { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const Membership = require('../../../../lib/domain/models/Membership');
 const config = require('../../../../lib/config');
 
 describe('Acceptance | Controller | session-controller-enroll-students-to-session', () => {
@@ -81,16 +80,14 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       beforeEach(async () => {
         config.featureToggles.certifPrescriptionSco = true;
 
-        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+        const { id: certificationCenterId, externalId } = databaseBuilder.factory.buildCertificationCenter();
+
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-        databaseBuilder.factory.buildMembership({
-          organizationRole: Membership.roles.MEMBER,
-          organizationId,
-          userId,
-          disabledAt: null,
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization({
+          type: 'SCO',
+          externalId,
         });
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
 
         student = databaseBuilder.factory.buildSchoolingRegistration({ organizationId });
 

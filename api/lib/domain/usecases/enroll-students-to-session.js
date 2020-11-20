@@ -8,7 +8,7 @@ module.exports = async function enrollStudentsToSession({
   studentIds,
   scoCertificationCandidateRepository,
   schoolingRegistrationRepository,
-  membershipRepository,
+  organizationRepository,
   certificationCenterMembershipRepository,
   sessionRepository,
 } = {}) {
@@ -19,10 +19,10 @@ module.exports = async function enrollStudentsToSession({
     throw new ForbiddenAccess('Impossible de modifier une session ne faisant pas partie de votre établissement');
   }
 
-  const referentOrganizationMemberships = await membershipRepository.findByUserId({ userId: referentId });
   const students = await schoolingRegistrationRepository.findByIds({ ids: studentIds });
 
-  if (!_doAllStudentsBelongToSameOrganizationAsReferent(students, referentOrganizationMemberships)) {
+  const doAllStudentsBelongToSameCertificationCenterAsSession = await _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository });
+  if (!doAllStudentsBelongToSameCertificationCenterAsSession) {
     throw new ForbiddenAccess('Impossible d\'inscrire un élève ne faisant pas partie de votre établissement');
   }
 
@@ -43,7 +43,9 @@ function _doesSessionBelongToSameCertificationCenterAsReferent(referentCertifica
   return referentCertificationCenterMemberships.some((membership) => membership.certificationCenter.id === session.certificationCenterId);
 }
 
-function _doAllStudentsBelongToSameOrganizationAsReferent(students, referentOrganizationMemberships) {
-  const membershipsOrganizationIds = referentOrganizationMemberships.map((m) => m.organization.id);
-  return _.every(students, (student) => membershipsOrganizationIds.includes(student.organizationId));
+async function _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository }) {
+  const certificationCenterId = session.certificationCenterId;
+  const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
+
+  return _.every(students, (student) => organizationId === student.organizationId);
 }

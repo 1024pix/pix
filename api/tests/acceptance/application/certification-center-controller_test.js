@@ -279,50 +279,6 @@ describe('Acceptance | API | Certification Center', () => {
         expect(_.map(response.result.data, 'id')).to.deep.equal(['3', '2', '5', '4', '1']);
       });
 
-      context('when the certification center does not exist', () => {
-
-        it('should return Forbidden Access when the certificationCenter does not exist', async () => {
-          // given
-          const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
-          databaseBuilder.factory.buildOrganization({ externalId });
-          const session = databaseBuilder.factory.buildSession();
-          await databaseBuilder.commit();
-
-          const notExistingCertificationCenter = { id: '10203' };
-          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, notExistingCertificationCenter, session);
-
-          // when
-          const response = await server.inject(request);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-          expect(response.result.errors[0].title).to.equal('Forbidden');
-          expect(response.result.errors[0].detail).to.equal(`User ${user.id} is not a member of certification center ${notExistingCertificationCenter.id}`);
-        });
-      });
-
-      context('when user is not a member of the certification center', () => {
-        let certificationCenterWhereUserDoesNotHaveAccess;
-
-        it('should return Forbidden Access when user are not register in the certificationCenter', async () => {
-          // given
-          const { user } = _buildUserWithCertificationCenterMemberShip(externalId);
-          databaseBuilder.factory.buildOrganization({ externalId });
-          certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
-          const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterWhereUserDoesNotHaveAccess.id });
-          await databaseBuilder.commit();
-
-          const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenterWhereUserDoesNotHaveAccess, session);
-
-          // when
-          const response = await server.inject(request);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-          expect(response.result.errors[0].title).to.equal('Forbidden');
-          expect(response.result.errors[0].detail).to.equal(`User ${user.id} is not a member of certification center ${certificationCenterWhereUserDoesNotHaveAccess.id}`);
-        });
-      });
     });
 
     context('when user is not connected', () => {
