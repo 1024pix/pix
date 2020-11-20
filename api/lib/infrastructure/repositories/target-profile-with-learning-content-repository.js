@@ -8,6 +8,7 @@ const TargetedArea = require('../../domain/models/TargetedArea');
 const Badge = require('../../domain/models/Badge');
 const BadgeCriterion = require('../../domain/models/BadgeCriterion');
 const BadgePartnerCompetence = require('../../domain/models/BadgePartnerCompetence');
+const Stage = require('../../domain/models/Stage');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
 const tubeDatasource = require('../../infrastructure/datasources/airtable/tube-datasource');
 const competenceDatasource = require('../../infrastructure/datasources/airtable/competence-datasource');
@@ -29,6 +30,7 @@ module.exports = {
     }
     const targetProfile = await _toDomain(results, locale);
     targetProfile.badges = await _findBadges(targetProfile.id);
+    targetProfile.stages = await _findStages(targetProfile.id);
     return targetProfile;
   },
 
@@ -45,6 +47,7 @@ module.exports = {
 
     const targetProfile = await _toDomain(results, locale);
     targetProfile.badges = await _findBadges(targetProfile.id);
+    targetProfile.stages = await _findStages(targetProfile.id);
     return targetProfile;
   },
 };
@@ -130,6 +133,18 @@ async function _findTargetedAreas(competences, locale) {
       competences: competencesByAreaId[airtableArea.id],
     });
   });
+}
+
+async function _findStages(targetProfileId) {
+  const stageRows = await knex('stages')
+    .select('stages.id', 'stages.threshold', 'stages.message', 'stages.title')
+    .where('stages.targetProfileId', targetProfileId);
+
+  if (_.isEmpty(stageRows)) {
+    return [];
+  }
+
+  return stageRows.map((row) => new Stage(row));
 }
 
 async function _findBadges(targetProfileId) {

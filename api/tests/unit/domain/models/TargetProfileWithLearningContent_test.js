@@ -66,6 +66,24 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('get#reachableStages', () => {
+
+    it('should return reachable stages ordered by threshold', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const stage1 = domainBuilder.buildStage({ threshold: 0 });
+      const stage2 = domainBuilder.buildStage({ threshold: 50 });
+      const stage3 = domainBuilder.buildStage({ threshold: 10 });
+      targetProfile.stages = [stage1, stage2, stage3];
+
+      // when
+      const reachableStages = targetProfile.reachableStages;
+
+      // then
+      expect(reachableStages).to.exactlyContainInOrder([stage3, stage2]);
+    });
+  });
+
   describe('hasSkill', () => {
 
     it('should return true when the skill is in target profile', () => {

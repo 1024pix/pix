@@ -11,6 +11,7 @@ class TargetProfileWithLearningContent {
     competences = [],
     areas = [],
     badges = [],
+    stages = [],
   } = {}) {
     this.id = id;
     this.name = name;
@@ -21,6 +22,7 @@ class TargetProfileWithLearningContent {
     this.competences = competences;
     this.areas = areas;
     this.badges = badges;
+    this.stages = stages;
   }
 
   get skillNames() {
@@ -37,6 +39,13 @@ class TargetProfileWithLearningContent {
 
   get competenceIds() {
     return this.competences.map((competence) => competence.id);
+  }
+
+  get reachableStages() {
+    return _(this.stages)
+      .filter(({ threshold }) => threshold > 0)
+      .sortBy('threshold')
+      .value();
   }
 
   hasSkill(skillId) {
