@@ -3,10 +3,9 @@
     <div class="page-size__label">Voir</div>
     <div class="page-size__choice">
       <select class="content-text content-text--small" {{on "change" this.changePageSize}}>
-        <option value="1" selected="{{if (eq this.pageSize 1) true}}">1</option>
-        <option value="2" selected="{{if (eq this.pageSize 2) true}}">2</option>
-        <option value="5" selected="{{if (eq this.pageSize 5) true}}">5</option>
-        <option value="10" selected="{{if (eq this.pageSize 10) true}}">10</option>
+        <option value="25" selected="{{if (eq this.pageSize 25) true}}">25</option>
+        <option value="50" selected="{{if (eq this.pageSize 50) true}}">50</option>
+        <option value="100" selected="{{if (eq this.pageSize 100) true}}">100</option>
       </select>
       <FaIcon class='page-size__choice--icon' @icon='sort'></FaIcon>
     </div>
