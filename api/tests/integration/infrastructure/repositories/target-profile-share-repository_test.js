@@ -33,7 +33,7 @@ describe('Integration | Repository | Target-profile-share', () => {
       // then
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(3);
-      expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileIdA, targetProfileIdB, targetProfileIdC]);
+      expect(_.map(targetProfileShares, 'targetProfileId')).exactlyContain([targetProfileIdA, targetProfileIdB, targetProfileIdC]);
     });
 
     it('should not erase old target profil share', async function() {
@@ -48,7 +48,7 @@ describe('Integration | Repository | Target-profile-share', () => {
       // then
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(3);
-      expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileIdA, targetProfileIdB, targetProfileIdC]);
+      expect(_.map(targetProfileShares, 'targetProfileId')).exactlyContain([targetProfileIdA, targetProfileIdB, targetProfileIdC]);
     });
   });
 });
