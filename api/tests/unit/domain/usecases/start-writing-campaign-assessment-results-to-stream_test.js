@@ -7,7 +7,7 @@ const campaignCsvExportService = require('../../../../lib/domain/services/campai
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
   const campaignRepository = { get: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
-  const targetProfileWithLearningContentRepository = { getWithBadges: () => undefined };
+  const targetProfileWithLearningContentRepository = { get: () => undefined };
   const organizationRepository = { get: () => undefined };
   const campaignParticipationInfoRepository = { findByCampaignId: () => undefined };
   const knowledgeElementRepository = { findTargetedGroupedByCompetencesForUsers: () => undefined };
@@ -27,7 +27,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     const campaign = domainBuilder.buildCampaign();
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(notAuthorizedUser.id).resolves(notAuthorizedUser);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').rejects();
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').rejects();
     sinon.stub(organizationRepository, 'get').rejects();
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').rejects();
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
@@ -74,7 +74,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
     sinon.stub(stageRepository, 'findByCampaignId').resolves([]);
@@ -133,7 +133,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
     sinon.stub(stageRepository, 'findByCampaignId').resolves([]);
@@ -185,7 +185,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
     sinon.stub(stageRepository, 'findByCampaignId').resolves([]);
@@ -232,12 +232,14 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
   it('should contains badges header when linked to target profile', async () => {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'PRO' });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: ['badge1', 'badge2'] });
+    const badge1 = domainBuilder.buildBadge({ title: 'badge1' });
+    const badge2 = domainBuilder.buildBadge({ title: 'badge2' });
+    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge1, badge2] });
     campaign.targetProfileId = targetProfile.id;
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
     sinon.stub(stageRepository, 'findByCampaignId').resolves([]);
@@ -290,7 +292,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
     sinon.stub(stageRepository, 'findByCampaignId').resolves([]);
@@ -345,7 +347,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
     sinon.stub(stageRepository, 'findByCampaignId').resolves(stages);
@@ -396,7 +398,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
     sinon.stub(stageRepository, 'findByCampaignId').resolves([]);
@@ -438,12 +440,12 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     // then
     expect(csv).to.equal(csvExpected);
   });
-  
+
   it('should process result for each participation and add it to csv', async () => {
     // given
     const { user: admin, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ type: 'SUP' });
     const badge = domainBuilder.buildBadge({ title: 'badge sup' });
-    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge.title] });
+    const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({ badges: [badge] });
     const participantInfo = domainBuilder.buildCampaignParticipationInfo({ createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-02-01') });
     const knowledgeElement = domainBuilder.buildKnowledgeElement({
       status: 'validated',
@@ -455,7 +457,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(admin.id).resolves(admin);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organizationId).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'getWithBadges').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: campaign.targetProfileId }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([participantInfo]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').resolves({
       [participantInfo.userId]: {

@@ -7,8 +7,8 @@ module.exports = function buildBadgePartnerCompetence(
     name = faker.lorem.words(),
     color = null,
     skillIds = [
-      faker.random.number(2),
-      faker.random.number(2),
+      `rec${faker.random.uuid()}`,
+      `rec${faker.random.uuid()}`,
     ],
   } = {}) {
   return new BadgePartnerCompetence({
