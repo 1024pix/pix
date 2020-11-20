@@ -1,3 +1,21 @@
+# Déploiement dans Scalingo 
+
+Créer une application dans Scalingo, la lier au repository
+
+Alimenter la variable d'environnement suivante 
+``` shell script
+PROJECT_DIR=high-level-tests/load-testing
+```
+
+Vérifier que le `Procfile` contient un serveur web factice pour que le premier déploiement fonctionne.
+````
+web: ruby -run -e httpd /dev/null -p $PORT
+````
+
+Déployer
+
+Une fois le déploiement effectué, vous pouvez le passer à 0 conteneurs et effectuer les tests dans un one-off
+
 # Génération des JDD
 
 ## fichier SIECLE
