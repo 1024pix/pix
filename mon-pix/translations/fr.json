@@ -644,20 +644,20 @@
             "pix-contest": {
                 "title": "Bienvenue dans cette session Pix-concours.",
                 "descriptions": {
-                    "description1": "Texte à modifier 1",
-                    "description2": "Texte à modifier 2",
-                    "description3": "Texte à modifier 3",
-                    "description4": "Texte à modifier 4",
-                    "description5": "Texte à modifier 5"
+                    "description1": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description2": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description3": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description4": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description5": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes"
                 },
                 "links": {
-                    "link1": "'<a href=\"/campagnes/CAMPTEST\">'Module 1'</a>'",
-                    "link2": "'<a href=\"Second lien\">'Nom du second module'</a>'",
-                    "link3": "'<a href=\"Troisième lien\">'Nom du troisième module'</a>'",
-                    "link4": "'<a href=\"Quatrième lien\">'Nom du quatrième module'</a>'",
-                    "link5": "'<a href=\"Cinquième lien\">'Nom du cinquième module'</a>'"
+                    "link1": "'<a href=\"/campagnes/CAMPTEST\">'Module Développer des documents textuels'</a>'",
+                    "link2": "'<a href=\"Second lien\">'Module Mener une recherche et une veille d’information'</a>'",
+                    "link3": "'<a href=\"Troisième lien\">'Module Gérer des données'</a>'",
+                    "link4": "'<a href=\"Quatrième lien\">'Module Traiter des données'</a>'",
+                    "link5": "'<a href=\"Cinquième lien\">'Module Interagir/partager des données'</a>'"
                 },
-                "rules": "Règles de l'épreuve",
+                "rules": "Rappel :'<br>'- Vous pouvez passer les modules dans l’ordre que vous voulez '<br>'- Vous pouvez arrêter et reprendre votre module '<br>'- Une fois la question validée, il n’est pas possible de modifier votre réponse",
                 "send-results": {
                     "button": "J'envoie ma copie",
                     "finished": "Votre copie a bien été transmise.",
