@@ -5,6 +5,7 @@ const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
 const CampaignReport = require('../../domain/models/CampaignReport');
 const queryBuilder = require('../utils/query-builder');
+const { fetchPage } = require('../utils/knex-utils');
 
 function _toDomain(bookshelfCampaign) {
   const dbCampaign = bookshelfCampaign.toJSON();
@@ -27,58 +28,6 @@ function _toDomain(bookshelfCampaign) {
   ]));
 }
 
-function _fromBookshelfCampaignWithReportDataToDomain(campaignWithReportData) {
-  const jsonCampaignWithReportData = campaignWithReportData.toJSON();
-
-  const campaignWithReport = _.pick(jsonCampaignWithReportData, [
-    'id',
-    'name',
-    'code',
-    'organizationId',
-    'creator',
-    'createdAt',
-    'targetProfileId',
-    'customLandingPageText',
-    'idPixLabel',
-    'externalIdHelpImageUrl',
-    'alternativeTextToExternalIdHelpImage',
-    'title',
-    'type',
-    'archivedAt',
-  ]);
-
-  campaignWithReport.campaignReport = new CampaignReport({
-    id: jsonCampaignWithReportData.id,
-    participationsCount: jsonCampaignWithReportData.participationsCount || 0,
-    sharedParticipationsCount: jsonCampaignWithReportData.sharedParticipationsCount || 0,
-  });
-
-  return new Campaign(campaignWithReport);
-}
-
-function _countSharedCampaignParticipations(qb) {
-  return qb.leftJoin(
-    knex('campaign-participations')
-      .select('campaignId')
-      .count('* as sharedParticipationsCount')
-      .groupBy('campaignId', 'isShared')
-      .having('isShared', '=', true)
-      .as('isShared'),
-    'campaigns.id', 'isShared.campaignId',
-  );
-}
-
-function _countCampaignParticipations(qb) {
-  return qb.leftJoin(
-    knex('campaign-participations')
-      .select('campaignId')
-      .count('* as participationsCount')
-      .groupBy('campaignId')
-      .as('participations'),
-    'campaigns.id', 'participations.campaignId',
-  );
-}
-
 function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorName }) {
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
@@ -91,17 +40,6 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorNam
   if (creatorName) {
     qb.whereRaw('(LOWER("users"."firstName") LIKE ? OR LOWER("users"."lastName") LIKE ?)', [`%${creatorName.toLowerCase()}%`, `%${creatorName.toLowerCase()}%`]);
   }
-}
-
-async function _hasCampaignsInOrganization({ organizationId }) {
-  const result = await BookshelfCampaign
-    .query((qb) => {
-      qb.select('id')
-        .where('campaigns.organizationId', organizationId)
-        .limit(1);
-    }).fetch();
-
-  return Boolean(result);
 }
 
 module.exports = {
@@ -163,25 +101,36 @@ module.exports = {
   },
 
   async findPaginatedFilteredByOrganizationIdWithCampaignReports({ organizationId, filter, page }) {
-    const { models, pagination } = await BookshelfCampaign
-      .query((qb) => {
-        qb.select('campaigns.*', 'participations.participationsCount', 'isShared.sharedParticipationsCount')
-          .innerJoin('users', 'users.id', 'campaigns.creatorId')
-          .where('campaigns.organizationId', organizationId)
-          .modify(_setSearchFiltersForQueryBuilder, filter)
-          .modify(_countCampaignParticipations)
-          .modify(_countSharedCampaignParticipations)
-          .orderByRaw('DATE(campaigns."createdAt") DESC');
-      })
-      .fetchPage({
-        page: page.number,
-        pageSize: page.size,
-        withRelated: ['creator'],
+    const query = knex('campaigns')
+      .distinct('campaigns.id')
+      .select(
+        'campaigns.*',
+        'users.id AS "creatorId"',
+        'users.firstName',
+        'users.lastName',
+        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER (partition by "campaigns"."id") AS "participationsCount"'),
+        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isShared" IS TRUE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
+      )
+      .join('users', 'users.id', 'campaigns.creatorId')
+      .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+      .where('campaigns.organizationId', organizationId)
+      .modify(_setSearchFiltersForQueryBuilder, filter)
+      .orderBy('campaigns.createdAt', 'DESC');
+
+    const { results, pagination } = await fetchPage(query, page);
+    const atLeastOneCampaign = await knex('campaigns').select('id').where({ organizationId }).first(1);
+    const hasCampaigns = Boolean(atLeastOneCampaign);
+
+    const campaignsWithReports = results.map((result) => {
+      const campaignReport = new CampaignReport({
+        id: result.id,
+        participationsCount: result.participationsCount,
+        sharedParticipationsCount: result.sharedParticipationsCount,
       });
+      const creator = { id: result.creatorId, firstName: result.firstName, lastName: result.lastName };
 
-    const hasCampaigns = await _hasCampaignsInOrganization({ organizationId });
-
-    const campaignsWithReports = models.map(_fromBookshelfCampaignWithReportDataToDomain);
+      return new Campaign({ ...result, campaignReport, creator });
+    });
     return { models: campaignsWithReports, meta: { ...pagination, hasCampaigns } };
   },
 
