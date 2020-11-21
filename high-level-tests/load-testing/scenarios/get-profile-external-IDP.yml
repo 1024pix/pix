@@ -1,0 +1,85 @@
+config:
+  target: ""
+  http:
+    pool: 10
+    # Debug: fail fast i
+    timeout: 5
+  phases:
+    #  duration unit is in seconds
+    #  Arrival rate = Virtual user count per second
+    #  Arrival rate = 10 => In 1 second, 10 VU are created and execute the scenario
+    - duration: 1
+      arrivalRate: 1
+      name: "Test connectivity"
+#    - duration: 30
+#      arrivalRate: 10
+#      rampTo: 50
+#      name: "Warm up the application"
+scenarios:
+  - name: 'Visite du profil avec connexion GAR'
+    flow:
+
+      # Connect to GAR
+      # curl --request POST http://localhost:7000/signin --data-raw "IDO=1234567&PRE=Saml&NOM=Jackson"
+
+      # Artillery follow redirect headers, but GAR use JS redirection, so ignored
+      # Here it won't work, so we do it manually
+
+      # Reply with
+      # <form method="post" name="hiddenform" action="http://localhost:4200/api/saml/assert">
+      # <input type="hidden" name="SAMLResponse"  value="PHNhbWxwOlJ(...)"
+      # <script language="javascript" type="text/javascript">
+      #        window.setTimeout(function(){document.forms[0].submit();}, 0);
+      # </script>
+
+      - function: "setExternalUser"
+#      - log: "SAMLRequest is {{ samlRequest }}"
+
+      - post:
+          url: "{{ $processEnvironment.TARGET_EXTERNAL_IDP_URL }}/signin"
+          headers:
+            Content-Type: "application/x-www-form-urlencoded"
+#          body: "IDO=1234567&PRE=Saml&NOM=Jackson"
+          body: "{{ samlRequest }}"
+          expect:
+            - statusCode: 200
+          capture:
+            - selector: "input"
+              attr: "value"
+              as:   "SAMLResponse"
+
+#      - log: "SAMLResponse is {{ SAMLResponse }}"
+
+      # Fake low-bandwidth latency as connection can be issued from anywhere, especially from countryside
+#      - think: 1
+
+      # Authenticate user
+      - post:
+          beforeRequest: encodeSAMLRequest
+          url: "{{ $processEnvironment.TARGET_API_URL }}/saml/assert/"
+          followRedirect: false
+          headers:
+            Content-Type: "application/x-www-form-urlencoded"
+          body: "SAMLResponse={{SAMLResponse}}&RelayState="
+          expect:
+            - statusCode: 302
+          capture:
+            - header: location
+              as: "location"
+
+      - function: "extractAccessTokenFromLocation"
+
+#      - log: "accessToken is {{ accessToken }}"
+
+      # Get user profile to check token
+      - get:
+          url: "{{ $processEnvironment.TARGET_API_URL }}/users/me"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          expect:
+            - statusCode: 200
+          capture:
+            - json: "$.data.attributes.lang"
+              as: "userLang"
+
+#      - log: "user lang is {{ userLang }}"

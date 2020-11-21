@@ -1,0 +1,24 @@
+config:
+  http:
+    pool: 10
+  phases:
+    #  duration unit is in seconds
+    #  Arrival rate = Virtual user count per second
+    #  Arrival rate = 10 => In 1 second, 10 VU are created and execute the scenario
+    - duration: 1
+      arrivalRate: 1
+      name: "Test connectivity"
+    - duration: 30
+      arrivalRate: 10
+      rampTo: 50
+      name: "Warm up the application"
+    - duration: 60
+      arrivalRate: 50
+      name: "Sustained max load"
+scenarios:
+  - name: 'Obtenir la version de l API'
+    flow:
+
+      # Get user profile to check token
+      - get:
+          url: "/api"

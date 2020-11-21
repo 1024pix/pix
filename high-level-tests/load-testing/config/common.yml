@@ -3,5 +3,13 @@ config:
   environments:
     localhost:
       target: http://localhost:3000
+    review-app:
+      target:  "{{ $processEnvironment.TARGET_API_URL }}"
     staging:
       target: https://integration.pix.fr
+#  Faking target is a dirty workaround for dealing with more than one base URL => https://github.com/artilleryio/artillery/issues/303
+    no-target:
+      target: http
+#  Wait for this PR to be merged to uncomment (otherwise it clutters the output) when test is OK => https://github.com/artilleryio/artillery-plugin-expect/pull/13
+#      plugins:
+#        expect: {}

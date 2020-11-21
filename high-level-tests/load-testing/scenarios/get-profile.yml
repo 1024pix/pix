@@ -1,0 +1,34 @@
+config:
+  http:
+    pool: 10
+  phases:
+    #  duration unit is in seconds
+    #  Arrival rate = Virtual user count per second
+    #  Arrival rate = 10 => In 1 second, 10 VU are created and execute the scenario
+    - duration: 10
+      arrivalRate: 1
+      name: "Test connectivity"
+
+scenarios:
+  - name: 'Visite du profil'
+    flow:
+
+      # Authenticate user
+      - post:
+          url: "/api/token"
+          headers:
+            Content-Type: "application/x-www-form-urlencoded"
+          body: "grant_type=password&username=sco.admin%40example.net&password=pix123&scope=pix-orga"
+
+          capture:
+            - json: "$.access_token"
+              as: "accessToken"
+            - json: "$.user_id"
+              as: "userId"
+
+      # Get user profile to check token
+      - get:
+          url: "/api/users/me"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
