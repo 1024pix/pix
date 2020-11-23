@@ -67,8 +67,14 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
   }
 
   _handleError(err, index) {
+    const column = this._columns.find((column) => column.name === err.key);
+
     if (err.why === 'uniqueness') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Identifiant unique” de cette ligne est présent plusieurs fois dans le fichier.`);
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” de cette ligne est présent plusieurs fois dans le fichier.`);
+    }
+
+    if (err.why === 'not_valid_insee_code') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” n'est pas au format INSEE.`);
     }
    
     super._handleError(...arguments);
