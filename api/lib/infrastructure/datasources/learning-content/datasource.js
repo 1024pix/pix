@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
+const lcms = require('../../lcms');
 const LearningContentResourceNotFound = require('./LearningContentResourceNotFound');
 const cache = require('../../caches/learning-content-cache');
 
@@ -52,6 +53,12 @@ module.exports = {
     const result = Object.assign({}, _DatasourcePrototype, props);
     _.bindAll(result, _.functions(result));
     return result;
+  },
+
+  async refreshLearningContentCacheRecords() {
+    const learningContent = await lcms.getLatestRelease();
+    await cache.set('LearningContent', learningContent);
+    return learningContent;
   },
 
 };
