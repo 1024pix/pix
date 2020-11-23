@@ -11,7 +11,7 @@ const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/us
 
 describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
-  const userRelatedToStudent = domainBuilder.buildUser({ username: null });
+  const userRelatedToStudent = domainBuilder.buildUser({ username: null, password:'' });
   const organization = userRelatedToStudent.memberships[0].organization;
   const organizationId = userRelatedToStudent.memberships[0].organization.id;
 
