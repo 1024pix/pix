@@ -7,8 +7,8 @@ const cache = require('../../caches/learning-content-cache');
 const _DatasourcePrototype = {
 
   async _doList() {
-    const airtableRawObjects = await airtable.findRecords(this.tableName, this.usedFields);
-    return airtableRawObjects.map(this.fromAirTableObject);
+    const learningContent = await lcms.getLatestRelease();
+    return learningContent[this.modelName];
   },
 
   async get(id) {

@@ -13,7 +13,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
   const someDatasource = dataSource.extend({
 
-    modelName: 'AirtableModel',
+    modelName: 'learningContentModel',
 
     tableName: 'Airtable_table',
 
@@ -101,21 +101,26 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
   });
 
   describe('#list', () => {
+    let learningContent;
 
     beforeEach(() => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
 
-      sinon.stub(airtable, 'findRecords').callsFake(async (tableName, usedFields) => {
-        return [{ id: 1, tableName, fields: usedFields }];
-      });
+      learningContent = {
+        learningContentModel: [
+          { id: 'rec1', property: 'value1' },
+          { id: 'rec2', property: 'value2' },
+        ],
+      };
+      sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
     });
 
-    it('should fetch all the records of a given type (table) from Airtable (or its cached copy)', async () => {
+    it('should fetch all the records of a given type from LCMS API (or its cached copy)', async () => {
       // when
-      const record = await someDatasource.list();
+      const learningContentModelObjects = await someDatasource.list();
 
       // then
-      expect(record).to.deep.equal([{ id: 1, tableName: 'Airtable_table', fields: ['Shi', 'Foo', 'Bar'] }]);
+      expect(learningContentModelObjects).to.deep.equal(learningContent.learningContentModel);
     });
 
     it('should correctly manage the `this` context', async () => {
@@ -123,10 +128,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       const unboundList = someDatasource.list;
 
       // when
-      const record = await unboundList();
+      const learningContentModelObjects = await unboundList();
 
       // then
-      expect(record).to.deep.equal([{ id: 1, tableName: 'Airtable_table', fields: ['Shi', 'Foo', 'Bar'] }]);
+      expect(learningContentModelObjects).to.deep.equal(learningContent.learningContentModel);
     });
 
     it('should be cachable', async () => {
@@ -146,9 +151,9 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
       sinon.stub(cache, 'set');
       learningContent = {
-        LearningContentModel: [
-          { id: 'rec1', tableName: 'Airtable_table', fields: 'value1' },
-          { id: 'rec2', tableName: 'Airtable_table', fields: 'value2' },
+        learningContentModel: [
+          { id: 'rec1', property: 'value1' },
+          { id: 'rec2', property: 'value2' },
         ],
       };
       sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
