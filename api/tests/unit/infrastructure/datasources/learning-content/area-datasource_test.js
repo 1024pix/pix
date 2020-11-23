@@ -1,40 +1,17 @@
-const { expect, domainBuilder, sinon } = require('../../../../test-helper');
+const { expect, sinon } = require('../../../../test-helper');
 const areaDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
-const areaRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
-const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
-const airtable = require('../../../../../lib/infrastructure/airtable');
+const lcms = require('../../../../../lib/infrastructure/lcms');
 
-describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () => {
-
-  describe('#fromAirTableObject', () => {
-
-    it('should create a Area from the AirtableRecord', () => {
-      // given
-      const expectedArea = domainBuilder.buildAreaAirtableDataObject();
-
-      // when
-      const area = areaDatasource.fromAirTableObject(areaRawAirTableFixture());
-
-      // then
-      expect(area).to.deep.equal(expectedArea);
-    });
-  });
+describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', () => {
 
   describe('#findByRecordIds', () => {
 
     it('should return an array of matching airtable area data objects', async function() {
       // given
-      const rawArea1 = areaRawAirTableFixture('RECORD_ID_RAW_AREA_1');
-      const rawArea2 = areaRawAirTableFixture('RECORD_ID_RAW_AREA_2');
-      const rawArea3 = areaRawAirTableFixture('RECORD_ID_RAW_AREA_3');
-      const rawArea4 = areaRawAirTableFixture('RECORD_ID_RAW_AREA_4');
-
-      const records = [rawArea1, rawArea2, rawArea3, rawArea4];
-      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
+      const records = [ { id: 'recArea0' }, { id: 'recArea1' }, { id: 'recArea2' }];
+      sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });
       const expectedAreaIds = [
-        rawArea1.fields['id persistant'],
-        rawArea2.fields['id persistant'],
-        rawArea4.fields['id persistant'],
+        'recArea0','recArea1',
       ];
 
       // when
@@ -45,10 +22,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () =>
 
     it('should return an empty array when there are no objects matching the ids', async function() {
       // given
-      const rawArea1 = areaRawAirTableFixture('RECORD_ID_RAW_AREA_1');
-
-      const records = [rawArea1];
-      sinon.stub(airtable, 'findRecords').callsFake(makeAirtableFake(records));
+      const records = [{ id: 'recArea0' }];
+      sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });
 
       // when
       const foundAreas = await areaDatasource.findByRecordIds(['some_other_id']);
