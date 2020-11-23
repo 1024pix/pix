@@ -1,6 +1,6 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
-const AirtableDatasources = require('../../../../lib/infrastructure/datasources/airtable');
+const AirtableDatasources = require('../../../../lib/infrastructure/datasources/learning-content');
 const logger = require('../../../../lib/infrastructure/logger');
 const _ = require('lodash');
 
@@ -15,26 +15,26 @@ describe('Unit | Controller | cache-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(AirtableDatasources.ChallengeDatasource, 'refreshAirtableCacheRecord');
+      sinon.stub(AirtableDatasources.ChallengeDatasource, 'refreshLearningContentCacheRecord');
     });
 
     it('should reply with null when the cache key exists', async () => {
       // given
       const numberOfDeletedKeys = 1;
-      AirtableDatasources.ChallengeDatasource.refreshAirtableCacheRecord.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves(numberOfDeletedKeys);
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // then
-      expect(AirtableDatasources.ChallengeDatasource.refreshAirtableCacheRecord).to.have.been.calledWithExactly('recABCDEF');
+      expect(AirtableDatasources.ChallengeDatasource.refreshLearningContentCacheRecord).to.have.been.calledWithExactly('recABCDEF');
       expect(response).to.be.null;
     });
 
     it('should reply with null when the cache key does not exist', async () => {
       // given
       const numberOfDeletedKeys = 0;
-      AirtableDatasources.ChallengeDatasource.refreshAirtableCacheRecord.resolves(numberOfDeletedKeys);
+      AirtableDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves(numberOfDeletedKeys);
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
@@ -53,8 +53,8 @@ describe('Unit | Controller | cache-controller', () => {
         // given
         const numberOfDeletedKeys = 0;
         _.forEach(AirtableDatasources, (datasource) => {
-          sinon.stub(datasource, 'refreshAirtableCacheRecords');
-          datasource.refreshAirtableCacheRecords.resolves(numberOfDeletedKeys);
+          sinon.stub(datasource, 'refreshLearningContentCacheRecords');
+          datasource.refreshLearningContentCacheRecords.resolves(numberOfDeletedKeys);
         });
 
         // when
@@ -62,7 +62,7 @@ describe('Unit | Controller | cache-controller', () => {
 
         // then
         _.forEach(AirtableDatasources, (datasource) =>
-          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce,
+          expect(datasource.refreshLearningContentCacheRecords).to.have.been.calledOnce,
         );
         expect(response.statusCode).to.equal(202);
       });
@@ -76,8 +76,8 @@ describe('Unit | Controller | cache-controller', () => {
         sinon.stub(logger, 'error');
         datasourcesCount = Object.keys(AirtableDatasources).length;
         _.forEach(AirtableDatasources, (datasource) => {
-          sinon.stub(datasource, 'refreshAirtableCacheRecords');
-          datasource.refreshAirtableCacheRecords.rejects();
+          sinon.stub(datasource, 'refreshLearningContentCacheRecords');
+          datasource.refreshLearningContentCacheRecords.rejects();
         });
 
         // when
@@ -92,7 +92,7 @@ describe('Unit | Controller | cache-controller', () => {
       it('should call log errors as many times as there are datasources', async () => {
         // then
         _.forEach(AirtableDatasources, (datasource) =>
-          expect(datasource.refreshAirtableCacheRecords).to.have.been.calledOnce,
+          expect(datasource.refreshLearningContentCacheRecords).to.have.been.calledOnce,
         );
         expect(logger.error.callCount).to.equal(datasourcesCount);
       });

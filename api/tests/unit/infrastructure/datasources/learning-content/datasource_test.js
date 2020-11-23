@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../../test-helper');
-const dataSource = require('../../../../../lib/infrastructure/datasources/airtable/datasource');
+const dataSource = require('../../../../../lib/infrastructure/datasources/learning-content/datasource');
 const airtable = require('../../../../../lib/infrastructure/airtable');
-const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
+const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/AirtableResourceNotFound');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
@@ -137,7 +137,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
     });
   });
 
-  describe('#refreshAirtableCacheRecords', () => {
+  describe('#refreshLearningContentCacheRecords', () => {
 
     beforeEach(() => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
@@ -150,7 +150,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     it('should load all the Airtable table content in the cache (and return them)', async () => {
       // when
-      const results = await someDatasource.refreshAirtableCacheRecords();
+      const results = await someDatasource.refreshLearningContentCacheRecords();
 
       // then
       expect(results.length).to.equal(2);
@@ -158,14 +158,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     it('should preload cache', async () => {
       // when
-      await someDatasource.refreshAirtableCacheRecords();
+      await someDatasource.refreshLearningContentCacheRecords();
 
       // then
       expect(cache.set).to.have.been.calledWith('AirtableModel');
     });
   });
 
-  describe('#refreshAirtableCacheRecord', () => {
+  describe('#refreshLearningContentCacheRecord', () => {
 
     it('should force Airtable to reload the record and store or replace it in the cache', async () => {
       // given
@@ -180,7 +180,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
       sinon.stub(cache, 'set').callsFake((key, value) => value);
 
       // when
-      const entry = await someDatasource.refreshAirtableCacheRecord(airtableRecord.id);
+      const entry = await someDatasource.refreshLearningContentCacheRecord(airtableRecord.id);
 
       // then
       expect(entry).to.deep.equal({

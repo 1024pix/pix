@@ -1,9 +1,9 @@
 const _ = require('lodash');
-const AirtableNotFoundError = require('../../infrastructure/datasources/airtable/AirtableResourceNotFound');
+const AirtableNotFoundError = require('../datasources/learning-content/AirtableResourceNotFound');
 const Area = require('../../domain/models/Area');
-const areaDatasource = require('../datasources/airtable/area-datasource');
+const areaDatasource = require('../datasources/learning-content/area-datasource');
 const Competence = require('../../domain/models/Competence');
-const competenceDatasource = require('../datasources/airtable/competence-datasource');
+const competenceDatasource = require('../datasources/learning-content/competence-datasource');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const scoringService = require('../../domain/services/scoring/scoring-service');
 const { NotFoundError } = require('../../domain/errors');

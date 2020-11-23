@@ -1,5 +1,5 @@
 const { expect, domainBuilder, sinon } = require('../../../../test-helper');
-const areaDatasource = require('../../../../../lib/infrastructure/datasources/airtable/area-datasource');
+const areaDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
 const areaRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
 const airtable = require('../../../../../lib/infrastructure/airtable');

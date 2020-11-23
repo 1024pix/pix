@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
-const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const challengeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 const challengeAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');

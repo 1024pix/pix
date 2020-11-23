@@ -2,7 +2,7 @@ const { expect, databaseBuilder, sinon, knex } = require('../../../test-helper')
 const campaignAssessmentParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-summary-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignAssessmentParticipationSummary = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationSummary');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
+const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
 describe('Integration | Repository | Campaign Assessment Participation Summary', () => {
 

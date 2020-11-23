@@ -1,4 +1,4 @@
-const AirtableDatasources = require('../../infrastructure/datasources/airtable');
+const AirtableDatasources = require('../../infrastructure/datasources/learning-content');
 const logger = require('../../infrastructure/logger');
 const _ = require('lodash');
 
@@ -6,7 +6,7 @@ module.exports = {
 
   refreshCacheEntries(request, h) {
     _.forEach(AirtableDatasources, (datasource) =>
-      datasource.refreshAirtableCacheRecords().catch((e) =>
+      datasource.refreshLearningContentCacheRecords().catch((e) =>
         logger.error(`Error while reloading cache for ${datasource}`, e),
       ),
     );
@@ -17,7 +17,7 @@ module.exports = {
     const cacheKey = request.params.cachekey || '';
     const [tableName, recordId] = cacheKey.split('_');
     const datasource = AirtableDatasources[_.findKey(AirtableDatasources, { tableName })];
-    return datasource.refreshAirtableCacheRecord(recordId)
+    return datasource.refreshLearningContentCacheRecord(recordId)
       .then(() => null);
   },
 

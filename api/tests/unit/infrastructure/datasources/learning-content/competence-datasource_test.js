@@ -1,5 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../../test-helper');
-const competenceDatasource = require('../../../../../lib/infrastructure/datasources/airtable/competence-datasource');
+const competenceDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/competence-datasource');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const competenceRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/competenceRawAirTableFixture');
 const makeAirtableFake = require('../../../../tooling/airtable-builder/make-airtable-fake');
