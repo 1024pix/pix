@@ -15,6 +15,7 @@ module.exports = {
           organization: {
             ...recordWithoutClass.userOrgaSettings.currentOrganization,
             isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization.isAgriculture,
+            isCFA: recordWithoutClass.userOrgaSettings.currentOrganization.isCFA,
           },
         };
         delete recordWithoutClass.userOrgaSettings.currentOrganization;
@@ -79,7 +80,7 @@ module.exports = {
         attributes: ['organization', 'user'],
         organization: {
           ref: 'id',
-          attributes: ['name', 'type', 'isAgriculture'],
+          attributes: ['name', 'type', 'isAgriculture', 'isCFA'],
         },
       },
     }).serialize(prescriber);
