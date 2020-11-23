@@ -13,7 +13,7 @@ const skillDatasource = require('../../infrastructure/datasources/airtable/skill
 const tubeDatasource = require('../../infrastructure/datasources/airtable/tube-datasource');
 const competenceDatasource = require('../../infrastructure/datasources/airtable/competence-datasource');
 const areaDatasource = require('../../infrastructure/datasources/airtable/area-datasource');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, TargetProfileInvalidError } = require('../../domain/errors');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
 
@@ -81,6 +81,9 @@ async function _toDomain(results, locale) {
 
 async function _getTargetedLearningContent(skillIds, locale) {
   const skills = await _findTargetedSkills(skillIds);
+  if (_.isEmpty(skills)) {
+    throw new TargetProfileInvalidError();
+  }
   const tubes = await _findTargetedTubes(skills, locale);
   const competences = await _findTargetedCompetences(tubes, locale);
   const areas = await _findTargetedAreas(competences, locale);
