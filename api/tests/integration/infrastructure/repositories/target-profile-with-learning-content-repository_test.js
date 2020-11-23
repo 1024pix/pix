@@ -3,7 +3,7 @@ const TargetProfileWithLearningContent = require('../../../../lib/domain/models/
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/domain/errors');
 
 async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   const badgeCriterion1 = domainBuilder.buildBadgeCriterion();
@@ -180,6 +180,23 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       // then
       expect(error).to.be.instanceOf(NotFoundError);
     });
+
+    it('should throw a TargetProfileInvalidError when targetProfile has no skills', async () => {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      await databaseBuilder.commit();
+
+      // trick to setup learning content
+      const someDummyTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: someDummyTargetProfile });
+      airtableBuilder.mockLists(airtableObjects);
+
+      // when
+      const error = await catchErr(targetProfileWithLearningContentRepository.get)({ id: targetProfileId });
+
+      // then
+      expect(error).to.be.instanceOf(TargetProfileInvalidError);
+    });
   });
 
   describe('#getByCampaignId', () => {
@@ -325,6 +342,24 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+    });
+
+    it('should throw a TargetProfileInvalidError when targetProfile has no skills', async () => {
+      // given
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      await databaseBuilder.commit();
+
+      // trick to setup learning content
+      const someDummyTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: someDummyTargetProfile });
+      airtableBuilder.mockLists(airtableObjects);
+
+      // when
+      const error = await catchErr(targetProfileWithLearningContentRepository.getByCampaignId)({ campaignId });
+
+      // then
+      expect(error).to.be.instanceOf(TargetProfileInvalidError);
     });
   });
 });

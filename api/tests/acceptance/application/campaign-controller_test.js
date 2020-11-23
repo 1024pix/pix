@@ -237,9 +237,12 @@ describe('Acceptance | API | Campaign Controller', () => {
     }
 
     beforeEach(async () => {
+      const skillId = 'rec123';
+      const skill = airtableBuilder.factory.buildSkill({ id: skillId });
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       targetProfile = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skillId });
       campaign = databaseBuilder.factory.buildCampaign({
         organizationId: organization.id,
         targetProfileId: targetProfile.id,
@@ -254,7 +257,7 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([airtableBuilder.factory.buildSkill()]).activate();
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
       airtableBuilder.mockList({ tableName: 'Tubes' }).returns([airtableBuilder.factory.buildTube()]).activate();
       airtableBuilder.mockList({ tableName: 'Competences' }).returns([airtableBuilder.factory.buildCompetence()]).activate();
       airtableBuilder.mockList({ tableName: 'Domaines' }).returns([airtableBuilder.factory.buildArea()]).activate();
