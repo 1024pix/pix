@@ -11,7 +11,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource
       const records = [ { id: 'recArea0' }, { id: 'recArea1' }, { id: 'recArea2' }];
       sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });
       const expectedAreaIds = [
-        'recArea0','recArea1',
+        'recArea0', 'recArea1',
       ];
 
       // when
