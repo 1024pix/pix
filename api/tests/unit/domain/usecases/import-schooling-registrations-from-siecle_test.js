@@ -87,7 +87,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         format = 'csv';
         const input = `${schoolingRegistrationCsvColumns}
         123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
-        0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+        456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
         `;
         const path = __dirname + '/siecle.csv';
         payload = { path };
@@ -113,7 +113,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         });
         const schoolingRegistration2 = new SchoolingRegistration({
           id: undefined,
-          nationalApprenticeId: '0123456789F',
+          nationalApprenticeId: '456F',
           firstName: 'O-Ren',
           lastName: 'Ishii',
           preferredLastName: 'Cottonmouth',

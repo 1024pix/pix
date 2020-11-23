@@ -39,7 +39,7 @@ describe('Integration | Scripts | import-apprentices', () => {
           await databaseBuilder.commit();
 
           const registration1Attributes = {
-            nationalApprenticeId: '9876543210F',
+            nationalApprenticeId: '123F',
             firstName: 'Beatrix',
             middleName: 'The',
             thirdName: 'Bride',
@@ -56,7 +56,7 @@ describe('Integration | Scripts | import-apprentices', () => {
           };
 
           const registration2Attributes = {
-            nationalApprenticeId: '0123456789F',
+            nationalApprenticeId: '456F',
             firstName: 'O-Ren',
             lastName: 'Ishii',
             preferredLastName: 'Cottonmouth',
@@ -71,8 +71,8 @@ describe('Integration | Scripts | import-apprentices', () => {
           };
 
           const input = `${schoolingRegistrationCsvColumns}
-          9876543210F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
-          0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
+         123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
+           456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
           `;
 
           const encodedInput = iconv.encode(input, 'utf8');
