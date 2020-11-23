@@ -1,10 +1,11 @@
 const { expect, sinon } = require('../../../../test-helper');
 const dataSource = require('../../../../../lib/infrastructure/datasources/learning-content/datasource');
 const airtable = require('../../../../../lib/infrastructure/airtable');
+const lcms = require('../../../../../lib/infrastructure/lcms');
 const LearningContentResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | datasource', () => {
 
   beforeEach(() => {
     sinon.stub(cache, 'get');
@@ -139,29 +140,34 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
   describe('#refreshLearningContentCacheRecords', () => {
 
+    let learningContent;
+
     beforeEach(() => {
       cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
       sinon.stub(cache, 'set');
-      sinon.stub(airtable, 'findRecords').resolves([
-        { id: 'rec1', tableName: 'Airtable_table', fields: 'value1' },
-        { id: 'rec2', tableName: 'Airtable_table', fields: 'value2' },
-      ]);
+      learningContent = {
+        LearningContentModel: [
+          { id: 'rec1', tableName: 'Airtable_table', fields: 'value1' },
+          { id: 'rec2', tableName: 'Airtable_table', fields: 'value2' },
+        ],
+      };
+      sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
     });
 
     it('should load all the Airtable table content in the cache (and return them)', async () => {
       // when
-      const results = await someDatasource.refreshLearningContentCacheRecords();
+      const results = await dataSource.refreshLearningContentCacheRecords();
 
       // then
-      expect(results.length).to.equal(2);
+      expect(results).to.equal(learningContent);
     });
 
     it('should preload cache', async () => {
       // when
-      await someDatasource.refreshLearningContentCacheRecords();
+      await dataSource.refreshLearningContentCacheRecords();
 
       // then
-      expect(cache.set).to.have.been.calledWith('AirtableModel');
+      expect(cache.set).to.have.been.calledWith('LearningContent', learningContent);
     });
   });
 
