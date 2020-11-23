@@ -154,7 +154,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('a[href="https://cloud.pix.fr/s/zK7xHArNzGWaYP7"]').exists();
+      assert.dom('a[href="https://cloud.pix.fr/s/3joGMGYWSpmHg5w"]').exists();
     });
   });
 
