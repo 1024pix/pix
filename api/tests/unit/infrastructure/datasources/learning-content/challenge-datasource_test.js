@@ -1,13 +1,10 @@
 const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
-const airtable = require('../../../../../lib/infrastructure/airtable');
+const lcms = require('../../../../../lib/infrastructure/lcms');
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
-const challengeAirtableDataObjectFixture = require('../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
-const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatasource', () => {
 
   const
     competence1 = { id: 'competence1' },
@@ -17,58 +14,58 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     web2 = { id: 'skill-web2' },
     web3 = { id: 'skill-web3' },
 
-    challenge_competence1 = challengeRawAirTableFixture({
+    challenge_competence1 = {
       id: 'challenge-competence1',
-      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': [web1.id] },
-    }),
-    challenge_competence1_noSkills = challengeRawAirTableFixture({
+      competenceId: competence1.id,
+      skillIds: [web1.id],
+      status: 'validé',
+    },
+    challenge_competence1_noSkills = {
       id: 'challenge-competence1-noSkills',
-      fields: { 'Compétences (via tube) (id persistant)': [competence1.id], 'Acquix (id persistant)': undefined },
-    }),
-    challenge_competence1_notValidated = challengeRawAirTableFixture({
+      competenceId: competence1.id,
+      skillIds: undefined,
+      status: 'validé',
+    },
+    challenge_competence1_notValidated = {
       id: 'challenge-competence1-notValidated',
-      fields: {
-        'Compétences (via tube) (id persistant)': [competence1.id],
-        'Acquix (id persistant)': [web1.id],
-        Statut: 'proposé',
-      },
-    }),
-    challenge_competence2 = challengeRawAirTableFixture({
+      competenceId: competence1.id,
+      skillIds: [web1.id],
+      status: 'proposé',
+    },
+    challenge_competence2 = {
       id: 'challenge-competence2',
-      fields: { 'Compétences (via tube) (id persistant)': [competence2.id] },
-    }),
-    challenge_web1 = challengeRawAirTableFixture({
+      competenceId: competence2.id,
+      status: 'validé',
+    },
+    challenge_web1 = {
       id: 'challenge-web1',
-      fields: {
-        'Acquix (id persistant)': [web1.id],
-        'Langues': ['Francophone', 'Franco Français'],
-      },
-    }),
-    challenge_web1_notValidated = challengeRawAirTableFixture({
-      id: 'challenge-web1',
-      fields: {
-        'Acquix (id persistant)': [web1.id], Statut: 'proposé',
-        'Langues': ['Francophone', 'Franco Français'],
-      },
-    }),
-    challenge_web2 = challengeRawAirTableFixture({
+      skillIds: [web1.id],
+      locales: ['fr', 'fr-fr'],
+      status: 'validé',
+    },
+    challenge_web1_notValidated = {
+      id: 'challenge-web1-notValidated',
+      skillIds: [web1.id],
+      status: 'proposé',
+      locales: ['fr', 'fr-fr'],
+    },
+    challenge_web2 = {
       id: 'challenge-web2',
-      fields: {
-        'Acquix (id persistant)': [web2.id],
-        'Langues': ['Anglais'],
-      },
-    }),
-    challenge_web3 = challengeRawAirTableFixture({
+      skillIds: [web2.id],
+      locales: ['en'],
+      status: 'validé',
+    },
+    challenge_web3 = {
       id: 'challenge-web3',
-      fields: { 'Acquix (id persistant)': [web3.id] },
-    }),
-    challenge_web3_archived = challengeRawAirTableFixture({
+      skillIds: [web3.id],
+      status: 'validé',
+    },
+    challenge_web3_archived = {
       id: 'challenge-web3-archived',
-      fields: {
-        'Acquix (id persistant)': [web3.id], Statut: 'archivé',
-        'Langues': ['Franco Français'],
-      },
-    });
+      skillIds: [web3.id],
+      status: 'archivé',
+      locales: ['fr-fr'],
+    };
 
   beforeEach(() => {
     sinon.stub(cache, 'get').callsFake((key, generator) => generator());
@@ -77,15 +74,15 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
   describe('#findOperativeBySkillIds', () => {
 
     beforeEach(() => {
-      sinon.stub(airtable, 'findRecords').resolves([
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
         challenge_web3,
-      ]);
+      ] });
     });
 
-    it('should resolve an array of matching Challenges from airTable', async () => {
+    it('should resolve an array of matching Challenges from learning content', async () => {
       // given
       const skillIds = ['skill-web1', 'skill-web2'];
 
@@ -93,7 +90,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       const result = await challengeDatasource.findOperativeBySkillIds(skillIds);
 
       // then
-      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-web1',
         'challenge-web2',
@@ -107,20 +104,20 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     beforeEach(async () => {
       // given
-      sinon.stub(airtable, 'findRecords').resolves([
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_competence1,
         challenge_competence1_noSkills,
         challenge_competence1_notValidated,
         challenge_competence2,
-      ]);
+      ] });
 
       // when
       result = await challengeDatasource.findValidatedByCompetenceId(competence1.id);
     });
 
-    it('should resolve to an array of matching Challenges from airTable', () => {
+    it('should resolve to an array of matching Challenges from learning content', () => {
       // then
-      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal(['challenge-competence1']);
     });
   });
@@ -128,20 +125,20 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
   describe('#findOperative', () => {
 
     beforeEach(() => {
-      sinon.stub(airtable, 'findRecords').resolves([
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
         challenge_web3_archived,
-      ]);
+      ] });
     });
 
-    it('should resolve an array of matching Challenges from airTable', async () => {
+    it('should resolve an array of matching Challenges from learning content', async () => {
       // when
       const result = await challengeDatasource.findOperative();
 
       // then
-      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-web1',
         'challenge-web2',
@@ -154,12 +151,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     it('should retrieve the operative Challenges of given locale only', async () => {
       // given
-      sinon.stub(airtable, 'findRecords').resolves([
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
         challenge_web3_archived,
-      ]);
+      ] });
 
       // when
       const result = await challengeDatasource.findFrenchFranceOperative();
@@ -175,118 +172,24 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
   describe('#findValidated', () => {
 
     beforeEach(() => {
-      sinon.stub(airtable, 'findRecords').resolves([
+      sinon.stub(lcms, 'getLatestRelease').resolves({ 'challenges': [
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
         challenge_web3_archived,
-      ]);
+      ] });
     });
 
-    it('should resolve an array of matching Challenges from airTable', async () => {
+    it('should resolve an array of matching Challenges from learning content', async () => {
       // when
       const result = await challengeDatasource.findValidated();
 
       // then
-      expect(airtable.findRecords).to.have.been.calledWith('Epreuves', challengeDatasource.usedFields);
+      expect(lcms.getLatestRelease).to.have.been.called;
       expect(_.map(result, 'id')).to.deep.equal([
         'challenge-web1',
         'challenge-web2',
       ]);
-    });
-  });
-
-  describe('#fromAirTableObject', () => {
-
-    describe('when Languages is only Francophone', () => {
-      it('should create a Challenge from the AirtableRecord with locales set to [\'fr\']', () => {
-        // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locales: [FRENCH_SPOKEN] });
-        const frenchSpokenChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langues: ['Francophone'] } });
-
-        // when
-        const challenge = challengeDatasource.fromAirTableObject(frenchSpokenChallenge);
-
-        // then
-        expect(challenge).to.deep.equal(expectedChallenge);
-      });
-    });
-
-    describe('when Languages is only Franco Français', () => {
-      it('should create a Challenge from the AirtableRecord with locales set to [\'fr-fr\']', () => {
-        // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locales: [FRENCH_FRANCE] });
-        const frenchChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langues: ['Franco Français'] } });
-
-        // when
-        const challenge = challengeDatasource.fromAirTableObject(frenchChallenge);
-
-        // then
-        expect(challenge).to.deep.equal(expectedChallenge);
-      });
-    });
-
-    describe('when Languages is both Franco Français and Francophone', () => {
-      it('should create a Challenge from the AirtableRecord with locales set to [\'fr-fr\', \'fr\']', () => {
-        // given
-        const expectedChallenge = challengeAirtableDataObjectFixture({ locales: [FRENCH_FRANCE, FRENCH_SPOKEN] });
-        const frenchChallenge = challengeRawAirTableFixture({ id: 'recwWzTquPlvIl4So', fields: { Langues: ['Franco Français', 'Francophone'] } });
-
-        // when
-        const challenge = challengeDatasource.fromAirTableObject(frenchChallenge);
-
-        // then
-        expect(challenge).to.deep.equal(expectedChallenge);
-      });
-    });
-
-    it('should deal with a missing illustration', () => {
-      // given
-      const airtableEpreuveObject = challengeRawAirTableFixture();
-      airtableEpreuveObject.set('Illustration de la consigne', undefined);
-
-      // when
-      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
-
-      // then
-      expect(challenge.illustrationUrl).to.be.undefined;
-    });
-
-    it('should deal with a missing timer', () => {
-      // given
-      const airtableEpreuveObject = challengeRawAirTableFixture();
-      airtableEpreuveObject.set('Timer', undefined);
-
-      // when
-      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
-
-      // then
-      expect(challenge.timer).to.be.undefined;
-    });
-
-    it('should deal with a missing Pièce jointe', () => {
-      // given
-      const airtableEpreuveObject = challengeRawAirTableFixture();
-      airtableEpreuveObject.set('Pièce jointe', undefined);
-
-      // when
-      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
-
-      // then
-      expect(challenge.attachments).to.be.undefined;
-    });
-
-    it('should deal with a missing competences', () => {
-      // given
-      const airtableEpreuveObject = challengeRawAirTableFixture();
-      airtableEpreuveObject.set('competences', undefined);
-      airtableEpreuveObject.set('Compétences (via tube) (id persistant)', undefined);
-
-      // when
-      const challenge = challengeDatasource.fromAirTableObject(airtableEpreuveObject);
-
-      // then
-      expect(challenge.competenceId).to.be.undefined;
     });
   });
 
