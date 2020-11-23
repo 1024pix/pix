@@ -13,6 +13,7 @@ export default class CurrentUserService extends Service {
   @tracked isSCOManagingStudents;
   @tracked isSUPManagingStudents;
   @tracked isAgriculture;
+  @tracked isCFA;
 
   async load() {
     if (this.session.isAuthenticated) {
@@ -45,14 +46,19 @@ export default class CurrentUserService extends Service {
 
   async _setOrganizationProperties(membership) {
     const organization = await membership.organization;
+
     const isAdminInOrganization = membership.isAdmin;
+
     const isSCOManagingStudents = organization.isSco && organization.isManagingStudents;
     const isSUPManagingStudents = organization.isSup && organization.isManagingStudents;
 
-    this.organization = organization;
     this.isAdminInOrganization = isAdminInOrganization;
     this.isSCOManagingStudents = isSCOManagingStudents;
     this.isSUPManagingStudents = isSUPManagingStudents;
+
     this.isAgriculture = organization.isAgriculture;
+    this.isCFA = organization.isCFA;
+
+    this.organization = organization;
   }
 }
