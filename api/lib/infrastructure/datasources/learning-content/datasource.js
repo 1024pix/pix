@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const airtable = require('../../airtable');
-const AirtableResourceNotFound = require('./AirtableResourceNotFound');
+const LearningContentResourceNotFound = require('./LearningContentResourceNotFound');
 const cache = require('../../caches/learning-content-cache');
 
 const _DatasourcePrototype = {
@@ -15,7 +15,7 @@ const _DatasourcePrototype = {
     const foundObject = _.find(modelObjects, { id });
 
     if (!foundObject) {
-      throw new AirtableResourceNotFound();
+      throw new LearningContentResourceNotFound();
     }
 
     return foundObject;
