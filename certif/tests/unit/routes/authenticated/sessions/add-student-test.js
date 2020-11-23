@@ -22,6 +22,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
     };
 
     const expectedModel = {
+      numberOfEnrolledStudents: 1,
       session,
       students: paginatedStudents,
     };
@@ -36,22 +37,24 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       findRecordStub.withArgs('session', session_id).resolves(session);
       route.store.findRecord = findRecordStub;
       route.modelFor = sinon.stub().returns({ id: certificationCenterId });
-      route.store.query = sinon.stub().resolves(paginatedStudents);
+      route.store.query = sinon.stub();
+      route.store.query.onCall(0).resolves([Symbol('a candidate')]);
+      route.store.query.onCall(1).resolves(paginatedStudents);
 
       // when
       const actualModel = await route.model({ session_id, pageNumber: 1, pageSize: 1  });
 
       // then
       sinon.assert.calledWith(route.modelFor, 'authenticated');
-      sinon.assert.calledWith(route.store.query, 'student', { 
+      sinon.assert.calledWith(route.store.query, 'student', {
         filter: {
-          certificationCenterId, 
-          sessionId: session.id, 
+          certificationCenterId,
+          sessionId: session.id,
         },
         page: {
           size: 1,
           number:1,
-        }, 
+        },
       },
       );
       assert.deepEqual(actualModel, expectedModel);

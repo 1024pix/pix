@@ -8,6 +8,11 @@ import EmberObject from '@ember/object';
 module('Integration | Component | add-student-list', function(hooks) {
   setupRenderingTest(hooks);
 
+  let store;
+  hooks.beforeEach(function() {
+    store = this.owner.lookup('service:store');
+  });
+
   module('when there is no student', () => {
     test('it shows an empty table', async function(assert) {
       // when
@@ -125,6 +130,8 @@ module('Integration | Component | add-student-list', function(hooks) {
           _buildSelectedStudent('Marie', 'Dupont', '3E', birthdate),
           _buildSelectedStudent('Tom', 'Dupont', '4G', birthdate),
         ];
+
+        sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
         const save = sinon.spy();
         this.set('students', studentList);
         this.set('session', EmberObject.create({
@@ -181,7 +188,7 @@ module('Integration | Component | add-student-list', function(hooks) {
         });
 
         module('when there are 2 selected students', () => {
-          test('it should show "Aucun candidat sélectionné | 2 candidats déjà ajoutés à la session"', async function(assert) {
+          test('it should show "2 candidat(s) sélectionné(s) | 0 candidat déjà ajoutés à la session"', async function(assert) {
             // given
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
@@ -191,15 +198,18 @@ module('Integration | Component | add-student-list', function(hooks) {
               _buildSelectedStudent('Tom', 'Dupont', '4G', birthdate),
               _buildSelectedStudent('Paul', 'Dupont', '4G', birthdate),
             ];
+            sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
             this.set('studentList', studentList);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
+            this.set('numberOfEnrolledStudents', 0);
 
             // when
             await render(hbs`<AddStudentList
               @studentList={{this.studentList}}
               @session={{this.session}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}>
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);
 
             // then
@@ -219,15 +229,18 @@ module('Integration | Component | add-student-list', function(hooks) {
               _buildUnselectedStudent('Marie', 'Dupont', '3E', birthdate, true),
               _buildUnselectedStudent('Tom', 'Dupont', '4G', birthdate, true),
             ];
+            sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
             this.set('studentList', studentList);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
+            this.set('numberOfEnrolledStudents', 2);
 
             // when
             await render(hbs`<AddStudentList
               @studentList={{this.studentList}}
               @session={{this.session}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}>
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);
           });
 
@@ -257,15 +270,18 @@ module('Integration | Component | add-student-list', function(hooks) {
               _buildSelectedStudent('TomTom', 'Dupont', '4G', birthdate),
               _buildSelectedStudent('Marie-Jo', 'Dudu', '4G', birthdate),
             ];
+            sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
             this.set('studentList', studentList);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
+            this.set('numberOfEnrolledStudents', 2);
 
             // when
             await render(hbs`<AddStudentList
               @studentList={{this.studentList}}
               @session={{this.session}}
-              @returnToSessionCandidates={{this.returnToSessionCandidates}}>
+              @returnToSessionCandidates={{this.returnToSessionCandidates}}
+              @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);
           });
 
