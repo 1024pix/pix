@@ -11,6 +11,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     const session = await this.store.findRecord('session', params.session_id);
     const { id: certificationCenterId } = this.modelFor('authenticated');
 
+    const certificationCandidates = await this.store.query('certification-candidate', { sessionId:params.session_id });
     const DEFAULT_PAGE_SIZE = 50;
     const FIRST_PAGE_NUMBER = 1;
     const students = await this.store.query('student',
@@ -26,7 +27,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
       },
     );
 
-    return { session, students };
+    return { session, students, numberOfEnrolledStudents: certificationCandidates.length };
   }
 
   setupController(controller, model) {
@@ -38,6 +39,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     );
   }
 
+  // TODO : reset page courante + taille de page
   resetController(controller, isExiting) {
     if (isExiting) {
       const allStudentsInStore = this.store.peekAll('student');
