@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const airtable = require('../../airtable');
 const lcms = require('../../lcms');
 const LearningContentResourceNotFound = require('./LearningContentResourceNotFound');
 const cache = require('../../caches/learning-content-cache');

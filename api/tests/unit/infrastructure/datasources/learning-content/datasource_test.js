@@ -1,6 +1,5 @@
 const { expect, sinon } = require('../../../../test-helper');
 const dataSource = require('../../../../../lib/infrastructure/datasources/learning-content/datasource');
-const airtable = require('../../../../../lib/infrastructure/airtable');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const LearningContentResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
@@ -12,18 +11,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
   });
 
   const someDatasource = dataSource.extend({
-
     modelName: 'learningContentModel',
-
-    tableName: 'Airtable_table',
-
-    usedFields: ['Shi', 'Foo', 'Bar'],
-
-    fromAirTableObject: (record) => ({
-      id: record.id,
-      tableName: record.tableName,
-      fields: record.fields,
-    }),
   });
 
   describe('#get', () => {
