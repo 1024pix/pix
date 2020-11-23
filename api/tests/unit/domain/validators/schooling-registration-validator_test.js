@@ -51,6 +51,56 @@ describe('Unit | Domain | Schooling Registration validator', () => {
       });
     });
 
+    context('nationalIdentifier', () => {
+      context('nationalIdentifier is a National Student Id', () => {
+        it('should be valid when National Student Id is not an apprentice', async () => {
+          const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '1234', status: 'ST' });
+        
+          expect(error.key).to.be.undefined;
+        });
+      });
+
+      context('nationalIdentifier is a National Apprentice Id', () => {
+        it('should be valid when National Apprentice Id has the correct pattern', async () => {
+          const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '0123456789A', status: 'AP' });
+        
+          expect(error.key).to.be.undefined;
+        });
+      
+        it('throw an error when National Apprentice Id has only numbers', async () => {
+          const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '12345678900', status: 'AP' });
+  
+          expect(error.key).to.equal('nationalIdentifier');
+          expect(error.why).to.equal('bad_pattern');
+          expect(error.pattern).to.equal('INA');
+        });
+
+        it('throw an error when National Apprentice Id has only chars', async () => {
+          const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: 'ABCDEFGHIJH', status: 'AP' });
+  
+          expect(error.key).to.equal('nationalIdentifier');
+          expect(error.why).to.equal('bad_pattern');
+          expect(error.pattern).to.equal('INA');
+        });
+
+        it('throw an error when National Apprentice Id is too short', async () => {
+          const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '1234', status: 'AP' });
+  
+          expect(error.key).to.equal('nationalIdentifier');
+          expect(error.why).to.equal('bad_pattern');
+          expect(error.pattern).to.equal('INA');
+        });
+
+        it('throw an error when National Apprentice Id is too long', async () => {
+          const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '12345678900A', status: 'AP' });
+  
+          expect(error.key).to.equal('nationalIdentifier');
+          expect(error.why).to.equal('bad_pattern');
+          expect(error.pattern).to.equal('INA');
+        });
+      });
+    });
+
     context('birthProvinceCode', () => {
       it('throw an error when birthProvinceCode has more than 3 characters', async () => {
         const error = await catchErr(checkValidation)({ ...validAttributes, birthProvinceCode: '1234' });
@@ -121,7 +171,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
 
       it('is valid when status is \'AP\'', async () => {
         try {
-          checkValidation({ ...validAttributes, status: 'AP' });
+          checkValidation({ ...validAttributes, nationalIdentifier: '0123456789F', status: 'AP' });
         } catch (e) {
           expect.fail('SchoolingRegistration is valid when status is \'AP\'');
         }
