@@ -21,7 +21,7 @@ module.exports = {
       return AnswerStatus.KO;
     }
 
-    if (isNumeric(answer.value) && isNumeric(solution)) {
+    if (isNumeric(answer) && isNumeric(solution)) {
       return _getAnswerStatusFromNumberMatching(answer, solution);
     }
 
@@ -30,6 +30,9 @@ module.exports = {
 };
 
 function _getAnswerStatusFromNumberMatching(answer, solution) {
+  if (parseFloat(answer) === parseFloat(solution)) {
+    return AnswerStatus.OK;
+  }
   return AnswerStatus.KO;
 }
 

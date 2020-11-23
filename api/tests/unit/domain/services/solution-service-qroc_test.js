@@ -8,18 +8,39 @@ const ANSWER_OK = AnswerStatus.OK;
 
 describe('Unit | Service | SolutionServiceQROC ', function() {
 
+  describe('match, with numerical answers and solutions', function() {
+    [
+      { case:'when two numbers are strictly equal', answer: '0.123', solution: '0.123', expectedAnswerStatus: ANSWER_OK },
+      { case:'when 0 is added in front of the answer', answer: '0123', solution: '123', expectedAnswerStatus: ANSWER_OK },
+      { case:'when 0 is added behind the answer', answer: '1230', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer contains a dot followed by zero', answer: '123.0', solution: '123', expectedAnswerStatus: ANSWER_OK },
+      { case:'when answer contains a comma followed by zero', answer: '123,0', solution: '123', expectedAnswerStatus: ANSWER_OK },
+      { case:'when answer contains a comma followed by several zeros', answer: '123,000', solution: '123', expectedAnswerStatus: ANSWER_OK },
+      { case:'when answer contains a dot followed by a non-zero digit', answer: '123.4', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer contains two commas', answer: '123,,00', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer contains two dots', answer: '123..00', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer contains a comma and a dot', answer: '123,.00', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer is close to actual solution (inferior)', answer: '122,1', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer is close to actual solution (superior)', answer: '123,4', solution: '123', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer is different of the actual solution', answer: '123', solution: '123.4', expectedAnswerStatus: ANSWER_KO },
+      { case:'when answer and solution are equal but solutions contains a dot', answer: '123', solution: '123.0', expectedAnswerStatus: ANSWER_OK },
+    ].forEach((data) => {
+      it(`should return ${data.expectedAnswerStatus} when answer is ${data.answer} and solution is ${data.solution}`, function() {
+        const result = service.match(data.answer, data.solution);
+        expect(result).to.deep.equal(data.expectedAnswerStatus);
+      });
+    });
+  });
+
   describe('match, combining most weird cases without deactivations', function() {
 
     const successfulCases = [
-
       { case:'(single solution) same answer and solution', answer: 'Answer', solution: 'Answer' },
       { case:'(single solution) same answer and solution, but answer is lowercased, solution is uppercased', answer: 'answer', solution: 'ANSWER' },
       { case:'(single solution) answer with spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde' },
       { case:'(single solution) answer with unbreakable spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde' },
       { case:'(single solution) solution with trailing spaces', answer: 'abcd', solution: '    abcd   ' },
       { case:'(single solution) solution with trailing spaces and uppercase', answer: 'aaa bbb ccc', solution: '    AAABBBCCC   ' },
-      { case:'(single solution) answer is 0.1 away from solution', answer: '0123456789', solution: '123456789' },
-      { case:'(single solution) answer is 0.25 away from solution', answer: '01234', solution: '1234' },
       { case:'(single solution) solution contains too much spaces', answer: 'a b c d e', solution: 'a b c d e' },
       { case:'(single solution) answer without punctuation, but solution has', answer: ',.!p-u-n-c-t', solution: 'punct' },
       { case:'(single solution) answer with punctuation, but solution has not', answer: 'punct', solution: ',.!p-u-n-c-t' },
@@ -30,9 +51,10 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case:'(multiple solutions) answer is 0.25 away from the closest solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n' },
     ];
 
-    successfulCases.forEach(function(caze) {
-      it (caze.case + ', should return "ok" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution)).to.deep.equal(ANSWER_OK);
+    successfulCases.forEach(function(data) {
+      it (data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        const result = service.match(data.answer, data.solution);
+        expect(result).to.deep.equal(ANSWER_OK);
       });
     });
 
@@ -48,9 +70,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n' },
     ];
 
-    failingCases.forEach(function(caze) {
-      it(caze.case + ', should return "ko" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution)).to.deep.equal(ANSWER_KO);
+    failingCases.forEach(function(data) {
+      it(data.case + ', should return "ko" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution)).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -74,9 +96,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {} },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
@@ -99,9 +121,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: { t1:true } },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
@@ -124,9 +146,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: { t2:true } },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
@@ -149,9 +171,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: { t3:true } },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
@@ -174,9 +196,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: { t1:true, t2:true } },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
@@ -199,9 +221,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: { t1:true, t3:true } },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
@@ -224,9 +246,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: { t2:true, t3:true } },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
@@ -249,9 +271,9 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when:'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: { t1:true, t2:true, t3:true } },
     ];
 
-    allCases.forEach(function(caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
-        expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.deep.equal(caze.output);
+    allCases.forEach(function(data) {
+      it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
+        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
       });
     });
   });
