@@ -1,7 +1,7 @@
 const utils = require('./solution-service-utils');
 const deactivationsService = require('../../../lib/domain/services/deactivations-service');
 const { isNumeric, splitIntoWordsAndRemoveBackspaces } = require('../../../lib/infrastructure/utils/string-utils');
-const _ = require('../../infrastructure/utils/lodash-utils');
+const { includes, isEmpty, isString, map } = require('lodash');
 const {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
@@ -14,8 +14,8 @@ module.exports = {
 
   match(answer, solution, deactivations) {
 
-    const isIncorrectAnswerFormat = !_.isString(answer);
-    const isIncorrectSolutionFormat = !_.isString(solution) || _.isEmpty(solution);
+    const isIncorrectAnswerFormat = !isString(answer);
+    const isIncorrectSolutionFormat = !isString(solution) || isEmpty(solution);
 
     if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
       return AnswerStatus.KO;
@@ -42,7 +42,7 @@ function _getAnswerStatusFromStringMatching(answer, solution, deactivations) {
 
 function _applyTreatmentsToSolutions(solution, deactivations) {
   const pretreatedSolutions = splitIntoWordsAndRemoveBackspaces(solution);
-  return _.map(pretreatedSolutions, (pretreatedSolution) => {
+  return map(pretreatedSolutions, (pretreatedSolution) => {
 
     if (deactivationsService.isDefault(deactivations)) {
       const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(pretreatedSolution);
@@ -94,7 +94,7 @@ function _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivatio
     return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT3(deactivations)) {
-    if (_.includes(validations.adminAnswers, validations.t1t2)) {
+    if (includes(validations.adminAnswers, validations.t1t2)) {
       return AnswerStatus.OK;
     }
     return AnswerStatus.KO;
@@ -106,19 +106,19 @@ function _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivatio
     return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-    if (_.includes(validations.adminAnswers, validations.t2)) {
+    if (includes(validations.adminAnswers, validations.t2)) {
       return AnswerStatus.OK;
     }
     return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-    if (_.includes(validations.adminAnswers, validations.t1)) {
+    if (includes(validations.adminAnswers, validations.t1)) {
       return AnswerStatus.OK;
     }
     return AnswerStatus.KO;
   }
   else if (deactivationsService.hasT1T2T3(deactivations)) {
-    if (_.includes(validations.adminAnswers, validations.userAnswer)) {
+    if (includes(validations.adminAnswers, validations.userAnswer)) {
       return AnswerStatus.OK;
     }
     return AnswerStatus.KO;
