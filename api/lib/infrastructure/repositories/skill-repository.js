@@ -1,5 +1,5 @@
 const Skill = require('../../domain/models/Skill');
-const skillDatasource = require('../datasources/airtable/skill-datasource');
+const skillDatasource = require('../datasources/learning-content/skill-datasource');
 
 function _toDomain(skillData) {
   return new Skill({

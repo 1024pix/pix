@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Tutorial = require('../../domain/models/Tutorial');
 const userTutorialRepository = require('./user-tutorial-repository');
 const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
-const tutorialDatasource = require('../datasources/airtable/tutorial-datasource');
+const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {

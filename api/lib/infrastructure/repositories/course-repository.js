@@ -1,6 +1,6 @@
 const Course = require('../../domain/models/Course');
-const courseDatasource = require('../datasources/airtable/course-datasource');
-const AirtableResourceNotFound = require('../datasources/airtable/AirtableResourceNotFound');
+const courseDatasource = require('../datasources/learning-content/course-datasource');
+const AirtableResourceNotFound = require('../datasources/learning-content/AirtableResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(courseDataObject) {

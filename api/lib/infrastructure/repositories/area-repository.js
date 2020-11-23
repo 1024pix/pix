@@ -1,5 +1,5 @@
 const Area = require('../../domain/models/Area');
-const areaDatasource = require('../datasources/airtable/area-datasource');
+const areaDatasource = require('../datasources/learning-content/area-datasource');
 const competenceRepository = require('./competence-repository');
 const _ = require('lodash');
 

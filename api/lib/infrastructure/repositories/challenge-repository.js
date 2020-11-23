@@ -2,11 +2,11 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const Challenge = require('../../domain/models/Challenge');
 
-const challengeDatasource = require('../datasources/airtable/challenge-datasource');
-const skillDatasource = require('../datasources/airtable/skill-datasource');
+const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
+const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const skillAdapter = require('../adapters/skill-adapter');
 const solutionAdapter = require('../adapters/solution-adapter');
-const AirtableResourceNotFound = require('../datasources/airtable/AirtableResourceNotFound');
+const AirtableResourceNotFound = require('../datasources/learning-content/AirtableResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {

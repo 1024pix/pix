@@ -1,6 +1,6 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
 const addTutorialEvaluation = require('../../../../lib/domain/usecases/add-tutorial-evaluation');
-const AirtableNotFoundError = require('../../../../lib/infrastructure/datasources/airtable/AirtableResourceNotFound');
+const AirtableNotFoundError = require('../../../../lib/infrastructure/datasources/learning-content/AirtableResourceNotFound');
 
 describe('Unit | UseCase | add-tutorial-evaluation', () => {
 

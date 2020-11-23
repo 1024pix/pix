@@ -1,6 +1,6 @@
 const AirtableRecord = require('airtable').Record;
 const { expect, sinon } = require('../../../../test-helper');
-const courseDatasource = require('../../../../../lib/infrastructure/datasources/airtable/course-datasource');
+const courseDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/course-datasource');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | CourseDatasource', () => {

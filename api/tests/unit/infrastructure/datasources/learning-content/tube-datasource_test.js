@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
-const tubeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tube-datasource');
+const tubeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/tube-datasource');
 const tubeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/tubeRawAirTableFixture');
 const tubeAirtableDataModelFixture = require('../../../../tooling/fixtures/infrastructure/tubeAirtableDataObjectFixture');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');

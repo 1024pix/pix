@@ -2,8 +2,8 @@ const _ = require('lodash');
 
 const Correction = require('../../domain/models/Correction');
 const Hint = require('../../domain/models/Hint');
-const challengeDatasource = require('../datasources/airtable/challenge-datasource');
-const skillDatasource = require('../datasources/airtable/skill-datasource');
+const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
+const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const tutorialRepository = require('./tutorial-repository');
 const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 const { getTranslatedText } = require('../../domain/services/get-translated-text');

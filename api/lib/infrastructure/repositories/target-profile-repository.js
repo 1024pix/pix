@@ -1,6 +1,6 @@
 const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
-const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
+const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');

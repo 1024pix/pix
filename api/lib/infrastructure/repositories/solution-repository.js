@@ -1,4 +1,4 @@
-const challengeDatasource = require('../datasources/airtable/challenge-datasource');
+const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
 const solutionAdapter = require('../adapters/solution-adapter');
 
 module.exports = {

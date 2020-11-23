@@ -1,10 +1,10 @@
 const { expect, airtableBuilder } = require('../../../../test-helper');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
-const areaDatasource = require('../../../../../lib/infrastructure/datasources/airtable/area-datasource');
-const competenceDatasource = require('../../../../../lib/infrastructure/datasources/airtable/competence-datasource');
-const tubeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/tube-datasource');
-const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
-const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const areaDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
+const competenceDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/competence-datasource');
+const tubeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/tube-datasource');
+const skillDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const challengeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 
 describe('Integration | buildLearningContent', () => {
 
