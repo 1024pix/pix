@@ -67,6 +67,9 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
   }
 
   _handleError(err, index) {
+    if (err.why === 'bad_pattern' && err.pattern === 'INA') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Identifiant unique” (INA) doit être de 10 chiffres suivis d’une lettre.`);
+    }
     if (err.why === 'uniqueness') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “Identifiant unique” de cette ligne est présent plusieurs fois dans le fichier.`);
     }
