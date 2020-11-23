@@ -28,7 +28,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
   describe('#get', () => {
 
-    const recordId = 'some-record-id';
+    const recordId = 'rec1';
     const cacheKey = someDatasource.modelName;
 
     beforeEach(() => {
@@ -37,18 +37,24 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
     context('(success cases)', () => {
 
+      let learningContent;
+
       beforeEach(() => {
-        sinon.stub(airtable, 'findRecords').callsFake(async (tableName) => {
-          return [{ tableName, id: recordId, fields: { foo: 'bar' } }];
-        });
+        learningContent = {
+          learningContentModel: [
+            { id: 'rec1', property: 'value1' },
+            { id: 'rec2', property: 'value2' },
+          ],
+        };
+        sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
       });
 
-      it('should fetch a single record from Airtable (or its cached copy)', async () => {
+      it('should fetch a single record from LCMS API (or its cached copy)', async () => {
         // when
         const record = await someDatasource.get(recordId);
 
         // then
-        expect(record).to.deep.equal({ id: 'some-record-id', tableName: 'Airtable_table', fields: { foo: 'bar' } });
+        expect(record).to.deep.equal({ id: 'rec1', property: 'value1' });
       });
 
       it('should correctly manage the `this` context', async () => {
@@ -59,7 +65,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         const record = await unboundGet(recordId);
 
         // then
-        expect(record).to.deep.equal({ id: 'some-record-id', tableName: 'Airtable_table', fields: { foo: 'bar' } });
+        expect(record).to.deep.equal({ id: 'rec1', property: 'value1' });
       });
 
       it('should be cachable', async () => {
@@ -75,9 +81,13 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
       it('should throw an LearningContentResourceNotFound if record was not found', () => {
         // given
-        sinon.stub(airtable, 'findRecords').callsFake(async (tableName) => {
-          return [{ tableName, id: recordId, fields: { foo: 'bar' } }];
-        });
+        const learningContent = {
+          learningContentModel: [
+            { id: 'rec1', property: 'value1' },
+            { id: 'rec2', property: 'value2' },
+          ],
+        };
+        sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
 
         // when
         const promise = someDatasource.get('UNKNOWN_RECORD_ID');
@@ -89,7 +99,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       it('should dispatch error in case of generic error', () => {
         // given
         const err = new Error();
-        sinon.stub(airtable, 'findRecords').rejects(err);
+        sinon.stub(lcms, 'getLatestRelease').rejects(err);
 
         // when
         const promise = someDatasource.get(recordId);
