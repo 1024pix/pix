@@ -10,6 +10,8 @@ const {
 
 const AnswerStatus = require('../models/AnswerStatus');
 
+const LEVENSHTEIN_DISTANCE_MAX_RATE = 0.25;
+
 module.exports = {
 
   match(answer, solution, deactivations) {
@@ -79,51 +81,44 @@ function _applyTreatmentsToSolutions(solution, deactivations) {
 function _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations) {
 
   if (deactivationsService.isDefault(deactivations)) {
-    if (validations.t1t2t3Ratio <= 0.25) {
+    if (validations.t1t2t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT1(deactivations)) {
-    if (validations.t2t3Ratio <= 0.25) {
+    if (validations.t2t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT2(deactivations)) {
-    if (validations.t1t3Ratio <= 0.25) {
+    if (validations.t1t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT3(deactivations)) {
     if (includes(validations.adminAnswers, validations.t1t2)) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-    if (validations.t3Ratio <= 0.25) {
+    if (validations.t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT1T3(deactivations)) {
     if (includes(validations.adminAnswers, validations.t2)) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT2T3(deactivations)) {
     if (includes(validations.adminAnswers, validations.t1)) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasT1T2T3(deactivations)) {
     if (includes(validations.adminAnswers, validations.userAnswer)) {
       return AnswerStatus.OK;
     }
-    return AnswerStatus.KO;
   }
+  return AnswerStatus.KO;
 }
