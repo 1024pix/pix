@@ -1,6 +1,6 @@
 const Course = require('../../domain/models/Course');
 const courseDatasource = require('../datasources/learning-content/course-datasource');
-const AirtableResourceNotFound = require('../datasources/learning-content/AirtableResourceNotFound');
+const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(courseDataObject) {
@@ -20,7 +20,7 @@ async function _get(id) {
     return _toDomain(courseDataObject);
   }
   catch (error) {
-    if (error instanceof AirtableResourceNotFound) {
+    if (error instanceof LearningContentResourceNotFound) {
       throw new NotFoundError();
     }
     throw error;

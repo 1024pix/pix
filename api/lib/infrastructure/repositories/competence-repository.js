@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const AirtableNotFoundError = require('../datasources/learning-content/AirtableResourceNotFound');
+const AirtableNotFoundError = require('../datasources/learning-content/LearningContentResourceNotFound');
 const Area = require('../../domain/models/Area');
 const areaDatasource = require('../datasources/learning-content/area-datasource');
 const Competence = require('../../domain/models/Competence');

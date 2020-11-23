@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../../test-helper');
 const dataSource = require('../../../../../lib/infrastructure/datasources/learning-content/datasource');
 const airtable = require('../../../../../lib/infrastructure/airtable');
-const AirtableResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/AirtableResourceNotFound');
+const LearningContentResourceNotFound = require('../../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
@@ -72,7 +72,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
 
     context('(error cases)', () => {
 
-      it('should throw an AirtableResourceNotFound if record was not found', () => {
+      it('should throw an LearningContentResourceNotFound if record was not found', () => {
         // given
         sinon.stub(airtable, 'findRecords').callsFake(async (tableName) => {
           return [{ tableName, id: recordId, fields: { foo: 'bar' } }];
@@ -82,7 +82,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | datasource', () => {
         const promise = someDatasource.get('UNKNOWN_RECORD_ID');
 
         // then
-        return expect(promise).to.have.been.rejectedWith(AirtableResourceNotFound);
+        return expect(promise).to.have.been.rejectedWith(LearningContentResourceNotFound);
       });
 
       it('should dispatch error in case of generic error', () => {

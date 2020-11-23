@@ -6,7 +6,7 @@ const challengeDatasource = require('../datasources/learning-content/challenge-d
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const skillAdapter = require('../adapters/skill-adapter');
 const solutionAdapter = require('../adapters/solution-adapter');
-const AirtableResourceNotFound = require('../datasources/learning-content/AirtableResourceNotFound');
+const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
       });
       return _toDomain({ challengeDataObject: challenge, skillDataObjects });
     } catch (error) {
-      if (error instanceof AirtableResourceNotFound) {
+      if (error instanceof LearningContentResourceNotFound) {
         throw new NotFoundError();
       }
       throw error;
