@@ -28,13 +28,6 @@ const _DatasourcePrototype = {
     return cache.get(key, generator);
   },
 
-  async refreshLearningContentCacheRecords() {
-    const cacheKeyList = this.modelName;
-    const results = await this._doList();
-    await cache.set(cacheKeyList, results);
-    return results;
-  },
-
   async refreshLearningContentCacheRecord(id) {
     const cacheKeyList = this.modelName;
     const airtableRecord = await airtable.getRecord(this.tableName, id);
