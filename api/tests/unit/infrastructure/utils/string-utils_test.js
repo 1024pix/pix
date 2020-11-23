@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const { isNumeric } = require('../../../../lib/infrastructure/utils/string-utils');
+const { isNumeric, splitIntoWordsAndRemoveBackspaces } = require('../../../../lib/infrastructure/utils/string-utils');
 
 describe('Unit | Utils | string-utils', () => {
   describe('isNumeric', () => {
@@ -22,6 +22,23 @@ describe('Unit | Utils | string-utils', () => {
         const result = isNumeric(data.case);
         // Then
         expect(result).to.be.equal(data.expectedResult);
+      });
+    });
+  });
+
+  describe('splitIntoWordsAndRemoveBackspaces', () => {
+    [
+      { case: 'abc', expectedResult: ['abc'] },
+      { case: 'qvak\nqwak\nanything\n', expectedResult: [ 'qvak', 'qwak', 'anything' ] },
+      { case: 'wîth àccénts êêê', expectedResult: [ 'wîth àccénts êêê' ] },
+      { case: ',.!p-u-n-c-t', expectedResult: [ ',.!p-u-n-c-t' ] },
+      { case: 'variant 1\nvariant 2\nvariant 3\n', expectedResult: [ 'variant 1', 'variant 2', 'variant 3' ] },
+    ].forEach((data) => {
+      it(`should return ${data.expectedResult} with ${data.case}`, () => {
+        // When
+        const result = splitIntoWordsAndRemoveBackspaces(data.case);
+        // Then
+        expect(result).to.be.deep.equal(data.expectedResult);
       });
     });
   });

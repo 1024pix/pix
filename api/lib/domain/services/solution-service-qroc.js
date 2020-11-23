@@ -1,6 +1,6 @@
 const utils = require('./solution-service-utils');
 const deactivationsService = require('../../../lib/domain/services/deactivations-service');
-const isNumeric = require('../../../lib/infrastructure/utils/string-utils');
+const { isNumeric, splitIntoWordsAndRemoveBackspaces } = require('../../../lib/infrastructure/utils/string-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const {
   normalizeAndRemoveAccents,
@@ -40,15 +40,8 @@ function _getAnswerStatusFromStringMatching(answer, solution, deactivations) {
   return _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations);
 }
 
-function _applyPreTreatmentsToSolutions(solution) {
-  return _.chain(solution)
-    .split('\n')
-    .reject(_.isEmpty)
-    .value();
-}
-
 function _applyTreatmentsToSolutions(solution, deactivations) {
-  const pretreatedSolutions = _applyPreTreatmentsToSolutions(solution);
+  const pretreatedSolutions = splitIntoWordsAndRemoveBackspaces(solution);
   return _.map(pretreatedSolutions, (pretreatedSolution) => {
 
     if (deactivationsService.isDefault(deactivations)) {
