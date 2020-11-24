@@ -1,46 +1,59 @@
-const { expect, airtableBuilder, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, mockLearningContent, databaseBuilder, catchErr } = require('../../../test-helper');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 
 describe('Integration | Repository | tutorial-repository', () => {
 
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
-  });
-
   describe('#findByRecordIdsForCurrentUser', () => {
 
     it('should find tutorials by ids', async () => {
       // given
-      const tutorial0 = domainBuilder.buildTutorial();
-      const tutorial1 = domainBuilder.buildTutorial();
-      const airtableTutorial0 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial0 });
-      const airtableTutorial1 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial1 });
-      airtableBuilder.mockLists({ tutorials: [airtableTutorial0, airtableTutorial1] });
+      const tutorialsList = [{
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.fr',
+        source: 'tuto.fr',
+        title: 'tuto0',
+        id: 'recTutorial0',
+      },{
+        duration: '00:01:54',
+        format: 'page',
+        link: 'https://tuto.com',
+        source: 'tuto.com',
+        title: 'tuto1',
+        id: 'recTutorial1',
+      }];
+      const learningContent = { tutorials: tutorialsList };
+      mockLearningContent(learningContent);
 
       // when
-      const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: [tutorial0.id, tutorial1.id], userId: null });
+      const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: ['recTutorial0', 'recTutorial1'], userId: null });
 
       // then
       expect(tutorials).to.have.lengthOf(2);
       expect(tutorials[0]).to.be.instanceof(Tutorial);
-      expect(tutorials).to.deep.include.members([tutorial0, tutorial1]);
+      expect(tutorials).to.deep.include.members(tutorialsList);
     });
 
     it('should associate userTutorial when it exists for provided user', async () => {
       // given
-      const tutorial = domainBuilder.buildTutorial();
-      const airtableTutorial0 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial });
-      airtableBuilder.mockLists({ tutorials: [airtableTutorial0] });
       const userId = databaseBuilder.factory.buildUser().id;
-      const userTutorial = databaseBuilder.factory.buildUserTutorial({ userId, tutorialId: tutorial.id });
+      const userTutorial = databaseBuilder.factory.buildUserTutorial({ userId, tutorialId: 'recTutorial0' });
       await databaseBuilder.commit();
 
+      const tutorial = {
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.fr',
+        source: 'tuto.fr',
+        title: 'tuto0',
+        id: 'recTutorial0',
+      };
+      const learningContent = { tutorials: [tutorial] };
+      mockLearningContent(learningContent);
       // when
-      const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: [tutorial.id], userId });
+      const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: ['recTutorial0'], userId });
 
       // then
       expect(tutorials).to.have.lengthOf(1);
@@ -49,15 +62,22 @@ describe('Integration | Repository | tutorial-repository', () => {
 
     it('should associate tutorialEvaluation when it exists for provided user', async () => {
       // given
-      const tutorial = domainBuilder.buildTutorial();
-      const airtableTutorial0 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial });
-      airtableBuilder.mockLists({ tutorials: [airtableTutorial0] });
       const userId = databaseBuilder.factory.buildUser().id;
-      const tutorialEvaluation = databaseBuilder.factory.buildTutorialEvaluation({ userId, tutorialId: tutorial.id });
+      const tutorialEvaluation = databaseBuilder.factory.buildTutorialEvaluation({ userId, tutorialId: 'recTutorial0' });
       await databaseBuilder.commit();
 
+      const tutorial = {
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.fr',
+        source: 'tuto.fr',
+        title: 'tuto0',
+        id: 'recTutorial0',
+      };
+      const learningContent = { tutorials: [tutorial] };
+      mockLearningContent(learningContent);
       // when
-      const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: [tutorial.id], userId });
+      const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: ['recTutorial0'], userId });
 
       // then
       expect(tutorials).to.have.lengthOf(1);
@@ -69,19 +89,31 @@ describe('Integration | Repository | tutorial-repository', () => {
 
     it('should find tutorials by ids', async () => {
       // given
-      const tutorial0 = domainBuilder.buildTutorial();
-      const tutorial1 = domainBuilder.buildTutorial();
-      const airtableTutorial0 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial0 });
-      const airtableTutorial1 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial1 });
-      airtableBuilder.mockLists({ tutorials: [airtableTutorial0, airtableTutorial1] });
+      const tutorialsList = [{
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.fr',
+        source: 'tuto.fr',
+        title: 'tuto0',
+        id: 'recTutorial0',
+      },{
+        duration: '00:01:54',
+        format: 'page',
+        link: 'https://tuto.com',
+        source: 'tuto.com',
+        title: 'tuto1',
+        id: 'recTutorial1',
+      }];
+      const learningContent = { tutorials: tutorialsList };
+      mockLearningContent(learningContent);
 
       // when
-      const tutorials = await tutorialRepository.findByRecordIds([tutorial0.id, tutorial1.id]);
+      const tutorials = await tutorialRepository.findByRecordIds(['recTutorial0', 'recTutorial1']);
 
       // then
       expect(tutorials).to.have.lengthOf(2);
       expect(tutorials[0]).to.be.instanceof(Tutorial);
-      expect(tutorials).to.deep.include.members([tutorial0, tutorial1]);
+      expect(tutorials).to.deep.include.members(tutorialsList);
     });
   });
 
@@ -102,15 +134,22 @@ describe('Integration | Repository | tutorial-repository', () => {
 
       it('should return the tutorial', async () => {
         // given
-        const expectedTutorial = domainBuilder.buildTutorial();
-        const airtableTutorial = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: expectedTutorial });
-        airtableBuilder.mockLists({ tutorials: [airtableTutorial] });
+        const tutorials = [{
+          duration: '00:00:54',
+          format: 'video',
+          link: 'https://tuto.fr',
+          source: 'tuto.fr',
+          title: 'tuto0',
+          id: 'recTutorial0',
+        }];
+        const learningContent = { tutorials: tutorials };
+        mockLearningContent(learningContent);
 
         // when
-        const tutorial = await tutorialRepository.get(expectedTutorial.id);
+        const tutorial = await tutorialRepository.get('recTutorial0');
 
         // then
-        expect(tutorial).to.deep.equal(expectedTutorial);
+        expect(tutorial).to.deep.equal(tutorials[0]);
       });
     });
   });
@@ -119,11 +158,23 @@ describe('Integration | Repository | tutorial-repository', () => {
 
     it('should return all tutorials', async () => {
       // given
-      const tutorial0 = domainBuilder.buildTutorial();
-      const tutorial1 = domainBuilder.buildTutorial();
-      const airtableTutorial0 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial0 });
-      const airtableTutorial1 = airtableBuilder.factory.buildTutorial.fromDomain({ domainTutorial: tutorial1 });
-      airtableBuilder.mockLists({ tutorials: [airtableTutorial0, airtableTutorial1] });
+      const tutorialsList = [{
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.fr',
+        source: 'tuto.fr',
+        title: 'tuto0',
+        id: 'recTutorial0',
+      },{
+        duration: '00:01:54',
+        format: 'page',
+        link: 'https://tuto.com',
+        source: 'tuto.com',
+        title: 'tuto1',
+        id: 'recTutorial1',
+      }];
+      const learningContent = { tutorials: tutorialsList };
+      mockLearningContent(learningContent);
 
       // when
       const tutorials = await tutorialRepository.list();
@@ -131,7 +182,7 @@ describe('Integration | Repository | tutorial-repository', () => {
       // then
       expect(tutorials).to.have.lengthOf(2);
       expect(tutorials[0]).to.be.instanceof(Tutorial);
-      expect(tutorials).to.deep.include.members([tutorial0, tutorial1]);
+      expect(tutorials).to.deep.include.members(tutorialsList);
     });
   });
 });
