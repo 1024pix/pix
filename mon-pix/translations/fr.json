@@ -75,9 +75,16 @@
             "assessment": {
                 "title": "Commencez votre parcours",
                 "action": "Je commence",
-                "announcement": "Démarrez votre parcours d'évaluation personnalisé.'<br>' Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.",
+                "announcement": "",
+                "certify": {
+                    "title": "Préparer une certification reconnue par l’État et le monde professionnel",
+                    "description": "La certification Pix permet de valoriser ses compétences numériques auprès des employeurs."
+                },
                 "details": "Durant ce parcours, vous aurez l’opportunité de :",
-                "legal": "Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.",
+                "develop": {
+                    "title": "Découvrir vos résultats au fil du test et consulter des indices pour progresser.",
+                    "description": "Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences."
+                },
                 "evaluate": {
                     "title": "Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :",
                     "complement": "Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.",
@@ -87,14 +94,7 @@
                         "label": "En savoir plus."
                     }
                 },
-                "develop": {
-                    "title": "Découvrir vos résultats au fil du test et consulter des indices pour progresser.",
-                    "description": "Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences."
-                },
-                "certify": {
-                    "title": "Préparer une certification reconnue par l’État et le monde professionnel",
-                    "description": "La certification Pix permet de valoriser ses compétences numériques auprès des employeurs."
-                }
+                "legal": ""
             },
             "profiles-collection": {
                 "title": "Envoyez votre profil",
@@ -643,18 +643,25 @@
             "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
             "pix-contest": {
                 "title": "Bienvenue dans cette session Pix-concours.",
-                "links": {
-                    "link1": "'<a href=\"/campagnes/CAMPTEST\">'Module 1'</a>'",
-                    "link2": "'<a href=\"Second lien\">'Nom du second module'</a>'",
-                    "link3": "'<a href=\"Troisième lien\">'Nom du troisième module'</a>'",
-                    "link4": "'<a href=\"Quatrième lien\">'Nom du quatrième module'</a>'",
-                    "link5": "'<a href=\"Cinquième lien\">'Nom du cinquième module'</a>'"
+                "descriptions": {
+                    "description1": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description2": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description3": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description4": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
+                    "description5": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes"
                 },
-                "rules": "Règles de l'épreuve",
+                "links": {
+                    "link1": "'<a href=\"/campagnes/CAMPTEST\">'Module Développer des documents textuels'</a>'",
+                    "link2": "'<a href=\"Second lien\">'Module Mener une recherche et une veille d’information'</a>'",
+                    "link3": "'<a href=\"Troisième lien\">'Module Gérer des données'</a>'",
+                    "link4": "'<a href=\"Quatrième lien\">'Module Traiter des données'</a>'",
+                    "link5": "'<a href=\"Cinquième lien\">'Module Interagir/partager des données'</a>'"
+                },
+                "rules": "Rappel :'<br>'- Vous pouvez passer les modules dans l’ordre que vous voulez '<br>'- Vous pouvez arrêter et reprendre votre module '<br>'- Une fois la question validée, il n’est pas possible de modifier votre réponse",
                 "send-results": {
                     "button": "J'envoie ma copie",
                     "finished": "Votre copie a bien été transmise.",
-                    "instructions": "Instructions à modifier"
+                    "instructions": "Tout envoi de copie est définitif."
                 }
             },
             "resume-campaign-banner": {
@@ -809,7 +816,7 @@
             "not-finished": "Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.",
             "pix-contest": {
                 "link": "Cliquez ici pour être redirigé sur la page d'accueil",
-                "title": "Bravo, vous avez terminé ce module!"
+                "title": "Vous avez terminé ce module!"
             },
             "send-results": "N'oubliez pas d'envoyer vos résultats à l'organisateur du parcours.",
             "send-status": {
