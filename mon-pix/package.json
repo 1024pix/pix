@@ -98,7 +98,7 @@
     "ember-simple-auth-oidc": "^3.0.0",
     "ember-sinon": "^4.1.1",
     "ember-source": "~3.18.1",
-    "ember-template-lint": "^2.9.1",
+    "ember-template-lint": "^2.14.0",
     "ember-truth-helpers": "^2.1.0",
     "eslint": "^7.14.0",
     "eslint-plugin-ember": "^9.6.0",
