@@ -800,7 +800,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
-          456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
+          0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
           `;
           const buffer = iconv.encode(input, 'UTF-8');
 
@@ -823,7 +823,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           // then
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.map(schoolingRegistrations, 'nationalApprenticeId')).to.have.members([null, '456F']);
+          expect(_.map(schoolingRegistrations, 'nationalApprenticeId')).to.have.members([null, '0123456789F']);
         });
       });
 

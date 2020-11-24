@@ -69,6 +69,10 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
   _handleError(err, index) {
     const column = this._columns.find((column) => column.name === err.key);
 
+    if (err.why === 'bad_pattern' && err.pattern === 'INA') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” (INA) doit être de 10 chiffres suivis d’une lettre.`);
+    }
+
     if (err.why === 'uniqueness') {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” de cette ligne est présent plusieurs fois dans le fichier.`);
     }
