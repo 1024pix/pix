@@ -12,6 +12,7 @@ const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const PIX_MASTER_ROLE_ID = 1;
@@ -277,8 +278,14 @@ module.exports = {
 
   async getBySamlId(samlId) {
     const bookshelfUser = await BookshelfUser
-      .where({ samlId })
-      .fetch();
+      .query((qb) => {
+        qb.innerJoin('authentication-methods', function() {
+          this.on('users.id', 'authentication-methods.userId')
+            .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR)
+            .andOnVal('authentication-methods.externalIdentifier', samlId);
+        });
+      })
+      .fetch({ withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 

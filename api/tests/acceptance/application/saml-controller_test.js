@@ -1,7 +1,8 @@
-const { expect, knex, sinon } = require('../../test-helper');
+const { expect, knex, sinon, databaseBuilder } = require('../../test-helper');
 const samlify = require('samlify');
 const createServer = require('../../../server');
 const settings = require('../../../lib/config');
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const _ = require('lodash');
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG
@@ -191,10 +192,6 @@ describe('Acceptance | Controller | saml-controller', () => {
       });
     });
 
-    afterEach(() => {
-      return knex('users').delete();
-    });
-
     it('should return externalUser idToken if the user does not a have an account yet', async () => {
       // when
       const firstVisitResponse = await server.inject({
@@ -212,13 +209,9 @@ describe('Acceptance | Controller | saml-controller', () => {
 
     it('should return an accessToken if the user already exists', async () => {
       // given
-      await knex('users').insert({
-        firstName,
-        lastName,
-        samlId,
-        password: '',
-        cgu: false,
-      });
+      const userId = databaseBuilder.factory.buildUser({ firstName, lastName, password: '', cgu: false }).id;
+      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId, userId });
+      await databaseBuilder.commit();
 
       // when
       const response = await server.inject({

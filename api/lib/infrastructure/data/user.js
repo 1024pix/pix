@@ -10,6 +10,7 @@ require('./membership');
 require('./certification-center-membership');
 require('./user-orga-settings');
 require('./schooling-registration');
+require('./authentication-method');
 
 const modelName = 'User';
 
@@ -45,6 +46,10 @@ module.exports = Bookshelf.model(modelName, {
 
   schoolingRegistrations() {
     return this.hasMany('SchoolingRegistration', 'userId');
+  },
+
+  authenticationMethods() {
+    return this.hasMany('AuthenticationMethod', 'userId');
   },
 
   toDomainEntity() {

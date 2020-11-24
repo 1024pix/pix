@@ -2,7 +2,6 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, genera
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
 describe('Acceptance | Controller | Schooling-registration-user-associations', () => {
 
@@ -528,10 +527,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.statusCode).to.equal(200);
           expect(response.payload).to.contains('access-token');
 
-          const userFoundByNewSamlId = await userRepository.getBySamlId(externalUser.samlId);
+          const result = await knex('users').where({ samlId: externalUser.samlId }).select();
+          const userFoundByNewSamlId = result[0];
           expect(userFoundByNewSamlId.firstName).to.equal(externalUser.firstName);
           expect(userFoundByNewSamlId.lastName).to.equal(externalUser.lastName);
-
         });
 
         it('should replace the existing user samlId already reconciled in the same organization found with the authenticated user samlId', async () => {
@@ -571,12 +570,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.payload).to.contains('access-token');
-          const userFoundByNewSamlId = await userRepository.getBySamlId(externalUser.samlId);
+          const result = await knex('users').where({ samlId: externalUser.samlId }).select();
+          const userFoundByNewSamlId = result[0];
           expect(userFoundByNewSamlId.firstName).to.equal(externalUser.firstName);
           expect(userFoundByNewSamlId.lastName).to.equal(externalUser.lastName);
-
         });
-
       });
 
       context('when external user id token is not valid', () => {

@@ -282,7 +282,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         // given
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
         schoolingRegistration.userId = undefined;
-        const alreadyCreatedUser = databaseBuilder.factory.buildUser({ firstName, lastName, samlId });
+        const alreadyCreatedUser = databaseBuilder.factory.buildUser({ firstName, lastName });
+        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId, userId: alreadyCreatedUser.id });
         await databaseBuilder.commit();
 
         // when
