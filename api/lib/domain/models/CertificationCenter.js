@@ -29,6 +29,10 @@ class CertificationCenter {
     // includes
     // references
   }
+
+  get isSco() {
+    return this.type === types.SCO;
+  }
 }
 
 module.exports = CertificationCenter;
