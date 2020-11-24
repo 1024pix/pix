@@ -39,9 +39,10 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     );
   }
 
-  // TODO : reset page courante + taille de page
   resetController(controller, isExiting) {
     if (isExiting) {
+      controller.set('pageSize', undefined);
+      controller.set('pageNumber', undefined);
       const allStudentsInStore = this.store.peekAll('student');
       allStudentsInStore.forEach((student) => {
         student.isSelected = false;
