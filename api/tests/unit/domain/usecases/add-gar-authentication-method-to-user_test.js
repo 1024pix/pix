@@ -22,7 +22,7 @@ describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
     tokenService = { extractSamlId: sinon.stub().returns(samlId) };
     userRepository = {
       getBySamlId: sinon.stub(),
-      getUserAuthenticationMethods: sinon.stub(),
+      getForObfuscation: sinon.stub(),
     };
     authenticationMethodRepository = {
       create: sinon.stub(),
@@ -73,7 +73,7 @@ describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
     it('should throw an UnexpectedUserAccount when the authenticated user does not match the expected one', async () => {
       // given
       const unexpectedUserId = expectedUserId + 1;
-      userRepository.getUserAuthenticationMethods.returns(new User());
+      userRepository.getForObfuscation.returns(new User());
       const expectedObfuscatedValue = 'ObfuscatedEmail';
       obfuscationService.getUserAuthenticationMethodWithObfuscation.returns({ value: expectedObfuscatedValue });
 

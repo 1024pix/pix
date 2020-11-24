@@ -199,7 +199,7 @@ module.exports = {
       });
   },
 
-  getUserAuthenticationMethods(userId) {
+  getForObfuscation(userId) {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true, columns: ['id','email','username'] })

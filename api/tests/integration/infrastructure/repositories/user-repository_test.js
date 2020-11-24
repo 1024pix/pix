@@ -177,7 +177,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#getUserAuthenticationMethods', () => {
+  describe('#getForObfuscation', () => {
 
     let userInDb;
 
@@ -188,7 +188,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     it('should return a domain user with authentication methods only when found', async () => {
       // when
-      const user = await userRepository.getUserAuthenticationMethods(userInDb.id);
+      const user = await userRepository.getForObfuscation(userInDb.id);
 
       // then
       expect(user.username).to.equal(userInDb.username);
@@ -200,7 +200,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const userIdThatDoesNotExist = '99999';
 
       // when
-      const result = await catchErr(userRepository.getUserAuthenticationMethods)(userIdThatDoesNotExist);
+      const result = await catchErr(userRepository.getForObfuscation)(userIdThatDoesNotExist);
 
       // then
       expect(result).to.be.instanceOf(UserNotFoundError);

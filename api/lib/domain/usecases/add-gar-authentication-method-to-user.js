@@ -15,7 +15,7 @@ module.exports = async function addGarAuthenticationMethodToUser({
   authenticationMethodRepository,
 }) {
   if (expectedUserId !== userId) {
-    const user = await userRepository.getUserAuthenticationMethods(expectedUserId);
+    const user = await userRepository.getForObfuscation(expectedUserId);
     const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     throw new UnexpectedUserAccount({
