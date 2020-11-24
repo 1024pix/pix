@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const { isNumeric, splitIntoWordsAndRemoveBackspaces } = require('../../../../lib/infrastructure/utils/string-utils');
+const { isNumeric, cleanStringAndParseFloat, splitIntoWordsAndRemoveBackspaces } = require('../../../../lib/infrastructure/utils/string-utils');
 
 describe('Unit | Utils | string-utils', () => {
   describe('isNumeric', () => {
@@ -20,6 +20,25 @@ describe('Unit | Utils | string-utils', () => {
       it(`should return ${data.expectedResult} with ${data.case}`, () => {
         // When
         const result = isNumeric(data.case);
+        // Then
+        expect(result).to.be.equal(data.expectedResult);
+      });
+    });
+  });
+
+  describe('cleanStringAndParseFloat', () => {
+    [
+      { case: '0123', expectedResult: 123 },
+      { case: '1,23', expectedResult: 1.23 },
+      { case: '01,23', expectedResult: 1.23 },
+      { case: '1.23', expectedResult: 1.23 },
+      { case: '1.00', expectedResult: 1.00 },
+      { case: '1.00', expectedResult: 1 },
+      { case: '00025 000', expectedResult: 25000 },
+    ].forEach((data) => {
+      it(`should return ${data.expectedResult} with ${data.case}`, () => {
+        // When
+        const result = cleanStringAndParseFloat(data.case);
         // Then
         expect(result).to.be.equal(data.expectedResult);
       });

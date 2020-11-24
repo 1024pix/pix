@@ -1,6 +1,6 @@
 const utils = require('./solution-service-utils');
 const deactivationsService = require('../../../lib/domain/services/deactivations-service');
-const { isNumeric, splitIntoWordsAndRemoveBackspaces } = require('../../../lib/infrastructure/utils/string-utils');
+const { isNumeric, splitIntoWordsAndRemoveBackspaces, cleanStringAndParseFloat } = require('../../../lib/infrastructure/utils/string-utils');
 const { includes, isEmpty, isString, map } = require('lodash');
 const {
   normalizeAndRemoveAccents,
@@ -32,7 +32,7 @@ module.exports = {
 };
 
 function _getAnswerStatusFromNumberMatching(answer, solution) {
-  if (parseFloat(answer) === parseFloat(solution)) {
+  if (cleanStringAndParseFloat(answer) === cleanStringAndParseFloat(solution)) {
     return AnswerStatus.OK;
   }
   return AnswerStatus.KO;
