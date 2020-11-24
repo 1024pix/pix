@@ -1,7 +1,6 @@
-const { expect, catchErr, databaseBuilder, airtableBuilder } = require('../../../test-helper');
+const { expect, catchErr, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Integration | UseCase | find-paginated-campaign-assessment-participation-summaries', () => {
 
@@ -44,13 +43,8 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
 
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
+      mockLearningContent({ skills: [skill] });
       await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
     });
 
     it('returns the campaignAssessmentParticipationSummaries for the participants of the campaign', async () => {
