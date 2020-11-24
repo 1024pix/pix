@@ -134,6 +134,7 @@ module.exports = (function() {
       certifPrescriptionSco: isFeatureEnabled(process.env.FT_CERTIF_PRESCRIPTION_SCO),
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
       reportsCategorization: isFeatureEnabled(process.env.FT_REPORTS_CATEGORISATION),
+      certifBlockingScoUserAccess: isFeatureEnabled(process.env.FT_CERTIF_BLOCKING_SCO_USER_ACCESS),
     },
 
     infra: {
