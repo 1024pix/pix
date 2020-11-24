@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.222.0 (24/11/2020)
+
+- [#2169](https://github.com/1024pix/pix/pull/2169) [BUGFIX] N'autoriser que les code INSEE pour les birthCountryCode et birthCityCode lors d'un import CSV (Pix-1623).
+- [#2181](https://github.com/1024pix/pix/pull/2181) [BUGFIX] Ajout d'une vérification sur l'id de certification sur Pix Admin (PIX-1652)
+- [#2149](https://github.com/1024pix/pix/pull/2149) [TECH] Effectuer la montée de version d'Ember (3.21 → 3.22) pour Pix Admin (PIX-1688)
+- [#2188](https://github.com/1024pix/pix/pull/2188) [TECH] Mettre à jour le lien Pix cloud vers les documents de Pix Orga. 
+
 ## v2.221.0 (20/11/2020)
 
 - [#2162](https://github.com/1024pix/pix/pull/2162) [FEATURE] Supprimer la règle d'appartenance à Pix Orga pour ajouter des élèves à une session dans Pix Certif (PIX-1614)
