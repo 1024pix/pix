@@ -190,6 +190,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.SessionAlreadyFinalizedError).to.exist;
   });
 
+  it('should export a TargetProfileInvalidError', () => {
+    expect(errors.TargetProfileInvalidError).to.exist;
+  });
+
   describe('#InvalidTemporaryKeyError', () => {
     it('should export a InvalidTemporaryKeyError', () => {
       expect(errors.InvalidTemporaryKeyError).to.exist;

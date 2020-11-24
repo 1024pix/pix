@@ -566,6 +566,12 @@ class SessionAlreadyFinalizedError extends DomainError {
   }
 }
 
+class TargetProfileInvalidError extends DomainError {
+  constructor(message = 'Le profil cible ne possède aucun acquis ciblé.') {
+    super(message);
+  }
+}
+
 class UserAlreadyLinkedToCandidateInSessionError extends DomainError {
   constructor(message = 'Cet utilisateur est déjà lié à un candidat de certification au sein de cette session.') {
     super(message);
@@ -714,6 +720,7 @@ module.exports = {
   SchoolingRegistrationsCouldNotBeSavedError,
   SchoolingRegistrationNotFound,
   SessionAlreadyFinalizedError,
+  TargetProfileInvalidError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserCouldNotBeReconciledError,
