@@ -28,11 +28,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
   describe('#get', () => {
 
-    const recordId = 'rec1';
-    const cacheKey = someDatasource.modelName;
-
     beforeEach(() => {
-      cache.get.withArgs(cacheKey).callsFake((cacheKey, generator) => generator());
+      cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
     });
 
     context('(success cases)', () => {
@@ -51,7 +48,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
       it('should fetch a single record from LCMS API (or its cached copy)', async () => {
         // when
-        const record = await someDatasource.get(recordId);
+        const record = await someDatasource.get('rec1');
 
         // then
         expect(record).to.deep.equal({ id: 'rec1', property: 'value1' });
@@ -62,7 +59,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         const unboundGet = someDatasource.get;
 
         // when
-        const record = await unboundGet(recordId);
+        const record = await unboundGet('rec1');
 
         // then
         expect(record).to.deep.equal({ id: 'rec1', property: 'value1' });
@@ -70,10 +67,10 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
       it('should be cachable', async () => {
         // when
-        await someDatasource.get(recordId);
+        await someDatasource.get('rec1');
 
         // then
-        expect(cache.get).to.have.been.calledWith(cacheKey);
+        expect(cache.get).to.have.been.calledWith('LearningContent');
       });
     });
 
@@ -102,7 +99,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
         sinon.stub(lcms, 'getLatestRelease').rejects(err);
 
         // when
-        const promise = someDatasource.get(recordId);
+        const promise = someDatasource.get('rec1');
 
         // then
         return expect(promise).to.have.been.rejectedWith(err);
@@ -114,7 +111,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
     let learningContent;
 
     beforeEach(() => {
-      cache.get.withArgs(someDatasource.modelName).callsFake((cacheKey, generator) => generator());
+      cache.get.withArgs('LearningContent').callsFake((cacheKey, generator) => generator());
 
       learningContent = {
         learningContentModel: [
@@ -149,7 +146,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       await someDatasource.list();
 
       // then
-      expect(cache.get).to.have.been.calledWith(someDatasource.modelName);
+      expect(cache.get).to.have.been.calledWith('LearningContent');
     });
   });
 
