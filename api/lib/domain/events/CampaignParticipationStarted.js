@@ -1,7 +1,7 @@
-class CampaignParticipationResultsShared {
+class CampaignParticipationStarted {
   constructor({ campaignParticipationId } = {}) {
     this.campaignParticipationId = campaignParticipationId;
   }
 }
 
-module.exports = CampaignParticipationResultsShared;
+module.exports = CampaignParticipationStarted;

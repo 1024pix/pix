@@ -1,18 +1,16 @@
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { handleCampaignParticipationResultsSending } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
+const { handlePoleEmploiParticipationStarted } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-campaign-participation-results-sending', () => {
+describe('Unit | Domain | Events | handle-pole-emploi-participation-started', () => {
   let event;
   let campaignRepositoryStub;
   let campaignParticipationRepositoryStub;
-  let campaignParticipationResultRepositoryStub;
   let organizationRepositoryStub;
   let targetProfileRepositoryStub;
   let userRepositoryStub;
@@ -20,7 +18,6 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
   const dependencies = {
     campaignRepository,
     campaignParticipationRepository,
-    campaignParticipationResultRepository,
     organizationRepository,
     targetProfileRepository,
     userRepository,
@@ -42,51 +39,22 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
       prenom: 'Jean',
     },
     test: {
-      etat: 4,
-      progression: 100,
+      etat: 2,
+      progression: 0,
       typeTest: 'DI',
       referenceExterne: 55667788,
       dateDebut: '2020-01-02T00:00:00.000Z',
-      dateProgression: '2020-01-03T00:00:00.000Z',
-      dateValidation: '2020-01-03T00:00:00.000Z',
-      evaluation: 70,
+      dateProgression: null,
+      dateValidation: null,
+      evaluation: null,
       uniteEvaluation: 'A',
-      elementsEvalues: [
-        {
-          libelle: 'Gérer des données',
-          categorie: 'competence',
-          type: 'competence Pix',
-          domaineRattachement: 'Information et données',
-          nbSousElements: 4,
-          evaluation: {
-            scoreObtenu: 50,
-            uniteScore: 'A',
-            nbSousElementValide: 2,
-          },
-        },
-        {
-          libelle: 'Gérer des données 2',
-          categorie: 'competence',
-          type: 'competence Pix',
-          domaineRattachement: 'Information et données',
-          nbSousElements: 3,
-          evaluation: {
-            scoreObtenu: 100,
-            uniteScore: 'A',
-            nbSousElementValide: 3,
-          },
-        },
-      ],
+      elementsEvalues: [],
     },
   });
 
   beforeEach(() => {
     campaignRepositoryStub = sinon.stub(campaignRepository, 'get');
     campaignParticipationRepositoryStub = sinon.stub(campaignParticipationRepository, 'get');
-    campaignParticipationResultRepositoryStub = sinon.stub(
-      campaignParticipationResultRepository,
-      'getByParticipationId',
-    );
     organizationRepositoryStub = sinon.stub(organizationRepository, 'get');
     targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get');
     userRepositoryStub = sinon.stub(userRepository, 'get');
@@ -96,77 +64,52 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
     // given
     const event = 'not an event of the correct type';
     // when / then
-    const error = await catchErr(handleCampaignParticipationResultsSending)({ event, ...dependencies });
+    const error = await catchErr(handlePoleEmploiParticipationStarted)({ event, ...dependencies });
 
     // then
     expect(error).not.to.be.null;
   });
 
-  context('#handleCampaignParticipationResultsSending', () => {
-    const campaignParticipationId = Symbol('campaignParticipationId');
+  context('#handlePoleEmploiParticipationStarted', () => {
+    const campaignParticipationId = 55667788;
     const campaignId = Symbol('campaignId');
     const userId = Symbol('userId');
     const organizationId = Symbol('organizationId');
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', () => {
       beforeEach(() => {
-        event = new CampaignParticipationResultsShared({
-          campaignId,
-          campaignParticipationId,
+        const campaignParticipation = domainBuilder.buildCampaignParticipation({
+          id: campaignParticipationId,
           userId,
-          organizationId,
+          campaignId,
+          createdAt: new Date('2020-01-02'),
         });
 
+        campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(campaignParticipation);
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
         userRepositoryStub.withArgs(userId).resolves({ firstName: 'Jean', lastName: 'Bonneau' });
         campaignRepositoryStub.withArgs(campaignId).resolves(
           domainBuilder.buildCampaign({
-            id: 11223344,
+            id: campaignId,
             name: 'Campagne Pôle Emploi',
             code: 'CODEPE123',
             createdAt: new Date('2020-01-01'),
             archivedAt: new Date('2020-02-01'),
             type: 'ASSESSMENT',
             targetProfileId: 'targetProfileId1',
+            organizationId,
           }),
         );
         targetProfileRepositoryStub.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
-        campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(
-          domainBuilder.buildCampaignParticipation({
-            id: 55667788,
-            sharedAt: new Date('2020-01-03'),
-            createdAt: new Date('2020-01-02'),
-          }),
-        );
-        campaignParticipationResultRepositoryStub.withArgs(campaignParticipationId).resolves(
-          domainBuilder.buildCampaignParticipationResult({
-            totalSkillsCount: 10,
-            validatedSkillsCount: 7,
-            competenceResults: [
-              domainBuilder.buildCompetenceResult({
-                name: 'Gérer des données',
-                areaName: 'Information et données',
-                totalSkillsCount: 4,
-                testedSkillsCount: 2,
-                validatedSkillsCount: 2,
-              }),
-              domainBuilder.buildCompetenceResult({
-                name: 'Gérer des données 2',
-                areaName: 'Information et données',
-                totalSkillsCount: 3,
-                testedSkillsCount: 3,
-                validatedSkillsCount: 3,
-              }),
-            ],
-          }),
-        );
 
+        event = new CampaignParticipationStarted({ campaignParticipationId });
+        
         sinon.stub(console, 'log');
       });
 
       it('it should console.log results', async () => {
         // when
-        await handleCampaignParticipationResultsSending({
+        await handlePoleEmploiParticipationStarted({
           event,
           ...dependencies,
         });
@@ -180,20 +123,25 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
       beforeEach(() => {
-        event = new CampaignParticipationResultsShared({
-          campaignId,
-          campaignParticipationId,
+        const campaignParticipation = domainBuilder.buildCampaignParticipation({
+          id: campaignParticipationId,
           userId,
-          organizationId,
+          campaignId,
+          createdAt: new Date('2020-01-02'),
         });
-        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT' }));
+        
+        campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(campaignParticipation);
+        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
+        
+        event = new CampaignParticipationStarted({ campaignParticipationId });
+        
         sinon.stub(console, 'log');
       });
 
       it('it should not console.log results', async () => {
         // when
-        await handleCampaignParticipationResultsSending({
+        await handlePoleEmploiParticipationStarted({
           event,
           ...dependencies,
         });
@@ -205,23 +153,27 @@ describe('Unit | Domain | Events | handle-campaign-participation-results-sending
 
     context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', () => {
       beforeEach(() => {
-        event = new CampaignParticipationResultsShared({
-          campaignId,
-          campaignParticipationId,
+        const campaignParticipation = domainBuilder.buildCampaignParticipation({
+          id: campaignParticipationId,
           userId,
-          organizationId,
+          campaignId,
+          createdAt: new Date('2020-01-02'),
         });
-
+        
+        campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepositoryStub
           .withArgs(campaignId)
-          .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION' }));
+          .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organizationId }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
+
         sinon.stub(console, 'log');
+
+        event = new CampaignParticipationStarted({ campaignParticipationId });
       });
 
       it('it should not console.log results', async () => {
         // when
-        await handleCampaignParticipationResultsSending({
+        await handlePoleEmploiParticipationStarted({
           event,
           ...dependencies,
         });
