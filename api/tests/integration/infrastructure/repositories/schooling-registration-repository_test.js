@@ -146,10 +146,18 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ organizationId: organization.id });
+      const paginatedSchoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+        {
+          organizationId: organization.id,
+          page: {
+            size: 10,
+            number: 1,
+          },
+        },
+      );
 
       // then
-      const anySchoolingRegistration = schoolingRegistrations[0];
+      const anySchoolingRegistration = paginatedSchoolingRegistrations.data[0];
       expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
 
       expect(anySchoolingRegistration.firstName).to.equal(schoolingRegistration.firstName);
@@ -171,10 +179,17 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ organizationId: organization_1.id });
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+        {
+          organizationId: organization_1.id,
+          page: {
+            size: 10,
+            number: 1,
+          },
+        });
 
       // then
-      expect(_.map(schoolingRegistrations, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
+      expect(_.map(schoolingRegistrations.data, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
     });
 
     it('should order schoolingRegistrations by division and last name and then first name with no sensitive case', async () => {
@@ -217,16 +232,59 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ organizationId: organization.id });
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+        {
+          organizationId: organization.id,
+          page: {
+            size: 10,
+            number: 1,
+          },
+        },
+      );
 
       // then
-      expect(_.map(schoolingRegistrations, 'id')).to.deep.include.ordered.members([
+      expect(_.map(schoolingRegistrations.data, 'id')).to.deep.include.ordered.members([
         schoolingRegistration3ABA.id,
         schoolingRegistration3ABB.id,
         schoolingRegistration3B.id,
         schoolingRegistrationT1CA.id,
         schoolingRegistrationT1CB.id,
         schoolingRegistrationT2.id,
+      ]);
+    });
+
+    it('When there are two students and we ask for pages of one student, it should return one student on page two', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const schoolingRegistration3B = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3b',
+      });
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3A',
+        lastName: 'B',
+        firstName: 'A',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+        {
+          organizationId: organization.id,
+          page: {
+            size: 1,
+            number: 2,
+          },
+        },
+      );
+
+      // then
+      expect(_.map(schoolingRegistrations.data, 'id')).to.deep.include.ordered.members([
+        schoolingRegistration3B.id,
       ]);
     });
   });

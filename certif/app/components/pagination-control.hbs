@@ -1,0 +1,41 @@
+<div class="pagination-control content-text content-text--small">
+  <div class="page-size">
+    <div class="page-size__label">Voir</div>
+    <div class="page-size__choice">
+      <select class="content-text content-text--small" {{on "change" this.changePageSize}}>
+        <option value="25" selected="{{if (eq this.pageSize 25) true}}">25</option>
+        <option value="50" selected="{{if (eq this.pageSize 50) true}}">50</option>
+        <option value="100" selected="{{if (eq this.pageSize 100) true}}">100</option>
+      </select>
+      <FaIcon class="page-size__choice--icon" @icon="sort" aria-label="Nombre d'étudiants par page"/>
+    </div>
+  </div>
+  <div class="page-navigation">
+    <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq this.currentPage 1) "page-navigation__arrow--disabled"}}">
+      <LinkTo
+        aria-label="Aller à la page précédente"
+        @query={{hash pageNumber=this.previousPage}}
+        @disabledWhen={{eq this.currentPage 1}}
+        @replace={{true}}
+        class="icon-button icon-button--link"
+      >
+        <FaIcon @icon="arrow-left" aria-label="Page précédente"/>
+      </LinkTo>
+    </div>
+    <div>
+      Page {{this.currentPage}} / {{this.pageCount}}
+    </div>
+
+    <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq this.currentPage this.pageCount) "page-navigation__arrow--disabled"}}">
+      <LinkTo
+        aria-label="Aller à la page suivante"
+        @query={{hash pageNumber=this.nextPage}}
+        @disabledWhen={{eq this.currentPage this.pageCount}}
+        @replace={{true}}
+        class="icon-button icon-button--link"
+      >
+        <FaIcon @icon="arrow-right" aria-label="Page suivante"/>
+      </LinkTo>
+    </div>
+  </div>
+</div>

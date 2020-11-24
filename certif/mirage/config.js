@@ -1,5 +1,6 @@
 import Response from 'ember-cli-mirage/response';
 import { upload } from 'ember-file-upload/mirage';
+import { findPaginatedStudents } from './handlers/find-paginated-students';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -21,9 +22,7 @@ export default function() {
     return schema.sessions.where({ certificationCenterId });
   });
 
-  this.get('/certification-centers/:certificationCenterId/sessions/:sessionId/students', (schema) => {
-    return schema.students.all();
-  });
+  this.get('/certification-centers/:certificationCenterId/sessions/:sessionId/students', findPaginatedStudents);
 
   this.post('/revoke', () => {});
 

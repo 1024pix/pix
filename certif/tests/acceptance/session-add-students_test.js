@@ -76,18 +76,17 @@ module('Acceptance | Session Add Students', function(hooks) {
 
       const rowSelector = '.add-student-list table tbody tr';
 
-      module('when there are no enrolled students', function(hooks) {
+      module('when there are no enrolled students', function() {
+        const DEFAULT_PAGE_SIZE = 50;
 
-        hooks.beforeEach(async () => {
+        test('it should show first page of students (with default size)', async function(assert) {
           // given
-          server.createList('student', 10, { isSelected: false, isEnrolled: false });
+          server.createList('student', DEFAULT_PAGE_SIZE + 2, { isSelected: false, isEnrolled: false });
           await visit(`/sessions/${session.id}/ajout-eleves`);
-        });
 
-        test('it should show all students', async function(assert) {
           // then
           const allRow = document.querySelectorAll(rowSelector);
-          assert.equal(allRow.length, 10);
+          assert.equal(allRow.length, DEFAULT_PAGE_SIZE);
         });
 
         module('when selecting some students', function() {
@@ -96,6 +95,10 @@ module('Acceptance | Session Add Students', function(hooks) {
           const checkboxCheckedSelector = `${checkboxSelector}.checkbox--checked`;
 
           test('it should be possible to select 3 students', async function(assert) {
+            // given
+            server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
+            await visit(`/sessions/${session.id}/ajout-eleves`);
+
             // when
             const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
             const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
@@ -106,12 +109,16 @@ module('Acceptance | Session Add Students', function(hooks) {
 
             // then
             const allRow = document.querySelectorAll(rowSelector);
-            assert.equal(allRow.length, 10);
+            assert.equal(allRow.length, DEFAULT_PAGE_SIZE);
             const checkboxChecked = document.querySelectorAll(checkboxCheckedSelector);
             assert.equal(checkboxChecked.length, 3);
           });
 
           test('it should be possible to cancel enrolling students', async function(assert) {
+            // given
+            server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
+            await visit(`/sessions/${session.id}/ajout-eleves`);
+
             // given
             const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
             await click(checkbox);
@@ -127,6 +134,8 @@ module('Acceptance | Session Add Students', function(hooks) {
           module('when clicking on "Ajout"', function() {
             test('it redirect to previous page', async function(assert) {
               // given
+              server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
+              await visit(`/sessions/${session.id}/ajout-eleves`);
               const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
               await click(checkbox);
 
@@ -140,6 +149,8 @@ module('Acceptance | Session Add Students', function(hooks) {
 
             test('it should add students as certification candidates', async function(assert) {
               // given
+              server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
+              await visit(`/sessions/${session.id}/ajout-eleves`);
               const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
               const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
               const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
