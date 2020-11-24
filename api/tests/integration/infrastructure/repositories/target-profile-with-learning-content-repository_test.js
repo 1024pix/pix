@@ -1,7 +1,6 @@
-const { expect, databaseBuilder, airtableBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
 const TargetProfileWithLearningContent = require('../../../../lib/domain/models/TargetProfileWithLearningContent');
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/domain/errors');
 
@@ -34,11 +33,6 @@ async function buildDomainAndDatabaseStage(targetProfileId) {
 }
 
 describe('Integration | Repository | Target-profile-with-learning-content', () => {
-
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
-  });
 
   describe('#get', () => {
 
@@ -99,8 +93,56 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         competences: [competence1_1, competence1_2],
         areas: [area1],
       });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: expectedTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+
+      const learningContent = {
+        areas: [{
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'someColor',
+          competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
+        }],
+        competences: [{
+          id: 'recArea1_Competence1',
+          nameFrFr: 'competence1_1_name',
+          index: 'competence1_1_index',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+          origin: 'Pix',
+        }, {
+          id: 'recArea1_Competence2',
+          nameFrFr: 'competence1_2_name',
+          index: 'competence1_2_index',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          practicalTitleFrFr: 'tube1_1_1_practicalTitle',
+        }, {
+          id: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+          practicalTitleFrFr: 'tube1_2_1_practicalTitle',
+        }],
+        skills: [{
+          id: 'recArea1_Competence1_Tube1_Skill2',
+          name: 'skill1_1_1_2_name',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          tutorialIds: [],
+        }, {
+          id: 'recArea1_Competence2_Tube1_Skill1',
+          name: 'skill1_2_1_1_name',
+          status: 'actif',
+          tubeId: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+          tutorialIds: [],
+        }],
+      };
+
+      mockLearningContent(learningContent);
       await databaseBuilder.commit();
 
       // when
@@ -113,11 +155,39 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
 
     it('should return target profile badges without imageUrl', async () => {
       // given
-      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: 'recArea1_Competence1_Tube1_Skill1' });
+      const learningContent = {
+        areas: [{
+          id: 'recArea1',
+          titleFrFr: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['recArea1_Competence1'],
+        }],
+        competences: [{
+          id: 'recArea1_Competence1',
+          nameFrFr: 'someName',
+          index: 'someIndex',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          practicalTitleFrFr: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          tutorialIds: [],
+        }],
+      };
+
+      mockLearningContent(learningContent);
       await databaseBuilder.commit();
 
       const badge1 = await _buildDomainAndDatabaseBadge('badge1', targetProfileDB.id);
@@ -135,8 +205,37 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+      const learningContent = {
+        areas: [{
+          id: 'recArea1',
+          titleFrFr: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['recArea1_Competence1'],
+        }],
+        competences: [{
+          id: 'recArea1_Competence1',
+          nameFrFr: 'someName',
+          index: 'someIndex',
+          areaId: 'recArea1',
+          skillIds: [basicTargetProfile.skills[0].id],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          practicalTitleFrFr: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: basicTargetProfile.skills[0].id,
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          tutorialIds: [],
+        }],
+      };
+
+      mockLearningContent(learningContent);
       await databaseBuilder.commit();
 
       const stage1 = await buildDomainAndDatabaseStage(targetProfileDB.id);
@@ -160,11 +259,37 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         organizationId: targetProfileDB.organizationId,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({
-        targetProfile: expectedTargetProfile,
-        locale: ENGLISH_SPOKEN,
-      });
-      airtableBuilder.mockLists(airtableObjects);
+
+      const learningContent = {
+        areas: [{
+          id: 'areaId',
+          titleEnUs: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['competenceId'],
+        }],
+        competences: [{
+          id: 'competenceId',
+          nameEnUs: 'someName',
+          index: 'someIndex',
+          areaId: 'areaId',
+          skillIds: ['skillId'],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'tubeId',
+          competenceId: 'competenceId',
+          practicalTitleEnUs: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: 'skillId',
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'tubeId',
+          competenceId: 'competenceId',
+          tutorialIds: [],
+        }],
+      };
+      mockLearningContent(learningContent);
       await databaseBuilder.commit();
 
       // when
@@ -188,10 +313,36 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       await databaseBuilder.commit();
 
-      // trick to setup learning content
-      const someDummyTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: someDummyTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+      const learningContent = {
+        areas: [{
+          id: 'areaId',
+          titleEnUs: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['competenceId'],
+        }],
+        competences: [{
+          id: 'competenceId',
+          nameEnUs: 'someName',
+          index: 'someIndex',
+          areaId: 'areaId',
+          skillIds: ['skillId'],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'tubeId',
+          competenceId: 'competenceId',
+          practicalTitleEnUs: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: 'skillId',
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'tubeId',
+          competenceId: 'competenceId',
+          tutorialIds: [],
+        }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const error = await catchErr(targetProfileWithLearningContentRepository.get)({ id: targetProfileId });
@@ -261,8 +412,55 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         competences: [competence1_1, competence1_2],
         areas: [area1],
       });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: expectedTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+      const learningContent = {
+        areas: [{
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'someColor',
+          competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
+        }],
+        competences: [{
+          id: 'recArea1_Competence1',
+          nameFrFr: 'competence1_1_name',
+          index: 'competence1_1_index',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+          origin: 'Pix',
+        }, {
+          id: 'recArea1_Competence2',
+          nameFrFr: 'competence1_2_name',
+          index: 'competence1_2_index',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          practicalTitleFrFr: 'tube1_1_1_practicalTitle',
+        }, {
+          id: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+          practicalTitleFrFr: 'tube1_2_1_practicalTitle',
+        }],
+        skills: [{
+          id: 'recArea1_Competence1_Tube1_Skill2',
+          name: 'skill1_1_1_2_name',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+          tutorialIds: [],
+        }, {
+          id: 'recArea1_Competence2_Tube1_Skill1',
+          name: 'skill1_2_1_1_name',
+          status: 'actif',
+          tubeId: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+          tutorialIds: [],
+        }],
+      };
+
+      mockLearningContent(learningContent);
       await databaseBuilder.commit();
 
       // when
@@ -278,8 +476,36 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+      const learningContent = {
+        areas: [{
+          id: 'areaId',
+          titleEnUs: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['competenceId'],
+        }],
+        competences: [{
+          id: 'competenceId',
+          nameEnUs: 'someName',
+          index: 'someIndex',
+          areaId: 'areaId',
+          skillIds: [basicTargetProfile.skills[0].id],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'tubeId',
+          competenceId: 'competenceId',
+          practicalTitleEnUs: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: basicTargetProfile.skills[0].id,
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'tubeId',
+          competenceId: 'competenceId',
+          tutorialIds: [],
+        }],
+      };
+      mockLearningContent(learningContent);
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
       await databaseBuilder.commit();
 
@@ -298,8 +524,37 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: basicTargetProfile.skills[0].id });
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: basicTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+
+      const learningContent = {
+        areas: [{
+          id: 'areaId',
+          titleEnUs: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['competenceId'],
+        }],
+        competences: [{
+          id: 'competenceId',
+          nameEnUs: 'someName',
+          index: 'someIndex',
+          areaId: 'areaId',
+          skillIds: [basicTargetProfile.skills[0].id],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'tubeId',
+          competenceId: 'competenceId',
+          practicalTitleEnUs: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: basicTargetProfile.skills[0].id,
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'tubeId',
+          competenceId: 'competenceId',
+          tutorialIds: [],
+        }],
+      };
+      mockLearningContent(learningContent);
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
       await databaseBuilder.commit();
 
@@ -325,11 +580,36 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({
-        targetProfile: expectedTargetProfile,
-        locale: ENGLISH_SPOKEN,
-      });
-      airtableBuilder.mockLists(airtableObjects);
+      const learningContent = {
+        areas: [{
+          id: 'areaId',
+          titleEnUs: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['competenceId'],
+        }],
+        competences: [{
+          id: 'competenceId',
+          nameEnUs: 'someName',
+          index: 'someIndex',
+          areaId: 'areaId',
+          skillIds: ['skillId'],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'tubeId',
+          competenceId: 'competenceId',
+          practicalTitleEnUs: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: 'skillId',
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'tubeId',
+          competenceId: 'competenceId',
+          tutorialIds: [],
+        }],
+      };
+      mockLearningContent(learningContent);
       await databaseBuilder.commit();
 
       // when
@@ -354,10 +634,36 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
       await databaseBuilder.commit();
 
-      // trick to setup learning content
-      const someDummyTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-      const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: someDummyTargetProfile });
-      airtableBuilder.mockLists(airtableObjects);
+      const learningContent = {
+        areas: [{
+          id: 'areaId',
+          titleEnUs: 'someTitle',
+          color: 'someColor',
+          competenceIds: ['competenceId'],
+        }],
+        competences: [{
+          id: 'competenceId',
+          nameEnUs: 'someName',
+          index: 'someIndex',
+          areaId: 'areaId',
+          skillIds: ['skillId'],
+          origin: 'Pix',
+        }],
+        tubes: [{
+          id: 'tubeId',
+          competenceId: 'competenceId',
+          practicalTitleEnUs: 'somePracticalTitle',
+        }],
+        skills: [{
+          id: 'skillId',
+          name: 'someSkillName5',
+          status: 'actif',
+          tubeId: 'tubeId',
+          competenceId: 'competenceId',
+          tutorialIds: [],
+        }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const error = await catchErr(targetProfileWithLearningContentRepository.getByCampaignId)({ campaignId });
