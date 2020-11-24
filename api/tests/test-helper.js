@@ -5,6 +5,7 @@ const sinon = require('sinon');
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
+const cache = require('../lib/infrastructure/caches/learning-content-cache');
 
 const { knex } = require('../db/knex-database-connection');
 
@@ -22,6 +23,8 @@ const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
 afterEach(function() {
   sinon.restore();
+  cache.flushAll();
+  nock.cleanAll();
   return databaseBuilder.clean();
 });
 
@@ -140,6 +143,13 @@ chai.use(function(chai) {
   });
 });
 
+function mockLearningContent(learningContent) {
+  nock('https://lcms-test.pix.fr/api')
+    .get('/releases/latest')
+    .matchHeader('Authorization', 'Bearer test-api-key')
+    .reply(200, learningContent);
+}
+
 module.exports = {
   EMPTY_BLANK_AND_NULL,
   airtableBuilder,
@@ -158,4 +168,5 @@ module.exports = {
   catchErr,
   testErr: new Error('Fake Error'),
   compareDatabaseObject,
+  mockLearningContent,
 };
