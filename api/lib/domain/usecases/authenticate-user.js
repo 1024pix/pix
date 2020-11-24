@@ -23,7 +23,7 @@ function _checkUserAccessScope(scope, user) {
 
 async function _checkScoUserAccessCertifScope({ scope, user, certificationCenterMembershipRepository }) {
   const doesUserBelongToScoCertificationCenter = await _doesUserBelongsToScoCenter({ user, certificationCenterMembershipRepository });
-  const shouldScoUserBeBlocked = config.featureToggles.certifBlockingScoUserAccess;
+  const shouldScoUserBeBlocked = false === config.featureToggles.certifPrescriptionSco;
   const isUserTryingToConnectToPixCertif = scope === apps.PIX_CERTIF.SCOPE;
 
   if (isUserTryingToConnectToPixCertif &&
