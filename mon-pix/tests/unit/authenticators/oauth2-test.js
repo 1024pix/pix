@@ -1,7 +1,6 @@
 import { setupTest } from 'ember-mocha';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { get } from '@ember/object';
 
 import ENV from '../../../config/environment';
 
@@ -18,8 +17,8 @@ describe('Unit | Authenticator | oauth2', function() {
     const authenticator = this.owner.lookup('authenticator:oauth2');
 
     // Then
-    expect(get(authenticator, 'serverTokenEndpoint')).equal(serverTokenEndpoint);
-    expect(get(authenticator, 'serverTokenRevocationEndpoint')).equal(serverTokenRevocationEndpoint);
+    expect(authenticator.serverTokenEndpoint).equal(serverTokenEndpoint);
+    expect(authenticator.serverTokenRevocationEndpoint).equal(serverTokenRevocationEndpoint);
   });
 
 });
