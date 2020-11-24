@@ -1,7 +1,7 @@
 const utils = require('./solution-service-utils');
 const deactivationsService = require('../../../lib/domain/services/deactivations-service');
 const { isNumeric, splitIntoWordsAndRemoveBackspaces, cleanStringAndParseFloat } = require('../../../lib/infrastructure/utils/string-utils');
-const { includes, isEmpty, isString, map } = require('lodash');
+const { every, includes, isEmpty, isString, map } = require('lodash');
 const {
   normalizeAndRemoveAccents,
   removeSpecialCharacters,
@@ -23,11 +23,16 @@ module.exports = {
       return AnswerStatus.KO;
     }
 
-    if (isNumeric(answer) && isNumeric(solution)) {
+    const solutions = splitIntoWordsAndRemoveBackspaces(solution);
+    const areAllNumericSolutions = every(solutions, (solution) => {
+      return isNumeric(solution);
+    });
+
+    if (isNumeric(answer) && areAllNumericSolutions) {
       return _getAnswerStatusFromNumberMatching(answer, solution);
     }
 
-    return _getAnswerStatusFromStringMatching(answer, solution, deactivations);
+    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations);
   },
 };
 
@@ -38,42 +43,41 @@ function _getAnswerStatusFromNumberMatching(answer, solution) {
   return AnswerStatus.KO;
 }
 
-function _getAnswerStatusFromStringMatching(answer, solution, deactivations) {
+function _getAnswerStatusFromStringMatching(answer, solutions, deactivations) {
   const treatedAnswer = applyPreTreatments(answer);
-  const treatedSolutions = _applyTreatmentsToSolutions(solution, deactivations);
+  const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
   const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
   return _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations);
 }
 
-function _applyTreatmentsToSolutions(solution, deactivations) {
-  const pretreatedSolutions = splitIntoWordsAndRemoveBackspaces(solution);
-  return map(pretreatedSolutions, (pretreatedSolution) => {
+function _applyTreatmentsToSolutions(solutions, deactivations) {
+  return map(solutions, (solution) => {
 
     if (deactivationsService.isDefault(deactivations)) {
-      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(pretreatedSolution);
+      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
       return removeSpecialCharacters(normalizedWithoutAccentsSolution);
     }
     else if (deactivationsService.hasOnlyT1(deactivations)) {
-      return removeSpecialCharacters(pretreatedSolution);
+      return removeSpecialCharacters(solution);
     }
     else if (deactivationsService.hasOnlyT2(deactivations)) {
-      return normalizeAndRemoveAccents(pretreatedSolution);
+      return normalizeAndRemoveAccents(solution);
     }
     else if (deactivationsService.hasOnlyT3(deactivations)) {
-      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(pretreatedSolution);
+      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
       return removeSpecialCharacters(normalizedWithoutAccentsSolution);
     }
     else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-      return pretreatedSolution;
+      return solution;
     }
     else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-      return removeSpecialCharacters(pretreatedSolution);
+      return removeSpecialCharacters(solution);
     }
     else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-      return normalizeAndRemoveAccents(pretreatedSolution);
+      return normalizeAndRemoveAccents(solution);
     }
     else if (deactivationsService.hasT1T2T3(deactivations)) {
-      return pretreatedSolution;
+      return solution;
     }
   });
 }

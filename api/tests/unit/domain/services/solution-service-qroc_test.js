@@ -24,6 +24,8 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case:'when answer is close to actual solution (superior)', answer: '123,4', solution: '123', expectedAnswerStatus: ANSWER_KO },
       { case:'when answer is different of the actual solution', answer: '123', solution: '123.4', expectedAnswerStatus: ANSWER_KO },
       { case:'when answer and solution are equal but solutions contains a dot', answer: '123', solution: '123.0', expectedAnswerStatus: ANSWER_OK },
+      { case:'when number has space', answer: '00025 000', solution: '25000', expectedAnswerStatus: ANSWER_OK },
+      { case:'(multiple solutions) when answer is correct but there are multiple solutions', answer: '123,00', solution: '123.0\n123', expectedAnswerStatus: ANSWER_OK },
     ].forEach((data) => {
       it(`should return ${data.expectedAnswerStatus} when answer is ${data.answer} and solution is ${data.solution}`, function() {
         const result = service.match(data.answer, data.solution);
