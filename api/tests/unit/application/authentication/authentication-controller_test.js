@@ -97,7 +97,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       };
 
       sinon.stub(tokenService, 'extractUserId').returns(1);
-      sinon.stub(usecases, 'updateUserSamlId').resolves();
+      sinon.stub(usecases, 'addGarAuthenticationMethodToUser').resolves();
     });
 
     it('should check user credentials', async () => {
@@ -124,7 +124,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       await authenticationController.authenticateExternalUser(request, hFake);
 
       // then
-      expect(usecases.updateUserSamlId).to.have.been.calledWith({
+      expect(usecases.addGarAuthenticationMethodToUser).to.have.been.calledWith({
         userId: 1,
         externalUserToken: 'SamlJacksonToken',
         expectedUserId: 1,

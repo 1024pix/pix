@@ -17,7 +17,7 @@ describe('Integration | Application | Users | user-controller', () => {
 
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
-    sandbox.stub(usecases, 'updateUserSamlId');
+    sandbox.stub(usecases, 'addGarAuthenticationMethodToUser');
     sandbox.stub(usecases, 'dissociateSchoolingRegistrations');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);

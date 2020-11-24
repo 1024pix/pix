@@ -4,9 +4,9 @@ const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const { InvalidExternalUserTokenError, UnexpectedUserAccount } = require('../../../../lib/domain/errors');
 
-const { updateUserSamlId } = require('../../../../lib/domain/usecases');
+const { addGarAuthenticationMethodToUser } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | update-user-samlId', () => {
+describe('Unit | UseCase | add-gar-authentication-method-to-user', () => {
 
   const authenticatedUserId = 10;
   const samlId = 'SAMLID';
@@ -43,7 +43,7 @@ describe('Unit | UseCase | update-user-samlId', () => {
       });
 
       // when
-      await updateUserSamlId({
+      await addGarAuthenticationMethodToUser({
         userId: authenticatedUserId, externalUserToken, expectedUserId, tokenService, userRepository, obfuscationService, authenticationMethodRepository,
       });
 
@@ -61,7 +61,7 @@ describe('Unit | UseCase | update-user-samlId', () => {
       tokenService.extractSamlId.returns(null);
 
       // when
-      const error = await catchErr(updateUserSamlId)({
+      const error = await catchErr(addGarAuthenticationMethodToUser)({
         userId: authenticatedUserId, externalUserToken, expectedUserId, tokenService, userRepository, obfuscationService, authenticationMethodRepository,
       });
 
@@ -78,7 +78,7 @@ describe('Unit | UseCase | update-user-samlId', () => {
       obfuscationService.getUserAuthenticationMethodWithObfuscation.returns({ value: expectedObfuscatedValue });
 
       // when
-      const error = await catchErr(updateUserSamlId)({
+      const error = await catchErr(addGarAuthenticationMethodToUser)({
         userId: unexpectedUserId, externalUserToken, expectedUserId, tokenService, userRepository, obfuscationService,
       });
 
