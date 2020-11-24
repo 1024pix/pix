@@ -1,18 +1,15 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, airtableBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 const campaignAssessmentParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Integration | Repository | Campaign Assessment Participation', () => {
 
   describe('#getByCampaignIdAndCampaignParticipationId', () => {
 
     afterEach(() => {
-      airtableBuilder.cleanAll();
-      cache.flushAll();
       return knex('knowledge-element-snapshots').delete();
     });
 
@@ -30,9 +27,9 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         sharedAt: new Date('2020-12-12'),
       };
       beforeEach(async () => {
-        const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-        const skill2 = airtableBuilder.factory.buildSkill({ id: 'skill2' });
-        airtableBuilder.mockLists({ skills: [skill1, skill2] });
+        const skill1 = { id: 'skill1' };
+        const skill2 = { id: 'skill2' };
+        mockLearningContent({ skills: [skill1, skill2] });
         campaignId = databaseBuilder.factory.buildAssessmentCampaign({}).id;
 
         campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
@@ -80,9 +77,9 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
     context('When there is another assessment for the same participation', () => {
       beforeEach(async () => {
-        const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-        const skill2 = airtableBuilder.factory.buildSkill({ id: 'skill2' });
-        airtableBuilder.mockLists({ skills: [skill1, skill2] });
+        const skill1 = { id: 'skill1', status: 'actif' };
+        const skill2 = { id: 'skill2', status: 'actif' };
+        mockLearningContent({ skills: [skill1, skill2] });
 
         campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill1, skill2]).id;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -113,8 +110,8 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
     context('When campaign participation is not shared', () => {
       beforeEach(async () => {
-        const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-        airtableBuilder.mockLists({ skills: [skill1] });
+        const skill1 = { id: 'skill1', status: 'actif' };
+        mockLearningContent({ skills: [skill1] });
         campaignId = databaseBuilder.factory.buildAssessmentCampaign({}, [skill1]).id;
         campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
           isShared: false,
@@ -137,9 +134,9 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
       context('targetedSkillsCount', () => {
         beforeEach(async () => {
-          const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-          const skill2 = airtableBuilder.factory.buildSkill({ id: 'skill2' });
-          airtableBuilder.mockLists({ skills: [skill1, skill2] });
+          const skill1 = { id: 'skill1', status: 'actif' };
+          const skill2 = { id: 'skill2', status: 'actif' };
+          mockLearningContent({ skills: [skill1, skill2] });
 
           campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill1, skill2]).id;
           campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
@@ -156,10 +153,10 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
       context('validatedSkillsCount', () => {
         beforeEach(async () => {
-          const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-          const skill2 = airtableBuilder.factory.buildSkill({ id: 'skill2' });
-          const skill3 = airtableBuilder.factory.buildSkill({ id: 'skill3' });
-          airtableBuilder.mockLists({ skills: [skill1, skill2, skill3] });
+          const skill1 = { id: 'skill1', status: 'actif' };
+          const skill2 = { id: 'skill2', status: 'actif' };
+          const skill3 = { id: 'skill3', status: 'actif' };
+          mockLearningContent({ skills: [skill1, skill2, skill3] });
 
           campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill1, skill2]).id;
           const userId = databaseBuilder.factory.buildUser().id;
@@ -200,9 +197,9 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
       context('masteryPercentage', () => {
         beforeEach(async () => {
-          const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-          const skill2 = airtableBuilder.factory.buildSkill({ id: 'skill2' });
-          airtableBuilder.mockLists({ skills: [skill1, skill2] });
+          const skill1 = { id: 'skill1', status: 'actif' };
+          const skill2 = { id: 'skill2', status: 'actif' };
+          mockLearningContent({ skills: [skill1, skill2] });
 
           campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill1, skill2]).id;
           const userId = databaseBuilder.factory.buildUser().id;
@@ -239,10 +236,10 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
       context('progression', () => {
         let userId;
         beforeEach(async () => {
-          const skill1 = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-          const skill2 = airtableBuilder.factory.buildSkill({ id: 'skill2' });
-          const skill3 = airtableBuilder.factory.buildSkill({ id: 'skill3' });
-          airtableBuilder.mockLists({ skills: [skill1, skill2, skill3] });
+          const skill1 = { id: 'skill1', status: 'actif' };
+          const skill2 = { id: 'skill2', status: 'actif' };
+          const skill3 = { id: 'skill3', status: 'actif' };
+          mockLearningContent({ skills: [skill1, skill2, skill3] });
 
           campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill1, skill3]).id;
           userId = databaseBuilder.factory.buildUser().id;
@@ -290,8 +287,8 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
     context('when there are several schooling-registrations for the same participant', () => {
       beforeEach(async () => {
-        const skill = airtableBuilder.factory.buildSkill({ id: 'skill' });
-        airtableBuilder.mockLists({ skills: [skill] });
+        const skill = { id: 'skill', status: 'actif' };
+        mockLearningContent({ skills: [skill] });
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [skill]).id;
