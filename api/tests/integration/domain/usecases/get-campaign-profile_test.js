@@ -1,18 +1,10 @@
-const { expect, databaseBuilder, airtableBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Integration | UseCase | get-campaign-profile', () => {
   beforeEach(() => {
-    airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
-    airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
-    airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
-  });
-
-  afterEach(async () => {
-    airtableBuilder.cleanAll();
-    cache.flushAll();
+    mockLearningContent({ competences: [], areas: [], skills: [] });
   });
 
   context('when requesting user is not allowed to access campaign', () => {

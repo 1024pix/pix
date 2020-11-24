@@ -47,8 +47,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     it('should resolve an array of Skills from LCMS', async () => {
       // given
       const
-        rawSkill1 = { id: 'recSkill1', status: 'actif'  },
-        rawSkill2 = { id: 'recSkill2', status: 'actif'  };
+        rawSkill1 = { id: 'recSkill1', status: 'actif' },
+        rawSkill2 = { id: 'recSkill2', status: 'actif' };
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2] });
 
       // when
@@ -91,8 +91,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     it('should resolve an array of Skills from airTable', async () => {
       // given
       const
-        rawSkill1 = { id: 'recSkill1', status: 'actif'  },
-        rawSkill2 = { id: 'recSkill2', status: 'actif'  };
+        rawSkill1 = { id: 'recSkill1', status: 'actif' },
+        rawSkill2 = { id: 'recSkill2', status: 'actif' };
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2] });
 
       // when
