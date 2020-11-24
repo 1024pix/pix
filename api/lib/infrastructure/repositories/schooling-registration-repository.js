@@ -57,20 +57,27 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  _findByOrganizationId({ organizationId, orderByRaw }) {
+  findByOrganizationId({ organizationId }) {
     return BookshelfSchoolingRegistration
       .where({ organizationId })
-      .query((qb) => qb.orderByRaw(orderByRaw))
+      .query((qb) => qb.orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC'))
       .fetchAll()
       .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
   },
 
-  findByOrganizationId({ organizationId }) {
-    return this._findByOrganizationId({ organizationId, orderByRaw: 'LOWER("lastName") ASC, LOWER("firstName") ASC' });
-  },
+  async findByOrganizationIdOrderByDivision({ organizationId, page }) {
+    const { models, pagination } = await BookshelfSchoolingRegistration
+      .where({ organizationId })
+      .query((qb) => qb.orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC'))
+      .fetchPage({
+        page: page.number,
+        pageSize: page.size,
+      });
 
-  findByOrganizationIdOrderByDivision({ organizationId }) {
-    return this._findByOrganizationId({ organizationId, orderByRaw: 'LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC' });
+    return {
+      data: bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, models),
+      pagination,
+    };
   },
 
   async findByUserId({ userId }) {

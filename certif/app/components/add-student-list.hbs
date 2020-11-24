@@ -48,6 +48,8 @@
     </tbody>
   </table>
 
+  <PaginationControl @pagination={{@studentList.meta}}/>
+
   {{#if this.showStickyBar}}
     <div class="add-student-list__bottom-action-bar">
 
@@ -74,7 +76,7 @@
           Annuler
         </LinkTo>
         <PixButton {{on 'click' this.enrollStudents}}
-          class="bottom-action-bar__actions--add-button button button--link {{if this.hasCheckedSomething "" "button--disabled"}}">
+          class="bottom-action-bar__actions--add-button button button--link {{if this.shouldEnableAddButton "" "button--disabled"}}">
           Ajouter
         </PixButton>
       </div>

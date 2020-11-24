@@ -1,10 +1,12 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import some from 'lodash/some';
 
 export default class AddStudentList extends Component {
 
   @service notifications;
+  @service store;
 
   get headerCheckboxStatus() {
     return this.hasCheckedEverything
@@ -17,6 +19,11 @@ export default class AddStudentList extends Component {
     return hasOneOrMoreCheck;
   }
 
+  get shouldEnableAddButton() {
+    const hasAtLeastOneSelectedStudent = this.store.peekAll('student').any((student) => student.isSelected);
+    return hasAtLeastOneSelectedStudent;
+  }
+
   get hasCheckedEverything() {
     const enrollableStudentList = this.args.studentList.filter((student) => !student.isEnrolled);
     const allCertifReportsAreCheck = enrollableStudentList.every((student) => student.isSelected);
@@ -24,16 +31,18 @@ export default class AddStudentList extends Component {
   }
 
   get numberOfStudentsAlreadyCandidate() {
-    return this.args.studentList.reduce((count, student) => student.isEnrolled ? count + 1 : count, 0);
+    return this.args.numberOfEnrolledStudents;
   }
 
   get showStickyBar() {
-    const thereIsAlreadySomeCandidates = this.numberOfStudentsAlreadyCandidate > 0;
-    return this.hasCheckedSomething || thereIsAlreadySomeCandidates;
+    const students = this.store.peekAll('student');
+    const areStudentsEnrolledOrSelected = students.map((s) => s.isEnrolled || s.isSelected);
+    return some(areStudentsEnrolledOrSelected);
   }
 
   get numberOfStudentsSelected() {
-    const selectedStudents = this.args.studentList.filter((student) => student.isSelected);
+    const students = this.store.peekAll('student');
+    const selectedStudents = students.filter((student) => student.isSelected);
     return selectedStudents.length;
   }
 
@@ -56,7 +65,8 @@ export default class AddStudentList extends Component {
   @action
   async enrollStudents() {
     const sessionId = this.args.session.id;
-    const studentListToAdd = this.args.studentList.filter((student) => student.isSelected);
+    const studentListToAdd = this.store.peekAll('student').filter((student) => student.isSelected);
+
     try {
       await this.args.session.save({ adapterOptions: { studentListToAdd, sessionId } });
       this.args.returnToSessionCandidates(sessionId);

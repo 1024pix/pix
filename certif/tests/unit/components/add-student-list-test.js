@@ -9,9 +9,11 @@ module('Unit | Component | add-student-list', function(hooks) {
   setupTest(hooks);
 
   let component;
+  let store;
 
   hooks.beforeEach(function() {
     component = createGlimmerComponent('component:add-student-list');
+    store = this.owner.lookup('service:store');
   });
 
   module('#computed hasCheckedSomething', function() {
@@ -112,6 +114,7 @@ module('Unit | Component | add-student-list', function(hooks) {
       component.args.studentList = [...unselectedStudents, ...selectedStudents];
       component.args.session = { id: sessionId, save: sinon.stub().resolves() };
       component.args.returnToSessionCandidates = sinon.spy();
+      sinon.stub(store, 'peekAll').withArgs('student').returns(selectedStudents);
 
       // when
       await component.enrollStudents();
