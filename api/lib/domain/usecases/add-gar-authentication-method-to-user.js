@@ -5,7 +5,7 @@ const {
 } = require('../../domain/errors');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 
-module.exports = async function updateUserSamlId({
+module.exports = async function addGarAuthenticationMethodToUser({
   userId,
   externalUserToken,
   expectedUserId,

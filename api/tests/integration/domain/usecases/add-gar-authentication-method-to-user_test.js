@@ -4,9 +4,9 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const { InvalidExternalUserTokenError, UnexpectedUserAccount } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-const { updateUserSamlId } = require('../../../../lib/domain/usecases');
+const { addGarAuthenticationMethodToUser } = require('../../../../lib/domain/usecases');
 
-describe('Integration | UseCases | update-user-samlId', () => {
+describe('Integration | UseCases | add-gar-authentication-method-to-user', () => {
 
   const expectedSamlId = 'SAMLID';
 
@@ -32,7 +32,7 @@ describe('Integration | UseCases | update-user-samlId', () => {
 
     it('should create GAR authentication method for the user', async () => {
       // when
-      await updateUserSamlId({ userId, externalUserToken, expectedUserId: userId });
+      await addGarAuthenticationMethodToUser({ userId, externalUserToken, expectedUserId: userId });
 
       // then
       const authenticationMethod = await knex('authentication-methods').where({ userId, identityProvider: AuthenticationMethod.identityProviders.GAR });
@@ -47,7 +47,7 @@ describe('Integration | UseCases | update-user-samlId', () => {
       externalUserToken = 'INVALID_TOKEN';
 
       // when
-      const error = await catchErr(updateUserSamlId)({ userId, externalUserToken, expectedUserId: userId });
+      const error = await catchErr(addGarAuthenticationMethodToUser)({ userId, externalUserToken, expectedUserId: userId });
 
       // then
       expect(error).to.be.an.instanceof(InvalidExternalUserTokenError);
@@ -59,7 +59,7 @@ describe('Integration | UseCases | update-user-samlId', () => {
       const notExpectedUserId = userId + 1;
 
       // when
-      const error = await catchErr(updateUserSamlId)({ notExpectedUserId, externalUserToken, expectedUserId: userId });
+      const error = await catchErr(addGarAuthenticationMethodToUser)({ notExpectedUserId, externalUserToken, expectedUserId: userId });
 
       // then
       expect(error).to.be.an.instanceof(UnexpectedUserAccount);

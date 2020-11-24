@@ -36,7 +36,7 @@ module.exports = {
     const accessToken = await usecases.authenticateUser({ username, password, source: 'external' });
     const userId = tokenService.extractUserId(accessToken);
 
-    await usecases.updateUserSamlId({ userId, externalUserToken, expectedUserId });
+    await usecases.addGarAuthenticationMethodToUser({ userId, externalUserToken, expectedUserId });
 
     const response = {
       data: {
