@@ -76,8 +76,15 @@
                 "title": "Commencez votre parcours",
                 "action": "Je commence",
                 "announcement": "",
+                "certify": {
+                    "title": "Préparer une certification reconnue par l’État et le monde professionnel",
+                    "description": "La certification Pix permet de valoriser ses compétences numériques auprès des employeurs."
+                },
                 "details": "Durant ce parcours, vous aurez l’opportunité de :",
-                "legal": "",
+                "develop": {
+                    "title": "Découvrir vos résultats au fil du test et consulter des indices pour progresser.",
+                    "description": "Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences."
+                },
                 "evaluate": {
                     "title": "Mesurer vos compétences numériques avec des tests ludiques sur différents thèmes comme :",
                     "complement": "Le service public d’évaluation et de certification des compétences numériques Pix permet d’évaluer son niveau dans 5 grands domaines de compétences, qui couvrent l’ensemble des usages actuels du numérique.",
@@ -87,14 +94,7 @@
                         "label": "En savoir plus."
                     }
                 },
-                "develop": {
-                    "title": "Découvrir vos résultats au fil du test et consulter des indices pour progresser.",
-                    "description": "Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences."
-                },
-                "certify": {
-                    "title": "Préparer une certification reconnue par l’État et le monde professionnel",
-                    "description": "La certification Pix permet de valoriser ses compétences numériques auprès des employeurs."
-                }
+                "legal": ""
             },
             "profiles-collection": {
                 "title": "Envoyez votre profil",

@@ -76,8 +76,15 @@
                 "title": "Begin your personalised test",
                 "action": "Begin",
                 "announcement": "Start your personalised test.'<br>' Sign up or log in to the Pix platform and start your test.",
+                "certify": {
+                    "title": "Prepare a certification recognised throughout Europe and in the business world",
+                    "description": "The Pix Certification enables you to highlight your digital skills to employers."
+                },
                 "details": "During this personalised test, you will be able to:",
-                "legal": "Information about your progress will be sent to the organiser so they can provide support. Your test results will only be shared with your permission.",
+                "develop": {
+                    "title": "See your results as you go along and view tips to improve.",
+                    "description": "Every 5 questions, you will be able to see your results and watch tutorials to help you improve your skills."
+                },
                 "evaluate": {
                     "title": "Assess your digital skills with fun tests on different subjects, such as:",
                     "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major skill areas covering current uses of digital technology.",
@@ -87,14 +94,7 @@
                         "label": "Find out more."
                     }
                 },
-                "certify": {
-                    "title": "Prepare a certification recognised throughout Europe and in the business world",
-                    "description": "The Pix Certification enables you to highlight your digital skills to employers."
-                },
-                "develop": {
-                    "title": "See your results as you go along and view tips to improve.",
-                    "description": "Every 5 questions, you will be able to see your results and watch tutorials to help you improve your skills."
-                }
+                "legal": "Information about your progress will be sent to the organiser so they can provide support. Your test results will only be shared with your permission."
             },
             "profiles-collection": {
                 "title": "Submit your profile",
