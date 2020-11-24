@@ -4,19 +4,25 @@ class TargetProfileWithLearningContent {
   constructor({
     id,
     name,
+    outdated,
+    isPublic,
     skills = [],
     tubes = [],
     competences = [],
     areas = [],
     badges = [],
+    stages = [],
   } = {}) {
     this.id = id;
     this.name = name;
+    this.outdated = outdated;
+    this.isPublic = isPublic;
     this.skills = skills;
     this.tubes = tubes;
     this.competences = competences;
     this.areas = areas;
     this.badges = badges;
+    this.stages = stages;
   }
 
   get skillNames() {
@@ -35,8 +41,23 @@ class TargetProfileWithLearningContent {
     return this.competences.map((competence) => competence.id);
   }
 
+  get reachableStages() {
+    return _(this.stages)
+      .filter(({ threshold }) => threshold > 0)
+      .sortBy('threshold')
+      .value();
+  }
+
   hasSkill(skillId) {
     return this.skills.some((skill) => skill.id === skillId);
+  }
+
+  hasBadges() {
+    return this.badges.length > 0;
+  }
+
+  hasReachableStages() {
+    return this.reachableStages.length > 0;
   }
 
   getTubeIdOfSkill(skillId) {

@@ -18,7 +18,6 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     organizationRepository,
     knowledgeElementRepository,
     badgeAcquisitionRepository,
-    stageRepository,
     campaignCsvExportService,
   }) {
 
@@ -26,15 +25,12 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const targetProfile = await targetProfileWithLearningContentRepository.getWithBadges({ id: campaign.targetProfileId });
+  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: campaign.targetProfileId });
   const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
-  const stages = await stageRepository.findByCampaignId(campaign.id);
 
   // Create HEADER of CSV
-  const reachableStages = stages.filter(({ threshold }) => threshold > 0);
-
-  const headers = _createHeaderOfCSV(targetProfile, campaign.idPixLabel, organization.type, organization.isManagingStudents, reachableStages);
+  const headers = _createHeaderOfCSV(targetProfileWithLearningContent, campaign.idPixLabel, organization.type, organization.isManagingStudents);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -56,10 +52,10 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
       ];
     }));
     const knowledgeElementsByUserIdAndCompetenceId =
-      await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfile);
+      await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent);
 
     let acquiredBadgesByUsers;
-    if (!_.isEmpty(targetProfile.badges)) {
+    if (targetProfileWithLearningContent.hasBadges()) {
       const userIds = campaignParticipationInfoChunk.map((campaignParticipationInfo) => campaignParticipationInfo.userId);
       acquiredBadgesByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
     }
@@ -73,9 +69,8 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
         organization,
         campaign,
         campaignParticipationInfo,
-        targetProfile,
+        targetProfileWithLearningContent,
         participantKnowledgeElementsByCompetenceId,
-        stages: reachableStages,
         acquiredBadges,
       });
       csvLines = csvLines.concat(csvLine);
@@ -103,7 +98,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organizationIsManagingStudents, stages) {
+function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organizationIsManagingStudents) {
   return [
     'Nom de l\'organisation',
     'ID Campagne',
@@ -120,10 +115,10 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organiz
     'Date de début',
     'Partage (O/N)',
     'Date du partage',
-    ...(stages[0] ? [`Palier obtenu (/${stages.length})`] : []),
+    ...(targetProfile.hasReachableStages() ? [`Palier obtenu (/${targetProfile.reachableStages.length})`] : []),
 
     ...(_.flatMap(targetProfile.badges, (badge) => [
-      `${badge} obtenu (O/N)`,
+      `${badge.title} obtenu (O/N)`,
     ])),
     '% maitrise de l\'ensemble des acquis du profil',
 

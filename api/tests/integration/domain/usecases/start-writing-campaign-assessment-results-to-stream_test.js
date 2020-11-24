@@ -10,7 +10,6 @@ const knowledgeElementRepository = require('../../../../lib/infrastructure/repos
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const stageRepository = require('../../../../lib/infrastructure/repositories/stage-repository');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 
@@ -160,7 +159,6 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-
         organizationRepository,
         campaignParticipationInfoRepository,
         knowledgeElementRepository,
-        stageRepository,
         badgeAcquisitionRepository,
         campaignCsvExportService,
       });
