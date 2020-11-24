@@ -1,6 +1,7 @@
 const authenticationService = require('../../domain/services/authentication-service');
 const { MissingOrInvalidCredentialsError, ForbiddenAccess, UserShouldChangePasswordError } = require('../../domain/errors');
 const apps = require('../constants');
+const config = require('../../config');
 
 function _checkUserAccessScope(scope, user) {
 
@@ -12,6 +13,10 @@ function _checkUserAccessScope(scope, user) {
   if (scope === apps.PIX_ADMIN.SCOPE && !user.hasRolePixMaster)
   {
     throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_PIXMASTER_MSG);
+  }
+
+  if (scope === apps.PIX_CERTIF.SCOPE && config.featureToggles.certifBlockingScoUserAccess) {
+    throw new ForbiddenAccess(apps.PIX_CERTIF.USER_SCO_BLOCKED_CERTIFICATION_MSG);
   }
 
   if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters())
