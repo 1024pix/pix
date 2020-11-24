@@ -1,5 +1,4 @@
-const { expect, databaseBuilder, airtableBuilder, knex } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const campaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
 
@@ -22,10 +21,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await knex('knowledge-element-snapshots').delete();
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
+    afterEach(() => {
+      return knex('knowledge-element-snapshots').delete();
     });
 
     it('should return empty array if no participant', async () => {
@@ -137,36 +134,42 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 });
 
 const buildAirtableData = () => {
-  const skillWeb1 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb1', nom: '@web1', ['compétenceViaTube']: ['recCompetence1'] });
-  const skillWeb2 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb2', nom: '@web2', ['compétenceViaTube']: ['recCompetence1'] });
-  const skillUrl1 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl1', nom: '@url1', ['compétenceViaTube']: ['recCompetence2'] });
-  const skillUrl8 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl8', nom: '@url8', ['compétenceViaTube']: ['recCompetence2'] });
+  const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceId: 'recCompetence1', status: 'actif' };
+  const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceId: 'recCompetence1', status: 'actif' };
+  const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceId: 'recCompetence2', status: 'actif' };
+  const skillUrl8 = { id: 'recSkillUrl8', name: '@url8', competenceId: 'recCompetence2', status: 'actif' };
   const skills = [skillWeb1, skillWeb2, skillUrl1, skillUrl8];
 
-  const competence1 = airtableBuilder.factory.buildCompetence({
+  const competence1 = {
     id: 'recCompetence1',
-    titre: 'Competence1',
-    sousDomaine: '1.1',
-    domaineIds: ['recArea1'],
-    acquisViaTubes: [skillWeb1.id, skillWeb2.id],
-  });
+    nameFrFr: 'Competence1',
+    index: '1.1',
+    areaId: 'recArea1',
+    skillIds: [skillWeb1.id, skillWeb2.id],
+    origin: 'Pix',
+  };
 
-  const competence2 = airtableBuilder.factory.buildCompetence({
+  const competence2 = {
     id: 'recCompetence2',
-    titre: 'Competence2',
-    sousDomaine: '3.2',
-    domaineIds: ['recArea3'],
-    acquisViaTubes: [skillUrl1.id, skillUrl8.id],
-  });
+    nameFrFr: 'Competence2',
+    index: '3.2',
+    areaId: 'recArea3',
+    skillIds: [skillUrl1.id, skillUrl8.id],
+    origin: 'Pix',
+  };
 
   const competences = [competence1, competence2];
 
-  const area1 = airtableBuilder.factory.buildArea({ id: 'recArea1', code: '1', titre: 'Domain 1' });
-  const area3 = airtableBuilder.factory.buildArea({ id: 'recArea3', code: '3', title: 'Domain 3' });
+  const area1 = { id: 'recArea1', code: '1', titleFrFr: 'Domain 1', competenceIds: ['recCompetence1'] };
+  const area3 = { id: 'recArea3', code: '3', titleFrFr: 'Domain 3', competenceIds: ['recCompetence2'] };
 
-  airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area1, area3]).activate();
-  airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1, competence2]).activate();
-  airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
+  const learningContent = {
+    areas: [area1, area3],
+    competences,
+    skills,
+  };
+
+  mockLearningContent(learningContent);
 
   return { competences, skills };
 };
