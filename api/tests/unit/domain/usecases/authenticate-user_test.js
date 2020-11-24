@@ -122,7 +122,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     it('rejects an error when scope is pix-certif and the user is from sco and the feature toggle is activated', async () => {
       // given
       const expectedErrorMessage = appMessages.PIX_CERTIF.USER_SCO_BLOCKED_CERTIFICATION_MSG;
-      config.featureToggles.certifBlockingScoUserAccess = true;
+      config.featureToggles.certifPrescriptionSco = false;
 
       const scope = appMessages.PIX_CERTIF.SCOPE;
       const user = domainBuilder.buildUser({ email: userEmail, password: userPassword });
