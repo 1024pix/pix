@@ -22,11 +22,12 @@ describe('Unit | Router | cache-router', () => {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('DELETE /api/cache/{cachekey}', () => {
+  describe('PATCH /api/cache/{model}/{id}', () => {
 
     it('should exist', async () => {
       // when
-      const response = await httpTestServer.request('DELETE', '/api/cache/Table_recXYZ1234');
+      const updatedRecord = { id: 'recId', param: 'updatedValue' };
+      const response = await httpTestServer.request('PATCH', '/api/cache/table/recXYZ1234', updatedRecord);
 
       // then
       expect(response.statusCode).to.equal(204);

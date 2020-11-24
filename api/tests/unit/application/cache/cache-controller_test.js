@@ -10,7 +10,11 @@ describe('Unit | Controller | cache-controller', () => {
 
     const request = {
       params: {
-        cachekey: 'Epreuves_recABCDEF',
+        model: 'challenges',
+        id: 'recId',
+      },
+      payload: {
+        property: 'updatedValue',
       },
     };
 
@@ -20,26 +24,25 @@ describe('Unit | Controller | cache-controller', () => {
 
     it('should reply with null when the cache key exists', async () => {
       // given
-      const numberOfDeletedKeys = 1;
-      learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves(numberOfDeletedKeys);
+      learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves();
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // then
-      expect(learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord).to.have.been.calledWithExactly('recABCDEF');
+      expect(learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
       expect(response).to.be.null;
     });
 
     it('should reply with null when the cache key does not exist', async () => {
       // given
-      const numberOfDeletedKeys = 0;
-      learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves(numberOfDeletedKeys);
+      learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves();
 
       // when
       const response = await cacheController.refreshCacheEntry(request, hFake);
 
       // Then
+      expect(learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord).to.have.been.calledWithExactly('recId', { property: 'updatedValue' });
       expect(response).to.be.null;
     });
   });
