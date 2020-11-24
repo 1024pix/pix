@@ -13,12 +13,14 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
   let userRepository;
   let tokenService;
+  let certificationCenterMembershipRepository;
 
   const userEmail = 'user@example.net';
   const userPassword = 'user_password';
 
   beforeEach(() => {
     userRepository = { getByUsernameOrEmailWithRoles: sinon.stub() };
+    certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
     tokenService = {
       createAccessTokenFromUser: sinon.stub(),
     };
@@ -34,7 +36,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     tokenService.createAccessTokenFromUser.returns(accessToken);
 
     // when
-    await authenticateUser({ username: userEmail, password: userPassword, source, userRepository, tokenService });
+    await authenticateUser({ username: userEmail, password: userPassword, source, userRepository, tokenService, certificationCenterMembershipRepository });
 
     // then
     expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
@@ -49,7 +51,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     authenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
 
     // when
-    const error = await catchErr(authenticateUser)({ username: unknownUserEmail, userPassword, userRepository, tokenService });
+    const error = await catchErr(authenticateUser)({ username: unknownUserEmail, userPassword, userRepository, tokenService, certificationCenterMembershipRepository });
 
     // then
     expect(error).to.be.an.instanceOf(MissingOrInvalidCredentialsError);
@@ -60,7 +62,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     authenticationService.getUserByUsernameAndPassword.rejects(new MissingOrInvalidCredentialsError());
 
     // when
-    const error = await catchErr(authenticateUser)({ userEmail, userPassword, userRepository, tokenService });
+    const error = await catchErr(authenticateUser)({ userEmail, userPassword, userRepository, tokenService, certificationCenterMembershipRepository });
 
     // then
     expect(error).to.be.an.instanceOf(MissingOrInvalidCredentialsError);
@@ -78,7 +80,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const expectedErrorMessage = appMessages.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG;
 
       // when
-      const error = await catchErr(authenticateUser)({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
+      const error = await catchErr(authenticateUser)({ userEmail, wrongUserPassword, scope, userRepository, tokenService, certificationCenterMembershipRepository });
 
       // then
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
@@ -94,7 +96,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const expectedErrorMessage = appMessages.PIX_ADMIN.NOT_PIXMASTER_MSG;
 
       // when
-      const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService });
+      const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService, certificationCenterMembershipRepository });
 
       // then
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
@@ -110,7 +112,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
 
       // when
-      const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService });
+      const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService, certificationCenterMembershipRepository });
 
       // then
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
@@ -124,10 +126,13 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
       const scope = appMessages.PIX_CERTIF.SCOPE;
       const user = domainBuilder.buildUser({ email: userEmail, password: userPassword });
+      const certificationCenterSCO = domainBuilder.buildCertificationCenter({ type: 'SCO' });
+      const certificationCenterMembershipSco = domainBuilder.buildCertificationCenterMembership({ userId: user.id, certificationCenter: certificationCenterSCO });
+      certificationCenterMembershipRepository.findByUserId.withArgs(user.id).resolves([ certificationCenterMembershipSco ]);
       authenticationService.getUserByUsernameAndPassword.resolves(user);
 
       // when
-      const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService });
+      const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService, certificationCenterMembershipRepository });
 
       // then
       expect(error).to.be.an.instanceOf(ForbiddenAccess);

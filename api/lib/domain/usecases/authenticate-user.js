@@ -15,14 +15,28 @@ function _checkUserAccessScope(scope, user) {
     throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_PIXMASTER_MSG);
   }
 
-  if (scope === apps.PIX_CERTIF.SCOPE && config.featureToggles.certifBlockingScoUserAccess) {
-    throw new ForbiddenAccess(apps.PIX_CERTIF.USER_SCO_BLOCKED_CERTIFICATION_MSG);
-  }
-
   if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters())
   {
     throw new ForbiddenAccess(apps.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
   }
+}
+
+async function _checkScoUserAccessCertifScope({ scope, user, certificationCenterMembershipRepository }) {
+  const userBelongsToSco = await _doesUserBelongsToScoCenter({ user, certificationCenterMembershipRepository });
+  const blockingAccessToScoUserFeatureToggleIsOn = config.featureToggles.certifBlockingScoUserAccess;
+  const scopeIsPixCertif = scope === apps.PIX_CERTIF.SCOPE;
+
+  if (scopeIsPixCertif &&
+        blockingAccessToScoUserFeatureToggleIsOn &&
+        userBelongsToSco)
+  {
+    throw new ForbiddenAccess(apps.PIX_CERTIF.USER_SCO_BLOCKED_CERTIFICATION_MSG);
+  }
+}
+
+async function _doesUserBelongsToScoCenter({ user, certificationCenterMembershipRepository }) {
+  const certificationCenterMemberships = await certificationCenterMembershipRepository.findByUserId(user.id);
+  return certificationCenterMemberships && certificationCenterMemberships.some((membership) => membership.certificationCenter.isSco);
 }
 
 module.exports = async function authenticateUser({
@@ -32,11 +46,13 @@ module.exports = async function authenticateUser({
   tokenService,
   username,
   userRepository,
+  certificationCenterMembershipRepository,
 }) {
   try {
     const foundUser = await authenticationService.getUserByUsernameAndPassword({ username, password, userRepository });
 
     if (!foundUser.shouldChangePassword) {
+      await _checkScoUserAccessCertifScope({ scope, user: foundUser, certificationCenterMembershipRepository });
       _checkUserAccessScope(scope, foundUser);
       return tokenService.createAccessTokenFromUser(foundUser, source);
     } else {
