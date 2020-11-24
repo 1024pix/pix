@@ -52,8 +52,8 @@ module.exports = async function authenticateUser({
     const foundUser = await authenticationService.getUserByUsernameAndPassword({ username, password, userRepository });
 
     if (!foundUser.shouldChangePassword) {
-      await _checkScoUserAccessCertifScope({ scope, user: foundUser, certificationCenterMembershipRepository });
       _checkUserAccessScope(scope, foundUser);
+      await _checkScoUserAccessCertifScope({ scope, user: foundUser, certificationCenterMembershipRepository });
       return tokenService.createAccessTokenFromUser(foundUser, source);
     } else {
       throw new UserShouldChangePasswordError();
