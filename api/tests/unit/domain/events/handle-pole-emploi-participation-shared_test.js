@@ -103,19 +103,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
   });
 
   context('#handlePoleEmploiParticipationShared', () => {
-    const campaignParticipationId = Symbol('campaignParticipationId');
-    const campaignId = Symbol('campaignId');
+    const campaignParticipationId = 55667788;
+    const campaignId = 11223344;
     const userId = Symbol('userId');
     const organizationId = Symbol('organizationId');
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', () => {
       beforeEach(() => {
-        event = new CampaignParticipationResultsShared({
-          campaignId,
-          campaignParticipationId,
-          userId,
-          organizationId,
-        });
+        event = new CampaignParticipationResultsShared({ campaignParticipationId });
 
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
         userRepositoryStub.withArgs(userId).resolves({ firstName: 'Jean', lastName: 'Bonneau' });
@@ -128,12 +123,15 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
             archivedAt: new Date('2020-02-01'),
             type: 'ASSESSMENT',
             targetProfileId: 'targetProfileId1',
+            organizationId,
           }),
         );
         targetProfileRepositoryStub.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
         campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(
           domainBuilder.buildCampaignParticipation({
             id: 55667788,
+            campaignId,
+            userId,
             sharedAt: new Date('2020-01-03'),
             createdAt: new Date('2020-01-02'),
           }),
@@ -180,13 +178,17 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
       beforeEach(() => {
-        event = new CampaignParticipationResultsShared({
-          campaignId,
-          campaignParticipationId,
-          userId,
-          organizationId,
-        });
-        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT' }));
+        event = new CampaignParticipationResultsShared({ campaignParticipationId });
+        campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(
+          domainBuilder.buildCampaignParticipation({
+            id: 55667788,
+            campaignId,
+            userId,
+            sharedAt: new Date('2020-01-03'),
+            createdAt: new Date('2020-01-02'),
+          }),
+        );
+        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
         sinon.stub(console, 'log');
       });
@@ -205,17 +207,21 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
 
     context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', () => {
       beforeEach(() => {
-        event = new CampaignParticipationResultsShared({
-          campaignId,
-          campaignParticipationId,
-          userId,
-          organizationId,
-        });
-
+        event = new CampaignParticipationResultsShared({ campaignParticipationId });
+        
+        campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(
+          domainBuilder.buildCampaignParticipation({
+            id: 55667788,
+            campaignId,
+            userId,
+            sharedAt: new Date('2020-01-03'),
+            createdAt: new Date('2020-01-02'),
+          }),
+        );
         campaignRepositoryStub
           .withArgs(campaignId)
           .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION' }));
-        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
+        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true, organizationId });
         sinon.stub(console, 'log');
       });
 
