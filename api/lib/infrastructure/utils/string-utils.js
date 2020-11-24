@@ -9,6 +9,11 @@ function isNumeric(string) {
   return !isNaN(stringWithoutCommaAndSpace) && !isNaN(parseFloat(stringWithoutCommaAndSpace));
 }
 
+function cleanStringAndParseFloat(string) {
+  const stringWithoutSpace = string.replace(' ', '');
+  return parseFloat(stringWithoutSpace.replace(',', '.'));
+}
+
 function splitIntoWordsAndRemoveBackspaces(string) {
   return _.chain(string)
     .split('\n')
@@ -19,4 +24,5 @@ function splitIntoWordsAndRemoveBackspaces(string) {
 module.exports = {
   isNumeric,
   splitIntoWordsAndRemoveBackspaces,
+  cleanStringAndParseFloat,
 };
