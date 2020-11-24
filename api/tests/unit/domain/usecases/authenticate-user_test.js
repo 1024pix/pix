@@ -4,6 +4,7 @@ const User = require('../../../../lib/domain/models/User');
 const {
   UserNotFoundError, MissingOrInvalidCredentialsError, ForbiddenAccess, UserShouldChangePasswordError,
 } = require('../../../../lib/domain/errors');
+const config = require('../../../../lib/config');
 
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
 const appMessages = require('../../../../lib/domain/constants');
@@ -107,6 +108,23 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       authenticationService.getUserByUsernameAndPassword.resolves(user);
 
       const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
+
+      // when
+      const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService });
+
+      // then
+      expect(error).to.be.an.instanceOf(ForbiddenAccess);
+      expect(error.message).to.be.equal(expectedErrorMessage);
+    });
+
+    it('rejects an error when scope is pix-certif and the user is from sco and the feature toggle is activated', async () => {
+      // given
+      const expectedErrorMessage = appMessages.PIX_CERTIF.USER_SCO_BLOCKED_CERTIFICATION_MSG;
+      config.featureToggles.certifBlockingScoUserAccess = true;
+
+      const scope = appMessages.PIX_CERTIF.SCOPE;
+      const user = domainBuilder.buildUser({ email: userEmail, password: userPassword });
+      authenticationService.getUserByUsernameAndPassword.resolves(user);
 
       // when
       const error = await catchErr(authenticateUser)({ userEmail, userPassword, scope, userRepository, tokenService });
