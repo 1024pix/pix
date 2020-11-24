@@ -1,7 +1,7 @@
 import { describe, beforeEach } from 'mocha';
 import { expect } from 'chai';
 
-import { render, click } from '@ember/test-helpers';
+import { click, find, render } from '@ember/test-helpers';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import { reject } from 'rsvp';

@@ -13,7 +13,7 @@ export default class FillInCampaignCodeRoute extends Route {
     }
   }
 
-  deactivate() {
-    this.controller.set('campaignCode', null);
+  resetController(controller) {
+    controller.set('campaignCode', null);
   }
 }

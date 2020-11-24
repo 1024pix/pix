@@ -98,12 +98,12 @@
     "ember-simple-auth-oidc": "^3.0.0",
     "ember-sinon": "^4.1.1",
     "ember-source": "~3.18.1",
-    "ember-template-lint": "^2.9.1",
+    "ember-template-lint": "^2.14.0",
     "ember-truth-helpers": "^2.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-ember": "^8.9.0",
-    "eslint-plugin-mocha": "^6.2.2",
-    "eslint-plugin-node": "^10.0.0",
+    "eslint": "^7.14.0",
+    "eslint-plugin-ember": "^9.6.0",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-node": "^11.1.0",
     "faker": "^5.1.0",
     "js-yaml": "^3.14.0",
     "jwt-decode": "^3.1.1",
@@ -113,7 +113,7 @@
     "pix-ui": "git://github.com/1024pix/pix-ui.git#semver:^v0.15.1",
     "sass": "^1.29.0",
     "showdown": "^1.9.1",
-    "stylelint": "^13.7.2",
+    "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0"
   }
 }
