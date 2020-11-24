@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | certification-info-published', function(hooks) {
+module('Integration | Component | <Certification::CertificationInfoPublished/>', function(hooks) {
 
   setupRenderingTest(hooks);
 
@@ -12,7 +12,7 @@ module('Integration | Component | certification-info-published', function(hooks)
     this.set('certification', { isPublished: true });
 
     // when
-    await render(hbs`<CertificationInfoPublished @record={{this.certification}} />`);
+    await render(hbs`<Certification::CertificationInfoPublished @record={{this.certification}} />`);
 
     // then
     assert.dom('svg').exists();

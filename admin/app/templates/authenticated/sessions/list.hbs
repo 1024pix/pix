@@ -18,10 +18,12 @@
         @id={{this.id}}
         @certificationCenterName={{this.certificationCenterName}}
         @status={{this.status}}
-        @sessionStatusAndLabels={{this.sessionStatusAndLabels}}
-        @certificationCenterTypeAndLabels={{this.certificationCenterTypeAndLabels}}
+        @onChangeSessionStatus={{this.updateSessionStatusFilter}}
+        @certificationCenterType={{this.certificationCenterType}}
+        @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
         @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}}
-        @sessionResultsSentToPrescriberAtAndLabels={{this.sessionResultsSentToPrescriberAtAndLabels}}
-        @triggerFiltering={{this.triggerFiltering}} />
+        @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}
+        @triggerFiltering={{this.triggerFiltering}}
+      />
   </section>
 </main>

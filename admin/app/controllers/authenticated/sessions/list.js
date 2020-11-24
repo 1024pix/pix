@@ -1,9 +1,9 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
-import map from 'lodash/map';
 import config from 'pix-admin/config/environment';
-import { statusToDisplayName, FINALIZED } from 'pix-admin/models/session';
+import { FINALIZED } from 'pix-admin/models/session';
+import { action } from '@ember/object';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
@@ -22,24 +22,6 @@ export default class SessionListController extends Controller {
   @tracked assignedToSelfOnly = false;
 
   pendingFilters = {};
-
-  sessionStatusAndLabels = [
-    { status: null, label: 'Tous' },
-    ...(map(statusToDisplayName, (label, status) => ({ status, label }))),
-  ];
-
-  certificationCenterTypeAndLabels = [
-    { certificationCenterType: null, label: 'Toutes' },
-    { certificationCenterType: 'SCO', label: 'Sco' },
-    { certificationCenterType: 'SUP', label: 'Sup' },
-    { certificationCenterType: 'PRO', label: 'Pro' },
-  ];
-
-  sessionResultsSentToPrescriberAtAndLabels = [
-    { value: null, label: 'Tous' },
-    { value: 'true', label: 'Résultats diffusés' },
-    { value: 'false', label: 'Résultats non diffusés' },
-  ];
 
   @(task(function* (fieldName, param) {
     let value;
@@ -67,4 +49,26 @@ export default class SessionListController extends Controller {
     this.pageNumber = DEFAULT_PAGE_NUMBER;
 
   }).restartable()) triggerFiltering;
+
+  @action
+  updateCertificationCenterTypeFilter(newValue) {
+    this.certificationCenterType = this._getOrNullForOptionAll(newValue);
+    this.triggerFiltering.perform();
+  }
+
+  @action
+  updateSessionStatusFilter(newValue) {
+    this.status = this._getOrNullForOptionAll(newValue);
+    this.triggerFiltering.perform();
+  }
+
+  @action
+  updateSessionResultsSentToPrescriberFilter(newValue) {
+    this.resultsSentToPrescriberAt = this._getOrNullForOptionAll(newValue);
+    this.triggerFiltering.perform();
+  }
+
+  _getOrNullForOptionAll(value) {
+    return value === 'all' ? null : value;
+  }
 }

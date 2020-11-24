@@ -5,16 +5,16 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
-            <CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
+            <Certification::CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
           </h5>
           <div class="card-text">
-            <CertificationInfoField @value={{this.certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
-            <CertificationStatusSelect @value={{this.certification.status}} @edition={{this.edition}} />
-            <CertificationInfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
-            <CertificationInfoField @value={{this.certification.completionDate}} @edition={{false}} @label="Terminée le :" />
-            <CertificationInfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />
-            <CertificationInfoField @value={{this.certification.isV2CertificationText}} @edition={{false}} @label="Certification v2 :" />
-            <CertificationInfoField @value={{this.certification.displayCleaCertificationStatus}} @edition={{false}} @label="Certification CléA numérique :" @class={{this.cleaStatusClass}} />
+            <Certification::CertificationInfoField @value={{this.certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
+            <Certification::CertificationStatusSelect @certification={{this.certification}} @edition={{this.edition}} />
+            <Certification::CertificationInfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
+            <Certification::CertificationInfoField @value={{this.certification.completionDate}} @edition={{false}} @label="Terminée le :" />
+            <Certification::CertificationInfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />
+            <Certification::CertificationInfoField @value={{this.certification.isV2CertificationText}} @edition={{false}} @label="Certification v2 :" />
+            <Certification::CertificationInfoField @value={{this.certification.displayCleaCertificationStatus}} @edition={{false}} @label="Certification CléA numérique :" @class={{this.cleaStatusClass}} />
           </div>
         </div>
       </div>
@@ -24,16 +24,16 @@
         <div class="card-body">
           <h5 class="card-title">Candidat</h5>
           <div class="card-text">
-            <CertificationInfoField @value={{this.certification.firstName}} @edition={{this.edition}} @label="Prénom :" @fieldId="certification-firstName" />
-            <CertificationInfoField @value={{this.certification.lastName}} @edition={{this.edition}} @label="Nom :" @fieldId="certification-lastName" />
-            <CertificationInfoField
+            <Certification::CertificationInfoField @value={{this.certification.firstName}} @edition={{this.edition}} @label="Prénom :" @fieldId="certification-firstName" />
+            <Certification::CertificationInfoField @value={{this.certification.lastName}} @edition={{this.edition}} @label="Nom :" @fieldId="certification-lastName" />
+            <Certification::CertificationInfoField
                     @isDate={{true}}
                     @edition={{this.edition}}
                     @label="Date de naissance :"
                     @fieldId="certification-birthdate"
                     @value={{this.certification.birthdate}}
                     @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />
-            <CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.edition}} @label="Lieu de naissance :" @fieldId="certification-birthPlace" />
+            <Certification::CertificationInfoField @value={{this.certification.birthplace}} @edition={{this.edition}} @label="Lieu de naissance :" @fieldId="certification-birthPlace" />
           </div>
         </div>
       </div>
@@ -45,11 +45,11 @@
         <div class="card-body">
           <h5 class="card-title">Commentaires jury</h5>
           <div class="card-text">
-            <CertificationInfoField @value={{this.certification.commentForCandidate}} @edition={{this.edition}} @label="Pour le candidat :" @fieldId="certification-commentForCandidate" @large={{true}} />
-            <CertificationInfoField @value={{this.certification.commentForOrganization}} @edition={{this.edition}} @label="Pour l'organisation :" @fieldId="certification-commentForOrganization" @large={{true}} />
-            <CertificationInfoField @value={{this.certification.commentForJury}} @edition={{this.edition}} @label="Pour le jury :" @fieldId="certification-commentForJury" @large={{true}} />
+            <Certification::CertificationInfoField @value={{this.certification.commentForCandidate}} @edition={{this.edition}} @label="Pour le candidat :" @fieldId="certification-commentForCandidate" @large={{true}} />
+            <Certification::CertificationInfoField @value={{this.certification.commentForOrganization}} @edition={{this.edition}} @label="Pour l'organisation :" @fieldId="certification-commentForOrganization" @large={{true}} />
+            <Certification::CertificationInfoField @value={{this.certification.commentForJury}} @edition={{this.edition}} @label="Pour le jury :" @fieldId="certification-commentForJury" @large={{true}} />
             <p></p>
-            <CertificationInfoField @value={{this.certification.juryId}} @edition={{false}} @label="Identifiant jury :" @large={{true}} />
+            <Certification::CertificationInfoField @value={{this.certification.juryId}} @edition={{false}} @label="Identifiant jury :" @large={{true}} />
           </div>
         </div>
       </div>
@@ -61,9 +61,9 @@
         <div class="card-body">
           <h5 class="card-title">Résultats</h5>
           <div class="card-text">
-            <CertificationInfoField @value={{this.certification.pixScore}} @edition={{this.edition}} @label="Score :" @fieldId="certification-pixScore" @suffix=" Pix" @large={{true}} />
+            <Certification::CertificationInfoField @value={{this.certification.pixScore}} @edition={{this.edition}} @label="Score :" @fieldId="certification-pixScore" @suffix=" Pix" @large={{true}} />
             <p></p>
-            <CertificationInfoCompetences
+            <Certification::CertificationCompetenceList
                     @competences={{this.certification.competences}}
                     @edition={{this.edition}}
                     @onUpdateScore={{this.onUpdateScore}}

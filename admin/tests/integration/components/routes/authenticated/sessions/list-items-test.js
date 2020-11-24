@@ -1,17 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, find } from '@ember/test-helpers';
+import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import sinon from 'sinon';
-import XSelectInteractor from 'emberx-select/test-support/interactor';
 
 module('Integration | Component | routes/authenticated/sessions | list-items', function(hooks) {
-  setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
-    const triggerFiltering = { perform: sinon.stub() };
-    this.set('triggerFiltering', triggerFiltering);
-  });
+  setupRenderingTest(hooks);
 
   test('it should display sessions list', async function(assert) {
     // given
@@ -82,69 +76,117 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Dropdown menu for status filtering', function(hooks) {
+  module('Dropdown menu for certification center type filtering', function() {
 
-    hooks.beforeEach(function() {
-      const statusList = [
-        { status: 'status1', label: 'label1' },
-        { status: 'status2', label: 'label2' },
-        { status: 'status3', label: 'label3' },
+    test('it should render a dropdown menu to filter sessions on their certification center type', async function(assert) {
+      // given
+      const expectedOptions = [
+        { value: 'all', label: 'Tous' },
+        { value: 'SCO', label: 'Sco' },
+        { value: 'SUP', label: 'Sup' },
+        { value: 'PRO', label: 'Pro' },
       ];
-      this.set('sessionStatusAndLabels', statusList);
-    });
 
-    test('it should render a dropdown menu to filter on status', async function(assert) {
       // when
-      await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} @sessionStatusAndLabels={{this.sessionStatusAndLabels }} />`);
+      await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const option1 = find('table thead tr:nth-child(2) th:nth-child(5) select option:nth-child(1)');
-      assert.dom(option1).hasText('label1');
+      const elementOptions = this.element.querySelectorAll('.certification-center-type-selector > option');
+      assert.equal(elementOptions.length, 4);
+      elementOptions.forEach((elementOption, index) => {
+        const expectedOption = expectedOptions[index];
+        assert.dom(elementOption).hasText(expectedOption.label);
+        assert.dom(elementOption).hasValue(expectedOption.value);
+      });
     });
 
-    test('it should call triggerFiltering task for the status field', async function(assert) {
+    test('it should filter sessions on certification center type when it has changed', async function(assert) {
       // given
-      const xselect = new XSelectInteractor('#status');
-      await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} @sessionStatusAndLabels={{this.sessionStatusAndLabels }} />`);
+      this.set('certificationCenterType', 'SCO');
+      this.set('updateCertificationCenterTypeFilter', (newValue) => (this.set('certificationCenterType', newValue)));
+      await render(hbs`<Sessions::ListItems @certificationCenterType={{this.certificationCenterType}} @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}/>`);
 
       // when
-      await xselect.select('label3').when(() => {
-        sinon.assert.calledWith(this.triggerFiltering.perform, 'status', 'status3');
-        assert.equal(xselect.options(2).isSelected, true);
-      });
+      await fillIn('.certification-center-type-selector', 'PRO');
+
+      // then
+      assert.equal(this.certificationCenterType, 'PRO');
     });
   });
 
-  module('Dropdown menu for resultsSentToPrescriberAt filtering', function(hooks) {
+  module('Dropdown menu for status filtering', function() {
 
-    hooks.beforeEach(function() {
-      const statusList = [
-        { value: 'value1', label: 'label1' },
-        { value: 'value2', label: 'label2' },
-        { value: 'value3', label: 'label3' },
+    test('it should render a dropdown menu to filter sessions on their status', async function(assert) {
+      // given
+      const expectedOptions = [
+        { value: 'all', label: 'Tous' },
+        { value: 'created', label: 'Créée' },
+        { value: 'finalized', label: 'Finalisée' },
+        { value: 'in_process', label: 'En cours de traitement' },
+        { value: 'processed', label: 'Résultats transmis par Pix' },
       ];
-      this.set('sessionResultsSentToPrescriberAtAndLabels', statusList);
-    });
 
-    test('it should render a dropdown menu to filter on resultsSentToPrescriberAt', async function(assert) {
       // when
-      await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} @sessionResultsSentToPrescriberAtAndLabels={{this.sessionResultsSentToPrescriberAtAndLabels }} />`);
+      await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const option1 = find('table thead tr:nth-child(2) th:nth-child(8) select option:nth-child(1)');
-      assert.dom(option1).hasText('label1');
+      const elementOptions = this.element.querySelectorAll('.session-status-selector > option');
+      assert.equal(elementOptions.length, 5);
+      elementOptions.forEach((elementOption, index) => {
+        const expectedOption = expectedOptions[index];
+        assert.dom(elementOption).hasText(expectedOption.label);
+        assert.dom(elementOption).hasValue(expectedOption.value);
+      });
     });
 
-    test('it should call triggerFiltering task for resultsSentToPrescriberAt field', async function(assert) {
+    test('it should filter sessions on (session) "status" when it has changed', async function(assert) {
       // given
-      const xselect = new XSelectInteractor('#resultsSentToPrescriberAt');
-      await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} @sessionResultsSentToPrescriberAtAndLabels={{this.sessionResultsSentToPrescriberAtAndLabels }} />`);
+      this.set('status', 'finalized');
+      this.set('updateSessionStatusFilter', (newValue) => (this.set('status', newValue)));
+      await render(hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}}/>`);
 
       // when
-      await xselect.select('label3').when(() => {
-        sinon.assert.calledWith(this.triggerFiltering.perform, 'resultsSentToPrescriberAt', 'value3');
-        assert.equal(xselect.options(2).isSelected, true);
+      await fillIn('.session-status-selector', 'created');
+
+      // then
+      assert.equal(this.status, 'created');
+    });
+  });
+
+  module('Dropdown menu for resultsSentToPrescriberAt filtering', function() {
+
+    test('it should render a dropdown menu to filter sessions on their results sending', async function(assert) {
+      // given
+      const expectedOptions = [
+        { value: 'all', label: 'Tous' },
+        { value: 'true', label: 'Résultats diffusés' },
+        { value: 'false', label: 'Résultats non diffusés' },
+      ];
+
+      // when
+      await render(hbs`<Sessions::ListItems />`);
+
+      // then
+      const elementOptions = this.element.querySelectorAll('.results-status-selector > option');
+      assert.equal(elementOptions.length, 3);
+      elementOptions.forEach((elementOption, index) => {
+        const expectedOption = expectedOptions[index];
+        assert.dom(elementOption).hasText(expectedOption.label);
+        assert.dom(elementOption).hasValue(expectedOption.value);
       });
+    });
+
+    test('it should filter sessions on results sending status when it has changed', async function(assert) {
+      // given
+      this.set('resultsSentToPrescriberAt', 'true');
+      this.set('updateSessionResultsSentToPrescriberFilter', (newValue) => (this.set('resultsSentToPrescriberAt', newValue)));
+      await render(hbs`<Sessions::ListItems @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}} @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}/>`);
+
+      // when
+      await fillIn('.results-status-selector', 'false');
+
+      // then
+      assert.equal(this.resultsSentToPrescriberAt, 'false');
     });
   });
 

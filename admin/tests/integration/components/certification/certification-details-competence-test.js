@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 
-module('Integration | Component | certification-details-competence', function(hooks) {
+module('Integration | Component | <Certification::CertificationDetailsCompetence/>', function(hooks) {
   setupRenderingTest(hooks);
 
   const answer = (result) => {
@@ -31,12 +31,10 @@ module('Integration | Component | certification-details-competence', function(ho
   test('it renders', async function(assert) {
     // given
     this.set('competenceData', competence('ok', 'ko', 'partially'));
-    this.set('externalAction', () => {
-      return resolve();
-    });
+    this.set('externalAction', () => resolve());
 
     // when
-    await render(hbs`{{certification-details-competence competence=competenceData rate=60 juryRate=false onUpdateRate=(action externalAction)}}`);
+    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`);
 
     // then
     assert.dom('.certification-details-competence').exists();
@@ -45,12 +43,10 @@ module('Integration | Component | certification-details-competence', function(ho
   test('it should not render jury values when no jury values are set', async function(assert) {
     // given
     this.set('competenceData', competence('ok', 'ko', 'partially'));
-    this.set('externalAction', () => {
-      return resolve();
-    });
+    this.set('externalAction', () => resolve());
 
     // when
-    await render(hbs`{{certification-details-competence competence=competenceData rate=60 juryRate=false onUpdateRate=(action externalAction)}}`);
+    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`);
 
     // then
     assert.dom('.jury').doesNotExist();
@@ -59,12 +55,10 @@ module('Integration | Component | certification-details-competence', function(ho
   test('it should render jury values when these values are set', async function(assert) {
     // given
     this.set('competenceData', competence('ok', 'ok', 'ko'));
-    this.set('externalAction', () => {
-      return resolve();
-    });
+    this.set('externalAction', resolve());
 
     // when
-    await render(hbs`{{certification-details-competence competence=competenceData rate=60 juryRate=70 onUpdateRate=(action externalAction)}}`);
+    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`);
 
     // then
     assert.dom('.jury.competence-level').exists();
