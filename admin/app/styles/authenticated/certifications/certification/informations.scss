@@ -9,7 +9,7 @@
     text-align: center;
   }
 
-  &__published-float {
+  &__published--float {
     float: right;
   }
 
@@ -20,5 +20,16 @@
   &__clea--rejected .certification-info-value {
     color: $error;
     font-weight: bold;
+  }
+
+  .certification-info-field {
+    padding: 0 15px;
+
+    label {
+      margin-right: 5px;
+    }
+  }
+  .certification-info-label {
+    margin-right: 5px;
   }
 }

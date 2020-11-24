@@ -12,5 +12,10 @@
   .jury select {
     color: $error;
   }
+
+  .answer-result {
+    display: flex;
+    justify-content: center;
+  }
 }
 

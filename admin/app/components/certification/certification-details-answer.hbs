@@ -1,0 +1,25 @@
+<div class="card text-center certification-details-answer border-secondary">
+  <div class="card-body">
+    <div class="certification-details-answer-skill">
+      {{@answer.skill}}
+    </div>
+    <div class="certification-details-answer-id">
+      {{@answer.challengeId}}
+    </div>
+    <div class="certification-details-answer-order">
+      (numéro : {{@answer.order}})
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class={{this.resultClass}}>
+      <PowerSelect
+          @options={{this.resultOptions}}
+          @selected={{this.selectedOption}}
+          @searchEnabled={{false}}
+          @onChange={{this.selectOption}}
+          as |result|>
+        {{result.label}}
+      </PowerSelect>
+    </div>
+  </div>
+</div>
