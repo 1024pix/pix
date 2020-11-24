@@ -22,13 +22,13 @@ function _checkUserAccessScope(scope, user) {
 }
 
 async function _checkScoUserAccessCertifScope({ scope, user, certificationCenterMembershipRepository }) {
-  const userBelongsToSco = await _doesUserBelongsToScoCenter({ user, certificationCenterMembershipRepository });
-  const blockingAccessToScoUserFeatureToggleIsOn = config.featureToggles.certifBlockingScoUserAccess;
-  const scopeIsPixCertif = scope === apps.PIX_CERTIF.SCOPE;
+  const doesUserBelongToScoCertificationCenter = await _doesUserBelongsToScoCenter({ user, certificationCenterMembershipRepository });
+  const shouldScoUserBeBlocked = config.featureToggles.certifBlockingScoUserAccess;
+  const isUserTryingToConnectToPixCertif = scope === apps.PIX_CERTIF.SCOPE;
 
-  if (scopeIsPixCertif &&
-        blockingAccessToScoUserFeatureToggleIsOn &&
-        userBelongsToSco)
+  if (isUserTryingToConnectToPixCertif &&
+    shouldScoUserBeBlocked &&
+    doesUserBelongToScoCertificationCenter)
   {
     throw new ForbiddenAccess(apps.PIX_CERTIF.USER_SCO_BLOCKED_CERTIFICATION_MSG);
   }
