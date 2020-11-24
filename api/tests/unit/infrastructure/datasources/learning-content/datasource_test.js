@@ -185,26 +185,37 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
 
   describe('#refreshLearningContentCacheRecord', () => {
 
-    it('should force Airtable to reload the record and store or replace it in the cache', async () => {
+    it('should replace the record (identified with id) by given record and store or replace it in the cache', async () => {
       // given
-      const airtableRecord = {
-        id: 'recId',
-        tableName: someDatasource.tableName,
-        fields: [],
+      const record = { id: 'rec1', property: 'updatedValue' };
+      const learningContent = {
+        learningContentModel: [
+          { id: 'rec1', property: 'value1' },
+          { id: 'rec2', property: 'value2' },
+        ],
+        learningContentOtherModel: [
+          { id: 'rec3', property: 'value3' },
+        ],
       };
-      sinon.stub(airtable, 'getRecord')
-        .withArgs(someDatasource.tableName, airtableRecord.id)
-        .resolves(airtableRecord);
+      cache.get.withArgs('LearningContent').resolves(learningContent);
       sinon.stub(cache, 'set').callsFake((key, value) => value);
 
       // when
-      const entry = await someDatasource.refreshLearningContentCacheRecord(airtableRecord.id);
+      const entry = await someDatasource.refreshLearningContentCacheRecord('rec1', record);
 
       // then
       expect(entry).to.deep.equal({
-        id: 'recId',
-        tableName: 'Airtable_table',
-        fields: [],
+        id: 'rec1',
+        property: 'updatedValue',
+      });
+      expect(cache.set).to.have.been.deep.calledWith('LearningContent', {
+        learningContentModel: [
+          { id: 'rec2', property: 'value2' },
+          { id: 'rec1', property: 'updatedValue' },
+        ],
+        learningContentOtherModel: [
+          { id: 'rec3', property: 'value3' },
+        ],
       });
     });
   });

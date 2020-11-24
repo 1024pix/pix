@@ -25,18 +25,23 @@ const _DatasourcePrototype = {
   },
 
   async list() {
-    const generator = () => this._doList();
-    const learningContent = await cache.get(learningContentCacheKey, generator);
+    const learningContent = await this._getLearningContent();
     return learningContent[this.modelName];
   },
 
-  async refreshLearningContentCacheRecord(id) {
-    const cacheKeyList = this.modelName;
-    const airtableRecord = await airtable.getRecord(this.tableName, id);
-    const newEntry = this.fromAirTableObject(airtableRecord);
-    const currentList = await this.list();
-    const newList = _.reject(currentList, { id }).concat([newEntry]);
-    await cache.set(cacheKeyList, newList);
+  async _getLearningContent() {
+    const generator = () => lcms.getLatestRelease();
+    const learningContent = await cache.get(learningContentCacheKey, generator);
+    return learningContent;
+  },
+
+  async refreshLearningContentCacheRecord(id, newEntry) {
+    const currentLearningContent = await this._getLearningContent();
+    const currentRecords = currentLearningContent[this.modelName];
+    const updatedRecords = _.reject(currentRecords, { id }).concat([newEntry]);
+    const newLearningContent = _.cloneDeep(currentLearningContent);
+    newLearningContent[this.modelName] = updatedRecords;
+    await cache.set(learningContentCacheKey, newLearningContent);
     return newEntry;
   },
 
