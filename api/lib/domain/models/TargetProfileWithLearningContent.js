@@ -6,6 +6,7 @@ class TargetProfileWithLearningContent {
     name,
     outdated,
     isPublic,
+    organizationId,
     skills = [],
     tubes = [],
     competences = [],
@@ -17,6 +18,7 @@ class TargetProfileWithLearningContent {
     this.name = name;
     this.outdated = outdated;
     this.isPublic = isPublic;
+    this.organizationId = organizationId;
     this.skills = skills;
     this.tubes = tubes;
     this.competences = competences;
