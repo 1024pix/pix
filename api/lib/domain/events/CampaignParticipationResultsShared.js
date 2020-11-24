@@ -1,9 +1,6 @@
 class CampaignParticipationResultsShared {
-  constructor({ campaignId, campaignParticipationId, userId, organizationId } = {}) {
-    this.campaignId = campaignId;
+  constructor({ campaignParticipationId } = {}) {
     this.campaignParticipationId = campaignParticipationId;
-    this.userId = userId;
-    this.organizationId = organizationId;
   }
 }
 

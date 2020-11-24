@@ -3,7 +3,7 @@ const { AssessmentNotCompletedError, UserNotAuthorizedToAccessEntity, ArchivedCa
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | share-campaign-result2', () => {
+describe('Unit | UseCase | share-campaign-result', () => {
   const campaignParticipationRepository = {
     get: sinon.stub(),
     share: sinon.stub(),
@@ -79,12 +79,7 @@ describe('Unit | UseCase | share-campaign-result2', () => {
       const actualEvent = await usecases.shareCampaignResult({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
 
       // then
-      expect(actualEvent).to.deep.equal({
-        campaignId,
-        campaignParticipationId,
-        userId,
-        organizationId,
-      });
+      expect(actualEvent).to.deep.equal({ campaignParticipationId });
       expect(actualEvent).to.be.instanceOf(CampaignParticipationResultsShared);
     });
   });
@@ -113,12 +108,7 @@ describe('Unit | UseCase | share-campaign-result2', () => {
       const actualEvent = await usecases.shareCampaignResult({ userId, campaignParticipationId, campaignParticipationRepository, campaignRepository });
 
       // then
-      expect(actualEvent).to.deep.equal({
-        campaignId,
-        campaignParticipationId,
-        userId,
-        organizationId,
-      });
+      expect(actualEvent).to.deep.equal({ campaignParticipationId });
       expect(actualEvent).to.be.instanceOf(CampaignParticipationResultsShared);
     });
   });

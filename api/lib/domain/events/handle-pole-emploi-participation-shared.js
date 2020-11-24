@@ -15,16 +15,16 @@ async function handlePoleEmploiParticipationShared({
 }) {
   checkEventType(event, eventType);
 
-  const { organizationId, campaignId, userId, campaignParticipationId } = event;
+  const { campaignParticipationId } = event;
 
-  const campaign = await campaignRepository.get(campaignId);
-  const organization = await organizationRepository.get(organizationId);
+  const participation = await campaignParticipationRepository.get(campaignParticipationId);
+  const campaign = await campaignRepository.get(participation.campaignId);
+  const organization = await organizationRepository.get(campaign.organizationId);
 
   if (campaign.isAssessment() && organization.isPoleEmploi) {
 
-    const user = await userRepository.get(userId);
+    const user = await userRepository.get(participation.userId);
     const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
-    const participation = await campaignParticipationRepository.get(campaignParticipationId);
     const participationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId);
 
     const payload = PoleEmploiPayload.buildForParticipationShared({

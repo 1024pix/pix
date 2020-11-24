@@ -27,9 +27,6 @@ module.exports = async function shareCampaignResult({
   await campaignParticipationRepository.share(campaignParticipation);
 
   return new CampaignParticipationResultsShared({
-    campaignId: campaign.id,
     campaignParticipationId: campaignParticipation.id,
-    userId,
-    organizationId: campaign.organizationId,
   });
 };
