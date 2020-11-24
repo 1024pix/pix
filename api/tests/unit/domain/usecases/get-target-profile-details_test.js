@@ -8,13 +8,13 @@ describe('Unit | UseCase | get-target-profile-details', () => {
     const expectedResult = Symbol('target profile');
     const targetProfileId = Symbol('target profile id');
 
-    const targetProfileRepository = {
-      getReadModel: sinon.stub(),
+    const targetProfileWithLearningContentRepository = {
+      get: sinon.stub(),
     };
-    targetProfileRepository.getReadModel.withArgs(targetProfileId).resolves(expectedResult);
+    targetProfileWithLearningContentRepository.get.withArgs({ id: targetProfileId }).resolves(expectedResult);
 
     // when
-    const response = await usecases.getTargetProfileDetails({ targetProfileId, targetProfileRepository });
+    const response = await usecases.getTargetProfileDetails({ targetProfileId, targetProfileWithLearningContentRepository });
 
     // then
     expect(response).to.equal(expectedResult);

@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
+const targetProfileWithLearningContentSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
   async getTargetProfileDetails(request) {
     const targetProfileId = parseInt(request.params.id);
     const targetProfilesDetails = await usecases.getTargetProfileDetails({ targetProfileId });
-    return targetProfileSerializer.serialize(targetProfilesDetails);
+    return targetProfileWithLearningContentSerializer.serialize(targetProfilesDetails);
   },
 
   async findPaginatedFilteredTargetProfileOrganizations(request) {

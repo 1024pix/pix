@@ -1,0 +1,33 @@
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Acquis</h2>
+  </header>
+
+  <div class="content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+        </tr>
+        </thead>
+
+        {{#if @skills}}
+          <tbody>
+          {{#each @skills as |skill|}}
+            <tr aria-label="Acquis">
+              <td>{{skill.id}}</td>
+              <td>{{skill.name}}</td>
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @skills}}
+        <div class="table__empty content-text">Aucun résultat</div>
+      {{/unless}}
+    </div>
+  </div>
+</section>

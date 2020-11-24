@@ -38,7 +38,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       await visit('/target-profiles/1');
 
       // then
-      assert.equal(currentURL(), '/target-profiles/1/organizations');
+      assert.equal(currentURL(), '/target-profiles/1');
     });
 
     test('it should display target profile details', async function(assert) {
@@ -54,6 +54,19 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.dom('section').containsText('Public : Oui');
       assert.dom('section').containsText('Archivé : Non');
       assert.dom('section').containsText('Organisation de référence : 456');
+    });
+
+    test('it should display target profile skills', async function(assert) {
+      // given
+      const skill = server.create('skill', { id: 'rec1', name: '@web3' });
+      server.create('target-profile', { id: 1, name: 'Profil Cible', skills: [skill] });
+
+      // when
+      await visit('/target-profiles/1');
+
+      // then
+      assert.dom('[aria-label="Acquis"]').containsText('rec1');
+      assert.dom('[aria-label="Acquis"]').containsText('@web3');
     });
 
     test('it should redirect to organization details on click', async function(assert) {

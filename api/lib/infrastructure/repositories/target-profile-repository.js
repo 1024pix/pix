@@ -6,7 +6,6 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const { knex } = require('../bookshelf');
 const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
 const { NotFoundError, AlreadyExistingEntity } = require('../../domain/errors');
-const TargetProfileDTO = require('../../domain/read-models/TargetProfileDTO');
 
 module.exports = {
 
@@ -20,18 +19,6 @@ module.exports = {
     }
 
     return _getWithAirtableSkills(targetProfileBookshelf);
-  },
-
-  async getReadModel(id) {
-    const targetProfileBookshelf = await BookshelfTargetProfile
-      .where({ id })
-      .fetch({ withRelated: ['organizations'] });
-
-    const organizations = _getOrganizations(targetProfileBookshelf);
-    if (!targetProfileBookshelf) {
-      throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
-    }
-    return new TargetProfileDTO({ ...targetProfileBookshelf.attributes, organizations });
   },
 
   async getByCampaignId(campaignId) {
@@ -156,14 +143,4 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   if (id) {
     qb.where({ id });
   }
-}
-
-function _getOrganizations(targetProfileBookshelf) {
-  return targetProfileBookshelf.related('organizations')
-    .map((BookshelfOrganization) => {
-      return {
-        id: BookshelfOrganization.get('id'),
-        name: BookshelfOrganization.get('name'),
-      };
-    });
 }

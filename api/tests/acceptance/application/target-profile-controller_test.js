@@ -11,6 +11,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
   });
 
   afterEach(() => {
+    airtableBuilder.cleanAll();
     return cache.flushAll();
   });
 
@@ -19,21 +20,21 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     let targetProfileId;
 
     beforeEach(async () => {
-      const skill = airtableBuilder.factory.buildSkill({});
+      const area = airtableBuilder.factory.buildArea({ id: 'recArea', competenceIds: ['recCompetence'] });
+      const competence = airtableBuilder.factory.buildCompetence({ id: 'recCompetence', tubes: ['recTube'], acquisViaTubes: [ 'recSkill' ], domaineIds: [ area.id ] });
+      const tube = airtableBuilder.factory.buildTube({ id: 'recTube', competences: [ competence.id ] });
+      const skill = airtableBuilder.factory.buildSkill({ id: 'recSkill', tube: [tube.id], compétenceViaTube: [ competence.id ] });
 
-      airtableBuilder
-        .mockList({ tableName: 'Acquis' })
-        .returns([skill])
-        .activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence]).activate();
+      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube]).activate();
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
 
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill.id });
       user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      nock.cleanAll();
     });
 
     it('should return 200', async () => {
@@ -57,7 +58,6 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     let organizationId;
 
     beforeEach(async () => {
-      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Acquis')
         .query(true)
@@ -67,10 +67,6 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
       await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      nock.cleanAll();
     });
 
     it('should return 200', async () => {
@@ -97,7 +93,6 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         .mockList({ tableName: 'Acquis' })
         .returns([])
         .activate();
-
     });
 
     afterEach(() => {
