@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -21,10 +20,10 @@ describe('Unit | Model | result-competence model', function() {
 
     it('should exist', function() {
       // given
-      const Competence = store.modelFor('result-competence');
+      const competence = store.modelFor('result-competence');
 
       // when
-      const relationship = get(Competence, 'relationshipsByName').get('area');
+      const relationship = competence.relationshipsByName.get('area');
 
       // then
       expect(relationship.key).to.equal('area');

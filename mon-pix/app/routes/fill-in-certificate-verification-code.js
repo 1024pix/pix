@@ -15,7 +15,7 @@ export default class FillInCertificateVerificationCodeRoute extends Route {
     }
   }
 
-  setupController() {
-    this.controller.set('errorMessage', this.message);
+  setupController(controller) {
+    controller.set('errorMessage', this.message);
   }
 }
