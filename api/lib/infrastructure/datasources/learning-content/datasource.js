@@ -7,11 +7,6 @@ const learningContentCacheKey = 'LearningContent';
 
 const _DatasourcePrototype = {
 
-  async _doList() {
-    const learningContent = await lcms.getLatestRelease();
-    return learningContent;
-  },
-
   async get(id) {
     const modelObjects = await this.list();
     const foundObject = _.find(modelObjects, { id });
