@@ -4,11 +4,13 @@ const lcms = require('../../lcms');
 const LearningContentResourceNotFound = require('./LearningContentResourceNotFound');
 const cache = require('../../caches/learning-content-cache');
 
+const learningContentCacheKey = 'LearningContent';
+
 const _DatasourcePrototype = {
 
   async _doList() {
     const learningContent = await lcms.getLatestRelease();
-    return learningContent[this.modelName];
+    return learningContent;
   },
 
   async get(id) {
@@ -23,9 +25,9 @@ const _DatasourcePrototype = {
   },
 
   async list() {
-    const key = this.modelName;
     const generator = () => this._doList();
-    return cache.get(key, generator);
+    const learningContent = await cache.get(learningContentCacheKey, generator);
+    return learningContent[this.modelName];
   },
 
   async refreshLearningContentCacheRecord(id) {
@@ -50,7 +52,7 @@ module.exports = {
 
   async refreshLearningContentCacheRecords() {
     const learningContent = await lcms.getLatestRelease();
-    await cache.set('LearningContent', learningContent);
+    await cache.set(learningContentCacheKey, learningContent);
     return learningContent;
   },
 
