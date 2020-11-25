@@ -32,7 +32,7 @@ module.exports = {
         attributes: ['organizationRole', 'organization'],
         organization: {
           ref: 'id',
-          attributes: ['code', 'credit', 'name', 'type', 'isManagingStudents', 'canCollectProfiles', 'externalId', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
+          attributes: ['credit', 'name', 'type', 'isManagingStudents', 'canCollectProfiles', 'externalId', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,
