@@ -26,6 +26,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case:'when answer and solution are equal but solutions contains a dot', answer: '123', solution: '123.0', expectedAnswerStatus: ANSWER_OK },
       { case:'when number has space', answer: '00025 000', solution: '25000', expectedAnswerStatus: ANSWER_OK },
       { case:'(multiple solutions) when answer is correct but there are multiple solutions', answer: '123,00', solution: '123.0\n123', expectedAnswerStatus: ANSWER_OK },
+      { case:'(multiple solutions) answer is not the first possible solution', answer: '23', solution: '21\n22\n23\n', expectedAnswerStatus: ANSWER_OK  },
     ].forEach((data) => {
       it(`should return ${data.expectedAnswerStatus} when answer is ${data.answer} and solution is ${data.solution}`, function() {
         const result = service.match(data.answer, data.solution);

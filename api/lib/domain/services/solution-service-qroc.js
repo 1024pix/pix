@@ -29,15 +29,19 @@ module.exports = {
     });
 
     if (isNumeric(answer) && areAllNumericSolutions) {
-      return _getAnswerStatusFromNumberMatching(answer, solution);
+      return _getAnswerStatusFromNumberMatching(answer, solutions);
     }
 
     return _getAnswerStatusFromStringMatching(answer, solutions, deactivations);
   },
 };
 
-function _getAnswerStatusFromNumberMatching(answer, solution) {
-  if (cleanStringAndParseFloat(answer) === cleanStringAndParseFloat(solution)) {
+function _getAnswerStatusFromNumberMatching(answer, solutions) {
+  const treatedSolutions = solutions.map((solution) => cleanStringAndParseFloat(solution));
+  const treatedAnswer = cleanStringAndParseFloat(answer);
+  const indexOfSolution = treatedSolutions.indexOf(treatedAnswer);
+  const isAnswerMatchingSolution = indexOfSolution !== -1;
+  if (isAnswerMatchingSolution) {
     return AnswerStatus.OK;
   }
   return AnswerStatus.KO;
