@@ -299,7 +299,7 @@ jobs:
           command: npm start
 
       - run:
-          name: Start orga
+          name: Start Pix Orga
           working_directory: ~/pix/orga
           environment:
             JOBS: 2
