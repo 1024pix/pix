@@ -12,9 +12,9 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     const sharedAt = new Date('2018-05-06');
 
     beforeEach(async () => {
-      const airtableData = buildAirtableData();
-      competences = airtableData.competences;
-      skills = airtableData.skills;
+      const learningContentData = buildLearningContentData();
+      competences = learningContentData.competences;
+      skills = learningContentData.skills;
 
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
@@ -133,7 +133,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
   });
 });
 
-const buildAirtableData = () => {
+const buildLearningContentData = () => {
   const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceId: 'recCompetence1', status: 'actif' };
   const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceId: 'recCompetence1', status: 'actif' };
   const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceId: 'recCompetence2', status: 'actif' };
