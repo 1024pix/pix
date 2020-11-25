@@ -213,6 +213,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: medium+
     parallelism: 5
     working_directory: ~/pix/high-level-tests/e2e
     steps:
