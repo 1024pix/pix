@@ -93,15 +93,17 @@ describe('Unit | Domain | Services | authentication', () => {
 
   describe('#generateAccessToken', () => {
 
-    it('should return access token and id token', async () => {
+    it('should return access token, id token and validity period', async () => {
       // given
       const code = 'code';
       const clientId = 'clientId';
       const redirectUri = 'redirectUri';
       const accessToken = 'accessToken';
       const idToken = 'idToken';
+      const expiresIn = 60;
+      const refreshToken = 'refreshToken';
 
-      const expectedResult = { accessToken, idToken };
+      const expectedResult = { accessToken, idToken, expiresIn, refreshToken };
 
       const expectedUrl = settings.poleEmploi.tokenUrl;
       const expectedData = `client_secret=${settings.poleEmploi.clientSecret}&grant_type=authorization_code&code=${code}&client_id=${clientId}&redirect_uri=${redirectUri}`;
@@ -111,6 +113,8 @@ describe('Unit | Domain | Services | authentication', () => {
         data: {
           access_token: accessToken,
           id_token: idToken,
+          expires_in: expiresIn,
+          refresh_token: refreshToken,
         },
       };
       sinon.stub(axios, 'post').resolves(response);
