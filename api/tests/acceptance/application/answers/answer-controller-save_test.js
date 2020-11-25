@@ -1,5 +1,4 @@
-const { expect, knex, nock, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, knex, databaseBuilder, mockLearningContent, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 
@@ -30,10 +29,6 @@ describe('Acceptance | Controller | answer-controller-save', () => {
     });
 
     afterEach(() => {
-      nock.cleanAll();
-      airtableBuilder.cleanAll();
-      cache.flushAll();
-
       return knex('answers').delete();
     });
 
@@ -41,42 +36,31 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
       beforeEach(() => {
         // given
-        const area = airtableBuilder.factory.buildArea();
-
-        const competence = airtableBuilder.factory.buildCompetence({
-          id: 'recCompetence',
-          domaineIds: [area.id],
-          domaineCode: area['Code'],
-        });
-        const skill = airtableBuilder.factory.buildSkill({
-          compétenceViaTube: [competence.id],
-        });
-        const challenge = airtableBuilder.factory.buildChallenge({
-          id: challengeId,
-          competences: [competence.id],
-          acquix: [skill.id],
-          status: 'validé',
-          bonnesReponses: correctAnswer,
-        });
-        airtableBuilder
-          .mockList({ tableName: 'Domaines' })
-          .returns([area])
-          .activate();
-
-        airtableBuilder
-          .mockList({ tableName: 'Competences' })
-          .returns([competence])
-          .activate();
-
-        airtableBuilder
-          .mockList({ tableName: 'Acquis' })
-          .returns([skill])
-          .activate();
-
-        airtableBuilder
-          .mockList({ tableName: 'Epreuves' })
-          .returns([challenge])
-          .activate();
+        const learningContent = {
+          areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
+          competences: [{
+            id: 'recCompetence',
+            areaId: 'recArea1',
+            skillIds: ['recSkill1'],
+            origin: 'Pix',
+          }],
+          skills: [{
+            id: 'recSkill1',
+            name: '@recArea1_Competence1_Tube1_Skill1',
+            status: 'actif',
+            competenceId: 'recCompetence',
+          }],
+          challenges: [{
+            id: challengeId,
+            competenceId: 'recCompetence',
+            skillIds: ['recSkill1'],
+            status: 'validé',
+            solution: correctAnswer,
+            locales: ['fr-fr'],
+            type: 'QROC',
+          }],
+        };
+        mockLearningContent(learningContent);
 
         postAnswersOptions = {
           method: 'POST',
