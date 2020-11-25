@@ -644,18 +644,18 @@
             "pix-contest": {
                 "title": "Bienvenue dans cette session Pix-concours.",
                 "descriptions": {
-                    "description1": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
-                    "description2": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
-                    "description3": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
-                    "description4": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes",
-                    "description5": "Nombre de questions posées : xxx / Temps approximatif pour passer le module : xxx minutes"
+                    "description1": "Nombre de questions posées : 7 / Temps approximatif pour passer le module : 30 minutes",
+                    "description2": "Nombre de questions posées : 4 / Temps approximatif pour passer le module : 10 minutes",
+                    "description3": "Nombre de questions posées : 9 / Temps approximatif pour passer le module : 30 minutes",
+                    "description4": "Nombre de questions posées : 8 / Temps approximatif pour passer le module : 30 minutes",
+                    "description5": "Nombre de questions posées : 7 / Temps approximatif pour passer le module : 20 minutes"
                 },
                 "links": {
-                    "link1": "'<a href=\"/campagnes/CAMPTEST\">'Module Développer des documents textuels'</a>'",
-                    "link2": "'<a href=\"Second lien\">'Module Mener une recherche et une veille d’information'</a>'",
-                    "link3": "'<a href=\"Troisième lien\">'Module Gérer des données'</a>'",
-                    "link4": "'<a href=\"Quatrième lien\">'Module Traiter des données'</a>'",
-                    "link5": "'<a href=\"Cinquième lien\">'Module Interagir/partager des données'</a>'"
+                    "link1": "'<a href=\"/campagnes/TWXYLS352\">'Module Développer des documents textuels'</a>'",
+                    "link2": "'<a href=\"/campagnes/NKKKXL573\">'Module Mener une recherche et une veille d’information'</a>'",
+                    "link3": "'<a href=\"/campagnes/PQLEFQ881\">'Module Gérer des données'</a>'",
+                    "link4": "'<a href=\"/campagnes/CYFPNR723\">'Module Traiter des données'</a>'",
+                    "link5": "'<a href=\"/campagnes/WHDBDT141\">'Module Interagir/partager des données'</a>'"
                 },
                 "rules": "Rappel :'<br>'- Vous pouvez passer les modules dans l’ordre que vous voulez '<br>'- Vous pouvez arrêter et reprendre votre module '<br>'- Une fois la question validée, il n’est pas possible de modifier votre réponse",
                 "send-results": {
