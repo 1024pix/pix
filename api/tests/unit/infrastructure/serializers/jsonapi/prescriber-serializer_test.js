@@ -5,7 +5,7 @@ const Membership = require('../../../../../lib/domain/models/Membership');
 
 describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
 
-  function createExpectedPrescriberSerializedWithIsAgriculture({ prescriber, membership, userOrgaSettings, organization }) {
+  function createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField, field }) {
     return {
       data: {
         id: prescriber.id.toString(),
@@ -36,13 +36,11 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           id: organization.id.toString(),
           type: 'organizations',
           attributes: {
-            'can-collect-profiles': organization.canCollectProfiles,
             'external-id': organization.externalId,
-            'is-managing-students': organization.isManagingStudents,
             'name': organization.name,
             'type': organization.type,
             'credit': organization.credit,
-            'is-agriculture': true,
+            [serializedField]: organization[field],
           },
           relationships: {
             memberships: {
@@ -132,9 +130,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           id: organization.id.toString(),
           type: 'organizations',
           attributes: {
-            'can-collect-profiles': organization.canCollectProfiles,
             'external-id': organization.externalId,
-            'is-managing-students': organization.isManagingStudents,
             'name': organization.name,
             'type': organization.type,
             'credit': organization.credit,
@@ -198,7 +194,187 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
 
   describe('#serialize', () => {
 
-    context('when isAgriculture should be true', () => {
+    context('when canCollectProfiles is true', () => {
+      it('should serialize prescriber with canCollectProfiles', () => {
+        // given
+        const user = domainBuilder.buildUser({
+          pixOrgaTermsOfServiceAccepted: true,
+          memberships: [],
+          certificationCenterMemberships: [],
+        });
+
+        const organization = domainBuilder.buildOrganization({ canCollectProfiles: true });
+
+        const membership = domainBuilder.buildMembership({
+          organization,
+          organizationRole: Membership.roles.MEMBER,
+          user,
+        });
+
+        user.memberships.push(membership);
+
+        organization.memberships.push(membership);
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
+          currentOrganization: organization,
+        });
+        userOrgaSettings.user = null;
+
+        const prescriber = domainBuilder.buildPrescriber({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          areNewYearSchoolingRegistrationsImported: false,
+          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        const  expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'can-collect-profiles', field: 'canCollectProfiles' });
+
+        // when
+        const result = serializer.serialize(prescriber);
+
+        // then
+        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
+    context('when canCollectProfiles is false', () => {
+      it('should serialize prescriber without canCollectProfiles', () => {
+        // given
+        const user = domainBuilder.buildUser({
+          pixOrgaTermsOfServiceAccepted: true,
+          memberships: [],
+          certificationCenterMemberships: [],
+        });
+
+        const organization = domainBuilder.buildOrganization({ canCollectProfiles: false });
+
+        const membership = domainBuilder.buildMembership({
+          organization,
+          organizationRole: Membership.roles.MEMBER,
+          user,
+        });
+
+        user.memberships.push(membership);
+
+        organization.memberships.push(membership);
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
+          currentOrganization: organization,
+        });
+        userOrgaSettings.user = null;
+
+        const prescriber = domainBuilder.buildPrescriber({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          areNewYearSchoolingRegistrationsImported: false,
+          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        const  expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
+
+        // when
+        const result = serializer.serialize(prescriber);
+
+        // then
+        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
+    context('when isManagingStudents is true', () => {
+      it('should serialize prescriber with isManagingStudents', () => {
+        // given
+        const user = domainBuilder.buildUser({
+          pixOrgaTermsOfServiceAccepted: true,
+          memberships: [],
+          certificationCenterMemberships: [],
+        });
+
+        const organization = domainBuilder.buildOrganization({ isManagingStudents: true });
+
+        const membership = domainBuilder.buildMembership({
+          organization,
+          organizationRole: Membership.roles.MEMBER,
+          user,
+        });
+
+        user.memberships.push(membership);
+
+        organization.memberships.push(membership);
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
+          currentOrganization: organization,
+        });
+        userOrgaSettings.user = null;
+
+        const prescriber = domainBuilder.buildPrescriber({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          areNewYearSchoolingRegistrationsImported: false,
+          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        const  expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-managing-students', field: 'isManagingStudents' });
+
+        // when
+        const result = serializer.serialize(prescriber);
+
+        // then
+        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
+    context('when isManagingStudents is false', () => {
+      it('should serialize prescriber without isManagingStudents', () => {
+        // given
+        const user = domainBuilder.buildUser({
+          pixOrgaTermsOfServiceAccepted: true,
+          memberships: [],
+          certificationCenterMemberships: [],
+        });
+
+        const organization = domainBuilder.buildOrganization({ isManagingStudents: false });
+
+        const membership = domainBuilder.buildMembership({
+          organization,
+          organizationRole: Membership.roles.MEMBER,
+          user,
+        });
+
+        user.memberships.push(membership);
+
+        organization.memberships.push(membership);
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
+          currentOrganization: organization,
+        });
+        userOrgaSettings.user = null;
+
+        const prescriber = domainBuilder.buildPrescriber({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          areNewYearSchoolingRegistrationsImported: false,
+          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        const  expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
+
+        // when
+        const result = serializer.serialize(prescriber);
+
+        // then
+        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
+    context('when isAgriculture is true', () => {
       it('should serialize prescriber with isAgriculture', () => {
         // given
         const user = domainBuilder.buildUser({
@@ -234,7 +410,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           userOrgaSettings,
         });
 
-        const  expectedPrescriberSerialized = createExpectedPrescriberSerializedWithIsAgriculture({ prescriber, membership, userOrgaSettings, organization });
+        const  expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-agriculture', field: 'isAgriculture' });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -244,7 +420,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
-    context('when isAgriculture should be false', () => {
+    context('when isAgriculture is false', () => {
       it('should serialize prescriber without isAgriculture', () => {
         // given
         const user = domainBuilder.buildUser({
