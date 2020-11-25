@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const AuthenticationMethod = require('../models/AuthenticationMethod');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = async function authenticatePoleEmploiUser({
   code,
@@ -7,6 +9,7 @@ module.exports = async function authenticatePoleEmploiUser({
   authenticationService,
   tokenService,
   userRepository,
+  authenticationMethodRepository,
 }) {
 
   try {
@@ -20,11 +23,19 @@ module.exports = async function authenticatePoleEmploiUser({
       password: '',
       cgu: false,
     });
-    user.externalIdentityId = userInfo.externalIdentityId;
 
-    let foundUser = await userRepository.findByExternalIdentityId(user.externalIdentityId);
+    let foundUser = await userRepository.findByExternalIdentityId(userInfo.externalIdentityId);
     if (!foundUser) {
-      foundUser = await userRepository.create(user);
+      await DomainTransaction.execute(async (domainTransaction) => {
+        foundUser = await userRepository.create(user, domainTransaction);
+
+        const authenticationMethod = new AuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+          userId: foundUser.id,
+          externalIdentifier: userInfo.externalIdentityId,
+        });
+        await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+      });
     }
 
     const accessToken = tokenService.createAccessTokenFromUser(foundUser, 'external');

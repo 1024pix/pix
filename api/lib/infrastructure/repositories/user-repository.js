@@ -14,6 +14,7 @@ const Organization = require('../../domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const DomainTransaction = require('../DomainTransaction');
 
 const PIX_MASTER_ROLE_ID = 1;
 
@@ -296,10 +297,10 @@ module.exports = {
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
-  create(user) {
+  create(user, domainTransaction = DomainTransaction.emptyTransaction()) {
     const userToCreate = _adaptModelToDb(user);
     return new BookshelfUser(userToCreate)
-      .save()
+      .save(null, { transacting: domainTransaction.knexTransaction })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
 

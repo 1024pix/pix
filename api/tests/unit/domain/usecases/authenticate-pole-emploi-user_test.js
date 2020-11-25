@@ -3,6 +3,8 @@ const { expect, sinon } = require('../../../test-helper');
 const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
 
 const User = require('../../../../lib/domain/models/User');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => {
 
@@ -17,10 +19,14 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
   const lastName = 'lastname';
   const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
+  const userId = 1;
+  const domainTransaction = Symbol();
+
   let authenticationService;
   let tokenService;
 
   let userRepository;
+  let authenticationMethodRepository;
 
   let userInfo;
 
@@ -39,17 +45,24 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     tokenService = {
       createAccessTokenFromUser: sinon.stub().returns(),
     };
+
     userRepository = {
-      create: sinon.stub().resolves(),
+      create: sinon.stub().resolves({ id: userId }),
       findByExternalIdentityId: sinon.stub().resolves(),
     };
+
+    authenticationMethodRepository = {
+      create: sinon.stub().resolves(),
+    };
+
+    DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
   });
 
   it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async () => {
     // when
     await authenticatePoleEmploiUser({
       code, redirectUri, clientId,
-      userRepository, authenticationService, tokenService,
+      userRepository, authenticationMethodRepository, authenticationService, tokenService,
     });
 
     // then
@@ -60,16 +73,16 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     // when
     await authenticatePoleEmploiUser({
       code, redirectUri, clientId,
-      userRepository, authenticationService, tokenService,
+      userRepository, authenticationMethodRepository, authenticationService, tokenService,
     });
 
     // then
     expect(authenticationService.getPoleEmploiUserInfo).to.have.been.calledWith(idToken);
   });
 
-  context('When user does no exist yet', () => {
+  context('When user does not exist yet', () => {
 
-    it('should call user repository create function with firstname, lastname and externalIdentityId parameters', async () => {
+    it('should call user repository create function with firstname, lastname and a domain transaction', async () => {
       // given
       const userInfo = {
         firstName, lastName, externalIdentityId,
@@ -80,11 +93,34 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       // when
       await authenticatePoleEmploiUser({
         code, redirectUri, clientId,
-        userRepository, authenticationService, tokenService,
+        userRepository, authenticationMethodRepository, authenticationService, tokenService,
       });
 
       // then
-      expect(userRepository.create).to.have.been.calledWithMatch({ firstName, lastName, externalIdentityId });
+      expect(userRepository.create).to.have.been.calledWithMatch({ firstName, lastName }, domainTransaction);
+    });
+
+    it('should call authentication method repository create function pole emploi authentication method and domain transaction', async () => {
+      // given
+      const userInfo = {
+        firstName, lastName, externalIdentityId,
+      };
+      authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
+      userRepository.findByExternalIdentityId.resolves(null);
+      const expectedAuthenticationMethod = new AuthenticationMethod({
+        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        externalIdentifier: externalIdentityId,
+        userId,
+      });
+
+      // when
+      await authenticatePoleEmploiUser({
+        code, redirectUri, clientId,
+        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+      });
+
+      // then
+      expect(authenticationMethodRepository.create).to.have.been.calledWithMatch({ authenticationMethod: expectedAuthenticationMethod, domainTransaction });
     });
   });
 
@@ -97,7 +133,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       // when
       await authenticatePoleEmploiUser({
         code, redirectUri, clientId,
-        userRepository, authenticationService, tokenService,
+        userRepository, authenticationMethodRepository, authenticationService, tokenService,
       });
 
       // then
@@ -115,7 +151,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     // when
     await authenticatePoleEmploiUser({
       code, redirectUri, clientId,
-      userRepository, authenticationService, tokenService,
+      userRepository, authenticationMethodRepository, authenticationService, tokenService,
     });
 
     // then
@@ -134,7 +170,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     // when
     const result = await authenticatePoleEmploiUser({
       code, redirectUri, clientId,
-      userRepository, authenticationService, tokenService,
+      userRepository, authenticationMethodRepository, authenticationService, tokenService,
     });
 
     // then
