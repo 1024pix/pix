@@ -21,14 +21,13 @@ async function findDirectAndHigherLevelKEs({ userId }) {
 }
 
 async function getAllTestedChallenges({ courseId }) {
-  // id, associatedSkillName, associatedSkillId, challengeId, competenceId
   const challengeList = await CertificationChallengeBookshelf
     .where({ courseId })
     .fetchAll();
   return challengeList.map((challenge) => bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, challenge));
 }
 
-function mergeTestedChallengesAndKEsByCompetences({KEs, challengesTestedInCertif}) {
+function mergeTestedChallengesAndKEsByCompetences({ KEs, challengesTestedInCertif }) {
   // On trie les KE par competence
   const keGroupedByCompetences = _.groupBy(KEs, 'competenceId');
 
@@ -41,19 +40,19 @@ function mergeTestedChallengesAndKEsByCompetences({KEs, challengesTestedInCertif
     // Pour chaque skill
     const keGroup = _.map(keGroupBySkill, (KEs, skillId) => {
 
-      // On va chercher si le challenge a été demandé en test de certification
+      // On va chercher si on trouve un challenge testé (en certif) pour cet acquis
       const mbTestedChallenge = _.find(challengesTestedInCertif, (challenge) => {
         // TODO: chercher parmi tous les KEs ! (mais pour le moment on a qu'un KE par skill)
-        return challenge.associatedSkillId === skillId
+        return challenge.associatedSkillId === skillId;
       });
       
       // On fusionne les informations obtenues
       // todo: refacto
-      const userSkillProfile = new UserSkillProfile({
+      const userSkillProfile = {
         id: skillId,
         KEsForThisSkill: KEs,
         mbTestedChallenge,
-      });
+      };
       return userSkillProfile;
     });
     return { competenceId, skills: keGroup };
