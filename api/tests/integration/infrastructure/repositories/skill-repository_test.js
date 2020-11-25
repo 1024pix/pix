@@ -1,14 +1,8 @@
-const { expect, airtableBuilder, domainBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
 const Skill = require('../../../../lib/domain/models/Skill');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
 describe('Integration | Repository | skill-repository', () => {
-
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
-  });
 
   describe('#list', () => {
 
@@ -18,11 +12,14 @@ describe('Integration | Repository | skill-repository', () => {
       const activeSkill = domainBuilder.buildSkill({ competenceId });
       const archivedSkill = domainBuilder.buildSkill({ competenceId });
       const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
-      const airtableActiveSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill, status: 'actif' });
-      const airtableArchivedSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: archivedSkill, status: 'archivé' });
-      const airtableActiveSkill_otherCompetence = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill_otherCompetence, status: 'actif' });
-      airtableBuilder.mockLists({ skills: [airtableActiveSkill, airtableArchivedSkill, airtableActiveSkill_otherCompetence] });
-
+      const learningContent = {
+        skills: [
+          { ...activeSkill, status: 'actif' },
+          { ...archivedSkill, status: 'archivé' },
+          { ...activeSkill_otherCompetence, status: 'actif' },
+        ],
+      };
+      mockLearningContent(learningContent);
       // when
       const skills = await skillRepository.list();
 
@@ -39,11 +36,14 @@ describe('Integration | Repository | skill-repository', () => {
       const activeSkill = domainBuilder.buildSkill({ competenceId });
       const nonActiveSkill = domainBuilder.buildSkill({ competenceId });
       const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
-      const airtableActiveSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill, status: 'actif' });
-      const airtableArchivedSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: nonActiveSkill, status: 'archivé' });
-      const airtableActiveSkill_otherCompetence = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill_otherCompetence, status: 'actif' });
-      airtableBuilder.mockLists({ skills: [airtableActiveSkill, airtableArchivedSkill, airtableActiveSkill_otherCompetence] });
-
+      const learningContent = {
+        skills: [
+          { ...activeSkill, status: 'actif' },
+          { ...nonActiveSkill, status: 'archivé' },
+          { ...activeSkill_otherCompetence, status: 'actif' },
+        ],
+      };
+      mockLearningContent(learningContent);
       // when
       const skills = await skillRepository.findActiveByCompetenceId(competenceId);
 
@@ -63,11 +63,15 @@ describe('Integration | Repository | skill-repository', () => {
       const archivedSkill = domainBuilder.buildSkill({ competenceId });
       const nonOperativeSkill = domainBuilder.buildSkill({ competenceId });
       const activeSkill_otherCompetence = domainBuilder.buildSkill({ competenceId: 'recAnotherCompetence' });
-      const airtableActiveSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill, status: 'actif' });
-      const airtableArchivedSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: archivedSkill, status: 'archivé' });
-      const airtableNonOperativeSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: nonOperativeSkill, status: 'BLABLA' });
-      const airtableActiveSkill_otherCompetence = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill_otherCompetence, status: 'actif' });
-      airtableBuilder.mockLists({ skills: [airtableActiveSkill, airtableArchivedSkill, airtableNonOperativeSkill, airtableActiveSkill_otherCompetence] });
+      const learningContent = {
+        skills: [
+          { ...activeSkill, status: 'actif' },
+          { ...archivedSkill, status: 'archivé' },
+          { ...nonOperativeSkill, status: 'BLABLA' },
+          { ...activeSkill_otherCompetence, status: 'actif' },
+        ],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const skills = await skillRepository.findOperativeByCompetenceId(competenceId);
@@ -87,11 +91,14 @@ describe('Integration | Repository | skill-repository', () => {
       const activeSkill = domainBuilder.buildSkill({ competenceId });
       const archivedSkill = domainBuilder.buildSkill({ competenceId });
       const nonOperativeSkill = domainBuilder.buildSkill({ competenceId });
-      const airtableActiveSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: activeSkill, status: 'actif' });
-      const airtableArchivedSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: archivedSkill, status: 'archivé' });
-      const airtableNonOperativeSkill = airtableBuilder.factory.buildSkill.fromDomain({ domainSkill: nonOperativeSkill, status: 'BLABLA' });
-      airtableBuilder.mockLists({ skills: [airtableActiveSkill, airtableArchivedSkill, airtableNonOperativeSkill] });
-
+      const learningContent = {
+        skills: [
+          { ...activeSkill, status: 'actif' },
+          { ...archivedSkill, status: 'archivé' },
+          { ...nonOperativeSkill, status: 'BLABLA' },
+        ],
+      };
+      mockLearningContent(learningContent);
       // when
       const skills = await skillRepository.findOperativeByIds([activeSkill.id, archivedSkill.id, nonOperativeSkill.id]);
 
