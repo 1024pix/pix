@@ -130,6 +130,20 @@ describe('Unit | Domain | Schooling Registration validator', () => {
         });
       });
 
+      it('throw an error when birthCountryCode before birthCityCode', async () => {
+        const error = await catchErr(checkValidation)({ ...validAttributes, birthCityCode: '', birthCountryCode: '12345' });
+
+        expect(error.key).to.equal('birthCountryCode');
+        expect(error.why).to.equal('not_valid_insee_code');
+      });
+
+      it('throw an error when birthCountryCode before birthCity', async () => {
+        const error = await catchErr(checkValidation)({ ...validAttributes, birthCity: '', birthCountryCode: '12345' });
+
+        expect(error.key).to.equal('birthCountryCode');
+        expect(error.why).to.equal('not_valid_insee_code');
+      });
+
       it('throw an error when birthCountryCode has not 5 characters', async () => {
         const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '123456' });
 
@@ -209,7 +223,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
 
     context('birthCity', () => {
       it('throw an error when birth country is not France and birthCity is undefined', async () => {
-        const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '12345', birthCity: undefined });
+        const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: '99125', birthCity: undefined });
 
         expect(error.key).to.equal('birthCity');
         expect(error.why).to.equal('required');

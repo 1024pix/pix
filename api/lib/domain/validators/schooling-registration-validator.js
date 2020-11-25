@@ -29,6 +29,15 @@ const validationSchema = Joi.object({
   lastName: Joi.string().max(MAX_LENGTH).required(),
   preferredLastName: Joi.string().max(MAX_LENGTH).optional(),
   birthdate: Joi.date().required().format('YYYY-MM-DD').empty(null),
+  birthProvinceCode: Joi.string().min(PROVINCE_CODE_MIN_LENGTH).max(PROVINCE_CODE_MAX_LENGTH).required(),
+  birthCountryCode: Joi.string()
+    .length(COUNTRY_CODE_LENGTH)
+    .regex(INSEE_REGEX.COUNTRY_CODE)
+    .required(),
+  status: Joi.string().valid(STUDENT,APPRENTICE).required(),
+  MEFCode: Joi.string().max(MAX_LENGTH).required(),
+  division: Joi.string().max(MAX_LENGTH).required(),
+  organizationId: Joi.number().integer().required(),
   birthCity: Joi.alternatives().conditional('birthCountryCode', {
     is: FRANCE_COUNTRY_CODE,
     then: Joi.string().max(MAX_LENGTH).optional(),
@@ -42,15 +51,6 @@ const validationSchema = Joi.object({
       .required(),
     otherwise: Joi.string().max(MAX_LENGTH).optional(),
   }),
-  birthProvinceCode: Joi.string().min(PROVINCE_CODE_MIN_LENGTH).max(PROVINCE_CODE_MAX_LENGTH).required(),
-  birthCountryCode: Joi.string()
-    .length(COUNTRY_CODE_LENGTH)
-    .regex(INSEE_REGEX.COUNTRY_CODE)
-    .required(),
-  status: Joi.string().valid(STUDENT,APPRENTICE).required(),
-  MEFCode: Joi.string().max(MAX_LENGTH).required(),
-  division: Joi.string().max(MAX_LENGTH).required(),
-  organizationId: Joi.number().integer().required(),
 });
 
 module.exports = {
