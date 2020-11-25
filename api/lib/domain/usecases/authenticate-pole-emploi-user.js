@@ -33,6 +33,12 @@ module.exports = async function authenticatePoleEmploiUser({
           identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
           userId: foundUser.id,
           externalIdentifier: userInfo.externalIdentityId,
+          authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+            accessToken: poleEmploiTokens.accessToken,
+            idToken: poleEmploiTokens.idToken,
+            expiresIn: poleEmploiTokens.expiresIn,
+            refreshToken: poleEmploiTokens.refreshToken,
+          }),
         });
         await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
       });

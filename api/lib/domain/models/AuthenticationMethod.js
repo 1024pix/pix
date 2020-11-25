@@ -23,10 +23,32 @@ class PasswordAuthenticationMethod {
   }
 }
 
+class PoleEmploiAuthenticationComplement {
+  constructor({
+    accessToken,
+    refreshToken,
+    expiredDate,
+  } = {}) {
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.expiredDate = expiredDate;
+
+    validateEntity(Joi.object({
+      accessToken: Joi.string().required(),
+      refreshToken: Joi.string().optional(),
+      expiredDate: Joi.date().required(),
+    }), this);
+  }
+}
+
 const validationSchema = Joi.object({
   id: Joi.number().optional(),
   identityProvider: Joi.string().valid(...Object.values(identityProviders)).required(),
-  authenticationComplement: Joi.when('identityProvider', { is: identityProviders.PIX, then: Joi.object().instance(PasswordAuthenticationMethod).required(), otherwise: Joi.any().forbidden() }),
+  authenticationComplement: Joi.when('identityProvider', [
+    { is: identityProviders.PIX, then: Joi.object().instance(PasswordAuthenticationMethod).required() },
+    { is: identityProviders.POLE_EMPLOI, then: Joi.object().instance(PoleEmploiAuthenticationComplement).required() },
+    { is: identityProviders.GAR, then: Joi.any().forbidden() },
+  ]),
   externalIdentifier: Joi.when('identityProvider', [
     { is: identityProviders.GAR, then: Joi.string().required() },
     { is: identityProviders.POLE_EMPLOI, then: Joi.string().required() },
@@ -68,4 +90,5 @@ class AuthenticationMethod {
 
 AuthenticationMethod.identityProviders = identityProviders;
 AuthenticationMethod.PasswordAuthenticationMethod = PasswordAuthenticationMethod;
+AuthenticationMethod.PoleEmploiAuthenticationComplement = PoleEmploiAuthenticationComplement;
 module.exports = AuthenticationMethod;
