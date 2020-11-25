@@ -1,0 +1,32 @@
+name: Merge on Dev
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  transition-issue:
+    name: Transition Issue
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Login
+      uses: atlassian/gajira-login@master
+      env:
+        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+    - name: Find Issue Key
+      id: find
+      uses: atlassian/gajira-find-issue-key@master
+      with:
+        from: commits
+
+    - name: Transition issue
+      uses: atlassian/gajira-transition@master
+      if: ${{ steps.find.outputs.issue }}
+      with:
+        issue: ${{ steps.find.outputs.issue }}
+        transition: "Move to 'Deployed in Staging'"
