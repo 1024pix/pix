@@ -30,6 +30,7 @@ class Assessment {
     id,
     // attributes
     createdAt,
+    updatedAt,
     state,
     title,
     type,
@@ -49,6 +50,7 @@ class Assessment {
     this.id = id;
     // attributes
     this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
     this.state = state;
     this.title = title;
     this.type = type;

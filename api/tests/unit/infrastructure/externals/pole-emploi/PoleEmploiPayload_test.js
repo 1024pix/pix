@@ -5,13 +5,15 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
   let user;
   let campaign;
   let targetProfile;
+  let assessment;
   let participation;
 
   beforeEach(() => {
     user = domainBuilder.buildUser();
     targetProfile = domainBuilder.buildTargetProfile({ name: 'Diagnostic initial' });
     campaign = domainBuilder.buildCampaign.ofTypeAssessment({ targetProfileId: targetProfile.id });
-    participation = domainBuilder.buildCampaignParticipation({ campaign, userId: user.id });
+    assessment = domainBuilder.buildAssessment({ userId: user.id });
+    participation = domainBuilder.buildCampaignParticipation({ campaign, userId: user.id, assessmentId: assessment.id });
   });
 
   describe('buildForParticipationStarted', () => {
@@ -71,6 +73,74 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
         referenceExterne: participation.id,
         dateDebut: participation.createdAt,
         dateProgression: null,
+        dateValidation: null,
+        evaluation: null,
+        uniteEvaluation: 'A',
+        elementsEvalues: [],
+      });
+    });
+  });
+  
+  describe('buildForParticipationFinished', () => {
+  
+    it('should build individu payload for a campaign participation finished', () => {
+      // when
+      const payload = PoleEmploiPayload.buildForParticipationFinished({
+        user,
+        campaign,
+        participation,
+        targetProfile,
+        assessment,
+      });
+
+      // then
+      expect(payload.individu).to.deep.equal({
+        nom: user.lastName,
+        prenom: user.firstName,
+      });
+    });
+
+    it('should build campagne payload for a campaign participation finished', () => {
+      // when
+      const payload = PoleEmploiPayload.buildForParticipationFinished({
+        user,
+        campaign,
+        participation,
+        targetProfile,
+        assessment,
+      });
+
+      // then
+      expect(payload.campagne).to.deep.equal({
+        nom: campaign.name,
+        dateDebut: campaign.createdAt,
+        dateFin: campaign.archivedAt,
+        type: 'EVALUATION',
+        codeCampagne: campaign.code,
+        urlCampagne: `https://app.pix.fr/campagnes/${campaign.code}`,
+        nomOrganisme: 'Pix',
+        typeOrganisme: 'externe',
+      });
+    });
+
+    it('should build test payload for a campaign participation finished', () => {
+      // when
+      const payload = PoleEmploiPayload.buildForParticipationFinished({
+        user,
+        campaign,
+        participation,
+        targetProfile,
+        assessment,
+      });
+
+      // then
+      expect(payload.test).to.deep.equal({
+        etat: 3,
+        progression: 100,
+        typeTest: 'DI',
+        referenceExterne: participation.id,
+        dateDebut: participation.createdAt,
+        dateProgression: assessment.updatedAt,
         dateValidation: null,
         evaluation: null,
         uniteEvaluation: 'A',

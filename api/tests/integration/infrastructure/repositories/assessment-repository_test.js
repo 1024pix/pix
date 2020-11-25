@@ -303,8 +303,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessments = await assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser(johnUserId, limitDate);
 
       // then
-      const assessmentsWithoutUserId = _.map(assessments, (assessment) => _.omit(assessment, ['userId']));
-      const expectedAssessmentsWithoutUserId = _.map(expectedAssessments, (assessment) => _.omit(assessment, ['userId']));
+      const assessmentsWithoutUserId = _.map(assessments, (assessment) => _.omit(assessment, ['userId', 'updatedAt']));
+      const expectedAssessmentsWithoutUserId = _.map(expectedAssessments, (assessment) => _.omit(assessment, ['userId', 'updatedAt']));
       expect(assessmentsWithoutUserId).to.deep.equal(expectedAssessmentsWithoutUserId);
     });
   });
