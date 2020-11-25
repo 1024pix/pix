@@ -31,6 +31,8 @@ async function generateAccessToken({ code, clientId, redirectUri }) {
   return {
     accessToken: response.data['access_token'],
     idToken: response.data['id_token'],
+    expiresIn: response.data['expires_in'],
+    refreshToken: response.data['refresh_token'],
   };
 }
 
