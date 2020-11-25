@@ -155,7 +155,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     });
 
     // then
-    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(user, 'external');
+    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(user, 'pole_emploi_connect');
   });
 
   it('should return accessToken and idToken', async () => {

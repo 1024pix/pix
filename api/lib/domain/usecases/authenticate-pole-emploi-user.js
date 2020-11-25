@@ -38,7 +38,7 @@ module.exports = async function authenticatePoleEmploiUser({
       });
     }
 
-    const accessToken = tokenService.createAccessTokenFromUser(foundUser, 'external');
+    const accessToken = tokenService.createAccessTokenFromUser(foundUser, 'pole_emploi_connect');
 
     return {
       access_token: accessToken,
