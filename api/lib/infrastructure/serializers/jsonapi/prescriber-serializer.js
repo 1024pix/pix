@@ -32,7 +32,15 @@ module.exports = {
         attributes: ['organizationRole', 'organization'],
         organization: {
           ref: 'id',
-          attributes: ['name', 'externalId', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
+          attributes: ['name', 'externalId'],
+        },
+      },
+      userOrgaSettings: {
+        ref: 'id',
+        attributes: ['organization', 'user'],
+        organization: {
+          ref: 'id',
+          attributes: ['name', 'type', 'credit', 'isManagingStudents', 'canCollectProfiles', 'isAgriculture', 'isCFA', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,
@@ -73,14 +81,6 @@ module.exports = {
               },
             },
           },
-        },
-      },
-      userOrgaSettings: {
-        ref: 'id',
-        attributes: ['organization', 'user'],
-        organization: {
-          ref: 'id',
-          attributes: ['name', 'type', 'credit', 'isManagingStudents', 'canCollectProfiles', 'isAgriculture', 'isCFA'],
         },
       },
     }).serialize(prescriber);
