@@ -1,29 +1,40 @@
 import _maxBy from 'lodash/maxBy';
 import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
+import { inject as service } from '@ember/service';
 
 export default class ResumeCampaignBanner extends Component {
 
-  get unsharedCampaignParticipations() {
-    return this.args.campaignParticipations.filter((campaignParticipation) => campaignParticipation.isShared === false);
+  @service currentUser;
+
+  get notFinishedCampaignParticipations() {
+    return this.args.campaignParticipations.filter((campaignParticipation) => !campaignParticipation.assessment.get('isCompleted'));
   }
 
-  get lastUnsharedCampaignParticipation() {
-    return _maxBy(this.unsharedCampaignParticipations, 'createdAt');
+  get lastNotFinishedCampaignParticipation() {
+    return _maxBy(this.notFinishedCampaignParticipations, 'createdAt');
   }
 
   get showResumeBar() {
-    return ENV.APP.IS_PIX_CONTEST !== 'true' ||
-      (ENV.APP.IS_PIX_CONTEST === 'true' && !this.campaignParticipationState.assessment.get('isCompleted'));
+    if (ENV.APP.IS_PIX_CONTEST !== 'true') {
+      return true;
+    }
+    if (this.currentUser.user.finishedPixContestAt) {
+      return false;
+    }
+    if (!this.campaignParticipationState.assessment.get('isCompleted')) {
+      return true;
+    }
+    return false;
   }
 
   get campaignParticipationState() {
-    if (this.lastUnsharedCampaignParticipation) {
+    if (this.lastNotFinishedCampaignParticipation) {
       return {
-        title: this.lastUnsharedCampaignParticipation.campaign.get('title'),
-        code: this.lastUnsharedCampaignParticipation.campaign.get('code'),
-        isTypeAssessment: this.lastUnsharedCampaignParticipation.campaign.get('isTypeAssessment'),
-        assessment: this.lastUnsharedCampaignParticipation.assessment,
+        title: this.lastNotFinishedCampaignParticipation.campaign.get('title'),
+        code: this.lastNotFinishedCampaignParticipation.campaign.get('code'),
+        isTypeAssessment: this.lastNotFinishedCampaignParticipation.campaign.get('isTypeAssessment'),
+        assessment: this.lastNotFinishedCampaignParticipation.assessment,
       };
     }
 
