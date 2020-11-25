@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.223.0 (25/11/2020)
+
+- [#2177](https://github.com/1024pix/pix/pull/2177) [FEATURE] Construction du payload PE à la fin d'une campagne (PIX-1626)
+- [#2175](https://github.com/1024pix/pix/pull/2175) [FEATURE] Construction du payload PE au démarrage d'une campagne (PIX-1625)
+- [#2174](https://github.com/1024pix/pix/pull/2174) [FEATURE] Créer de la pagination sur l'ajout des élèves pour les établissements SCO (Pix-1588)
+- [#2184](https://github.com/1024pix/pix/pull/2184) [FEATURE] Affichage des acquis contenus dans un profil cible dans Pix Admin (PIX-1666).
+- [#2187](https://github.com/1024pix/pix/pull/2187) [FEATURE] Ajouter une validation de l'INA dans l'import CSV pour les Organisations SCO AGRICULTURE important des apprentis (PIX-1665).
+- [#2192](https://github.com/1024pix/pix/pull/2192) [TECH] Re-positionner le job e2e au même niveau que les autres jobs dans la CI
+- [#2172](https://github.com/1024pix/pix/pull/2172) [TECH] Supprimer le mot déploiement du CR de CI.
+- [#2178](https://github.com/1024pix/pix/pull/2178) [TECH] Mise à jour de ember en 3.19 pour Pix App (PIX-1648).
+- [#2120](https://github.com/1024pix/pix/pull/2120) [TECH] Mettre à jour des linters sur Pix App (PIX-1634).
+- [#2180](https://github.com/1024pix/pix/pull/2180) [TECH] Enrichissement du modèle TargetProfileWithLearningContent avec Paliers et Badges (PIX-1687)
+
 ## v2.222.0 (24/11/2020)
 
 - [#2169](https://github.com/1024pix/pix/pull/2169) [BUGFIX] N'autoriser que les code INSEE pour les birthCountryCode et birthCityCode lors d'un import CSV (Pix-1623).
