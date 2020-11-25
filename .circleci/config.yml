@@ -57,11 +57,7 @@ workflows:
       - e2e_test:
           context: Pix
           requires:
-            - api_build_and_test
-            - mon_pix_build_and_test
-            - orga_build_and_test
-            - certif_build_and_test
-            - admin_build_and_test
+            - checkout
 
 jobs:
   checkout:
