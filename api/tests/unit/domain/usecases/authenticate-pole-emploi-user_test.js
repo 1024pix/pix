@@ -14,6 +14,8 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
   const accessToken = 'accessToken';
   const idToken = 'idToken';
+  const expiresIn = 60;
+  const refreshToken = 'refreshToken';
 
   const firstName = 'firstname';
   const lastName = 'lastname';
@@ -38,7 +40,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     };
 
     authenticationService = {
-      generateAccessToken: sinon.stub().resolves({ accessToken, idToken }),
+      generateAccessToken: sinon.stub().resolves({ accessToken, idToken, expiresIn, refreshToken }),
       getPoleEmploiUserInfo: sinon.stub().resolves(userInfo),
     };
 
@@ -110,6 +112,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
         externalIdentifier: externalIdentityId,
+        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({ accessToken, idToken, expiresIn, refreshToken }),
         userId,
       });
 

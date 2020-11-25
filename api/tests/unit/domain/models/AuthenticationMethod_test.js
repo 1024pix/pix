@@ -12,9 +12,15 @@ describe('Unit | Domain | Models | AuthenticationMethod', () => {
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should successfully instantiate object when identityProvider is POLE_EMPLOI and externalIdentifier is defined', () => {
+    it('should successfully instantiate object when identityProvider is POLE_EMPLOI and externalIdentifier and authenticationComplements are defined', () => {
+      // given
+      const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        accessToken: 'accessToken',
+        refreshToken: 'refreshToken',
+        expiredDate: Date.now(),
+      });
       // when
-      expect(() => new AuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI, externalIdentifier: 'externalIdentifier', userId: 1 }))
+      expect(() => new AuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI, externalIdentifier: 'externalIdentifier', authenticationComplement, userId: 1 }))
         .not.to.throw(ObjectValidationError);
     });
 
@@ -76,6 +82,45 @@ describe('Unit | Domain | Models | AuthenticationMethod', () => {
         expect(() => new AuthenticationMethod.PasswordAuthenticationMethod({ ...validArguments, shouldChangePassword: 'not_valid' }))
           .to.throw(ObjectValidationError);
         expect(() => new AuthenticationMethod.PasswordAuthenticationMethod({ ...validArguments, shouldChangePassword: undefined }))
+          .to.throw(ObjectValidationError);
+      });
+    });
+
+    context('PoleEmploiAuthenticationComplement', () => {
+
+      let validArguments;
+      beforeEach(() => {
+        validArguments = {
+          accessToken: 'accessToken',
+          refreshToken: 'refreshToken',
+          expiredDate: Date.now(),
+        };
+      });
+
+      it('should successfully instantiate object when passing all valid arguments', () => {
+        // when
+        expect(() => new AuthenticationMethod.PoleEmploiAuthenticationComplement(validArguments)).not.to.throw(ObjectValidationError);
+      });
+
+      it('should throw an ObjectValidationError when accessToken is not valid', () => {
+        // when
+        expect(() => new AuthenticationMethod.PoleEmploiAuthenticationComplement({ ...validArguments, accessToken: 1234 }))
+          .to.throw(ObjectValidationError);
+        expect(() => new AuthenticationMethod.PoleEmploiAuthenticationComplement({ ...validArguments, accessToken: undefined }))
+          .to.throw(ObjectValidationError);
+      });
+
+      it('should throw an ObjectValidationError when refreshToken is not valid', () => {
+        // when
+        expect(() => new AuthenticationMethod.PoleEmploiAuthenticationComplement({ ...validArguments, refreshToken: 1234 }))
+          .to.throw(ObjectValidationError);
+      });
+
+      it('should throw an ObjectValidationError when expiredDate is not valid', () => {
+        // when
+        expect(() => new AuthenticationMethod.PoleEmploiAuthenticationComplement({ ...validArguments, expiredDate: 'not_valid' }))
+          .to.throw(ObjectValidationError);
+        expect(() => new AuthenticationMethod.PoleEmploiAuthenticationComplement({ ...validArguments, expiredDate: undefined }))
           .to.throw(ObjectValidationError);
       });
     });
