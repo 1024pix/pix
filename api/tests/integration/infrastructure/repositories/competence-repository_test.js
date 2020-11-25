@@ -1,25 +1,30 @@
 const _ = require('lodash');
-const { expect, airtableBuilder, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, mockLearningContent, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/Competence');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
 describe('Integration | Repository | competence-repository', () => {
 
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
-  });
-
   describe('#get', () => {
     it('should return the competence with full area (minus name)', async () => {
       // given
       const expectedArea = domainBuilder.buildArea();
       const expectedCompetence = domainBuilder.buildCompetence({ area: expectedArea });
-      const airtableArea = airtableBuilder.factory.buildArea.fromDomain({ domainArea: expectedArea });
-      const airtableCompetence = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: expectedCompetence });
-      airtableBuilder.mockLists({ areas: [airtableArea], competences: [airtableCompetence] });
+      const learningContent = {
+        areas: [{
+          ...expectedArea,
+          competenceIds: [expectedCompetence.id],
+          titleFrFr: expectedArea.title,
+        }],
+        competences: [{
+          ...expectedCompetence,
+          areaId: expectedArea.id,
+          descriptionFrFr: expectedCompetence.description,
+          nameFrFr: expectedCompetence.name,
+        }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const competence = await competenceRepository.get({ id: expectedCompetence.id });
@@ -36,17 +41,28 @@ describe('Integration | Repository | competence-repository', () => {
       const locale = 'en';
       const expectedArea = domainBuilder.buildArea();
       const expectedCompetence = domainBuilder.buildCompetence({ area: expectedArea });
-      const airtableArea = airtableBuilder.factory.buildArea.fromDomain({ domainArea: expectedArea, locale });
-      const airtableCompetence = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: expectedCompetence, locale });
-      airtableBuilder.mockLists({ areas: [airtableArea], competences: [airtableCompetence] });
+      const learningContent = {
+        areas: [{
+          ...expectedArea,
+          competenceIds: [expectedCompetence.id],
+          titleEnUs: expectedArea.title,
+        }],
+        competences: [{
+          ...expectedCompetence,
+          areaId: expectedArea.id,
+          descriptionEnUs: expectedCompetence.description,
+          nameEnUs: expectedCompetence.name,
+        }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const competence = await competenceRepository.get({ id: expectedCompetence.id, locale });
 
       // then
-      expect(competence.name).to.equal(airtableCompetence.fields['Titre en-us']);
-      expect(competence.description).to.equal(airtableCompetence.fields['Description en-us']);
-      expect(competence.area.title).to.equal(airtableArea.fields['Titre en-us']);
+      expect(competence.name).to.equal(expectedCompetence.name);
+      expect(competence.description).to.equal(expectedCompetence.description);
+      expect(competence.area.title).to.equal(expectedArea.title);
     });
   });
 
@@ -56,15 +72,26 @@ describe('Integration | Repository | competence-repository', () => {
       const locale = 'en';
       const expectedArea = domainBuilder.buildArea();
       const expectedCompetence = domainBuilder.buildCompetence({ area: expectedArea });
-      const airtableArea = airtableBuilder.factory.buildArea.fromDomain({ domainArea: expectedArea, locale });
-      const airtableCompetence = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: expectedCompetence, locale });
-      airtableBuilder.mockLists({ areas: [airtableArea], competences: [airtableCompetence] });
+      const learningContent = {
+        areas: [{
+          ...expectedArea,
+          competenceIds: [expectedCompetence.id],
+          titleEnUs: expectedArea.title,
+        }],
+        competences: [{
+          ...expectedCompetence,
+          areaId: expectedArea.id,
+          descriptionEnUs: expectedCompetence.description,
+          nameEnUs: expectedCompetence.name,
+        }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const competenceName = await competenceRepository.getCompetenceName({ id: expectedCompetence.id, locale });
 
       // then
-      expect(competenceName).to.equal(airtableCompetence.fields['Titre en-us']);
+      expect(competenceName).to.equal(expectedCompetence.name);
     });
   });
 
@@ -94,10 +121,19 @@ describe('Integration | Repository | competence-repository', () => {
       const competence2 = domainBuilder.buildCompetence();
       competence1.area = undefined;
       competence2.area = undefined;
-      const airtableCompetence1 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence1 });
-      const airtableCompetence2 = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence2 });
-      airtableBuilder.mockLists({ competences: [airtableCompetence1, airtableCompetence2] });
-
+      const learningContent = {
+        competences: [
+          {
+            ...competence1,
+            descriptionFrFr: competence1.description,
+            nameFrFr: competence1.name,
+          }, {
+            ...competence2,
+            descriptionFrFr: competence2.description,
+            nameFrFr: competence2.name,
+          }],
+      };
+      mockLearningContent(learningContent);
       // when
       const competences = await competenceRepository.list();
 
@@ -112,15 +148,21 @@ describe('Integration | Repository | competence-repository', () => {
       const locale = 'en';
       const competence = domainBuilder.buildCompetence();
       competence.area = undefined;
-      const airtableCompetence = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence, locale });
-      airtableBuilder.mockLists({ competences: [airtableCompetence] });
+      const learningContent = {
+        competences: [{
+          ...competence,
+          descriptionEnUs: competence.description,
+          nameEnUs: competence.name,
+        }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const competences = await competenceRepository.list({ locale });
 
       // then
-      expect(competences[0].name).to.equal(airtableCompetence.fields['Titre en-us']);
-      expect(competences[0].description).to.equal(airtableCompetence.fields['Description en-us']);
+      expect(competences[0].name).to.equal(competence.name);
+      expect(competences[0].description).to.equal(competence.description);
     });
   });
 
@@ -131,9 +173,19 @@ describe('Integration | Repository | competence-repository', () => {
       const nonPixCompetence = domainBuilder.buildCompetence({ origin: 'Continuum Espace temps' });
       pixCompetence.area = undefined;
       nonPixCompetence.area = undefined;
-      const airtablePixCompetence = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: pixCompetence });
-      const airtableNonPixCompetence = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: nonPixCompetence });
-      airtableBuilder.mockLists({ competences: [airtablePixCompetence, airtableNonPixCompetence] });
+      const learningContent = {
+        competences: [
+          {
+            ...pixCompetence,
+            descriptionFrFr: pixCompetence.description,
+            nameFrFr: pixCompetence.name,
+          }, {
+            ...nonPixCompetence,
+            descriptionFrFr: nonPixCompetence.description,
+            nameFrFr: nonPixCompetence.name,
+          }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const competences = await competenceRepository.listPixCompetencesOnly();
@@ -149,15 +201,21 @@ describe('Integration | Repository | competence-repository', () => {
       const locale = 'en';
       const competence = domainBuilder.buildCompetence({ origin: 'Pix' });
       competence.area = undefined;
-      const airtableCompetence = airtableBuilder.factory.buildCompetence.fromDomain({ domainCompetence: competence, locale });
-      airtableBuilder.mockLists({ competences: [airtableCompetence] });
+      const learningContent = {
+        competences: [{
+          ...competence,
+          descriptionEnUs: competence.description,
+          nameEnUs: competence.name,
+        }],
+      };
+      mockLearningContent(learningContent);
 
       // when
       const competences = await competenceRepository.listPixCompetencesOnly({ locale });
 
       // then
-      expect(competences[0].name).to.equal(airtableCompetence.fields['Titre en-us']);
-      expect(competences[0].description).to.equal(airtableCompetence.fields['Description en-us']);
+      expect(competences[0].name).to.equal(competence.name);
+      expect(competences[0].description).to.equal(competence.description);
     });
   });
 });
