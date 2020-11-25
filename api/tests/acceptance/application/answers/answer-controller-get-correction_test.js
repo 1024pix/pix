@@ -1,6 +1,5 @@
-const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Acceptance | Controller | answer-controller-get-correction', () => {
@@ -16,41 +15,6 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
     let assessment = null;
     let answer = null;
     let userId;
-    let englishTutorial;
-    let frenchTutorial;
-
-    before(() => {
-      const challenge = airtableBuilder.factory.buildChallenge({
-        id: 'q_first_challenge',
-        statut: 'validé',
-        competences: ['competence_id'],
-        acquis: ['@web3'],
-        bonnesReponses: 'fromage',
-        acquix: ['q_first_acquis'],
-      });
-      airtableBuilder.mockList({ tableName: 'Epreuves' }).returns([challenge]).activate();
-
-      englishTutorial = airtableBuilder.factory.buildTutorial({ id: 'english-tutorial-id', langue: 'en-us' });
-      frenchTutorial = airtableBuilder.factory.buildTutorial({ id: 'french-tutorial-id', langue: 'fr-fr' });
-      airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([englishTutorial, frenchTutorial]).activate();
-
-      const skill = airtableBuilder.factory.buildSkill({
-        id: 'q_first_acquis',
-        nom: '@web3',
-        indiceFr: 'Geolocaliser ?',
-        indiceEn: 'Geolocate ?',
-        statutDeLIndice: 'Validé',
-        compétenceViaTube: 'recABCD',
-        comprendre: [englishTutorial.id, frenchTutorial.id],
-        enSavoirPlus: [],
-      });
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
-    });
-
-    after(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
-    });
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
@@ -68,6 +32,45 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       });
 
       await databaseBuilder.commit();
+      
+      const learningContent = {
+        challenges: [{
+          id: 'q_first_challenge',
+          status: 'validé',
+          competenceId: 'competence_id',
+          skills: ['@web3'],
+          solution: 'fromage',
+          skillIds: ['q_first_acquis'],
+        }],
+        tutorials: [{
+          id: 'english-tutorial-id',
+          locale: 'en-us',
+          duration: '00:00:54',
+          format: 'video',
+          link: 'https://tuto.com',
+          source: 'tuto.com',
+          title: 'tuto1',
+        },{
+          id: 'french-tutorial-id',
+          locale: 'fr-fr',
+          duration: '00:03:31',
+          format: 'vidéo',
+          link: 'http://www.example.com/this-is-an-example.html',
+          source: 'Source Example, Example',
+          title: 'Communiquer',
+        }],
+        skills: [{
+          id: 'q_first_acquis',
+          name: '@web3',
+          hintFrFr: 'Geolocaliser ?',
+          hintEnUs: 'Geolocate ?',
+          hintStatus: 'Validé',
+          competenceId: 'recABCD',
+          tutorialIds: ['english-tutorial-id', 'french-tutorial-id'],
+          learningMoreTutorialIds: [],
+        }],
+      };
+      mockLearningContent(learningContent);
     });
 
     context('when Accept-Language header is specified', () => {
@@ -93,7 +96,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
             relationships: {
               tutorials: {
                 data: [{
-                  id: frenchTutorial.id,
+                  id: 'french-tutorial-id',
                   type: 'tutorials',
                 }],
               },
