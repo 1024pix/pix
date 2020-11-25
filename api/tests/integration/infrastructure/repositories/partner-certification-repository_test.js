@@ -1,6 +1,5 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, domainBuilder, knex, sinon, airtableBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, domainBuilder, knex, sinon, mockLearningContent } = require('../../../test-helper');
 const partnerCertificationRepository = require('../../../../lib/infrastructure/repositories/partner-certification-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
@@ -51,17 +50,16 @@ describe('Integration | Repository | Partner Certification', function() {
     const competenceId = 'recCompetence1';
     const reproducibilityRate = 13;
     const certificationCourseId = 51;
-    const skill = airtableBuilder.factory.buildSkill({ pixValue, compétenceViaTube: [competenceId] });
+    const skill = {
+      id: 'recSkill0',
+      pixValue,
+      competenceId,
+      status: 'actif',
+    };
+    const learningContent = { skills: [skill] };
 
-    before(() => {
-      airtableBuilder.mockList({ tableName: 'Acquis' })
-        .returns([skill])
-        .activate();
-    });
-
-    after(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
+    beforeEach(() => {
+      mockLearningContent(learningContent);
     });
 
     it('should successfully build a CleaCertification with no clea competenceMarks', async () => {
