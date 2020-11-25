@@ -6,7 +6,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const DatabaseBuilder = require('../../tooling/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
 
-describe('API /api/users/me', () => {
+describe('GET /me', () => {
   afterEach(function() {
     return databaseBuilder.clean();
   });
