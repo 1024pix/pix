@@ -1,9 +1,21 @@
-const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | user-tutorial-controller', () => {
 
   let server;
+
+  const learningContent = {
+    tutorials: [{
+      id: 'tutorialId',
+      locale: 'en-us',
+      duration: '00:03:31',
+      format: 'vidéo',
+      link: 'http://www.example.com/this-is-an-example.html',
+      source: 'Source Example, Example',
+      title: 'Communiquer',
+    }],
+  };
 
   beforeEach(async () => {
     server = await createServer();
@@ -16,12 +28,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     });
     await databaseBuilder.commit();
 
-    const tutorial = airtableBuilder.factory.buildTutorial({ id: 'tutorialId' });
-    airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([tutorial]).activate();
-  });
-
-  afterEach(async () => {
-    return airtableBuilder.cleanAll();
+    mockLearningContent(learningContent);
   });
 
   describe('PUT /api/users/tutorials/{tutorialId}', () => {
