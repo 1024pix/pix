@@ -32,7 +32,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       });
 
       await databaseBuilder.commit();
-      
+
       const learningContent = {
         challenges: [{
           id: 'q_first_challenge',
@@ -50,7 +50,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           link: 'https://tuto.com',
           source: 'tuto.com',
           title: 'tuto1',
-        },{
+        }, {
           id: 'french-tutorial-id',
           locale: 'fr-fr',
           duration: '00:03:31',
