@@ -213,6 +213,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: medium+
     parallelism: 5
     working_directory: ~/pix/high-level-tests/e2e
     steps:
@@ -291,10 +292,6 @@ jobs:
           command: npm start
 
       - run:
-          name: Wait for Pix API to be up and running
-          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:3000/api
-
-      - run:
           name: Start Pix App
           working_directory: ~/pix/mon-pix
           environment:
@@ -303,20 +300,12 @@ jobs:
           command: npm start
 
       - run:
-          name: Wait for Pix App to be up and running
-          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4200
-
-      - run:
-          name: Start orga
+          name: Start Pix Orga
           working_directory: ~/pix/orga
           environment:
             JOBS: 2
           background: true
           command: npm start
-
-      - run:
-          name: Wait for Pix Orga to be up and running
-          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4201
 
       - run:
           name: Start Pix Certif
@@ -327,11 +316,7 @@ jobs:
           command: npm start
 
       - run:
-          name: Wait for Pix Certif to be up and running
-          command: wget --retry-connrefused -T $E2E_INTERVAL_TO_CHECK_APPLICATION_IS_UP_SECOND -qO- http://localhost:4203
-
-      - run:
           name: Test
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm run cy:run:ci
+          command: npx wait-on http://localhost:3000/api http://localhost:4200 http://localhost:4201 http://localhost:4203 && npm run cy:run:ci
