@@ -4,9 +4,9 @@
 
 'use strict';
 require('dotenv').config();
-const targetProfileShareRepository = require('../lib/infrastructure/repositories/target-profile-share-repository');
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
-const { parseCsv } = require('./helpers/csvHelpers');
+const targetProfileShareRepository = require('../../lib/infrastructure/repositories/target-profile-share-repository');
+const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('../helpers/organizations-by-external-id-helper');
+const { parseCsv } = require('../helpers/csvHelpers');
 
 function checkData({ csvData }) {
   return csvData.map(([externalIdLowerCase, targetProfileList]) => {
