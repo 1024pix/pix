@@ -91,11 +91,10 @@ function _isSchoolingRegistrationNode(xmlNode) {
   return xmlNode.startsWith(ELEVE_ELEMENT) || xmlNode.startsWith(STRUCTURE_ELEVE_ELEMENT);
 }
 
-function _isImportable(studentData, mapSchoolingRegistrationsByStudentId) {
+function _isImportable(studentData) {
   const isStudentNotLeftSchoolingRegistration = isEmpty(studentData.DATE_SORTIE);
   const isStudentNotYetArrivedSchoolingRegistration = !isEmpty(studentData.ID_NATIONAL);
-  // const isStudentNotDuplicatedInTheSIECLEFile = !mapSchoolingRegistrationsByStudentId.has(studentData.$.ELEVE_ID);// Si je fais isStudentNotDuplicatedInTheSIECLEFile = true les tests passent
-  return isStudentNotLeftSchoolingRegistration && isStudentNotYetArrivedSchoolingRegistration;// && isStudentNotDuplicatedInTheSIECLEFile;
+  return isStudentNotLeftSchoolingRegistration && isStudentNotYetArrivedSchoolingRegistration;
 }
 
 module.exports = SiecleParser;
