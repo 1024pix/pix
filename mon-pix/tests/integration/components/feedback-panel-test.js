@@ -194,9 +194,8 @@ describe('Integration | Component | feedback-panel', function() {
       it('with a tuto should directly display the tuto without the textbox nor the send button', async function() {
         // when
         await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TUTORIAL);
-
         // then
-        expect(findAll(DROPDOWN).length).to.equal(1);
+        expect(findAll(DROPDOWN).length).to.equal(2);
         expect(find(BUTTON_SEND)).to.not.exist;
         expect(find(TEXTAREA)).to.not.exist;
       });
