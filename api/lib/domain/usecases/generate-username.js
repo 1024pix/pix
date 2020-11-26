@@ -47,7 +47,7 @@ async function findMatchedSchoolingRegistrationForGivenOrganizationIdAndStudentI
 async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSchoolingRegistration, userRepository, obfuscationService) {
   if (get(matchingSchoolingRegistration, 'userId'))  {
     const userId = matchingSchoolingRegistration.userId ;
-    const user = await userRepository.getUserAuthenticationMethods(userId);
+    const user = await userRepository.getForObfuscation(userId);
     const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans le même établissement.';
@@ -60,7 +60,7 @@ async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(matchingSc
 async function checkIfStudentHasAlreadyAccountsReconciledInOtherOrganizations(student, userRepository, obfuscationService) {
   if (get(student, 'account')) {
     const userId = student.account.userId;
-    const user = await userRepository.getUserAuthenticationMethods(userId);
+    const user = await userRepository.getForObfuscation(userId);
     const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     const detail = 'Un compte existe déjà pour l‘élève dans un autre établissement.';

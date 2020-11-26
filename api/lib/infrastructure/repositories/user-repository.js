@@ -12,12 +12,13 @@ const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const PIX_MASTER_ROLE_ID = 1;
 
-function _toUserDetailsForAdminDomain(BookshelfUser) {
-  const rawUserDetailsForAdmin = BookshelfUser.toJSON();
+function _toUserDetailsForAdminDomain(bookshelfUser) {
+  const rawUserDetailsForAdmin = bookshelfUser.toJSON();
   return new UserDetailsForAdmin({
     id: rawUserDetailsForAdmin.id,
     firstName: rawUserDetailsForAdmin.firstName,
@@ -29,9 +30,14 @@ function _toUserDetailsForAdminDomain(BookshelfUser) {
     cgu: rawUserDetailsForAdmin.cgu,
     pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR: !!rawUserDetailsForAdmin.samlId,
+    isAuthenticatedFromGAR: _isUserAuthenticatedFromGAR(bookshelfUser),
     schoolingRegistrations: _toSchoolingRegistrationsForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
   });
+}
+
+function _isUserAuthenticatedFromGAR(bookshelfUser) {
+  const authenticationMethods = bookshelfUser.related('authenticationMethods').toJSON();
+  return authenticationMethods.some((authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.GAR);
 }
 
 function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
@@ -54,13 +60,12 @@ function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
   });
 }
 
-function _toUserAuthenticationMethods(BookshelfUser) {
-  const rawUser = BookshelfUser.toJSON();
+function _toUserAuthenticationMethods(bookshelfUser) {
+  const rawUser = bookshelfUser.toJSON();
   return new User({
     id: rawUser.id,
     email: rawUser.email,
     username: rawUser.username,
-    samlId: rawUser.samlId,
   });
 }
 
@@ -194,10 +199,10 @@ module.exports = {
       });
   },
 
-  getUserAuthenticationMethods(userId) {
+  getForObfuscation(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true, columns: ['id','email','username','samlId' ] })
+      .fetch({ require: true, columns: ['id','email','username'] })
       .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
@@ -211,12 +216,14 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true,
-        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted','samlId' ],
+        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'],
         withRelated: [{
           schoolingRegistrations: (query) => { query
             .leftJoin('organizations', 'schooling-registrations.organizationId','organizations.id')
             .where({ type: 'SCO' })
-            .orderBy('id'); } }, 'schoolingRegistrations.organization',
+            .orderBy('id'); } },
+        'schoolingRegistrations.organization',
+        'authenticationMethods',
         ],
       })
       .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
@@ -278,8 +285,14 @@ module.exports = {
 
   async getBySamlId(samlId) {
     const bookshelfUser = await BookshelfUser
-      .where({ samlId })
-      .fetch();
+      .query((qb) => {
+        qb.innerJoin('authentication-methods', function() {
+          this.on('users.id', 'authentication-methods.userId')
+            .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR)
+            .andOnVal('authentication-methods.externalIdentifier', samlId);
+        });
+      })
+      .fetch({ withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
@@ -344,6 +357,7 @@ module.exports = {
       const updatedUser = await BookshelfUser
         .where({ id })
         .save(userAttributes, { patch: true, method: 'update' });
+      await updatedUser.related('authenticationMethods').fetch();
       return _toUserDetailsForAdminDomain(updatedUser);
     } catch (err) {
       if (err instanceof BookshelfUser.NoRowsUpdatedError) {
@@ -391,12 +405,17 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
-  async createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId }) {
+  async createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId, samlId }) {
     const userToCreate = _adaptModelToDb(domainUser);
 
     const trx = await Bookshelf.knex.transaction();
     try {
       const [userId] = await trx('users').insert(userToCreate, 'id');
+
+      if (samlId) {
+        const authenticationMethod = new AuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId, userId });
+        await trx('authentication-methods').insert(authenticationMethod);
+      }
 
       const updatedSchoolingRegistrationsCount = await trx('schooling-registrations')
         .where('id', schoolingRegistrationId)
@@ -456,19 +475,6 @@ module.exports = {
       .where({ id: userId })
       .save({ password: hashedNewPassword, shouldChangePassword: false }, { patch: true, method: 'update' })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity())
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
-          throw new UserNotFoundError(`User not found for ID ${userId}`);
-        }
-        throw err;
-      });
-  },
-
-  async updateSamlId({ userId, samlId }) {
-    return BookshelfUser
-      .where({ id: userId })
-      .save({ samlId }, { patch: true, method: 'update' })
-      .then(() => true)
       .catch((err) => {
         if (err instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);

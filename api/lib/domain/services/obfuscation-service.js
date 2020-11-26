@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const authenticationMethodRepository = require('../../infrastructure/repositories/authentication-method-repository');
+const AuthenticationMethod = require('../models/AuthenticationMethod');
 
 const CONNEXION_TYPES = {
   username: 'username',
@@ -11,8 +13,9 @@ const EMAIL_SEPARATOR = '@';
 
 const TWO_PARTS = 2;
 
-function getUserAuthenticationMethodWithObfuscation(user) {
-  if (user.samlId) return { authenticatedBy: CONNEXION_TYPES.samlId, value: null };
+async function getUserAuthenticationMethodWithObfuscation(user) {
+  const garAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
+  if (garAuthenticationMethod) return { authenticatedBy: CONNEXION_TYPES.samlId, value: null };
 
   if (user.username) {
     const username = usernameObfuscation(user.username);

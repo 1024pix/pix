@@ -1,5 +1,6 @@
 const { CampaignCodeError, ObjectValidationError } = require('../errors');
 const User = require('../models/User');
+const AuthenticationMethod = require('../models/AuthenticationMethod');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 
 module.exports = async function createUserAndReconcileToSchoolingRegistrationFromExternalUser({
@@ -13,6 +14,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   schoolingRegistrationRepository,
   studentRepository,
   obfuscationService,
+  authenticationMethodRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
@@ -34,7 +36,6 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   const domainUser = new User({
     firstName: externalUser.firstName,
     lastName: externalUser.lastName,
-    samlId: externalUser.samlId,
     password: '',
     cgu: false,
   });
@@ -64,13 +65,18 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     userId = await userRepository.createAndReconcileUserToSchoolingRegistration({
       domainUser,
       schoolingRegistrationId: matchedSchoolingRegistration.id,
+      samlId: externalUser.samlId,
     });
 
   } catch (error) {
 
     if (reconciliationErrors.includes(error.code)) {
 
-      await userRepository.updateUserAttributes(error.meta.userId, { samlId: externalUser.samlId });
+      await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
+        externalIdentifier: externalUser.samlId,
+        userId: error.meta.userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
       const schoolingRegistration = await schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
         userId: error.meta.userId,
         schoolingRegistrationId: matchedSchoolingRegistration.id,

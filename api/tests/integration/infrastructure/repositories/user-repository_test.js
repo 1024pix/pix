@@ -20,6 +20,7 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
@@ -29,7 +30,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     email: faker.internet.exampleEmail().toLowerCase(),
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
-    samlId: 'some-saml-id',
     shouldChangePassword: false,
   };
 
@@ -117,6 +117,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       beforeEach(async () => {
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'some-saml-id', userId: userInDb.id });
         await databaseBuilder.commit();
       });
 
@@ -176,7 +177,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#getUserAuthenticationMethods', () => {
+  describe('#getForObfuscation', () => {
 
     let userInDb;
 
@@ -187,13 +188,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     it('should return a domain user with authentication methods only when found', async () => {
       // when
-      const user = await userRepository.getUserAuthenticationMethods(userInDb.id);
+      const user = await userRepository.getForObfuscation(userInDb.id);
 
       // then
-      expect(user.samlId).to.equal(userInDb.samlId);
       expect(user.username).to.equal(userInDb.username);
       expect(user.email).to.equal(userInDb.email);
-
     });
 
     it('should throw an error when user not found', async () => {
@@ -201,7 +200,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const userIdThatDoesNotExist = '99999';
 
       // when
-      const result = await catchErr(userRepository.getUserAuthenticationMethods)(userIdThatDoesNotExist);
+      const result = await catchErr(userRepository.getForObfuscation)(userIdThatDoesNotExist);
 
       // then
       expect(result).to.be.instanceOf(UserNotFoundError);
@@ -564,7 +563,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return the "isAuthenticatedFromGAR" property to false', async () => {
         // given
-        const userInDB = databaseBuilder.factory.buildUser({ ...userToInsert, samlId: null });
+        const userInDB = databaseBuilder.factory.buildUser({ ...userToInsert });
         await databaseBuilder.commit();
 
         // when
@@ -852,30 +851,26 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should update samlId of the user', async () => {
+    it('should update lang of the user', async () => {
       // given
-      const patchUserSamlId = {
-        id : userInDb.id,
-        samlId : '123456789',
+      const userAttributes = {
+        lang : 'en',
       };
 
       // when
-      const updatedUser = await userRepository.updateUserAttributes(userInDb.id, patchUserSamlId);
+      const updatedUser = await userRepository.updateUserAttributes(userInDb.id, userAttributes);
 
       // then
       expect(updatedUser).to.be.an.instanceOf(User);
-      expect(updatedUser.samlId).to.equal(patchUserSamlId.samlId);
+      expect(updatedUser.lang).to.equal(userAttributes.lang);
     });
 
     it('should throw UserNotFoundError when user id not found', async () => {
       // given
       const wrongUserId = 0;
-      const patchUserSamlId = {
-        samlId : '123456789',
-      };
 
       // when
-      const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, patchUserSamlId);
+      const error = await catchErr(userRepository.updateUserAttributes)(wrongUserId, { lang: 'en' });
 
       // then
       expect(error).to.be.instanceOf(UserNotFoundError);
@@ -889,6 +884,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     beforeEach(async () => {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
+      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'samlId', userId: userInDb.id });
       await databaseBuilder.commit();
     });
 
@@ -1342,6 +1338,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
 
     afterEach(async () => {
+      await knex('authentication-methods').delete();
       await knex('schooling-registrations').delete();
       await knex('users').delete();
     });
@@ -1378,6 +1375,22 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         // then
         const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
         expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
+      });
+
+      context('when an authentication method is provided', () => {
+
+        it('should create the authentication method for the created user', async () => {
+          // given
+          const samlId = 'samlId';
+
+          // when
+          const result = await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId, samlId });
+
+          // then
+          const foundAuthenticationMethod = await knex('authentication-methods').where({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId });
+          expect(foundAuthenticationMethod).to.have.lengthOf(1);
+          expect(result).to.equal(foundAuthenticationMethod[0].userId);
+        });
       });
     });
 
@@ -1458,41 +1471,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       // when
       const error = await catchErr(userRepository.updateExpiredPassword)({ userId: wrongUserId, hashedNewPassword });
-
-      // then
-      expect(error).to.be.instanceOf(UserNotFoundError);
-    });
-  });
-
-  describe('#updateSamlId', () => {
-
-    let userId;
-
-    beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser({ samlId: null }).id;
-      await databaseBuilder.commit();
-    });
-
-    it('should update the user\'s samlId', async () => {
-      // given
-      const expectedSamlId = 'abcd';
-
-      // when
-      const result = await userRepository.updateSamlId({ userId, samlId: expectedSamlId });
-
-      // then
-      expect(result).to.be.true;
-      const foundUsers = await knex('users').where({ id: userId });
-      expect(foundUsers[0].samlId).to.equal(expectedSamlId);
-    });
-
-    it('should throw UserNotFoundError when user id is not found', async () => {
-      // given
-      const wrongUserId = 0;
-      const samlId = 'abcd';
-
-      // when
-      const error = await catchErr(userRepository.updateSamlId)({ userId: wrongUserId, samlId });
 
       // then
       expect(error).to.be.instanceOf(UserNotFoundError);

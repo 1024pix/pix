@@ -35,7 +35,7 @@ GAR -> navigateur : 302_FOUND /idp/profile/SAML2
 navigateur -> GAR : GET /idp/profile/SAML2/Callback?\nentityId=https://app.pix.fr/api/saml/metadata.xml\n SAMLRequest=PD9(..)c3Q\n => SAMLRequest attributes= { IDO: f93(..)0d1, PRE: [Ana], NOM: [Adam], \nUAI: 0561607T, PRO: ['National_evl'] }
 GAR -> navigateur: formulaire redirection MonPix \n <input type="hidden" \n name="SAMLResponse" \n value=<SAML_RESPONSE> </input>
 navigateur -> PixAPI : POST /saml/assert \nSAMLResponse=PD9(..)c3Q
-PixAPI -> DB: SELECT FROM users WHERE samlId='f93584(..)590d1' ?
+PixAPI -> DB: SELECT FROM users u \n INNER JOIN "authentication-methods" a \n ON u.id = a."userId" \n AND a."identityProvider" = 'GAR' \n AND a."externalIdentifier" = 'f93584(..)590d1'
 == Scénario 1: utilisateur connu ==
 DB -> PixAPI : 1 record found
 PixAPI -> navigateur: 302_FOUND \n location: /?token=eyJhbGc(..)5AE&user-id=221184
@@ -53,7 +53,7 @@ navigateur -> PixAPI : GET /campaigns
 PixAPI -> navigateur: 200_OK + Json
 utilisateur -> navigateur : saisie date de naissance
 navigateur -> PixAPI : POST schooling-registration-dependent-users/external-user-token \n { (..) birthdate: <DATE_NAISSANCE>, \n externa-user-token=<ID_TOKEN> }
-PixAPI -> DB: INSERT INTO users - samlId=<SAML_ID>
+PixAPI -> DB: INSERT INTO users \nINSERT INTO "authentication-methods" ("externalIdentifier", "identityProvider", "userId") \n VALUES (<SAML_ID>, 'GAR', <USER_ID>)
 PixAPI -> navigateur: 200_OK + <ACCESS_TOKEN>
 navigateur -> PixAPI : GET /users/me \n Header Authorization: Bearer <ACCESS_TOKEN>
 PixAPI -> navigateur: 200_OK
@@ -71,12 +71,10 @@ navigateur -> PixAPI : POST schooling-registration-dependent-users/external-user
 PixAPI -> navigateur: 409_CONFLICT + { (..), value: <OBFUSCATED_ACCOUNT> }
 navigateur -> utilisateur : "Vous possédez déjà un compte <OBFUSCATED_ACCOUNT>. \n Identifiez-vous"
 utilisateur -> navigateur : saisie compte email/identifiant
-navigateur -> PixAPI : POST /token \n FORM username, password
+navigateur -> PixAPI : POST /api/token-from-external-user \n FORM username, password
+PixAPI -> DB: INSERT INTO "authentication-methods" ("externalIdentifier", "identityProvider", "userId") \n VALUES (<SAML_ID>, 'GAR', <USER_ID>)
 PixAPI -> navigateur: 200_OK + <ACCESS_TOKEN>
 navigateur -> PixAPI : GET /users/me \n Header Authorization: Bearer <ACCESS_TOKEN>
-PixAPI -> navigateur: 200_OK
-navigateur -> PixAPI : PATCH /users/100064/authentication-methods/saml
-PixAPI -> DB: UPDATE users SET samlId=<SAML_ID>
 PixAPI -> navigateur: 204_NO-CONTENT
 
 == Scénario 3: utilisateur inconnu, possède déjà autre compte GAR ==
@@ -89,7 +87,7 @@ navigateur -> PixAPI : GET /campaigns
 PixAPI -> navigateur: 200_OK + Json
 utilisateur -> navigateur : saisie date de naissance
 navigateur -> PixAPI : POST schooling-registration-dependent-users/external-user-token \n { (..) birthdate: <DATE_NAISSANCE>, \n externa-user-token=<ID_TOKEN> }
-PixAPI -> DB: UPDATE users SET samlId=<SAML_ID>
+PixAPI -> DB: UPDATE "authentication-methods" SET "externalIdentifier" = <SAML_ID> \n WHERE "userId" = <USER_ID> AND "identityProvider" = 'GAR'
 PixAPI -> navigateur: 200_OK + <ACCESS_TOKEN>
 navigateur -> PixAPI : GET /users/me \n Header Authorization: Bearer <ACCESS_TOKEN>
 PixAPI -> navigateur: 200_OK

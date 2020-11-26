@@ -3,6 +3,7 @@ const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
 const { NotFoundError, SameNationalStudentIdInOrganizationError, SameNationalApprenticeIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
 const studentRepository = require('./student-repository');
 
@@ -19,7 +20,7 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
 
   return new UserWithSchoolingRegistration({
     ...rawUserWithSchoolingRegistration,
-    isAuthenticatedFromGAR: (rawUserWithSchoolingRegistration.samlId) ? true : false,
+    isAuthenticatedFromGAR: !!rawUserWithSchoolingRegistration.samlId,
   });
 }
 
@@ -33,13 +34,15 @@ function _setSchoolingRegistrationFilters(qb, { lastName, firstName, connexionTy
   if (connexionType === 'none') {
     qb.whereRaw('"users"."username" IS NULL');
     qb.whereRaw('"users"."email" IS NULL');
-    qb.whereRaw('"users"."samlId" IS NULL');
+    // we only retrieve GAR authentication method in join clause
+    qb.whereRaw('"authentication-methods"."externalIdentifier" IS NULL');
   } else if (connexionType === 'identifiant') {
     qb.whereRaw('"users"."username" IS NOT NULL');
   } else if (connexionType === 'email') {
     qb.whereRaw('"users"."email" IS NOT NULL');
   } else if (connexionType === 'mediacentre') {
-    qb.whereRaw('"users"."samlId" IS NOT NULL');
+    // we only retrieve GAR authentication method in join clause
+    qb.whereRaw('"authentication-methods"."externalIdentifier" IS NOT NULL');
   }
 }
 
@@ -194,7 +197,7 @@ module.exports = {
     return _.partition(schoolingRegistrationApprentice, (schoolingRegistration) => {
 
       const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId; 
+        return currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId;
       });
 
       return !!currentSchoolingRegistration;
@@ -208,7 +211,7 @@ module.exports = {
     return _.partition(schoolingRegistrationStudent, (schoolingRegistration) => {
 
       const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId; 
+        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId;
       });
 
       if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
@@ -217,7 +220,7 @@ module.exports = {
           schoolingRegistration.userId = student.account.userId;
         }
       }
-      
+
       return !!currentSchoolingRegistration;
     });
   },
@@ -310,10 +313,13 @@ module.exports = {
           'schooling-registrations.organizationId',
           'users.username',
           'users.email',
-          'users.samlId',
+          'authentication-methods.externalIdentifier as samlId',
         );
         qb.orderByRaw('LOWER("schooling-registrations"."lastName") ASC, LOWER("schooling-registrations"."firstName") ASC');
         qb.leftJoin('users', 'schooling-registrations.userId', 'users.id');
+        qb.leftJoin('authentication-methods', function() {
+          this.on('users.id', 'authentication-methods.userId').andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR);
+        });
         qb.modify(_setSchoolingRegistrationFilters, filter);
       })
       .fetchPage({
