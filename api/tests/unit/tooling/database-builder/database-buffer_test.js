@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const databaseBuffer = require('../../../tooling/database-builder/database-buffer');
+const databaseBuffer = require('../../../../db/database-builder/database-buffer');
 
 describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
   afterEach(() => {

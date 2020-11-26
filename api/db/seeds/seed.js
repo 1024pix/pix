@@ -1,7 +1,7 @@
 'use strict';
 const faker = require('faker');
 
-const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
+const DatabaseBuilder = require('../database-builder/database-builder');
 
 const answersBuilder = require('./data/answers-builder');
 const assessmentsBuilder = require('./data/assessments-builder');

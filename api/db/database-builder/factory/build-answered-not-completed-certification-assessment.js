@@ -1,6 +1,6 @@
 const buildCertificationCourse = require('./build-certification-course');
 const buildAssessment = require('./build-assessment');
-const Assessment = require('../../../../lib/domain/models/Assessment');
+const Assessment = require('../../../lib/domain/models/Assessment');
 const buildCertificationChallenge = require('./build-certification-challenge');
 const buildAnswer = require('./build-answer');
 

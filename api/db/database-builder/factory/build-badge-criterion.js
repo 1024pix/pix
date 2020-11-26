@@ -1,4 +1,4 @@
-const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
+const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 

@@ -1,10 +1,10 @@
 /* eslint-disable no-sync */
 const databaseBuffer = require('../database-buffer');
 const buildUser = require('./build-user');
-const encrypt = require('../../../../lib/domain/services/encryption-service');
+const encrypt = require('../../../lib/domain/services/encryption-service');
 const isUndefined = require('lodash/isUndefined');
 const faker = require('faker');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 const buildAuthenticationMethod = function({
   id,

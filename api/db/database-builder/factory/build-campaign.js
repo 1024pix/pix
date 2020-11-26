@@ -2,7 +2,7 @@ const faker = require('faker');
 const buildOrganization = require('./build-organization');
 const buildTargetProfile = require('./build-target-profile');
 const buildUser = require('./build-user');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const Campaign = require('../../../lib/domain/models/Campaign');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 

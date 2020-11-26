@@ -2,7 +2,7 @@ const faker = require('faker');
 const buildAssessment = require('./build-assessment');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const AssessmentResult = require('../../../lib/domain/models/AssessmentResult');
 const _ = require('lodash');
 
 module.exports = function buildAssessmentResult({
