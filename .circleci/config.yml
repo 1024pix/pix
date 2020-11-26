@@ -63,6 +63,7 @@ jobs:
   checkout:
     docker:
       - image: circleci/node:14.15.1
+    resource_class: small
     working_directory: ~/pix
     steps:
       - checkout
@@ -85,6 +86,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+    resource_class: small
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
@@ -142,6 +144,7 @@ jobs:
       - image: circleci/node:14.15.1-browsers
         environment:
           JOBS: 2
+    resource_class: small
     working_directory: ~/pix/orga
     steps:
       - attach_workspace:
@@ -167,6 +170,7 @@ jobs:
       - image: circleci/node:14.15.1-browsers
         environment:
           JOBS: 2
+    resource_class: small
     working_directory: ~/pix/certif
     steps:
       - attach_workspace:
@@ -192,6 +196,7 @@ jobs:
       - image: circleci/node:14.15.1-browsers
         environment:
           JOBS: 2
+    resource_class: small
     working_directory: ~/pix/admin
     steps:
       - attach_workspace:
