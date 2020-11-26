@@ -26,9 +26,11 @@ export default class GetTargetProfilesController extends Controller {
     if (!errors) {
       return this.notifications.error('Une erreur est survenue.');
     }
-    const error404 = errors.find(({ status }) => status === '404');
-    if (error404) {
-      this.notifications.error(error404.detail);
+
+    const error = errors.find(({ status }) => ['404', '409'].includes(status));
+
+    if (error) {
+      this.notifications.error(error.detail);
     }
   }
 
