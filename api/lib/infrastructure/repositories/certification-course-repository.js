@@ -36,10 +36,10 @@ module.exports = {
 
   async get(id) {
     try {
-      const certificationCourse = await CertificationCourseBookshelf
+      const certificationCourseBookshelf = await CertificationCourseBookshelf
         .where({ id })
-        .fetch({ require: true, withRelated: ['assessment', 'challenges'] });
-      return _toDomain(certificationCourse);
+        .fetch({ require: true, withRelated: ['assessment', 'challenges', 'certificationIssueReports'] });
+      return bookshelfToDomainConverter.buildDomainObject(CertificationCourseBookshelf, certificationCourseBookshelf);
     } catch (bookshelfError) {
       if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
         throw new NotFoundError(`Certification course of id ${id} does not exist.`);
@@ -131,6 +131,7 @@ function _toDomain(bookshelfCertificationCourse) {
 
 function _adaptModelToDb(certificationCourse) {
   return _.omit(certificationCourse, [
+    'certificationIssueReports',
     'assessment',
     'challenges',
     'createdAt',

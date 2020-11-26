@@ -6,7 +6,7 @@ const _ = require('lodash');
 module.exports = function buildCertificationReport({
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
-  examinerComment = faker.lorem.sentence(),
+  examinerComment = null,
   hasSeenEndTestScreen = false,
   certificationCourseId,
   sessionId,

@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const createServer = require('../../../../server');
 
 const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
@@ -61,7 +62,6 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
           userId: certificationCandidateA.userId,
           firstName: certificationCandidateA.firstName,
           lastName: certificationCandidateA.lastName,
-          examinerComment: 'il a eu un soucis',
           hasSeenEndTestScreen: false,
         }).id;
         certificationCourseIdB = databaseBuilder.factory.buildCertificationCourse({
@@ -69,9 +69,20 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
           userId: certificationCandidateB.userId,
           firstName: certificationCandidateB.firstName,
           lastName: certificationCandidateB.lastName,
-          examinerComment: 'ok',
           hasSeenEndTestScreen: true,
         }).id;
+
+        databaseBuilder.factory.buildCertificationIssueReport({
+          certificationCourseId: certificationCourseIdA,
+          description: 'il a eu un soucis',
+          categoryId: CertificationIssueReportCategories.OTHER,
+        });
+
+        databaseBuilder.factory.buildCertificationIssueReport({
+          certificationCourseId: certificationCourseIdB,
+          description: 'ok',
+          categoryId: CertificationIssueReportCategories.OTHER,
+        });
 
         expectedCertificationReportA = {
           'certification-course-id': certificationCourseIdA,

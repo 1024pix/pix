@@ -2,7 +2,8 @@ const faker = require('faker');
 const moment = require('moment');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const buildAssessment = require('./build-assessment');
-
+const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
+const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 module.exports = function buildCertificationCourse(
   {
     id = faker.random.number(),
@@ -29,6 +30,18 @@ module.exports = function buildCertificationCourse(
     sessionId = faker.random.number(),
   } = {}) {
 
+  const certificationIssueReports = [];
+  if (examinerComment && examinerComment !== '') {
+    certificationIssueReports.push(
+      new CertificationIssueReport({
+        id: faker.random.number(),
+        certificationCourseId: id,
+        categoryId: CertificationIssueReportCategories.OTHER,
+        description: examinerComment,
+      }),
+    );
+  }
+
   const certificationCourse = new CertificationCourse({
     id,
     firstName,
@@ -39,6 +52,7 @@ module.exports = function buildCertificationCourse(
     completedAt,
     externalId,
     examinerComment,
+    certificationIssueReports,
     hasSeenEndTestScreen,
     nbChallenges,
     isV2Certification,
