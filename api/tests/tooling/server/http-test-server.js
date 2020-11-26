@@ -30,6 +30,7 @@ class HttpTestServer {
 
     this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
     this.hapiServer.events.on({ name: 'request', channels: 'error' }, (request, event) => {
+      // eslint-disable-next-line no-console
       console.error(event.error);
     });
 
