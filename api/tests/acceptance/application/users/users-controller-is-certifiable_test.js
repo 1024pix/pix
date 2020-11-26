@@ -1,6 +1,5 @@
-const { airtableBuilder, expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | users-controller-is-certifiable', () => {
 
@@ -8,32 +7,39 @@ describe('Acceptance | users-controller-is-certifiable', () => {
   let options;
   let user;
 
+  const competenceId = 'recCompetence1';
+  const learningContent = {
+    areas: [{
+      id: 'recvoGdo7z2z7pXWa',
+      titleFrFr: 'Information et données',
+      color: 'jaffa',
+      code: '1',
+      competenceIds: [competenceId],
+    }],
+    competences: [{
+      id: competenceId,
+      nameFrFr: 'Mener une recherche et une veille d’information',
+      index: '1.1',
+      origin: 'Pix',
+      areaId: 'recvoGdo7z2z7pXWa',
+    }],
+    skills: [{
+      id: 'skillId',
+      name: '@web3',
+      status: 'actif',
+      competenceId: competenceId,
+    }],
+  };
+
   beforeEach(async () => {
     // create server
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser();
 
-    const area = airtableBuilder.factory.buildArea();
-    airtableBuilder.mockList({ tableName: 'Domaines' })
-      .returns([area])
-      .activate();
+    mockLearningContent(learningContent);
 
-    const competence = airtableBuilder.factory.buildCompetence({
-      id: 'recCompetence',
-    });
-    airtableBuilder.mockList({ tableName: 'Competences' })
-      .returns([competence])
-      .activate();
-
-    const skill = airtableBuilder.factory.buildSkill({
-      compétenceViaTube: [competence.id],
-    });
-    airtableBuilder.mockList({ tableName: 'Acquis' })
-      .returns([skill])
-      .activate();
-
-    databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId: competence.id });
+    databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId: competenceId });
 
     options = {
       method: 'GET',
@@ -43,14 +49,6 @@ describe('Acceptance | users-controller-is-certifiable', () => {
     };
 
     return databaseBuilder.commit();
-  });
-
-  afterEach(() => {
-    return airtableBuilder.cleanAll();
-  });
-
-  after(() => {
-    return cache.flushAll();
   });
 
   describe('GET /users/:id/is-certifiable', () => {
