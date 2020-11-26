@@ -13,6 +13,7 @@ const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot
 
 const fp = require('lodash/fp');
 const _ = require('lodash');
+const DomainTransaction = require('../DomainTransaction');
 
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
@@ -43,9 +44,9 @@ module.exports = {
     return _toDomain(campaignParticipation);
   },
 
-  save(campaignParticipation) {
+  save(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
     return new BookshelfCampaignParticipation(_adaptModelToDb(campaignParticipation))
-      .save()
+      .save(null, { transacting: domainTransaction.knexTransaction })
       .then(_toDomain);
   },
 
