@@ -12,9 +12,9 @@ const UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI = 'Aucun étudiant n’a été 
 const XMLSchoolingRegistrationSet = require('./xml-schooling-registration-set');
 
 class SiecleParser {
-  constructor(organization, xmlStreamer) {
+  constructor(organization, siecleFileStreamer) {
     this.organization = organization;
-    this.xmlStreamer = xmlStreamer;
+    this.siecleFileStreamer = siecleFileStreamer;
     this.schoolingRegistrationsSet = new XMLSchoolingRegistrationSet();
   }
 
@@ -28,7 +28,7 @@ class SiecleParser {
   }
 
   async _checkUAI() {
-    const UAIFromSIECLE = await this.xmlStreamer.perform(_extractUAI);
+    const UAIFromSIECLE = await this.siecleFileStreamer.perform(_extractUAI);
     const UAIFromUserOrganization = this.organization.externalId;
 
     if (UAIFromSIECLE !== UAIFromUserOrganization) {
@@ -37,8 +37,8 @@ class SiecleParser {
   }
 
   async _parseStudent() {
-    const bindedExtractMethod = this._extractStudentRegistrationsFromStream.bind(this)
-    return await this.xmlStreamer.perform(bindedExtractMethod);
+    const bindedExtractMethod = this._extractStudentRegistrationsFromStream.bind(this);
+    return await this.siecleFileStreamer.perform(bindedExtractMethod);
   }
 
   _extractStudentRegistrationsFromStream(saxParser, resolve, reject) {
@@ -52,7 +52,7 @@ class SiecleParser {
           try {
             if (err) throw err;// Si j'enleve cette ligne les tests passent
 
-            if(nodeData.ELEVE && _isImportable(nodeData.ELEVE, mapSchoolingRegistrationsByStudentId)) {
+            if (nodeData.ELEVE && _isImportable(nodeData.ELEVE, mapSchoolingRegistrationsByStudentId)) {
               this.schoolingRegistrationsSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);            }
             else if (nodeData.STRUCTURES_ELEVE && mapSchoolingRegistrationsByStudentId.has(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID)) {
               this.schoolingRegistrationsSet.updateDivision(nodeData);
