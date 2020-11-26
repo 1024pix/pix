@@ -1,6 +1,5 @@
 module.exports = {
   buildArea: require('./build-area'),
-  buildLearningContent: require('./learning-content/build-learning-content'),
   buildChallenge: require('./build-challenge'),
   buildCompetence: require('./build-competence'),
   buildCourse: require('./build-course'),
