@@ -1,12 +1,12 @@
 const moment = require('moment');
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, airtableBuilder } = require('../../../test-helper');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, mockLearningContent, airtableBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Badge = require('../../../../lib/domain/models/Badge');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Acceptance | Controller | assessment-controller-complete-assessment', () => {
+describe.only('Acceptance | Controller | assessment-controller-complete-assessment', () => {
 
   let options;
   let server;
@@ -174,17 +174,10 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     },
   ];
 
-  before(() => {
-    const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
-    airtableBuilder.mockLists(airtableObjects);
-  });
-
-  after(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
-  });
-
   beforeEach(async () => {
+    const airtableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    mockLearningContent(airtableObjects);
+
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser({});
@@ -295,9 +288,9 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
       it('should create a badge when it is acquired', async () => {
         // given
-
         await server.inject(options);
 
+        // then
         const badgeAcquiredIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({
           badgeIds: [badge.id],
           userId: campaignUser.id,
