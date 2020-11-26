@@ -176,7 +176,6 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
         //then
         expect(result).to.deep.equal(expectedSchoolingRegistrations);
       });
-
-    })
+    });
   });
 });
