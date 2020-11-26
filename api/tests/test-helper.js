@@ -18,6 +18,8 @@ nock.disableNetConnect();
 const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
 const airtableBuilder = new AirtableBuilder({ nock });
 
+const learningContentBuilder = require('./tooling/learning-content-builder');
+
 const tokenService = require('../lib/domain/services/token-service');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
@@ -169,4 +171,5 @@ module.exports = {
   testErr: new Error('Fake Error'),
   compareDatabaseObject,
   mockLearningContent,
+  learningContentBuilder,
 };

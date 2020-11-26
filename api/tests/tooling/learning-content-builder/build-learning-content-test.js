@@ -1,9 +1,10 @@
-const { expect, airtableBuilder, mockLearningContent } = require('../../../../test-helper');
-const areaDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
-const competenceDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/competence-datasource');
-const tubeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/tube-datasource');
-const skillDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const challengeDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
+const { expect, learningContentBuilder, mockLearningContent } = require('../../test-helper');
+const areaDatasource = require('../../../lib/infrastructure/datasources/learning-content/area-datasource');
+const competenceDatasource = require('../../../lib/infrastructure/datasources/learning-content/competence-datasource');
+const tubeDatasource = require('../../../lib/infrastructure/datasources/learning-content/tube-datasource');
+const skillDatasource = require('../../../lib/infrastructure/datasources/learning-content/skill-datasource');
+const challengeDatasource = require('../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
+const courseDatasource = require('../../../lib/infrastructure/datasources/learning-content/course-datasource');
 
 describe('Integration | buildLearningContent', () => {
 
@@ -21,7 +22,7 @@ describe('Integration | buildLearningContent', () => {
     ];
 
     // when
-    const learningContentObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -64,7 +65,7 @@ describe('Integration | buildLearningContent', () => {
     ];
 
     // when
-    const learningContentObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -110,7 +111,7 @@ describe('Integration | buildLearningContent', () => {
     ];
 
     // when
-    const learningContentObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -156,7 +157,7 @@ describe('Integration | buildLearningContent', () => {
     ];
 
     // when
-    const learningContentObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -212,7 +213,7 @@ describe('Integration | buildLearningContent', () => {
     ];
 
     // when
-    const learningContentObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -266,7 +267,7 @@ describe('Integration | buildLearningContent', () => {
     ];
 
     // when
-    const learningContentObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
@@ -276,179 +277,28 @@ describe('Integration | buildLearningContent', () => {
     expect(challenges[0].status).to.deep.equal('validé');
   });
 
-  it('builds a consistent learning content', async() => {
+  it('builds courses', async () => {
     // given
-    const learningContent = [
-      {
-        id: 'recArea0',
-        competences: [
-          {
-            id: 'recCompetence0',
-            tubes: [
-              {
-                id: 'recTube0_0',
-                skills: [
-                  {
-                    id: 'recSkill0_0',
-                    nom: '@recSkill0_0',
-                    challenges: [
-                      { id: 'recChallenge0_0_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill0_1',
-                    nom: '@recSkill0_1',
-                    challenges: [
-                      { id: 'recChallenge0_1_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill0_2',
-                    nom: '@recSkill0_2',
-                    challenges: [
-                      { id: 'recChallenge0_2_0' },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence1',
-            tubes: [
-              {
-                id: 'recTube1_0',
-                skills: [
-                  {
-                    id: 'recSkill1_0',
-                    nom: '@recSkill1_0',
-                    challenges: [
-                      { id: 'recChallenge1_0_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill1_1',
-                    nom: '@recSkill1_1',
-                    challenges: [
-                      { id: 'recChallenge1_1_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill1_2',
-                    nom: '@recSkill1_2',
-                    challenges: [
-                      { id: 'recChallenge1_2_0' },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence2',
-            tubes: [
-              {
-                id: 'recTube2_0',
-                skills: [
-                  {
-                    id: 'recSkill2_0',
-                    nom: '@recSkill2_0',
-                    challenges: [
-                      { id: 'recChallenge2_0_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill2_1',
-                    nom: '@recSkill2_1',
-                    challenges: [
-                      { id: 'recChallenge2_1_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill2_2',
-                    nom: '@recSkill2_2',
-                    challenges: [
-                      { id: 'recChallenge2_2_0' },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence3',
-            tubes: [
-              {
-                id: 'recTube3_0',
-                skills: [
-                  {
-                    id: 'recSkill3_0',
-                    nom: '@recSkill3_0',
-                    challenges: [
-                      { id: 'recChallenge3_0_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill3_1',
-                    nom: '@recSkill3_1',
-                    challenges: [
-                      { id: 'recChallenge3_1_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill3_2',
-                    nom: '@recSkill3_2',
-                    challenges: [
-                      { id: 'recChallenge3_2_0' },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: 'recCompetence4',
-            tubes: [
-              {
-                id: 'recTube4_0',
-                skills: [
-                  {
-                    id: 'recSkill4_0',
-                    nom: '@recSkill4_0',
-                    challenges: [
-                      { id: 'recChallenge4_0_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill4_1',
-                    nom: '@recSkill4_1',
-                    challenges: [
-                      { id: 'recChallenge4_1_0' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill4_2',
-                    nom: '@recSkill4_2',
-                    challenges: [
-                      { id: 'recChallenge4_2_0' },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ];
+    const learningContent = [{
+      competences: [],
+      courses: [{
+        id: 'recCourse0',
+        name: 'Test de démo 0',
+        challengeIds: ['second_challenge', 'first_challenge'],
+      }, {
+        id: 'recCourse1',
+        name: 'Test de démo 1',
+        challengeIds: ['first_challenge'],
+      }],
+    }];
 
     // when
-    const learningContentObjects = airtableBuilder.factory.buildLearningContent(learningContent);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
     // then
-    const challenges = await challengeDatasource.list();
-    expect(challenges[0].id).to.equal('recArea1_Competence1_Tube1_Skill1_Challenge1');
-    expect(challenges[0].skillIds).to.deep.equal(['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2']);
-    expect(challenges[0].status).to.deep.equal('validé');
+    const courses = await courseDatasource.list();
+    expect(courses[0].id).to.equal('recCourse0');
+    expect(courses[1].id).to.equal('recCourse1');
   });
 });
