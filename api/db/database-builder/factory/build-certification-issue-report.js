@@ -2,7 +2,7 @@ const faker = require('faker');
 const buildCertificationCourse = require('./build-certification-course');
 const _ = require('lodash');
 const databaseBuffer = require('../database-buffer');
-const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 
 module.exports = function buildCertificationIssueReport({
   id,

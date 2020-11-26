@@ -6,13 +6,20 @@ module.exports = {
 
   async findBySessionId(sessionId) {
     const results = await knex.with('certifications_every_assess_results', (qb) => {
-      qb.select('certification-courses.*', 'assessment-results.pixScore', 'assessment-results.status', 'partner-certifications.acquired')
+      qb.select(
+        'certification-courses.*',
+        'assessment-results.pixScore',
+        'assessment-results.status',
+        'partner-certifications.acquired',
+        'certification-issue-reports.description'
+      )
         .select(knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_row_number',
           ['certification-courses.id', 'assessment-results.createdAt']))
         .from('certification-courses')
         .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
         .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
         .leftJoin('partner-certifications', 'partner-certifications.certificationCourseId', 'certification-courses.id')
+        .leftJoin('certification-issue-reports', 'certification-issue-reports.certificationCourseId', 'certification-courses.id')
         .where('certification-courses.sessionId', sessionId);
     })
       .select('*')
@@ -28,6 +35,7 @@ module.exports = {
 function _toDomain(juryCertificationSummaryFromDB) {
   return new JuryCertificationSummary({
     ...juryCertificationSummaryFromDB,
+    examinerComment: juryCertificationSummaryFromDB.description,
     cleaCertificationStatus: juryCertificationSummaryFromDB.acquired,
   });
 }
