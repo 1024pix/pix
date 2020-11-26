@@ -97,12 +97,7 @@ class SiecleFileStreamer {
     const siecleFileStream = await this._getStream();
 
     try {
-      return await new Promise((resolve, reject_) => {
-        const reject = (e) => {
-          siecleFileStream.removeAllListeners();//si j'enlève cette ligne les tests passent
-          siecleFileStream.on('error', noop);
-          return reject_(e);
-        };
+      return await new Promise((resolve, reject) => {
 
         siecleFileStream.on('error', () => {
           reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
