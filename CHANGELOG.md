@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.224.0 (26/11/2020)
+
+- [#2125](https://github.com/1024pix/pix/pull/2125) [FEATURE] Migration de la connexion GAR dans la table authentication-methods (PIX-1364).
+- [#2193](https://github.com/1024pix/pix/pull/2193) [FEATURE] Afficher le modèle du CSV ainsi que son info bulle seulement pour les organisations SCO AGRI et CFA (Pix-1672) 
+- [#2196](https://github.com/1024pix/pix/pull/2196) [BUGFIX] Déplacer les vérifications contionnelles de birthCityCode / birthCity après les éléments required (Pix-1696)
+- [#2202](https://github.com/1024pix/pix/pull/2202) [TECH] Ajuster la taille des containers docker sur les différents jobs de la CI (PIX-1703)
+- [#2201](https://github.com/1024pix/pix/pull/2201) [TECH] Garantir la qualité du code dans Pix Certif.
+- [#2198](https://github.com/1024pix/pix/pull/2198) [TECH] Asynchroniser le lancement des tests e2e sur CircleCI (PIX-1698).
+- [#2185](https://github.com/1024pix/pix/pull/2185) [TECH] Amélioration des performances BDD lors de la récupération des listes de campagnes dans PixOrga (PIX-1686)
+- [#2200](https://github.com/1024pix/pix/pull/2200) [TECH] Suppression du warning lié à browserslist lors du build de `mon-pix`.
+- [#2199](https://github.com/1024pix/pix/pull/2199) [TECH] Déplacer un ticket JIRA quand sa PR est mergée sur dev
+- [#2197](https://github.com/1024pix/pix/pull/2197) [TECH] Amélioration des fichiers `.slugignore`
+
 ## v2.223.0 (25/11/2020)
 
 - [#2177](https://github.com/1024pix/pix/pull/2177) [FEATURE] Construction du payload PE à la fin d'une campagne (PIX-1626)
