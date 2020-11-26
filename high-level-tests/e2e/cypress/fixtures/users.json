@@ -83,5 +83,14 @@
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
     "pixOrgaTermsOfServiceAccepted": true
+  },
+  {
+    "id": 11,
+    "firstName": "Certif",
+    "lastName": "Sup",
+    "email": "certif.sup@example.net",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true,
+    "pixCertifTermsOfServiceAccepted": true
   }
 ]
