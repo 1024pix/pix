@@ -1,5 +1,4 @@
-const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, mockLearningContent } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
 
@@ -8,6 +7,39 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
   let options;
   let server;
   let userId;
+
+  const skillWeb1Id = 'recAcquisWeb1';
+  const skillWeb1Name = '@web1';
+
+  const competenceId = 'recCompetence';
+
+  const area = {
+    id: 'recvoGdo7z2z7pXWa',
+    titleFrFr: 'Information et données',
+    color: 'jaffa',
+    code: '1',
+    competenceIds: [competenceId],
+  };
+
+  const competence = {
+    id: competenceId,
+    nameFrFr: 'Mener une recherche et une veille d’information',
+    descriptionFrFr: 'Une description',
+    index: '1.1',
+    origin: 'Pix',
+    areaId: 'recvoGdo7z2z7pXWa',
+  };
+
+  const learningContent = {
+    areas: [area],
+    competences: [competence],
+    skills: [{
+      id: skillWeb1Id,
+      name: skillWeb1Name,
+      status: 'actif',
+      competenceId: competenceId,
+    }],
+  };
 
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser({}).id;
@@ -21,17 +53,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
     server = await createServer();
   });
 
-  afterEach(() => {
-    return airtableBuilder.cleanAll();
-  });
-
-  after(() => {
-    return cache.flushAll();
-  });
-
-  let area;
   let knowledgeElement;
-  let competence;
 
   describe('GET /users/:id/profile', () => {
 
@@ -63,51 +85,21 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
 
     describe('Success case', () => {
 
-      const skillWeb1Id = 'recAcquisWeb1';
-      const skillWeb1Name = '@web1';
-
-      const competenceId = 'recCompetence';
-      const competenceReference = '1.1 Mener une recherche et une veille d’information';
-
       beforeEach(async () => {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
-        competence = airtableBuilder.factory.buildCompetence({
-          id: competenceId,
-          epreuves: [],
-          titre: 'Mener une recherche et une veille d’information',
-          titreFrFr: 'Mener une recherche et une veille d’information',
-          description: 'Une description',
-          descriptionFrFr: 'Une description',
-          tests: [],
-          acquisIdentifiants: [skillWeb1Id],
-          tubes: [],
-          acquisViaTubes: [skillWeb1Id],
-          reference: competenceReference,
-          testsRecordID: [],
-          acquis: [skillWeb1Name],
-        });
-
-        area = airtableBuilder.factory.buildArea();
-
-        airtableBuilder.mockList({ tableName: 'Domaines' })
-          .returns([area])
-          .activate();
-
-        airtableBuilder.mockList({ tableName: 'Competences' })
-          .returns([competence])
-          .activate();
+        mockLearningContent(learningContent);
 
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          competenceId: competence.id,
+          competenceId: competenceId,
         });
 
         const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
-          competenceId: competence.id,
+          competenceId: competenceId,
         });
 
         await databaseBuilder.commit();
@@ -146,18 +138,18 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
           included: [
             {
               attributes: {
-                code: area.fields.Code,
-                title: area.fields['Titre fr-fr'],
-                color: area.fields.Couleur,
+                code: area.code,
+                title: area.titleFrFr,
+                color: area.color,
               },
               id: area.id,
               type: 'areas',
             },
             {
               attributes: {
-                name: competence.fields.Titre,
-                description: competence.fields.Description,
-                index: competence.fields['Sous-domaine'],
+                name: competence.nameFrFr,
+                description: competence.descriptionFrFr,
+                index: competence.index,
                 'competence-id': competenceId,
                 'earned-pix': knowledgeElement.earnedPix,
                 level: Math.round(knowledgeElement.earnedPix / 8),
