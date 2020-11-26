@@ -8,7 +8,7 @@ chai.use(require('sinon-chai'));
 
 const { knex } = require('../db/knex-database-connection');
 
-const DatabaseBuilder = require('./tooling/database-builder/database-builder');
+const DatabaseBuilder = require('../db/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
 
 const nock = require('nock');
