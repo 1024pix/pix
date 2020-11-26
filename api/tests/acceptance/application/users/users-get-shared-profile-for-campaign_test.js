@@ -1,6 +1,5 @@
 const _ = require('lodash');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, airtableBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profile', () => {
@@ -13,8 +12,23 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
   let campaignParticipation;
   let options;
   let server;
-  let competence;
-  let area;
+
+  const learningContent = {
+    areas: [{
+      id: 'recvoGdo7z2z7pXWa',
+      titleFrFr: 'Information et données',
+      color: 'jaffa',
+      code: '1',
+      competenceIds: [competenceId],
+    }],
+    competences: [{
+      id: competenceId,
+      nameFrFr: 'Mener une recherche et une veille d’information',
+      index: '1.1',
+      origin: 'Pix',
+      areaId: 'recvoGdo7z2z7pXWa',
+    }],
+  };
 
   beforeEach(async () => {
     server = await createServer();
@@ -24,15 +38,13 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
   describe('GET /users/{userId}/campaigns/{campaignId}/profile', () => {
 
     beforeEach(async () => {
+
+      mockLearningContent(learningContent);
+
       databaseBuilder.factory.buildUser({ id: userId });
-      competence = airtableBuilder.factory.buildCompetence({ id: competenceId });
 
       const campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isShared: true, sharedAt });
-
-      area = airtableBuilder.factory.buildArea();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence]).activate();
 
       const knowledgeElements = [
         { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, userId },
@@ -47,11 +59,6 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
       };
 
       return databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
     });
 
     describe('Success case', () => {

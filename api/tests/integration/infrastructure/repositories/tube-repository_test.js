@@ -7,8 +7,8 @@ describe('Integration | Repository | tube-repository', () => {
   describe('#get', () => {
     it('should return the tube', async () => {
       // given
-      const expectedTube = new Tube({ 
-        id: 'recTube0', 
+      const expectedTube = new Tube({
+        id: 'recTube0',
         name: 'tubeName',
         title: 'tubeTitle',
         description: 'tubeDescription',
@@ -17,8 +17,8 @@ describe('Integration | Repository | tube-repository', () => {
         competenceId: 'recCompetence0',
       });
       const learningContent = {
-        tubes: [{ 
-          id: 'recTube0', 
+        tubes: [{
+          id: 'recTube0',
           name: 'tubeName',
           title: 'tubeTitle',
           description: 'tubeDescription',
@@ -28,7 +28,7 @@ describe('Integration | Repository | tube-repository', () => {
         }],
       };
       mockLearningContent(learningContent);
-      
+
       // when
       const tube = await tubeRepository.get(expectedTube.id);
 
@@ -41,8 +41,8 @@ describe('Integration | Repository | tube-repository', () => {
   describe('#list', () => {
     it('should return the tubes', async () => {
       // given
-      const tube0 = new Tube({ 
-        id: 'recTube0', 
+      const tube0 = new Tube({
+        id: 'recTube0',
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
@@ -50,8 +50,8 @@ describe('Integration | Repository | tube-repository', () => {
         practicalDescription: 'translatedPracticalDescription0',
         competenceId: 'recCompetence0',
       });
-      const tube1 = new Tube({ 
-        id: 'recTube1', 
+      const tube1 = new Tube({
+        id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
@@ -60,7 +60,7 @@ describe('Integration | Repository | tube-repository', () => {
         competenceId: 'recCompetence1',
       });
       const learningContentTube0 = {
-        id: 'recTube0', 
+        id: 'recTube0',
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
@@ -68,9 +68,9 @@ describe('Integration | Repository | tube-repository', () => {
         practicalDescriptionFrFr: 'translatedPracticalDescription0',
         competenceId: 'recCompetence0',
       };
-      
+
       const learningContentTube1 = {
-        id: 'recTube1', 
+        id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
@@ -93,8 +93,8 @@ describe('Integration | Repository | tube-repository', () => {
   describe('#findByNames', () => {
     it('should return the tubes ordered by name', async () => {
       // given
-      const tube0 = new Tube({ 
-        id: 'recTube0', 
+      const tube0 = new Tube({
+        id: 'recTube0',
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
@@ -102,9 +102,9 @@ describe('Integration | Repository | tube-repository', () => {
         practicalDescription: 'translatedPracticalDescription0',
         competenceId: 'recCompetence0',
       });
-      
-      const tube1 = new Tube({ 
-        id: 'recTube1', 
+
+      const tube1 = new Tube({
+        id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
@@ -112,9 +112,9 @@ describe('Integration | Repository | tube-repository', () => {
         practicalDescription: 'translatedPracticalDescription1',
         competenceId: 'recCompetence1',
       });
-      
+
       const learningContentTube0 = {
-        id: 'recTube0', 
+        id: 'recTube0',
         name: 'tubeName0',
         title: 'tubeTitle0',
         description: 'tubeDescription0',
@@ -122,9 +122,9 @@ describe('Integration | Repository | tube-repository', () => {
         practicalDescriptionFrFr: 'translatedPracticalDescription0',
         competenceId: 'recCompetence0',
       };
-      
+
       const learningContentTube1 = {
-        id: 'recTube1', 
+        id: 'recTube1',
         name: 'tubeName1',
         title: 'tubeTitle1',
         description: 'tubeDescription1',
@@ -146,8 +146,8 @@ describe('Integration | Repository | tube-repository', () => {
 
       it('should return the tubes with default locale translation', async () => {
         // given
-        const expectedTube = new Tube({ 
-          id: 'recTube0', 
+        const expectedTube = new Tube({
+          id: 'recTube0',
           name: 'tubeName',
           title: 'tubeTitle',
           description: 'tubeDescription',
@@ -156,8 +156,8 @@ describe('Integration | Repository | tube-repository', () => {
           competenceId: 'recCompetence0',
         });
         const learningContent = {
-          tubes: [{ 
-            id: 'recTube0', 
+          tubes: [{
+            id: 'recTube0',
             name: 'tubeName',
             title: 'tubeTitle',
             description: 'tubeDescription',
@@ -181,8 +181,8 @@ describe('Integration | Repository | tube-repository', () => {
 
       it('should return the tubes with appropriate translation', async () => {
         // given
-        const expectedTube = new Tube({ 
-          id: 'recTube0', 
+        const expectedTube = new Tube({
+          id: 'recTube0',
           name: 'tubeName',
           title: 'tubeTitle',
           description: 'tubeDescription',
@@ -191,8 +191,8 @@ describe('Integration | Repository | tube-repository', () => {
           competenceId: 'recCompetence0',
         });
         const learningContent = {
-          tubes: [{ 
-            id: 'recTube0', 
+          tubes: [{
+            id: 'recTube0',
             name: 'tubeName',
             title: 'tubeTitle',
             description: 'tubeDescription',

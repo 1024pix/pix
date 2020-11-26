@@ -16,7 +16,7 @@ describe('Integration | Repository | tutorial-repository', () => {
         source: 'tuto.fr',
         title: 'tuto0',
         id: 'recTutorial0',
-      },{
+      }, {
         duration: '00:01:54',
         format: 'page',
         link: 'https://tuto.com',
@@ -96,7 +96,7 @@ describe('Integration | Repository | tutorial-repository', () => {
         source: 'tuto.fr',
         title: 'tuto0',
         id: 'recTutorial0',
-      },{
+      }, {
         duration: '00:01:54',
         format: 'page',
         link: 'https://tuto.com',
@@ -165,7 +165,7 @@ describe('Integration | Repository | tutorial-repository', () => {
         source: 'tuto.fr',
         title: 'tuto0',
         id: 'recTutorial0',
-      },{
+      }, {
         duration: '00:01:54',
         format: 'page',
         link: 'https://tuto.com',
