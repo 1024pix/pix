@@ -1,9 +1,8 @@
-const _ = require('lodash');
-
 const Assessment = require('../models/Assessment');
 
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
+const CampaignParticipation = require('../models/CampaignParticipation');
 
 module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository }) {
   const campaign = await campaignRepository.get(campaignParticipation.campaignId);
@@ -35,13 +34,12 @@ async function _createCampaignAssessment(userId, assessmentRepository, createdCa
 }
 
 async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository) {
-  const campaignId = campaignParticipation.campaignId;
-  const result = _.clone(campaignParticipation);
-  const alreadyExistingCampaignParticipation =
-    await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
+  const { campaignId } = campaignParticipation;
+  const alreadyExistingCampaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
   if (alreadyExistingCampaignParticipation) {
     throw new AlreadyExistingCampaignParticipationError(`User ${userId} has already a campaign participation with campaign ${campaignId}`);
   }
-  result.userId = userId;
-  return campaignParticipationRepository.save(result);
+
+  const userParticipation = new CampaignParticipation({ ...campaignParticipation, userId });
+  return campaignParticipationRepository.save(userParticipation);
 }
