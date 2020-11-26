@@ -55,8 +55,14 @@ function isAriaLabelNeededForInputs(lines) {
 
 function buildLineFrom(blocks, ariaLabelNeeded, challengeResponseTemplate) {
   let previousBlockText = '';
+  let isInput = false;
+
   for (let blockIdx = 0; blockIdx < blocks.length; blockIdx += 1) {
-    const { isInput, block } = parseInput((isInput || false), blocks[blockIdx]);
+    const input = parseInput(isInput, blocks[blockIdx]);
+    const block = input.block;
+
+    isInput = input.isInput;
+
     if (!block) {
       continue;
     }
