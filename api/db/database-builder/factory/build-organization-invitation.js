@@ -1,6 +1,6 @@
 const databaseBuffer = require('../database-buffer');
 const buildOrganization = require('./build-organization');
-const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 const _ = require('lodash');
 const faker = require('faker');
 

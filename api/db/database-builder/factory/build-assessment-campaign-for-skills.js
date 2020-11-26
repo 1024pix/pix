@@ -1,7 +1,7 @@
 const buildCampaign = require('./build-campaign');
 const buildTargetProfile = require('./build-target-profile');
 const buildTargetProfileSkill = require('./build-target-profile-skill');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const Campaign = require('../../../lib/domain/models/Campaign');
 
 module.exports = function buildAssessmentCampaignForSkills(attributes, skillSet) {
 

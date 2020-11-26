@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const DatabaseBuilder = require('../../../tooling/database-builder/database-builder');
+const DatabaseBuilder = require('../../../../db/database-builder/database-builder');
 
 describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
 
