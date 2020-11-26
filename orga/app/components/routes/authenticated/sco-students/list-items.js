@@ -25,6 +25,10 @@ export default class ListItems extends Component {
     return '.xml';
   }
 
+  get displayLearnMoreAndLinkTemplate() {
+    return this.currentUser.isAgriculture && this.currentUser.isCFA;
+  }
+
   get urlToDownloadCsvTemplate() {
     return `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/csv-template?accessToken=${this.session.data.authenticated.access_token}`;
   }
