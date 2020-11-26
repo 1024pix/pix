@@ -37,8 +37,7 @@ class SiecleParser {
   }
 
   async _parseStudent() {
-    const bindedExtractMethod = this._extractStudentRegistrationsFromStream.bind(this);
-    return await this.siecleFileStreamer.perform(bindedExtractMethod);
+    return this.siecleFileStreamer.perform((stream, resolve, reject) => this._extractStudentRegistrationsFromStream(stream, resolve, reject));
   }
 
   _extractStudentRegistrationsFromStream(saxParser, resolve, reject) {
