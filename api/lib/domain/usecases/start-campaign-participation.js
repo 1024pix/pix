@@ -4,17 +4,17 @@ const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('..
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
 const CampaignParticipation = require('../models/CampaignParticipation');
 
-module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository }) {
+module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction }) {
   const campaign = await campaignRepository.get(campaignParticipation.campaignId);
 
   if (campaign === null) {
     throw new NotFoundError('La campagne demandée n\'existe pas');
   }
 
-  const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository);
+  const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
 
   if (campaign.isAssessment()) {
-    await _createCampaignAssessment(userId, createdCampaignParticipation.id, assessmentRepository);
+    await _createCampaignAssessment(userId, createdCampaignParticipation.id, assessmentRepository, domainTransaction);
   }
 
   return {
@@ -23,12 +23,12 @@ module.exports = async function startCampaignParticipation({ campaignParticipati
   };
 };
 
-async function _createCampaignAssessment(userId, campaignParticipationId, assessmentRepository) {
+async function _createCampaignAssessment(userId, campaignParticipationId, assessmentRepository, domainTransaction) {
   const assessment = Assessment.createForCampaign({ userId, campaignParticipationId });
-  return assessmentRepository.save({ assessment });
+  return assessmentRepository.save({ assessment, domainTransaction });
 }
 
-async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository) {
+async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction) {
   const { campaignId } = campaignParticipation;
   const alreadyExistingCampaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({ campaignId, userId });
   if (alreadyExistingCampaignParticipation) {
@@ -36,5 +36,5 @@ async function _saveCampaignParticipation(campaignParticipation, userId, campaig
   }
 
   const userParticipation = new CampaignParticipation({ ...campaignParticipation, userId });
-  return campaignParticipationRepository.save(userParticipation);
+  return campaignParticipationRepository.save(userParticipation, domainTransaction);
 }
