@@ -2,7 +2,7 @@
   <div class="page__title page-title">Élèves</div>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
-      {{#if this.currentUser.isAgriculture}}
+      {{#if this.displayLearnMoreAndLinkTemplate }}
         <PixTooltip
           @text={{this.textTooltipForAgri}}
           @position='bottom'
