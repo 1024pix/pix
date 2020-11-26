@@ -316,9 +316,13 @@
                                 "other-challenge-proposal": "J’ai une idée (géniale) d’épreuve à proposer",
                                 "other-site-improvement": "J’ai une suggestion d’amélioration de la plateforme",
                                 "other-difficulty": "J’ai un autre problème",
+                                "picture-not-displayed": {
+                                    "label": "L'image ne s'affiche pas",
+                                    "solution": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, l'image va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?"
+                                },
+                                "picture-other":  "L'image a un autre problème",
                                 "question-improvement": "Je souhaite proposer une amélioration de la question",
                                 "question-not-understood": "Je ne comprends pas la question",
-                                "picture-not-displayed": "Votre connexion internet est peut-être trop faible.'<br>'Rechargez la page en appuyant sur le bouton actualiser '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' à côté de la barre d’adresse. Attendez un peu, le simulateur va peut-être s’afficher. '<br><br>'Si ce n’est pas le cas, pouvez-vous retenter à un autre moment ou depuis un autre endroit avec une meilleure connexion ?",
                                 "tutorial-link-error": "Le lien vers le tutoriel mène vers une autre page ou une page d’erreur",
                                 "tutorial-not-accepted": "Le tutoriel n’est pas adapté",
                                 "tutorial-proposal": "J’ai un tutoriel à vous proposer"
