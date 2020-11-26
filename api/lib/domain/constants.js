@@ -29,6 +29,7 @@ module.exports = {
   PIX_CERTIF: {
     SCOPE: 'pix-certif',
     NOT_LINKED_CERTIFICATION_MSG: 'L\'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d\'y accéder.',
+    USER_SCO_BLOCKED_CERTIFICATION_MSG: 'L’accès à l’espace Pix Certif de votre établissement est temporairement désactivé. Il sera disponible juste avant la période officielle de certification en établissement scolaire : décembre pour les lycées, février pour les collèges.',
   },
   LOCALE: {
     ENGLISH_SPOKEN: 'en',
