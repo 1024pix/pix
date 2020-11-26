@@ -2,9 +2,9 @@ const chai = require('chai');
 const expect = chai.expect;
 const axios = require('axios');
 const { knex } = require('../../../db/knex-database-connection');
-
 const DatabaseBuilder = require('../../tooling/database-builder/database-builder');
 const encrypt = require('../../../lib/domain/services/encryption-service');
+const { createAccessToken } = require('../tooling');
 
 const databaseBuilder = new DatabaseBuilder({ knex });
 
@@ -17,21 +17,16 @@ describe('POST /{id}/attach-organizations', () => {
 
     const nonEncryptedPassword = 'Azerty123';
     // eslint-disable-next-line no-sync
-    const userData = { email: 'sco@example.net', password: encrypt.hashPasswordSync(nonEncryptedPassword) };
+    const userData = { email: 'sco@example.net', password: encrypt.hashPasswordSync(nonEncryptedPassword), scope: 'pix-admin' };
 
     databaseBuilder.factory.buildUser.withPixRolePixMaster(userData);
 
     await databaseBuilder.commit();
 
-    const authenticateUrl = 'http://localhost:3000/api/token';
-    const payload = 'grant_type=password&username=' + userData.email + '&password=' + nonEncryptedPassword + '&scope=pix-admin';
-
-    const authenticationResponse = await axios({ method: 'post', url: authenticateUrl, data: payload });
-
-    expect(authenticationResponse.status).to.equal(200);
+    const accessToken = await createAccessToken({ ...userData, password: nonEncryptedPassword });
 
     const config = {
-      headers: { Authorization: `Bearer ${authenticationResponse.data.access_token}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     };
 
     const targetProfile = databaseBuilder.factory.buildTargetProfile();

@@ -2,8 +2,10 @@ const chai = require('chai');
 const expect = chai.expect;
 const axios = require('axios');
 const { knex } = require('../../../db/knex-database-connection');
-
 const DatabaseBuilder = require('../../tooling/database-builder/database-builder');
+
+const { createAccessToken } = require('../tooling');
+
 const databaseBuilder = new DatabaseBuilder({ knex });
 
 describe('GET /me', () => {
@@ -23,43 +25,43 @@ describe('GET /me', () => {
   });
 
   it('returns 200 when user is authenticated', async () => {
-    const email = 'sco@example.net';
-    const password = 'pix123';
 
-    databaseBuilder.factory.buildUser({ email, password });
+    const userData = {
+      email: 'sco@example.net',
+      password: 'pix123',
+    };
+
+    databaseBuilder.factory.buildUser(userData);
     await databaseBuilder.commit();
 
-    const authenticateUrl = 'http://localhost:3000/api/token';
-    const payload = 'grant_type=password&username=' + email + '&password=' + password + '&scope=mon-pix';
-
-    const authenticateResponse = await axios({ method: 'post', url: authenticateUrl, data: payload });
+    const accessToken = await createAccessToken(userData);
 
     const config = {
-      headers: { Authorization: `Bearer ${authenticateResponse.data.access_token}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     };
 
     const requestUrl = 'http://localhost:3000/api/users/me';
     const response = await axios.get(requestUrl, config);
 
     expect(response.status).to.equal(200);
-    expect(response.data.data.attributes.email).to.equal(email);
+    expect(response.data.data.attributes.email).to.equal(userData.email);
   });
 
   it('returns 404 when user is not found', async () => {
-    const email = 'sco@example.net';
-    const password = 'pix123';
 
-    const user = await databaseBuilder.factory.buildUser({ email, password });
+    const userData = {
+      email: 'sco@example.net',
+      password:  'pix123',
+    };
+    const user = await databaseBuilder.factory.buildUser(userData);
     await databaseBuilder.commit();
 
-    const authenticateUrl = 'http://localhost:3000/api/token';
-    const payload = 'grant_type=password&username=' + email + '&password=' + password + '&scope=mon-pix';
+    const accessToken = await createAccessToken(userData);
 
-    const authenticateResponse = await axios({ method: 'post', url: authenticateUrl, data: payload });
     await databaseBuilder.clean();
 
     const config = {
-      headers: { Authorization: `Bearer ${authenticateResponse.data.access_token}` },
+      headers: { Authorization: `Bearer ${accessToken}` },
     };
 
     const requestUrl = 'http://localhost:3000/api/users/me';
