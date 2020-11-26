@@ -1,5 +1,4 @@
-const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader, mockLearningContent } = require('../../test-helper');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const { FRENCH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
 
@@ -14,17 +13,77 @@ describe('Acceptance | Controller | scorecard-controller', () => {
   const competenceId = 'recCompetence';
   const skillWeb1Id = 'recAcquisWeb1';
   const skillWeb1Name = '@web1';
-  const competenceReference = '1.1 Mener une recherche et une veille d’information';
+  const tutorialWebId = 'recTutorial1';
+
+  const competence = {
+    id: competenceId,
+    nameFrFr: 'Mener une recherche et une veille d’information',
+    index: '1.1',
+    origin: 'Pix',
+    areaId: 'recvoGdo7z2z7pXWa',
+  };
+
+  const area = {
+    id: 'recvoGdo7z2z7pXWa',
+    titleFrFr: 'Information et données',
+    color: 'jaffa',
+    code: '1',
+    competenceIds: [competenceId],
+  };
+
+  const learningContent = {
+    areas: [area],
+    competences: [competence],
+    tubes: [{
+      id: 'recArea1_Competence1_Tube1',
+      name: '@web',
+      practicalDescriptionFrFr: 'Ceci est une description pratique',
+      practicalTitleFrFr: 'Ceci est un titre pratique',
+      competenceId: competenceId,
+    }],
+    skills: [{
+      id: skillWeb1Id,
+      name: skillWeb1Name,
+      status: 'actif',
+      competenceId: competenceId,
+      tutorialIds: ['recTutorial0', tutorialWebId, 'recTutorial2'],
+    }],
+    tutorials: [{
+      id: 'recTutorial0',
+      locale: 'en-us',
+      duration: '00:00:54',
+      format: 'video',
+      link: 'https://tuto.com',
+      source: 'tuto.com',
+      title: 'tuto1',
+    },{
+      id: tutorialWebId,
+      locale: 'fr-fr',
+      duration: '00:03:31',
+      format: 'vidéo',
+      link: 'http://www.example.com/this-is-an-example.html',
+      source: 'Source Example, Example',
+      title: 'Communiquer',
+    },{
+      id: 'recTutorial2',
+      locale: 'fr-fr',
+      duration: '00:03:31',
+      format: 'vidéo',
+      link: 'http://www.example.com/this-is-an-example.html',
+      source: 'Source Example, Example',
+      title: 'Communiquer',
+    }],
+  };
 
   beforeEach(async () => {
-    await cache.flushAll();
     server = await createServer();
     databaseBuilder.factory.buildUser({ id: userId });
     await databaseBuilder.commit();
+    mockLearningContent(learningContent);
+
   });
 
   afterEach(async () => {
-    airtableBuilder.cleanAll();
     await knex('knowledge-elements').delete();
     await knex('answers').delete();
     await knex('competence-evaluations').delete();
@@ -32,13 +91,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
     return knex('campaign-participations').delete();
   });
 
-  after(() => {
-    return cache.flushAll();
-  });
-
-  let area;
   let knowledgeElement;
-  let competence;
 
   describe('GET /scorecards/{id}', () => {
 
@@ -72,39 +125,16 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       beforeEach(async () => {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
-        competence = airtableBuilder.factory.buildCompetence({
-          id: competenceId,
-          epreuves: [],
-          titre: 'Mener une recherche et une veille d’information',
-          tests: [],
-          acquisIdentifiants: [skillWeb1Id],
-          tubes: [],
-          acquisViaTubes: [skillWeb1Id],
-          reference: competenceReference,
-          testsRecordID: [],
-          acquis: [skillWeb1Name],
-        });
-
-        area = airtableBuilder.factory.buildArea();
-
-        airtableBuilder.mockList({ tableName: 'Domaines' })
-          .returns([area])
-          .activate();
-
-        airtableBuilder.mockList({ tableName: 'Competences' })
-          .returns([competence])
-          .activate();
-
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
           userId,
-          competenceId: competence.id,
+          competenceId: competenceId,
         });
 
         const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
         databaseBuilder.factory.buildCompetenceEvaluation({
           userId,
           assessmentId,
-          competenceId: competence.id,
+          competenceId: competenceId,
         });
 
         await databaseBuilder.commit();
@@ -130,10 +160,10 @@ describe('Acceptance | Controller | scorecard-controller', () => {
             type: 'scorecards',
             id: `${userId}_${competenceId}`,
             attributes: {
-              name: competence.fields.Titre,
-              description: competence.fields.Description,
+              name: competence.nameFrFr,
+              description: competence.descriptionFrFr,
               'competence-id': competenceId,
-              index: competence.fields['Sous-domaine'],
+              index: competence.index,
               'earned-pix': knowledgeElement.earnedPix,
               level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
@@ -158,9 +188,9 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           included: [
             {
               attributes: {
-                code: area.fields.Code,
-                title: area.fields['Titre fr-fr'],
-                color: area.fields.Couleur,
+                code: area.code,
+                title: area.titleFrFr,
+                color: area.color,
               },
               id: area.id,
               type: 'areas',
@@ -203,11 +233,6 @@ describe('Acceptance | Controller | scorecard-controller', () => {
     });
 
     context('Success case', () => {
-      const tubeWeb = '@web';
-      const tubeWebId = 'recTubeWeb1';
-      const tutorialWebId = 'recTutorial1';
-      const tutorialWebId2 = 'recTutorial2';
-      const tutorialWebId3 = 'recTutorial3';
 
       beforeEach(async () => {
         databaseBuilder.factory.buildUserTutorial({ id: 10500, userId, tutorialId: tutorialWebId });
@@ -218,53 +243,11 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           'accept-language': FRENCH_SPOKEN,
         };
 
-        const tutorials = [
-          airtableBuilder.factory.buildTutorial({ id: tutorialWebId, langue: 'fr-fr' }),
-          airtableBuilder.factory.buildTutorial({ id: tutorialWebId2, langue: 'fr-fr' }),
-          airtableBuilder.factory.buildTutorial({ id: tutorialWebId3, langue: 'en-us' }),
-        ];
-
-        const skills = [
-          airtableBuilder.factory.buildSkill({
-            id: skillWeb1Id,
-            nom: skillWeb1Name,
-            'comprendre': [tutorials[0].id, tutorials[1].id, tutorials[2].id],
-            'compétenceViaTube': [competenceId],
-          }),
-        ];
-
-        const tubes = [
-          airtableBuilder.factory.buildTube({
-            id: tubeWebId,
-            nom: tubeWeb,
-            titrePratiqueFrFr: 'Ceci est un titre pratique',
-            descriptionPratiqueFrFr: 'Ceci est une description pratique',
-          }),
-        ];
-
-        competence = airtableBuilder.factory.buildCompetence({
-          id: competenceId,
-          titre: 'Mener une recherche et une veille d’information',
-          acquisIdentifiants: [skills[0].id],
-          tubes: [tubes[0].id],
-          acquisViaTubes: [skills[0].id],
-          reference: competenceReference,
-          acquis: [skillWeb1Name],
-        });
-
-        area = airtableBuilder.factory.buildArea();
-
-        airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence]).activate();
-        airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
-        airtableBuilder.mockList({ tableName: 'Tubes' }).returns(tubes).activate();
-        airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns(tutorials).activate();
-
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
           userId,
           competenceId: competence.id,
           status: KnowledgeElement.StatusType.INVALIDATED,
-          skillId: skills[0].id,
+          skillId: skillWeb1Id,
           createdAt: new Date('2018-01-01'),
         });
 
