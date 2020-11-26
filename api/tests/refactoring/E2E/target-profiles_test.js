@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect;
 const axios = require('axios');
 const { knex } = require('../../../db/knex-database-connection');
-const DatabaseBuilder = require('../../tooling/database-builder/database-builder');
+const DatabaseBuilder = require('../../../db/database-builder/database-builder');
 const encrypt = require('../../../lib/domain/services/encryption-service');
 const { createAccessToken } = require('../tooling');
 
