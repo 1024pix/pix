@@ -36,6 +36,20 @@ describe('Integration | Repository | Target-profile-share', () => {
       expect(_.map(targetProfileShares, 'targetProfileId')).exactlyContain([targetProfileIdA, targetProfileIdB, targetProfileIdC]);
     });
 
+    it('should not create another target profile share nor throw an error when it already exists', async function() {
+      // given
+      databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId: targetProfileIdA });
+      const targetProfileIdList = [targetProfileIdA, targetProfileIdB, targetProfileIdC];
+
+      // when
+      await targetProfileShareRepository.addTargetProfilesToOrganization({ organizationId, targetProfileIdList });
+
+      // then
+      const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
+      expect(targetProfileShares).to.have.lengthOf(3);
+      expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileIdA, targetProfileIdB, targetProfileIdC]);
+    });
+
     it('should not erase old target profil share', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileShare({ organizationId, targetProfileId: targetProfileIdA });
