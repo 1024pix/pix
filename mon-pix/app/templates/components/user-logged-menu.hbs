@@ -18,17 +18,17 @@
         </div>
         <ul class="logged-user-menu__actions">
           <li hidden>
-            <LinkTo @route="user-account" class="logged-user-menu__link">
-              {{t 'navigation.user.account'}}{{t 'navigation.user.account'}}
+            <LinkTo @route="user-account" data-test-account-link class="logged-user-menu__link" >
+              {{t 'navigation.user.account'}}
             </LinkTo>
           </li>
           <li>
-            <LinkTo @route="user-tutorials" class="logged-user-menu__link">
+            <LinkTo @route="user-tutorials" data-test-tutorials-link class="logged-user-menu__link">
               {{t 'navigation.user.tutorials'}}
             </LinkTo>
           </li>
           <li>
-            <LinkTo @route="user-certifications" class="logged-user-menu__link">
+            <LinkTo @route="user-certifications" data-test-certifications-link class="logged-user-menu__link">
               {{t 'navigation.user.certifications'}}
             </LinkTo>
           </li>
