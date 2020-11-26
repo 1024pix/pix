@@ -14,5 +14,10 @@
     "userId": 10,
     "organizationId": 3,
     "organizationRole": "ADMIN"
+  }, {
+    "id": 4,
+    "userId": 8,
+    "organizationId": 3,
+    "organizationRole": "ADMIN"
   }
 ]
