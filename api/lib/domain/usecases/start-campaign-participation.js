@@ -12,8 +12,9 @@ module.exports = async function startCampaignParticipation({ campaignParticipati
   }
 
   const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository);
+
   if (campaign.isAssessment()) {
-    await _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation);
+    await _createCampaignAssessment(userId, createdCampaignParticipation.id, assessmentRepository);
   }
 
   return {
@@ -22,14 +23,8 @@ module.exports = async function startCampaignParticipation({ campaignParticipati
   };
 };
 
-async function _createCampaignAssessment(userId, assessmentRepository, createdCampaignParticipation) {
-  const assessment = new Assessment({
-    userId,
-    state: Assessment.states.STARTED,
-    type: Assessment.types.CAMPAIGN,
-    courseId: Assessment.courseIdMessage.CAMPAIGN,
-    campaignParticipationId: createdCampaignParticipation.id,
-  });
+async function _createCampaignAssessment(userId, campaignParticipationId, assessmentRepository) {
+  const assessment = Assessment.createForCampaign({ userId, campaignParticipationId });
   return assessmentRepository.save({ assessment });
 }
 
