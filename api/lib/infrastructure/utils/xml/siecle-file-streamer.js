@@ -15,11 +15,6 @@ const DEFAULT_FILE_ENCODING = 'iso-8859-15';
 const ZIP = 'zip';
 
 class StreamPipe extends Stream.Transform {
-
-  constructor() {
-    super();
-  }
-
   _transform(chunk, enc, cb) {
     this.push(chunk);
     cb();
@@ -41,10 +36,9 @@ function _unzippedStream(path) {
   return stream;
 }
 
-
-class XMLStreamer {
+class SiecleFileStreamer {
   static async create(path) {
-    const stream = new XMLStreamer(path)
+    const stream = new SiecleFileStreamer(path);
     await stream._detectEncoding();
 
     return stream;
@@ -59,7 +53,7 @@ class XMLStreamer {
     this.encoding = xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
   }
 
-  async getStream() {
+  async _getStream() {
     this.stream = await this._getRawStream();
     const saxParser = sax.createStream(true);
     return this.stream.pipe(iconv.decodeStream(this.encoding)).pipe(saxParser);
@@ -77,7 +71,7 @@ class XMLStreamer {
 
   async _isFileZipped() {
     const { ext } = await FileType.fromFile(this.path);
-    return ext === ZIP
+    return ext === ZIP;
   }
 
   async _readFirstLine() {
@@ -88,7 +82,7 @@ class XMLStreamer {
       firstLineReader.on('line', (line) => {
         firstLineReader.close();
         resolve(line);
-      })
+      });
     });
   }
 
@@ -97,7 +91,7 @@ class XMLStreamer {
   }
 
   async perform(callback) {
-    const siecleFileStream = await this.getStream();
+    const siecleFileStream = await this._getStream();
 
     try {
       return await new Promise((resolve, reject_) => {
@@ -119,5 +113,4 @@ class XMLStreamer {
   }
 }
 
-
-module.exports = XMLStreamer;
+module.exports = SiecleFileStreamer;

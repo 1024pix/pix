@@ -1,4 +1,4 @@
-const XMLStreamer = require('../../infrastructure/utils/xml/xml-streamer');
+const SiecleFileStreamer = require('../../infrastructure/utils/xml/siecle-file-streamer');
 const SiecleParser = require('../../infrastructure/serializers/xml/siecle-parser');
 
 module.exports = {
@@ -6,8 +6,8 @@ module.exports = {
 };
 
 async function extractSchoolingRegistrationsInformationFromSIECLE(path, organization) {
-  const xmlStreamer = await XMLStreamer.create(path);
-  const parser = new SiecleParser(organization, xmlStreamer);
+  const siecleFileStreamer = await SiecleFileStreamer.create(path);
+  const parser = new SiecleParser(organization, siecleFileStreamer);
 
   return parser.parse();
 }
