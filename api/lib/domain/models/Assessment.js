@@ -119,6 +119,16 @@ class Assessment {
       type: Assessment.types.CERTIFICATION,
     });
   }
+
+  static createForCampaign({ userId, campaignParticipationId }) {
+    return new Assessment({
+      userId,
+      state: Assessment.states.STARTED,
+      type: Assessment.types.CAMPAIGN,
+      courseId: Assessment.courseIdMessage.CAMPAIGN,
+      campaignParticipationId,
+    });
+  }
 }
 
 Assessment.courseIdMessage = courseIdMessage;
