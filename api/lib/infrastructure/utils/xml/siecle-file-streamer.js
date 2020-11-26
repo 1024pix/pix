@@ -24,11 +24,14 @@ class StreamPipe extends Stream.Transform {
 function _unzippedStream(path) {
   const zip = new StreamZip({ file: path });
   const stream = new StreamPipe();
-
+  zip.on('error', noop);
   zip.on('entry', (entry) => {
     zip.stream(entry, (err, stm) => {
+      if (err) {
+        throw new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE);
+      } else if (!entry.name.includes('/')) {
+        stm.on('error', noop);
 
-      if (!entry.name.includes('/')) {
         stm.pipe(stream);
       }
     });
