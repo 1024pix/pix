@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { isEmpty, isNil, each } = require('lodash');
-const { SameNationalStudentIdInFileError } = require('../../../domain/errors');
+const { SameNationalStudentIdInFileError, ObjectValidationError } = require('../../../domain/errors');
 
 const DIVISION = 'D';
 
@@ -31,7 +31,10 @@ class XMLSchoolingRegistrationsSet {
   }
 
   _checkNationalStudentIdUniqueness(nationalStudentId) {
-    if (nationalStudentId && this.studentIds.includes(nationalStudentId)) {
+    if (isEmpty(nationalStudentId)) {
+      throw new ObjectValidationError('L\'INE est obligatoire');
+    }
+    if (this.studentIds.includes(nationalStudentId)) {
       throw new SameNationalStudentIdInFileError(nationalStudentId);
     }
   }

@@ -1,5 +1,5 @@
 const { expect, catchErr } = require('../../../test-helper');
-const { FileValidationError, SameNationalStudentIdInFileError } = require('../../../../lib/domain/errors');
+const { FileValidationError, SameNationalStudentIdInFileError, ObjectValidationError } = require('../../../../lib/domain/errors');
 const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
 
 describe('Integration | Services | schooling-registrations-xml-service', () => {
@@ -146,6 +146,20 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       //then
       expect(error).to.be.instanceof(SameNationalStudentIdInFileError);
       expect(error.message).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+    });
+
+    it('should abort parsing and reject with missing national student id error', async function() {
+
+      // given
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const path = __dirname + '/siecle-file/siecle-with-no-student-number.xml';
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
+
+      //then
+      expect(error).to.be.instanceof(ObjectValidationError);
+      expect(error.message).to.equal('L\'INE est obligatoire');
     });
 
     context('when the file is zipped', () => {
