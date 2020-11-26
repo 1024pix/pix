@@ -1,11 +1,12 @@
-const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
+const { expect, catchErr, databaseBuilder, knex } = require('../../../test-helper');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
-const { UserNotFoundError, InvalidExternalUserTokenError, UnexpectedUserAccount } = require('../../../../lib/domain/errors');
+const { InvalidExternalUserTokenError, UnexpectedUserAccount } = require('../../../../lib/domain/errors');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-const { updateUserSamlId } = require('../../../../lib/domain/usecases');
+const { addGarAuthenticationMethodToUser } = require('../../../../lib/domain/usecases');
 
-describe('Integration | UseCases | update-user-samlId', () => {
+describe('Integration | UseCases | add-gar-authentication-method-to-user', () => {
 
   const expectedSamlId = 'SAMLID';
 
@@ -19,41 +20,34 @@ describe('Integration | UseCases | update-user-samlId', () => {
       samlId: expectedSamlId,
     };
     externalUserToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
-
-    userId = databaseBuilder.factory.buildUser({ samlId: null }).id;
+    userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
 
   context('when user exists', () => {
 
-    it('should update user samlId', async () => {
+    afterEach(() => {
+      return knex('authentication-methods').delete();
+    });
+
+    it('should create GAR authentication method for the user', async () => {
       // when
-      const result = await updateUserSamlId({ userId, externalUserToken, expectedUserId: userId });
+      await addGarAuthenticationMethodToUser({ userId, externalUserToken, expectedUserId: userId });
 
       // then
-      expect(result).to.be.true;
+      const authenticationMethod = await knex('authentication-methods').where({ userId, identityProvider: AuthenticationMethod.identityProviders.GAR });
+      expect(authenticationMethod[0].externalIdentifier).to.equal(expectedSamlId);
     });
   });
 
   context('when an error occurred', () => {
-
-    it('should throw an UserNotFoundError when user does not exist', async () => {
-      // given
-      userId = 1;
-
-      // when
-      const error = await catchErr(updateUserSamlId)({ userId, externalUserToken, expectedUserId: userId });
-
-      // then
-      expect(error).to.be.an.instanceof(UserNotFoundError);
-    });
 
     it('should throw an InvalidExternalUserTokenError when externalUserToken is invalid', async () => {
       // given
       externalUserToken = 'INVALID_TOKEN';
 
       // when
-      const error = await catchErr(updateUserSamlId)({ userId, externalUserToken, expectedUserId: userId });
+      const error = await catchErr(addGarAuthenticationMethodToUser)({ userId, externalUserToken, expectedUserId: userId });
 
       // then
       expect(error).to.be.an.instanceof(InvalidExternalUserTokenError);
@@ -65,7 +59,7 @@ describe('Integration | UseCases | update-user-samlId', () => {
       const notExpectedUserId = userId + 1;
 
       // when
-      const error = await catchErr(updateUserSamlId)({ notExpectedUserId, externalUserToken, expectedUserId: userId });
+      const error = await catchErr(addGarAuthenticationMethodToUser)({ notExpectedUserId, externalUserToken, expectedUserId: userId });
 
       // then
       expect(error).to.be.an.instanceof(UnexpectedUserAccount);

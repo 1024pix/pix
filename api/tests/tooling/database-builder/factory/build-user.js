@@ -24,7 +24,6 @@ const buildUser = function buildUser({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
-  samlId,
   shouldChangePassword = false,
   createdAt = new Date(),
   updatedAt = new Date(),
@@ -37,8 +36,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword, createdAt, updatedAt,
-    externalIdentityId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword, createdAt, updatedAt, externalIdentityId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -61,7 +59,6 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
-  samlId,
   shouldChangePassword = false,
 }) {
 
@@ -69,7 +66,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, shouldChangePassword,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword,
   };
 
   return databaseBuffer.pushInsertable({

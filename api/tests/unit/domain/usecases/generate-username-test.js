@@ -20,7 +20,7 @@ describe('Unit | UseCase | generate-username', () => {
   let findMatchingCandidateIdForGivenUserStub;
   let getCampaignStub;
   let getReconciledStudentByNationalStudentdStub;
-  let getUserAuthenticationMethodsStub;
+  let getForObfuscationStub;
   let getUserAuthenticationMethodWithObfuscationStub;
   let studentInformation;
   let schoolingRegistration;
@@ -41,7 +41,7 @@ describe('Unit | UseCase | generate-username', () => {
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
       .withArgs(campaignCode)
       .resolves({ organizationId });
-    getUserAuthenticationMethodsStub = sinon.stub(userRepository, 'getUserAuthenticationMethods');
+    getForObfuscationStub = sinon.stub(userRepository, 'getForObfuscation');
     findByOrganizationIdAndBirthdateStub = sinon.stub(schoolingRegistrationRepository, 'findByOrganizationIdAndBirthdate');
     getReconciledStudentByNationalStudentdStub = sinon.stub(studentRepository, 'getReconciledStudentByNationalStudentId');
     getUserAuthenticationMethodWithObfuscationStub = sinon.stub(obfuscationService,'getUserAuthenticationMethodWithObfuscation');
@@ -114,7 +114,7 @@ describe('Unit | UseCase | generate-username', () => {
 
       findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
       findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
-      getUserAuthenticationMethodsStub.resolves();
+      getForObfuscationStub.resolves();
       getUserAuthenticationMethodWithObfuscationStub.resolves({  authenticatedBy: 'email', value: 'e***@example.net' });
 
       // when
@@ -140,7 +140,7 @@ describe('Unit | UseCase | generate-username', () => {
       findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
       const student = new Student({ account: { userId: studentInformation.id } });
       getReconciledStudentByNationalStudentdStub.resolves(student);
-      getUserAuthenticationMethodsStub.resolves();
+      getForObfuscationStub.resolves();
       getUserAuthenticationMethodWithObfuscationStub.resolves({  authenticatedBy: 'email', value: 'e***@example.net' });
 
       // when

@@ -3,18 +3,20 @@ const {
   UnexpectedUserAccount,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../../domain/errors');
+const AuthenticationMethod = require('../models/AuthenticationMethod');
 
-module.exports = async function updateUserSamlId({
+module.exports = async function addGarAuthenticationMethodToUser({
   userId,
   externalUserToken,
   expectedUserId,
   tokenService,
   userRepository,
   obfuscationService,
+  authenticationMethodRepository,
 }) {
   if (expectedUserId !== userId) {
-    const user = await userRepository.getUserAuthenticationMethods(expectedUserId);
-    const authenticationMethod = obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+    const user = await userRepository.getForObfuscation(expectedUserId);
+    const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
     throw new UnexpectedUserAccount({
       code: 'UNEXPECTED_USER_ACCOUNT',
@@ -32,5 +34,10 @@ module.exports = async function updateUserSamlId({
     throw new UserAlreadyExistsWithAuthenticationMethodError();
   }
 
-  return userRepository.updateSamlId({ userId, samlId });
+  const authenticationMethod = new AuthenticationMethod({
+    identityProvider: AuthenticationMethod.identityProviders.GAR,
+    externalIdentifier: samlId,
+    userId,
+  });
+  await authenticationMethodRepository.create({ authenticationMethod });
 };

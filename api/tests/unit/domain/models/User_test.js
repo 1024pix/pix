@@ -17,7 +17,6 @@ describe('Unit | Domain | Models | User', () => {
         cgu: true,
         lastTermsOfServiceValidatedAt: '2020-05-04T13:40:00.000Z',
         mustValidateTermsOfService: true,
-        samlId: 'some-saml-id',
         shouldChangePassword: false,
       };
 
@@ -33,7 +32,6 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.cgu).to.equal(rawData.cgu);
       expect(user.lastTermsOfServiceValidatedAt).to.equal(rawData.lastTermsOfServiceValidatedAt);
       expect(user.mustValidateTermsOfService).to.equal(rawData.mustValidateTermsOfService);
-      expect(user.samlId).to.equal(rawData.samlId);
       expect(user.shouldChangePassword).to.equal(rawData.shouldChangePassword);
     });
   });

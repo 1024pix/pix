@@ -3,6 +3,7 @@ const _ = require('lodash');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 const { NotFoundError, SameNationalStudentIdInOrganizationError, SameNationalApprenticeIdInOrganizationError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
 
@@ -440,7 +441,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         // then
         const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-        
+
         expect(actualSchoolingRegistrations).to.have.lengthOf(1);
         expect(actualSchoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1.firstName);
         expect(actualSchoolingRegistrations[0].nationalStudentId).to.be.equal(schoolingRegistration_1.nationalStudentId);
@@ -496,7 +497,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           expect(updated_organization_schoolingRegistrations).to.have.lengthOf(1);
           expect(updated_organization_schoolingRegistrations[0].firstName).to.be.equal(schoolingRegistration_1_updated.firstName);
           expect(updated_organization_schoolingRegistrations[0].lastName).to.be.equal(schoolingRegistration_1_updated.lastName);
-          expect(updated_organization_schoolingRegistrations[0].birthdate).to.be.equal(schoolingRegistration_1_updated.birthdate);        
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.be.equal(schoolingRegistration_1_updated.birthdate);
         });
       });
 
@@ -544,13 +545,13 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           expect(updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_updated.firstName);
           expect(updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_updated.lastName);
-          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);        
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);
 
           expect(not_updated_organization_schoolingRegistrations).to.have.lengthOf(1);
 
           expect(not_updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_bis.firstName);
           expect(not_updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_bis.lastName);
-          expect(not_updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_bis.birthdate);        
+          expect(not_updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_bis.birthdate);
         });
       });
 
@@ -681,7 +682,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         // then
         const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
         expect(actualSchoolingRegistrations).to.have.lengthOf(2);
-        
+
         expect(_.map(actualSchoolingRegistrations, 'firstName')).to.have.members([schoolingRegistrationUpdated.firstName, schoolingRegistrationToCreate.firstName]);
       });
     });
@@ -904,7 +905,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           expect(updated_organization_schoolingRegistrations[0].firstName).to.equal(schoolingRegistration_1_updated.firstName);
           expect(updated_organization_schoolingRegistrations[0].lastName).to.equal(schoolingRegistration_1_updated.lastName);
-          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);        
+          expect(updated_organization_schoolingRegistrations[0].birthdate).to.equal(schoolingRegistration_1_updated.birthdate);
 
           expect(not_updated_organization_schoolingRegistrations).to.have.lengthOf(1);
 
@@ -1507,7 +1508,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Rambo', user: { email: 'john@rambo.com',  username: null } });
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Willis', user: { email: null, username: 'willy' } });
-          databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Norris', user: { email: null, username: null, samlId: 'chucky' } });
+          const schoolingRegistrationOfUserWithSamlId = databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Norris', user: { email: null, username: null } });
+          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'chucky', userId: schoolingRegistrationOfUserWithSamlId.userId });
           databaseBuilder.factory.buildSchoolingRegistrationWithUser({ organizationId, lastName: 'Lee', user: { email: null, username: null } });
           await databaseBuilder.commit();
         });
@@ -1621,10 +1623,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser({
           organizationId: organization.id,
-          samlId: 'samlId',
           username: null,
           email: null,
         });
+        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'samlId', userId: user.id });
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
           userId: user.id,

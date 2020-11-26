@@ -10,6 +10,7 @@ const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/ar
 
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 describe('Acceptance | Application | organization-controller', () => {
 
@@ -760,7 +761,8 @@ describe('Acceptance | Application | organization-controller', () => {
     let options;
 
     beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser({ samlId: '234' });
+      user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '234', userId: user.id });
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       await databaseBuilder.commit();
@@ -1255,7 +1257,7 @@ describe('Acceptance | Application | organization-controller', () => {
       const authHeader = generateValidRequestAuthorizationHeader(userId);
       accessToken = authHeader.replace('Bearer ', '');
     });
-    
+
     context('when it‘s a SUP organization', () => {
       beforeEach(async () => {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
@@ -1266,17 +1268,17 @@ describe('Acceptance | Application | organization-controller', () => {
         });
         await databaseBuilder.commit();
       });
-  
+
       it('should return csv file with statusCode 200', async () => {
         // given
         const options = {
           method: 'GET',
           url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
         };
-  
+
         // when
         const response = await server.inject(options);
-  
+
         // then
         expect(response.statusCode).to.equal(200, response.payload);
       });
@@ -1294,17 +1296,17 @@ describe('Acceptance | Application | organization-controller', () => {
         });
         await databaseBuilder.commit();
       });
-  
+
       it('should return csv file with statusCode 200', async () => {
         // given
         const options = {
           method: 'GET',
           url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
         };
-  
+
         // when
         const response = await server.inject(options);
-  
+
         // then
         expect(response.statusCode).to.equal(200, response.payload);
       });
@@ -1320,20 +1322,20 @@ describe('Acceptance | Application | organization-controller', () => {
         });
         await databaseBuilder.commit();
       });
-  
+
       it('should return an error with statusCode 403', async () => {
         // given
         const options = {
           method: 'GET',
           url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
         };
-  
+
         // when
         const response = await server.inject(options);
-  
+
         // then
         expect(response.statusCode).to.equal(403, response.payload);
       });
     });
-  });  
+  });
 });
