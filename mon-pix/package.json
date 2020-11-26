@@ -30,7 +30,6 @@
     "lint:scss": "stylelint app/styles/**/*.scss",
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "preinstall": "npx check-engine",
-    "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --proxy http://localhost:3000",
     "test": "ember test --reporter dot",
     "test:lint": "npm test && npm run lint",
