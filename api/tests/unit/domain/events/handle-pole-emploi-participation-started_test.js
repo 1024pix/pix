@@ -103,7 +103,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         targetProfileRepositoryStub.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
 
         event = new CampaignParticipationStarted({ campaignParticipationId });
-        
+
         sinon.stub(console, 'log');
       });
 
@@ -115,7 +115,9 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         });
 
         // then
+        // eslint-disable-next-line no-console
         expect(console.log).to.have.been.calledOnce;
+        // eslint-disable-next-line no-console
         const results = console.log.firstCall.args[0];
         expect(results).to.deep.equal(expectedResults);
       });
@@ -129,13 +131,13 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
           campaignId,
           createdAt: new Date('2020-01-02'),
         });
-        
+
         campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
-        
+
         event = new CampaignParticipationStarted({ campaignParticipationId });
-        
+
         sinon.stub(console, 'log');
       });
 
@@ -147,6 +149,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         });
 
         // then
+        // eslint-disable-next-line no-console
         sinon.assert.notCalled(console.log);
       });
     });
@@ -159,7 +162,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
           campaignId,
           createdAt: new Date('2020-01-02'),
         });
-        
+
         campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepositoryStub
           .withArgs(campaignId)
@@ -179,6 +182,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         });
 
         // then
+        // eslint-disable-next-line no-console
         sinon.assert.notCalled(console.log);
       });
     });

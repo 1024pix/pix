@@ -2,3 +2,7 @@ extends: '../.eslintrc.yaml'
 
 env:
   mocha: true
+
+rules:
+  no-console:
+    - error

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
