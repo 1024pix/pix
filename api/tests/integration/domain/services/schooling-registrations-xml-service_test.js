@@ -176,6 +176,22 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
         //then
         expect(result).to.deep.equal(expectedSchoolingRegistrations);
       });
+
+      context('when the file is corrupted', () => {
+        it('throws an error', async function() {
+          // given
+          const organization = { externalId: '1237457A' };
+          const path = __dirname + '/siecle-file/corrupt_entry.zip';
+
+          // when
+          const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
+
+          //then
+          expect(error).to.be.instanceof(FileValidationError);
+          expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
+
+        });
+      });
     });
   });
 });
