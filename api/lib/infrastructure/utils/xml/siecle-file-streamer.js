@@ -12,7 +12,7 @@ const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
 const NO_STUDENTS_IMPORTED_FROM_INVALID_FILE = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
 
 const DEFAULT_FILE_ENCODING = 'iso-8859-15';
-const ZIP = 'zip';
+const ZIP = 'application/zip';
 
 class StreamPipe extends Stream.Transform {
   _transform(chunk, enc, cb) {
@@ -70,8 +70,8 @@ class SiecleFileStreamer {
   }
 
   async _isFileZipped() {
-    const { ext } = await FileType.fromFile(this.path);
-    return ext === ZIP;
+    const { mime } = await FileType.fromFile(this.path);
+    return mime === ZIP;
   }
 
   async _readFirstLine() {
