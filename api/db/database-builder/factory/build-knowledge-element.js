@@ -3,7 +3,7 @@ const buildAnswer = require('./build-answer');
 const buildAssessment = require('./build-assessment');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
-const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const _ = require('lodash');
 
 module.exports = function buildKnowledgeElement({

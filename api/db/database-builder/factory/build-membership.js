@@ -1,7 +1,7 @@
 const databaseBuffer = require('../database-buffer');
 const buildUser = require('./build-user');
 const buildOrganization = require('./build-organization');
-const Membership = require('../../../../lib/domain/models/Membership');
+const Membership = require('../../../lib/domain/models/Membership');
 const _ = require('lodash');
 
 module.exports = function buildMembership(
