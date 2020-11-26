@@ -1,6 +1,10 @@
-/admin
-/api
-/orga
-/certif
-/mon-pix
-/node_modules
+.scalingo/node
+admin
+api
+certif
+high-level-tests
+mon-pix
+node_modules
+orga
+*.md
+package*.json
