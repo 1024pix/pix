@@ -8,7 +8,10 @@ export default class ResumeCampaignBanner extends Component {
   @service currentUser;
 
   get notFinishedCampaignParticipations() {
-    return this.args.campaignParticipations.filter((campaignParticipation) => !campaignParticipation.assessment.get('isCompleted'));
+    if (ENV.APP.IS_PIX_CONTEST === 'true') {
+      return this.args.campaignParticipations.filter((campaignParticipation) => !campaignParticipation.assessment.get('isCompleted'));
+    }
+    return this.args.campaignParticipations.filter((campaignParticipation) => campaignParticipation.isShared === false);
   }
 
   get lastNotFinishedCampaignParticipation() {
