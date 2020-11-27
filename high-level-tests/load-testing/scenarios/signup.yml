@@ -1,0 +1,35 @@
+config:
+  http:
+    pool: 10
+  plugins:
+    fuzzer: { }
+#    expect: { } #uncomment to check response http code
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      name: "Check connectivity"
+    - duration: 60
+      arrivalRate: 100
+      name: "Actual test"
+scenarios:
+  - name: 'Inscription'
+    flow:
+      - function: "setupSignupFormData"
+      - post:
+          url: "/api/users"
+          json:
+            data:
+              attributes:
+                first-name: "{{ naughtyString }}"
+                last-name:  "{{ naughtyString }}"
+                email: "{{ email }}"
+                username: null
+                password: "{{ password }}"
+                cgu: true
+                must-validate-terms-of-service: false
+                has-seen-assessment-instructions: false
+                recaptcha-token: null
+                lang: "fr"
+              type: "users"
+          expect:
+            - statusCode: 201
