@@ -175,8 +175,8 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
   ];
 
   beforeEach(async () => {
-    const airtableObjects = learningContentBuilder.buildLearningContent(learningContent);
-    mockLearningContent(airtableObjects);
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
 
     server = await createServer();
 
