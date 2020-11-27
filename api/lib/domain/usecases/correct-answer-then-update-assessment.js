@@ -87,7 +87,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
 function _evaluateAnswer(challenge, answer) {
   const examiner = new Examiner({ validator: challenge.validator });
-  return examiner.evaluate(answer);
+  return examiner.evaluate({ answer, challengeFormat: challenge.format });
 }
 
 async function _getKnowledgeElements({ assessment, answer, challenge, skillRepository, targetProfileRepository, knowledgeElementRepository }) {

@@ -19,7 +19,7 @@ class ValidatorQCU extends Validator {
     // references
   }
 
-  assess(answer) {
+  assess({ answer }) {
     const result = solutionServiceQCU.match(answer.value, this.solution.value);
 
     return new Validation({

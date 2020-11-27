@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', () => {
       validator = new ValidatorQROCMDep({ solution: solution });
 
       // when
-      validation = validator.assess(uncorrectedAnswer);
+      validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
     it('should call solutionServiceQROCMDep', () => {

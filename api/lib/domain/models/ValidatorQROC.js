@@ -19,8 +19,8 @@ class ValidatorQROC extends Validator {
     // references
   }
 
-  assess(answer) {
-    const result = solutionServiceQROC.match(answer.value, this.solution.value, this.solution.deactivations);
+  assess({ answer, challengeFormat }) {
+    const result = solutionServiceQROC.match({ answer: answer.value, solution: this.solution.value, deactivations: this.solution.deactivations, challengeFormat });
 
     return new Validation({
       result,
