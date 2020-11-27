@@ -1,11 +1,15 @@
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
 
 module.exports = {
-  addTargetProfilesToOrganization({ organizationId, targetProfileIdList }) {
+
+  async addTargetProfilesToOrganization({ organizationId, targetProfileIdList }) {
     const targetProfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
       return { organizationId, targetProfileId };
     });
-    return Bookshelf.knex.batchInsert('target-profile-shares', targetProfileShareToAdd)
-      .then(() => null);
+
+    return knex('target-profile-shares')
+      .insert(targetProfileShareToAdd)
+      .onConflict(['targetProfileId', 'organizationId'])
+      .ignore();
   },
 };

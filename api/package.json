@@ -55,7 +55,7 @@
     "jsonapi-serializer": "^3.6.6",
     "jsonwebtoken": "^8.5.1",
     "jszip": "^3.5.0",
-    "knex": "^0.21.4",
+    "knex": "^0.21.9",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
