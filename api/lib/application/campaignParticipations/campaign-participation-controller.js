@@ -26,8 +26,8 @@ module.exports = {
   async save(request, h) {
     const userId = request.auth.credentials.userId;
     const campaignParticipation = await serializer.deserialize(request.payload);
-  
-    const { 
+
+    const {
       event,
       campaignParticipation: campaignParticipationCreated,
     } =  await DomainTransaction.execute((domainTransaction) => {
@@ -61,12 +61,11 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = parseInt(request.params.id);
 
-    const campaignParticipation = await usecases.beginCampaignParticipationImprovement({
+    await usecases.beginCampaignParticipationImprovement({
       campaignParticipationId,
       userId,
     });
-    return serializer.serialize(campaignParticipation);
-
+    return null;
   },
 
   async getAnalysis(request) {

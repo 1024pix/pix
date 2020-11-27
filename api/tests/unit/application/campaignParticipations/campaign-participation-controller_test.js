@@ -255,38 +255,24 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
   });
 
   describe('#beginImprovement', () => {
-    const campaignParticipationId = 1;
-    const userId = 1;
-    let request;
 
-    beforeEach(() => {
-      request = {
+    it('should call the usecase to begin improvement', async () => {
+      // given
+      const campaignParticipationId = 1;
+      const userId = 2;
+      const request = {
         params: { id: campaignParticipationId },
         auth: { credentials: { userId } },
       };
-
       sinon.stub(usecases, 'beginCampaignParticipationImprovement');
-      sinon.stub(serializer, 'serialize');
-    });
-
-    it('should return an improving campaignParticipation', async () => {
-      // given
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId });
       usecases.beginCampaignParticipationImprovement
-        .withArgs({ campaignParticipationId, userId })
-        .resolves(campaignParticipation);
-
-      const serializedCampaignParticipation = { id: campaignParticipationId, userId };
-      serializer.serialize
-        .withArgs(campaignParticipation)
-        .returns(serializedCampaignParticipation);
+        .resolves();
 
       // when
-      const response = await campaignParticipationController.beginImprovement(request);
+      await campaignParticipationController.beginImprovement(request);
 
       // then
-      expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnce;
-      expect(response).to.deep.equal(serializedCampaignParticipation);
+      expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnceWith({ campaignParticipationId, userId });
     });
   });
 });

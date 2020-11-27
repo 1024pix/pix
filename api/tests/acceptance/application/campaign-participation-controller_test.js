@@ -446,13 +446,13 @@ describe('Acceptance | API | Campaign Participations', () => {
         };
       });
 
-      it('should return 200 HTTP status code with updatedAssessment', () => {
+      it('should return 204 HTTP status code', () => {
         // when
         const promise = server.inject(options);
 
         // then
         return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(204);
         });
       });
     });

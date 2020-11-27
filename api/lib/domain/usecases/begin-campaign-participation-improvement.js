@@ -17,8 +17,6 @@ module.exports = async function beginCampaignParticipationImprovement({
     throw new AlreadySharedCampaignParticipationError();
   }
   await _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository });
-
-  return campaignParticipation;
 };
 
 function _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository }) {
