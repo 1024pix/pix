@@ -1,6 +1,5 @@
-const { expect, nock, generateValidRequestAuthorizationHeader, airtableBuilder } = require('../../test-helper');
+const { expect, nock, generateValidRequestAuthorizationHeader,  mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | Courses', () => {
 
@@ -13,45 +12,36 @@ describe('Acceptance | API | Courses', () => {
 
   describe('GET /api/courses/:course_id', () => {
 
-    before(() => {
-      const course = airtableBuilder.factory.buildCourse({
-        'id': 'rec_course_id',
-        'nom': 'A la recherche de l\'information #01',
-        'description': 'Mener une recherche et une veille d\'information',
-        'image': [{
-          'id': 'attmP7vjRHdp5UcQA',
-          'url': 'https://dl.airtable.com/x5gtLtMTpyJBg9dJov82_keyboard-824317_960_720.jpg',
-          'filename': 'keyboard-824317_960_720.jpg',
-          'type': 'image/jpeg',
+    beforeEach(() => {
+      
+      const learningContent = [{
+        id: '1. Information et données',
+        competences: [{
+          id: 'competence_id',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              challenges: [
+                { id: 'k_challenge_id' },
+              ],
+            }],
+          }],
         }],
-        'epreuves': [
-          'k_challenge_id',
-        ],
-        'preview': 'http://development.pix.fr/courses/rec_course_id/preview',
-        'NbDEpreuves': 10,
-        'acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo',
-        'createdTime': '2016-08-09T15:17:53.000Z',
-      });
-
-      airtableBuilder
-        .mockList({ tableName: 'Tests' })
-        .returns([course])
-        .activate();
-
-      const challenge = airtableBuilder.factory.buildChallenge({
-        'id': 'k_challenge_id',
-      });
-
-      airtableBuilder
-        .mockList({ tableName: 'Epreuves' })
-        .returns([challenge])
-        .activate();
-
+        courses: [{
+          id:'rec_course_id',
+          name: 'A la recherche de l\'information #01',
+          description: 'Mener une recherche et une veille d\'information',
+          competenceId: 'competence_id',
+          challengeIds: ['k_challenge_id'],
+        }],
+      }];
+      
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     after(() => {
       nock.cleanAll();
-      return cache.flushAll();
     });
 
     context('when the course exists', () => {
