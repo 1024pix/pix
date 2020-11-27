@@ -1,51 +1,40 @@
-const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { learningContentBuilder, mockLearningContent, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
 
 const competenceId = 'recCompetence';
-
-const skillWeb1 = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competenceId] });
-const skillWeb2 = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competenceId] });
-const skillWeb3 = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competenceId] });
-
-const competenceReference = '1.1 Mener une recherche et une veille d’information';
-const competence = airtableBuilder.factory.buildCompetence({
-  id: competenceId,
-  epreuves: [],
-  titre: 'Mener une recherche et une veille d’information',
-  tests: [],
-  acquisIdentifiants: [skillWeb1.id],
-  tubes: [],
-  acquisViaTubes: [skillWeb1.id],
-  reference: competenceReference,
-  testsRecordID: [],
-  acquis: [skillWeb1.name],
-});
-
-const frenchCallengeId = 'recFrenchChallengeId';
-const frenchChallenge = airtableBuilder.factory.buildChallenge.untimed({
-  id: frenchCallengeId,
-  tests: [],
-  competences: [competenceId],
-  statut: 'validé',
-  acquix: [skillWeb2.id],
-  acquis: [skillWeb2.name],
-  langues: ['Franco Français'],
-});
-
 const frenchSpokenChallengeId = 'recFrenchSpokenChallengeId';
-const frenchSpokenChallenge = airtableBuilder.factory.buildChallenge.untimed({
-  id: frenchSpokenChallengeId,
-  tests: [],
-  competences: [competenceId],
-  statut: 'validé',
-  acquix: [skillWeb2.id],
-  acquis: [skillWeb2.name],
-  langues: ['Francophone'],
-});
+const frenchChallengeId = 'recFrenchChallengeId';
+
+const learningContent = [{
+  id: 'recArea0',
+  competences: [{
+    id: competenceId,
+    titreFrFr: 'Mener une recherche et une veille d’information',
+    index: '1.1',
+    tubes: [{
+      id: 'recTube0_0',
+      skills: [{
+        id: 'skillWeb1',
+        nom: '@skillWeb1',
+        challenges: [],
+      }, {
+        id: 'skillWeb2',
+        nom: '@skillWeb2',
+        challenges: [
+          { id: frenchChallengeId, langues: ['Franco Français'] },
+          { id: frenchSpokenChallengeId, langues: ['Francophone'] },
+        ],
+      }, {
+        id: 'skillWeb3',
+        nom: '@skillWeb3',
+        challenges: [],
+      }],
+    }],
+  }],
+}];
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-locale-management', () => {
 
@@ -53,23 +42,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
 
   beforeEach(async () => {
     server = await createServer();
-
-    airtableBuilder.mockList({ tableName: 'Domaines' })
-      .returns([airtableBuilder.factory.buildArea()])
-      .activate();
-
-    airtableBuilder.mockList({ tableName: 'Competences' })
-      .returns([competence])
-      .activate();
-
-    airtableBuilder.mockList({ tableName: 'Acquis' })
-      .returns([skillWeb1, skillWeb2, skillWeb3])
-      .activate();
-  });
-
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
   });
 
   describe('GET /api/assessments/:assessment_id/next', () => {
@@ -80,9 +52,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
 
       context('when there is one challenge in the accepted language (fr-fr)', () => {
         beforeEach(async () => {
-          airtableBuilder.mockList({ tableName: 'Epreuves' })
-            .returns([frenchSpokenChallenge, frenchChallenge])
-            .activate();
+          const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+          mockLearningContent(learningContentObjects);
 
           databaseBuilder.factory.buildUser({ id: userId });
           databaseBuilder.factory.buildAssessment({
@@ -111,7 +82,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
 
           // then
           return promise.then((response) => {
-            expect(response.result.data.id).to.equal(frenchChallenge.id);
+            expect(response.result.data.id).to.equal(frenchChallengeId);
           });
         });
       });
