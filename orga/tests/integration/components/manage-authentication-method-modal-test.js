@@ -29,6 +29,18 @@ module('Integration | Component | manage-authentication-method-modal', function(
         hasUsername: true,
         hasEmail: true,
       });
+      this.studentWithEmailOnly = EmberObject.create({
+        id: 1,
+        username,
+        email,
+        firstName: 'John',
+        lastName: 'Doe',
+        birthdate: '2010-12-01',
+        isAuthenticatedFromGar: false,
+        hasUsername: false,
+        hasEmail: true,
+        displayAddUsernameAuthentication: true,
+      });
 
       this.display = true;
     });
@@ -40,6 +52,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
+        assert.contains('Identifiant');
         assert.dom('#username').hasValue(username);
       });
 
@@ -64,7 +77,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       });
     });
 
-    module('When Student is connected with email method', function() {
+    module('When Student is connected with email and username method', function() {
 
       test('should render component with email field', async function(assert) {
         // when
@@ -92,6 +105,19 @@ module('Integration | Component | manage-authentication-method-modal', function(
 
         // then
         assert.contains('Copié !');
+      });
+    });
+
+    module('When Student is connected with email only', function() {
+
+      test('should render add username authentication method', async function(assert) {
+        // when
+        await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithEmailOnly}} @display={{this.display}} />`);
+
+        // then
+        assert.contains('Adresse e-mail');
+        assert.dom('#email').hasValue(email);
+        assert.contains('Ajouter une connexion avec un identifiant');
       });
     });
 
@@ -173,7 +199,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
       this.studentGAR = EmberObject.create({
         id: 2,
         isAuthenticatedFromGar: true,
-        isAuthenticatedWithGarOnly: true,
+        displayAddUsernameAuthentication: true,
       });
       this.display = true;
     });
@@ -183,8 +209,9 @@ module('Integration | Component | manage-authentication-method-modal', function(
       await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`);
 
       // then
-      assert.contains('Connecté avec Médiacentre');
+      assert.contains('Médiacentre');
       assert.contains('Ajouter une connexion avec un identifiant');
+
     });
   });
 

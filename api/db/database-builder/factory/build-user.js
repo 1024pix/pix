@@ -75,6 +75,34 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   });
 };
 
+buildUser.withoutPassword = function buildUserWithoutPassword({
+  id,
+  firstName = faker.name.firstName(),
+  lastName = faker.name.lastName(),
+  email = faker.internet.exampleEmail().toLowerCase(),
+  username,
+  password = '',
+  cgu = true,
+  lang = 'fr',
+  lastTermsOfServiceValidatedAt,
+  mustValidateTermsOfService = false,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenAssessmentInstructions = false,
+  shouldChangePassword = false,
+}) {
+
+  const values = {
+    id, firstName, lastName, email, username, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword,
+  };
+
+  return databaseBuffer.pushInsertable({
+    tableName: 'users',
+    values,
+  });
+};
+
 buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   id,
   firstName = faker.name.firstName(),

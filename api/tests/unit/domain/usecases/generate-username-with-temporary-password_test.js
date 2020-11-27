@@ -11,7 +11,7 @@ const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/us
 
 describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
-  const userRelatedToStudent = domainBuilder.buildUser({ username: null });
+  const userRelatedToStudent = domainBuilder.buildUser({ username: null, password:'' });
   const organization = userRelatedToStudent.memberships[0].organization;
   const organizationId = userRelatedToStudent.memberships[0].organization.id;
 
@@ -84,4 +84,52 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
     expect(error).to.be.instanceof(UserNotAuthorizedToGenerateUsernamePasswordError);
     expect(error.message).to.be.equal(`Ce compte utilisateur dispose déjà d'un identifiant: ${userRelatedToStudent.username}.`);
   });
+
+  context('when schooling-registration refers to an user with a password', ()=> {
+
+    const username = 'john.doe2510';
+    const userEmail = 'john.doe@example.net';
+    const userPassword = 'Pix12345';
+    let  userWithEmail;
+    let organization;
+    let organizationId;
+    let schoolingRegistration;
+
+    beforeEach(()=>{
+
+      // given
+      userWithEmail = domainBuilder.buildUser({ email: userEmail, password: userPassword, username: null });
+      organization = userWithEmail.memberships[0].organization;
+      organizationId = userWithEmail.memberships[0].organization.id;
+
+      schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+        organization,
+      });
+
+      sinon.restore();
+
+      sinon.stub(userReconciliationService, 'createUsernameByUser').resolves(username);
+      sinon.stub(userRepository, 'get').resolves(userWithEmail);
+      sinon.stub(userRepository, 'addUsername').resolves({ ...userWithEmail, username : username });
+
+      sinon.stub(schoolingRegistrationRepository, 'get').resolves(schoolingRegistration);
+
+    });
+
+    it('should return an username', async () => {
+
+      // when
+      const result = await generateUsernameWithTemporaryPassword({
+        schoolingRegistrationId: schoolingRegistration.id,
+        organizationId,
+        passwordGenerator, encryptionService, userReconciliationService,
+        userRepository, schoolingRegistrationRepository,
+      });
+
+      // then
+      expect(result.username).to.be.equal(username);
+    });
+
+  });
+
 });
