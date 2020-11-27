@@ -2,7 +2,7 @@
 const { expect, databaseBuilder, catchErr, knex, sinon } = require('../../../test-helper');
 const importApprentices = require('../../../../scripts/prod/import-apprentices');
 const iconv = require('iconv-lite');
-const { CsvImportError } = require('../../../../lib/domain/errors');
+const { CsvImportError, OrganizationNotFoundError } = require('../../../../lib/domain/errors');
 
 const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
 
@@ -86,7 +86,30 @@ describe('Integration | Scripts | import-apprentices', () => {
         });
 
         context('when there is an error', () => {
+          it('throws a OrganizationNotFoundError when externalId not found', async () => {
+            databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '12345' });
+            databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '678910' });
+            
+            await databaseBuilder.commit();
+  
+            const input = `${schoolingRegistrationCsvColumns}
+            9876543210F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;
+            0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;54321;
+            `;
+  
+            const encodedInput = iconv.encode(input, 'utf8');
+  
+            fileSystem.readFileSync.withArgs('tmp.csv').returns(encodedInput);
+  
+            const err = await catchErr(importApprentices)('tmp.csv', fileSystem);
+            expect(err).to.be.an.instanceOf(OrganizationNotFoundError);
+          });
+
           it('throws a CsvImportError', async  () => {
+            databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: '12345' });
+            
+            await databaseBuilder.commit();
+
             const header = schoolingRegistrationCsvColumns;
             const lineWithoutUniqueIdentifier = ';Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;AP;MEF1;Division 1;12345;';
             const input =

@@ -1,7 +1,8 @@
 /* eslint-disable no-sync */
 // Usage: node import-apprentices path/file.csv
-
+const { OrganizationNotFoundError } = require('../../lib/domain/errors');
 const { CsvColumn } = require('../../lib/infrastructure/serializers/csv/csv-registration-parser');
+
 const SchoolingRegistrationParser = require('../../lib/infrastructure/serializers/csv/schooling-registration-parser');
 const fs = require('fs');
 const { knex } = require('../../db/knex-database-connection');
@@ -23,7 +24,13 @@ class CsvApprenticesParser extends SchoolingRegistrationParser {
       if (column.isDate) {
         registrationAttributes[column.name] = this._buildDateAttribute(value);
       } else if (column.name === 'uai') {
-        registrationAttributes.organizationId = this.organizationByUai[value];
+        const organizationId = this.organizationByUai[value];
+
+        if (!organizationId) {
+          throw new OrganizationNotFoundError(`l'uai : ${value} n'est rattaché à aucune organisation. Veuillez vérifier votre fichier`);
+        }
+
+        registrationAttributes.organizationId = organizationId;
       } else {
         registrationAttributes[column.name] = value;
       }
