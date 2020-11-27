@@ -9,6 +9,8 @@ const ANSWER_OK = AnswerStatus.OK;
 describe('Unit | Service | SolutionServiceQROC ', function() {
 
   describe('match, with numerical answers and solutions', function() {
+    const challengeFormat = 'nombre';
+
     [
       { case:'when two numbers are strictly equal', answer: '0.123', solution: '0.123', expectedAnswerStatus: ANSWER_OK },
       { case:'when 0 is added in front of the answer', answer: '0123', solution: '123', expectedAnswerStatus: ANSWER_OK },
@@ -29,7 +31,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case:'(multiple solutions) answer is not the first possible solution', answer: '23', solution: '21\n22\n23\n', expectedAnswerStatus: ANSWER_OK  },
     ].forEach((data) => {
       it(`should return ${data.expectedAnswerStatus} when answer is ${data.answer} and solution is ${data.solution}`, function() {
-        const result = service.match(data.answer, data.solution);
+        const result = service.match({ answer: data.answer, challengeFormat, solution: data.solution });
         expect(result).to.deep.equal(data.expectedAnswerStatus);
       });
     });
@@ -56,7 +58,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     successfulCases.forEach(function(data) {
       it (data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        const result = service.match(data.answer, data.solution);
+        const result = service.match({ answer: data.answer, solution: data.solution });
         expect(result).to.deep.equal(ANSWER_OK);
       });
     });
@@ -75,7 +77,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     failingCases.forEach(function(data) {
       it(data.case + ', should return "ko" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution)).to.deep.equal(ANSWER_KO);
+        expect(service.match({ answer: data.answer, solution: data.solution })).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -101,7 +103,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });
@@ -126,7 +128,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });
@@ -151,7 +153,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });
@@ -176,7 +178,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });
@@ -201,7 +203,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });
@@ -226,7 +228,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });
@@ -251,7 +253,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });
@@ -276,7 +278,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
 
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
-        expect(service.match(data.answer, data.solution, data.deactivations)).to.deep.equal(data.output);
+        expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
     });
   });

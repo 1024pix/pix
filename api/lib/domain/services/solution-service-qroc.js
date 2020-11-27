@@ -11,10 +11,11 @@ const {
 const AnswerStatus = require('../models/AnswerStatus');
 
 const LEVENSHTEIN_DISTANCE_MAX_RATE = 0.25;
+const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
 module.exports = {
 
-  match(answer, solution, deactivations) {
+  match({ answer, challengeFormat, solution, deactivations }) {
 
     const isIncorrectAnswerFormat = !isString(answer);
     const isIncorrectSolutionFormat = !isString(solution) || isEmpty(solution);
@@ -28,7 +29,7 @@ module.exports = {
       return isNumeric(solution);
     });
 
-    if (isNumeric(answer) && areAllNumericSolutions) {
+    if (isNumeric(answer) && areAllNumericSolutions && challengeFormat === CHALLENGE_NUMBER_FORMAT) {
       return _getAnswerStatusFromNumberMatching(answer, solutions);
     }
 

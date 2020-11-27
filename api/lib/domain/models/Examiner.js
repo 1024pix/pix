@@ -18,7 +18,7 @@ class Examiner {
     // references
   }
 
-  evaluate(answer) {
+  evaluate({ answer, challengeFormat }) {
 
     const correctedAnswer = new Answer(answer);
 
@@ -29,7 +29,7 @@ class Examiner {
       return correctedAnswer;
     }
 
-    const answerValidation = this.validator.assess(answer);
+    const answerValidation = this.validator.assess({ answer, challengeFormat });
     correctedAnswer.result = answerValidation.result;
     correctedAnswer.resultDetails = answerValidation.resultDetails;
 
