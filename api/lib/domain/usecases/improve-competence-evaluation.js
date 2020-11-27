@@ -21,14 +21,7 @@ module.exports = async function improveCompetenceEvaluation({
     throw new ImproveCompetenceEvaluationForbiddenError();
   }
 
-  const assessment = new Assessment({
-    userId,
-    competenceId,
-    state: Assessment.states.STARTED,
-    type: Assessment.types.COMPETENCE_EVALUATION,
-    courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
-    isImproving: true,
-  });
+  const assessment = Assessment.createImprovingForCompetenceEvaluation({ userId, competenceId });
   const { id: assessmentId } = await assessmentRepository.save({ assessment, domainTransaction });
 
   await competenceEvaluationRepository.updateAssessmentId({

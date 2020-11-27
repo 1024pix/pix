@@ -117,17 +117,42 @@ class Assessment {
       certificationCourseId,
       state: Assessment.states.STARTED,
       type: Assessment.types.CERTIFICATION,
+      isImproving: false,
     });
   }
 
   static createForCampaign({ userId, campaignParticipationId }) {
     return new Assessment({
       userId,
+      campaignParticipationId,
       state: Assessment.states.STARTED,
       type: Assessment.types.CAMPAIGN,
       courseId: Assessment.courseIdMessage.CAMPAIGN,
-      campaignParticipationId,
+      isImproving: false,
     });
+  }
+
+  static createImprovingForCampaign({ userId, campaignParticipationId }) {
+    const assessment = this.createForCampaign({ userId, campaignParticipationId });
+    assessment.isImproving = true;
+    return assessment;
+  }
+
+  static createForCompetenceEvaluation({ userId, competenceId }) {
+    return new Assessment({
+      userId,
+      competenceId,
+      state: Assessment.states.STARTED,
+      type: Assessment.types.COMPETENCE_EVALUATION,
+      courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
+      isImproving: false,
+    });
+  }
+
+  static createImprovingForCompetenceEvaluation({ userId, competenceId }) {
+    const assessment = this.createForCompetenceEvaluation({ userId, competenceId });
+    assessment.isImproving = true;
+    return assessment;
   }
 }
 

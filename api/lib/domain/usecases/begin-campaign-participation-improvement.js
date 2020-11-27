@@ -20,13 +20,6 @@ module.exports = async function beginCampaignParticipationImprovement({
 };
 
 function _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository }) {
-  const assessment = new Assessment({
-    userId,
-    campaignParticipationId,
-    state: Assessment.states.STARTED,
-    type: Assessment.types.CAMPAIGN,
-    courseId: Assessment.courseIdMessage.CAMPAIGN,
-    isImproving: true,
-  });
+  const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
   return assessmentRepository.save({ assessment });
 }

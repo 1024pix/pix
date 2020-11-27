@@ -121,14 +121,7 @@ async function _resetCampaignAssessment({ assessment, resetSkills, assessmentRep
     return null;
   }
 
-  const newAssessment = new Assessment({
-    userId: assessment.userId,
-    state: Assessment.states.STARTED,
-    type: Assessment.types.CAMPAIGN,
-    campaignParticipationId: assessment.campaignParticipationId,
-    courseId: '[NOT USED] Campaign Assessment CourseId Not Used',
-  });
-
+  const newAssessment = Assessment.createForCampaign({ userId: assessment.userId, campaignParticipationId: assessment.campaignParticipationId });
   await assessmentRepository.abortByAssessmentId(assessment.id);
   return await assessmentRepository.save({ assessment: newAssessment });
 }
