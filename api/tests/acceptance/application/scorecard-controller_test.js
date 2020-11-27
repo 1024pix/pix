@@ -56,7 +56,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       link: 'https://tuto.com',
       source: 'tuto.com',
       title: 'tuto1',
-    },{
+    }, {
       id: tutorialWebId,
       locale: 'fr-fr',
       duration: '00:03:31',
@@ -64,7 +64,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       link: 'http://www.example.com/this-is-an-example.html',
       source: 'Source Example, Example',
       title: 'Communiquer',
-    },{
+    }, {
       id: 'recTutorial2',
       locale: 'fr-fr',
       duration: '00:03:31',
