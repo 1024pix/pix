@@ -858,6 +858,9 @@
             "title": "Pour réussir la prochaine fois",
             "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
         },
+        "user-account": {
+            "title": "Mon compte"
+        },
         "user-tutorials": {
             "title": "Mes tutos",
             "description": "Progresser grâce aux tutos suggérés par la communauté des utilisateurs de Pix.",
@@ -981,6 +984,12 @@
             "details": "Consulter mes informations"
         },
         "user": {
+            "account": "Mon compte",
+            "account-panel": {
+                "first-name": "Prénom",
+                "last-name": "Nom",
+                "email": "Adresse e-mail"
+            },
             "certifications": "Mes certifications",
             "sign-out": "Se déconnecter",
             "tutorials": "Mes tutos"
