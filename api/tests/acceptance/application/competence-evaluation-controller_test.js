@@ -1,6 +1,5 @@
 const createServer = require('../../../server');
-const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 
 describe('Acceptance | API | Competence Evaluations', () => {
 
@@ -28,24 +27,21 @@ describe('Acceptance | API | Competence Evaluations', () => {
     context('When user is authenticated', () => {
 
       beforeEach(async () => {
-        const airtableCompetence = airtableBuilder.factory.buildCompetence({
-          id: competenceId,
-        });
-        airtableBuilder
-          .mockList({ tableName: 'Competences' })
-          .returns([airtableCompetence])
-          .activate();
-        airtableBuilder
-          .mockList({ tableName: 'Domaines' })
-          .returns({})
-          .activate();
+        const learningContent = [{
+          id: 'recArea1',
+          competences: [{
+            id: competenceId,
+            tubes: [],
+          }],
+        }];
+        
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
       });
 
       afterEach(async () => {
-        airtableBuilder.cleanAll();
         await knex('competence-evaluations').delete();
         await knex('assessments').delete();
-        return cache.flushAll();
       });
 
       context('and competence exists', () => {
