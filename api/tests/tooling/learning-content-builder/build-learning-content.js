@@ -7,10 +7,24 @@ const buildLearningContent = function(learningContent) {
   const allSkills = [];
   const allChallenges = [];
   const allCourses = [];
+  const allTutorials = [];
+
   const areas = learningContent.map((area) => {
     const competences = area.competences.map((competence) => {
       const tubes = competence.tubes.map((tube) => {
         const skills = tube.skills.map((skill) => {
+          const tutorials = skill.tutorials && skill.tutorials.map((tutorial) => {
+            return {
+              id: tutorial.id,
+              title: tutorial.title,
+              format: tutorial.format,
+              source: tutorial.source,
+              link: tutorial.link,
+              locale: tutorial.locale,
+              duration: tutorial.duration,
+            };
+          });
+          allTutorials.push(tutorials);
           const challenges = skill.challenges.map((challenge) => {
             const sameChallengeForAnotherSkill = allChallenges.flat().find((otherSkillChallenge) => otherSkillChallenge.id === challenge.id);
             if (!sameChallengeForAnotherSkill) {
@@ -33,7 +47,7 @@ const buildLearningContent = function(learningContent) {
             competenceId: competence.id,
             name: skill.nom,
             pixValue: skill.pixValue,
-            tutorialIds: skill.tutorialIds,
+            tutorialIds: skill.tutorials && _.map(skill.tutorials, 'id'),
           };
         });
         allSkills.push(skills);
@@ -86,6 +100,7 @@ const buildLearningContent = function(learningContent) {
     skills: allSkills.flat(),
     challenges: _.compact(allChallenges.flat()),
     courses: _.compact(allCourses.flat()),
+    tutorials: _.compact(allTutorials.flat()),
   };
 };
 
