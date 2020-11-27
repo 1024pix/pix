@@ -1,4 +1,4 @@
-import { currentURL, find } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
@@ -34,21 +34,6 @@ describe('Acceptance | User account page', function() {
 
       // then
       expect(currentURL()).to.equal('/mon-compte');
-    });
-  });
-
-  describe('Display', function() {
-    it('should display user values', async function() {
-      // given
-      await authenticateByEmail(user);
-
-      // when
-      await visit('/mon-compte');
-
-      // then
-      expect(find('span[data-test-firstName]').textContent).to.include(user.firstName);
-      expect(find('span[data-test-lastName]').textContent).to.include(user.lastName);
-      expect(find('span[data-test-email]').textContent).to.include(user.email);
     });
   });
 });
