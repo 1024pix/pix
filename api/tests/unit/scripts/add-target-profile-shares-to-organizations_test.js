@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../test-helper');
 
-const { addTargetProfileSharesToOrganizations, checkData } = require('../../../scripts/add-target-profile-shares-to-organizations');
+const { addTargetProfileSharesToOrganizations, checkData } = require('../../../scripts/prod/add-target-profile-shares-to-organizations');
 const targetProfileShareRepository = require('../../../lib/infrastructure/repositories/target-profile-share-repository');
 
 describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js', () => {
