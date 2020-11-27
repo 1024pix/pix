@@ -1,13 +1,12 @@
 const {
   expect,
-  airtableBuilder,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
+  mockLearningContent,
+  learningContentBuilder,
 } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { map } = require('lodash');
 
 describe('Acceptance | API | Certifications', () => {
 
@@ -44,6 +43,75 @@ describe('Acceptance | API | Certifications', () => {
       certificationCourseId: certificationCourse.id,
       partnerKey: badge.key,
     });
+
+    const learningContent = [{
+      id: 'recvoGdo7z2z7pXWa',
+      code: '1',
+      name: '1. Information et données',
+      titleFr: 'Information et données',
+      color: 'jaffa',
+      competences: [{
+        id: 'recsvLz0W2ShyfD63',
+        name: 'Mener une recherche et une veille d’information',
+        index: '1.1',
+        tubes: [{
+          id: 'recTube1',
+          skills: [{
+            id: 'recSkillId1',
+            challenges: [
+              'rec02tVrimXNkgaLD',
+              'rec0gm0GFue3PQB3k',
+              'rec0hoSlSwCeNNLkq',
+              'rec2FcZ4jsPuY1QYt',
+              'rec39bDMnaVw3MyMR',
+              'rec3FMoD8h9USTktb',
+              'rec3P7fvPSpFkIFLV',
+            ],
+          }],
+        }],
+      }, {
+        id: 'recNv8qhaY887jQb2',
+        name: 'Gérer des données',
+        index: '1.2',
+        tubes: [{
+          id: 'recTube2',
+          skills: [{
+            id: 'recSkillId2',
+            challenges: [
+              'rec02tVrimXNkgaLD',
+              'rec0gm0GFue3PQB3k',
+              'rec0hoSlSwCeNNLkq',
+              'rec2FcZ4jsPuY1QYt',
+              'rec39bDMnaVw3MyMR',
+              'rec3FMoD8h9USTktb',
+              'rec3P7fvPSpFkIFLV',
+            ],
+          }],
+        }],
+      }, {
+        id: 'recIkYm646lrGvLNT',
+        name: 'Traiter des données',
+        index: '1.3',
+        tubes: [{
+          id: 'recTube3',
+          skills: [{
+            id: 'recSkillId3',
+            challenges: [
+              'rec02tVrimXNkgaLD',
+              'rec0gm0GFue3PQB3k',
+              'rec0hoSlSwCeNNLkq',
+              'rec2FcZ4jsPuY1QYt',
+              'rec39bDMnaVw3MyMR',
+              'rec3FMoD8h9USTktb',
+              'rec3P7fvPSpFkIFLV',
+            ],
+          }],
+        }],
+      }],
+    }];
+
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
 
     return databaseBuilder.commit();
   });
@@ -106,48 +174,6 @@ describe('Acceptance | API | Certifications', () => {
   });
 
   describe('GET /api/certifications/:id', () => {
-
-    before(function() {
-      const area = airtableBuilder.factory.buildArea();
-      airtableBuilder.mockList({ tableName: 'Domaines' })
-        .returns([area])
-        .activate();
-
-      const epreuves = [
-        'rec02tVrimXNkgaLD',
-        'rec0gm0GFue3PQB3k',
-        'rec0hoSlSwCeNNLkq',
-        'rec2FcZ4jsPuY1QYt',
-        'rec39bDMnaVw3MyMR',
-        'rec3FMoD8h9USTktb',
-        'rec3P7fvPSpFkIFLV',
-      ];
-      const competences = map([{
-        id: 'recsvLz0W2ShyfD63',
-        epreuves,
-        sousDomaine: '1.1',
-        titre: 'Mener une recherche et une veille d’information',
-      }, {
-        id: 'recNv8qhaY887jQb2',
-        epreuves,
-        sousDomaine: '1.2',
-        titre: 'Gérer des données',
-      }, {
-        id: 'recIkYm646lrGvLNT',
-        epreuves,
-        sousDomaine: '1.3',
-        titre: 'Traiter des données',
-      }], (competence) => airtableBuilder.factory.buildCompetence(competence));
-
-      airtableBuilder.mockList({ tableName: 'Competences' })
-        .returns(competences)
-        .activate();
-    });
-
-    after(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
-    });
 
     beforeEach(() => {
       databaseBuilder.factory.buildCompetenceMark({
@@ -302,42 +328,6 @@ describe('Acceptance | API | Certifications', () => {
   });
 
   describe('GET /api/shared-certifications', () => {
-    before(function() {
-      const area = airtableBuilder.factory.buildArea();
-      airtableBuilder.mockList({ tableName: 'Domaines' })
-        .returns([area])
-        .activate();
-
-      const epreuves = [
-        'rec02tVrimXNkgaLD',
-        'rec0gm0GFue3PQB3k',
-        'rec0hoSlSwCeNNLkq',
-        'rec2FcZ4jsPuY1QYt',
-        'rec39bDMnaVw3MyMR',
-        'rec3FMoD8h9USTktb',
-        'rec3P7fvPSpFkIFLV',
-      ];
-      const competences = map([{
-        id: 'recsvLz0W2ShyfD63',
-        epreuves,
-        sousDomaine: '1.1',
-        titre: 'Mener une recherche et une veille d’information',
-      }, {
-        id: 'recNv8qhaY887jQb2',
-        epreuves,
-        sousDomaine: '1.2',
-        titre: 'Gérer des données',
-      }, {
-        id: 'recIkYm646lrGvLNT',
-        epreuves,
-        sousDomaine: '1.3',
-        titre: 'Traiter des données',
-      }], (competence) => airtableBuilder.factory.buildCompetence(competence));
-
-      airtableBuilder.mockList({ tableName: 'Competences' })
-        .returns(competences)
-        .activate();
-    });
 
     beforeEach(() => {
       databaseBuilder.factory.buildCompetenceMark({
@@ -513,47 +503,6 @@ describe('Acceptance | API | Certifications', () => {
   });
 
   describe('GET /api/attestation/pdf', () => {
-    before(function() {
-      const area = airtableBuilder.factory.buildArea();
-      airtableBuilder.mockList({ tableName: 'Domaines' })
-        .returns([area])
-        .activate();
-
-      const epreuves = [
-        'rec02tVrimXNkgaLD',
-        'rec0gm0GFue3PQB3k',
-        'rec0hoSlSwCeNNLkq',
-        'rec2FcZ4jsPuY1QYt',
-        'rec39bDMnaVw3MyMR',
-        'rec3FMoD8h9USTktb',
-        'rec3P7fvPSpFkIFLV',
-      ];
-      const competences = map([{
-        id: 'recsvLz0W2ShyfD63',
-        epreuves,
-        sousDomaine: '1.1',
-        titre: 'Mener une recherche et une veille d’information',
-      }, {
-        id: 'recNv8qhaY887jQb2',
-        epreuves,
-        sousDomaine: '1.2',
-        titre: 'Gérer des données',
-      }, {
-        id: 'recIkYm646lrGvLNT',
-        epreuves,
-        sousDomaine: '1.3',
-        titre: 'Traiter des données',
-      }], (competence) => airtableBuilder.factory.buildCompetence(competence));
-
-      airtableBuilder.mockList({ tableName: 'Competences' })
-        .returns(competences)
-        .activate();
-    });
-
-    after(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
-    });
 
     beforeEach(() => {
       databaseBuilder.factory.buildCompetenceMark({

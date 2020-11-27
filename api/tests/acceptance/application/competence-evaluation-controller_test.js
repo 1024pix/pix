@@ -34,7 +34,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
             tubes: [],
           }],
         }];
-        
+
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
       });
