@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.225.0 (27/11/2020)
+
+- [#2183](https://github.com/1024pix/pix/pull/2183) [FEATURE] Création de la page Mon Compte dans Pix App (PIX-452).
+- [#2145](https://github.com/1024pix/pix/pull/2145) [FEATURE] Ajout de la fonctionnalité "Ajouter un identifiant" pour l'élève disposant d'une adresse e-mail sur pix Orga (PIX-1154).
+- [#2190](https://github.com/1024pix/pix/pull/2190) [FEATURE] Bloquer l'accès à PixCertif pour les utilisateurs SCO (PIX-1616)
+- [#2208](https://github.com/1024pix/pix/pull/2208) [BUGFIX] Ignorer les doublons de rattachement de profils cible dans le script associé (PIX-1709).
+- [#2182](https://github.com/1024pix/pix/pull/2182) [BUGFIX] Gestion de la contrainte d'unicité sur le partage de profils cible en amont afin de ne pas remonter un erreur de BDD (PIX-1608).
+- [#2203](https://github.com/1024pix/pix/pull/2203) [TECH] Permettre de créer des JDD en BDD sur la RA sans embarquer les tests en production (PIX-1707).
+- [#2195](https://github.com/1024pix/pix/pull/2195) [BSR] Prévenir l'usage non intentionnel de console.log dans les tests API.
+
 ## v2.224.0 (26/11/2020)
 
 - [#2125](https://github.com/1024pix/pix/pull/2125) [FEATURE] Migration de la connexion GAR dans la table authentication-methods (PIX-1364).
