@@ -221,7 +221,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           await click('li');
 
           // then
-          assert.contains('Connecté avec Médiacentre');
+          assert.contains('Médiacentre');
           assert.contains('Ajouter une connexion avec un identifiant');
         });
 
@@ -235,9 +235,9 @@ module('Acceptance | Sco Student List', function(hooks) {
           await click('[aria-label="Ajouter un identifiant"]');
 
           // then
-          assert.contains('Connecté avec Médiacentre');
-          assert.contains('Connecté avec un identifiant');
-          assert.contains('Mot de passe à usage unique');
+          assert.contains('Médiacentre');
+          assert.contains('Identifiant');
+          assert.contains('Nouveau mot de passe à usage unique');
           assert.dom('#username').exist;
           assert.dom('#generated-password').exist;
         });
@@ -263,8 +263,8 @@ module('Acceptance | Sco Student List', function(hooks) {
           await click('li');
 
           // then
-          assert.contains('Connecté avec Médiacentre');
-          assert.contains('Connecté avec un identifiant');
+          assert.contains('Médiacentre');
+          assert.contains('Identifiant');
         });
 
         test('it should open pasword modal and display password reset button', async function(assert) {

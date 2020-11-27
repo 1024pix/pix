@@ -9,30 +9,64 @@
       {{#if @student.isAuthenticatedFromGar}}
         <div class="manage-authentication-window__box">
           <div class="manage-authentication-window__subTitle">
-            <span>Connecté avec Médiacentre</span>
+            <span>Médiacentre</span>
             <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
           </div>
         </div>
       {{/if}}
 
+      {{#if @student.hasEmail}}
       <div class="manage-authentication-window__box">
-        {{#if @student.isAuthenticatedWithGarOnly}}
+        <div class="manage-authentication-window__subTitle">
+          <span>Adresse e-mail</span>
+          <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
+        </div>
+        <div class="input-container">
+          <div class="manage-authentication-window__clipboard">
+            <Input
+                    id="email"
+                    name="email"
+                    @type="text"
+                    class="input disabled"
+                    @value={{@student.email}}
+                    disabled={{true}}
+            />
+            {{#if (is-clipboard-supported)}}
+              <div class="tooltip content-text content-text--small">
+                <span class="tooltip-text manage-authentication-window__tooltip-text">{{this.tooltipTextEmail}}</span>
+                <CopyButton
+                        @aria-label="Copier l'adresse e-mail"
+                        @clipboardText={{@student.email}}
+                        @success={{this.clipboardSuccessEmail}}
+                  {{ on 'mouseout' this.clipboardOutEmail}}
+                        @classNames="icon-button manage-authentication-window__clipboard-button"
+                >
+                  <FaIcon @icon="copy" @prefix="far" />
+                </CopyButton>
+              </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      {{/if}}
+
+      <div class="manage-authentication-window__box">
+        {{#if @student.displayAddUsernameAuthentication}}
           <div class="manage-authentication-window__subTitle">
-            <span>Ajouter une connexion avec un identifiant</span>
+            <span>Ajouter une connexion avec un identifiant </span>
             <FaIcon @icon="check-circle" @prefix="far" class="grey-icon" />
           </div>
           <button aria-label="Ajouter un identifiant" type="button" class="button"
                   {{on 'click' this.generateUsernameWithTemporaryPassword}}>
-            Ajouter
+            Ajouter l'identifiant
           </button>
         {{else}}
           {{#if @student.hasUsername}}
             <div class="manage-authentication-window__subTitle">
-              <span>Connecté avec un identifiant</span>
+              <span>Identifiant</span>
               <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
             </div>
             <div class="input-container">
-              <label for="username">Identifiant</label>
               <div class="manage-authentication-window__clipboard">
                 <Input
                   id="username"
@@ -59,44 +93,6 @@
               </div>
             </div>
           {{/if}}
-
-          {{#if (and @student.hasUsername @student.hasEmail)}}
-            <hr>
-          {{/if}}
-
-          {{#if @student.hasEmail}}
-            <div class="manage-authentication-window__subTitle">
-              <span>Connecté avec un e-mail</span>
-              <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
-            </div>
-            <div class="input-container">
-              <label for="email">Adresse e-mail</label>
-              <div class="manage-authentication-window__clipboard">
-                <Input
-                  id="email"
-                  name="email"
-                  @type="text"
-                  class="input disabled"
-                  @value={{@student.email}}
-                  disabled={{true}}
-                />
-                {{#if (is-clipboard-supported)}}
-                  <div class="tooltip content-text content-text--small">
-                    <span class="tooltip-text manage-authentication-window__tooltip-text">{{this.tooltipTextEmail}}</span>
-                    <CopyButton
-                      @aria-label="Copier l'adresse e-mail"
-                      @clipboardText={{@student.email}}
-                      @success={{this.clipboardSuccessEmail}}
-                      {{ on 'mouseout' this.clipboardOutEmail}}
-                      @classNames="icon-button manage-authentication-window__clipboard-button"
-                    >
-                      <FaIcon @icon="copy" @prefix="far" />
-                    </CopyButton>
-                  </div>
-                {{/if}}
-              </div>
-            </div>
-          {{/if}}
         {{/if}}
       </div>
     </div>
@@ -106,7 +102,7 @@
         {{#if this.isUniquePasswordVisible}}
           <div>
             <div class="input-container">
-              <label for="generated-password">Mot de passe à usage unique</label>
+              <label for="generated-password">Nouveau mot de passe à usage unique</label>
               <div class="manage-authentication-window__clipboard">
                 <Input
                   id="generated-password"
@@ -134,9 +130,9 @@
             </div>
 
             <ol class="manage-authentication-window__informations">
-              <li>Communiquez ce mot de passe à votre élève</li>
+              <li>Communiquez ce nouveau mot de passe à votre élève</li>
               <li>L'élève se connecte avec ce mot de passe à usage unique</li>
-              <li>Pix lui demande de choisir un nouveau mot de passe</li>
+              <li>Pix lui demande d'en choisir un nouveau</li>
             </ol>
           </div>
         {{else}}

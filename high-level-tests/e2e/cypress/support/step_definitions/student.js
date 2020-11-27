@@ -8,7 +8,7 @@ then(`je vois la modale de gestion du compte de l'élève`, () => {
 });
 
 then('je vois le mot de passe généré', () => {
-  cy.contains('Mot de passe à usage unique');
+  cy.contains('Nouveau mot de passe à usage unique');
 });
 
 then('je vois {int} élève\(s\)', (studentsCount) => {

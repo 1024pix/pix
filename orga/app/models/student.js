@@ -44,7 +44,11 @@ export default class Student extends Model {
   }
 
   get isAuthenticatedWithGarOnly() {
-    return Boolean(!this.hasEmail && !this.hasUsername && this.isAuthenticatedFromGar);
+    return Boolean(!this.hasUsername && !this.hasEmail && this.isAuthenticatedFromGar);
+  }
+
+  get displayAddUsernameAuthentication() {
+    return Boolean(!this.hasUsername && (this.isAuthenticatedFromGar || this.hasEmail));
   }
 
 }

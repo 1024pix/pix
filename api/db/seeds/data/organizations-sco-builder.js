@@ -133,12 +133,11 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   // schooling registration associated with gar
-  const userWithGAR = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const userWithGAR = databaseBuilder.factory.buildUser.withoutPassword({
     firstName: 'user',
     lastName: 'gar',
     email: null,
     username: null,
-    rawPassword: defaultPassword,
     cgu: false,
   });
 
@@ -227,7 +226,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildOrganizationTag({ organizationId: 7, tagId: 1 });
-  
+
   databaseBuilder.factory.buildOrganizationTag({ organizationId: 8, tagId: 1 });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: 8, tagId: 5 });
 
