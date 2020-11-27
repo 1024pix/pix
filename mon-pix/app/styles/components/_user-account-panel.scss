@@ -1,0 +1,25 @@
+.user-account-panel {
+
+  &__item {
+    margin: 20px 0;
+    display: flex;
+    align-content: flex-start;
+    border-bottom: $grey-15 1px solid;
+    padding-bottom: 1rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.user-account-panel-item {
+
+  &__label {
+    min-width: 200px;
+  }
+
+  &__value {
+    color: $grey-50;
+  }
+}
