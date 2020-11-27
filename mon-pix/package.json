@@ -75,7 +75,7 @@
     "ember-cli-test-loader": "^3.0.0",
     "ember-cli-uglify": "^3.0.0",
     "ember-click-outside": "^2.0.0",
-    "ember-collapsible-panel": "^3.2.1",
+    "ember-collapsible-panel": "^4.0.0",
     "ember-data": "~3.21.0",
     "ember-decorators": "^6.1.1",
     "ember-exam": "^4.0.9",
