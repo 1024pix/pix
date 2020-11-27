@@ -1,4 +1,4 @@
-const { expect, nock, generateValidRequestAuthorizationHeader,  mockLearningContent, learningContentBuilder } = require('../../test-helper');
+const { expect, nock, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Courses', () => {
@@ -13,7 +13,7 @@ describe('Acceptance | API | Courses', () => {
   describe('GET /api/courses/:course_id', () => {
 
     beforeEach(() => {
-      
+
       const learningContent = [{
         id: '1. Information et données',
         competences: [{
@@ -28,14 +28,14 @@ describe('Acceptance | API | Courses', () => {
           }],
         }],
         courses: [{
-          id:'rec_course_id',
+          id: 'rec_course_id',
           name: 'A la recherche de l\'information #01',
           description: 'Mener une recherche et une veille d\'information',
           competenceId: 'competence_id',
           challengeIds: ['k_challenge_id'],
         }],
       }];
-      
+
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
