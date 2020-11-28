@@ -1,6 +1,5 @@
 const createServer = require('../../../server');
-const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex } = require('../../test-helper');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../lib/domain/constants');
 
 describe('Acceptance | API | Improve Competence Evaluation', () => {
@@ -28,23 +27,11 @@ describe('Acceptance | API | Improve Competence Evaluation', () => {
 
     context('When user is authenticated', () => {
 
-      beforeEach(async () => {
-        const airtableCompetence = airtableBuilder.factory.buildCompetence({
-          id: competenceId,
-        });
-        airtableBuilder
-          .mockList({ tableName: 'Competences' })
-          .returns([airtableCompetence])
-          .activate();
-      });
-
       afterEach(async () => {
-        airtableBuilder.cleanAll();
         await knex('competence-evaluations').delete();
         await knex('knowledge-elements').delete();
         await knex('answers').delete();
         await knex('assessments').delete();
-        return cache.flushAll();
       });
 
       context('and competence exists', () => {
