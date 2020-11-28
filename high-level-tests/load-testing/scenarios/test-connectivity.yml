@@ -1,0 +1,14 @@
+config:
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      name: "Test connectivity"
+plugins:
+  expect: {}
+scenarios:
+  - name: 'Obtenir la version de l API'
+    flow:
+      - get:
+          url: "/api"
+          expect:
+            - statusCode: 200

@@ -1,5 +1,6 @@
 # Déploiement dans Scalingo 
 
+## Paramétrage
 Créer une application dans Scalingo, la lier au repository
 
 Alimenter la variable d'environnement suivante 
@@ -11,10 +12,29 @@ Vérifier que le `Procfile` contient un serveur web factice pour que le premier 
 ````
 web: ruby -run -e httpd /dev/null -p $PORT
 ````
-
+## Déploiement
 Déployer
+Une fois le déploiement effectué, passer background à 0 conteneurs
 
-Une fois le déploiement effectué, vous pouvez le passer à 0 conteneurs et effectuer les tests dans un one-off
+## Tester la connectivité
+
+Alimenter la variable d'environnement `TARGET_API_URL` avec l'URL de l'API du test de charge
+``` shell script        
+TARGET_API_URL=https://load-test-api.osc-fr1.scalingo.io
+```
+
+Exécuter
+``` shell script        
+scalingo run --app load-testing npm run load-test:test-connectivity:review-app
+```
+
+Vérifier qu'un code retour 200 est renvoyé.
+``` shell script        
+  Scenario counts:
+    Obtenir la version de l API: 1 (100%)
+  Codes:
+    200: 1
+```
 
 # Génération des JDD
 

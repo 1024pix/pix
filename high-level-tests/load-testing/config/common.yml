@@ -3,5 +3,7 @@ config:
   environments:
     localhost:
       target: http://localhost:3000
+    review-app:
+      target:  "{{ $processEnvironment.TARGET_API_URL }}"
     staging:
       target: https://integration.pix.fr
