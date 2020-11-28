@@ -25,7 +25,7 @@ const buildLearningContent = function(learningContent) {
             };
           });
           allTutorials.push(tutorials);
-          const challenges = skill.challenges.map((challenge) => {
+          const challenges = skill.challenges && skill.challenges.map((challenge) => {
             const sameChallengeForAnotherSkill = allChallenges.flat().find((otherSkillChallenge) => otherSkillChallenge.id === challenge.id);
             if (!sameChallengeForAnotherSkill) {
               return {
