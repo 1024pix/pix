@@ -23,7 +23,6 @@
     "@hapi/joi-date": "^2.0.1",
     "@hapi/vision": "^6.0.1",
     "@pdf-lib/fontkit": "^1.0.0",
-    "airtable": "^0.9.0",
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "blipp": "^4.0.1",
