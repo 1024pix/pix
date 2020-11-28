@@ -1,5 +1,4 @@
-const { airtableBuilder, expect, nock, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
@@ -13,104 +12,10 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   let userId;
   const courseId = 'courseId';
-  const skillurl1Name = '@url1';
-  const skillWeb1Name = '@web1';
-  const skillWeb4Name = '@web4';
-  const skillWeb5Name = '@web5';
-
-  const skillWeb1 = airtableBuilder.factory.buildSkill({
-    id: 'recSkillWeb1',
-    nom: skillWeb1Name,
-    compétenceViaTube: [ 'recCompetence' ],
-  });
-  const skillWeb4 = airtableBuilder.factory.buildSkill({
-    id: 'recSkillWeb4',
-    nom: skillWeb4Name,
-    compétenceViaTube: [ 'recCompetence' ],
-  });
-  const skillWeb5 = airtableBuilder.factory.buildSkill({
-    id: 'recSkillWeb5',
-    nom: skillWeb5Name,
-    compétenceViaTube: [ 'recCompetence' ],
-  });
-  const skillurl1 = airtableBuilder.factory.buildSkill({
-    id: 'recSkillurl1',
-    nom: skillurl1Name,
-    compétenceViaTube: [ 'recCompetence' ],
-  });
-  const competence = airtableBuilder.factory.buildCompetence({
-    id: 'recCompetence',
-    acquis: [skillurl1Name, skillWeb1Name, skillWeb4Name, skillWeb5Name],
-    acquisIdentifiants: [skillurl1.id, skillWeb1.id, skillWeb4.id, skillWeb5.id],
-    acquisViaTubes: [skillurl1.id, skillWeb1.id, skillWeb4.id, skillWeb5.id],
-  });
-  const course = airtableBuilder.factory.buildCourse({
-    id: courseId,
-    competence: [competence.id],
-  });
-  const firstChallenge = airtableBuilder.factory.buildChallenge({
-    id: 'recFirstChallenge',
-    competences: [competence.id],
-    status: 'validé',
-    acquis: [skillWeb5Name],
-    acquix: [skillWeb5.id],
-  });
-  const secondChallenge = airtableBuilder.factory.buildChallenge({
-    id: 'recSecondChallenge',
-    competences: [competence.id],
-    status: 'validé',
-    acquis: [skillurl1Name],
-    acquix: [skillurl1.id],
-  });
-  const thirdChallenge = airtableBuilder.factory.buildChallenge({
-    id: 'recThirdChallenge',
-    competences: [competence.id],
-    status: 'validé',
-    acquis: [skillWeb4Name],
-    acquix: [skillWeb4.id],
-  });
-
-  before(() => {
-    nock.cleanAll();
-  });
 
   beforeEach(async () => {
-    airtableBuilder
-      .mockList({ tableName: 'Tests' })
-      .returns([course])
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Domaines' })
-      .returns([airtableBuilder.factory.buildArea()])
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Competences' })
-      .returns([competence])
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Epreuves' })
-      .returns([firstChallenge, secondChallenge, thirdChallenge])
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Acquis' })
-      .returns([skillurl1, skillWeb1, skillWeb4, skillWeb5])
-      .activate();
-
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
-  });
-
-  afterEach(() => {
-    return airtableBuilder.cleanAll();
-  });
-
-  after(() => {
-    nock.cleanAll();
-    return cache.flushAll();
   });
 
   describe('(no provided answer) GET /api/assessments/:id', () => {
