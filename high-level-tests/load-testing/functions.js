@@ -2,7 +2,7 @@ const faker = require('faker');
 
 module.exports = {
   setupSignupFormData,
-  foundNextChallenge
+  foundNextChallenge,
 };
 
 function setupSignupFormData(context, events, done) {

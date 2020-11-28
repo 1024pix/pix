@@ -1,7 +1,8 @@
 # Déploiement dans Scalingo 
 
 ## Paramétrage
-Créer une application dans Scalingo, la lier au repository
+Créer une application dans Scalingo avec add-on PG
+La lier au repository Pix
 
 Alimenter la variable d'environnement suivante 
 ``` shell script
@@ -15,6 +16,16 @@ web: ruby -run -e httpd /dev/null -p $PORT
 ## Déploiement
 Déployer
 Une fois le déploiement effectué, passer background à 0 conteneurs
+
+``` shell script
+scalingo --app load-testing pgsql-console
+```
+
+Exécuter la requête
+``` sql
+DROP TABLE IF EXISTS test_executions;
+CREATE TABLE test_executions (id SERIAL PRIMARY KEY, api_version VARCHAR NOT NULL, started_at TIMESTAMP DEFAULT NOW(), ended_at TIMESTAMP, data JSONB);
+```         
 
 ## Tester la connectivité
 
@@ -34,6 +45,21 @@ Vérifier qu'un code retour 200 est renvoyé.
     Obtenir la version de l API: 1 (100%)
   Codes:
     200: 1
+```
+
+Vérifier la trace d'exécution
+``` sql
+SELECT id, started_at, ended_at, ( ended_at - started_at) AS duration FROM test_executions ORDER BY ended_at DESC LIMIT 5;
+SELECT jsonb_pretty(data) FROM test_executions; 
+SELECT
+    data->'aggregate'->'timestamp'                  AS executed_at,
+    data->'aggregate'->'scenarioDuration'->'median' AS median_duration_millis
+FROM test_executions;
+```
+
+Si besoin, vider la table
+``` sql
+TRUNCATE test_executions;
 ```
 
 # Génération des JDD

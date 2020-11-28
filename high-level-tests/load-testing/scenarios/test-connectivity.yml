@@ -1,11 +1,12 @@
 config:
   phases:
-    - duration: 1
-      arrivalRate: 1
+    - duration: 3
+      arrivalRate: 2
       name: "Test connectivity"
 plugins:
   expect: {}
 scenarios:
+
   - name: 'Obtenir la version de l API'
     flow:
       - get:
