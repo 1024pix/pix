@@ -9,38 +9,23 @@ describe('Acceptance | Controller | cache-controller', () => {
     server = await createServer();
   });
 
-  describe('DELETE /api/cache/{cachekey}', () => {
+  describe('PATCH /api/cache/{model}/{id}', () => {
 
     let options;
 
     beforeEach(() => {
       options = {
-        method: 'DELETE',
-        url: '/api/cache',
+        method: 'PATCH',
+        url: '/api/cache/challenges/recChallengeId',
         headers: {},
+        payload: {
+          id: 'recChallengeId',
+          param: 'updatedModelParam',
+        },
       };
     });
 
-    describe('Airtable Formula injection protection', () => {
-      it('should respond with a 400 - bad request - if cacheKey is not in the form of "ABCD_recXXXX"', async () => {
-        // given
-        const pixMasterUserId = 1234;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(pixMasterUserId);
-        options.url = '/api/cache/SomeBadFormattedKey';
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-      });
-    });
-
     describe('Resource access management', () => {
-      beforeEach(() => {
-        options.url = '/api/cache/Epreuves_recABCD';
-      });
-
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
         options.headers.authorization = 'invalid.access.token';
