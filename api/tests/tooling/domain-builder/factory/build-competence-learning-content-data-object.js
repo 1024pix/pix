@@ -1,4 +1,4 @@
-module.exports = function buildCompetenceAirtableDataObject({
+module.exports = function buildCompetenceLearningContentDataObject({
   id = 'recsvLz0W2ShyfD63',
   name = 'Mener une recherche et une veille d’information',
   nameFrFr = 'Mener une recherche et une veille d’information',

@@ -1,4 +1,11 @@
-const { DEFAULT_TUTORIAL_ID, DEFAULT_PIX_VALUE, DEFAULT_NAME, DEFAULT_COMPETENCE_ID, DEFAULT_HINT_STATUS, DEFAULT_ID, DEFAULT_HINT, DEFAULT_TUBE_ID } = require('../../fixtures/infrastructure/skillRawAirTableFixture');
+const DEFAULT_ID = 'recSK0X22abcdefgh',
+  DEFAULT_HINT = 'Peut-on géo-localiser un lapin sur la banquise ?',
+  DEFAULT_HINT_STATUS = 'Validé',
+  DEFAULT_NAME = '@accesDonnées1',
+  DEFAULT_TUTORIAL_ID = 'recCO0X22abcdefgh',
+  DEFAULT_COMPETENCE_ID = 'recCT0X22abcdefgh',
+  DEFAULT_PIX_VALUE = 2.4,
+  DEFAULT_TUBE_ID = 'recTU0X22abcdefgh';
 
 module.exports = function({
   id = DEFAULT_ID,

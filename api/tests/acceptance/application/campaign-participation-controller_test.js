@@ -227,7 +227,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         id: 'recArea1',
         competences: [{
           id: 'recCompetence1',
-          tubes:[{
+          tubes: [{
             id: 'recTube1',
             skills: [{
               id: 'recAcquisWeb1',
