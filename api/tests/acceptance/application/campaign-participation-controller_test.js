@@ -1,7 +1,6 @@
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 
 describe('Acceptance | API | Campaign Participations', () => {
 
@@ -219,26 +218,41 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   describe('PATCH /api/campaign-participations/{id}', () => {
 
-    let skillWeb1Id;
-    let skillWeb2Id;
-    let skillWeb3Id;
     let campaignParticipationId;
 
     beforeEach(async () => {
-      const competenceId = 'recCompetence';
       campaignParticipationId = 123111;
 
-      skillWeb1Id = 'recAcquisWeb1';
-      const skillWeb1Name = '@web1';
-      const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ] });
-
-      skillWeb2Id = 'recAcquisWeb2';
-      const skillWeb2Name = '@web2';
-      const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ] });
-
-      skillWeb3Id = 'recAcquisWeb3';
-      const skillWeb3Name = '@web3';
-      const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ] });
+      const learningContent = [{
+        id: 'recArea1',
+        competences: [{
+          id: 'recCompetence1',
+          tubes:[{
+            id: 'recTube1',
+            skills: [{
+              id: 'recAcquisWeb1',
+              nom: '@web1',
+              challenges: [{
+                id: 'recchallenge',
+              }],
+            }, {
+              id: 'recAcquisWeb2',
+              nom: '@web2',
+              challenges: [{
+                id: 'recchallenge',
+              }],
+            }, {
+              id: 'recAcquisWeb3',
+              nom: '@web3',
+              challenges: [{
+                id: 'recchallenge',
+              }],
+            }],
+          }],
+        }],
+      }];
+      const learningObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningObjects);
 
       options = {
         method: 'PATCH',
@@ -251,48 +265,6 @@ describe('Acceptance | API | Campaign Participations', () => {
         },
       };
 
-      airtableBuilder.mockList({ tableName: 'Acquis' })
-        .returns([skillWeb1, skillWeb2, skillWeb3])
-        .activate();
-
-      const challengeId = 'recchallenge';
-      const challenge = airtableBuilder.factory.buildChallenge.untimed({
-        id: challengeId,
-        tests: [],
-        competences: [competenceId],
-        statut: 'validé',
-        acquix: [skillWeb2Id],
-        acquis: [skillWeb2Name],
-      });
-
-      const challengeWeb1 = airtableBuilder.factory.buildChallenge.untimed({
-        id: challengeId,
-        tests: [],
-        competences: [competenceId],
-        statut: 'validé',
-        acquix: [skillWeb1Id],
-        acquis: [skillWeb1Name],
-      });
-      const challengeWeb3 = airtableBuilder.factory.buildChallenge.untimed({
-        id: challengeId,
-        tests: [],
-        competences: [competenceId],
-        statut: 'validé',
-        acquix: [skillWeb3Id],
-        acquis: [skillWeb3Name],
-      });
-
-      airtableBuilder.mockList({ tableName: 'Epreuves' })
-        .returns([challenge, challengeWeb1, challengeWeb3])
-        .activate();
-    });
-
-    afterEach(async () => {
-      await airtableBuilder.cleanAll();
-    });
-
-    after(() => {
-      return cache.flushAll();
     });
 
     context('when assessment is completed', () => {
@@ -507,14 +479,8 @@ describe('Acceptance | API | Campaign Participations', () => {
   describe('GET /api/campaigns/{campaignId}/profiles-collection-participations/{campaignParticipationId}', function() {
 
     beforeEach(() => {
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-      cache.flushAll();
+      const learningObjects = learningContentBuilder.buildLearningContent([]);
+      mockLearningContent(learningObjects);
     });
 
     it('should return the campaign profile as JSONAPI', async () => {
