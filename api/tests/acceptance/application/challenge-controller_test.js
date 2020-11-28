@@ -1,6 +1,5 @@
-const { airtableBuilder, expect, nock } = require('../../test-helper');
+const { learningContentBuilder, expect, mockLearningContent } = require('../../test-helper');
 const createServer = require('../../../server');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | ChallengeController', () => {
 
@@ -21,28 +20,30 @@ describe('Acceptance | API | ChallengeController', () => {
     const challengeId = 'recLt9uwa2dR3IYpi';
     const challengeType = 'QCM';
 
-    before(() => {
-      nock.cleanAll();
-    });
-
     beforeEach(() => {
-
-      const airtableChallenge = airtableBuilder.factory.buildChallenge({
-        id: challengeId,
-        typeDEpreuve: challengeType,
-        consigne: instruction,
-        propositions: proposals,
-        acquix: [],
-      });
-      airtableBuilder
-        .mockList({ tableName: 'Epreuves' })
-        .returns([airtableChallenge])
-        .activate();
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
+      const learningContent = [{
+        id: 'recArea0',
+        competences: [{
+          id: 'recCompetence',
+          titreFrFr: 'Mener une recherche et une veille d’information',
+          index: '1.1',
+          tubes: [{
+            id: 'recTube0_0',
+            skills: [{
+              id: 'skillWeb1',
+              nom: '@skillWeb1',
+              challenges: [{
+                id: challengeId,
+                type: challengeType,
+                instruction,
+                proposals,
+              }],
+            }],
+          }],
+        }],
+      }];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     const options = {

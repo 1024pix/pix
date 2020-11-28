@@ -34,6 +34,9 @@ const buildLearningContent = function(learningContent) {
                 skillIds: [skill.id],
                 status: challenge.statut || 'validé',
                 locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
+                type: challenge.type,
+                instruction: challenge.instruction,
+                proposals: challenge.proposals,
               };
             } else {
               sameChallengeForAnotherSkill.skillIds.push(skill.id);
