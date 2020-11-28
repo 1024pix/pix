@@ -15,9 +15,6 @@ const databaseBuilder = new DatabaseBuilder({ knex });
 const nock = require('nock');
 nock.disableNetConnect();
 
-const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
-const airtableBuilder = new AirtableBuilder({ nock });
-
 const learningContentBuilder = require('./tooling/learning-content-builder');
 
 const tokenService = require('../lib/domain/services/token-service');
@@ -154,7 +151,6 @@ function mockLearningContent(learningContent) {
 
 module.exports = {
   EMPTY_BLANK_AND_NULL,
-  airtableBuilder,
   expect,
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
