@@ -1,48 +1,82 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-const createUser = require('../../../../lib/domain/usecases/create-user');
-const { AlreadyRegisteredEmailError, InvalidRecaptchaTokenError, EntityValidationError } = require('../../../../lib/domain/errors');
-const User = require('../../../../lib/domain/models/User');
+const { catchErr, expect, sinon } = require('../../../test-helper');
+
+const {
+  AlreadyRegisteredEmailError,
+  InvalidRecaptchaTokenError,
+  EntityValidationError,
+} = require('../../../../lib/domain/errors');
+
+const passwordValidator = require('../../../../lib/domain/validators/password-validator');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
+
+const User = require('../../../../lib/domain/models/User');
+
+const createUser = require('../../../../lib/domain/usecases/create-user');
 
 describe('Unit | UseCase | create-user', () => {
 
-  const userRepository = {
-    isEmailAvailable: () => undefined,
-    create: () => undefined,
-  };
-  const campaignRepository = {
-    getByCode: () => undefined,
-  };
-  const encryptionService = { hashPassword: () => undefined };
-  const mailService = { sendAccountCreationEmail: () => undefined };
-  const reCaptchaValidator = { verify: () => undefined };
-
   const userId = 123;
   const userEmail = 'test@example.net';
-  const password = 'PASSWORD';
+  const password = 'Password123';
   const reCaptchaToken = 'ReCaptchaToken';
-  const user = new User({ email: userEmail, password });
-  const encryptedPassword = '3ncrypt3dP@$$w@rd';
+  const user = new User({ email: userEmail });
+  const hashedPassword = 'ABCDEF1234';
+  const locale = 'fr-fr';
   const savedUser = new User({ id: userId, email: userEmail });
 
+  let campaignCode;
+  let authenticationMethodRepository;
+  let userRepository;
+  let campaignRepository;
+  let reCaptchaValidator;
+  let encryptionService;
+  let mailService;
+  let userService;
+
   beforeEach(() => {
-    sinon.stub(userRepository, 'isEmailAvailable');
-    sinon.stub(userRepository, 'create');
-    sinon.stub(campaignRepository, 'getByCode');
+    authenticationMethodRepository = {
+
+    };
+    userRepository = {
+      isEmailAvailable: sinon.stub(),
+      create: sinon.stub(),
+    };
+    campaignRepository = {
+      getByCode: sinon.stub(),
+    };
+
+    reCaptchaValidator = {
+      verify: sinon.stub(),
+    };
+
+    encryptionService = {
+      hashPassword: sinon.stub(),
+    };
+    mailService = {
+      sendAccountCreationEmail: sinon.stub(),
+    };
+    userService = {
+      createUserWithPassword: sinon.stub(),
+    };
+
     sinon.stub(userValidator, 'validate');
-    sinon.stub(encryptionService, 'hashPassword');
-    sinon.stub(mailService, 'sendAccountCreationEmail');
-    sinon.stub(reCaptchaValidator, 'verify');
+    sinon.stub(passwordValidator, 'validate');
 
     userRepository.isEmailAvailable.resolves();
     userRepository.create.resolves(savedUser);
+
     userValidator.validate.returns();
-    encryptionService.hashPassword.resolves(encryptedPassword);
-    mailService.sendAccountCreationEmail.resolves();
+    passwordValidator.validate.returns();
     reCaptchaValidator.verify.resolves();
+
+    encryptionService.hashPassword.resolves(hashedPassword);
+    mailService.sendAccountCreationEmail.resolves();
+    userService.createUserWithPassword.resolves(savedUser);
+
+    campaignCode = 'AZERTY123';
   });
 
-  context('step validation of user', () => {
+  context('step validation of data', () => {
 
     it('should check the non existence of email in UserRepository', async () => {
       // given
@@ -50,7 +84,16 @@ describe('Unit | UseCase | create-user', () => {
 
       // when
       await createUser({
-        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+        user,
+        password,
+        campaignCode,
+        reCaptchaToken,
+        locale,
+        authenticationMethodRepository,
+        campaignRepository,
+        userRepository,
+        reCaptchaValidator,
+        encryptionService, mailService, userService,
       });
 
       // then
@@ -58,22 +101,56 @@ describe('Unit | UseCase | create-user', () => {
     });
 
     it('should validate the user', async () => {
-      // given
-      userValidator.validate.returns();
-
       // when
       await createUser({
-        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+        user,
+        password,
+        campaignCode,
+        reCaptchaToken,
+        locale,
+        authenticationMethodRepository,
+        campaignRepository,
+        userRepository,
+        reCaptchaValidator,
+        encryptionService, mailService, userService,
       });
 
       //then
       expect(userValidator.validate).to.have.been.calledWith({ user });
     });
 
+    it('should validate the password', async () => {
+      // when
+      await createUser({
+        user,
+        password,
+        campaignCode,
+        reCaptchaToken,
+        locale,
+        authenticationMethodRepository,
+        campaignRepository,
+        userRepository,
+        reCaptchaValidator,
+        encryptionService, mailService, userService,
+      });
+
+      // then
+      expect(passwordValidator.validate).to.have.been.calledWith(password);
+    });
+
     it('should validate the token', async () => {
       // when
       await createUser({
-        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+        user,
+        password,
+        campaignCode,
+        reCaptchaToken,
+        locale,
+        authenticationMethodRepository,
+        campaignRepository,
+        userRepository,
+        reCaptchaValidator,
+        encryptionService, mailService, userService,
       });
 
       // then
@@ -86,19 +163,26 @@ describe('Unit | UseCase | create-user', () => {
         // given
         const emailExistError = new AlreadyRegisteredEmailError('email already exists');
         const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'email',
-              message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
-            },
-          ],
+          invalidAttributes: [{
+            attribute: 'email',
+            message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+          }],
         });
 
         userRepository.isEmailAvailable.rejects(emailExistError);
 
         // when
         const error = await catchErr(createUser)({
-          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+          user,
+          password,
+          campaignCode,
+          reCaptchaToken,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService, mailService, userService,
         });
 
         // then
@@ -129,7 +213,16 @@ describe('Unit | UseCase | create-user', () => {
 
         // when
         const error = await catchErr(createUser)({
-          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+          user,
+          password,
+          campaignCode,
+          reCaptchaToken,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService, mailService, userService,
         });
 
         // then
@@ -145,19 +238,26 @@ describe('Unit | UseCase | create-user', () => {
         // given
         const invalidReCaptchaTokenError = new InvalidRecaptchaTokenError('Invalid reCaptcha token');
         const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'recaptchaToken',
-              message: 'Merci de cocher la case ci-dessous :',
-            },
-          ],
+          invalidAttributes: [{
+            attribute: 'recaptchaToken',
+            message: 'Merci de cocher la case ci-dessous :',
+          }],
         });
 
         reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
         const error = await catchErr(createUser)({
-          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService,
+          user,
+          password,
+          campaignCode,
+          reCaptchaToken,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService, mailService, userService,
         });
 
         // then
@@ -192,7 +292,16 @@ describe('Unit | UseCase | create-user', () => {
 
         // when
         const error = await catchErr(createUser)({
-          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+          user,
+          password,
+          campaignCode,
+          reCaptchaToken,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService, mailService, userService,
         });
 
         // then
@@ -210,7 +319,16 @@ describe('Unit | UseCase | create-user', () => {
 
       // when
       await createUser({
-        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+        user,
+        password,
+        campaignCode,
+        reCaptchaToken,
+        locale,
+        authenticationMethodRepository,
+        campaignRepository,
+        userRepository,
+        reCaptchaValidator,
+        encryptionService, mailService, userService,
       });
 
       // then
@@ -225,7 +343,16 @@ describe('Unit | UseCase | create-user', () => {
       it('should encrypt the password', async () => {
         // when
         await createUser({
-          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+          user,
+          password,
+          campaignCode,
+          reCaptchaToken,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService, mailService, userService,
         });
 
         // then
@@ -238,7 +365,16 @@ describe('Unit | UseCase | create-user', () => {
 
         // when
         const error = await catchErr(createUser)({
-          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+          user,
+          password,
+          campaignCode,
+          reCaptchaToken,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService, mailService, userService,
         });
 
         // then
@@ -246,16 +382,28 @@ describe('Unit | UseCase | create-user', () => {
       });
 
       it('should save the user with a properly encrypted password', async () => {
-        // given
-        const userWithEncryptedPassword = new User({ email: userEmail, password: encryptedPassword });
-
         // when
         await createUser({
-          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService,
+          user,
+          password,
+          campaignCode,
+          reCaptchaToken,
+          locale,
+          authenticationMethodRepository,
+          campaignRepository,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService, mailService, userService,
         });
 
         // then
-        expect(userRepository.create).to.have.been.calledWith(userWithEncryptedPassword);
+        expect(userService.createUserWithPassword)
+          .to.have.been.calledWith({
+            user,
+            hashedPassword,
+            userRepository,
+            authenticationMethodRepository,
+          });
       });
     });
 
@@ -264,22 +412,21 @@ describe('Unit | UseCase | create-user', () => {
 
       it('should send the account creation email', async () => {
         // given
-        const locale = 'fr-fr';
-        const campaignCode = 'AZERTY123';
         campaignRepository.getByCode.resolves({ organizationId: 1 });
         const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
 
         // when
         await createUser({
           user,
+          password,
+          campaignCode,
           reCaptchaToken,
           locale,
-          campaignCode,
-          userRepository,
+          authenticationMethodRepository,
           campaignRepository,
+          userRepository,
           reCaptchaValidator,
-          encryptionService,
-          mailService,
+          encryptionService, mailService, userService,
         });
 
         // then
@@ -287,24 +434,25 @@ describe('Unit | UseCase | create-user', () => {
       });
 
       describe('when campaignCode is null', () => {
-        const campaignCode = null;
+
+        campaignCode = null;
 
         it('should send the account creation email with null redirectionUrl', async () => {
           // given
-          const locale = 'fr-fr';
           const expectedRedirectionUrl = null;
 
           // when
           await createUser({
             user,
+            password,
+            campaignCode,
             reCaptchaToken,
             locale,
-            campaignCode,
-            userRepository,
+            authenticationMethodRepository,
             campaignRepository,
+            userRepository,
             reCaptchaValidator,
-            encryptionService,
-            mailService,
+            encryptionService, mailService, userService,
           });
 
           // then
@@ -313,25 +461,26 @@ describe('Unit | UseCase | create-user', () => {
       });
 
       describe('when campaignCode is not valid', () => {
-        const campaignCode = 'NOT-VALID';
+
+        campaignCode = 'NOT-VALID';
 
         it('should send the account creation email with null redirectionUrl', async () => {
           // given
-          const locale = 'fr-fr';
           const expectedRedirectionUrl = null;
           campaignRepository.getByCode.resolves(null);
 
           // when
           await createUser({
             user,
+            password,
+            campaignCode,
             reCaptchaToken,
             locale,
-            campaignCode,
-            userRepository,
+            authenticationMethodRepository,
             campaignRepository,
+            userRepository,
             reCaptchaValidator,
-            encryptionService,
-            mailService,
+            encryptionService, mailService, userService,
           });
 
           // then
@@ -340,19 +489,23 @@ describe('Unit | UseCase | create-user', () => {
       });
     });
 
-    it('should return saved user (with id)', async () => {
+    it('should return saved user', async () => {
       // when
-      const actualSavedUser = await createUser({
+      const createdUser = await createUser({
         user,
+        password,
+        campaignCode,
         reCaptchaToken,
+        locale,
+        authenticationMethodRepository,
+        campaignRepository,
         userRepository,
         reCaptchaValidator,
-        encryptionService,
-        mailService,
+        encryptionService, mailService, userService,
       });
 
       // then
-      expect(actualSavedUser).to.deep.equal(savedUser);
+      expect(createdUser).to.deep.equal(savedUser);
     });
   });
 });
