@@ -13,10 +13,8 @@ class User {
     knowledgeElements,
     lastName,
     lastTermsOfServiceValidatedAt,
-    password,
     hasSeenAssessmentInstructions,
     hasSeenNewLevelInfo,
-    shouldChangePassword,
     mustValidateTermsOfService,
     lang,
     memberships = [],
@@ -25,13 +23,13 @@ class User {
     pixScore,
     scorecards = [],
     campaignParticipations = [],
+    authenticationMethods = [],
   } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
     this.email = email ? _.toLower(email) : undefined;
-    this.password = password;
     this.cgu = cgu;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
     this.mustValidateTermsOfService = mustValidateTermsOfService;
@@ -40,7 +38,6 @@ class User {
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.hasSeenNewLevelInfo = hasSeenNewLevelInfo;
     this.knowledgeElements = knowledgeElements;
-    this.shouldChangePassword = shouldChangePassword;
     this.lang = lang;
     this.pixRoles = pixRoles;
     this.pixScore = pixScore;
@@ -48,6 +45,7 @@ class User {
     this.certificationCenterMemberships = certificationCenterMemberships;
     this.scorecards = scorecards;
     this.campaignParticipations = campaignParticipations;
+    this.authenticationMethods = authenticationMethods;
   }
 
   get hasRolePixMaster() {
