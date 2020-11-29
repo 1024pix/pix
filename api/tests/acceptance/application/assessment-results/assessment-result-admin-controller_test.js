@@ -8,6 +8,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
   let server;
 
   describe('POST /admin/assessment-results', () => {
+
     let certificationCourseId;
     let options;
 
@@ -65,6 +66,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
 
     afterEach(async () => {
       await cache.flushAll();
+
+      await knex('authentication-methods').delete();
       await knex('competence-marks').delete();
       await knex('assessment-results').delete();
       await knex('assessments').delete();
@@ -141,6 +144,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     });
 
     context('when the correction to be applied has a mistake', () => {
+
       it('should return a 422 error', async () => {
         const wrongScore = 9999999999;
 
