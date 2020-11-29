@@ -4,7 +4,7 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
-const { NotFoundError, AlreadyExistingEntity } = require('../../../../lib/domain/errors');
+const { NotFoundError, AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', () => {
 
@@ -462,7 +462,7 @@ describe('Integration | Repository | Target-profile', () => {
 
         const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
 
-        expect(error).to.be.an.instanceOf(AlreadyExistingEntity);
+        expect(error).to.be.an.instanceOf(AlreadyExistingEntityError);
         expect(error.message).to.have.string(`Le profil cible est déjà associé à l’organisation ${organization.id}.`);
       });
     });

@@ -6,7 +6,7 @@ class DomainError extends Error {
   }
 }
 
-class AlreadyExistingEntity extends DomainError {
+class AlreadyExistingEntityError extends DomainError {
   constructor(message = 'L’entité existe déjà.') {
     super(message);
   }
@@ -669,7 +669,7 @@ class NotImplementedError extends Error {
 
 module.exports = {
   DomainError,
-  AlreadyExistingEntity,
+  AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
   AlreadyExistingOrganizationInvitationError,
