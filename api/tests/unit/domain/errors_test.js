@@ -71,6 +71,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CsvImportError).to.exist;
   });
 
+  it('should export a AuthenticationMethodNotFoundError', () => {
+    expect(errors.AuthenticationMethodNotFoundError).to.exist;
+  });
+
   describe('#SameNationalStudentIdInOrganizationError', () => {
 
     context('When errorDetail is provided', () => {
