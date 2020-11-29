@@ -15,13 +15,16 @@ const usecases = require('../../domain/usecases');
 module.exports = {
 
   save(request, h) {
-
     const reCaptchaToken = request.payload.data.attributes['recaptcha-token'];
     const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
     const user = userSerializer.deserialize(request.payload);
     const locale = extractLocaleFromRequest(request);
+
+    const password = request.payload.data.attributes.password;
+
     return usecases.createUser({
       user,
+      password,
       campaignCode,
       reCaptchaToken,
       locale,
@@ -58,11 +61,11 @@ module.exports = {
 
   async updatePassword(request) {
     const userId = parseInt(request.params.id);
-    const user = userSerializer.deserialize(request.payload);
+    const password = request.payload.data.attributes.password;
 
     const updatedUser = await usecases.updateUserPassword({
       userId,
-      password: user.password,
+      password,
       temporaryKey: request.query['temporary-key'] || '',
     });
 
