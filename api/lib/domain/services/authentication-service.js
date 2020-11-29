@@ -1,13 +1,24 @@
 const axios = require('axios');
 const querystring = require('querystring');
+
 const settings = require('../../config');
 
 const encryptionService = require('./encryption-service');
 const tokenService = require('./token-service');
 
-async function getUserByUsernameAndPassword({ username, password, userRepository }) {
-  const foundUser = await userRepository.getByUsernameOrEmailWithRoles(username);
-  await encryptionService.check(password, foundUser.password);
+async function getUserByUsernameAndPassword({
+  username,
+  password,
+  userRepository,
+}) {
+  const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
+  const hashedPassword = foundUser.authenticationMethods[0].authenticationComplement.password;
+
+  await encryptionService.checkPassword({
+    rawPassword: password,
+    hashedPassword,
+  });
+
   return foundUser;
 }
 
