@@ -15,10 +15,11 @@
     "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js",
     "load-test:test-connectivity:local": "npm run load-test:log-start && npm run load-test:test-connectivity:local:run-test && npm run load-test:log-end",
     "load-test:test-connectivity:local:run-test": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/test-connectivity.yml",
-    "load-test:test-connectivity:review-app":"npm run load-test:log-start && npm run load-test:test-connectivity:review-app:run-test && npm run load-test:log-end",
+    "load-test:test-connectivity:review-app": "npm run deploy-release && npm run load-test:log-start && npm run load-test:test-connectivity:review-app:run-test && npm run load-test:log-end",
     "load-test:test-connectivity:review-app:run-test": "artillery run --config config/common.yml -e review-app -o report/index.json scenarios/test-connectivity.yml",
     "load-test:log-start": "node -e \"(require('./helpers/log-test-execution')).logTestHasStarted()\" ",
-    "load-test:log-end": "node -e \"(require('./helpers/log-test-execution')).logTestHasEnded()\" "
+    "load-test:log-end": "node -e \"(require('./helpers/log-test-execution')).logTestHasEnded()\" ",
+    "deploy-release": "node -e \"(require('./helpers/deploy-release')).deployRelease()\" "
   },
   "license": "ISC",
   "dependencies": {
@@ -28,6 +29,7 @@
     "dotenv": "^8.2.0",
     "faker": "^5.1.0",
     "js2xmlparser": "^4.0.1",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "scalingo": "^0.1.4"
   }
 }

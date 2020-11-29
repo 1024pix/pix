@@ -24,8 +24,26 @@ scalingo --app load-testing pgsql-console
 Exécuter la requête
 ``` sql
 DROP TABLE IF EXISTS test_executions;
-CREATE TABLE test_executions (id SERIAL PRIMARY KEY, api_version VARCHAR NOT NULL, started_at TIMESTAMP DEFAULT NOW(), ended_at TIMESTAMP, data JSONB);
+CREATE TABLE test_executions (id SERIAL PRIMARY KEY, api_version VARCHAR NOT NULL, started_at TIMESTAMP DEFAULT NOW(), ended_at TIMESTAMP, report JSONB);
 ```         
+
+Alimenter les variables d'environnement suivantes :
+- `TARGET_API_URL` : URL de l'application hébergeant l'API à tester (en général : load_testing_api)
+- `TARGET_API_APPLICATION_NAME` : Nom de l'application hébergeant l'API à tester (en général : load_testing_api)
+- `DATABASE_URL` : URL de connexion à la BDD où stocker les rapports de test (en général : load_testing)
+- `RELEASE_TAG`: Release sur laquelle effectuer les tests
+- `SCALINGO_TOKEN` : Token permettant de déployer une release
+- `GITHUB_TOKEN` : Token permettant de télécharger une archive de la release sur Github
+ 
+Exemple 
+``` shell script
+TARGET_API_URL=https://load-testing-api.osc-fr1.scalingo.io
+DATABASE_URL=<APPLICATION_ADDON__DATABASE_URL>
+TARGET_API_APPLICATION_NAME=load-testing-api
+RELEASE_TAG=v2.224.0
+SCALINGO_TOKEN=<TOKEN>
+GITHUB_TOKEN=<TOKEN>
+```
 
 ## Tester la connectivité
 
@@ -52,8 +70,8 @@ Vérifier la trace d'exécution
 SELECT id, started_at, ended_at, ( ended_at - started_at) AS duration FROM test_executions ORDER BY ended_at DESC LIMIT 5;
 SELECT jsonb_pretty(data) FROM test_executions; 
 SELECT
-    data->'aggregate'->'timestamp'                  AS executed_at,
-    data->'aggregate'->'scenarioDuration'->'median' AS median_duration_millis
+    report->'aggregate'->'timestamp'                  AS executed_at,
+    report->'aggregate'->'scenarioDuration'->'median' AS median_duration_millis
 FROM test_executions;
 ```
 
