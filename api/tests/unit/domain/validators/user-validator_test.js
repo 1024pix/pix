@@ -1,8 +1,10 @@
 /* eslint-disable mocha/no-identical-title */
 const { expect, catchErr } = require('../../../test-helper');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
-const { EntityValidationError } = require('../../../../lib/domain/errors');
+
 const User = require('../../../../lib/domain/models/User');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
+
+const userValidator = require('../../../../lib/domain/validators/user-validator');
 
 const MISSING_VALUE = '';
 
@@ -12,7 +14,7 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | user-validator', function() {
+describe('Unit | Domain | Validators | user-validator', () => {
 
   let user;
 
@@ -25,7 +27,6 @@ describe('Unit | Domain | Validators | user-validator', function() {
           firstName: 'John',
           lastName: 'Doe',
           email: 'john.doe@example.net',
-          password: 'Password1234',
           cgu: true,
         });
       });
@@ -92,42 +93,6 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "password" when password is missing', () => {
-          // given
-          const expectedError = {
-            attribute: 'password',
-            message: 'Votre mot de passe n’est pas renseigné.',
-          };
-          user.password = MISSING_VALUE;
-
-          // when
-          try {
-            userValidator.validate({ user });
-            expect.fail('should have thrown an error');
-          } catch (errors) {
-            // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
-          }
-        });
-
-        it('should reject with error on field "password" when password is invalid', () => {
-          // given
-          const expectedError = {
-            attribute: 'password',
-            message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
-          };
-          user.password = 'invalid';
-
-          // when
-          try {
-            userValidator.validate({ user });
-            expect.fail('should have thrown an error');
-          } catch (errors) {
-            // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
-          }
-        });
-
         it('should reject with error on field "cgu" when cgu is false', () => {
           // given
           const expectedError = {
@@ -182,7 +147,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error when neither email nor username are defined', async() => {
+        it('should reject with error when neither email nor username are defined', async () => {
           // given
           const expectedError = {
             attribute: undefined,
@@ -194,30 +159,27 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
           // when
           const errors = await catchErr(userValidator.validate)({ user });
-          _assertErrorMatchesWithExpectedOne(errors, expectedError);
 
+          // then
+          _assertErrorMatchesWithExpectedOne(errors, expectedError);
         });
 
-        it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+        it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
           // given
           user = {
             firstName: '',
             lastName: '',
             email: '',
-            password: '',
           };
 
           // when
-          try {
-            userValidator.validate({ user });
-            expect.fail('should have thrown an error');
-          } catch (errors) {
-            // then
-            expect(errors.invalidAttributes).to.have.lengthOf(5);
-          }
+          const error = await catchErr(userValidator.validate)({ user });
+
+          // then
+          expect(error.invalidAttributes).to.have.lengthOf(4);
         });
 
-        it('should reject with errors on firstName, lastName, email and password when firstName, lastName, email and password have a maximum length of 255', async () => {
+        it('should reject with errors on firstName, lastName and email when firstName, lastName and email have a maximum length of 255', async () => {
           // given
           const expectedFirstNameError = {
             attribute: 'firstName',
@@ -231,16 +193,11 @@ describe('Unit | Domain | Validators | user-validator', function() {
             attribute: 'email',
             message: 'Votre adresse e-mail ne doit pas dépasser les 255 caractères.',
           };
-          const expectedPasswordError = {
-            attribute: 'password',
-            message: 'Votre mot de passe ne doit pas dépasser les 255 caractères.',
-          };
 
           user = {
             firstName: 'John'.repeat(70),
             lastName: 'Doe'.repeat(90),
             email: 'john.doe'.repeat(32) + '@example.net',
-            password: 'Password1234'.repeat(22),
             cgu: true,
           };
 
@@ -248,12 +205,11 @@ describe('Unit | Domain | Validators | user-validator', function() {
           const errors = await catchErr(userValidator.validate)({ user });
 
           // then
-          expect(errors.invalidAttributes).to.have.lengthOf(4);
+          expect(errors.invalidAttributes).to.have.lengthOf(3);
           expect(errors).to.be.instanceOf(EntityValidationError);
           expect(errors.invalidAttributes[0]).to.deep.equal(expectedFirstNameError);
           expect(errors.invalidAttributes[1]).to.deep.equal(expectedLastNameError);
           expect(errors.invalidAttributes[2]).to.deep.equal(expectedMaxLengthEmailError);
-          expect(errors.invalidAttributes[3]).to.deep.equal(expectedPasswordError);
         });
 
         it('should reject with error on field "mustValidateTermsOfService" when incorrect', async() => {
@@ -269,7 +225,6 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
           // then
           _assertErrorMatchesWithExpectedOne(errors, expectedError);
-
         });
 
         it('should reject with error on field "hasSeenAssessmentInstructions" when incorrect', async() => {
@@ -283,8 +238,9 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
           // when
           const errors = await catchErr(userValidator.validate)({ user });
-          _assertErrorMatchesWithExpectedOne(errors, expectedError);
 
+          // then
+          _assertErrorMatchesWithExpectedOne(errors, expectedError);
         });
       });
     });
@@ -364,42 +320,6 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "password" when password is missing', () => {
-          // given
-          const expectedError = {
-            attribute: 'password',
-            message: 'Votre mot de passe n’est pas renseigné.',
-          };
-          user.password = MISSING_VALUE;
-
-          // when
-          try {
-            userValidator.validate({ user, cguRequired });
-            expect.fail('should have thrown an error');
-          } catch (errors) {
-            // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
-          }
-        });
-
-        it('should reject with error on field "password" when password is invalid', () => {
-          // given
-          const expectedError = {
-            attribute: 'password',
-            message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
-          };
-          user.password = 'invalid';
-
-          // when
-          try {
-            userValidator.validate({ user, cguRequired });
-            expect.fail('should have thrown an error');
-          } catch (errors) {
-            // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
-          }
-        });
-
         it('should reject with error on field "username" when username is missing', () => {
           // given
           const expectedError = {
@@ -418,23 +338,19 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+        it('should reject with errors on all fields (but only once by field) when all fields are missing', async () => {
           // given
           user = {
             firstName: '',
             lastName: '',
             username: '',
-            password: '',
           };
 
           // when
-          try {
-            userValidator.validate({ user, cguRequired });
-            expect.fail('should have thrown an error');
-          } catch (errors) {
-            // then
-            expect(errors.invalidAttributes).to.have.lengthOf(4);
-          }
+          const error = await catchErr(userValidator.validate)({ user, cguRequired });
+
+          // then
+          expect(error.invalidAttributes).to.have.lengthOf(3);
         });
       });
     });
