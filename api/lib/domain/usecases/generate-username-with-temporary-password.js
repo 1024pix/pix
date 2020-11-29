@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const isEmpty = require('lodash/isEmpty');
 const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../errors');
 
 module.exports = async function generateUsernameWithTemporaryPassword({
@@ -7,6 +7,8 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   passwordGenerator,
   encryptionService,
   userReconciliationService,
+  userService,
+  authenticationMethodRepository,
   userRepository,
   schoolingRegistrationRepository,
 }) {
@@ -17,19 +19,33 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   const studentAccount = await userRepository.get(schoolingRegistration.userId);
   _checkIfStudentAccountAlreadyHasUsername(studentAccount);
 
-  const username = await userReconciliationService.createUsernameByUser({ user: schoolingRegistration, userRepository });
+  const username = await userReconciliationService.createUsernameByUser({
+    user: schoolingRegistration,
+    userRepository,
+  });
 
-  if (studentAccount.password) {
+  const hasStudentAccountAnIdentityProviderPIX = await authenticationMethodRepository.hasIdentityProviderPIX({
+    userId: studentAccount.id,
+  });
+
+  if (hasStudentAccountAnIdentityProviderPIX) {
     const updatedUser = await userRepository.addUsername(studentAccount.id, username);
     return { username: updatedUser.username };
   } else {
     const generatedPassword = passwordGenerator.generate();
     const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
-    await userRepository.updateUsernameAndPassword(studentAccount.id, username, hashedPassword);
+    // and Create Password
+    await userService.updateUsernameAndAddPassword({
+      userId: studentAccount.id,
+      username,
+      hashedPassword,
+      authenticationMethodRepository,
+      userRepository,
+    });
+
     return { username, generatedPassword };
   }
-
 };
 
 function _checkIfStudentHasAccessToOrganization(schoolingRegistration, organizationId) {
@@ -39,7 +55,7 @@ function _checkIfStudentHasAccessToOrganization(schoolingRegistration, organizat
 }
 
 function _checkIfStudentAccountAlreadyHasUsername(studentAccount) {
-  if (!_.isEmpty(studentAccount.username)) {
+  if (!isEmpty(studentAccount.username)) {
     throw new UserNotAuthorizedToGenerateUsernamePasswordError(`Ce compte utilisateur dispose déjà d'un identifiant: ${studentAccount.username}.`);
   }
 }
