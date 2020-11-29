@@ -74,9 +74,9 @@ function _toDomainCollection({ challengeDataObjects, skills }) {
 }
 
 function _toDomain({ challengeDataObject, skillDataObjects }) {
-  const skills = skillDataObjects.map((skillDataObject) => skillAdapter.fromAirtableDataObject(skillDataObject));
+  const skills = skillDataObjects.map((skillDataObject) => skillAdapter.fromDatasourceObject(skillDataObject));
 
-  const solution = solutionAdapter.fromChallengeAirtableDataObject(challengeDataObject);
+  const solution = solutionAdapter.fromDatasourceObject(challengeDataObject);
 
   const validator = Challenge.createValidatorForChallengeType({
     challengeType: challengeDataObject.type,

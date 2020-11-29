@@ -4,9 +4,9 @@ const skillAdapter = require('./skill-adapter');
 
 module.exports = {
 
-  fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillAirtableDataObjects }) {
+  fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillLearningContentDataObjects: associatedSkillDatasourceObjects }) {
 
-    const skills = associatedSkillAirtableDataObjects.map(skillAdapter.fromAirtableDataObject);
+    const skills = associatedSkillDatasourceObjects.map(skillAdapter.fromDatasourceObject);
     const targetProfileStages = bookshelfTargetProfile.related('stages');
     const hasStages = targetProfileStages && targetProfileStages.models;
     const stages = hasStages ? targetProfileStages.models.map((stage) => new Stage(stage.attributes)) : [];

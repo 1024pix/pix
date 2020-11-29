@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const AirtableNotFoundError = require('../datasources/learning-content/LearningContentResourceNotFound');
+const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
 const Area = require('../../domain/models/Area');
 const areaDatasource = require('../datasources/learning-content/area-datasource');
 const Competence = require('../../domain/models/Competence');
@@ -51,7 +51,7 @@ module.exports = {
       const [competenceData, areaDatas] = await Promise.all([competenceDatasource.get(id), areaDatasource.list()]);
       return _toDomain({ competenceData, areaDatas, locale });
     } catch (err) {
-      if (err instanceof AirtableNotFoundError) {
+      if (err instanceof LearningContentResourceNotFound) {
         throw new NotFoundError('La compétence demandée n’existe pas');
       }
       throw err;
@@ -63,7 +63,7 @@ module.exports = {
       const competence = await competenceDatasource.get(id);
       return getTranslatedText(locale, { frenchText: competence.nameFrFr, englishText: competence.nameEnUs });
     } catch (err) {
-      if (err instanceof AirtableNotFoundError) {
+      if (err instanceof LearningContentResourceNotFound) {
         throw new NotFoundError('La compétence demandée n’existe pas');
       }
       throw err;
