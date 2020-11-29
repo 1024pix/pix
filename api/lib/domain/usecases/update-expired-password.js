@@ -1,17 +1,32 @@
-const authenticationService = require('../services/authentication-service');
-const encryptionService = require('../services/encryption-service');
+const get = require('lodash/get');
+
 const { ForbiddenAccess } = require('../../domain/errors');
 
 module.exports = async function updateExpiredPassword({
-  username, expiredPassword, newPassword, userRepository,
+  expiredPassword,
+  newPassword,
+  username,
+  authenticationService,
+  encryptionService,
+  authenticationMethodRepository,
+  userRepository,
 }) {
+  const foundUser = await authenticationService.getUserByUsernameAndPassword({
+    username,
+    password: expiredPassword,
+    userRepository,
+  });
 
-  const foundUser = await authenticationService.getUserByUsernameAndPassword({ username, password: expiredPassword, userRepository });
+  const shouldChangePassword = get(foundUser, 'authenticationMethods[0].authenticationComplement.shouldChangePassword');
 
-  if (!foundUser.shouldChangePassword) {
+  if (!shouldChangePassword) {
     throw new ForbiddenAccess();
   }
 
-  const hashedNewPassword = await encryptionService.hashPassword(newPassword);
-  return userRepository.updateExpiredPassword({ userId: foundUser.id, hashedNewPassword });
+  const hashedPassword = await encryptionService.hashPassword(newPassword);
+
+  return authenticationMethodRepository.updateExpiredPassword({
+    userId: foundUser.id,
+    hashedPassword,
+  });
 };

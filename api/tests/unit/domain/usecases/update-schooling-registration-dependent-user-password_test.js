@@ -17,8 +17,9 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
   let passwordGenerator;
   let encryptionService;
-  let userRepository;
+  let authenticationMethodRepository;
   let schoolingRegistrationRepository;
+  let userRepository;
 
   let userMember;
   let userStudent;
@@ -47,26 +48,30 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     encryptionService = {
       hashPassword: sinon.stub().resolves(encryptedPassword),
     };
+    authenticationMethodRepository = {
+      updatePasswordThatShouldBeChanged: sinon.stub(),
+    };
+    schoolingRegistrationRepository = {
+      get: sinon.stub().resolves(student),
+    };
     userRepository = {
       get: sinon.stub().resolves(userStudent),
       getWithMemberships: sinon.stub().resolves(userMember),
       updatePasswordThatShouldBeChanged: sinon.stub().resolves(),
-    };
-    schoolingRegistrationRepository = {
-      get: sinon.stub().resolves(student),
     };
   });
 
   it('should get user by his id', async () => {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
-      userId,
       organizationId,
       schoolingRegistrationId,
-      passwordGenerator,
+      userId,
       encryptionService,
-      userRepository,
+      passwordGenerator,
+      authenticationMethodRepository,
       schoolingRegistrationRepository,
+      userRepository,
     });
 
     // then
@@ -76,13 +81,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   it('should get student by his id', async () => {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
-      userId,
       organizationId,
       schoolingRegistrationId,
-      passwordGenerator,
+      userId,
       encryptionService,
-      userRepository,
+      passwordGenerator,
+      authenticationMethodRepository,
       schoolingRegistrationRepository,
+      userRepository,
     });
 
     // then
@@ -92,30 +98,35 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   it('should update user password with a hashed password', async () => {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
-      userId,
       organizationId,
       schoolingRegistrationId,
-      passwordGenerator,
+      userId,
       encryptionService,
-      userRepository,
+      passwordGenerator,
+      authenticationMethodRepository,
       schoolingRegistrationRepository,
+      userRepository,
     });
 
     // then
     expect(encryptionService.hashPassword).to.have.been.calledWith(generatedPassword);
-    expect(userRepository.updatePasswordThatShouldBeChanged).to.have.been.calledWith(userStudent.id, encryptedPassword);
+    expect(authenticationMethodRepository.updatePasswordThatShouldBeChanged).to.have.been.calledWith({
+      userId: userStudent.id,
+      hashedPassword: encryptedPassword,
+    });
   });
 
   it('should return generated password if update succeeded', async () => {
     // when
     const result = await updateSchoolingRegistrationDependentUserPassword({
-      userId,
       organizationId,
       schoolingRegistrationId,
-      passwordGenerator,
+      userId,
       encryptionService,
-      userRepository,
+      passwordGenerator,
+      authenticationMethodRepository,
       schoolingRegistrationRepository,
+      userRepository,
     });
 
     // then
@@ -130,13 +141,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId,
         organizationId,
         schoolingRegistrationId,
-        passwordGenerator,
+        userId,
         encryptionService,
-        userRepository,
+        passwordGenerator,
+        authenticationMethodRepository,
         schoolingRegistrationRepository,
+        userRepository,
       });
 
       // then
@@ -152,13 +164,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId,
         organizationId,
         schoolingRegistrationId,
-        passwordGenerator,
+        userId,
         encryptionService,
-        userRepository,
+        passwordGenerator,
+        authenticationMethodRepository,
         schoolingRegistrationRepository,
+        userRepository,
       });
 
       // then
@@ -174,13 +187,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId,
         organizationId,
         schoolingRegistrationId,
-        passwordGenerator,
+        userId,
         encryptionService,
-        userRepository,
+        passwordGenerator,
+        authenticationMethodRepository,
         schoolingRegistrationRepository,
+        userRepository,
       });
 
       // then
@@ -194,13 +208,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
       // when
       const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
-        userId,
         organizationId,
         schoolingRegistrationId,
-        passwordGenerator,
+        userId,
         encryptionService,
-        userRepository,
+        passwordGenerator,
+        authenticationMethodRepository,
         schoolingRegistrationRepository,
+        userRepository,
       });
 
       // then
