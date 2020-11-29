@@ -13,23 +13,32 @@ module.exports = {
       birthdate: payload['birthdate'],
       email: payload.email,
       username: payload.username,
-      password: payload.password,
       withUsername: payload['with-username'],
     };
     const locale = extractLocaleFromRequest(request);
 
-    await usecases.createAndReconcileUserToSchoolingRegistration({ userAttributes, campaignCode: payload['campaign-code'], locale });
+    await usecases.createAndReconcileUserToSchoolingRegistration({
+      userAttributes,
+      password: payload.password,
+      campaignCode: payload['campaign-code'],
+      locale,
+    });
 
     return h.response().code(204);
   },
 
   async createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, h) {
     const {
+      birthdate,
       'campaign-code': campaignCode,
       'external-user-token': token,
-      birthdate } = request.payload.data.attributes;
+    } = request.payload.data.attributes;
 
-    const createdUser = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({ campaignCode, token, birthdate });
+    const createdUser = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+      birthdate,
+      campaignCode,
+      token,
+    });
 
     const accessToken = tokenService.createAccessTokenFromUser(createdUser.id, 'external');
 
