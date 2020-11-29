@@ -1,13 +1,22 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-const { NotFoundError, SameNationalStudentIdInOrganizationError, SameNationalApprenticeIdInOrganizationError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError,
+  SameNationalStudentIdInOrganizationError,
+  SameNationalApprenticeIdInOrganizationError,
+  SchoolingRegistrationNotFound,
+  UserCouldNotBeReconciledError,
+} = require('../../../../lib/domain/errors');
 
 const STATUS = SchoolingRegistration.STATUS;
+
+const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 
 describe('Integration | Infrastructure | Repository | schooling-registration-repository', () => {
 
@@ -1736,6 +1745,50 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
       });
     });
+  });
 
+  describe('#updateUserIdWhereNull', () => {
+
+    let userId;
+    let schoolingRegistrationId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should update userId if it was null before', async () => {
+      // given
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        userId: null,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const updatedSchoolingRegistration = await schoolingRegistrationRepository.updateUserIdWhereNull({
+        schoolingRegistrationId,
+        userId,
+      });
+
+      // then
+      expect(updatedSchoolingRegistration.userId).to.equal(userId);
+    });
+
+    it('should throw where schoolingRegistration is already linked with a user', async () => {
+      // given
+      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        userId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(schoolingRegistrationRepository.updateUserIdWhereNull)({
+        schoolingRegistrationId,
+        userId,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(SchoolingRegistrationNotFound);
+    });
   });
 });
