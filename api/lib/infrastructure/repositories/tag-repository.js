@@ -1,7 +1,7 @@
 const BookshelfTag = require('../data/tag');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { AlreadyExistingEntity } = require('../../domain/errors');
+const { AlreadyExistingEntityError } = require('../../domain/errors');
 const omit = require('lodash/omit');
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
       return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, bookshelfTag);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
-        throw new AlreadyExistingEntity(`A tag with name ${tag.name} already exists.`);
+        throw new AlreadyExistingEntityError(`A tag with name ${tag.name} already exists.`);
       }
       throw err;
     }

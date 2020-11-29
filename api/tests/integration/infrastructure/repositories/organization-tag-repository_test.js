@@ -1,6 +1,6 @@
 const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
-const { AlreadyExistingEntity } = require('../../../../lib/domain/errors');
+const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 const organizationTagRepository = require('../../../../lib/infrastructure/repositories/organization-tag-repository');
 const omit = require('lodash/omit');
 
@@ -29,7 +29,7 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
 
     context('when an organization tag already exist', () => {
 
-      it('should throw a AlreadyExistingEntity error', async () => {
+      it('should throw an AlreadyExistingEntityError', async () => {
         // given
         const existingOrganizationTag = databaseBuilder.factory.buildOrganizationTag();
         await databaseBuilder.commit();
@@ -41,7 +41,7 @@ describe('Integration | Repository | OrganizationTagRepository', () => {
         });
 
         // then
-        expect(error).to.be.an.instanceof(AlreadyExistingEntity);
+        expect(error).to.be.an.instanceof(AlreadyExistingEntityError);
       });
     });
   });

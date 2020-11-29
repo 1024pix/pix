@@ -1,6 +1,6 @@
 const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const Tag = require('../../../../lib/domain/models/Tag');
-const { AlreadyExistingEntity } = require('../../../../lib/domain/errors');
+const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 const tagRepository = require('../../../../lib/infrastructure/repositories/tag-repository');
 
 describe('Integration | Repository | TagRepository', () => {
@@ -25,7 +25,7 @@ describe('Integration | Repository | TagRepository', () => {
 
     context('when a tag name already exist', () => {
 
-      it('should throw a AlreadyExistingEntity error', async () => {
+      it('should throw an AlreadyExistingEntityError', async () => {
         // given
         const existingTag = databaseBuilder.factory.buildTag();
         await databaseBuilder.commit();
@@ -34,7 +34,7 @@ describe('Integration | Repository | TagRepository', () => {
         const error = await catchErr(tagRepository.create)({ name: existingTag.name });
 
         // then
-        expect(error).to.be.an.instanceof(AlreadyExistingEntity);
+        expect(error).to.be.an.instanceof(AlreadyExistingEntityError);
       });
     });
   });

@@ -27,8 +27,8 @@ describe('Integration | API | Controller Error', () => {
   context('412 Precondition Failed', () => {
     const PRECONDITION_FAILED = 412;
 
-    it('responds Precondition Failed when a AlreadyExistingEntity error occurs', async () => {
-      routeHandler.throws(new DomainErrors.AlreadyExistingEntity());
+    it('responds Precondition Failed when a AlreadyExistingEntityError occurs', async () => {
+      routeHandler.throws(new DomainErrors.AlreadyExistingEntityError());
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);

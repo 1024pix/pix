@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const BookshelfKnowledgeElementSnapshot = require('../data/knowledge-element-snapshot');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
-const { AlreadyExistingEntity } = require('../../domain/errors');
+const { AlreadyExistingEntityError } = require('../../domain/errors');
 const bookshelfUtils = require('../utils/knex-utils');
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
@@ -23,7 +23,7 @@ module.exports = {
       }).save();
     } catch (error) {
       if (bookshelfUtils.isUniqConstraintViolated(error)) {
-        throw new AlreadyExistingEntity(`A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`);
+        throw new AlreadyExistingEntityError(`A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`);
       }
     }
   },
