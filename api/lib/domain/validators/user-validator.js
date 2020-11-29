@@ -1,9 +1,6 @@
 const Joi = require('@hapi/joi');
-const XRegExp = require('xregexp');
-const { passwordValidationPattern } = require('../../config').account;
-const { EntityValidationError } = require('../errors');
 
-const pattern = XRegExp(passwordValidationPattern);
+const { EntityValidationError } = require('../errors');
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const userValidationJoiSchema = Joi.object({
@@ -38,16 +35,6 @@ const userValidationJoiSchema = Joi.object({
       'string.empty': 'Votre identifiant n’est pas renseigné.',
     }),
 
-  password: Joi.string()
-    .pattern(pattern)
-    .required()
-    .max(255)
-    .messages({
-      'string.empty': 'Votre mot de passe n’est pas renseigné.',
-      'string.pattern.base': 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
-      'string.max': 'Votre mot de passe ne doit pas dépasser les 255 caractères.',
-    }),
-
   cgu: Joi.boolean()
     .when('$cguRequired', {
       is: Joi.boolean().required().valid(true),
@@ -72,7 +59,6 @@ const userValidationJoiSchema = Joi.object({
   });
 
 module.exports = {
-
   validate({ user, cguRequired = true }) {
     const { error } = userValidationJoiSchema.validate(user, { ...validationConfiguration, context: { cguRequired } });
     if (error) {
