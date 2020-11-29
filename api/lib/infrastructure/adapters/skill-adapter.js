@@ -2,14 +2,14 @@ const Skill = require('../../domain/models/Skill');
 
 module.exports = {
 
-  fromAirtableDataObject(skillAirtableDataObject) {
+  fromDatasourceObject(datasourceObject) {
     return new Skill({
-      id: skillAirtableDataObject.id,
-      name: skillAirtableDataObject.name,
-      pixValue: skillAirtableDataObject.pixValue,
-      competenceId: skillAirtableDataObject.competenceId,
-      tutorialIds: skillAirtableDataObject.tutorialIds,
-      tubeId: skillAirtableDataObject.tubeId,
+      id: datasourceObject.id,
+      name: datasourceObject.name,
+      pixValue: datasourceObject.pixValue,
+      competenceId: datasourceObject.competenceId,
+      tutorialIds: datasourceObject.tutorialIds,
+      tubeId: datasourceObject.tubeId,
     });
   },
 };

@@ -98,47 +98,47 @@ async function _getTargetedLearningContent(skillIds, locale) {
 }
 
 async function _findTargetedSkills(skillIds) {
-  const airtableSkills = await skillDatasource.findOperativeByRecordIds(skillIds);
-  return airtableSkills.map((airtableSkill) => {
-    return new TargetedSkill(airtableSkill);
+  const learningContentSkills = await skillDatasource.findOperativeByRecordIds(skillIds);
+  return learningContentSkills.map((learningContentSkill) => {
+    return new TargetedSkill(learningContentSkill);
   });
 }
 
 async function _findTargetedTubes(skills, locale) {
   const skillsByTubeId = _.groupBy(skills, 'tubeId');
-  const airtableTubes = await tubeDatasource.findByRecordIds(Object.keys(skillsByTubeId));
-  return airtableTubes.map((airtableTube) => {
-    const practicalTitle = getTranslatedText(locale, { frenchText: airtableTube.practicalTitleFrFr, englishText: airtableTube.practicalTitleEnUs });
+  const learningContentTubes = await tubeDatasource.findByRecordIds(Object.keys(skillsByTubeId));
+  return learningContentTubes.map((learningContentTube) => {
+    const practicalTitle = getTranslatedText(locale, { frenchText: learningContentTube.practicalTitleFrFr, englishText: learningContentTube.practicalTitleEnUs });
     return new TargetedTube({
-      ...airtableTube,
+      ...learningContentTube,
       practicalTitle,
-      skills: skillsByTubeId[airtableTube.id],
+      skills: skillsByTubeId[learningContentTube.id],
     });
   });
 }
 
 async function _findTargetedCompetences(tubes, locale) {
   const tubesByCompetenceId = _.groupBy(tubes, 'competenceId');
-  const airtableCompetences = await competenceDatasource.findByRecordIds(Object.keys(tubesByCompetenceId));
-  return airtableCompetences.map((airtableCompetence) => {
-    const name = getTranslatedText(locale, { frenchText: airtableCompetence.nameFrFr, englishText: airtableCompetence.nameEnUs });
+  const learningContentCompetences = await competenceDatasource.findByRecordIds(Object.keys(tubesByCompetenceId));
+  return learningContentCompetences.map((learningContentCompetence) => {
+    const name = getTranslatedText(locale, { frenchText: learningContentCompetence.nameFrFr, englishText: learningContentCompetence.nameEnUs });
     return new TargetedCompetence({
-      ...airtableCompetence,
+      ...learningContentCompetence,
       name,
-      tubes: tubesByCompetenceId[airtableCompetence.id],
+      tubes: tubesByCompetenceId[learningContentCompetence.id],
     });
   });
 }
 
 async function _findTargetedAreas(competences, locale) {
   const competencesByAreaId = _.groupBy(competences, 'areaId');
-  const airtableAreas = await areaDatasource.findByRecordIds(Object.keys(competencesByAreaId));
-  return airtableAreas.map((airtableArea) => {
-    const title = getTranslatedText(locale, { frenchText: airtableArea.titleFrFr, englishText: airtableArea.titleEnUs });
+  const learningContentAreas = await areaDatasource.findByRecordIds(Object.keys(competencesByAreaId));
+  return learningContentAreas.map((learningContentArea) => {
+    const title = getTranslatedText(locale, { frenchText: learningContentArea.titleFrFr, englishText: learningContentArea.titleEnUs });
     return new TargetedArea({
-      ...airtableArea,
+      ...learningContentArea,
       title,
-      competences: competencesByAreaId[airtableArea.id],
+      competences: competencesByAreaId[learningContentArea.id],
     });
   });
 }
