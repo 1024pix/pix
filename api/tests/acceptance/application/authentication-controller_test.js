@@ -1,10 +1,12 @@
-const { expect, databaseBuilder, knex, sinon, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const querystring = require('querystring');
 const jsonwebtoken = require('jsonwebtoken');
+const moment = require('moment');
+
+const { expect, databaseBuilder, knex, sinon, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+
 const settings = require('../../../lib/config');
 const createServer = require('../../../server');
 const tokenService = require('../../../lib/domain/services/token-service');
-const moment = require('moment');
 
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
@@ -23,7 +25,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     userId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
       email: userEmailAddress,
-      rawPassword: userPassword,
+      password: userPassword,
       cgu: true,
     }).id;
 
@@ -75,7 +77,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       databaseBuilder.factory.buildUser.withUnencryptedPassword({
         username,
-        rawPassword: userPassword,
+        password: userPassword,
         cgu: true,
         shouldChangePassword,
       });
@@ -118,7 +120,10 @@ describe('Acceptance | Controller | authentication-controller', () => {
         lastName: 'jackson',
         samlId: 'SAMLJACKSONID',
       };
-      const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({ username: 'saml.jackson1234', rawPassword: password });
+      const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+        username: 'saml.jackson1234',
+        password: password,
+      });
       const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
 
       options = {
@@ -172,8 +177,11 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should return a 401 Unauthorized', async () => {
         // given
-        const password = 'password';
-        const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({ rawPassword: password, shouldChangePassword: true });
+        const password = 'Password123';
+        const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+          password,
+          shouldChangePassword: true,
+        });
         await databaseBuilder.commit();
 
         options.payload.data.attributes.username = user.email;
