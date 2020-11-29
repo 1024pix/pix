@@ -1,9 +1,20 @@
 /* eslint-disable no-sync */
-const buildUser = require('./build-user');
-const encrypt = require('../../../../lib/domain/services/encryption-service');
-const isUndefined = require('lodash/isUndefined');
+
 const faker = require('faker');
+const isUndefined = require('lodash/isUndefined');
+
+const encrypt = require('../../../../lib/domain/services/encryption-service');
+const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+
+function _buildUser() {
+  return new User({
+    id: faker.random.number(),
+    firstName: 'Jean',
+    lastName: 'Dupont',
+    email: 'jean.dupont@example.net',
+  });
+}
 
 const buildAuthenticationMethod = function({
   id,
@@ -14,35 +25,63 @@ const buildAuthenticationMethod = function({
   updatedAt = faker.date.past(),
 } = {}) {
 
-  userId = isUndefined(userId) ? buildUser().id : userId;
+  userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
     id,
     identityProvider,
     externalIdentifier,
-    authenticationComplement: undefined,
+    authenticationComplement: null,
     userId,
     createdAt,
     updatedAt,
   });
 };
 
-buildAuthenticationMethod.buildPasswordAuthenticationMethod = function({
+buildAuthenticationMethod.buildWithRawPassword = function({
   id,
-  password,
+  rawPassword,
   shouldChangePassword = false,
   userId,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
 
-  password = isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
-  userId = isUndefined(userId) ? buildUser().id : userId;
+  const password = isUndefined(rawPassword) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(rawPassword);
+  userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
     id,
     identityProvider: AuthenticationMethod.identityProviders.PIX,
-    authenticationComplement: new AuthenticationMethod.PasswordAuthenticationMethod({ password, shouldChangePassword }),
+    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+      password,
+      shouldChangePassword,
+    }),
+    externalIdentifier: undefined,
+    userId,
+    createdAt,
+    updatedAt,
+  });
+};
+
+buildAuthenticationMethod.buildWithHashedPassword = function({
+  id,
+  hashedPassword,
+  shouldChangePassword = false,
+  userId,
+  createdAt = faker.date.past(),
+  updatedAt = faker.date.past(),
+} = {}) {
+  const password = isUndefined(hashedPassword) ? encrypt.hashPasswordSync(faker.internet.password()) : hashedPassword;
+  userId = isUndefined(userId) ? _buildUser().id : userId;
+
+  return new AuthenticationMethod({
+    id,
+    identityProvider: AuthenticationMethod.identityProviders.PIX,
+    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+      password,
+      shouldChangePassword,
+    }),
     externalIdentifier: undefined,
     userId,
     createdAt,
@@ -61,7 +100,7 @@ buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
   updatedAt = faker.date.past(),
 } = {}) {
 
-  userId = isUndefined(userId) ? buildUser().id : userId;
+  userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
     id,

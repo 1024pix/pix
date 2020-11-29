@@ -13,11 +13,9 @@ describe('Unit | Domain | Models | User', () => {
         firstName: 'Son',
         lastName: 'Goku',
         email: 'email@example.net',
-        password: 'pix123',
         cgu: true,
         lastTermsOfServiceValidatedAt: '2020-05-04T13:40:00.000Z',
         mustValidateTermsOfService: true,
-        shouldChangePassword: false,
       };
 
       // when
@@ -28,11 +26,9 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.firstName).to.equal(rawData.firstName);
       expect(user.lastName).to.equal(rawData.lastName);
       expect(user.email).to.equal(rawData.email);
-      expect(user.password).to.equal(rawData.password);
       expect(user.cgu).to.equal(rawData.cgu);
       expect(user.lastTermsOfServiceValidatedAt).to.equal(rawData.lastTermsOfServiceValidatedAt);
       expect(user.mustValidateTermsOfService).to.equal(rawData.mustValidateTermsOfService);
-      expect(user.shouldChangePassword).to.equal(rawData.shouldChangePassword);
     });
   });
 
