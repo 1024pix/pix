@@ -1,33 +1,29 @@
-const { expect, databaseBuilder, knex, catchErr, domainBuilder } = require('../../../test-helper');
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
+const {
+  catchErr,
+  databaseBuilder,
+  domainBuilder,
+  expect,
+  knex,
+} = require('../../../test-helper');
+
+const {
+  AlreadyExistingEntityError,
+  AuthenticationMethodNotFoundError,
+} = require('../../../../lib/domain/errors');
+
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { AlreadyExistingEntity, NotFoundError } = require('../../../../lib/domain/errors');
+
+const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 
 describe('Integration | Repository | AuthenticationMethod', () => {
+
+  const hashedPassword = 'ABCDEF1234';
+  const newHashedPassword = '1234ABCDEF';
 
   describe('#create', () => {
 
     afterEach(() => {
       return knex('authentication-methods').delete();
-    });
-
-    context('When creating a AuthenticationMethod containing an authentication complement', () => {
-
-      it('should return an AuthenticationMethod', async () => {
-        // given
-        const userId = databaseBuilder.factory.buildUser().id;
-        await databaseBuilder.commit();
-        const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildPasswordAuthenticationMethod({
-          password: 'Password123',
-          shouldChangePassword: false,
-          userId,
-        });
-
-        // when
-        const savedAuthenticationMethod = await authenticationMethodRepository.create({ authenticationMethod });
-
-        expect(savedAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
-      });
     });
 
     context('When creating a AuthenticationMethod containing an external identifier', () => {
@@ -53,7 +49,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
 
     context('When an AuthenticationMethod already exist for an identity provider and an external identifier', () => {
 
-      it('should throw an AlreadyExistingEntity', async () => {
+      it('should throw an AlreadyExistingEntityError', async () => {
         // given
         const identityProvider = AuthenticationMethod.identityProviders.GAR;
         const externalIdentifier = 'alreadyExistingExternalIdentifier';
@@ -71,13 +67,13 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod });
 
         // then
-        expect(error).to.be.instanceOf(AlreadyExistingEntity);
+        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
       });
     });
 
     context('When an AuthenticationMethod already exist for an identity provider and a userId', () => {
 
-      it('should throw an AlreadyExistingEntity', async () => {
+      it('should throw an AlreadyExistingEntityError', async () => {
         // given
         const identityProvider = AuthenticationMethod.identityProviders.GAR;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -90,8 +86,72 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod });
 
         // then
-        expect(error).to.be.instanceOf(AlreadyExistingEntity);
+        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
       });
+    });
+  });
+
+  describe('#updateOnlyPassword', () => {
+
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+    });
+
+    it('should update the password', async () => {
+      // given
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+        hashedPassword,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const updatedAuthenticationMethod = await authenticationMethodRepository.updateOnlyPassword({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
+      expect(updatedAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
+      expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal(newHashedPassword);
+    });
+
+    it('should update only the password', async () => {
+      // given
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+        hashedPassword,
+        shouldChangePassword: true,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const updatedAuthenticationMethod = await authenticationMethodRepository.updateOnlyPassword({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal(newHashedPassword);
+      expect(updatedAuthenticationMethod.authenticationComplement.shouldChangePassword).to.be.true;
+    });
+
+    it('should throw AuthenticationMethodNotFoundError when user id not found', async () => {
+      // given
+      const wrongUserId = 0;
+
+      // when
+      const error = await catchErr(authenticationMethodRepository.updateOnlyPassword)({
+        userId: wrongUserId,
+        hashedPassword,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
     });
   });
 
@@ -101,7 +161,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       // given
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildPasswordAuthenticationMethod({ userId });
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+      });
       const garAuthenticationMethodInDB = databaseBuilder.factory.buildAuthenticationMethod({ identityProvider, userId });
       await databaseBuilder.commit();
 
@@ -190,7 +252,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
 
     context('When authentication method does not exist', async () => {
 
-      it('should throw a not found error', async () => {
+      it('should throw an AuthenticationMethodNotFoundError', async () => {
         // given
         const userId = 12345;
         const identityProvider = AuthenticationMethod.identityProviders.GAR;
@@ -200,8 +262,160 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         const error = await catchErr(authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider)({ externalIdentifier, userId, identityProvider });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
       });
+    });
+  });
+
+  describe('#updatePasswordThatShouldBeChanged', () => {
+
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+        hashedPassword,
+        shouldChangePassword: false,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should update password and set shouldChangePassword to true', async () => {
+      // given
+      const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
+        password: newHashedPassword,
+        shouldChangePassword: true,
+      });
+
+      // when
+      const updatedAuthenticationMethod = await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
+      expect(updatedAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
+      expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+    });
+
+    it('should throw AuthenticationMethodNotFoundError when user id not found', async () => {
+      // given
+      const wrongUserId = 0;
+
+      // when
+      const error = await catchErr(authenticationMethodRepository.updatePasswordThatShouldBeChanged)({
+        userId: wrongUserId,
+        hashedPassword,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
+    });
+  });
+
+  describe('#createPasswordThatShouldBeChanged', () => {
+
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should create password and set shouldChangePassword to true', async () => {
+      // given
+      const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
+        password: newHashedPassword,
+        shouldChangePassword: true,
+      });
+
+      // when
+      const createdAuthenticationMethod = await authenticationMethodRepository.createPasswordThatShouldBeChanged({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      expect(createdAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
+      expect(createdAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
+      expect(createdAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+    });
+
+    it('should create PIX authenticationMethod and do not replace existing authenticationMethod', async () => {
+      // given
+      await authenticationMethodRepository.createPasswordThatShouldBeChanged({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // when
+      const foundAuthenticationMethodPIX = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.PIX,
+      });
+      const foundAuthenticationMethodGAR = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
+
+      // then
+      expect(foundAuthenticationMethodPIX).to.exist;
+      expect(foundAuthenticationMethodGAR).to.exist;
+    });
+
+  });
+
+  describe('#updateExpiredPassword', () => {
+
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+        hashedPassword,
+        shouldChangePassword: true,
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should update password and set shouldChangePassword to false', async () => {
+      // given
+      const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
+        password: newHashedPassword,
+        shouldChangePassword: false,
+      });
+
+      // when
+      const updatedAuthenticationMethod = await authenticationMethodRepository.updateExpiredPassword({
+        userId,
+        hashedPassword: newHashedPassword,
+      });
+
+      // then
+      expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
+      expect(updatedAuthenticationMethod.authenticationComplement).to.be.an.instanceOf(AuthenticationMethod.PixAuthenticationComplement);
+      expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+    });
+
+    it('should throw AuthenticationMethodNotFoundError when user id is not found', async () => {
+      // given
+      const wrongUserId = 0;
+
+      // when
+      const error = await catchErr(authenticationMethodRepository.updateExpiredPassword)({
+        userId: wrongUserId,
+        hashedPassword,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
     });
   });
 
@@ -250,8 +464,46 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         const error = await catchErr(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)({ authenticationComplement, userId });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
       });
+    });
+  });
+
+  describe('#hasIdentityProviderPIX', () => {
+
+    it('should return true if user have an authenticationMethod with an IdentityProvider PIX ', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        userId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await authenticationMethodRepository.hasIdentityProviderPIX({
+        userId,
+      });
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false if user have no authenticationMethod with an IdentityProvider PIX ', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await authenticationMethodRepository.hasIdentityProviderPIX({
+        userId,
+      });
+
+      // then
+      expect(result).to.be.false;
     });
   });
 
