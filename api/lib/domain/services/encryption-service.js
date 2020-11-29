@@ -21,9 +21,9 @@ module.exports = {
     return bcrypt.hashSync(password, NUMBER_OF_SALT_ROUNDS);
   },
 
-  check: (plain, hash) => {
+  checkPassword: ({ rawPassword, hashedPassword }) => {
     return new Promise((resolve, reject) => {
-      bcrypt.compare(plain, hash, (err, res) => {
+      bcrypt.compare(rawPassword, hashedPassword, (err, res) => {
         (res) ? resolve() : reject(new PasswordNotMatching());
       });
     });

@@ -1,47 +1,45 @@
 /* eslint-disable no-sync */
-const { sinon, expect } = require('../../../test-helper');
-
 const bcrypt = require('bcrypt');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
+
+const { catchErr, expect } = require('../../../test-helper');
 
 const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
 
+const encryptionService = require('../../../../lib/domain/services/encryption-service');
+
 describe('Unit | Service | Encryption', () => {
 
-  describe('#check', () => {
+  describe('#checkPassword', () => {
 
-    it('should reject when passwords are not matching', () => {
+    it('should reject when passwords are not matching', async () => {
       // given
-      const encryptedPassword = bcrypt.hashSync('my-real-password', 1);
-      const password = 'my-expected-password';
+      const rawPassword = 'my-expected-password';
+      const hashedPassword = 'ABCDEF1234';
 
       // when
-      const promise = encryptionService.check(password, encryptedPassword);
-
-      // then
-      return promise
-        .then(() => {
-          sinon.assert.fail('Should not succeed');
-        })
-        .catch((err) => {
-          expect(err).to.be.an.instanceof(PasswordNotMatching);
-        });
-    });
-
-    it('should resolve when passwords are matching', () => {
-      // given
-      const encryptedPassword = bcrypt.hashSync('my-real-password', 1);
-      const password = 'my-real-password';
-
-      // when
-      const promise = encryptionService.check(password, encryptedPassword);
-
-      // then
-      return promise.catch((_) => {
-        sinon.assert.fail('Should not fail');
+      const error = await catchErr(encryptionService.checkPassword)({
+        rawPassword,
+        hashedPassword,
       });
+
+      // then
+      expect(error).to.be.an.instanceof(PasswordNotMatching);
     });
 
+    it('should resolve to undefined when passwords are matching', async () => {
+      // given
+      const rawPassword = 'Password123';
+      const hashedPassword = bcrypt.hashSync(rawPassword, 1);
+
+      // when
+      const result = await encryptionService.checkPassword({
+        rawPassword,
+        hashedPassword,
+      });
+
+      // then
+      expect(result).to.be.undefined;
+    });
   });
 
 });
