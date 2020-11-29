@@ -1,4 +1,5 @@
-const { expect, knex, sinon, databaseBuilder } = require('../../test-helper');
+const { databaseBuilder, expect, knex, sinon } = require('../../test-helper');
+
 const mailjetService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
@@ -12,14 +13,16 @@ function _insertPasswordResetDemand(temporaryKey, email) {
 
 describe('Acceptance | Controller | password-controller', () => {
 
-  let server;
   const fakeUserEmail = 'lebolossdu66@hotmail.com';
+
+  let server;
 
   beforeEach(async () => {
     server = await createServer();
   });
 
   describe('POST /api/password-reset-demands', () => {
+
     let options;
 
     beforeEach(() => {
@@ -255,9 +258,15 @@ describe('Acceptance | Controller | password-controller', () => {
 
     beforeEach(async () => {
       databaseBuilder.factory.buildUser.withUnencryptedPassword({
-        username, rawPassword: expiredPassword, shouldChangePassword: true,
+        username,
+        password: expiredPassword,
+        shouldChangePassword: true,
       });
       await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('authentication-methods').delete();
     });
 
     context('Success cases', () => {
@@ -305,7 +314,9 @@ describe('Acceptance | Controller | password-controller', () => {
         // given
         const username = 'jean.oubliejamais0105';
         databaseBuilder.factory.buildUser.withUnencryptedPassword({
-          username, rawPassword: expiredPassword, shouldChangePassword: false,
+          username,
+          password: expiredPassword,
+          shouldChangePassword: false,
         });
 
         options.payload.data.attributes = { username, expiredPassword, newPassword };
