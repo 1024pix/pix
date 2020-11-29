@@ -3,8 +3,6 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const User = require('../../../../lib/domain/models/User');
 
-const userController = require('../../../../lib/application/users/user-controller');
-
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
@@ -20,14 +18,17 @@ const scorecardSerializer = require('../../../../lib/infrastructure/serializers/
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
-
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+
+const userController = require('../../../../lib/application/users/user-controller');
 
 describe('Unit | Controller | user-controller', () => {
 
   describe('#save', () => {
     const email = 'to-be-free@ozone.airplane';
-    const deserializedUser = new User({ password: 'password_1234' });
+    const password = 'Password123';
+
+    const deserializedUser = new User();
     const savedUser = new User({ email });
     const locale = 'fr-fr';
 
@@ -38,7 +39,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(validationErrorSerializer, 'serialize');
       sinon.stub(encryptionService, 'hashPassword');
       sinon.stub(mailService, 'sendAccountCreationEmail');
-      sinon.stub(usecases, 'createUser');
+      sinon.stub(usecases, 'createUser').resolves(savedUser);
     });
 
     describe('when request is valid', () => {
@@ -50,17 +51,13 @@ describe('Unit | Controller | user-controller', () => {
               'first-name': 'John',
               'last-name': 'DoDoe',
               'email': 'john.dodoe@example.net',
-              'password': 'A124B2C3#!',
               'cgu': true,
               'recaptcha-token': 'reCAPTCHAToken',
+              password,
             },
           },
         },
       };
-
-      beforeEach(() => {
-        usecases.createUser.resolves(savedUser);
-      });
 
       it('should return a serialized user and a 201 status code', async () => {
         // given
@@ -81,6 +78,7 @@ describe('Unit | Controller | user-controller', () => {
         const reCaptchaToken = 'reCAPTCHAToken';
         const useCaseParameters = {
           user: deserializedUser,
+          password,
           reCaptchaToken,
           locale,
           campaignCode: null,

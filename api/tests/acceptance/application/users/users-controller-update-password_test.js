@@ -1,24 +1,30 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, hFake, knex, databaseBuilder } = require('../../../test-helper');
 
+const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-update-password', () => {
 
+  const temporaryKey = 'good-temporary-key';
+
   let server;
   let user;
   let options;
-  const temporaryKey = 'good-temporary-key';
 
   beforeEach(async () => {
     server = await createServer();
 
-    user = databaseBuilder.factory.buildUser({ email: 'harry.cover@truc.so', password: 'Pix2018!' });
+    user = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+      email: 'harry.cover@truc.so',
+      rawPassword: 'Password2020',
+    });
     await databaseBuilder.commit();
     await _insertPasswordResetDemand(temporaryKey, user.email);
   });
 
-  afterEach(() => {
-    return knex('reset-password-demands').delete();
+  afterEach(async () => {
+    await knex('authentication-methods').delete();
+    await knex('reset-password-demands').delete();
   });
 
   describe('Error case', () => {
@@ -32,7 +38,7 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
           data: {
             id: user.id,
             attributes: {
-              password: 'Pix2018!',
+              password: 'Password2021',
             },
           },
         },
@@ -48,8 +54,9 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
 
   describe('Success case', () => {
 
-    it('should reply with 200 status code, when password is updated', async () => {
-      // given
+    const newPassword = 'Password2021';
+
+    beforeEach(() => {
       options = {
         method: 'PATCH',
         url: `/api/users/${user.id}/password-update?temporary-key=${temporaryKey}`,
@@ -57,17 +64,39 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
           data: {
             id: user.id,
             attributes: {
-              password: 'Pix2018!',
+              password: newPassword,
             },
           },
         },
       };
+    });
 
+    it('should reply with 200 status code, when password is updated', async () => {
       // when
       const response = await server.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    it('should authenticate user when password is updated', async () => {
+      // given
+      await server.inject(options);
+
+      const request = {
+        payload: {
+          grant_type: 'password',
+          username: user.email,
+          password: newPassword,
+        },
+      };
+      let access_token = null;
+
+      // when
+      access_token = await authenticationController.authenticateUser(request, hFake);
+
+      // then
+      expect(access_token).to.ok;
     });
   });
 });
