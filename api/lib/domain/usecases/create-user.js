@@ -1,7 +1,12 @@
-const { AlreadyRegisteredEmailError, InvalidRecaptchaTokenError, EntityValidationError } = require('../errors');
-const User = require('../models/User');
+const {
+  AlreadyRegisteredEmailError,
+  EntityValidationError,
+  InvalidRecaptchaTokenError,
+} = require('../errors');
 
 const userValidator = require('../validators/user-validator');
+const passwordValidator = require('../validators/password-validator');
+
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
 
 function _manageEmailAvailabilityError(error) {
@@ -18,17 +23,35 @@ function _manageError(error, errorType, attribute, message) {
       invalidAttributes: [{ attribute, message }],
     });
   }
-
   throw error;
 }
 
-async function _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator) {
+function _validatePassword(password) {
+  let result;
+  try {
+    passwordValidator.validate(password);
+  } catch (err) {
+    result = err;
+  }
+  return result;
+}
+
+async function _validateData({
+  password,
+  user,
+  reCaptchaToken,
+  userRepository,
+  reCaptchaValidator,
+}) {
   let userValidatorError;
   try {
     userValidator.validate({ user });
   } catch (err) {
     userValidatorError = err;
   }
+
+  const passwordValidatorError = _validatePassword(password);
+
   const promises = [reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError)];
   if (user.email) {
     promises.push(userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError));
@@ -36,6 +59,7 @@ async function _validateData(user, reCaptchaToken, userRepository, userValidator
 
   const validationErrors = await Promise.all(promises);
   validationErrors.push(userValidatorError);
+  validationErrors.push(passwordValidatorError);
 
   if (validationErrors.some((error) => error instanceof Error)) {
     const relevantErrors = validationErrors.filter((error) => error instanceof Error);
@@ -47,22 +71,35 @@ async function _validateData(user, reCaptchaToken, userRepository, userValidator
 
 module.exports = async function createUser({
   user,
+  password,
   campaignCode,
   reCaptchaToken,
   locale,
-  userRepository,
+  authenticationMethodRepository,
   campaignRepository,
+  userRepository,
   reCaptchaValidator,
   encryptionService,
   mailService,
+  userService,
 }) {
-  const isValid = await _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator);
+  const isValid = await _validateData({
+    password,
+    user,
+    reCaptchaToken,
+    userRepository,
+    reCaptchaValidator,
+  });
 
   if (isValid) {
-    const encryptedPassword = await encryptionService.hashPassword(user.password);
+    const hashedPassword = await encryptionService.hashPassword(password);
 
-    const userWithEncryptedPassword = new User({ ... user, password: encryptedPassword });
-    const savedUser = await userRepository.create(userWithEncryptedPassword);
+    const savedUser = await userService.createUserWithPassword({
+      user,
+      hashedPassword,
+      userRepository,
+      authenticationMethodRepository,
+    });
 
     let redirectionUrl = null;
 
@@ -74,6 +111,7 @@ module.exports = async function createUser({
     }
 
     await mailService.sendAccountCreationEmail(savedUser.email, locale, redirectionUrl);
+
     return savedUser;
   }
 };
