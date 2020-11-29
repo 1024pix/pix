@@ -1,6 +1,7 @@
-const Bookshelf = require('../bookshelf');
 const User = require('../../domain/models/User');
 const PixRole = require('../../domain/models/PixRole');
+
+const Bookshelf = require('../bookshelf');
 const BookshelfPixRole = require('./pix-role');
 const BookshelfUserPixRole = require('./user-pix-role');
 
