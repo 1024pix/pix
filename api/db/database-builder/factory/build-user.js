@@ -1,14 +1,48 @@
 /* eslint-disable no-sync */
 const faker = require('faker');
+
+const isNil = require('lodash/isNil');
+const isUndefined = require('lodash/isUndefined');
+
 const databaseBuffer = require('../database-buffer');
+
+const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const Membership = require('../../../lib/domain/models/Membership');
+
 const encrypt = require('../../../lib/domain/services/encryption-service');
+
 const buildUserPixRole = require('./build-user-pix-role');
 const buildOrganization = require('./build-organization');
 const buildMembership = require('./build-membership');
-const _ = require('lodash');
 
 const PIX_MASTER_ROLE_ID = 1;
+
+function _buildPixAuthenticationMethod({
+  userId,
+  password = 'Password123',
+  shouldChangePassword,
+  createdAt,
+  updatedAt,
+} = {}) {
+  const hashedPassword = encrypt.hashPasswordSync(password);
+
+  const values = {
+    userId,
+    identityProvider: AuthenticationMethod.identityProviders.PIX,
+    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+      password: hashedPassword,
+      shouldChangePassword,
+    }),
+    externalIdentifier: undefined,
+    createdAt,
+    updatedAt,
+  };
+
+  return databaseBuffer.pushInsertable({
+    tableName: 'authentication-methods',
+    values,
+  });
+}
 
 const buildUser = function buildUser({
   id,
@@ -16,7 +50,6 @@ const buildUser = function buildUser({
   lastName = faker.name.lastName(),
   email,
   username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
-  password = 'pix123',
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt = null,
@@ -25,17 +58,21 @@ const buildUser = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   hasSeenNewLevelInfo = false,
-  shouldChangePassword = false,
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
 
-  const encryptedPassword = encrypt.hashPasswordSync(password);
-  email = _.isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;
+  email = isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;
 
   const values = {
-    id, firstName, lastName, email, username, password: encryptedPassword, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, hasSeenNewLevelInfo, shouldChangePassword, createdAt, updatedAt,
+    id, firstName, lastName, email, username,
+    cgu, lang,
+    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    hasSeenNewLevelInfo,
+    createdAt, updatedAt,
+    password: '',
+    shouldChangePassword: false,
   };
 
   return databaseBuffer.pushInsertable({
@@ -50,7 +87,6 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   lastName = faker.name.lastName(),
   email = faker.internet.exampleEmail().toLowerCase(),
   username,
-  rawPassword = faker.internet.password(),
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt,
@@ -58,48 +94,37 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
-  shouldChangePassword = false,
-}) {
+  createdAt = new Date(),
+  updatedAt = new Date(),
 
-  const password = encrypt.hashPasswordSync(rawPassword);
+  password = 'Password123',
+  shouldChangePassword = false,
+} = {}) {
 
   const values = {
-    id, firstName, lastName, email, username, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword,
+    id, firstName, lastName, email, username,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    password: '',
+    shouldChangePassword: false,
   };
 
-  return databaseBuffer.pushInsertable({
+  const user = databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
   });
-};
 
-buildUser.withoutPassword = function buildUserWithoutPassword({
-  id,
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  email = faker.internet.exampleEmail().toLowerCase(),
-  username,
-  password = '',
-  cgu = true,
-  lang = 'fr',
-  lastTermsOfServiceValidatedAt,
-  mustValidateTermsOfService = false,
-  pixOrgaTermsOfServiceAccepted = false,
-  pixCertifTermsOfServiceAccepted = false,
-  hasSeenAssessmentInstructions = false,
-  shouldChangePassword = false,
-}) {
-
-  const values = {
-    id, firstName, lastName, email, username, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword,
-  };
-
-  return databaseBuffer.pushInsertable({
-    tableName: 'users',
-    values,
+  _buildPixAuthenticationMethod({
+    userId: user.id,
+    password,
+    shouldChangePassword,
+    createdAt,
+    updatedAt,
   });
+
+  return user;
 };
 
 buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
@@ -107,7 +132,6 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email = faker.internet.exampleEmail().toLowerCase(),
-  password = encrypt.hashPasswordSync(faker.internet.password()),
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt,
@@ -115,16 +139,33 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
+  createdAt = new Date(),
+  updatedAt = new Date(),
+
+  password = 'Password123',
+  shouldChangePassword = false,
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    password: '',
+    shouldChangePassword: false,
   };
 
   const user = databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
+  });
+
+  _buildPixAuthenticationMethod({
+    userId: user.id,
+    password,
+    shouldChangePassword,
+    createdAt, updatedAt,
   });
 
   buildUserPixRole({ userId: user.id, pixRoleId: PIX_MASTER_ROLE_ID });
@@ -137,7 +178,6 @@ buildUser.withMembership = function buildUserWithMemberships({
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email = faker.internet.exampleEmail().toLowerCase(),
-  password = 'encrypt.hashPasswordSync(faker.internet.password())',
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt,
@@ -145,21 +185,39 @@ buildUser.withMembership = function buildUserWithMemberships({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
+  createdAt = new Date(),
+  updatedAt = new Date(),
+
   organizationRole = Membership.roles.ADMIN,
   organizationId = null,
+
+  password = 'Password123',
+  shouldChangePassword = false,
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    password: '',
+    shouldChangePassword: false,
   };
-
-  organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
 
   const user = databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
   });
+
+  _buildPixAuthenticationMethod({
+    userId: user.id,
+    password,
+    shouldChangePassword,
+    createdAt, updatedAt,
+  });
+
+  organizationId = isNil(organizationId) ? buildOrganization().id : organizationId;
 
   buildMembership({
     userId: user.id,
