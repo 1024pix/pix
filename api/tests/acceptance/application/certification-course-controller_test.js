@@ -2,6 +2,7 @@ const { expect, databaseBuilder, knex, airtableBuilder, generateValidRequestAuth
 const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../server');
 
+const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const Assessment = require('../../../lib/domain/models/Assessment');
 
 describe('Acceptance | API | Certification Course', () => {
@@ -335,17 +336,25 @@ describe('Acceptance | API | Certification Course', () => {
 
     beforeEach(() => {
       otherUserId = databaseBuilder.factory.buildUser().id;
+
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
-        examinerComment: 'il s\'est enfuit de la session',
         hasSeenEndTestScreen: false,
       });
-      const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
       userId = certificationCourse.userId;
+      databaseBuilder.factory.buildCertificationIssueReport({
+        certificationCourseId: certificationCourse.id,
+        categoryId: CertificationIssueReportCategories.OTHER,
+        description: 'il s\'est enfuit de la session',
+      });
+
+      const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
+
       options = {
         method: 'GET',
         url: `/api/certification-courses/${certificationCourse.id}`,
         headers: {},
       };
+
       expectedCertificationCourse = {
         type: 'certification-courses',
         id: certificationCourse.id.toString(),

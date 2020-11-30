@@ -11,7 +11,7 @@ module.exports = {
         'assessment-results.pixScore',
         'assessment-results.status',
         'partner-certifications.acquired',
-        'certification-issue-reports.description'
+        'certification-issue-reports.description',
       )
         .select(knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_row_number',
           ['certification-courses.id', 'assessment-results.createdAt']))

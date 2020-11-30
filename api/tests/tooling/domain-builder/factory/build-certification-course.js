@@ -51,7 +51,6 @@ module.exports = function buildCertificationCourse(
     createdAt,
     completedAt,
     externalId,
-    examinerComment,
     certificationIssueReports,
     hasSeenEndTestScreen,
     nbChallenges,

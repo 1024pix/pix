@@ -74,7 +74,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'created-at': certif1.createdAt,
           'completed-at': certif1.completedAt,
           'clea-certification-status': 'acquired',
-          'examiner-comment': certif1.examinerComment,
+          'examiner-comment': null,
           'has-seen-end-test-screen': certif1.hasSeenEndTestScreen,
         };
         expectedJuryCertifSumm2 = {
@@ -86,7 +86,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'created-at': certif2.createdAt,
           'clea-certification-status': 'not_passed',
           'completed-at': certif2.completedAt,
-          'examiner-comment': certif2.examinerComment,
+          'examiner-comment': null,
           'has-seen-end-test-screen': certif2.hasSeenEndTestScreen,
         };
 
