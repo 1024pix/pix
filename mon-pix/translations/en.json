@@ -610,7 +610,8 @@
                     "text": "Sign up with:",
                     "username": "My username"
                 },
-                "title": "Sign up"
+                "title": "Sign up",
+                "error": "An error has occured. Please try again or contact the support."
             }
         },
         "not-connected": {

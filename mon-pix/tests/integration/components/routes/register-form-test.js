@@ -135,6 +135,65 @@ describe('Integration | Component | routes/register-form', function() {
 
   context('errors management', function() {
 
+    context('When authentication service fails', async function() {
+
+      it('Should display registerErrorMessage when authentication service fails with username error', async function() {
+        // given
+        const expectedRegisterErrorMessage =  this.intl.t('pages.login-or-register.register-form.error');
+
+        this.set('loginWithUsername', true);
+
+        const error = {
+          status: '400',
+          errorMessage: '"data.attributes.username" with value "pix.pix1010@example.net" fails to match the required pattern: /^([a-z]+[.]+[a-z]+[0-9]{4})$/',
+        };
+
+        this.owner.unregister('service:store');
+        this.owner.register('service:store', storeStub);
+        storeStub.prototype.createRecord = () => {
+          return EmberObject.create({
+
+            save(options) {
+              if (options && options.adapterOptions && options.adapterOptions.searchForMatchingStudent) {
+                return resolve({ username: 'pix.pix1010@example.net' });
+              }
+              return reject({ error });
+            },
+            unloadRecord() {
+              return resolve();
+            },
+          });
+        };
+        sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
+          this.authenticator = authenticator;
+          this.login = login;
+          this.password = password;
+          this.scope = scope;
+          return resolve();
+
+        };
+
+        // when
+        await render(hbs`<Routes::RegisterForm @loginWithUsername={{this.loginWithUsername}} />`);
+
+        await fillIn('#firstName', 'pix');
+        await fillIn('#lastName', 'pix');
+        await fillIn('#dayOfBirth', '10');
+        await fillIn('#monthOfBirth', '10');
+        await fillIn('#yearOfBirth', '2010');
+
+        await click('#submit-search');
+
+        await fillIn('#password', 'Mypassword1');
+
+        await click('#submit-registration');
+
+        // then
+        expect(find('.register-form__error')).to.exist;
+        expect(find('.register-form__error').innerHTML).to.equal(expectedRegisterErrorMessage);
+      });
+    });
+
     [{ stringFilledIn: '' },
       { stringFilledIn: ' ' },
     ].forEach(function({ stringFilledIn }) {
@@ -354,9 +413,9 @@ describe('Integration | Component | routes/register-form', function() {
       });
     });
 
-    describe('When student is already reconciled in the same organization', async function() {
+    context('When student is already reconciled in the same organization', async function() {
 
-      describe('When student account is authenticated by email only', async function() {
+      context('When student account is authenticated by email only', async function() {
 
         it('should display the error message related to the short code S61)', async function() {
           // given
@@ -405,7 +464,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by username only', async function() {
+      context('When student account is authenticated by username only', async function() {
 
         it('should display the error message related to the short code S62)', async function() {
           // given
@@ -454,7 +513,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId only', async function() {
+      context('When student account is authenticated by SamlId only', async function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -503,7 +562,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId and username', async function() {
+      context('When student account is authenticated by SamlId and username', async function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -552,7 +611,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId and email', async function() {
+      context('When student account is authenticated by SamlId and email', async function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -601,7 +660,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId, email and username', async function() {
+      context('When student account is authenticated by SamlId, email and username', async function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -650,7 +709,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by email and username', async function() {
+      context('When student account is authenticated by email and username', async function() {
 
         it('should display the error message related to the short code S62)', async function() {
           // given
@@ -701,7 +760,7 @@ describe('Integration | Component | routes/register-form', function() {
 
     });
 
-    describe('When student is already reconciled in others organization', async function() {
+    context('When student is already reconciled in others organization', async function() {
 
       describe('When student account is authenticated by email only', async function() {
 

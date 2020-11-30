@@ -83,4 +83,26 @@
       padding: 10px 10px 0 10px;
     }
   }
+
+  &-username-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+    &__label {
+      font-size: 0.938rem;
+      font-weight: $font-medium;
+      color: $grey-80;
+      letter-spacing: 0.031rem;
+    }
+
+    &__span {
+      color: $grey-50;
+      font-family: $font-roboto;
+      font-size: 0.875rem;
+      background-color: $grey-20;
+      border-radius: 3px;
+      padding: 15px 10px;
+    }
+  }
 }
