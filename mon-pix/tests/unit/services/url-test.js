@@ -73,47 +73,42 @@ describe('Unit | Service | locale', function() {
 
       const defaultEnvironment = ENV.environment;
       const defaultIsReviewApp = ENV.APP.REVIEW_APP;
+      let defaultLocale;
 
       beforeEach(function() {
         ENV.environment = 'production';
         ENV.APP.REVIEW_APP = 'false';
+        defaultLocale = this.intl.t('current-lang');
       });
 
       afterEach(function() {
         ENV.environment = defaultEnvironment;
         ENV.APP.REVIEW_APP = defaultIsReviewApp;
+        this.intl.setLocale(defaultLocale);
       });
 
-      it('should get "pix.fr" url when current domain contains pix.fr', function() {
-        // given
-        const service = this.owner.lookup('service:url');
-        const expectedHomeUrl = 'https://pix.fr';
-        service.definedHomeUrl = undefined;
-        service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+      [
+        { language: 'fr', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr' },
+        { language: 'fr', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org' },
+        { language: 'en', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr/en-gb' },
+        { language: 'en', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org/en-gb' },
+      ].forEach(function(testCase) {
+        it(`should get "${testCase.expectedHomeUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function() {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.definedHomeUrl = '/';
+          service.currentDomain = { getExtension: sinon.stub().returns(testCase.currentDomainExtension) };
+          this.intl.setLocale([testCase.language]);
 
-        // when
-        const homeUrl = service.homeUrl;
+          // when
+          const homeUrl = service.homeUrl;
 
-        // then
-        expect(homeUrl).to.equal(expectedHomeUrl);
-      });
-
-      it('should get "pix.org" url when current domain contains pix.org', function() {
-        // given
-        const service = this.owner.lookup('service:url');
-        const expectedHomeUrl = 'https://pix.org';
-        service.definedHomeUrl = undefined;
-        service.currentDomain = { getExtension: sinon.stub().returns('org') };
-
-        // when
-        const homeUrl = service.homeUrl;
-
-        // then
-        expect(homeUrl).to.equal(expectedHomeUrl);
+          // then
+          expect(homeUrl).to.equal(testCase.expectedHomeUrl);
+        });
       });
 
     });
-
   });
 
   describe('#cguUrl', function() {

@@ -22,10 +22,19 @@ export default class Url extends Service {
       const currentLanguage = this.intl.t('current-lang');
       return `${this.definedHomeUrl}?lang=${currentLanguage}`;
     }
-    return `https://pix.${this.currentDomain.getExtension()}`;
+    return this._showcaseWebsiteUrl;
   }
 
   get cguUrl() {
     return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
+  }
+
+  get _showcaseWebsiteUrl() {
+    const currentLanguage = this.intl.t('current-lang');
+
+    if (currentLanguage === 'en') {
+      return `https://pix.${this.currentDomain.getExtension()}/en-gb`;
+    }
+    return `https://pix.${this.currentDomain.getExtension()}`;
   }
 }
