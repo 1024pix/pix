@@ -7,8 +7,7 @@ const identityProviders = {
   POLE_EMPLOI: 'POLE_EMPLOI',
 };
 
-class PasswordAuthenticationMethod {
-
+class PixAuthenticationComplement {
   constructor({
     password,
     shouldChangePassword,
@@ -45,9 +44,9 @@ const validationSchema = Joi.object({
   id: Joi.number().optional(),
   identityProvider: Joi.string().valid(...Object.values(identityProviders)).required(),
   authenticationComplement: Joi.when('identityProvider', [
-    { is: identityProviders.PIX, then: Joi.object().instance(PasswordAuthenticationMethod).required() },
+    { is: identityProviders.PIX, then: Joi.object().instance(PixAuthenticationComplement).required() },
     { is: identityProviders.POLE_EMPLOI, then: Joi.object().instance(PoleEmploiAuthenticationComplement).required() },
-    { is: identityProviders.GAR, then: Joi.any().forbidden() },
+    { is: identityProviders.GAR, then: Joi.any().empty() },
   ]),
   externalIdentifier: Joi.when('identityProvider', [
     { is: identityProviders.GAR, then: Joi.string().required() },
@@ -60,7 +59,6 @@ const validationSchema = Joi.object({
 });
 
 class AuthenticationMethod {
-
   constructor({
     id,
     identityProvider,
@@ -83,6 +81,6 @@ class AuthenticationMethod {
 }
 
 AuthenticationMethod.identityProviders = identityProviders;
-AuthenticationMethod.PasswordAuthenticationMethod = PasswordAuthenticationMethod;
+AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
 AuthenticationMethod.PoleEmploiAuthenticationComplement = PoleEmploiAuthenticationComplement;
 module.exports = AuthenticationMethod;
