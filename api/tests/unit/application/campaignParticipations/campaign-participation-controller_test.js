@@ -8,6 +8,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
@@ -157,6 +158,9 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     it('should call the usecases to start the campaign participation', async () => {
       // given
       usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted());
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback();
+      });
 
       // when
       await campaignParticipationController.save(request, hFake);
@@ -177,6 +181,9 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       // given
       const campaignParticipationStartedEvent = new CampaignParticipationStarted();
       usecases.startCampaignParticipation.resolves({ event: campaignParticipationStartedEvent });
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback();
+      });
 
       // when
       await campaignParticipationController.save(request, hFake);
@@ -191,6 +198,9 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       usecases.startCampaignParticipation.resolves({
         event: new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id }),
         campaignParticipation,
+      });
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback();
       });
 
       const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
