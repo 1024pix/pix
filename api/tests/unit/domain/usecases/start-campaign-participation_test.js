@@ -12,6 +12,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
   const campaignRepository = { get: () => undefined };
   const campaignParticipationRepository = { save: () => undefined, findOneByCampaignIdAndUserId: () => undefined };
   const assessmentRepository = { save: () => undefined };
+  const domainTransaction = Symbol('DomainTransaction');
 
   beforeEach(() => {
     sinon.stub(campaignRepository, 'get');
@@ -28,7 +29,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     campaignRepository.get.resolves(null);
 
     // when
-    const error = await catchErr(usecases.startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+    const error = await catchErr(usecases.startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction });
 
     // then
     return expect(error).to.be.instanceOf(NotFoundError);
@@ -39,7 +40,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     campaignParticipationRepository.findOneByCampaignIdAndUserId.resolves({});
 
     // when
-    const error = await catchErr(usecases.startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+    const error = await catchErr(usecases.startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction });
 
     // then
     return expect(error).to.be.instanceOf(AlreadyExistingCampaignParticipationError);
@@ -52,7 +53,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     campaignParticipationRepository.save.resolves({});
 
     // when
-    await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+    await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction });
 
     // then
     expect(campaignParticipationRepository.save).to.have.been.called;
@@ -76,7 +77,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       campaignParticipationRepository.save.resolves({ id: 1 });
 
       // when
-      await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+      await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction });
 
       // then
       expect(assessmentRepository.save).to.have.been.called;
@@ -100,7 +101,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       campaignParticipationRepository.save.resolves({ id: 1 });
 
       // when
-      await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+      await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction });
 
       // then
       expect(assessmentRepository.save).to.not.have.been.called;
@@ -116,7 +117,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     campaignParticipationRepository.save.resolves(campaignParticipation);
 
     // when
-    const { event } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+    const { event } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction });
 
     // then
     expect(event).to.deep.equal(campaignParticipationStartedEvent);

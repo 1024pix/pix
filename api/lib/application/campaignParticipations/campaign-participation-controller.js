@@ -7,6 +7,7 @@ const campaignAnalysisSerializer = require('../../infrastructure/serializers/jso
 const campaignAssessmentParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
 const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
 
@@ -29,7 +30,9 @@ module.exports = {
     const { 
       event,
       campaignParticipation: campaignParticipationCreated,
-    } = await usecases.startCampaignParticipation({ campaignParticipation, userId });
+    } =  await DomainTransaction.execute((domainTransaction) => {
+      return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
+    });
     await events.eventDispatcher.dispatch(event);
 
     return h.response(serializer.serialize(campaignParticipationCreated)).created();
