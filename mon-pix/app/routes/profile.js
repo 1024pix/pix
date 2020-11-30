@@ -1,10 +1,10 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
+import KeycloakAuthenticatedRouteMixin from 'ember-keycloak-auth/mixins/keycloak-authenticated-route';
 import Route from '@ember/routing/route';
 
 @classic
-export default class ProfileRoute extends Route.extend(SecuredRouteMixin) {
+export default class ProfileRoute extends Route.extend(KeycloakAuthenticatedRouteMixin) {
   @service currentUser;
 
   model() {
