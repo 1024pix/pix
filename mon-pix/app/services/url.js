@@ -1,11 +1,12 @@
 import Service  from '@ember/service';
 import { inject as service } from '@ember/service';
-import ENV from '../config/environment';
+import ENV from 'mon-pix/config/environment';
 
 const FRENCH_DOMAIN_EXTENSION = 'fr';
 
 export default class Url extends Service {
   @service currentDomain;
+  @service intl;
 
   definedHomeUrl= ENV.rootURL;
 
@@ -18,7 +19,8 @@ export default class Url extends Service {
     const isRA = ENV.APP.REVIEW_APP === 'true';
 
     if (isDevEnvironment || isRA) {
-      return this.definedHomeUrl;
+      const currentLanguage = this.intl.t('current-lang');
+      return `${this.definedHomeUrl}?lang=${currentLanguage}`;
     }
     return `https://pix.${this.currentDomain.getExtension()}`;
   }
