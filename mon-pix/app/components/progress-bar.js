@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 import colorGradient from 'mon-pix/utils/color-gradient';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
+import ENV from 'mon-pix/config/environment';
 
 export default class ProgressBar extends Component {
   @service media;
@@ -12,6 +13,10 @@ export default class ProgressBar extends Component {
 
   get showProgressBar() {
     return this.args.assessment.showProgressBar && this.media.isDesktop;
+  }
+
+  get showProgressForContest() {
+    return ENV.APP.IS_PIX_CONTEST === 'true';
   }
 
   get currentStepIndex() {

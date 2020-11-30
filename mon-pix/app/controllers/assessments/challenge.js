@@ -19,10 +19,6 @@ export default class ChallengeController extends Controller {
     return this.model.assessment.showLevelup && this.newLevel;
   }
 
-  get hideProgressBar() {
-    return ENV.APP.IS_PIX_CONTEST === 'true';
-  }
-
   get pageTitle() {
     const stepNumber = progressInAssessment.getCurrentStepNumber(this.model.assessment, get(this.model, 'answer.id'));
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
