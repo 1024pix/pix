@@ -1,4 +1,4 @@
-module.exports = function TubeAirtableDataObjectFixture({
+module.exports = function TubeLearningContentDataObjectFixture({
   id = 'recTIddrkopID23Fp',
   name = '@Moteur',
   title = 'Moteur de recherche',
