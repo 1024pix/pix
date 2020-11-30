@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | ValidatorQROCMInd', () => {
       validator = new ValidatorQROCMInd({ solution: solution });
 
       // when
-      validation = validator.assess(uncorrectedAnswer);
+      validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
     it('should call solutionServiceQROCMInd', () => {

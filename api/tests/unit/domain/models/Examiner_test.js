@@ -6,6 +6,7 @@ const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Examiner', () => {
 
+  const challengeFormat = 'nombre';
   const validator = {
     assess: () => undefined,
   };
@@ -28,7 +29,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat  });
       });
 
       it('should return an answer with skipped as result and null as resultDetails', () => {
@@ -61,7 +62,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat });
       });
 
       it('should return an answer with TIMEOUT as result, and the correct resultDetails', () => {
@@ -75,7 +76,7 @@ describe('Unit | Domain | Models | Examiner', () => {
       });
       it('should call validator.assess with answer to assess validity of answer', () => {
         // then
-        expect(validator.assess).to.have.been.calledWithExactly(uncorrectedAnswer);
+        expect(validator.assess).to.have.been.calledWithExactly({ answer: uncorrectedAnswer, challengeFormat });
       });
     });
 
@@ -94,7 +95,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat });
       });
 
       it('should return an answer with TIMEOUT as result, and the correct resultDetails', () => {
@@ -106,9 +107,10 @@ describe('Unit | Domain | Models | Examiner', () => {
         expect(correctedAnswer).to.be.an.instanceOf(Answer);
         expect(correctedAnswer).to.deep.equal(expectedAnswer);
       });
+
       it('should call validator.assess with answer to assess validity of answer', () => {
         // then
-        expect(validator.assess).to.have.been.calledWithExactly(uncorrectedAnswer);
+        expect(validator.assess).to.have.been.calledWithExactly({ answer: uncorrectedAnswer, challengeFormat });
       });
     });
 
@@ -127,7 +129,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat });
       });
 
       it('should return an answer with the validator‘s result and resultDetails', () => {
@@ -141,7 +143,7 @@ describe('Unit | Domain | Models | Examiner', () => {
       });
       it('should call validator.assess with answer to assess validity of answer', () => {
         // then
-        expect(validator.assess).to.have.been.calledWithExactly(uncorrectedAnswer);
+        expect(validator.assess).to.have.been.calledWithExactly({ answer: uncorrectedAnswer, challengeFormat });
       });
     });
   });

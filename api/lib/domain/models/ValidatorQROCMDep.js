@@ -19,7 +19,7 @@ class ValidatorQROCMDep extends Validator {
     // references
   }
 
-  assess(answer) {
+  assess({ answer }) {
     const result = solutionServiceQROCMDep.match(
       answer.value,
       this.solution.value,

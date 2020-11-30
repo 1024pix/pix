@@ -19,7 +19,7 @@ class ValidatorQCM extends Validator {
     // references
   }
 
-  assess(answer) {
+  assess({ answer }) {
     const result = solutionServiceQCM.match(answer.value, this.solution.value);
 
     return new Validation({
