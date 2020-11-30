@@ -45,7 +45,6 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: process.env.API_HOST || '',
-      HOME_URL: process.env.HOME_URL,
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
@@ -60,6 +59,7 @@ module.exports = function(environment) {
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
       FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU: process.env.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU || false,
+      REVIEW_APP: process.env.REVIEW_APP || false,
 
       API_ERROR_MESSAGES: {
         BAD_REQUEST: {
@@ -143,7 +143,6 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
-    ENV.APP.HOME_URL = process.env.HOME_URL || '/';
     if (analyticsEnabled) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
       ENV.matomo.debug = true;
@@ -168,7 +167,6 @@ module.exports = function(environment) {
 
     ENV.googleFonts = null;
     ENV.APP.API_HOST = 'http://localhost:3000';
-    ENV.APP.HOME_URL = '/';
     ENV.APP.isChallengeTimerEnable = false;
     ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
     ENV.APP.isMobileSimulationEnabled = true;

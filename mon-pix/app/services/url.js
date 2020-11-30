@@ -6,15 +6,21 @@ const FRENCH_DOMAIN_EXTENSION = 'fr';
 
 export default class Url extends Service {
   @service currentDomain;
-  definedHomeUrl = ENV.APP.HOME_URL;
+
+  definedHomeUrl= ENV.rootURL;
 
   get isFrenchDomainExtension() {
     return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION;
   }
 
   get homeUrl() {
-    const homeUrl = `https://pix.${this.currentDomain.getExtension()}`;
-    return this.definedHomeUrl || homeUrl;
+    const isDevEnvironment = ENV.environment === 'development';
+    const isRA = ENV.APP.REVIEW_APP === 'true';
+
+    if (isDevEnvironment || isRA) {
+      return this.definedHomeUrl;
+    }
+    return `https://pix.${this.currentDomain.getExtension()}`;
   }
 
   get cguUrl() {
