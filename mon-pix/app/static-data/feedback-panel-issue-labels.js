@@ -53,9 +53,13 @@ const questions = {
   ],
   'picture': [
     {
-      name: 'image',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-not-displayed.label',
       type: 'tutorial',
-      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-not-displayed',
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-not-displayed.solution',
+    },
+    {
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.picture-other',
+      type: 'textbox',
     },
   ],
   'link': [

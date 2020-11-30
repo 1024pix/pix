@@ -316,9 +316,13 @@
                                 "other-challenge-proposal": "I have a (great) idea to suggest for a question",
                                 "other-site-improvement": "I have a suggestion for improving the platform",
                                 "other-difficulty": "I have another problem",
+                                "picture-not-displayed": {
+                                    "label": "",
+                                    "solution": ""
+                                },
+                                "picture-other": "",
                                 "question-improvement": "I want to suggest an improvement to the question",
                                 "question-not-understood": "I do not understand the question",
-                                "picture-not-displayed": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection.",
                                 "tutorial-link-error": "The link to the tutorial is to another page or an error page",
                                 "tutorial-not-accepted": "The tutorial is not helpful to the question",
                                 "tutorial-proposal": "I have a tutorial to suggest"
