@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.226.0 (30/11/2020)
+
+- [#2211](https://github.com/1024pix/pix/pull/2211) [BUGFIX] Lever une erreur correctement dans le script de création d'apprentis lorsqu'un ID externe d'organisation est introuvable (PIX-1694).
+
 ## v2.225.0 (27/11/2020)
 
 - [#2183](https://github.com/1024pix/pix/pull/2183) [FEATURE] Création de la page Mon Compte dans Pix App (PIX-452).
