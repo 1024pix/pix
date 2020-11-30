@@ -1,4 +1,4 @@
-module.exports = function tutorialAirtableDataObjectFixture({
+module.exports = function tutorialLearningContentDataObjectFixture({
   id = 'receomyzL0AmpMFGw',
   duration = '00:01:30',
   format = 'video',
