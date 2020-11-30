@@ -4,9 +4,11 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 import ENV from 'mon-pix/config/environment';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
 describe('Unit | Service | locale', function() {
   setupTest();
+  setupIntl();
 
   it('should have a frenchDomainExtension when the current domain contains pix.fr', function() {
     // given
@@ -61,7 +63,8 @@ describe('Unit | Service | locale', function() {
           const homeUrl = service.homeUrl;
 
           // then
-          expect(homeUrl).to.equal(service.definedHomeUrl);
+          const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
+          expect(homeUrl).to.equal(expectedDefinedHomeUrl);
         });
       });
     });
