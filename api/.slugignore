@@ -1,1 +1,2 @@
 tests
+scripts/database/drop-database.js
