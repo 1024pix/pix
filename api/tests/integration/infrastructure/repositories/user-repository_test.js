@@ -142,7 +142,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#findByExternalIdentityId', () => {
+    describe('#findByPoleEmploiExternalIdentifier', () => {
 
       const externalIdentityId = 'external-identity-id';
 
@@ -160,7 +160,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return user informations for the given external identity id', async () => {
         // when
-        const user = await userRepository.findByExternalIdentityId(externalIdentityId);
+        const user = await userRepository.findByPoleEmploiExternalIdentifier(externalIdentityId);
 
         // then
         expect(user).to.be.an.instanceof(User);
@@ -172,7 +172,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const badId = 'not-exist-external-identity-id';
 
         // when
-        const user = await userRepository.findByExternalIdentityId(badId);
+        const user = await userRepository.findByPoleEmploiExternalIdentifier(badId);
 
         // then
         return expect(user).to.be.null;

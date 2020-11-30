@@ -24,7 +24,7 @@ module.exports = async function authenticatePoleEmploiUser({
       cgu: false,
     });
 
-    let foundUser = await userRepository.findByExternalIdentityId(userInfo.externalIdentityId);
+    let foundUser = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
     if (!foundUser) {
       await DomainTransaction.execute(async (domainTransaction) => {
         foundUser = await userRepository.create(user, domainTransaction);

@@ -50,7 +50,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
     userRepository = {
       create: sinon.stub().resolves({ id: userId }),
-      findByExternalIdentityId: sinon.stub().resolves(),
+      findByPoleEmploiExternalIdentifier: sinon.stub().resolves(),
     };
 
     authenticationMethodRepository = {
@@ -90,7 +90,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
         firstName, lastName, externalIdentityId,
       };
       authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      userRepository.findByExternalIdentityId.resolves(null);
+      userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
 
       // when
       await authenticatePoleEmploiUser({
@@ -108,7 +108,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
         firstName, lastName, externalIdentityId,
       };
       authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      userRepository.findByExternalIdentityId.resolves(null);
+      userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
         externalIdentifier: externalIdentityId,
@@ -131,7 +131,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
     it('should not call user repository create function', async () => {
       // given
-      userRepository.findByExternalIdentityId.resolves({ id: 1 });
+      userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
 
       // when
       await authenticatePoleEmploiUser({
@@ -149,7 +149,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     const user = new User({ firstName, lastName });
     user.externalIdentityId = externalIdentityId;
 
-    userRepository.findByExternalIdentityId.resolves(user);
+    userRepository.findByPoleEmploiExternalIdentifier.resolves(user);
 
     // when
     await authenticatePoleEmploiUser({
