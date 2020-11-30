@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder, knex, mockLearningContent } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | target-profile-controller', () => {
@@ -75,10 +75,16 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     let organizationId;
 
     beforeEach(async () => {
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Acquis')
-        .query(true)
-        .reply(200, {});
+      const learningContent = [{
+        id: 'recArea0',
+        competences: [{
+          id: 'recNv8qhaY887jQb2',
+          index: '1.3',
+          name: 'Traiter des données',
+        }],
+      }];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       organizationId = databaseBuilder.factory.buildOrganization().id;

@@ -9,7 +9,7 @@ describe('Unit | Service | Course Service', () => {
   describe('#getCourse', function() {
 
     const userId = 1;
-    const airtableCourse = { id: 'recAirtableId' };
+    const learningContentCourse = { id: 'recLearningContentId' };
 
     beforeEach(() => {
       sinon.stub(courseRepository, 'get');
@@ -18,8 +18,8 @@ describe('Unit | Service | Course Service', () => {
 
     it('should call the course repository', () => {
       // given
-      const givenCourseId = 'recAirtableId';
-      courseRepository.get.resolves(airtableCourse);
+      const givenCourseId = 'recLearningContentId';
+      courseRepository.get.resolves(learningContentCourse);
 
       // when
       const promise = courseService.getCourse({ courseId: givenCourseId, userId });
@@ -35,7 +35,7 @@ describe('Unit | Service | Course Service', () => {
 
       it('should return a Course from the repository', async function() {
         // given
-        const courseId = 'recAirtableId';
+        const courseId = 'recLearningContentId';
         const aCourse = Symbol('A course');
         courseRepository.get.withArgs(courseId).resolves(aCourse);
 

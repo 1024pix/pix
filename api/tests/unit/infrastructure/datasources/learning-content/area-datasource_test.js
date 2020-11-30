@@ -6,7 +6,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource
 
   describe('#findByRecordIds', () => {
 
-    it('should return an array of matching airtable area data objects', async function() {
+    it('should return an array of matching learning content area data objects', async function() {
       // given
       const records = [ { id: 'recArea0' }, { id: 'recArea1' }, { id: 'recArea2' }];
       sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });

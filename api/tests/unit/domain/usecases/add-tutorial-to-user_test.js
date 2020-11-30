@@ -1,6 +1,6 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
 const addTutorialToUser = require('../../../../lib/domain/usecases/add-tutorial-to-user');
-const AirtableNotFoundError = require('../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
+const LearningContentNotFoundError = require('../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
 
 describe('Unit | UseCase | add-tutorial-to-user', () => {
 
@@ -32,7 +32,7 @@ describe('Unit | UseCase | add-tutorial-to-user', () => {
       // Given
       tutorialRepository = {
         get: async () => {
-          throw new AirtableNotFoundError();
+          throw new LearningContentNotFoundError();
         },
       };
       const tutorialId = 'nonExistentTutorialId';
@@ -47,7 +47,7 @@ describe('Unit | UseCase | add-tutorial-to-user', () => {
 
       // Then
       expect(userTutorialRepository.addTutorial).to.not.have.been.called;
-      expect(result).to.be.instanceOf(AirtableNotFoundError);
+      expect(result).to.be.instanceOf(LearningContentNotFoundError);
     });
   });
 });

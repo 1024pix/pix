@@ -76,7 +76,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
         it('should add into the cache the value returned by the handler', () => {
           // given
-          const dataFromHandler = { name: 'data from airtable' };
+          const dataFromHandler = { name: 'data from learning content' };
           const handler = () => Promise.resolve(dataFromHandler);
 
           // when
@@ -90,7 +90,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
         it('should return the value', () => {
           // given
-          const dataFromHandler = { name: 'data from airtable' };
+          const dataFromHandler = { name: 'data from learning content' };
           const handler = () => Promise.resolve(dataFromHandler);
           redisCache.set.resolves(dataFromHandler);
 
