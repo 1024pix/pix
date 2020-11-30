@@ -84,9 +84,8 @@ describe('Unit | Service | Certification Service', function() {
           birthdate: '1992-01-28',
           sessionId: 123,
           externalId: 'TimonsFriend',
-          examinerComment: '',
           certificationIssueReports: [
-            new CertificationIssueReport({ id: 1, categoryId: CertificationIssueReportCategories.OTHER, certificationCourseId, description: '' }),
+            new CertificationIssueReport({ id: 1, categoryId: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
           ],
           hasSeenEndTestScreen: true,
         });
@@ -129,7 +128,9 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.birthplace).to.deep.equal('Savane');
         expect(certification.birthdate).to.deep.equal('1992-01-28');
         expect(certification.externalId).to.deep.equal('TimonsFriend');
-        expect(certification.examinerComment).to.deep.equal('');
+        expect(certification.certificationIssueReports).to.deep.equal([
+          new CertificationIssueReport({ id: 1, categoryId: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
+        ]);
         expect(certification.hasSeenEndTestScreen).to.deep.equal(true);
         expect(certification.cleaCertificationStatus).to.deep.equal(cleaCertificationStatus);
       });
@@ -172,7 +173,7 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.completedAt).to.deep.equal(undefined);
           expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
           expect(certification.sessionId).to.deep.equal(123);
-          expect(certification.examinerComment).to.deep.equal('Hakuna matata');
+          expect(certification.certificationIssueReports[0].description).to.deep.equal('Hakuna matata');
           expect(certification.hasSeenEndTestScreen).to.deep.equal(false);
         });
       });

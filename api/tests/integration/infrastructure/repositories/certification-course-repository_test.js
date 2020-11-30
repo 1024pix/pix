@@ -21,7 +21,6 @@ describe('Integration | Repository | Certification Course', function() {
         birthdate: '1991-03-21',
         externalId: 'xenoverse2',
         isPublished: false,
-        examinerComment: 'Salut',
         hasSeenEndTestScreen: false,
         isV2Certification: false,
         sessionId,
