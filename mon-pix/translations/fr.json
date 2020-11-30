@@ -610,7 +610,8 @@
                     "text": "Je m'inscris avec :",
                     "username": "Mon identifiant"
                 },
-                "title": "Je m’inscris sur Pix"
+                "title": "Je m’inscris sur Pix",
+                "error": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
             }
         },
         "not-connected": {
