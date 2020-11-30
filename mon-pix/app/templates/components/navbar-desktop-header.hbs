@@ -50,6 +50,11 @@
     {{/if}}
 
     <!-- Links (right) -->
+    {{#if @isPixContest}}
+      <div class="navbar-desktop-header-right">
+        {{ this.userFullname }}
+      </div>
+    {{/if}}
     {{#unless @isPixContest}}
       <div class="navbar-desktop-header-right">
         <NavbarDesktopMenu @menu={{this.menu}} />

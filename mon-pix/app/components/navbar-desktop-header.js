@@ -16,6 +16,10 @@ export default class NavbarDesktopHeader extends Component {
     return (this.isUserLogged || this._isExternalUser) ? [] : this._menuItems;
   }
 
+  get userFullname() {
+    return this.currentUser.user.get('lastName') + ' ' + this.currentUser.user.get('firstName');
+  }
+
   get _menuItems() {
     return [
       { name: this.intl.t('navigation.not-logged.sign-in'), link: 'login', class: 'navbar-menu-signin-link' },
