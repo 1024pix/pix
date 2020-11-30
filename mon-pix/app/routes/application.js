@@ -15,6 +15,7 @@ export default Route.extend(ApplicationRouteMixin, {
   moment: service(),
   headData: service(),
   featureToggles: service(),
+  keycloakSession: service(),
 
   activate() {
     this.splash.hide();
@@ -43,6 +44,17 @@ export default Route.extend(ApplicationRouteMixin, {
     await this.featureToggles.load().catch();
 
     const lang = transition.to.queryParams.lang;
+
+    const options = {
+      //TODO move to environment configuration
+      url: 'https://app.please-open.it/auth/',
+      realm: 'be35ef94-6b41-4b19-826f-2fb38e56d025',
+      clientId: 'pix',
+    };
+    this.keycloakSession.installKeycloak(options);
+
+    await this.keycloakSession.initKeycloak();
+
     return this._getUserAndLocal(lang);
   },
 
@@ -90,3 +102,4 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
 });
+
