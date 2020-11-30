@@ -512,7 +512,7 @@ module.exports = {
     }
   },
 
-  async findByExternalIdentityId(externalIdentityId) {
+  async findByPoleEmploiExternalIdentifier(externalIdentityId) {
     const bookshelfUser = await BookshelfUser
       .query((qb) => {
         qb.innerJoin('authentication-methods', function() {
