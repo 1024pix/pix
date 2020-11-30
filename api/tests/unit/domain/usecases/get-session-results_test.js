@@ -91,6 +91,7 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
 function _buildCertificationResult(certifCourse, lastAssessmentResult, cleaCertification) {
   return domainBuilder.buildCertificationResult({
     ...certifCourse,
+    examinerComment: certifCourse.certificationIssueReports[0].description,
     lastAssessmentResult,
     assessmentId: lastAssessmentResult.assessmentId,
     cleaCertificationStatus: cleaCertification,
