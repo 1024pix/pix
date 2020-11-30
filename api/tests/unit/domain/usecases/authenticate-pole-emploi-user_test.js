@@ -6,6 +6,8 @@ const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
+const moment = require('moment');
+
 describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => {
 
   const code = 'code';
@@ -32,7 +34,10 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
   let userInfo;
 
+  let clock;
+
   beforeEach(() => {
+    clock = sinon.useFakeTimers(Date.now());
     userInfo = {
       family_name: lastName,
       given_name: firstName,
@@ -55,9 +60,14 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
     authenticationMethodRepository = {
       create: sinon.stub().resolves(),
+      updatePoleEmploiAuthenticationComplementByUserId: sinon.stub().resolves(),
     };
 
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
+  });
+
+  afterEach(() => {
+    clock.restore();
   });
 
   it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async () => {
@@ -107,12 +117,17 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       const userInfo = {
         firstName, lastName, externalIdentityId,
       };
+
       authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
         externalIdentifier: externalIdentityId,
-        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({ accessToken, idToken, expiresIn, refreshToken }),
+        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken,
+          refreshToken,
+          expiredDate: moment().add(expiresIn, 's').toDate(),
+        }),
         userId,
       });
 
@@ -123,7 +138,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
       });
 
       // then
-      expect(authenticationMethodRepository.create).to.have.been.calledWithMatch({ authenticationMethod: expectedAuthenticationMethod, domainTransaction });
+      expect(authenticationMethodRepository.create).to.have.been.calledWith({ authenticationMethod: expectedAuthenticationMethod, domainTransaction });
     });
   });
 
@@ -141,6 +156,25 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // then
       expect(userRepository.create).to.not.have.been.called;
+    });
+
+    it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async () => {
+      // given
+      userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
+      const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        accessToken,
+        refreshToken,
+        expiredDate: moment().add(expiresIn, 's').toDate(),
+      });
+
+      // when
+      await authenticatePoleEmploiUser({
+        code, redirectUri, clientId,
+        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+      });
+
+      // then
+      expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement: expectedAuthenticationComplement, userId });
     });
   });
 

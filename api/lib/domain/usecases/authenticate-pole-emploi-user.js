@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const moment = require('moment');
 
 module.exports = async function authenticatePoleEmploiUser({
   code,
@@ -24,24 +25,26 @@ module.exports = async function authenticatePoleEmploiUser({
       cgu: false,
     });
 
+    const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+      accessToken: poleEmploiTokens.accessToken,
+      refreshToken: poleEmploiTokens.refreshToken,
+      expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
+    });
+
     let foundUser = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
     if (!foundUser) {
       await DomainTransaction.execute(async (domainTransaction) => {
         foundUser = await userRepository.create(user, domainTransaction);
-
         const authenticationMethod = new AuthenticationMethod({
           identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
           userId: foundUser.id,
           externalIdentifier: userInfo.externalIdentityId,
-          authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-            accessToken: poleEmploiTokens.accessToken,
-            idToken: poleEmploiTokens.idToken,
-            expiresIn: poleEmploiTokens.expiresIn,
-            refreshToken: poleEmploiTokens.refreshToken,
-          }),
+          authenticationComplement,
         });
         await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
       });
+    } else {
+      await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: foundUser.id });
     }
 
     const accessToken = tokenService.createAccessTokenFromUser(foundUser, 'pole_emploi_connect');
