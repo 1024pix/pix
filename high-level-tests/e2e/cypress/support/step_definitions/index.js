@@ -1,5 +1,6 @@
 given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'users');
+  cy.task('db:fixture', 'authentication-methods');
   cy.task('db:fixture', 'organizations');
   cy.task('db:fixture', 'memberships');
   cy.task('db:fixture', 'organization-invitations');
@@ -22,6 +23,7 @@ given('les données de test sont chargées', () => {
 
 given('tous les comptes sont créés', () => {
   cy.task('db:fixture', 'users');
+  cy.task('db:fixture', 'authentication-methods');
 });
 
 given('je vais sur Pix', () => {
