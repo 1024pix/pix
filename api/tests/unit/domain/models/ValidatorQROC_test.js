@@ -18,6 +18,7 @@ describe('Unit | Domain | Models | ValidatorQROC', () => {
     let validation;
     let validator;
     let solution;
+    let challengeFormat;
 
     beforeEach(() => {
       // given
@@ -28,13 +29,17 @@ describe('Unit | Domain | Models | ValidatorQROC', () => {
       validator = new ValidatorQROC({ solution: solution });
 
       // when
-      validation = validator.assess(uncorrectedAnswer);
+      validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
     it('should call solutionServiceQROC', () => {
       // then
-      expect(solutionServiceQroc.match).to.have.been.calledWith(
-        uncorrectedAnswer.value, solution.value, solution.deactivations);
+      expect(solutionServiceQroc.match).to.have.been.calledWith({
+        answer: uncorrectedAnswer.value,
+        solution: solution.value,
+        deactivations: solution.deactivations,
+        challengeFormat,
+      });
     });
     it('should return a validation object with the returned status', () => {
       const expectedValidation = domainBuilder.buildValidation({

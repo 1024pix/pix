@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | ValidatorQCM', () => {
       validator = new ValidatorQCM({ solution: solution });
 
       // when
-      validation = validator.assess(uncorrectedAnswer);
+      validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
     it('should call solutionServiceQCU', () => {
