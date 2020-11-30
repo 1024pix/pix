@@ -204,4 +204,55 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
   });
+
+  describe('#updatePoleEmploiAuthenticationComplementByUserId', () => {
+
+    context('When authentication method exists', async () => {
+
+      let poleEmploiAuthenticationMethod;
+
+      beforeEach(() => {
+        const userId = databaseBuilder.factory.buildUser().id;
+        poleEmploiAuthenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          accessToken: 'to_be_updated',
+          refreshToken: 'to_be_updated',
+          expiredDate: Date.now(),
+          userId,
+        });
+        return databaseBuilder.commit();
+      });
+
+      it('should update authentication complement by userId and identity provider', async () => {
+        // given
+        const userId = poleEmploiAuthenticationMethod.userId;
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate: Date.now(),
+        });
+
+        // when
+        const updatedAuthenticationMethod = await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId });
+
+        // then
+        expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(authenticationComplement);
+      });
+    });
+
+    context('When authentication method does not exist', async () => {
+
+      it('should throw a not found error', async () => {
+        // given
+        const userId = 12345;
+        const authenticationComplement = {};
+
+        // when
+        const error = await catchErr(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)({ authenticationComplement, userId });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+  });
+
 });
