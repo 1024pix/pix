@@ -234,7 +234,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       assessmentId = databaseBuilder.factory.buildAssessment(
         {
           userId,
-          courseId: 'anyFromAirTable',
+          courseId: 'anyFromLearningContent',
           type: 'CAMPAIGN',
           campaignParticipationId: campaignParticipation.id,
         }).id;
@@ -306,7 +306,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'competence-id': 'recCompetenceId',
         },
         'relationships': {
-          'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
+          'course': { 'data': { 'type': 'courses', 'id': 'anyFromLearningContent' } },
           'answers': {
             'data': [],
           },

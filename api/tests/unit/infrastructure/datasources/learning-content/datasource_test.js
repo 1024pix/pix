@@ -154,7 +154,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', (
       sinon.stub(lcms, 'getLatestRelease').resolves(learningContent);
     });
 
-    it('should load all the Airtable table content in the cache (and return them)', async () => {
+    it('should load all the learning content table content in the cache (and return them)', async () => {
       // when
       const results = await dataSource.refreshLearningContentCacheRecords();
 

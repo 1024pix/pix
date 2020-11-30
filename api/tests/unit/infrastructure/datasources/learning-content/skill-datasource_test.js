@@ -4,7 +4,7 @@ const skillDatasource = require('../../../../../lib/infrastructure/datasources/l
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
+describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource', () => {
 
   beforeEach(() => {
     sinon.stub(cache, 'get').callsFake((key, generator) => generator());
@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
     });
 
-    it('should resolve an array of Skills with only activated Skillfrom airTable', async () => {
+    it('should resolve an array of Skills with only activated Skillfrom learning content', async () => {
       // given
       const
         rawSkill1 = { id: 'recSkill1', status: 'actif' },
@@ -88,7 +88,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     });
 
-    it('should resolve an array of Skills from airTable', async () => {
+    it('should resolve an array of Skills from learning content', async () => {
       // given
       const
         rawSkill1 = { id: 'recSkill1', status: 'actif' },
@@ -102,7 +102,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
     });
 
-    it('should resolve an array of Skills with only activated Skillfrom airTable', async () => {
+    it('should resolve an array of Skills with only activated Skillfrom learning content', async () => {
       // given
       const
         rawSkill1 = { id: 'recSkill1', status: 'actif' },
@@ -129,7 +129,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [acquix1, acquix2, acquix3, acquix4] });
     });
 
-    it('should retrieve all skills from Airtable for one competence', async function() {
+    it('should retrieve all skills from learning content for one competence', async function() {
       // when
       const skills = await skillDatasource.findActiveByCompetenceId('recCompetence');
 
@@ -148,7 +148,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [acquix1, acquix2, acquix3, acquix4] });
     });
 
-    it('should retrieve all skills from Airtable for one competence', async function() {
+    it('should retrieve all skills from learning content for one competence', async function() {
       // when
       const skills = await skillDatasource.findOperativeByCompetenceId('recCompetence');
 
