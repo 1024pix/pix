@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.227.0 (01/12/2020)
+
+- [#2215](https://github.com/1024pix/pix/pull/2215) [FEATURE] Afficher l'identifiant dans la page "Mon Compte" dans Pix App (PIX-1702).
+- [#2222](https://github.com/1024pix/pix/pull/2222) [FEATURE] Ajout de sous-catégories de support pour les fichiers "image" (PIX-1639).
+- [#2189](https://github.com/1024pix/pix/pull/2189) [FEATURE] Prise en compte des 0 après virgules et points dans QROC (PIX-1592).
+- [#2204](https://github.com/1024pix/pix/pull/2204) [BUGFIX] Ajouter une transaction a la creation de campagne (PIX-1689)
+- [#2212](https://github.com/1024pix/pix/pull/2212) [TECH] Serialiser correctement le prescripteur et ses informations (PIX-1724).
+- [#2179](https://github.com/1024pix/pix/pull/2179) [TECH] Mise à jour de ember en 3.20 pour Pix App (PIX-1693).
+
 ## v2.226.0 (30/11/2020)
 
 - [#2211](https://github.com/1024pix/pix/pull/2211) [BUGFIX] Lever une erreur correctement dans le script de création d'apprentis lorsqu'un ID externe d'organisation est introuvable (PIX-1694).
