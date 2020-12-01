@@ -657,7 +657,7 @@
                     "link4": "'<a href=\"/campagnes/CYFPNR723\">'Module Traiter des données'</a>'",
                     "link5": "'<a href=\"/campagnes/WHDBDT141\">'Module Interagir/partager des données'</a>'"
                 },
-                "rules": "Rappel :'<br>'- Vous pouvez passer les modules dans l’ordre que vous voulez '<br>'- Vous pouvez arrêter et reprendre votre module '<br>'- Une fois la question validée, il n’est pas possible de modifier votre réponse",
+                "rules": "Rappel :'<br>'- Vous pouvez passer les modules dans l’ordre que vous voulez '<br>'- Vous pouvez arrêter et reprendre votre module (en cliquant sur QUITTER en haut à droite de votre écran) '<br>'- Une fois la question validée (c’est-à-dire JE PASSE ou JE VALIDE), il n’est pas possible de modifier votre réponse",
                 "send-results": {
                     "button": "J'envoie ma copie",
                     "finished": "Votre copie a bien été transmise.",
