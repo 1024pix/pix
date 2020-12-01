@@ -95,8 +95,8 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
     it('should abort parsing and reject with XML error if file is malformed while scanning for UAI', async function() {
 
       // given
-      const wrongUAIFromSIECLE = '123ABC';
-      const organization = { externalId: wrongUAIFromSIECLE };
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
       const path = __dirname + '/siecle-file/siecle-broken.xml';
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
