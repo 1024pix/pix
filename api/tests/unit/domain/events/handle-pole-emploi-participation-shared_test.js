@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
+const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-sending-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { handlePoleEmploiParticipationShared } = require('../../../../lib/domain/events')._forTestOnly.handlers;
@@ -23,6 +25,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     campaignParticipationRepository,
     campaignParticipationResultRepository,
     organizationRepository,
+    poleEmploiSendingRepository,
     targetProfileRepository,
     userRepository,
   };
@@ -91,6 +94,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     organizationRepositoryStub = sinon.stub(organizationRepository, 'get');
     targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get');
     userRepositoryStub = sinon.stub(userRepository, 'get');
+    sinon.stub(poleEmploiSendingRepository, 'create');
   });
 
   it('fails when event is not of correct type', async () => {
@@ -159,11 +163,12 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
             ],
           }),
         );
-
-        sinon.stub(console, 'log');
       });
 
-      it('it should console.log results', async () => {
+      it('it should record the sending', async () => {
+        // given
+        sinon.stub(console, 'log').resolves();
+
         // when
         await handlePoleEmploiParticipationShared({
           event,
@@ -171,9 +176,60 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         });
 
         // then
-        expect(console.log).to.have.been.calledOnce;
-        const results = console.log.firstCall.args[0];
-        expect(results).to.deep.equal(expectedResults);
+        expect(poleEmploiSendingRepository.create).to.have.been.called;
+      });
+
+      context('when sending succeeds', () => {
+        beforeEach(() => {
+          sinon.stub(console, 'log').resolves();
+        });
+
+        it('it should console.log results', async () => {
+          // when
+          await handlePoleEmploiParticipationShared({
+            event,
+            ...dependencies,
+          });
+
+          // then
+          expect(console.log).to.have.been.calledOnce;
+          const results = console.log.firstCall.args[0];
+          expect(results).to.deep.equal(expectedResults);
+        });
+
+        it('it should record that the sending has succeeded', async () => {
+          // given
+          sinon.spy(PoleEmploiSending.prototype, 'succeed');
+
+          // when
+          await handlePoleEmploiParticipationShared({
+            event,
+            ...dependencies,
+          });
+
+          // then
+          expect(PoleEmploiSending.prototype.succeed).to.have.been.called;
+        });
+      });
+
+      context('when sending fails', () => {
+        beforeEach(() => {
+          sinon.stub(console, 'log').rejects();
+        });
+
+        it('it should record that the sending has failed', async () => {
+          // given
+          sinon.spy(PoleEmploiSending.prototype, 'fail');
+
+          // when
+          await handlePoleEmploiParticipationShared({
+            event,
+            ...dependencies,
+          });
+
+          // then
+          expect(PoleEmploiSending.prototype.fail).to.have.been.called;
+        });
       });
     });
 
@@ -191,7 +247,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         );
         campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
-        sinon.stub(console, 'log');
+        sinon.stub(console, 'log').resolves();
       });
 
       it('it should not console.log results', async () => {
@@ -209,7 +265,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', () => {
       beforeEach(() => {
         event = new CampaignParticipationResultsShared({ campaignParticipationId });
-        
+
         campaignParticipationRepositoryStub.withArgs(campaignParticipationId).resolves(
           domainBuilder.buildCampaignParticipation({
             id: 55667788,

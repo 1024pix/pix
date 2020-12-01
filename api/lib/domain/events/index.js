@@ -17,6 +17,7 @@ const dependencies = {
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
+  poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
