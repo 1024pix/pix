@@ -56,6 +56,7 @@ const dependencies = {
   organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),
   passwordGenerator: require('../../domain/services/password-generator'),
   pickChallengeService: require('../services/pick-challenge-service'),
+  poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
   prescriberRepository: require('../../infrastructure/repositories/prescriber-repository'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
