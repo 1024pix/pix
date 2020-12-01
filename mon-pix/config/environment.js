@@ -84,6 +84,7 @@ module.exports = function(environment) {
         },
       },
       AUTHENTICATED_SOURCE_FROM_MEDIACENTRE: 'external',
+      AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI: 'pole_emploi_connect',
     },
 
     googleFonts: [
