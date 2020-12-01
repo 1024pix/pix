@@ -11,4 +11,10 @@
     <label class="form-textfield__label user-account-panel-item__label">{{t 'navigation.user.account-panel.email'}}</label>
     <span class="user-account-panel-item__value" data-test-email>{{@user.email}}</span>
   </div>
+  {{#if this.displayUsername}}
+  <div class="user-account-panel__item">
+    <label class="form-textfield__label user-account-panel-item__label">{{t 'navigation.user.account-panel.username'}}</label>
+    <span class="user-account-panel-item__value" data-test-username>{{@user.username}}</span>
+  </div>
+  {{/if}}
 </PixBlock>
