@@ -3,7 +3,7 @@ const xml2js = require('xml2js');
 const saxPath = require('saxpath');
 const { isEmpty, isUndefined } = require('lodash');
 
-const NODE_ORGANIZATION_UAI = '/BEE_ELEVES/PARAMETRES';
+const NODE_ORGANIZATION_UAI = '/BEE_ELEVES/PARAMETRES/UAJ';
 const NODES_SCHOOLING_REGISTRATIONS = '/BEE_ELEVES/DONNEES/*/*';
 const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
@@ -75,10 +75,7 @@ function _extractUAI(saxParser, resolve, reject) {
   streamerToParseOrganizationUAI.once('match', (xmlNode) => {
     xml2js.parseString(xmlNode, (err, nodeData) => {
       if (err) return reject(err);
-      if (nodeData.PARAMETRES) {
-        resolve(nodeData.PARAMETRES.UAJ[0]);// Si je garde que cette ligne tous les tests passent
-
-      }
+      resolve(nodeData.UAJ);
     });
   });
 
