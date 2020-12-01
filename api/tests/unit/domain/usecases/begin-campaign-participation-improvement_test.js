@@ -11,7 +11,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
   };
   const assessmentRepository = {
     save: sinon.stub(),
-    getByCampaignParticipationId: sinon.stub(),
+    getLatestByCampaignParticipationId: sinon.stub(),
   };
   const dependencies = { campaignParticipationRepository, assessmentRepository };
 
@@ -56,7 +56,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
       .withArgs(campaignParticipationId, {})
       .resolves(campaignParticipation);
     const ongoingAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
-    assessmentRepository.getByCampaignParticipationId
+    assessmentRepository.getLatestByCampaignParticipationId
       .withArgs(campaignParticipationId)
       .resolves(ongoingAssessment);
 
@@ -77,7 +77,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
       .resolves(campaignParticipation);
     const latestAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
     latestAssessment.state = Assessment.states.COMPLETED;
-    assessmentRepository.getByCampaignParticipationId
+    assessmentRepository.getLatestByCampaignParticipationId
       .withArgs(campaignParticipationId)
       .resolves(latestAssessment);
     assessmentRepository.save.resolves({});

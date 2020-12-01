@@ -16,7 +16,7 @@ module.exports = async function beginCampaignParticipationImprovement({
     throw new AlreadySharedCampaignParticipationError();
   }
 
-  const latestAssessment = await assessmentRepository.getByCampaignParticipationId(campaignParticipation.id);
+  const latestAssessment = await assessmentRepository.getLatestByCampaignParticipationId(campaignParticipation.id);
   if (latestAssessment.isImproving && !latestAssessment.isCompleted()) {
     return null;
   }
