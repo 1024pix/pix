@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "first-deploy": "npm run scalingo-post-ra-creation"
+    "first-deploy": "./scripts/scalingo-post-ra-creation.sh"
   },
   "addons": [
     "postgresql:postgresql-sandbox",
