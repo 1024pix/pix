@@ -16,7 +16,7 @@ module.exports = {
   ],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
-    'plugin:ember/octane',
+    'plugin:ember/recommended',
   ],
   env: {
     browser: true,
