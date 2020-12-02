@@ -56,8 +56,10 @@ module.exports = async function createUser({
   encryptionService,
   mailService,
 }) {
-  const isValid = await _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator);
-
+  let isValid = true;
+  if (process.env.IS_PIX_CONTEST !== 'true') {
+    isValid = await _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator);
+  }
   if (isValid) {
     const encryptedPassword = await encryptionService.hashPassword(user.password);
 
