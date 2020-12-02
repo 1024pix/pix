@@ -13,10 +13,6 @@
     "type": "git",
     "url": "git+https://github.com/1024pix/pix.git"
   },
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
-  },
   "main": "bin/www",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
