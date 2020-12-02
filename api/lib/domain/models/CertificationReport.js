@@ -47,7 +47,7 @@ class CertificationReport {
 
   static fromCertificationCourse(certificationCourse) {
     const formerExaminerComment = certificationCourse.certificationIssueReports.find(
-      (certificationIssueReport) => certificationIssueReport.categoryId === CertificationIssueReportCategories.OTHER,
+      (certificationIssueReport) => certificationIssueReport.category === CertificationIssueReportCategories.OTHER,
     );
 
     return new CertificationReport({

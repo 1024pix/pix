@@ -49,7 +49,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
         certificationIssueReport = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          categoryId: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategories.OTHER,
           description,
         });
 
@@ -80,7 +80,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             id: certificationIssueReport.id,
             certificationCourseId: manyAsrCertification.id,
             description,
-            categoryId: CertificationIssueReportCategories.OTHER,
+            category: CertificationIssueReportCategories.OTHER,
           })],
         });
         expect(juryCertificationSummaries).to.have.length(3);
@@ -135,12 +135,12 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
         const issueReport1 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          categoryId: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategories.OTHER,
           description: 'first certification issue report',
         });
         const issueReport2 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
-          categoryId: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategories.OTHER,
           description: 'second certification issue report',
         });
 
@@ -158,13 +158,13 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         expect(certificationIssueReports).to.deep.equal([
           new CertificationIssueReport({
             id: issueReport1.id,
-            categoryId: issueReport1.categoryId,
+            category: issueReport1.category,
             certificationCourseId: manyAsrCertification.id,
             description: 'first certification issue report',
           }),
           new CertificationIssueReport({
             id: issueReport2.id,
-            categoryId: issueReport2.categoryId,
+            category: issueReport2.category,
             certificationCourseId: manyAsrCertification.id,
             description: 'second certification issue report',
           }),

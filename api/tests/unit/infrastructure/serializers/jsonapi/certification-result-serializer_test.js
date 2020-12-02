@@ -38,7 +38,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
           new CertificationIssueReport({
             id: 42,
             certificationCourseId: certificationCourseId,
-            categoryId: CertificationIssueReportCategories.OTHER,
+            category: CertificationIssueReportCategories.OTHER,
             description: 'un commentaire',
           }),
         ],

@@ -36,7 +36,7 @@ module.exports = function buildCertificationCourse(
       new CertificationIssueReport({
         id: faker.random.number(),
         certificationCourseId: id,
-        categoryId: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.OTHER,
         description: examinerComment,
       }),
     );
