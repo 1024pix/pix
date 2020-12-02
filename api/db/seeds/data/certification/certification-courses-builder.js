@@ -51,6 +51,13 @@ function _buildCertificationCourse(databaseBuilder, { id, assessmentId, userId, 
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     ...candidateData, id,  createdAt, isPublished, isV2Certification: true, examinerComment, hasSeenEndTestScreen, sessionId, userId, verificationCode,
   }).id;
+  if (examinerComment) {
+    databaseBuilder.factory.buildCertificationIssueReport({
+      certificationCourseId,
+      category: CertificationIssueReportCategories.OTHER,
+      description: examinerComment,
+    });
+  }
   databaseBuilder.factory.buildAssessment({
     id: assessmentId, certificationCourseId, type: 'CERTIFICATION', state: 'completed', userId, competenceId: null,
     campaignParticipationId: null, isImproving: false, createdAt,
