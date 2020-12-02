@@ -426,97 +426,81 @@ describe('Acceptance | API | Campaign Participations', () => {
   });
 
   describe('PATCH /api/campaign-participations/{id}/begin-improvement', () => {
-    let user, campaignParticipation;
-    beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser();
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, isShared: false });
-      await databaseBuilder.commit();
-    });
 
     afterEach(() => {
       return knex('assessments').delete();
     });
 
-    context('when user is connected', () => {
-      beforeEach(() => {
-        options = {
-          method: 'PATCH',
-          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-      });
+    it('should return 401 HTTP status code when user is not connected', async () => {
+      // given
+      options = {
+        method: 'PATCH',
+        url: '/api/campaign-participations/123/begin-improvement',
+      };
 
-      it('should return 204 HTTP status code', () => {
-        // when
-        const promise = server.inject(options);
+      // when
+      const response = await server.inject(options);
 
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(204);
-        });
-      });
+      // then
+      expect(response.statusCode).to.equal(401);
     });
 
-    context('when user is not connected', () => {
-      beforeEach(() => {
-        options = {
-          method: 'PATCH',
-          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
-        };
-      });
+    it('should return 204 HTTP status code', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, isShared: false }).id;
+      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, isImproving: false, state: Assessment.states.COMPLETED, type: 'CAMPAIGN' });
+      await databaseBuilder.commit();
+      options = {
+        method: 'PATCH',
+        url: `/api/campaign-participations/${campaignParticipationId}/begin-improvement`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
 
-      it('should return 401 HTTP status code', () => {
-        // when
-        const promise = server.inject(options);
+      // when
+      const response = await server.inject(options);
 
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
-      });
+      // then
+      expect(response.statusCode).to.equal(204);
     });
 
-    context('when user is connected but does not owned the assessment', () => {
-      beforeEach(async () => {
-        const otherUser = databaseBuilder.factory.buildUser();
-        await databaseBuilder.commit();
+    it('should return 412 HTTP status code when user has already shared his results', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, isShared: true }).id;
+      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, isImproving: false, state: Assessment.states.COMPLETED, type: 'CAMPAIGN' });
+      await databaseBuilder.commit();
+      options = {
+        method: 'PATCH',
+        url: `/api/campaign-participations/${campaignParticipationId}/begin-improvement`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
 
-        options = {
-          method: 'PATCH',
-          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(otherUser.id) },
-        };
-      });
+      // when
+      const response = await server.inject(options);
 
-      it('should return 403 HTTP status code', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
-      });
+      // then
+      expect(response.statusCode).to.equal(412);
     });
 
-    context('when user is connected but has already shared his results so he/she cannot improve it', () => {
-      beforeEach(async () => {
-        const sharedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, isShared: true });
-        await databaseBuilder.commit();
-        options = {
-          method: 'PATCH',
-          url: `/api/campaign-participations/${sharedCampaignParticipation.id}/begin-improvement`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        };
-      });
+    it('should return 403 HTTP status code when user is not the owner of the participation', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const anotherUserId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId: anotherUserId, isShared: false }).id;
+      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, isImproving: false, state: Assessment.states.COMPLETED, type: 'CAMPAIGN' });
+      await databaseBuilder.commit();
+      options = {
+        method: 'PATCH',
+        url: `/api/campaign-participations/${campaignParticipationId}/begin-improvement`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
 
-      it('should return 412 HTTP status code', async () => {
-        // when
-        const response = await server.inject(options);
+      // when
+      const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(412);
-      });
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 
