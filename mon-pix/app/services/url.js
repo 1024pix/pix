@@ -15,14 +15,13 @@ export default class Url extends Service {
   }
 
   get homeUrl() {
-    const isDevEnvironment = ENV.environment === 'development';
-    const isRA = ENV.APP.REVIEW_APP === 'true';
+    const isProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
 
-    if (isDevEnvironment || isRA) {
-      const currentLanguage = this.intl.t('current-lang');
-      return `${this.definedHomeUrl}?lang=${currentLanguage}`;
+    if (isProdEnv) {
+      return this._showcaseWebsiteUrl;
     }
-    return this._showcaseWebsiteUrl;
+    const currentLanguage = this.intl.t('current-lang');
+    return `${this.definedHomeUrl}?lang=${currentLanguage}`;
   }
 
   get cguUrl() {
