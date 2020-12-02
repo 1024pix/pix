@@ -36,54 +36,43 @@ describe('Unit | Service | locale', function() {
 
   describe('#homeUrl', function() {
 
-    [
-      { environment: 'development', isRA: 'false' },
-      { environment: 'production', isRA: 'true' },
-    ].forEach((testCase) => {
-      context(`when environnement=‘${testCase.environment}‘ and isRA=${testCase.isRA}`, function() {
-        const defaultEnvironment = ENV.environment;
-        const defaultIsReviewApp = ENV.APP.REVIEW_APP;
+    context('when environnement not prod', function() {
+      const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
 
-        beforeEach(function() {
-          ENV.environment = testCase.environment;
-          ENV.APP.REVIEW_APP = testCase.isRA;
-        });
+      beforeEach(function() {
+        ENV.APP.IS_PROD_ENVIRONMENT = false;
+      });
 
-        afterEach(function() {
-          ENV.environment = defaultEnvironment;
-          ENV.APP.REVIEW_APP = defaultIsReviewApp;
-        });
+      afterEach(function() {
+        ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
+      });
 
-        it('should get default home url', function() {
-          // given
-          const service = this.owner.lookup('service:url');
-          service.definedHomeUrl = 'pix.test.fr';
+      it('should get default home url', function() {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.definedHomeUrl = 'pix.test.fr';
 
-          // when
-          const homeUrl = service.homeUrl;
+        // when
+        const homeUrl = service.homeUrl;
 
-          // then
-          const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
-          expect(homeUrl).to.equal(expectedDefinedHomeUrl);
-        });
+        // then
+        const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
+        expect(homeUrl).to.equal(expectedDefinedHomeUrl);
       });
     });
 
     context('when it is not a Review App and environnement is ‘production‘', function() {
 
-      const defaultEnvironment = ENV.environment;
-      const defaultIsReviewApp = ENV.APP.REVIEW_APP;
+      const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
       let defaultLocale;
 
       beforeEach(function() {
-        ENV.environment = 'production';
-        ENV.APP.REVIEW_APP = 'false';
+        ENV.APP.IS_PROD_ENVIRONMENT = true;
         defaultLocale = this.intl.t('current-lang');
       });
 
       afterEach(function() {
-        ENV.environment = defaultEnvironment;
-        ENV.APP.REVIEW_APP = defaultIsReviewApp;
+        ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
         this.intl.setLocale(defaultLocale);
       });
 
