@@ -13,11 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/1024pix/pix.git"
   },
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
-  },
-  "main": "server.js",
+  "main": "bin/www",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
     "@hapi/accept": "^5.0.1",
