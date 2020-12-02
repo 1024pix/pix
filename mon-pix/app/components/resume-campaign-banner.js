@@ -25,6 +25,9 @@ export default class ResumeCampaignBanner extends Component {
     if (this.currentUser.user.finishedPixContestAt) {
       return false;
     }
+    if (!this.campaignParticipationState) {
+      return false;
+    }
     if (!this.campaignParticipationState.assessment.get('isCompleted')) {
       return true;
     }
