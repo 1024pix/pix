@@ -7,6 +7,10 @@ function getMaxStepsNumber(assessment) {
     return PREVIEW_UNIQUE_STEP;
   }
 
+  if (ENV.APP.IS_PIX_CONTEST === 'true') {
+    return 20;
+  }
+
   if (assessment.hasCheckpoints) {
     return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
   }
