@@ -7,7 +7,6 @@ module.exports = async function beginCampaignParticipationImprovement({
   assessmentRepository,
   campaignParticipationRepository,
 }) {
-
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {});
   if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntity();
@@ -16,10 +15,12 @@ module.exports = async function beginCampaignParticipationImprovement({
   if (campaignParticipation.isShared) {
     throw new AlreadySharedCampaignParticipationError();
   }
-  await _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository });
-};
 
-function _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository }) {
+  const latestAssessment = await assessmentRepository.getByCampaignParticipationId(campaignParticipation.id);
+  if (latestAssessment.isImproving && !latestAssessment.isCompleted()) {
+    return null;
+  }
+
   const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
-  return assessmentRepository.save({ assessment });
-}
+  await assessmentRepository.save({ assessment });
+};

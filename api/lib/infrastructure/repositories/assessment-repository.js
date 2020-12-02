@@ -92,6 +92,7 @@ module.exports = {
       .query((qb) => {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
       })
+      .orderBy('assessments.createdAt', 'DESC')
       .fetch({ require: true, withRelated: ['campaignParticipation.campaign'] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
