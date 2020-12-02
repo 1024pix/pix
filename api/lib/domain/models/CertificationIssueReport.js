@@ -3,13 +3,13 @@ class CertificationIssueReport {
     {
       id,
       certificationCourseId,
-      categoryId,
+      category,
       description,
 
     } = {}) {
     this.id = id;
     this.certificationCourseId = certificationCourseId;
-    this.categoryId = categoryId;
+    this.category = category;
     this.description = description;
   }
 }

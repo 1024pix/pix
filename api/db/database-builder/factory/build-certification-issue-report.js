@@ -7,7 +7,7 @@ const { CertificationIssueReportCategories } = require('../../../lib/domain/mode
 module.exports = function buildCertificationIssueReport({
   id,
   certificationCourseId,
-  categoryId = CertificationIssueReportCategories.OTHER,
+  category = CertificationIssueReportCategories.OTHER,
   description = faker.lorem.sentence(),
 } = {}) {
 
@@ -18,7 +18,7 @@ module.exports = function buildCertificationIssueReport({
   const values = {
     id,
     certificationCourseId,
-    categoryId,
+    category,
     description,
   };
   return databaseBuffer.pushInsertable({

@@ -5,7 +5,6 @@ const assessmentResultRepository = require('../../infrastructure/repositories/as
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const cleaCertificationStatusRepository = require('../../infrastructure/repositories/clea-certification-status-repository');
 const certificationResultService = require('./certification-result-service');
-const get = require('lodash/get');
 
 async function calculateCertificationResultByCertificationCourseId(certificationCourseId) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId(certificationCourseId);

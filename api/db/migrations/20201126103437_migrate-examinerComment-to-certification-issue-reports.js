@@ -11,7 +11,7 @@ exports.up = async (knex) => {
     return {
       certificationCourseId: id,
       description: examinerComment,
-      categoryId: CertificationIssueReportCategories.OTHER,
+      category: CertificationIssueReportCategories.OTHER,
     };
   });
 

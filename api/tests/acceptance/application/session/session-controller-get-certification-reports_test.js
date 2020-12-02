@@ -75,13 +75,13 @@ describe('Acceptance | Controller | session-controller-get-certification-reports
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId: certificationCourseIdA,
           description: 'il a eu un soucis',
-          categoryId: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategories.OTHER,
         });
 
         databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId: certificationCourseIdB,
           description: 'ok',
-          categoryId: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategories.OTHER,
         });
 
         expectedCertificationReportA = {

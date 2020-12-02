@@ -39,7 +39,7 @@ module.exports = {
       await new CertificationIssueReportBookshelf({
         certificationCourseId: certificationReport.certificationCourseId,
         description: certificationReport.examinerComment,
-        categoryId: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.OTHER,
       }).save();
     }
   },

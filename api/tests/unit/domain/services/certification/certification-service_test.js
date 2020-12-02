@@ -85,7 +85,7 @@ describe('Unit | Service | Certification Service', function() {
           sessionId: 123,
           externalId: 'TimonsFriend',
           certificationIssueReports: [
-            new CertificationIssueReport({ id: 1, categoryId: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
+            new CertificationIssueReport({ id: 1, category: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
           ],
           hasSeenEndTestScreen: true,
         });
@@ -129,7 +129,7 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.birthdate).to.deep.equal('1992-01-28');
         expect(certification.externalId).to.deep.equal('TimonsFriend');
         expect(certification.certificationIssueReports).to.deep.equal([
-          new CertificationIssueReport({ id: 1, categoryId: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
+          new CertificationIssueReport({ id: 1, category: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
         ]);
         expect(certification.hasSeenEndTestScreen).to.deep.equal(true);
         expect(certification.cleaCertificationStatus).to.deep.equal(cleaCertificationStatus);
@@ -152,7 +152,7 @@ describe('Unit | Service | Certification Service', function() {
           externalId: 'TimonsFriend',
           examinerComment: 'Hakuna matata',
           certificationIssueReports: [
-            new CertificationIssueReport({ id: 1, categoryId: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Hakuna matata' }),
+            new CertificationIssueReport({ id: 1, category: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Hakuna matata' }),
           ],
           hasSeenEndTestScreen: false,
         }));

@@ -1,5 +1,5 @@
 module.exports = {
   CertificationIssueReportCategories: {
-    OTHER: 1,
+    OTHER: 'OTHER',
   },
 };

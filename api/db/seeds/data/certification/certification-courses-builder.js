@@ -16,6 +16,7 @@ const {
   CANDIDATE_DATA_STARTED,
 } = require('./certification-candidates-builder');
 const { CERTIFICATION_CHALLENGES_DATA } = require('./certification-data');
+const { CertificationIssueReportCategories } = require('./../../../../lib/domain/models/CertificationIssueReportCategory');
 
 const ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID = 100;
 const ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID = 101;

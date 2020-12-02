@@ -18,7 +18,7 @@ describe('Integration | Repository | CertificationReport', function() {
         const certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({ lastName: 'Xubbu', sessionId });
         const certificationIssueReport1 = databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId: certificationCourse1.id,
-          categoryId: CertificationIssueReportCategories.OTHER,
+          category: CertificationIssueReportCategories.OTHER,
           description: 'Houston, nous avons un problème',
         });
         // In other session
