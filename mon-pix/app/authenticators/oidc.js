@@ -1,5 +1,6 @@
 import RSVP from 'rsvp';
 import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
 import OIDCAuthenticator from 'ember-simple-auth-oidc/authenticators/oidc';
 import getAbsoluteUrl from 'ember-simple-auth-oidc/utils/absoluteUrl';
@@ -19,6 +20,8 @@ const {
 
 export default OIDCAuthenticator.extend({
 
+  session: service(),
+
   async authenticate({ code, redirectUri }) {
     const bodyObject = {
       code,
@@ -30,14 +33,26 @@ export default OIDCAuthenticator.extend({
       .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
       .join('&');
 
-    const response = await fetch(serverTokenEndpoint, {
+    const request = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body,
-    });
+    };
+
+    // We want to authorize users connected to Pix to connect to Pole Emploi as well
+    // in order to link their Pole Emploi account to the Pix one.
+    if (this.session.isAuthenticated) {
+      request.headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
+      // We must ensure to disconnect the Pix user in order for the session service to fire
+      // the authenticationSucceeded event (and thus execute the ApplicationRouteMixin sessionAuthenticated() method).
+      // see: https://github.com/simplabs/ember-simple-auth/blob/92268fdcb9ac3d1c9f7b0abde4923dade7a0cd62/packages/ember-simple-auth/addon/internal-session.js#L95L106
+      this.session.invalidate();
+    }
+
+    const response = await fetch(serverTokenEndpoint, request);
 
     const data = await response.json();
     const decodedAccessToken = decodeToken(data.access_token);
