@@ -61,7 +61,7 @@ describe('Acceptance | Navbar', function() {
 
     it('should contain link to pix.fr/aide', async function() {
       // given
-      const helpItem = find('.navbar-desktop-header-container__menu').children[2];
+      const helpItem = find('.navbar-desktop-header-container__menu').children[3];
       const helpLink = helpItem.children[0].getAttribute('href');
       // when
       await visit('/profil');
