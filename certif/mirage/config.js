@@ -62,6 +62,16 @@ export default function() {
     return schema.certificationCandidates.create({ sessionId });
   });
 
+  this.post('/certification-reports/:id/certification-issue-reports', function(schema, request) {
+    const certificationCourseId = request.params.id;
+    const requestBody = JSON.parse(request.requestBody);
+    const description = requestBody.data.attributes['description'];
+    const category = requestBody.data.attributes['category'];
+    const certificationReport = schema.certificationReports.find(certificationCourseId);
+
+    return schema.certificationIssueReports.create({ certificationReport, description, category });
+  });
+
   this.get('/sessions/:id/certification-reports', function(schema, request) {
     const sessionId = request.params.id;
 
