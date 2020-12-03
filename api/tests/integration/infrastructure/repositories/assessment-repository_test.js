@@ -391,26 +391,22 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#getByCampaignParticipationId', () => {
+  describe('#getLatestByCampaignParticipationId', () => {
 
-    let campaignParticipationId;
-
-    before(async () => {
-
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
+    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async () => {
+      // given
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
+      const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
+      databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId: otherCampaignParticipationId });
       databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId }).id;
       const otherAssessmentId = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.CAMPAIGN,
       }).id;
-
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId: otherAssessmentId });
-
       await databaseBuilder.commit();
-    });
 
-    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async () => {
       // when
-      const assessmentsReturned = await assessmentRepository.getByCampaignParticipationId(campaignParticipationId);
+      const assessmentsReturned = await assessmentRepository.getLatestByCampaignParticipationId(campaignParticipationId);
 
       // then
       expect(assessmentsReturned).to.be.an.instanceOf(Assessment);
@@ -418,6 +414,21 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessmentsReturned.campaignParticipation.id).to.equal(campaignParticipationId);
     });
 
+    it('should return the most recent assessment when there are several for the same campaignParticipation', async () => {
+      // given
+      const oldDate = new Date('2020-01-01');
+      const newDate = new Date('2020-02-01');
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({}).id;
+      databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId, createdAt: oldDate });
+      const mostRecentAssessmentId = databaseBuilder.factory.buildAssessment({ type: Assessment.types.CAMPAIGN, campaignParticipationId, createdAt: newDate }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const assessmentsReturned = await assessmentRepository.getLatestByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(assessmentsReturned.id).to.equal(mostRecentAssessmentId);
+    });
   });
 
   describe('#findNotAbortedCampaignAssessmentsByUserId', () => {
