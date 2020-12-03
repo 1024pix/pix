@@ -27,8 +27,6 @@ const buildUser = function buildUser({
   shouldChangePassword = false,
   createdAt = new Date(),
   updatedAt = new Date(),
-
-  externalIdentityId,
 } = {}) {
 
   password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
@@ -36,7 +34,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, username, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword, createdAt, updatedAt, externalIdentityId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword, createdAt, updatedAt,
   };
 
   return databaseBuffer.pushInsertable({
