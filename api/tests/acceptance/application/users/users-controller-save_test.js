@@ -112,5 +112,41 @@ describe('Acceptance | Controller | users-controller', () => {
           .then(() => expect(mailer.sendEmail).to.have.been.calledWith(expectedMail));
       });
     });
+
+    context('user is invalid', async () => {
+
+      const validUserAttributes = {
+        'first-name': 'John',
+        'last-name': 'DoDoe',
+        'email': 'john.doe@example.net',
+        'password': 'Ab124B2C3#!',
+        'cgu': true,
+        'recaptcha-token': 'reCAPTCHAToken',
+      };
+
+      it('should return Unprocessable Entity (HTTP_422) with offending properties', async () => {
+
+        const invalidUserAttributes = { ...validUserAttributes, 'must-validate-terms-of-service': 'not_a_boolean'  };
+
+        const options = {
+          method: 'POST',
+          url: '/api/users',
+          payload: {
+            data: {
+              type: 'users',
+              attributes: invalidUserAttributes,
+              relationships: {},
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+        expect(response.result.errors[0].title).to.equal('Invalid data attribute "mustValidateTermsOfService"');
+      });
+    });
   });
 });
