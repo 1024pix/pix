@@ -1,17 +1,19 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
 module('Integration | Component | examiner-report-modal', function(hooks) {
   setupRenderingTest(hooks);
 
-  const RADIO_BUTTON_SELECTOR = '#report-of-type-other__radio-button';
-  const LABEL_FOR_RADIO_BUTTON_SELECTOR = 'label[for="report-of-type-other__radio-button"]';
-  const TEXT_AREA_SELECTOR = '#report-of-type-other__text-area';
-  const REPORT_INPUT_LENGTH_INDICATOR = '.content__report-type-details p';
+  const LABEL_FOR_RADIO_BUTTON_OF_TYPE_OTHER_SELECTOR = 'label[for="input-radio-for-type-other"]';
+  const LABEL_FOR_RADIO_BUTTON_OF_TYPE_LATE_OR_LEAVING_SELECTOR = 'label[for="input-radio-for-type-late-or-leaving"]';
+  const TEXT_AREA_OF_TYPE_OTHER_SELECTOR = '#text-area-for-type-other';
+  const TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR = '#text-area-for-type-late-or-leaving';
+  const REPORT_INPUT_LENGTH_INDICATOR = '.examiner-report-modal-content__char-count';
 
   test('it show candidate informations in title', async function(assert) {
     // given
@@ -41,42 +43,86 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
     assert.dom(reportModalTitleSelector).hasText('Lisa Monpud');
   });
 
-  module('when radio button "Autre incident" is checked', function() {
+  module('when there is already an issue report', function() {
+    module('when the issue report is of type OTHER', function() {
+      test('it should show OTHER textearea already filled', async function(assert) {
+        // given
+        const certificationCourseId = 1;
+        const certificationIssueReport = EmberObject.create({
+          category: certificationIssueReportCategoriesLabel.OTHER,
+          description: 'coucou',
+        });
+        const report = EmberObject.create({
+          certificationCourseId,
+          firstName: 'Lisa',
+          lastName: 'Monpud',
+          certificationIssueReports: [ certificationIssueReport ],
+          hasSeenEndTestScreen: false,
+        });
 
-    test('it should show textearea for other type report', async function(assert) {
-      // given
-      const examinerComment = 'coucou';
-      const report = EmberObject.create({
-        certificationCourseId: 1,
-        firstName: 'Lisa',
-        lastName: 'Monpud',
-        examinerComment,
-        hasSeenEndTestScreen: false,
+        const closeExaminerReportModalStub = sinon.stub();
+        this.set('closeExaminerReportModal', closeExaminerReportModalStub);
+        this.set('reportToEdit', report);
+        this.set('maxlength', 500);
+
+        // when
+        await render(hbs`
+          <ExaminerReportModal
+            @closeModal={{this.closeExaminerReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@examinerCommentMaxLength}}
+          />
+        `);
+
+        // then
+        const textAreaElement = document.querySelector(TEXT_AREA_OF_TYPE_OTHER_SELECTOR);
+        assert.dom(TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR).doesNotExist();
+        assert.equal(textAreaElement.value, 'coucou');
+        assert.dom(REPORT_INPUT_LENGTH_INDICATOR).hasText(`${certificationIssueReport.description.length} / 500`);
       });
-      const closeExaminerReportModalStub = sinon.stub();
-      this.set('closeExaminerReportModal', closeExaminerReportModalStub);
-      this.set('reportToEdit', report);
-      this.set('maxlength', 500);
-      await render(hbs`
-        <ExaminerReportModal
-          @closeModal={{this.closeExaminerReportModal}}
-          @report={{this.reportToEdit}}
-          @maxlength={{@examinerCommentMaxLength}}
-        />
-      `);
+    });
 
-      // when
-      await click(RADIO_BUTTON_SELECTOR);
+    module('when the issue report is of type LATE_OR_LEAVING', function() {
+      test('it should show LATE_OR_LEAVING textearea already filled', async function(assert) {
+        // given
+        const certificationCourseId = 1;
+        const certificationIssueReport = EmberObject.create({
+          category: certificationIssueReportCategoriesLabel.LATE_OR_LEAVING,
+          description: 'coucou',
+        });
+        const report = EmberObject.create({
+          certificationCourseId,
+          firstName: 'Lisa',
+          lastName: 'Monpud',
+          certificationIssueReports: [ certificationIssueReport ],
+          hasSeenEndTestScreen: false,
+        });
 
-      // then
-      assert.dom(TEXT_AREA_SELECTOR).exists();
-      assert.dom(REPORT_INPUT_LENGTH_INDICATOR).hasText(`${examinerComment.length} / 500`);
+        const closeExaminerReportModalStub = sinon.stub();
+        this.set('closeExaminerReportModal', closeExaminerReportModalStub);
+        this.set('reportToEdit', report);
+        this.set('maxlength', 500);
+
+        // when
+        await render(hbs`
+          <ExaminerReportModal
+            @closeModal={{this.closeExaminerReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@examinerCommentMaxLength}}
+          />
+        `);
+
+        // then
+        const textAreaElement = document.querySelector(TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR);
+        assert.dom(TEXT_AREA_OF_TYPE_OTHER_SELECTOR).doesNotExist();
+        assert.equal(textAreaElement.value, 'coucou');
+        assert.dom(REPORT_INPUT_LENGTH_INDICATOR).hasText(`${certificationIssueReport.description.length} / 500`);
+      });
     });
   });
 
-  module('when radio button "Autre incident" is not checked', function() {
-
-    test('it should only show "Autre incident" label', async function(assert) {
+  module('when there is no issue report yet', function() {
+    test('it should show all categories label', async function(assert) {
       // given
       const report = EmberObject.create({
         certificationCourseId: 1,
@@ -100,9 +146,10 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
       `);
 
       // then
-      assert.dom(TEXT_AREA_SELECTOR).doesNotExist();
-      assert.dom(LABEL_FOR_RADIO_BUTTON_SELECTOR).hasText('Autre incident');
+      assert.dom(TEXT_AREA_OF_TYPE_OTHER_SELECTOR).doesNotExist();
+      assert.dom(TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR).doesNotExist();
+      assert.dom(LABEL_FOR_RADIO_BUTTON_OF_TYPE_OTHER_SELECTOR).hasText('Autre incident');
+      assert.dom(LABEL_FOR_RADIO_BUTTON_OF_TYPE_LATE_OR_LEAVING_SELECTOR).hasText('Retard, absence ou départ');
     });
   });
-
 });

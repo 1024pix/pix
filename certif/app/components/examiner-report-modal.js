@@ -2,34 +2,65 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
 
 export default class ExaminerReportModal extends Component {
   @service store
 
-  reportOfTypeOther = this.args.report.examinerComment;
+  @tracked isReportOfTypeOtherChecked = false;
+  @tracked isReportOfTypeLateOrLeavingChecked = false;
+  @tracked reportLength = 0;
+  @tracked currentIssueReport = {};
 
-  @tracked
-  isReportOfTypeOtherChecked = false
-
-  @tracked
-  reportLength = 0
-
-  @action
-  async toggleShowReportOfTypeOther() {
-    this.isReportOfTypeOtherChecked = !this.isReportOfTypeOtherChecked;
-    if (this.args.report.examinerComment) {
-      this.reportLength = this.args.report.examinerComment.length;
+  constructor() {
+    super(...arguments);
+    const certificationReport = this.args.report;
+    const certificationIssueReports = certificationReport.certificationIssueReports;
+    if (certificationIssueReports && certificationIssueReports.length) {
+      this.currentIssueReport = certificationIssueReports[0];
+      this.reportLength = this.currentIssueReport.description.length;
+      if (this.currentIssueReport.category === certificationIssueReportCategoriesLabel.OTHER) {
+        this.isReportOfTypeOtherChecked = true;
+      } else {
+        this.isReportOfTypeLateOrLeavingChecked = true;
+      }
+    } else {
+      this.currentIssueReport = { certificationReport: this.args.report };
     }
   }
 
   @action
-  submitReport() {
-    this.args.report.examinerComment = this.reportOfTypeOther;
+  toggleShowReportOfTypeOther() {
+    this.isReportOfTypeOtherChecked = !this.isReportOfTypeOtherChecked;
+    this.currentIssueReport.description = null;
+    this.reportLength = 0;
+    if (this.isReportOfTypeOtherChecked) {
+      this.isReportOfTypeLateOrLeavingChecked = false;
+      this.currentIssueReport.category = certificationIssueReportCategoriesLabel.OTHER;
+    }
+  }
+
+  @action
+  toggleShowReportOfTypeLateOrLeaving() {
+    this.isReportOfTypeLateOrLeavingChecked = !this.isReportOfTypeLateOrLeavingChecked;
+    this.currentIssueReport.description = null;
+    this.reportLength = 0;
+    if (this.isReportOfTypeLateOrLeavingChecked) {
+      this.isReportOfTypeOtherChecked = false;
+      this.currentIssueReport.category = certificationIssueReportCategoriesLabel.LATE_OR_LEAVING;
+    }
+  }
+
+  @action
+  async submitReport(event) {
+    event.preventDefault();
+    const issueReportToSave = this.store.createRecord('certification-issue-report', this.currentIssueReport);
+    await issueReportToSave.save();
     this.args.closeModal();
   }
 
   @action
-  handleChange(e) {
+  handleTextareaChange(e) {
     this.reportLength = e.target.value.length;
   }
 }

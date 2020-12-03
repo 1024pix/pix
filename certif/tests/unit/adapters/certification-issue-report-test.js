@@ -18,7 +18,7 @@ module('Unit | Adapter | certification issue report', function(hooks) {
     };
     snapshot.belongsTo.withArgs('certificationReport').returns(certificationReport);
     certificationReport.attr.withArgs('certificationCourseId').returns(certificationCourseId);
-    
+
     // when
     const adapter = this.owner.lookup('adapter:certification-issue-report');
     const url = await adapter.urlForCreateRecord(modelName, snapshot);
