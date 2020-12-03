@@ -22,12 +22,16 @@ export default class SessionAdapter extends ApplicationAdapter {
               'examiner-global-comment': model.examinerGlobalComment,
             },
             included: model.certificationReports
-              .filter((certificationReport) => certificationReport.hasDirtyAttributes)
-              .map((certificationReport) => ({
-                type: 'certification-reports',
-                id: certificationReport.get('id'),
-                attributes: certificationReport.toJSON(),
-              })),
+              .map((certificationReport) => {
+                const examinerComment = certificationReport.firstIssueReportDescription
+                  ? certificationReport.firstIssueReportDescription
+                  : null;
+                return {
+                  type: 'certification-reports',
+                  id: certificationReport.get('id'),
+                  attributes: { ...certificationReport.toJSON(), examinerComment },
+                };
+              }),
           },
         };
         return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT', { data });
