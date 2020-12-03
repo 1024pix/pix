@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.228.0 (03/12/2020)
+
+- [#2206](https://github.com/1024pix/pix/pull/2206) [FEATURE] Migration de la connexion Pole Emploi dans la table authentication-methods (PIX-1523).
+- [#2225](https://github.com/1024pix/pix/pull/2225) [FEATURE] Retourner sur le site pix.org/en-gb quand on se déconnecte de app.pix.org en anglais (PIX-1621).
+- [#2228](https://github.com/1024pix/pix/pull/2228) [BUGFIX] Empêcher la création de plusieurs assessments d'improvement simultanés en campagne (PIX-1575)
+- [#2207](https://github.com/1024pix/pix/pull/2207) [BUGFIX] Corriger le premier déploiement des review apps.
+- [#2233](https://github.com/1024pix/pix/pull/2233) [TECH] Mettre à jour ember-page-title sur Pix APP (PIX-1738)
+- [#2229](https://github.com/1024pix/pix/pull/2229) [TECH] Empêcher une erreur interne API lors de la création d'un utilisateur.
+- [#2236](https://github.com/1024pix/pix/pull/2236) [TECH] Mettre à jour de eslint-plugin-ember (PIX-1740).
+- [#2235](https://github.com/1024pix/pix/pull/2235) [TECH] Nettoyage du package.json de l'API.
+- [#2223](https://github.com/1024pix/pix/pull/2223) [TECH] Supprimer le vidage non intentionnel du slugignore API.
+- [#1730](https://github.com/1024pix/pix/pull/1730) [DOC] ADR sur la gestion des erreurs dans l'API et IHM.
+
 ## v2.227.0 (01/12/2020)
 
 - [#2215](https://github.com/1024pix/pix/pull/2215) [FEATURE] Afficher l'identifiant dans la page "Mon Compte" dans Pix App (PIX-1702).
