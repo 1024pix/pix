@@ -17,7 +17,7 @@ export default class SessionsFinalizeController extends Controller {
   @alias('model.isReportsCategorizationFeatureToggleEnabled') isReportsCategorizationFeatureToggleEnabled;
 
   examinerGlobalCommentMaxLength = 500;
-  examinerCommentMaxLength = 500;
+  issueReportDescriptionMaxLength = 500;
   @tracked isLoading = false;
   @tracked showConfirmModal = false;
 
@@ -68,7 +68,7 @@ export default class SessionsFinalizeController extends Controller {
   @action
   updateCertificationIssueReport(certificationReport, event) {
     const inputText = event.target.value;
-    if (inputText.length <= this.examinerCommentMaxLength) {
+    if (inputText.length <= this.issueReportDescriptionMaxLength) {
       const issueReportToAdd = {
         certificationReport,
         category: certificationIssueReportCategoriesLabel.OTHER,

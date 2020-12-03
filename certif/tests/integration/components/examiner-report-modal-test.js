@@ -34,7 +34,7 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
       <ExaminerReportModal
         @closeModal={{this.closeExaminerReportModal}}
         @report={{this.reportToEdit}}
-        @maxlength={{@examinerCommentMaxLength}}
+        @maxlength={{@issueReportDescriptionMaxLength}}
       />
     `);
 
@@ -70,7 +70,7 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
           <ExaminerReportModal
             @closeModal={{this.closeExaminerReportModal}}
             @report={{this.reportToEdit}}
-            @maxlength={{@examinerCommentMaxLength}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
           />
         `);
 
@@ -108,7 +108,7 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
           <ExaminerReportModal
             @closeModal={{this.closeExaminerReportModal}}
             @report={{this.reportToEdit}}
-            @maxlength={{@examinerCommentMaxLength}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
           />
         `);
 
@@ -141,7 +141,7 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
         <ExaminerReportModal
           @closeModal={{this.closeExaminerReportModal}}
           @report={{this.reportToEdit}}
-          @maxlength={{@examinerCommentMaxLength}}
+          @maxlength={{@issueReportDescriptionMaxLength}}
         />
       `);
 

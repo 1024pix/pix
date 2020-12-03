@@ -40,7 +40,7 @@ module('Integration | Component | session-finalization-reports-informations-step
     }));
     this.set('certificationReports', [reportA, reportB]);
     this.set('updateCertificationIssueReport', sinon.stub().returns('new comment'));
-    this.set('examinerCommentMaxLength', 500);
+    this.set('issueReportDescriptionMaxLength', 500);
     this.set('toggleCertificationReportHasSeenEndTestScreen', sinon.stub().returns());
     this.set('toggleAllCertificationReportsHasSeenEndTestScreen', sinon.stub().returns());
   });
@@ -56,7 +56,7 @@ module('Integration | Component | session-finalization-reports-informations-step
         <SessionFinalizationReportsInformationsStep
           @certificationReports={{this.certificationReports}}
           @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
-          @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
           @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
           @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
         />
@@ -83,7 +83,7 @@ module('Integration | Component | session-finalization-reports-informations-step
         <SessionFinalizationReportsInformationsStep
           @certificationReports={{this.certificationReports}}
           @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
-          @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
           @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
           @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
           @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
