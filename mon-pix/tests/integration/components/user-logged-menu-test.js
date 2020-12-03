@@ -62,7 +62,7 @@ describe('Integration | Component | user logged menu', function() {
 
     it('should display a user menu, when user-name is clicked', async function() {
       // given
-      const MENU_ITEMS_COUNT = 4;
+      const MENU_ITEMS_COUNT = 3;
       await render(hbs`{{user-logged-menu}}`);
 
       // when
@@ -77,23 +77,13 @@ describe('Integration | Component | user logged menu', function() {
       });
     });
 
-    it('should display link to user tutorials', async function() {
-      // when
-      await render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
-
-      return settled().then(() => {
-        // then
-        expect(findAll('.logged-user-menu__link')[1].textContent.trim()).to.equal(this.intl.t('navigation.user.tutorials'));
-      });
-    });
-
     it('should display link to user certifications', async function() {
       // when
       await render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
 
       return settled().then(() => {
         // then
-        expect(findAll('.logged-user-menu__link')[2].textContent.trim()).to.equal('Mes certifications');
+        expect(findAll('.logged-user-menu__link')[1].textContent.trim()).to.equal('Mes certifications');
       });
     });
 

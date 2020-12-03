@@ -977,7 +977,8 @@
             "help": "Help",
             "link-help": "https://pix.org/help",
             "profile": "Profile",
-            "start-certification": "Certification"
+            "start-certification": "Certification",
+            "tutorials": ""
         },
         "not-logged": {
             "sign-in": "Log in",
@@ -993,8 +994,7 @@
                 "username": ""
             },
             "certifications": "My certifications",
-            "sign-out": "Log out",
-            "tutorials": "My tutorials"
+            "sign-out": "Log out"
         },
         "user-logged-menu": {
             "details": "Check my details"
