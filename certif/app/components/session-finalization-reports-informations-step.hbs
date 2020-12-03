@@ -26,10 +26,10 @@
           <td data-test-id="finalization-report-last-name_{{report.certificationCourseId}}">{{report.lastName}}</td>
           <td data-test-id="finalization-report-first-name_{{report.certificationCourseId}}">{{report.firstName}}</td>
           <td data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}">{{report.certificationCourseId}}</td>
-          <td data-test-id="finalization-report-examiner-comment_{{report.certificationCourseId}}">
+          <td data-test-id="finalization-report-certification-issue-reports_{{report.certificationCourseId}}">
             {{#if @isReportsCategorizationFeatureToggleEnabled}}
               <div class="finalization-report-examiner-comment">
-                {{#if report.examinerComment}}
+                {{#if report.certificationIssueReports}}
                   <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openExaminerReportModal report)}}>
                     Ajouter / modifier
                   </button>

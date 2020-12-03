@@ -1,25 +1,36 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
+import { A } from '@ember/array';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
+import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
 
 module('Integration | Component | session-finalization-reports-informations-step', function(hooks) {
   setupRenderingTest(hooks);
   let reportA;
   let reportB;
   let store;
+  let certificationIssueReportA;
 
   hooks.beforeEach(async function() {
     store = this.owner.lookup('service:store');
+
+    certificationIssueReportA = run(() => store.createRecord('certification-issue-report', {
+      description: 'Coucou',
+      category: certificationIssueReportCategoriesLabel.OTHER,
+    }));
+
     reportA = run(() => store.createRecord('certification-report', {
       certificationCourseId: 1234,
       firstName: 'Alice',
       lastName: 'Alister',
-      examinerComment: 'coucou',
+      examinerComment: null,
+      certificationIssueReports: A([certificationIssueReportA]),
       hasSeenEndTestScreen: null,
     }));
+
     reportB = run(() => store.createRecord('certification-report', {
       certificationCourseId: 3,
       firstName: 'Bob',
@@ -63,7 +74,7 @@ module('Integration | Component | session-finalization-reports-informations-step
 
   module('when feature categorizationOfReports is on', function() {
 
-    test('it shows "1 Signalement" only if there is an examinerComment', async function(assert) {
+    test('it shows "1 Signalement" only if there is a certification issue report', async function(assert) {
       // given
       this.set('isReportsCategorizationFeatureToggleEnabled', true);
 
