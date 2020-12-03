@@ -10,6 +10,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
 import { contains } from '../../helpers/contains';
+import ENV from 'mon-pix/config/environment';
 
 describe('Integration | Component | navbar-desktop-header', function() {
 
@@ -60,7 +61,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
         isAuthenticated: true,
         data: {
           authenticated: {
-            token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg5MDh9.bbbb',
+            token: 'access_token',
             userId: 1,
             source: 'pix',
           },
@@ -106,6 +107,41 @@ describe('Integration | Component | navbar-desktop-header', function() {
       expect(contains('Profil')).to.exist;
       expect(contains('Certification')).to.exist;
       expect(contains('Mes tutos')).to.exist;
+      expect(contains('Aide')).to.exist;
+    });
+  });
+
+  context('when dashboard feature toggle is enabled', function() {
+    const originalDashboardFeatureState = ENV.APP.FT_DASHBOARD;
+
+    beforeEach(async function() {
+      ENV.APP.FT_DASHBOARD = true;
+      this.owner.register('service:session', Service.extend({
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            token: 'access_token',
+            userId: 1,
+            source: 'pix',
+          },
+        },
+      }));
+      setBreakpoint('desktop');
+      await render(hbs`<NavbarDesktopHeader/>}`);
+    });
+
+    afterEach(function() {
+      ENV.APP.FT_DASHBOARD = originalDashboardFeatureState;
+    });
+
+    it('should display the navigation menu with expected elements', function() {
+
+      // then
+      expect(find('.navbar-desktop-header-container__menu')).to.exist;
+      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
+      expect(contains('Accueil')).to.exist;
+      expect(contains('Profil')).to.exist;
+      expect(contains('Certification')).to.exist;
       expect(contains('Aide')).to.exist;
     });
   });
