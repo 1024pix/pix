@@ -57,6 +57,7 @@ module.exports = function(environment) {
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
+      FT_DASHBOARD: _isFeatureEnabled(process.env.FT_DASHBOARD) || true,
       FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU: process.env.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU || false,
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
 
@@ -149,7 +150,7 @@ module.exports = function(environment) {
     }
 
     ENV.APP.IS_POLE_EMPLOI_ENABLED = true;
-    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat.pole-emploi.fr',
+    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat.pole-emploi.fr';
     ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost:8080/';
   }
 
@@ -174,6 +175,7 @@ module.exports = function(environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.GOOGLE_RECAPTCHA_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
     ENV.RECAPTCHA_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
+    ENV.APP.FT_DASHBOARD = false;
   }
 
   if (environment === 'production') {
