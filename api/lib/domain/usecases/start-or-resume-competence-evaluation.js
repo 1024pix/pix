@@ -38,13 +38,7 @@ async function _startCompetenceEvaluation({ userId, competenceId, assessmentRepo
 }
 
 function _createAssessment({ userId, competenceId, assessmentRepository }) {
-  const assessment = new Assessment({
-    userId,
-    competenceId,
-    state: Assessment.states.STARTED,
-    type: Assessment.types.COMPETENCE_EVALUATION,
-    courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
-  });
+  const assessment = Assessment.createForCompetenceEvaluation({ userId, competenceId });
   return assessmentRepository.save({ assessment });
 }
 

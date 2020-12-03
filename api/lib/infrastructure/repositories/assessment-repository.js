@@ -86,12 +86,13 @@ module.exports = {
       .then((result) => result ? result.attributes.id : null);
   },
 
-  getByCampaignParticipationId(campaignParticipationId) {
+  getLatestByCampaignParticipationId(campaignParticipationId) {
     return BookshelfAssessment
       .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'CAMPAIGN' })
       .query((qb) => {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
       })
+      .orderBy('assessments.createdAt', 'DESC')
       .fetch({ require: true, withRelated: ['campaignParticipation.campaign'] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },

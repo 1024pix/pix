@@ -277,4 +277,103 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
 
   });
+
+  describe('#createForCertificationCourse', () => {
+
+    it('should return a proper assessment for certification course', () => {
+      // given
+      const userId = 123;
+      const certificationCourseId = 456;
+
+      // when
+      const assessment = Assessment.createForCertificationCourse({ userId, certificationCourseId });
+
+      // then
+      expect(assessment.userId).to.equal(userId);
+      expect(assessment.certificationCourseId).to.equal(certificationCourseId);
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+      expect(assessment.type).to.equal(Assessment.types.CERTIFICATION);
+      expect(assessment.isImproving).to.be.false;
+    });
+  });
+
+  describe('#createForCampaign', () => {
+
+    it('should return a proper assessment for campaign', () => {
+      // given
+      const userId = 123;
+      const campaignParticipationId = 456;
+
+      // when
+      const assessment = Assessment.createForCampaign({ userId, campaignParticipationId });
+
+      // then
+      expect(assessment.userId).to.equal(userId);
+      expect(assessment.campaignParticipationId).to.equal(campaignParticipationId);
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+      expect(assessment.type).to.equal(Assessment.types.CAMPAIGN);
+      expect(assessment.courseId).to.equal(Assessment.courseIdMessage.CAMPAIGN);
+      expect(assessment.isImproving).to.be.false;
+    });
+  });
+
+  describe('#createImprovingForCampaign', () => {
+
+    it('should return a proper improving assessment for campaign', () => {
+      // given
+      const userId = 123;
+      const campaignParticipationId = 456;
+
+      // when
+      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
+
+      // then
+      expect(assessment.userId).to.equal(userId);
+      expect(assessment.campaignParticipationId).to.equal(campaignParticipationId);
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+      expect(assessment.type).to.equal(Assessment.types.CAMPAIGN);
+      expect(assessment.courseId).to.equal(Assessment.courseIdMessage.CAMPAIGN);
+      expect(assessment.isImproving).to.be.true;
+    });
+  });
+
+  describe('#createForCompetenceEvaluation', () => {
+
+    it('should return a proper assessment for competence evaluation', () => {
+      // given
+      const userId = 123;
+      const competenceId = 'rec123ABC';
+
+      // when
+      const assessment = Assessment.createForCompetenceEvaluation({ userId, competenceId });
+
+      // then
+      expect(assessment.userId).to.equal(userId);
+      expect(assessment.competenceId).to.equal(competenceId);
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+      expect(assessment.type).to.equal(Assessment.types.COMPETENCE_EVALUATION);
+      expect(assessment.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
+      expect(assessment.isImproving).to.be.false;
+    });
+  });
+
+  describe('#createImprovingForCompetenceEvaluation', () => {
+
+    it('should return a proper improving assessment for competence evaluation', () => {
+      // given
+      const userId = 123;
+      const competenceId = 'rec123ABC';
+
+      // when
+      const assessment = Assessment.createImprovingForCompetenceEvaluation({ userId, competenceId });
+
+      // then
+      expect(assessment.userId).to.equal(userId);
+      expect(assessment.competenceId).to.equal(competenceId);
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+      expect(assessment.type).to.equal(Assessment.types.COMPETENCE_EVALUATION);
+      expect(assessment.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
+      expect(assessment.isImproving).to.be.true;
+    });
+  });
 });

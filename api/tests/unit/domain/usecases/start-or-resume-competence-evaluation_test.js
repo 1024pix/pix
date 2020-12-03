@@ -71,13 +71,14 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
     context('When the user starts a new competence evaluation', () => {
       beforeEach(() => {
         competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new NotFoundError);
-
-        assessmentRepository.save.withArgs({ assessment: new Assessment({
+        const expectedAssessment = {
+          userId,
+          competenceId,
+          state: Assessment.states.STARTED,
           courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
           type: Assessment.types.COMPETENCE_EVALUATION,
-          userId, state: Assessment.states.STARTED,
-          competenceId,
-        }) }).resolves({ id: assessmentId });
+        };
+        assessmentRepository.save.withArgs({ assessment: sinon.match(expectedAssessment) }).resolves({ id: assessmentId });
         const competenceEvaluationToSave = new CompetenceEvaluation({
           status: CompetenceEvaluation.statuses.STARTED,
           assessmentId,
@@ -115,13 +116,14 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
           .onFirstCall().resolves(resetCompetenceEvaluation)
           .onSecondCall().resolves(updatedCompetenceEvaluation);
 
-        assessmentRepository.save.withArgs({ assessment: new Assessment({
+        const expectedAssessment = {
+          userId,
+          competenceId,
+          state: Assessment.states.STARTED,
           courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
           type: Assessment.types.COMPETENCE_EVALUATION,
-          userId, state: Assessment.states.STARTED,
-          competenceId,
-        }) }).resolves({ id: newAssessmentId });
-
+        };
+        assessmentRepository.save.withArgs({ assessment: sinon.match(expectedAssessment) }).resolves({ id: newAssessmentId });
         competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId.resolves();
         competenceEvaluationRepository.updateAssessmentId.resolves();
 
