@@ -58,41 +58,51 @@ module('Acceptance | Session Finalization', function(hooks) {
 
       module('when reportsCategorization toggle is on', function() {
 
-        module('when there is no examiner comment reports', function() {
+        module('when there is no certification issue reports', function() {
           test('it should show "Ajouter ?" button', async function(assert) {
           // given
             const expectedText = 'Ajouter ?';
             server.create('feature-toggle', { id: 0, reportsCategorization: true });
-            const certificationReportsWithoutExaminerComment = server.create('certification-report', { examinerComment: null, certificationCourseId: 1 });
-            const certificationReports = [certificationReportsWithoutExaminerComment];
+            const certificationReportsWithoutIssueReport = server.create('certification-report', { certificationCourseId: 1 });
+            const certificationReports = [certificationReportsWithoutIssueReport];
             session.update({ certificationReports });
 
             // when
             await visit(`/sessions/${session.id}/finalisation`);
 
             // then
-            // assert.dom('.button--showed-as-link').hasText(expectedText);
-            assert.dom('[data-test-id="finalization-report-examiner-comment_1"] .button--showed-as-link').hasText(expectedText);
+            assert.dom('[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link').hasText(expectedText);
           });
         });
 
-        module('when there are examiner comment reports', function() {
+        module('when we add a certification issue report', function() {
           test('it should show "Ajouter / modifier" button', async function(assert) {
             // given
-            const expectedTextWithComment = 'Ajouter / modifier';
-            const expectedTextWithoutComment = 'Ajouter ?';
+            const expectedTextWithIssueReport = 'Ajouter / modifier';
+            const expectedTextWithoutIssueReport = 'Ajouter ?';
+            const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
+            const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 = '[data-test-id="finalization-report-certification-issue-reports_2"] .button--showed-as-link';
+            const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-type-other';
+            const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-type-other';
+            const VALIDATE_CERTIFICATION_ISSUE_REPORT = '.examiner-report-modal__actions .button.button--extra-thin';
             server.create('feature-toggle', { id: 0, reportsCategorization: true });
-            const certificationReportsWithoutExaminerComment = server.create('certification-report', { examinerComment: null, certificationCourseId: 1 });
-            const certificationReportsWithExaminerComment = server.create('certification-report', { examinerComment: 'Coucou', certificationCourseId: 2 });
-            const certificationReports = [certificationReportsWithExaminerComment, certificationReportsWithoutExaminerComment];
+
+            const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', { certificationCourseId: 1 });
+            const certificationReportsWithCertificationIssueReport = server.create('certification-report', { certificationCourseId: 2 });
+
+            const certificationReports = [certificationReportsWithCertificationIssueReport, certificationReportsWithoutCertificationIssueReport];
             session.update({ certificationReports });
 
             // when
             await visit(`/sessions/${session.id}/finalisation`);
+            await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2);
+            await click(RADIO_BTN_OF_TYPE_OTHER);
+            await fillIn(TEXT_AREA_OF_TYPE_OTHER, 'Coucou');
+            await click(VALIDATE_CERTIFICATION_ISSUE_REPORT);
 
             // then
-            assert.dom('[data-test-id="finalization-report-examiner-comment_1"] .button--showed-as-link').hasText(expectedTextWithoutComment);
-            assert.dom('[data-test-id="finalization-report-examiner-comment_2"] .button--showed-as-link').hasText(expectedTextWithComment);
+            assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1).hasText(expectedTextWithoutIssueReport);
+            assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2).hasText(expectedTextWithIssueReport);
           });
         });
       });
