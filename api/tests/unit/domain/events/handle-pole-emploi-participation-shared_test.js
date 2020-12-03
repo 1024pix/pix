@@ -1,7 +1,10 @@
-/* eslint-disable no-console */
+const axios = require('axios');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
+const { UnexpectedUserAccount } = require('../../../../lib/domain/errors');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
+const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
@@ -13,6 +16,7 @@ const { handlePoleEmploiParticipationShared } = require('../../../../lib/domain/
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () => {
   let event;
+  let authenticationMethodRepositoryStub;
   let campaignRepositoryStub;
   let campaignParticipationRepositoryStub;
   let campaignParticipationResultRepositoryStub;
@@ -21,6 +25,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
   let userRepositoryStub;
 
   const dependencies = {
+    authenticationMethodRepository,
     campaignRepository,
     campaignParticipationRepository,
     campaignParticipationResultRepository,
@@ -85,6 +90,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
   });
 
   beforeEach(() => {
+    authenticationMethodRepositoryStub = sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
     campaignRepositoryStub = sinon.stub(campaignRepository, 'get');
     campaignParticipationRepositoryStub = sinon.stub(campaignParticipationRepository, 'get');
     campaignParticipationResultRepositoryStub = sinon.stub(
@@ -110,7 +116,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
   context('#handlePoleEmploiParticipationShared', () => {
     const campaignParticipationId = 55667788;
     const campaignId = 11223344;
-    const userId = Symbol('userId');
+    const userId = 987654321;
     const organizationId = Symbol('organizationId');
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', () => {
@@ -118,7 +124,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         event = new CampaignParticipationResultsShared({ campaignParticipationId });
 
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
-        userRepositoryStub.withArgs(userId).resolves({ firstName: 'Jean', lastName: 'Bonneau' });
+        userRepositoryStub.withArgs(userId).resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
         campaignRepositoryStub.withArgs(campaignId).resolves(
           domainBuilder.buildCampaign({
             id: 11223344,
@@ -165,61 +171,33 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         );
       });
 
-      it('it should record the sending', async () => {
-        // given
-        sinon.stub(console, 'log').resolves();
-
-        // when
-        await handlePoleEmploiParticipationShared({
-          event,
-          ...dependencies,
-        });
-
-        // then
-        expect(poleEmploiSendingRepository.create).to.have.been.called;
-      });
-
-      context('when sending succeeds', () => {
+      context('when the user is not authenticated as a pole emploi user', () => {
         beforeEach(() => {
-          sinon.stub(console, 'log').resolves();
+          authenticationMethodRepositoryStub.withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .resolves(domainBuilder.buildAuthenticationMethod.buildPasswordAuthenticationMethod({ userId }));
         });
 
-        it('it should console.log results', async () => {
+        it('it should throw an error', async () => {
           // when
-          await handlePoleEmploiParticipationShared({
+          const error = await catchErr(handlePoleEmploiParticipationShared)({
             event,
             ...dependencies,
           });
 
           // then
-          expect(console.log).to.have.been.calledOnce;
-          const results = console.log.firstCall.args[0];
-          expect(results).to.deep.equal(expectedResults);
-        });
-
-        it('it should record that the sending has succeeded', async () => {
-          // given
-          sinon.spy(PoleEmploiSending.prototype, 'succeed');
-
-          // when
-          await handlePoleEmploiParticipationShared({
-            event,
-            ...dependencies,
-          });
-
-          // then
-          expect(PoleEmploiSending.prototype.succeed).to.have.been.called;
+          expect(error).to.be.instanceOf(UnexpectedUserAccount);
         });
       });
 
-      context('when sending fails', () => {
+      context('when the user is authenticated as a pole emploi user', () => {
         beforeEach(() => {
-          sinon.stub(console, 'log').rejects();
+          authenticationMethodRepositoryStub.withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId }));
         });
 
-        it('it should record that the sending has failed', async () => {
+        it('it should record the sending', async () => {
           // given
-          sinon.spy(PoleEmploiSending.prototype, 'fail');
+          sinon.stub(axios, 'post').resolves();
 
           // when
           await handlePoleEmploiParticipationShared({
@@ -228,7 +206,60 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
           });
 
           // then
-          expect(PoleEmploiSending.prototype.fail).to.have.been.called;
+          expect(poleEmploiSendingRepository.create).to.have.been.called;
+        });
+
+        context('when sending succeeds', () => {
+          beforeEach(() => {
+            sinon.stub(axios, 'post').resolves();
+          });
+
+          it('it should send results', async () => {
+            // when
+            await handlePoleEmploiParticipationShared({
+              event,
+              ...dependencies,
+            });
+
+            // then
+            expect(axios.post).to.have.been.calledOnce;
+            const results = axios.post.firstCall.args[1];
+            expect(results).to.deep.equal(expectedResults);
+          });
+
+          it('it should record that the sending has succeeded', async () => {
+            // given
+            sinon.spy(PoleEmploiSending.prototype, 'succeed');
+
+            // when
+            await handlePoleEmploiParticipationShared({
+              event,
+              ...dependencies,
+            });
+
+            // then
+            expect(PoleEmploiSending.prototype.succeed).to.have.been.called;
+          });
+        });
+
+        context('when sending fails', () => {
+          beforeEach(() => {
+            sinon.stub(axios, 'post').rejects();
+          });
+
+          it('it should record that the sending has failed', async () => {
+            // given
+            sinon.spy(PoleEmploiSending.prototype, 'fail');
+
+            // when
+            await handlePoleEmploiParticipationShared({
+              event,
+              ...dependencies,
+            });
+
+            // then
+            expect(PoleEmploiSending.prototype.fail).to.have.been.called;
+          });
         });
       });
     });
@@ -247,10 +278,10 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         );
         campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
-        sinon.stub(console, 'log').resolves();
+        sinon.stub(axios, 'post');
       });
 
-      it('it should not console.log results', async () => {
+      it('it should not send results', async () => {
         // when
         await handlePoleEmploiParticipationShared({
           event,
@@ -258,7 +289,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         });
 
         // then
-        sinon.assert.notCalled(console.log);
+        sinon.assert.notCalled(axios.post);
       });
     });
 
@@ -279,10 +310,10 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
           .withArgs(campaignId)
           .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION' }));
         organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true, organizationId });
-        sinon.stub(console, 'log');
+        sinon.stub(axios, 'post');
       });
 
-      it('it should not console.log results', async () => {
+      it('it should not send results', async () => {
         // when
         await handlePoleEmploiParticipationShared({
           event,
@@ -290,7 +321,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         });
 
         // then
-        sinon.assert.notCalled(console.log);
+        sinon.assert.notCalled(axios.post);
       });
     });
   });
