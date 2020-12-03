@@ -43,8 +43,8 @@
             {{else}}
               <Textarea
                 @class="session-finalization-reports-informations-step__textarea"
-                @value={{report.examinerComment}}
-                {{on 'input' (fn @updateCertificationReportExaminerComment report)}}
+                @value={{report.firstIssueReportDescription}}
+                {{on 'input' (fn @updateCertificationIssueReport report)}}
                 @maxlength={{@examinerCommentMaxLength}}
               />
             {{/if}}

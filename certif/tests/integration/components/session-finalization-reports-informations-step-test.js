@@ -39,7 +39,7 @@ module('Integration | Component | session-finalization-reports-informations-step
       hasSeenEndTestScreen: true,
     }));
     this.set('certificationReports', [reportA, reportB]);
-    this.set('updateCertificationReportExaminerComment', sinon.stub().returns('new comment'));
+    this.set('updateCertificationIssueReport', sinon.stub().returns('new comment'));
     this.set('examinerCommentMaxLength', 500);
     this.set('toggleCertificationReportHasSeenEndTestScreen', sinon.stub().returns());
     this.set('toggleAllCertificationReportsHasSeenEndTestScreen', sinon.stub().returns());
@@ -55,7 +55,7 @@ module('Integration | Component | session-finalization-reports-informations-step
       await render(hbs`
         <SessionFinalizationReportsInformationsStep
           @certificationReports={{this.certificationReports}}
-          @updateCertificationReportExaminerComment={{this.updateCertificationReportExaminerComment}}
+          @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
           @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
           @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
           @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
@@ -82,7 +82,7 @@ module('Integration | Component | session-finalization-reports-informations-step
       await render(hbs`
         <SessionFinalizationReportsInformationsStep
           @certificationReports={{this.certificationReports}}
-          @updateCertificationReportExaminerComment={{this.updateCertificationReportExaminerComment}}
+          @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
           @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
           @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
           @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
