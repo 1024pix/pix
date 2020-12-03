@@ -21,7 +21,6 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
       certificationCourseId: 1,
       firstName: 'Lisa',
       lastName: 'Monpud',
-      examinerComment: null,
       hasSeenEndTestScreen: false,
     });
     const closeExaminerReportModalStub = sinon.stub();
@@ -128,7 +127,6 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
         certificationCourseId: 1,
         firstName: 'Lisa',
         lastName: 'Monpud',
-        examinerComment: null,
         hasSeenEndTestScreen: false,
       });
       const closeExaminerReportModalStub = sinon.stub();
