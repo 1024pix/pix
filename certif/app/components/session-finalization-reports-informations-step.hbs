@@ -45,7 +45,7 @@
                 @class="session-finalization-reports-informations-step__textarea"
                 @value={{report.firstIssueReportDescription}}
                 {{on 'input' (fn @updateCertificationIssueReport report)}}
-                @maxlength={{@examinerCommentMaxLength}}
+                @maxlength={{@issueReportDescriptionMaxLength}}
               />
             {{/if}}
           </td>
@@ -64,7 +64,7 @@
     <ExaminerReportModal
       @closeModal={{this.closeExaminerReportModal}}
       @report={{this.reportToEdit}}
-      @maxlength={{@examinerCommentMaxLength}}
+      @maxlength={{@issueReportDescriptionMaxLength}}
       />
   {{/if}}
 </div>

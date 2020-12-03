@@ -177,7 +177,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const issueReport = { description: initialValue, category: 'Autre' };
       const certifReport = { certificationCourseId: 1, certificationIssueReports: [ issueReport ] };
-      
+
       // when
       const newValue = 'Une deuxième explication plus explicite';
       controller.send('updateCertificationIssueReport', certifReport, { target: { value: newValue } });
