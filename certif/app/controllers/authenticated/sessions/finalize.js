@@ -6,6 +6,8 @@ import { tracked } from '@glimmer/tracking';
 import sumBy from 'lodash/sumBy';
 import isEmpty from 'lodash/isEmpty';
 import trim from 'lodash/trim';
+import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
+import { A } from '@ember/array';
 
 export default class SessionsFinalizeController extends Controller {
 
@@ -64,10 +66,15 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   @action
-  updateCertificationReportExaminerComment(certificationReport, event) {
+  updateCertificationIssueReport(certificationReport, event) {
     const inputText = event.target.value;
     if (inputText.length <= this.examinerCommentMaxLength) {
-      certificationReport.examinerComment = this._convertStringToNullIfEmpty(inputText);
+      const issueReportToAdd = {
+        certificationReport,
+        category: certificationIssueReportCategoriesLabel.OTHER,
+        description: this._convertStringToNullIfEmpty(inputText),
+      };
+      certificationReport.certificationIssueReports = A([issueReportToAdd]);
     }
   }
 
