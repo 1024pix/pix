@@ -3,6 +3,7 @@ import { isEmpty } from '@ember/utils';
 
 import OIDCAuthenticator from 'ember-simple-auth-oidc/authenticators/oidc';
 import getAbsoluteUrl from 'ember-simple-auth-oidc/utils/absoluteUrl';
+import { decodeToken } from 'mon-pix/helpers/jwt';
 
 import config from 'ember-simple-auth-oidc/config';
 import ENV from 'mon-pix/config/environment';
@@ -39,10 +40,13 @@ export default OIDCAuthenticator.extend({
     });
 
     const data = await response.json();
+    const decodedAccessToken = decodeToken(data.access_token);
 
     return {
       access_token: data.access_token,
       id_token: data.id_token,
+      source: decodedAccessToken.source,
+      user_id: decodedAccessToken.user_id,
       redirectUri,
     };
   },
@@ -71,7 +75,7 @@ export default OIDCAuthenticator.extend({
       params.push(`id_token_hint=${idToken}`);
     }
 
-    this._redirectToUrl(`${getAbsoluteUrl(endSessionEndpoint, host)}?${params.join('&')}`);
+    location.replace(`${getAbsoluteUrl(endSessionEndpoint, host)}?${params.join('&')}`);
   },
 
 });

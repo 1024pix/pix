@@ -6,6 +6,7 @@ import ENV from 'mon-pix/config/environment';
 import get from 'lodash/get';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
+const AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI = ENV.APP.AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI;
 
 @classic
 export default class LogoutRoute extends Route {
@@ -19,7 +20,7 @@ export default class LogoutRoute extends Route {
     if (session.get('isAuthenticated')) {
       if (get(session, 'data.authenticated.id_token')) {
         const { id_token } = session.data.authenticated;
-        session.singleLogout(id_token);
+        return session.singleLogout(id_token);
       }
 
       return session.invalidate();
@@ -29,7 +30,7 @@ export default class LogoutRoute extends Route {
   afterModel() {
     if (this.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
       return this._redirectToDisconnectedPage();
-    } else {
+    } else if (this.source !== AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI) {
       return this._redirectToHome();
     }
   }
