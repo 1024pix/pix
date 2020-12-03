@@ -3,8 +3,12 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
+import ENV from 'mon-pix/config/environment';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
+
 describe('Unit | Service | locale', function() {
   setupTest();
+  setupIntl();
 
   it('should have a frenchDomainExtension when the current domain contains pix.fr', function() {
     // given
@@ -32,46 +36,68 @@ describe('Unit | Service | locale', function() {
 
   describe('#homeUrl', function() {
 
-    it('should get default home url when is defined', function() {
-      // given
-      const service = this.owner.lookup('service:url');
-      service.definedHomeUrl = 'pix.test.fr';
+    context('when environnement not prod', function() {
+      const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
 
-      // when
-      const homeUrl = service.homeUrl;
+      beforeEach(function() {
+        ENV.APP.IS_PROD_ENVIRONMENT = false;
+      });
 
-      // then
-      expect(homeUrl).to.equal(service.definedHomeUrl);
+      afterEach(function() {
+        ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
+      });
+
+      it('should get default home url', function() {
+        // given
+        const service = this.owner.lookup('service:url');
+        service.definedHomeUrl = 'pix.test.fr';
+
+        // when
+        const homeUrl = service.homeUrl;
+
+        // then
+        const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
+        expect(homeUrl).to.equal(expectedDefinedHomeUrl);
+      });
     });
 
-    it('should get "pix.fr" url when current domain contains pix.fr', function() {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedHomeUrl = 'https://pix.fr';
-      service.definedHomeUrl = undefined;
-      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+    context('when it is not a Review App and environnement is ‘production‘', function() {
 
-      // when
-      const homeUrl = service.homeUrl;
+      const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
+      let defaultLocale;
 
-      // then
-      expect(homeUrl).to.equal(expectedHomeUrl);
+      beforeEach(function() {
+        ENV.APP.IS_PROD_ENVIRONMENT = true;
+        defaultLocale = this.intl.t('current-lang');
+      });
+
+      afterEach(function() {
+        ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
+        this.intl.setLocale(defaultLocale);
+      });
+
+      [
+        { language: 'fr', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr' },
+        { language: 'fr', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org' },
+        { language: 'en', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr/en-gb' },
+        { language: 'en', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org/en-gb' },
+      ].forEach(function(testCase) {
+        it(`should get "${testCase.expectedHomeUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function() {
+          // given
+          const service = this.owner.lookup('service:url');
+          service.definedHomeUrl = '/';
+          service.currentDomain = { getExtension: sinon.stub().returns(testCase.currentDomainExtension) };
+          this.intl.setLocale([testCase.language]);
+
+          // when
+          const homeUrl = service.homeUrl;
+
+          // then
+          expect(homeUrl).to.equal(testCase.expectedHomeUrl);
+        });
+      });
+
     });
-
-    it('should get "pix.org" url when current domain contains pix.org', function() {
-      // given
-      const service = this.owner.lookup('service:url');
-      const expectedHomeUrl = 'https://pix.org';
-      service.definedHomeUrl = undefined;
-      service.currentDomain = { getExtension: sinon.stub().returns('org') };
-
-      // when
-      const homeUrl = service.homeUrl;
-
-      // then
-      expect(homeUrl).to.equal(expectedHomeUrl);
-    });
-
   });
 
   describe('#cguUrl', function() {
