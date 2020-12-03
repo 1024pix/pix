@@ -154,6 +154,7 @@ module.exports = (function() {
     poleEmploi: {
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
+      sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
     },
   };
@@ -202,6 +203,7 @@ module.exports = (function() {
 
     config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
     config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
+    config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
 
     config.logging.enabled = false;
