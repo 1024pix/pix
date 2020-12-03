@@ -26,7 +26,6 @@ module('Integration | Component | session-finalization-reports-informations-step
       certificationCourseId: 1234,
       firstName: 'Alice',
       lastName: 'Alister',
-      examinerComment: null,
       certificationIssueReports: A([certificationIssueReportA]),
       hasSeenEndTestScreen: null,
     }));
@@ -35,7 +34,6 @@ module('Integration | Component | session-finalization-reports-informations-step
       certificationCourseId: 3,
       firstName: 'Bob',
       lastName: 'Bober',
-      examinerComment: null,
       hasSeenEndTestScreen: true,
     }));
     this.set('certificationReports', [reportA, reportB]);
