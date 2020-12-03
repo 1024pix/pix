@@ -255,6 +255,37 @@ describe('Unit | Domain | Validators | user-validator', function() {
           expect(errors.invalidAttributes[2]).to.deep.equal(expectedMaxLengthEmailError);
           expect(errors.invalidAttributes[3]).to.deep.equal(expectedPasswordError);
         });
+
+        it('should reject with error on field "mustValidateTermsOfService" when incorrect', async() => {
+          // given
+          const expectedError = {
+            attribute: 'mustValidateTermsOfService',
+            message: '"mustValidateTermsOfService" must be a boolean',
+          };
+          user.mustValidateTermsOfService = 'not_a_boolean';
+
+          // when
+          const errors = await catchErr(userValidator.validate)({ user });
+
+          // then
+          _assertErrorMatchesWithExpectedOne(errors, expectedError);
+
+        });
+
+        it('should reject with error on field "hasSeenAssessmentInstructions" when incorrect', async() => {
+          // given
+          const expectedError = {
+            attribute: 'hasSeenAssessmentInstructions',
+            message: '"hasSeenAssessmentInstructions" must be a boolean',
+          };
+
+          user.hasSeenAssessmentInstructions = 1;
+
+          // when
+          const errors = await catchErr(userValidator.validate)({ user });
+          _assertErrorMatchesWithExpectedOne(errors, expectedError);
+
+        });
       });
     });
 

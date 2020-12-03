@@ -59,6 +59,11 @@ const userValidationJoiSchema = Joi.object({
       'boolean.base': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
       'any.only': 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
     }),
+
+  mustValidateTermsOfService: Joi.boolean(),
+
+  hasSeenAssessmentInstructions: Joi.boolean(),
+
 }).xor('username', 'email')
   .required()
   .messages({
