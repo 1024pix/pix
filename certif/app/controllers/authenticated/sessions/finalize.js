@@ -69,12 +69,20 @@ export default class SessionsFinalizeController extends Controller {
   updateCertificationIssueReport(certificationReport, event) {
     const inputText = event.target.value;
     if (inputText.length <= this.issueReportDescriptionMaxLength) {
-      const issueReportToAdd = {
-        certificationReport,
-        category: certificationIssueReportCategoriesLabel.OTHER,
-        description: this._convertStringToNullIfEmpty(inputText),
-      };
-      certificationReport.certificationIssueReports = A([issueReportToAdd]);
+      const newDescription = this._convertStringToNullIfEmpty(inputText);
+      const ISSUE_REPORT_ID = certificationReport.certificationCourseId;
+      let issueReport = this.store.peekRecord('certification-issue-report', ISSUE_REPORT_ID);
+      if (issueReport) {
+        issueReport.description = newDescription;
+      } else {
+        issueReport = this.store.createRecord('certification-issue-report', {
+          id: ISSUE_REPORT_ID,
+          certificationReport,
+          category: certificationIssueReportCategoriesLabel.OTHER,
+          description: this._convertStringToNullIfEmpty(inputText),
+        });
+      }
+      certificationReport.certificationIssueReports = A([issueReport]);
     }
   }
 
