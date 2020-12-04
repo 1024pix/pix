@@ -171,6 +171,10 @@
   &__instructions {
     margin-right: 8px;
   }
+
+  &__button {
+    background-color: $error;
+  }
 }
 
 .rounded-panel-finished-pix-contest {
