@@ -45,7 +45,7 @@ export default class SessionsFinalizeController extends Controller {
   async finalizeSession() {
     this.isLoading = true;
     try {
-      await this.session.save({ adapterOptions: { finalization: true } });
+      await this.session.save({ adapterOptions: { finalization: true, isReportsCategorizationFeatureToggleEnabled: this.isReportsCategorizationFeatureToggleEnabled } });
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
     } catch (err) {
       (err.errors && err.errors[0] && err.errors[0].status === '400')
