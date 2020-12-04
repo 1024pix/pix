@@ -4,25 +4,52 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
 
+class RadioButtonCategory {
+  @tracked isChecked;
+  @tracked label;
+
+  constructor() {
+    this.isChecked = false;
+  }
+}
+
 export default class ExaminerReportModal extends Component {
   @service store
 
-  @tracked isReportOfTypeOtherChecked = false;
-  @tracked isReportOfTypeLateOrLeavingChecked = false;
+  @tracked categoryOther = new RadioButtonCategory();
+  @tracked categoryLateOrLeaving = new RadioButtonCategory();
+  @tracked currentIssueReport = {
+    category: null,
+    description: null,
+    certificationReport: null,
+  };
   @tracked reportLength = 0;
-  @tracked currentIssueReport = {};
 
   constructor() {
     super(...arguments);
+    this.categoryOther.label = certificationIssueReportCategoriesLabel.OTHER;
+    this.categoryLateOrLeaving.label = certificationIssueReportCategoriesLabel.LATE_OR_LEAVING;
     const certificationReport = this.args.report;
     const certificationIssueReports = certificationReport.certificationIssueReports;
-    if (certificationIssueReports && certificationIssueReports.length) {
-      this.currentIssueReport = certificationIssueReports[0];
-      this.reportLength = this.currentIssueReport.description.length;
-      if (this.currentIssueReport.category === certificationIssueReportCategoriesLabel.OTHER) {
-        this.isReportOfTypeOtherChecked = true;
-      } else {
-        this.isReportOfTypeLateOrLeavingChecked = true;
+    const existingIssueReport = certificationIssueReports && certificationIssueReports[0];
+
+    if (existingIssueReport) {
+      this.currentIssueReport = existingIssueReport;
+      this.reportLength = existingIssueReport.description.length
+        ? existingIssueReport.description.length
+        : 0;
+
+      switch (existingIssueReport.category) {
+        case certificationIssueReportCategoriesLabel.OTHER:
+          this.categoryOther.isChecked = true;
+          break;
+
+        case certificationIssueReportCategoriesLabel.LATE_OR_LEAVING:
+          this.categoryLateOrLeaving.isChecked = true;
+          break;
+
+        default:
+          break;
       }
     } else {
       this.currentIssueReport = { certificationReport: this.args.report };
@@ -30,25 +57,23 @@ export default class ExaminerReportModal extends Component {
   }
 
   @action
-  toggleShowReportOfTypeOther() {
-    this.isReportOfTypeOtherChecked = !this.isReportOfTypeOtherChecked;
-    this.currentIssueReport.description = null;
-    this.reportLength = 0;
-    if (this.isReportOfTypeOtherChecked) {
-      this.isReportOfTypeLateOrLeavingChecked = false;
-      this.currentIssueReport.category = certificationIssueReportCategoriesLabel.OTHER;
+  toggleOnCategory(category) {
+    category.isChecked = !category.isChecked;
+    this._resetAllCurrentIssueReportData();
+    if (category.isChecked) {
+      this._toggleOffAllCategoryExceptOne(category.label);
+      this.currentIssueReport.category = category.label;
     }
   }
 
-  @action
-  toggleShowReportOfTypeLateOrLeaving() {
-    this.isReportOfTypeLateOrLeavingChecked = !this.isReportOfTypeLateOrLeavingChecked;
-    this.currentIssueReport.description = null;
+  _resetAllCurrentIssueReportData() {
+    delete this.currentIssueReport.description;
     this.reportLength = 0;
-    if (this.isReportOfTypeLateOrLeavingChecked) {
-      this.isReportOfTypeOtherChecked = false;
-      this.currentIssueReport.category = certificationIssueReportCategoriesLabel.LATE_OR_LEAVING;
-    }
+  }
+
+  _toggleOffAllCategoryExceptOne(categoryToExcludeLabel) {
+    this.categoryOther.isChecked = this.categoryOther.label === categoryToExcludeLabel;
+    this.categoryLateOrLeaving.isChecked = this.categoryLateOrLeaving.label === categoryToExcludeLabel;
   }
 
   @action
