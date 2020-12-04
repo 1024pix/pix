@@ -5,7 +5,6 @@ const _ = require('lodash');
 const dependencies = {
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
-  authenticationMethodRepository: require('../../infrastructure/repositories/authentication-method-repository'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../services/badge-criteria-service'),
   badgeRepository: require('../../infrastructure/repositories/badge-repository'),
@@ -23,6 +22,7 @@ const dependencies = {
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
+  poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
 };
 
 const partnerCertificationRepository = injectDependencies(
