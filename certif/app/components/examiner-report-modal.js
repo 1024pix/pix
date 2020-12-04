@@ -18,6 +18,8 @@ export default class ExaminerReportModal extends Component {
 
   @tracked otherCategory = new RadioButtonCategory();
   @tracked lateOrLeavingCategory = new RadioButtonCategory();
+  @tracked candidateInformationsChangesCategory = new RadioButtonCategory();
+  @tracked connexionOrEndScreenCategory = new RadioButtonCategory();
   @tracked currentIssueReport = {
     category: null,
     description: null,
@@ -29,6 +31,9 @@ export default class ExaminerReportModal extends Component {
     super(...arguments);
     this.otherCategory.label = certificationIssueReportCategoriesLabel.OTHER;
     this.lateOrLeavingCategory.label = certificationIssueReportCategoriesLabel.LATE_OR_LEAVING;
+    this.candidateInformationsChangesCategory.label = certificationIssueReportCategoriesLabel.CANDIDATE_INFORMATIONS_CHANGES;
+    this.connexionOrEndScreenCategory.label = certificationIssueReportCategoriesLabel.CONNEXION_OR_END_SCREEN;
+
     const certificationReport = this.args.report;
     const certificationIssueReports = certificationReport.certificationIssueReports;
     const existingIssueReport = certificationIssueReports && certificationIssueReports[0];
@@ -46,6 +51,14 @@ export default class ExaminerReportModal extends Component {
 
         case certificationIssueReportCategoriesLabel.LATE_OR_LEAVING:
           this.lateOrLeavingCategory.isChecked = true;
+          break;
+
+        case certificationIssueReportCategoriesLabel.CANDIDATE_INFORMATIONS_CHANGES:
+          this.candidateInformationsChangesCategory.isChecked = true;
+          break;
+
+        case certificationIssueReportCategoriesLabel.CONNEXION_OR_END_SCREEN:
+          this.connexionOrEndScreenCategory.isChecked = true;
           break;
 
         default:
@@ -74,6 +87,8 @@ export default class ExaminerReportModal extends Component {
   _toggleOffAllCategoryExceptOne(categoryToExcludeLabel) {
     this.otherCategory.isChecked = this.otherCategory.label === categoryToExcludeLabel;
     this.lateOrLeavingCategory.isChecked = this.lateOrLeavingCategory.label === categoryToExcludeLabel;
+    this.candidateInformationsChangesCategory.isChecked = this.candidateInformationsChangesCategory.label === categoryToExcludeLabel;
+    this.connexionOrEndScreenCategory.isChecked = this.connexionOrEndScreenCategory.label === categoryToExcludeLabel;
   }
 
   @action
