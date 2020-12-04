@@ -162,6 +162,29 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
+      path: '/api/users/{id}/email',
+      config: {
+        handler: userController.updateEmail,
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email().required(),
+              },
+            },
+          }),
+        },
+        notes : [
+          '- Met à jour l\'email d\'un utilisateur identifié par son id',
+        ],
+        tags: ['api', 'user'],
+      },
+    },
+    {
+      method: 'PATCH',
       path: '/api/users/{id}/password-update',
       config: {
         auth: false,
