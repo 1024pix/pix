@@ -82,8 +82,8 @@ module('Acceptance | Session Finalization', function(hooks) {
             const expectedTextWithoutIssueReport = 'Ajouter ?';
             const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
             const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 = '[data-test-id="finalization-report-certification-issue-reports_2"] .button--showed-as-link';
-            const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-type-other';
-            const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-type-other';
+            const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-category-other';
+            const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-category-other';
             const VALIDATE_CERTIFICATION_ISSUE_REPORT = '.examiner-report-modal__actions .button.button--extra-thin';
             server.create('feature-toggle', { id: 0, reportsCategorization: true });
 
