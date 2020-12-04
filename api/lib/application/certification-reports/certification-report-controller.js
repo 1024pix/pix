@@ -5,8 +5,8 @@ module.exports = {
 
   async saveCertificationIssueReport(request, h) {
     const certificationIssueReport = certificationIssueReportSerializer.deserialize(request);
-    await usecases.saveCertificationIssueReport({ certificationIssueReport });
+    const certificationIssueReportSaved = await usecases.saveCertificationIssueReport({ certificationIssueReport });
 
-    return h.response().created(); // on ne renvoie pas de certifIssueReport du coup ?
+    return h.response(certificationIssueReportSerializer.serialize(certificationIssueReportSaved)).created();
   }
 };
