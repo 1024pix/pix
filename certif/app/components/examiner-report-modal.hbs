@@ -20,11 +20,11 @@
                   id="input-radio-for-category-other"
                   type="radio"
                   name="other"
-                  checked={{this.categoryOther.isChecked}}
-                  {{on 'click' (fn this.toggleOnCategory this.categoryOther)}} />
+                  checked={{this.otherCategory.isChecked}}
+                  {{on 'click' (fn this.toggleOnCategory this.otherCategory)}} />
               <label for="input-radio-for-category-other">Autre incident</label>
             </div>
-            {{#if this.categoryOther.isChecked}}
+            {{#if this.otherCategory.isChecked}}
               <div class="examiner-report-modal-content__report-category-details">
                 <label for="text-area-for-category-other">Détaillez l'incident</label>
                 <Textarea
@@ -45,11 +45,11 @@
                 id="input-radio-for-category-late-or-leaving"
                 type="radio"
                 name="other"
-                checked={{this.categoryLateOrLeaving.isChecked}}
-                {{on 'click' (fn this.toggleOnCategory this.categoryLateOrLeaving)}} />
+                checked={{this.lateOrLeavingCategory.isChecked}}
+                {{on 'click' (fn this.toggleOnCategory this.lateOrLeavingCategory)}} />
               <label for="input-radio-for-category-late-or-leaving">Retard, absence ou départ</label>
             </div>
-            {{#if this.categoryLateOrLeaving.isChecked}}
+            {{#if this.lateOrLeavingCategory.isChecked}}
               <div class="examiner-report-modal-content__report-category-details">
                 <label for="text-area-for-category-late-or-leaving">Détaillez l'incident</label>
                 <Textarea
