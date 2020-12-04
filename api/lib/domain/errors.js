@@ -584,6 +584,12 @@ class ArchivedCampaignError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToUpdateEmailError extends DomainError {
+  constructor(message = 'User is not authorized to update email') {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToAccessEntity extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
@@ -735,6 +741,7 @@ module.exports = {
   UserNotAuthorizedToUpdatePasswordError,
   UserNotAuthorizedToUpdateResourceError,
   UserNotFoundError,
+  UserNotAuthorizedToUpdateEmailError,
   UserNotMemberOfOrganizationError,
   UserOrgaSettingsCreationError,
   UserShouldChangePasswordError,
