@@ -1,10 +1,10 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
 
-export const certificationIssueReportCategoriesLabel = {
-  OTHER: 'Autre incident',
-  CANDIDATE_INFORMATIONS_CHANGES: 'Modification infos candidat',
-  LATE_OR_LEAVING: 'Retard, absence ou départ',
-  CONNEXION_OR_END_SCREEN: 'Connexion et fin de test',
+export const certificationIssueReportCategories = {
+  OTHER: 'OTHER',
+  CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',
+  LATE_OR_LEAVING: 'LATE_OR_LEAVING',
+  CONNEXION_OR_END_SCREEN: 'CONNEXION_OR_END_SCREEN',
 };
 
 export default class CertificationIssueReport extends Model {

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
+import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
@@ -48,7 +48,7 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
         // given
         const certificationCourseId = 1;
         const certificationIssueReport = EmberObject.create({
-          category: certificationIssueReportCategoriesLabel.OTHER,
+          category: certificationIssueReportCategories.OTHER,
           description: 'coucou',
         });
         const report = EmberObject.create({
@@ -86,7 +86,7 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
         // given
         const certificationCourseId = 1;
         const certificationIssueReport = EmberObject.create({
-          category: certificationIssueReportCategoriesLabel.LATE_OR_LEAVING,
+          category: certificationIssueReportCategories.LATE_OR_LEAVING,
           description: 'coucou',
         });
         const report = EmberObject.create({

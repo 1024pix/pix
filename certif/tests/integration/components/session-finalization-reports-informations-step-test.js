@@ -5,7 +5,7 @@ import { A } from '@ember/array';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
-import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
+import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
 module('Integration | Component | session-finalization-reports-informations-step', function(hooks) {
   setupRenderingTest(hooks);
@@ -19,7 +19,7 @@ module('Integration | Component | session-finalization-reports-informations-step
 
     certificationIssueReportA = run(() => store.createRecord('certification-issue-report', {
       description: 'Coucou',
-      category: certificationIssueReportCategoriesLabel.OTHER,
+      category: certificationIssueReportCategories.OTHER,
     }));
 
     reportA = run(() => store.createRecord('certification-report', {
