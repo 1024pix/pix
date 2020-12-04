@@ -197,7 +197,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
 
         it('it should record the sending', async () => {
           // given
-          sinon.stub(axios, 'post').resolves();
+          sinon.stub(axios, 'post').resolves({ status: '200' });
 
           // when
           await handlePoleEmploiParticipationShared({
@@ -211,7 +211,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
 
         context('when sending succeeds', () => {
           beforeEach(() => {
-            sinon.stub(axios, 'post').resolves();
+            sinon.stub(axios, 'post').resolves({ status: '200' });
           });
 
           it('it should send results', async () => {
@@ -244,7 +244,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
 
         context('when sending fails', () => {
           beforeEach(() => {
-            sinon.stub(axios, 'post').rejects();
+            sinon.stub(axios, 'post').rejects({ response: { status: '400' } });
           });
 
           it('it should record that the sending has failed', async () => {

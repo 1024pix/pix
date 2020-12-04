@@ -66,8 +66,8 @@ async function handlePoleEmploiParticipationShared({
         },
       },
     ).then(
-      () => poleEmploiSending.succeed(),
-      () => poleEmploiSending.fail(),
+      (response) => poleEmploiSending.succeed(response.status),
+      (error) => poleEmploiSending.fail(error.response.status),
     );
     return poleEmploiSendingRepository.create({ poleEmploiSending });
   }

@@ -13,6 +13,18 @@ describe('Unit | Domain | Models | PoleEmploiSending', () => {
       // then
       expect(poleEmploiSending.isSuccessful).to.equal(true);
     });
+
+    it('should set responseCode', () => {
+      // given
+      const responseCode = '200';
+      const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
+
+      // when
+      poleEmploiSending.succeed(responseCode);
+
+      // then
+      expect(poleEmploiSending.responseCode).to.equal(responseCode);
+    });
   });
 
   describe('#fail', () => {
@@ -25,6 +37,18 @@ describe('Unit | Domain | Models | PoleEmploiSending', () => {
 
       // then
       expect(poleEmploiSending.isSuccessful).to.equal(false);
+    });
+
+    it('should set responseCode', () => {
+      // given
+      const responseCode = '400';
+      const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
+
+      // when
+      poleEmploiSending.fail(responseCode);
+
+      // then
+      expect(poleEmploiSending.responseCode).to.equal(responseCode);
     });
   });
 });
