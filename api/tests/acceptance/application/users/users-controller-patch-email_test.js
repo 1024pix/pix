@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const { featureToggles } = require('../../../../lib/config');
 
 describe('Acceptance | Controller | users-controller', () => {
 
@@ -119,6 +120,30 @@ describe('Acceptance | Controller | users-controller', () => {
         expect(response.statusCode).to.equal(422);
       });
 
+      it('should return 404 if FT_MY_ACCOUNT is not enabled', async () => {
+        // given
+        featureToggles.myAccount = false;
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/users/${user.id}/email`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'users',
+              attributes: {
+                'email': 'new_email@example.net',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
     });
   });
 });
