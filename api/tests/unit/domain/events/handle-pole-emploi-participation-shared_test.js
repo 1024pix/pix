@@ -11,7 +11,6 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
   const campaignParticipationRepository = { get: _.noop() };
   const campaignParticipationResultRepository = { getByParticipationId: _.noop() };
   const organizationRepository = { get: _.noop() };
-  const poleEmploiSendingRepository = { create: _.noop() };
   const targetProfileRepository = { get: _.noop() };
   const userRepository = { get: _.noop() };
   const poleEmploiNotifier = { notify: _.noop() };
@@ -21,7 +20,6 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     campaignParticipationRepository,
     campaignParticipationResultRepository,
     organizationRepository,
-    poleEmploiSendingRepository,
     targetProfileRepository,
     userRepository,
     poleEmploiNotifier,
@@ -86,7 +84,6 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     campaignParticipationRepository.get = sinon.stub();
     campaignParticipationResultRepository.getByParticipationId = sinon.stub();
     organizationRepository.get = sinon.stub();
-    poleEmploiSendingRepository.create = sinon.stub();
     targetProfileRepository.get = sinon.stub();
     userRepository.get = sinon.stub();
     poleEmploiNotifier.notify = sinon.stub();
@@ -160,13 +157,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         );
       });
 
-      it('it should record the sending', async () => {
-        // given
-        poleEmploiNotifier.notify.withArgs(userId, expectedResults.toString()).resolves({
-          isSuccessful: 'anyValue',
-          code: 'anything',
-        });
-
+      it('should notify pole emploi', async () => {
         // when
         await handlePoleEmploiParticipationShared({
           event,
@@ -174,51 +165,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         });
 
         // then
-        expect(poleEmploiSendingRepository.create).to.have.been.called;
-      });
-
-      context('when sending succeeds', () => {
-
-        it('it should record that the sending has succeeded', async () => {
-          // given
-          const code = 'someCode';
-          poleEmploiNotifier.notify.withArgs(userId, expectedResults.toString()).resolves({
-            isSuccessful: true,
-            code,
-          });
-          sinon.spy(PoleEmploiSending.prototype, 'succeed');
-
-          // when
-          await handlePoleEmploiParticipationShared({
-            event,
-            ...dependencies,
-          });
-
-          // then
-          expect(PoleEmploiSending.prototype.succeed).to.have.been.calledWithExactly(code);
-        });
-      });
-
-      context('when sending fails', () => {
-
-        it('it should record that the sending has failed', async () => {
-          // given
-          const code = 'someCode';
-          poleEmploiNotifier.notify.withArgs(userId, expectedResults.toString()).resolves({
-            isSuccessful: false,
-            code,
-          });
-          sinon.spy(PoleEmploiSending.prototype, 'fail');
-
-          // when
-          await handlePoleEmploiParticipationShared({
-            event,
-            ...dependencies,
-          });
-
-          // then
-          expect(PoleEmploiSending.prototype.fail).to.have.been.calledWithExactly(code);
-        });
+        expect(poleEmploiNotifier.notify).to.have.been.calledWith(userId, expectedResults, sinon.match.instanceOf(PoleEmploiSending));
       });
     });
 
