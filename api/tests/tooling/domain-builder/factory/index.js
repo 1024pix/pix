@@ -17,6 +17,7 @@ module.exports = {
   buildCampaignParticipationInfo: require('./build-campaign-participation-info'),
   buildCampaignReport: require('./build-campaign-report'),
   buildCertificationCandidate: require('./build-certification-candidate'),
+  buildCertificationIssueReport: require('./build-certification-issue-report'),
   buildSCOCertificationCandidate: require('./build-sco-certification-candidate'),
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
