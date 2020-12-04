@@ -2,11 +2,11 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { certificationIssueReportCategoriesLabel } from 'pix-certif/models/certification-issue-report';
+import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
 class RadioButtonCategory {
   @tracked isChecked;
-  @tracked label;
+  @tracked name;
 
   constructor() {
     this.isChecked = false;
@@ -29,10 +29,10 @@ export default class ExaminerReportModal extends Component {
 
   constructor() {
     super(...arguments);
-    this.otherCategory.label = certificationIssueReportCategoriesLabel.OTHER;
-    this.lateOrLeavingCategory.label = certificationIssueReportCategoriesLabel.LATE_OR_LEAVING;
-    this.candidateInformationsChangesCategory.label = certificationIssueReportCategoriesLabel.CANDIDATE_INFORMATIONS_CHANGES;
-    this.connexionOrEndScreenCategory.label = certificationIssueReportCategoriesLabel.CONNEXION_OR_END_SCREEN;
+    this.otherCategory.name = certificationIssueReportCategories.OTHER;
+    this.lateOrLeavingCategory.name = certificationIssueReportCategories.LATE_OR_LEAVING;
+    this.candidateInformationsChangesCategory.name = certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES;
+    this.connexionOrEndScreenCategory.name = certificationIssueReportCategories.CONNEXION_OR_END_SCREEN;
 
     const certificationReport = this.args.report;
     const certificationIssueReports = certificationReport.certificationIssueReports;
@@ -45,19 +45,19 @@ export default class ExaminerReportModal extends Component {
         : 0;
 
       switch (existingIssueReport.category) {
-        case certificationIssueReportCategoriesLabel.OTHER:
+        case certificationIssueReportCategories.OTHER:
           this.otherCategory.isChecked = true;
           break;
 
-        case certificationIssueReportCategoriesLabel.LATE_OR_LEAVING:
+        case certificationIssueReportCategories.LATE_OR_LEAVING:
           this.lateOrLeavingCategory.isChecked = true;
           break;
 
-        case certificationIssueReportCategoriesLabel.CANDIDATE_INFORMATIONS_CHANGES:
+        case certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES:
           this.candidateInformationsChangesCategory.isChecked = true;
           break;
 
-        case certificationIssueReportCategoriesLabel.CONNEXION_OR_END_SCREEN:
+        case certificationIssueReportCategories.CONNEXION_OR_END_SCREEN:
           this.connexionOrEndScreenCategory.isChecked = true;
           break;
 
@@ -74,8 +74,8 @@ export default class ExaminerReportModal extends Component {
     category.isChecked = !category.isChecked;
     this._resetAllCurrentIssueReportData();
     if (category.isChecked) {
-      this._toggleOffAllCategoryExceptOne(category.label);
-      this.currentIssueReport.category = category.label;
+      this._toggleOffAllCategoryExceptOne(category.name);
+      this.currentIssueReport.category = category.name;
     }
   }
 
@@ -84,11 +84,11 @@ export default class ExaminerReportModal extends Component {
     this.reportLength = 0;
   }
 
-  _toggleOffAllCategoryExceptOne(categoryToExcludeLabel) {
-    this.otherCategory.isChecked = this.otherCategory.label === categoryToExcludeLabel;
-    this.lateOrLeavingCategory.isChecked = this.lateOrLeavingCategory.label === categoryToExcludeLabel;
-    this.candidateInformationsChangesCategory.isChecked = this.candidateInformationsChangesCategory.label === categoryToExcludeLabel;
-    this.connexionOrEndScreenCategory.isChecked = this.connexionOrEndScreenCategory.label === categoryToExcludeLabel;
+  _toggleOffAllCategoryExceptOne(categoryToExcludeName) {
+    this.otherCategory.isChecked = this.otherCategory.name === categoryToExcludeName;
+    this.lateOrLeavingCategory.isChecked = this.lateOrLeavingCategory.name === categoryToExcludeName;
+    this.candidateInformationsChangesCategory.isChecked = this.candidateInformationsChangesCategory.name === categoryToExcludeName;
+    this.connexionOrEndScreenCategory.isChecked = this.connexionOrEndScreenCategory.name === categoryToExcludeName;
   }
 
   @action
