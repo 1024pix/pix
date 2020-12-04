@@ -68,6 +68,30 @@ describe('Acceptance | Controller | users-controller', () => {
         // then
         expect(response.statusCode).to.equal(403);
       });
+
+      it('should return 422 if email is invalid', async () => {
+        // given
+        const options = {
+          method: 'PATCH',
+          url: `/api/users/${user.id}/email`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id - 1) },
+          payload: {
+            data: {
+              type: 'users',
+              attributes: {
+                'email': 'not_an_email',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
+
     });
   });
 });

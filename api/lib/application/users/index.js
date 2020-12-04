@@ -5,6 +5,7 @@ const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
+const { EntityValidationError } = require('../../domain/errors');
 
 exports.register = async function(server) {
   server.route([
@@ -180,6 +181,9 @@ exports.register = async function(server) {
               },
             },
           }),
+          failAction: (request, h, error) => {
+            return EntityValidationError.fromJoiErrors(error.details);
+          },
         },
         notes : [
           '- Met à jour l\'email d\'un utilisateur identifié par son id',
