@@ -9,10 +9,10 @@ import EmberObject from '@ember/object';
 module('Integration | Component | examiner-report-modal', function(hooks) {
   setupRenderingTest(hooks);
 
-  const LABEL_FOR_RADIO_BUTTON_OF_TYPE_OTHER_SELECTOR = 'label[for="input-radio-for-type-other"]';
-  const LABEL_FOR_RADIO_BUTTON_OF_TYPE_LATE_OR_LEAVING_SELECTOR = 'label[for="input-radio-for-type-late-or-leaving"]';
-  const TEXT_AREA_OF_TYPE_OTHER_SELECTOR = '#text-area-for-type-other';
-  const TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR = '#text-area-for-type-late-or-leaving';
+  const LABEL_FOR_RADIO_BUTTON_OF_CATEGORY_OTHER_SELECTOR = 'label[for="input-radio-for-category-other"]';
+  const LABEL_FOR_RADIO_BUTTON_OF_CATEGORY_LATE_OR_LEAVING_SELECTOR = 'label[for="input-radio-for-category-late-or-leaving"]';
+  const TEXT_AREA_OF_CATEGORY_OTHER_SELECTOR = '#text-area-for-category-other';
+  const TEXT_AREA_OF_CATEGORY_LATE_OR_LEAVING_SELECTOR = '#text-area-for-category-late-or-leaving';
   const REPORT_INPUT_LENGTH_INDICATOR = '.examiner-report-modal-content__char-count';
 
   test('it show candidate informations in title', async function(assert) {
@@ -74,8 +74,8 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
         `);
 
         // then
-        const textAreaElement = document.querySelector(TEXT_AREA_OF_TYPE_OTHER_SELECTOR);
-        assert.dom(TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR).doesNotExist();
+        const textAreaElement = document.querySelector(TEXT_AREA_OF_CATEGORY_OTHER_SELECTOR);
+        assert.dom(TEXT_AREA_OF_CATEGORY_LATE_OR_LEAVING_SELECTOR).doesNotExist();
         assert.equal(textAreaElement.value, 'coucou');
         assert.dom(REPORT_INPUT_LENGTH_INDICATOR).hasText(`${certificationIssueReport.description.length} / 500`);
       });
@@ -112,8 +112,8 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
         `);
 
         // then
-        const textAreaElement = document.querySelector(TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR);
-        assert.dom(TEXT_AREA_OF_TYPE_OTHER_SELECTOR).doesNotExist();
+        const textAreaElement = document.querySelector(TEXT_AREA_OF_CATEGORY_LATE_OR_LEAVING_SELECTOR);
+        assert.dom(TEXT_AREA_OF_CATEGORY_OTHER_SELECTOR).doesNotExist();
         assert.equal(textAreaElement.value, 'coucou');
         assert.dom(REPORT_INPUT_LENGTH_INDICATOR).hasText(`${certificationIssueReport.description.length} / 500`);
       });
@@ -144,10 +144,10 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
       `);
 
       // then
-      assert.dom(TEXT_AREA_OF_TYPE_OTHER_SELECTOR).doesNotExist();
-      assert.dom(TEXT_AREA_OF_TYPE_LATE_OR_LEAVING_SELECTOR).doesNotExist();
-      assert.dom(LABEL_FOR_RADIO_BUTTON_OF_TYPE_OTHER_SELECTOR).hasText('Autre incident');
-      assert.dom(LABEL_FOR_RADIO_BUTTON_OF_TYPE_LATE_OR_LEAVING_SELECTOR).hasText('Retard, absence ou départ');
+      assert.dom(TEXT_AREA_OF_CATEGORY_OTHER_SELECTOR).doesNotExist();
+      assert.dom(TEXT_AREA_OF_CATEGORY_LATE_OR_LEAVING_SELECTOR).doesNotExist();
+      assert.dom(LABEL_FOR_RADIO_BUTTON_OF_CATEGORY_OTHER_SELECTOR).hasText('Autre incident');
+      assert.dom(LABEL_FOR_RADIO_BUTTON_OF_CATEGORY_LATE_OR_LEAVING_SELECTOR).hasText('Retard, absence ou départ');
     });
   });
 });
