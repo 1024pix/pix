@@ -11,6 +11,7 @@ const assessment = {};
 let challenge = null;
 let answer = null;
 let solution = null;
+let solutionAsText = null;
 
 describe('Integration | Component | qcu-solution-panel.js', function() {
   setupIntlRenderingTest();
@@ -123,6 +124,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         });
 
         solution = '2';
+        solutionAsText = 'bar';
       });
 
       it('should inform that the answer is wrong', async function() {
@@ -150,7 +152,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         // Then
         const correctAnswer = find('.wrong-answer__expected-answer');
         expect(correctAnswer).to.exist;
-        expect(correctAnswer.innerText).to.equal(solution);
+        expect(correctAnswer.innerText).to.equal(solutionAsText);
       });
     });
   });

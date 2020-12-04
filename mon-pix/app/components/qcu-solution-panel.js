@@ -26,6 +26,14 @@ export default class QcuSolutionPanel extends Component {
     return !isEmpty(solution) ? valueAsArrayOfBoolean(solution) : [];
   }
 
+  get solutionAsText() {
+    const answersProposedByUser = this.labeledRadios;
+    const correctAnswerIndex = this.solutionArray.indexOf(true);
+    const solutionAndStatus = answersProposedByUser[correctAnswerIndex];
+
+    return solutionAndStatus[0];
+  }
+
   @computed('answer')
   get labeledRadios() {
     const answer = this.answer.value;
