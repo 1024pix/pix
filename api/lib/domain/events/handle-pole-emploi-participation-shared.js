@@ -1,18 +1,12 @@
-const _ = require('lodash');
-const axios = require('axios');
 const { checkEventType } = require('./check-event-type');
 const CampaignParticipationResultsShared = require('./CampaignParticipationResultsShared');
 const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const PoleEmploiSending = require('../models/PoleEmploiSending');
-const { UnexpectedUserAccount } = require('../errors');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const settings = require('../../config');
 
 const eventType = CampaignParticipationResultsShared;
 
 async function handlePoleEmploiParticipationShared({
   event,
-  authenticationMethodRepository,
   campaignRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
@@ -20,6 +14,7 @@ async function handlePoleEmploiParticipationShared({
   poleEmploiSendingRepository,
   targetProfileRepository,
   userRepository,
+  poleEmploiNotifier,
 }) {
   checkEventType(event, eventType);
 
@@ -43,32 +38,16 @@ async function handlePoleEmploiParticipationShared({
       participationResult,
     });
 
-    const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
-    if (!_.get(authenticationMethod, 'authenticationComplement.accessToken')) {
-      throw new UnexpectedUserAccount({ message: 'Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi', code: 'UNEXPECTED_USER_ACCOUNT', meta: { value: null } });
-    }
-
     const poleEmploiSending = new PoleEmploiSending({
       campaignParticipationId,
       type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING,
       payload: JSON.stringify(payload),
     });
 
-    await axios.post(
-      settings.poleEmploi.sendingUrl,
-      payload.toString(),
-      {
-        headers: {
-          'Authorization': `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'Service-source': 'Pix',
-        },
-      },
-    ).then(
-      (response) => poleEmploiSending.succeed(response.status),
-      (error) => poleEmploiSending.fail(error.response.status),
-    );
+    const response = await poleEmploiNotifier.notify(user.id, payload.toString());
+    if (response.isSuccessful) poleEmploiSending.succeed(response.code);
+    if (!response.isSuccessful) poleEmploiSending.fail(response.code);
+
     return poleEmploiSendingRepository.create({ poleEmploiSending });
   }
 }
