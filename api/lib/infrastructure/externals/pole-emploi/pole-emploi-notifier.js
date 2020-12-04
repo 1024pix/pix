@@ -1,12 +1,13 @@
 const _ = require('lodash');
 const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
+const poleEmploiSendingRepository = require('../../repositories/pole-emploi-sending-repository');
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const httpAgent = require('../../http/http-agent');
 const settings = require('../../../config');
 const { UnexpectedUserAccount } = require('../../../domain/errors');
 
 module.exports = {
-  async notify(userId, payload) {
+  async notify(userId, payload, poleEmploiSending) {
     const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
     const accessToken = _.get(authenticationMethod, 'authenticationComplement.accessToken');
     if (!accessToken) {
@@ -19,6 +20,11 @@ module.exports = {
       'Accept': 'application/json',
       'Service-source': 'Pix',
     };
-    return httpAgent.post(url, payload, headers);
+    const response = await httpAgent.post(url, payload, headers);
+    response.isSuccessful ?
+      poleEmploiSending.succeed(response.code) :
+      poleEmploiSending.fail(response.code);
+
+    return poleEmploiSendingRepository.create({ poleEmploiSending });
   },
 };
