@@ -1,4 +1,9 @@
-const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  knex,
+  generateValidRequestAuthorizationHeader
+} = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | certification-report-controller-save-certification-issue-report', () => {
@@ -14,7 +19,7 @@ describe('Acceptance | Controller | certification-report-controller-save-certifi
     await knex('certification-issue-reports').delete();
   });
 
-  describe('POST /api/certification-reports/{id}/certification-issue-reports', function() {
+  describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
 
     it('should return 201 HTTP status code', async () => {
       // given
@@ -40,7 +45,9 @@ describe('Acceptance | Controller | certification-report-controller-save-certifi
             type: 'certification-issue-reports',
           }
         },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId)
+        },
       };
       await databaseBuilder.commit();
 
@@ -49,6 +56,9 @@ describe('Acceptance | Controller | certification-report-controller-save-certifi
 
       // then
       expect(response.statusCode).to.equal(201);
+      expect(response.result.data.type).to.equal('certification-issue-reports');
+      expect(response.result.data.attributes.category).to.equal('OTHER');
+      expect(response.result.data.attributes.description).to.equal('Houston nous avons un problème');
     });
   });
 
