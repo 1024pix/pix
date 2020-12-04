@@ -164,6 +164,10 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/email',
       config: {
+        pre: [{
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser',
+        }],
         handler: userController.updateEmail,
         validate: {
           options: {
