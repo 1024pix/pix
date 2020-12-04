@@ -16,8 +16,8 @@ class RadioButtonCategory {
 export default class ExaminerReportModal extends Component {
   @service store
 
-  @tracked categoryOther = new RadioButtonCategory();
-  @tracked categoryLateOrLeaving = new RadioButtonCategory();
+  @tracked otherCategory = new RadioButtonCategory();
+  @tracked lateOrLeavingCategory = new RadioButtonCategory();
   @tracked currentIssueReport = {
     category: null,
     description: null,
@@ -27,8 +27,8 @@ export default class ExaminerReportModal extends Component {
 
   constructor() {
     super(...arguments);
-    this.categoryOther.label = certificationIssueReportCategoriesLabel.OTHER;
-    this.categoryLateOrLeaving.label = certificationIssueReportCategoriesLabel.LATE_OR_LEAVING;
+    this.otherCategory.label = certificationIssueReportCategoriesLabel.OTHER;
+    this.lateOrLeavingCategory.label = certificationIssueReportCategoriesLabel.LATE_OR_LEAVING;
     const certificationReport = this.args.report;
     const certificationIssueReports = certificationReport.certificationIssueReports;
     const existingIssueReport = certificationIssueReports && certificationIssueReports[0];
@@ -41,11 +41,11 @@ export default class ExaminerReportModal extends Component {
 
       switch (existingIssueReport.category) {
         case certificationIssueReportCategoriesLabel.OTHER:
-          this.categoryOther.isChecked = true;
+          this.otherCategory.isChecked = true;
           break;
 
         case certificationIssueReportCategoriesLabel.LATE_OR_LEAVING:
-          this.categoryLateOrLeaving.isChecked = true;
+          this.lateOrLeavingCategory.isChecked = true;
           break;
 
         default:
@@ -72,8 +72,8 @@ export default class ExaminerReportModal extends Component {
   }
 
   _toggleOffAllCategoryExceptOne(categoryToExcludeLabel) {
-    this.categoryOther.isChecked = this.categoryOther.label === categoryToExcludeLabel;
-    this.categoryLateOrLeaving.isChecked = this.categoryLateOrLeaving.label === categoryToExcludeLabel;
+    this.otherCategory.isChecked = this.otherCategory.label === categoryToExcludeLabel;
+    this.lateOrLeavingCategory.isChecked = this.lateOrLeavingCategory.label === categoryToExcludeLabel;
   }
 
   @action
