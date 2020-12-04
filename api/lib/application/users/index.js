@@ -5,6 +5,7 @@ const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
+const featureToggles = require('../preHandlers/feature-toggles');
 const { EntityValidationError } = require('../../domain/errors');
 
 exports.register = async function(server) {
@@ -165,10 +166,16 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/email',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+          {
+            method: featureToggles.isMyAccountEnabled,
+            assign: 'isMyAccountEnabled',
+          },
+        ],
         handler: userController.updateEmail,
         validate: {
           options: {
