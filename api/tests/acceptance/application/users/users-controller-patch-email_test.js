@@ -69,6 +69,33 @@ describe('Acceptance | Controller | users-controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
+      it('should return 403 if user has no email', async () => {
+        // given
+        const userWithoutEmail = databaseBuilder.factory.buildUser({ email: null });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/users/${userWithoutEmail.id}/email`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userWithoutEmail.id) },
+          payload: {
+            data: {
+              type: 'users',
+              attributes: {
+                'email': 'new_email@example.net',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
       it('should return 422 if email is invalid', async () => {
         // given
         const options = {
