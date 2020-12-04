@@ -44,7 +44,29 @@ describe('Acceptance | Controller | users-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(204);
+      });
 
+      it('should return 403 if account is not his own', async () => {
+        // given
+        const options = {
+          method: 'PATCH',
+          url: `/api/users/${user.id}/email`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id - 1) },
+          payload: {
+            data: {
+              type: 'users',
+              attributes: {
+                'email': 'new_email@example.net',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
