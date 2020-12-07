@@ -26,7 +26,7 @@ describe('Integration | Repository | CertificationReport', function() {
         databaseBuilder.factory.buildCertificationCourse({ anotherSessionId }).id;
 
         await databaseBuilder.commit();
-        
+
         // when
         const certificationReports = await certificationReportRepository.findBySessionId(sessionId);
 
@@ -83,7 +83,7 @@ describe('Integration | Repository | CertificationReport', function() {
           sessionId,
         }).id;
         await databaseBuilder.commit();
-        
+
         // when
         const hasSeenEndTestScreen = true;
         const certificationReport = domainBuilder.buildCertificationReport({
@@ -91,7 +91,7 @@ describe('Integration | Repository | CertificationReport', function() {
           hasSeenEndTestScreen,
         });
         await certificationReportRepository.finalize({ certificationReport });
-  
+
         // then
         const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
 
@@ -123,8 +123,6 @@ describe('Integration | Repository | CertificationReport', function() {
   });
 
   describe('#finalizeAll', () => {
-    let certificationReport1;
-    let certificationReport2;
     let sessionId;
 
     afterEach(() => {
@@ -139,27 +137,33 @@ describe('Integration | Repository | CertificationReport', function() {
     });
 
     context('when reports are being successfully finalized', () => {
-
-      beforeEach(async () => {
-        certificationReport1 = databaseBuilder.factory.buildCertificationReport({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        certificationReport2 = databaseBuilder.factory.buildCertificationReport({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        return databaseBuilder.commit();
-      });
-
       it('should finalize certification reports', async () => {
+        const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          hasSeenEndTestScreen: false,
+        }).id;
+
+        const certificationCourseId2 = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          hasSeenEndTestScreen: false,
+        }).id;
+
+        await databaseBuilder.commit();
+
         // given
-        certificationReport1.hasSeenEndTestScreen = true;
-        certificationReport2.examinerComment = 'J\'aime les fruits et les poulets';
+        const certificationReport1 = domainBuilder.buildCertificationReport({
+          sessionId,
+          certificationCourseId: certificationCourseId1,
+          hasSeenEndTestScreen: true,
+          examinerComment: null,
+        });
+
+        const certificationReport2 = domainBuilder.buildCertificationReport({
+          sessionId,
+          certificationCourseId: certificationCourseId2,
+          hasSeenEndTestScreen: false,
+          examinerComment: 'J\'aime les fruits et les poulets',
+        });
 
         // when
         await certificationReportRepository.finalizeAll([certificationReport1, certificationReport2]);
@@ -209,6 +213,8 @@ describe('Integration | Repository | CertificationReport', function() {
     });
 
     context('when finalization fails', () => {
+      let certificationReport1;
+      let certificationReport2;
 
       beforeEach(async () => {
         certificationReport1 = databaseBuilder.factory.buildCertificationReport({
