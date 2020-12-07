@@ -2,6 +2,7 @@ const usecases = require('../../domain/usecases');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
+const divisionSerializer = require('../../infrastructure/serializers/jsonapi/sco-certification-center-division-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
@@ -37,14 +38,29 @@ module.exports = {
     const userId = parseInt(request.auth.credentials.userId);
     const certificationCenterId = parseInt(request.params.certificationCenterId);
     const sessionId = parseInt(request.params.sessionId);
-    const { page } = queryParamsUtils.extractParameters(request.query);
+
+    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    if (filter.divisions && !Array.isArray(filter.divisions)) {
+      filter.divisions = [filter.divisions];
+    }
+
     const { data, pagination } = await usecases.findStudentsForEnrollement(
       {
         userId,
         certificationCenterId,
         sessionId,
         page,
+        filter,
       });
     return studentCertificationSerializer.serialize(data, pagination);
+  },
+
+  async getDivisions(request) {
+    const certificationCenterId = parseInt(request.params.certificationCenterId);
+    const { data } = await usecases.findDivisionsByCertificationCenter({
+      certificationCenterId,
+    });
+
+    return divisionSerializer.serialize(data);
   },
 };
