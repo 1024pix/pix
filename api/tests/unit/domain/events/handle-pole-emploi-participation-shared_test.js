@@ -167,6 +167,18 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         // then
         expect(poleEmploiNotifier.notify).to.have.been.calledWith(userId, expectedResults, sinon.match.instanceOf(PoleEmploiSending));
       });
+
+      it('should notify with type CAMPAIGN_PARTICIPATION_SHARING', async () => {
+        // when
+        await handlePoleEmploiParticipationShared({
+          event,
+          ...dependencies,
+        });
+
+        // then
+        const poleEmploiSending = poleEmploiNotifier.notify.firstCall.args[2];
+        expect(poleEmploiSending.type).to.equal(PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING);
+      });
     });
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
