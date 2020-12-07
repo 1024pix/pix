@@ -172,8 +172,9 @@ describe('Integration | Repository | CertificationReport', function() {
         const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
         const actualReport1 = _.find(actualCertificationReports, { id: certificationReport1.id });
         const actualReport2 = _.find(actualCertificationReports, { id: certificationReport2.id });
-        expect(actualReport1.hasSeenEndTestScreen).to.equal(certificationReport1.hasSeenEndTestScreen);
-        expect(actualReport2.examinerComment).to.equal(certificationReport2.examinerComment);
+
+        expect(actualReport1.hasSeenEndTestScreen).to.equal(true);
+        expect(actualReport2.examinerComment).to.equal('J\'aime les fruits et les poulets');
       });
 
       it('should save only not null examiner comment into certification-issue-report', async () => {
@@ -206,6 +207,7 @@ describe('Integration | Repository | CertificationReport', function() {
 
         // then
         const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
+
         expect(actualCertificationReports[0].certificationIssueReports[0].description).to.equal(notNullExaminerComment);
         expect(actualCertificationReports[1].certificationIssueReports.length).to.equal(0);
       });
@@ -213,29 +215,34 @@ describe('Integration | Repository | CertificationReport', function() {
     });
 
     context('when finalization fails', () => {
-      let certificationReport1;
-      let certificationReport2;
-
-      beforeEach(async () => {
-        certificationReport1 = databaseBuilder.factory.buildCertificationReport({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        certificationReport2 = databaseBuilder.factory.buildCertificationReport({
-          hasSeenEndTestScreen: false,
-          examinerComment: null,
-          sessionId,
-        });
-
-        return databaseBuilder.commit();
-      });
 
       it('should have left the Courses as they were and rollback updates if any', async () => {
         // given
-        certificationReport1.examinerComment = 'J\'aime les fruits et les poulets';
-        certificationReport2.hasSeenEndTestScreen = 'je suis supposé être un booléen';
+        const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          hasSeenEndTestScreen: false,
+        }).id;
+
+        const certificationCourseId2 = databaseBuilder.factory.buildCertificationCourse({
+          sessionId,
+          hasSeenEndTestScreen: false,
+        }).id;
+
+        await databaseBuilder.commit();
+
+        const certificationReport1 = domainBuilder.buildCertificationReport({
+          certificationCourseId: certificationCourseId1,
+          hasSeenEndTestScreen: false,
+          examinerComment:'J\'aime les fruits et les poulets',
+          sessionId,
+        });
+
+        const certificationReport2 = domainBuilder.buildCertificationReport({
+          certificationCourseId: certificationCourseId2,
+          hasSeenEndTestScreen: 'je suis supposé être un booléen',
+          examinerComment: null,
+          sessionId,
+        });
 
         // when
         const error = await catchErr(certificationReportRepository.finalizeAll, certificationReportRepository)([certificationReport1, certificationReport2]);
@@ -244,8 +251,9 @@ describe('Integration | Repository | CertificationReport', function() {
         const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
         const actualReport1 = _.find(actualCertificationReports, { id: certificationReport1.id });
         const actualReport2 = _.find(actualCertificationReports, { id: certificationReport2.id });
-        expect(actualReport2.examinerComment).to.equal(null);
-        expect(actualReport1.hasSeenEndTestScreen).to.equal(false);
+
+        expect(actualReport1.examinerComment).to.equal(null);
+        expect(actualReport2.hasSeenEndTestScreen).to.equal(false);
         expect(error).to.be.an.instanceOf(CertificationCourseUpdateError);
       });
 
