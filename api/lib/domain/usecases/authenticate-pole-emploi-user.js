@@ -18,13 +18,6 @@ module.exports = async function authenticatePoleEmploiUser({
 
     const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
 
-    const user = new User({
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      password: '',
-      cgu: false,
-    });
-
     const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
       accessToken: poleEmploiTokens.accessToken,
       refreshToken: poleEmploiTokens.refreshToken,
@@ -33,6 +26,14 @@ module.exports = async function authenticatePoleEmploiUser({
 
     let foundUser = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
     if (!foundUser) {
+
+      const user = new User({
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        password: '',
+        cgu: false,
+      });
+
       await DomainTransaction.execute(async (domainTransaction) => {
         foundUser = await userRepository.create(user, domainTransaction);
         const authenticationMethod = new AuthenticationMethod({
