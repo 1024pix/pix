@@ -1,17 +1,20 @@
 const { checkEventType } = require('./check-event-type');
 const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const AssessmentCompleted = require('./AssessmentCompleted');
+const PoleEmploiSending = require('../models/PoleEmploiSending');
 
 const eventType = AssessmentCompleted;
 
 async function handlePoleEmploiParticipationFinished({
   event,
-  campaignRepository,
-  campaignParticipationRepository,
-  organizationRepository,
-  targetProfileRepository,
   assessmentRepository,
+  campaignParticipationRepository,
+  campaignRepository,
+  organizationRepository,
+  poleEmploiSendingRepository,
+  targetProfileRepository,
   userRepository,
+  poleEmploiNotifier,
 }) {
   checkEventType(event, eventType);
 
@@ -37,7 +40,16 @@ async function handlePoleEmploiParticipationFinished({
       assessment,
     });
 
-    console.log(payload.toString());
+    const response = await poleEmploiNotifier.notify(user.id, payload.toString());
+
+    const poleEmploiSending = PoleEmploiSending.buildForParticipationFinished({
+      campaignParticipationId,
+      payload: payload.toString(),
+      isSuccessful: response.isSuccessful,
+      responseCode: response.code,
+    });
+
+    return poleEmploiSendingRepository.create({ poleEmploiSending });
   }
 }
 
