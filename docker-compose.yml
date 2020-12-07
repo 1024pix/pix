@@ -3,13 +3,23 @@ version: '3'
 services:
   postgres:
     image: postgres:12.4-alpine
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: pix
       POSTGRES_HOST_AUTH_METHOD: trust
 
   redis:
     image: redis:5.0.7-alpine
+
+  web:
+    build:
+      context: .
+    command: npx run-p start:api start:mon-pix start:admin
+    volumes:
+      - .:/code
+    working_dir: /code
     ports:
-      - "6379:6379"
+      - "4200:4200"
+      - "4202:4202"
+    depends_on:
+      - redis
+      - postgres
