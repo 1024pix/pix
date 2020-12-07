@@ -5,6 +5,7 @@ set -o pipefail
 
 EXPECTED_NODE_VERSION="v14.15.1"
 EXPECTED_NPM_VERSION="6.14.8"
+DOCKER_COMPOSE_RUN_WEB="docker-compose run --rm web"
 
 function display_banner() {
   echo "                                                    "
@@ -46,28 +47,12 @@ function assert_program_is_installed() {
   fi
 }
 
-function assert_expected_version_is_installed() {
-  local program=$1
-  local expected_version=$2
-  local installed_version=$("${program}" -v)
-
-  if [ "${installed_version}" != "${expected_version}" ]; then
-    echo "Error: expected version ${expected_version} to be installed for program \"${program}\"but found version ${installed_version}." >&2
-    exit 1
-  fi
-}
-
 function verify_prerequesite_programs() {
   echo "Verifying prerequesite programs…"
 
   assert_program_is_installed "git"
-  assert_program_is_installed "node"
-  assert_program_is_installed "npm"
   assert_program_is_installed "docker"
   assert_program_is_installed "docker-compose"
-
-  assert_expected_version_is_installed "node" "${EXPECTED_NODE_VERSION}"
-  assert_expected_version_is_installed "npm" "${EXPECTED_NPM_VERSION}"
 
   echo "✅ Required programs have been found."
   echo ""
@@ -85,12 +70,12 @@ function generate_environment_config_file() {
 function install_apps_dependencies() {
   echo "Installing Pix apps dependencies…"
 
-  npm install
-  (cd admin && npm install --no-optional)
-  (cd api && npm install --no-optional)
-  (cd certif && npm install --no-optional)
-  (cd mon-pix && npm install --no-optional)
-  (cd orga && npm install --no-optional)
+  $DOCKER_COMPOSE_RUN_WEB npm install
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd admin && npm install --no-optional"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd api && npm install --no-optional"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd certif && npm install --no-optional"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd mon-pix && npm install --no-optional"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd orga && npm install --no-optional"
 
   echo "✅ Dependencies installed."
   echo ""
@@ -100,7 +85,7 @@ function setup_and_run_infrastructure() {
   echo "Starting infrastructure building blocks…"
 
   docker-compose up -d
-  (cd api && npm run db:migrate)
+  $DOCKER_COMPOSE_RUN_WEB cd api && npm run db:migrate
 
   echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
   echo ""
@@ -109,11 +94,11 @@ function setup_and_run_infrastructure() {
 function execute_apps_tests() {
   echo "Executing Pix apps tests…"
 
-  (cd admin && npm test)
-  (cd api && npm test)
-  (cd certif && npm test)
-  (cd mon-pix && npm test)
-  (cd orga && npm test)
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd admin && npm test"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd api && npm test"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd certif && npm test"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd mon-pix && npm test"
+  $DOCKER_COMPOSE_RUN_WEB bash -c "cd orga && npm test"
 
   echo "✅ Tests passed."
   echo ""
