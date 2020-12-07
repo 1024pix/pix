@@ -9,9 +9,6 @@
       </p>
     </div>
   {{/if}}
-  <LinkTo @route="user-tutorials" class="navbar-burger-menu-user-info__item">
-    {{t 'navigation.user.tutorials'}}
-  </LinkTo>
   <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info__item">
     {{t 'navigation.user.certifications'}}
   </LinkTo>
@@ -29,6 +26,10 @@
 
     <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
        {{t 'navigation.main.start-certification'}}
+    </LinkTo>
+
+    <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation__item">
+      {{t 'navigation.main.tutorials'}}
     </LinkTo>
 
     <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-burger-menu-navigation__item">

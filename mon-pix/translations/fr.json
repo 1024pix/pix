@@ -977,7 +977,8 @@
             "help": "Aide",
             "link-help": "https://pix.fr/aide",
             "profile": "Profil",
-            "start-certification": "Certification"
+            "start-certification": "Certification",
+            "tutorials":  "Mes tutos"
         },
         "not-logged": {
             "sign-in": "Se connecter",
@@ -996,8 +997,7 @@
                 "username": "Identifiant"
             },
             "certifications": "Mes certifications",
-            "sign-out": "Se déconnecter",
-            "tutorials": "Mes tutos"
+            "sign-out": "Se déconnecter"
         }
     }
 }
