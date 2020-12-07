@@ -7,7 +7,11 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 describe('Unit | Service | user-authentication-method-obfuscation-service', () => {
 
   beforeEach(() => {
-    authenticationMethodRepository.findOneByUserIdAndIdentityProvider = sinon.stub().resolves();
+    sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
+  });
+
+  afterEach(() => {
+    authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
   });
 
   describe('#emailObfuscation', () => {
