@@ -50,6 +50,49 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       expect(result).to.deep.equal(expectedSchoolingRegistrations);
     });
 
+    it('should parse the file when there is a BOM character in the file', async function() {
+      // given
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const path = __dirname + '/siecle-file/siecle-with-bom.xml';
+      const expectedSchoolingRegistrations = [{
+        lastName: 'COVERT',
+        preferredLastName: 'COJAUNE',
+        firstName: 'Harry',
+        middleName: 'Coco',
+        thirdName: '',
+        birthdate: '1994-12-31',
+        birthCityCode: '33318',
+        birthCity: null,
+        birthCountryCode: '100',
+        birthProvinceCode: '033',
+        MEFCode: null,
+        status: 'AP',
+        nationalStudentId: '00000000123',
+        division: '4A',
+      }];
+
+      // when
+      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
+
+      //then
+      expect(result).to.deep.equal(expectedSchoolingRegistrations);
+    });
+
+    it('when the encoding is not supported it throws an error', async function() {
+
+      // given
+      const validUAIFromSIECLE = '123ABC';
+      const organization = { externalId: validUAIFromSIECLE };
+      const path = __dirname + '/siecle-file/siecle-with-unknown-encoding.xml';
+      // when
+      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
+
+      //then
+      expect(error).to.be.instanceof(FileValidationError);
+      expect(error.message).to.equal('L\'encodage du fichier n\'est pas supporté');
+    });
+
     it('should not parse schoolingRegistrations who are no longer in the school', async function() {
       // given
       const validUAIFromSIECLE = '123ABC';
@@ -153,7 +196,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-no-student-number.xml';
+      const path = __dirname + '/siecle-file/siecle-with-no-national-student-id.xml';
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 

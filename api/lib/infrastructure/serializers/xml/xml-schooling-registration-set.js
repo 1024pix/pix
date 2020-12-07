@@ -38,6 +38,14 @@ class XMLSchoolingRegistrationsSet {
       throw new SameNationalStudentIdInFileError(nationalStudentId);
     }
   }
+
+  has(studentId) {
+    return this.schoolingRegistrationsByStudentId.has(studentId);
+  }
+
+  get schoolingRegistrations() {
+    return Array.from(this.schoolingRegistrationsByStudentId.values());
+  }
 }
 
 function _mapStudentInformationToSchoolingRegistration(studentNode) {
@@ -48,7 +56,7 @@ function _mapStudentInformationToSchoolingRegistration(studentNode) {
     middleName: _getValueFromParsedElement(studentNode.PRENOM2),
     thirdName: _getValueFromParsedElement(studentNode.PRENOM3),
     birthdate: moment(studentNode.DATE_NAISS, 'DD/MM/YYYY').format('YYYY-MM-DD') || null,
-    birthCountryCode: _getValueFromParsedElement(studentNode.CODE_PAYS, null),
+    birthCountryCode: _getValueFromParsedElement(studentNode.CODE_PAYS),
     birthProvinceCode: _getValueFromParsedElement(studentNode.CODE_DEPARTEMENT_NAISS),
     birthCityCode: _getValueFromParsedElement(studentNode.CODE_COMMUNE_INSEE_NAISS),
     birthCity: _getValueFromParsedElement(studentNode.VILLE_NAISS),
