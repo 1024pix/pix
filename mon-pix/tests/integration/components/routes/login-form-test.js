@@ -170,6 +170,14 @@ describe('Integration | Component | routes/login-form', function() {
     let replaceWithStub;
 
     beforeEach(function() {
+      storeStub.prototype.createRecord = () => {
+        return EmberObject.create({
+          save() {
+            return resolve();
+          },
+        });
+      };
+
       replaceWithStub = sinon.stub();
       const router = Service.extend({
         replaceWith: replaceWithStub,
@@ -204,6 +212,14 @@ describe('Integration | Component | routes/login-form', function() {
     let addGarAuthenticationMethodToUserStub;
 
     beforeEach(function() {
+      storeStub.prototype.createRecord = () => {
+        return EmberObject.create({
+          save() {
+            return resolve();
+          },
+        });
+      };
+
       sessionStub.prototype.authenticate = sinon.stub().resolves();
       sessionStub.prototype.isAuthenticated = sinon.stub().returns(true);
       sessionStub.prototype.get = sinon.stub().returns(externalUserToken);
