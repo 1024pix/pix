@@ -22,7 +22,7 @@ describe('Unit | Application | SecurityPreHandlers', () => {
 
       const accessToken = 'valid.access.token';
       const authorizationHeader = `Bearer ${accessToken}`;
-      const request = { headers: { authorization: authorizationHeader } };
+      const request = { headers: { authorization: authorizationHeader }, auth: {} };
 
       beforeEach(() => {
         tokenService.extractTokenFromAuthChain.returns('valid.access.token');
@@ -45,7 +45,7 @@ describe('Unit | Application | SecurityPreHandlers', () => {
       let request;
 
       beforeEach(() => {
-        request = { headers: {} };
+        request = { headers: {}, auth: {} };
       });
 
       it('should disallow access to resource when access token is missing', async () => {
@@ -84,6 +84,16 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         // then
         expect(response.statusCode).to.equal(401);
         expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should return an error object if auth mode is optional and there is no authorization header', async () => {
+        // given
+        request.auth.mode = 'optional';
+        request.headers.authorization = undefined;
+
+        const error = await securityPreHandlers.checkUserIsAuthenticated(request, hFake);
+
+        expect(error.output.statusCode).to.equal(401);
       });
     });
   });

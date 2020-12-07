@@ -7,6 +7,7 @@ const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('./u
 const checkUserBelongsToOrganizationUseCase  = require('./usecases/checkUserBelongsToOrganization');
 const checkUserIsAdminAndManagingStudentsForOrganization  = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const Organization = require('../../lib/domain/models/Organization');
+const boom = require('boom');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
@@ -40,6 +41,10 @@ function _replyWithAuthorizationError(h) {
 }
 
 function checkUserIsAuthenticated(request, h) {
+
+  if (request.auth.mode === 'optional' && !request.headers.authorization) {
+    return boom.unauthorized(null, 'jwt-access-token');
+  }
 
   const authorizationHeader = request.headers.authorization;
   const accessToken = tokenService.extractTokenFromAuthChain(authorizationHeader);
