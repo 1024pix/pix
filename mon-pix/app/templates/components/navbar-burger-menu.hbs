@@ -18,7 +18,7 @@
   </LinkTo>
 </div>
 
-{{#unless isInRouteWithoutLinksInHeader}}
+{{#unless this.isInRouteWithoutLinksInHeader}}
   <div class="navbar-burger-menu navbar-burger-menu__navigation">
     {{#if this.showDashboard}}
       <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
