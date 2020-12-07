@@ -2,6 +2,7 @@ const { FileValidationError } = require('../../../domain/errors');
 const xml2js = require('xml2js');
 const saxPath = require('saxpath');
 const { isEmpty, isUndefined } = require('lodash');
+const SiecleFileStreamer = require('../../utils/xml/siecle-file-streamer');
 
 const NODE_ORGANIZATION_UAI = '/BEE_ELEVES/PARAMETRES/UAJ';
 const NODES_SCHOOLING_REGISTRATIONS = '/BEE_ELEVES/DONNEES/*/*';
@@ -12,48 +13,62 @@ const UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI = 'Aucun étudiant n’a été 
 const XMLSchoolingRegistrationSet = require('./xml-schooling-registration-set');
 
 class SiecleParser {
-  constructor(organization, siecleFileStreamer) {
+  constructor(organization, path) {
     this.organization = organization;
-    this.siecleFileStreamer = siecleFileStreamer;
+    this.path = path;
     this.schoolingRegistrationsSet = new XMLSchoolingRegistrationSet();
   }
 
   async parse() {
 
-    await this._checkUAI();
+    this.siecleFileStreamer = await SiecleFileStreamer.create(this.path);
 
-    const schoolingRegistrations = await this._parseStudent();
+    await this._parseUAI();
 
-    return schoolingRegistrations.filter((schoolingRegistration) => !isUndefined(schoolingRegistration.division));
+    await this._parseStudents();
+
+    return this.schoolingRegistrationsSet.schoolingRegistrations.filter((schoolingRegistration) => !isUndefined(schoolingRegistration.division));
   }
 
-  async _checkUAI() {
-    const UAIFromSIECLE = await this.siecleFileStreamer.perform(_extractUAI);
-    const UAIFromUserOrganization = this.organization.externalId;
-
-    if (UAIFromSIECLE !== UAIFromUserOrganization) {
-      throw new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI);
-    }
+  async _parseUAI() {
+    await this.siecleFileStreamer.perform((stream, resolve, reject) => this._checkUAI(stream, resolve, reject));
   }
 
-  async _parseStudent() {
-    return this.siecleFileStreamer.perform((stream, resolve, reject) => this._extractStudentRegistrationsFromStream(stream, resolve, reject));
+  async _checkUAI(stream, resolve, reject) {
+    const streamerToParseOrganizationUAI = new saxPath.SaXPath(stream, NODE_ORGANIZATION_UAI);
+
+    streamerToParseOrganizationUAI.once('match', (xmlNode) => {
+      xml2js.parseString(xmlNode, (err, nodeData) => {
+        if (err) return reject(err);// Si j'enleve cette ligne les tests passent
+        const UAIFromUserOrganization = this.organization.externalId;
+        if (nodeData.UAJ !== UAIFromUserOrganization) {
+          reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
+        } else {
+          resolve();
+        }
+      });
+    });
+
+    stream.on('end', () => {
+      reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
+    });
+  }
+
+  async _parseStudents() {
+    await this.siecleFileStreamer.perform((stream, resolve, reject) => this._extractStudentRegistrationsFromStream(stream, resolve, reject));
   }
 
   _extractStudentRegistrationsFromStream(saxParser, resolve, reject) {
-    const mapSchoolingRegistrationsByStudentId = this.schoolingRegistrationsSet.schoolingRegistrationsByStudentId;
-
     const streamerToParseSchoolingRegistrations = new saxPath.SaXPath(saxParser, NODES_SCHOOLING_REGISTRATIONS);
-
     streamerToParseSchoolingRegistrations.on('match', (xmlNode) => {
       if (_isSchoolingRegistrationNode(xmlNode)) {
         xml2js.parseString(xmlNode, (err, nodeData) => {
           try {
             if (err) throw err;// Si j'enleve cette ligne les tests passent
 
-            if (nodeData.ELEVE && _isImportable(nodeData.ELEVE, mapSchoolingRegistrationsByStudentId)) {
+            if (_isNodeImportableStudent(nodeData)) {
               this.schoolingRegistrationsSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);            }
-            else if (nodeData.STRUCTURES_ELEVE && mapSchoolingRegistrationsByStudentId.has(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID)) {
+            else if (_isNodeImportableStructures(nodeData, this.schoolingRegistrationsSet)) {
               this.schoolingRegistrationsSet.updateDivision(nodeData);
             }
           } catch (err) {
@@ -63,29 +78,20 @@ class SiecleParser {
       }
     });
 
-    streamerToParseSchoolingRegistrations.on('end', () => {
-      resolve(Array.from(mapSchoolingRegistrationsByStudentId.values()));
-    });
+    streamerToParseSchoolingRegistrations.on('end', resolve);
   }
-}
-
-function _extractUAI(saxParser, resolve, reject) {
-  const streamerToParseOrganizationUAI = new saxPath.SaXPath(saxParser, NODE_ORGANIZATION_UAI);
-
-  streamerToParseOrganizationUAI.once('match', (xmlNode) => {
-    xml2js.parseString(xmlNode, (err, nodeData) => {
-      if (err) return reject(err);
-      resolve(nodeData.UAJ);
-    });
-  });
-
-  saxParser.on('end', () => {
-    reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
-  });
 }
 
 function _isSchoolingRegistrationNode(xmlNode) {
   return xmlNode.startsWith(ELEVE_ELEMENT) || xmlNode.startsWith(STRUCTURE_ELEVE_ELEMENT);
+}
+
+function _isNodeImportableStudent(nodeData) {
+  return nodeData.ELEVE && _isImportable(nodeData.ELEVE);
+}
+
+function _isNodeImportableStructures(nodeData, schoolingRegistrationsSet) {
+  return nodeData.STRUCTURES_ELEVE && schoolingRegistrationsSet.has(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID);
 }
 
 function _isImportable(studentData) {

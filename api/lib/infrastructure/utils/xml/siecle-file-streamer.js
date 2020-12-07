@@ -11,14 +11,33 @@ const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
 
 const NO_STUDENTS_IMPORTED_FROM_INVALID_FILE = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
 
-const DEFAULT_FILE_ENCODING = 'iso-8859-15';
+const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
+const BOM = '\uFEFF';
+const BOM_LENGTH = 3;
 
 class StreamPipe extends Stream.Transform {
   _transform(chunk, enc, cb) {
     this.push(chunk);
     cb();
   }
+}
+
+class StreamWithoutBOM extends Stream.Transform {
+  _transform(chunk, enc, cb) {
+    if (chunk.includes(BOM)) {
+      const chunkWithoutBOM = removeBOM(chunk);
+      this.push(chunkWithoutBOM);
+
+    } else {
+      this.push(chunk);
+    }
+    cb();
+  }
+}
+
+function removeBOM(chunk) {
+  return chunk.subarray(BOM_LENGTH);
 }
 
 function _unzippedStream(path) {
@@ -59,7 +78,13 @@ class SiecleFileStreamer {
   async _getStream() {
     this.stream = await this._getRawStream();
     const saxParser = sax.createStream(true);
-    return this.stream.pipe(iconv.decodeStream(this.encoding)).pipe(saxParser);
+    let decodeStream;
+    try {
+      decodeStream = iconv.decodeStream(this.encoding);
+    } catch (err)  {
+      throw new FileValidationError('L\'encodage du fichier n\'est pas supporté');
+    }
+    return this.stream.pipe(decodeStream).pipe(saxParser);
   }
 
   async _getRawStream() {
@@ -73,7 +98,7 @@ class SiecleFileStreamer {
   }
 
   async _isFileZipped() {
-    const { mime } = await FileType.fromFile(this.path);
+    const { mime } = await FileType.fromStream(this._getStreamWithoutBOM());
     return mime === ZIP;
   }
 
@@ -89,25 +114,33 @@ class SiecleFileStreamer {
     });
   }
 
+  _getStreamWithoutBOM() {
+    const streamWithoutBOM = new StreamWithoutBOM();
+
+    return  fs.createReadStream(this.path).pipe(streamWithoutBOM);
+  }
+
   _destroyStream() {
     this.stream.destroy();
   }
 
   async perform(callback) {
-    const siecleFileStream = await this._getStream();
-
     try {
-      return await new Promise((resolve, reject) => {
-
-        siecleFileStream.on('error', () => {
-          reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
-        });
-
-        callback(siecleFileStream, resolve, reject);
-      });
+      await this._callbackAsPromise(callback);
     } finally {
       this._destroyStream();
     }
+  }
+
+  async _callbackAsPromise(callback) {
+    const siecleFileStream = await this._getStream();
+
+    return new Promise((resolve, reject) => {
+      siecleFileStream.on('error', () => {
+        reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
+      });
+      callback(siecleFileStream, resolve, reject);
+    });
   }
 }
 
