@@ -4,6 +4,8 @@ const { BadRequestError } = require('../http-errors');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
+const get = require('lodash/get');
+
 module.exports = {
 
   /**
@@ -53,10 +55,10 @@ module.exports = {
     if (!featureToggles.isPoleEmploiEnabled) {
       throw new BadRequestError('This feature is not enable!');
     }
-
+    const userId = get(request.auth, 'credentials.userId');
     const { code, 'client_id': clientId, 'redirect_uri': redirectUri } = request.payload;
 
-    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri });
+    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri, userId });
 
     return h.response(response).code(200);
   },

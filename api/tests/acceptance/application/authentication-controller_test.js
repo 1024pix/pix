@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, knex, sinon, nock } = require('../../test-helper');
+const { expect, databaseBuilder, knex, sinon, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const querystring = require('querystring');
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../lib/config');
@@ -268,89 +268,129 @@ describe('Acceptance | Controller | authentication-controller', () => {
       clock.restore();
     });
 
-    context('When user does not exist', () => {
+    context('When user is not connected to Pix', () => {
+
+      context('When user does not exist', () => {
+
+        afterEach(async () => {
+          await knex('authentication-methods').delete();
+          await knex('users').delete();
+        });
+
+        it('should create a user with firstName and lastName contained in the pole emploi idToken', async () => {
+          // when
+          await server.inject(options);
+
+          // then
+          const users = await knex('users').where({ firstName, lastName });
+          expect(users[0]).to.exist;
+        });
+
+        it('should create a POLE_EMPLOI authentication method for the created user', async () => {
+          // when
+          await server.inject(options);
+
+          // then
+          const users = await knex('users').where({ firstName, lastName });
+          const authenticationMethods = await knex('authentication-methods').where({ userId: users[0].id });
+          expect(authenticationMethods[0].identityProvider).to.equal(AuthenticationMethod.identityProviders.POLE_EMPLOI);
+          expect(authenticationMethods[0].externalIdentifier).to.equal(externalIdentifier);
+          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
+          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
+          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
+        });
+
+        it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(getAccessTokenRequest.isDone()).to.be.true;
+          expect(response.result['access_token']).to.exist;
+          expect(response.result['id_token']).to.equal(idToken);
+        });
+      });
+
+      context('When user and POLE EMPLOI authentication method exist', () => {
+
+        let userId;
+
+        beforeEach(async () => {
+          userId = databaseBuilder.factory.buildUser({
+            firstName,
+            lastName,
+          }).id;
+
+          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+            externalIdentifier,
+            accessToken: 'old_access_token',
+            refreshToken: 'old_refresh_token',
+            expiresIn: 1000,
+            userId,
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should update POLE_EMPLOI authentication method authentication complement', async () => {
+          // when
+          await server.inject(options);
+
+          // then
+          const authenticationMethods = await knex('authentication-methods').where({ userId });
+          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
+          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
+          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
+        });
+
+        it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(getAccessTokenRequest.isDone()).to.be.true;
+          expect(response.result['access_token']).to.exist;
+          expect(response.result['id_token']).to.equal(idToken);
+        });
+      });
+    });
+
+    context('When user is connected to Pix', () => {
+
+      beforeEach(async () => {
+        const user = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
+        options.headers['Authorization'] = generateValidRequestAuthorizationHeader(user.id);
+      });
 
       afterEach(async () => {
         await knex('authentication-methods').delete();
         await knex('users').delete();
       });
 
-      it('should create a user with firstName and lastName contained in the pole emploi idToken', async () => {
-        // when
-        await server.inject(options);
-
-        // then
-        const users = await knex('users').where({ firstName, lastName });
-        expect(users[0]).to.exist;
-      });
-
-      it('should create a POLE_EMPLOI authentication method for the created user', async () => {
-        // when
-        await server.inject(options);
-
-        // then
-        const users = await knex('users').where({ firstName, lastName });
-        const authenticationMethods = await knex('authentication-methods').where({ userId: users[0].id });
-        expect(authenticationMethods[0].identityProvider).to.equal(AuthenticationMethod.identityProviders.POLE_EMPLOI);
-        expect(authenticationMethods[0].externalIdentifier).to.equal(externalIdentifier);
-        expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
-        expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
-        expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
-      });
-
-      it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+      it('should not be rejected by API', async () => {
         // when
         const response = await server.inject(options);
 
-        // then
+        // expect
         expect(response.statusCode).to.equal(200);
-        expect(getAccessTokenRequest.isDone()).to.be.true;
-        expect(response.result['access_token']).to.exist;
-        expect(response.result['id_token']).to.equal(idToken);
       });
     });
 
-    context('When user and POLE EMPLOI authentication method exist', () => {
+    context('When user has an invalid token', () => {
 
-      let userId;
+      it('should be rejected by API', async () => {
 
-      beforeEach(async () => {
-        userId = databaseBuilder.factory.buildUser({
-          firstName,
-          lastName,
-        }).id;
-
-        databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
-          externalIdentifier,
-          accessToken: 'old_access_token',
-          refreshToken: 'old_refresh_token',
-          expiresIn: 1000,
-          userId,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should update POLE_EMPLOI authentication method authentication complement', async () => {
-        // when
-        await server.inject(options);
-
-        // then
-        const authenticationMethods = await knex('authentication-methods').where({ userId });
-        expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
-        expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
-        expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
-      });
-
-      it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+        options.headers['Authorization'] = 'invalid_token';
         // when
         const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(getAccessTokenRequest.isDone()).to.be.true;
-        expect(response.result['access_token']).to.exist;
-        expect(response.result['id_token']).to.equal(idToken);
+        // expect
+        expect(response.statusCode).to.equal(401);
+
       });
     });
   });
