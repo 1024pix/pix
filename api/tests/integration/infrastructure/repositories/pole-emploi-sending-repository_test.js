@@ -15,7 +15,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
       await databaseBuilder.commit();
       const poleEmploiSending = domainBuilder.buildPoleEmploiSending({ campaignParticipationId });
-      poleEmploiSending.succeed();
+      poleEmploiSending.succeed('200');
 
       // when
       await poleEmploiSendingRepository.create({ poleEmploiSending });

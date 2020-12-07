@@ -11,9 +11,9 @@ async function handlePoleEmploiParticipationShared({
   campaignParticipationRepository,
   campaignParticipationResultRepository,
   organizationRepository,
-  poleEmploiSendingRepository,
   targetProfileRepository,
   userRepository,
+  poleEmploiNotifier,
 }) {
   checkEventType(event, eventType);
 
@@ -43,11 +43,7 @@ async function handlePoleEmploiParticipationShared({
       payload: JSON.stringify(payload),
     });
 
-    await Promise.resolve(console.log(payload.toString())).then(
-      () => poleEmploiSending.succeed(),
-      () => poleEmploiSending.fail(),
-    );
-    await poleEmploiSendingRepository.create({ poleEmploiSending });
+    return poleEmploiNotifier.notify(user.id, payload.toString(), poleEmploiSending);
   }
 }
 

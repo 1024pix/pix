@@ -17,14 +17,14 @@ class PoleEmploiSending {
     this.payload = payload;
   }
 
-  succeed() {
+  succeed(responseCode) {
     this.isSuccessful = true;
-    this.responseCode = 'PIX_FAKE_RESPONSE';
+    this.responseCode = responseCode;
   }
 
-  fail() {
+  fail(responseCode) {
     this.isSuccessful = false;
-    this.responseCode = 'PIX_FAKE_RESPONSE';
+    this.responseCode = responseCode;
   }
 }
 

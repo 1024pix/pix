@@ -11,7 +11,7 @@ const { host, clientId, authEndpoint, loginHintName } = config;
 export default class LoginPeRoute extends Route.extend(OIDCAuthenticationRouteMixin) {
 
   _handleRedirectRequest(queryParams) {
-    const scope = `application_${clientId}%20api_peconnect-individuv1%20openid%20profile%20email`;
+    const scope = `application_${clientId}%20api_peconnect-individuv1%20openid%20profile%20serviceDigitauxExposition%20api_peconnect-servicesdigitauxv1`;
 
     const state = v4();
     const nonce = v4();
