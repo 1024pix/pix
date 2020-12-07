@@ -40,7 +40,7 @@ module.exports = {
         certificationCourseId: certificationReport.certificationCourseId,
         description: certificationReport.examinerComment,
         category: CertificationIssueReportCategories.OTHER,
-      }).save();
+      }).save(null, { transacting: transaction });
     }
   },
 
