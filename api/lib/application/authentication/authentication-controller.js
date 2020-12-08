@@ -55,10 +55,10 @@ module.exports = {
     if (!featureToggles.isPoleEmploiEnabled) {
       throw new BadRequestError('This feature is not enable!');
     }
-    const userId = get(request.auth, 'credentials.userId');
+    const authenticatedUserId = get(request.auth, 'credentials.userId');
     const { code, 'client_id': clientId, 'redirect_uri': redirectUri } = request.payload;
 
-    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri, userId });
+    const response = await usecases.authenticatePoleEmploiUser({ code, clientId, redirectUri, authenticatedUserId });
 
     return h.response(response).code(200);
   },

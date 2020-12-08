@@ -359,11 +359,12 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     context('When user is connected to Pix', () => {
 
+      let authenticatedUser;
       beforeEach(async () => {
-        const user = databaseBuilder.factory.buildUser();
+        authenticatedUser = databaseBuilder.factory.buildUser();
         await databaseBuilder.commit();
 
-        options.headers['Authorization'] = generateValidRequestAuthorizationHeader(user.id);
+        options.headers['Authorization'] = generateValidRequestAuthorizationHeader(authenticatedUser.id);
       });
 
       afterEach(async () => {
@@ -371,12 +372,68 @@ describe('Acceptance | Controller | authentication-controller', () => {
         await knex('users').delete();
       });
 
-      it('should not be rejected by API', async () => {
+      context('When the user does not have a POLE_EMPLOI authentication method', () => {
+
+        it('should create a POLE_EMPLOI authentication method for the authenticated user', async () => {
+          // when
+          await server.inject(options);
+
+          // then
+          const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
+          expect(authenticationMethods[0].identityProvider).to.equal(AuthenticationMethod.identityProviders.POLE_EMPLOI);
+          expect(authenticationMethods[0].externalIdentifier).to.equal(externalIdentifier);
+          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
+          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
+          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
+        });
+
+        it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
+          expect(getAccessTokenRequest.isDone()).to.be.true;
+          expect(response.result['access_token']).to.exist;
+          expect(response.result['id_token']).to.equal(idToken);
+        });
+      });
+
+      context('When the user does have a POLE_EMPLOI authentication method', () => {
+
+        beforeEach(async () => {
+          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+            externalIdentifier,
+            accessToken: 'old_access_token',
+            refreshToken: 'old_refresh_token',
+            expiresIn: 1000,
+            userId: authenticatedUser.id,
+          });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should update POLE_EMPLOI authentication method authentication complement', async () => {
+          // when
+          await server.inject(options);
+
+          // then
+          const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
+          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
+          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
+          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
+        });
+      });
+
+      it('should return an 200 with access_token and id_token when authentication is ok', async () => {
         // when
         const response = await server.inject(options);
 
-        // expect
+        // then
         expect(response.statusCode).to.equal(200);
+        expect(getAccessTokenRequest.isDone()).to.be.true;
+        expect(response.result['access_token']).to.exist;
+        expect(response.result['id_token']).to.equal(idToken);
       });
     });
 
