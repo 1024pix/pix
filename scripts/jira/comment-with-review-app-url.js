@@ -29,6 +29,7 @@ async function main() {
   const raCertifURL = `https://certif-pr${prNumber}.review.pix.fr`;
   const raAdminURL = `https://admin-pr${prNumber}.review.pix.fr`;
   const raAPIURL = `https://api-pr${prNumber}.review.pix.fr/api/`;
+  const prGithubURL = `https://github.com/1024pix/pix/pull/${prNumber}`;
 
   const scalingoCommentRegex = new RegExp(raAppURL, 'i');
 
@@ -57,7 +58,9 @@ async function main() {
       `- Orga : ${raOrgaURL}\n` +
       `- Certif : ${raCertifURL}\n` +
       `- Admin : ${raAdminURL}\n` +
-      `- API (Postman) : ${raAPIURL}`;
+      `- API : ${raAPIURL}\n\n` +
+
+    `Le lien Github de la PR : ${prGithubURL}`;
 
     console.log(`Posting Review apps urls for PR number: ${prNumber} to JIRA issue: ${issueCode}`);
 
