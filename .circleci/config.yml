@@ -129,11 +129,8 @@ jobs:
           paths:
             - ~/.npm
       - run:
-          name: Lint templates
-          command: npm run lint:hbs
-      - run:
-          name: Lint style sheets
-          command: npm run lint:scss
+          name: Lint
+          command: npm run lint
       - run:
          name: Test
          command: |
