@@ -12,6 +12,12 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     const { id: certificationCenterId } = this.modelFor('authenticated');
 
     const certificationCandidates = await this.store.query('certification-candidate', { sessionId:params.session_id });
+    const divisions = await this.store.query('division', { certificationCenterId });
+
+    const certificationCenterDivisions = divisions.map((division) => {
+      return { label: division.name, value: division.name };
+    });
+
     const DEFAULT_PAGE_SIZE = 50;
     const FIRST_PAGE_NUMBER = 1;
     const students = await this.store.query('student',
@@ -27,7 +33,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
       },
     );
 
-    return { session, students, numberOfEnrolledStudents: certificationCandidates.length };
+    return { session, students, numberOfEnrolledStudents: certificationCandidates.length, certificationCenterDivisions };
   }
 
   setupController(controller, model) {

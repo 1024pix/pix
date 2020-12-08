@@ -8,6 +8,9 @@ export default class AddStudentList extends Component {
   @service notifications;
   @service store;
 
+  title = 'Classes'
+  emptyMessage = 'Aucune classe trouvée'
+
   get headerCheckboxStatus() {
     return this.hasCheckedEverything
       ? 'checked'
@@ -74,5 +77,9 @@ export default class AddStudentList extends Component {
     } catch (error) {
       this.notifications.error('Une erreur est survenue au moment d‘enregistrer les candidats... ');
     }
+  }
+
+  @action
+  selectDivision() {
   }
 }
