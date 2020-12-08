@@ -2,6 +2,8 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
+import EmberObject from '@ember/object';
+
 module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
   setupTest(hooks);
   let route;
@@ -21,25 +23,38 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       },
     };
 
-    const expectedModel = {
-      numberOfEnrolledStudents: 1,
-      session,
-      students: paginatedStudents,
-    };
-
     hooks.beforeEach(function() {
       route = this.owner.lookup('route:authenticated/sessions/add-student');
     });
 
     test('it should return the session', async function(assert) {
       // given
+      const divisions = [EmberObject.create({ name: '3A' }), EmberObject.create({ name: '3B' })];
       const findRecordStub = sinon.stub();
       findRecordStub.withArgs('session', session_id).resolves(session);
       route.store.findRecord = findRecordStub;
       route.modelFor = sinon.stub().returns({ id: certificationCenterId });
       route.store.query = sinon.stub();
       route.store.query.onCall(0).resolves([Symbol('a candidate')]);
-      route.store.query.onCall(1).resolves(paginatedStudents);
+      route.store.query.onCall(1).resolves(divisions);
+      route.store.query.onCall(2).resolves(paginatedStudents);
+
+      const expectedModel = {
+        certificationCenterDivisions:  [
+          {
+            label: '3A',
+            value: '3A',
+          },
+          {
+            label: '3B',
+            value: '3B',
+          },
+        ],
+        numberOfEnrolledStudents: 1,
+        session,
+        students: paginatedStudents,
+        selectedDivisions: undefined,
+      };
 
       // when
       const actualModel = await route.model({ session_id, pageNumber: 1, pageSize: 1  });
@@ -50,6 +65,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
         filter: {
           certificationCenterId,
           sessionId: session.id,
+          divisions: undefined,
         },
         page: {
           size: 1,

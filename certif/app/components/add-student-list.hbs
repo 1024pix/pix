@@ -1,5 +1,14 @@
 {{#if @studentList}}
+
 <div class="table add-student-list">
+  <PixMultiSelect
+    @title={{this.title}}
+    @emptyMessage={{this.emptyMessage}}
+    @id={{'add-student-list__multi-select'}}
+    @onSelect={{this.selectDivision}}
+    @options={{@certificationCenterDivisions}} as |option|>
+    {{option.label}}
+  </PixMultiSelect>
   <table>
     <thead>
       <tr>
@@ -81,7 +90,6 @@
           Ajouter
         </PixButton>
       </div>
-
     </div>
   {{/if}}
 </div>
