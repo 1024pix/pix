@@ -1,6 +1,8 @@
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 
+const security = require('../../../lib/infrastructure/security');
+
 const preResponseUtils = require('../../../lib/application/pre-response-utils');
 const { handleFailAction } = require('../../../lib/validate');
 
@@ -25,7 +27,7 @@ const routesConfig = {
  */
 class HttpTestServer {
 
-  constructor(moduleUnderTest) {
+  constructor(moduleUnderTest, enableAuthentication = false) {
     this.hapiServer = Hapi.server(routesConfig);
 
     this.hapiServer.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
@@ -34,6 +36,11 @@ class HttpTestServer {
       console.error(event.error);
     });
 
+    if (enableAuthentication) {
+      this.hapiServer.auth.scheme('jwt-access-token', security.scheme);
+      this.hapiServer.auth.strategy('default', 'jwt-access-token');
+      this.hapiServer.auth.default('default');
+    }
     this.hapiServer.register(Inert);
     this.hapiServer.register(moduleUnderTest);
   }

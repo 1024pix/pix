@@ -29,10 +29,7 @@ afterEach(function() {
  * @returns string
  */
 function generateValidRequestAuthorizationHeader(userId = 1234) {
-  const user = {
-    id: userId,
-  };
-  const accessToken = tokenService.createAccessTokenFromUser(user, 'pix');
+  const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix');
   return `Bearer ${accessToken}`;
 }
 
