@@ -12,9 +12,16 @@
       {{/if}}
     </div>
 
-    {{#unless isInRouteWithoutLinksInHeader}}
+    {{#unless this.isInRouteWithoutLinksInHeader}}
       {{#if this.isUserLogged}}
         <ul class="navbar-desktop-header-container__menu">
+          {{#if this.showDashboard}}
+            <li class="navbar-desktop-header-menu__item">
+              <LinkTo @route="user-dashboard" class="navbar-desktop-header-menu__link">
+                {{t 'navigation.main.dashboard'}}
+              </LinkTo>
+            </li>
+          {{/if}}
           <li class="navbar-desktop-header-menu__item">
             <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
               {{t 'navigation.main.profile'}}
@@ -39,7 +46,7 @@
       {{/if}}
     {{/unless}}
 
-    {{#if isUserLogged}}
+    {{#if this.isUserLogged}}
       <ul class="navbar-desktop-header-container__campaign-menu">
         <li class="navbar-desktop-header-campaign-menu__item">
           <LinkTo @route="fill-in-campaign-code"
