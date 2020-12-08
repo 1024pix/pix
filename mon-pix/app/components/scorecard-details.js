@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import EmberObject, { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { A as EmberArray } from '@ember/array';
-import config from 'mon-pix/config/environment';
 import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 
 export default class ScorecardDetails extends Component {
@@ -32,10 +31,6 @@ export default class ScorecardDetails extends Component {
 
   get displayResetButton() {
     return this.args.scorecard.remainingDaysBeforeReset === 0;
-  }
-
-  get displayImproveButton() {
-    return config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
   }
 
   get shouldWaitBeforeImproving() {
