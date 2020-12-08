@@ -29,4 +29,4 @@ jobs:
       if: ${{ steps.find.outputs.issue }}
       with:
         issue: ${{ steps.find.outputs.issue }}
-        transition: "Move to 'Deployed in Integration'"
+        transition: "Move to 'Deployed on Integration'"
