@@ -57,7 +57,6 @@ module.exports = function(environment) {
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
-      FT_IMPROVE_COMPETENCE_EVALUATION: process.env.FT_IMPROVE_COMPETENCE_EVALUATION || false,
       FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU: process.env.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU || false,
       IS_PROD_ENVIRONMENT: (process.env.REVIEW_APP === 'false' && environment === 'production') || false,
 
@@ -148,7 +147,6 @@ module.exports = function(environment) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
       ENV.matomo.debug = true;
     }
-    ENV.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
 
     ENV.APP.IS_POLE_EMPLOI_ENABLED = true;
     ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat.pole-emploi.fr',
