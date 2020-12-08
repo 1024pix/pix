@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.229.0 (08/12/2020)
+
+- [#2240](https://github.com/1024pix/pix/pull/2240) [FEATURE] Ajout de la page dashboard en feature toggle (PIX-1650).
+- [#2239](https://github.com/1024pix/pix/pull/2239) [FEATURE] Déplacement du lien "Mes tutos" du menu utilisateur à la barre de navigation principale (PIX-1649).
+- [#2238](https://github.com/1024pix/pix/pull/2238) [FEATURE] Faire l'envoi des résultats à Pôle Emploi lors du partage de la participation (PIX-1561).
+- [#2232](https://github.com/1024pix/pix/pull/2232) [FEATURE] Enregistrement du succès ou de l'échec de l'envoi des résultats à Pôle Emploi au partage (PIX-1708).
+- [#2250](https://github.com/1024pix/pix/pull/2250) [TECH] Ajouter le lien Github de la PR dans le commentaire des liens RA (PIX-1752).
+- [#2254](https://github.com/1024pix/pix/pull/2254) [TECH] Corrige l'intégration Jira au merge (PIX-1753)
+- [#2253](https://github.com/1024pix/pix/pull/2253) [TECH] Lance le lint des fichiers js sur mon-pix sur la CI.
+- [#2252](https://github.com/1024pix/pix/pull/2252) [TECH] Suppression du feature toggle pour améliorer une compétence (PIX-760).
+- [#2249](https://github.com/1024pix/pix/pull/2249) [TECH] Supprimer la dépendance sinon du package.json à la racine.
+- [#2214](https://github.com/1024pix/pix/pull/2214) [TECH] Mettre à jour ember en 3.22 et les autres paquets sur Pix APP (PIX-1725).
+- [#2241](https://github.com/1024pix/pix/pull/2241) [FEATURE ] QCU - Remplacer les chiffres par la réponse textuelle en cas de mauvaise réponse (PIX-1741).
+
 ## v2.228.0 (03/12/2020)
 
 - [#2206](https://github.com/1024pix/pix/pull/2206) [FEATURE] Migration de la connexion Pole Emploi dans la table authentication-methods (PIX-1523).
