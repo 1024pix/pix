@@ -7,6 +7,7 @@ module.exports = async function authenticatePoleEmploiUser({
   code,
   clientId,
   redirectUri,
+  authenticatedUserId,
   authenticationService,
   tokenService,
   userRepository,
@@ -24,31 +25,51 @@ module.exports = async function authenticatePoleEmploiUser({
       expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
     });
 
-    let foundUser = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
-    if (!foundUser) {
+    let accessToken;
 
-      const user = new User({
-        firstName: userInfo.firstName,
-        lastName: userInfo.lastName,
-        password: '',
-        cgu: false,
-      });
+    if (authenticatedUserId) {
+      const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId: authenticatedUserId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
 
-      await DomainTransaction.execute(async (domainTransaction) => {
-        foundUser = await userRepository.create(user, domainTransaction);
-        const authenticationMethod = new AuthenticationMethod({
-          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-          userId: foundUser.id,
-          externalIdentifier: userInfo.externalIdentityId,
-          authenticationComplement,
-        });
-        await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
-      });
+      if (authenticationMethod) {
+
+        await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: authenticatedUserId });
+
+      } else {
+
+        const authenticationMethod = _buildPoleEmploiAuthenticationMethod({ userInfo, authenticationComplement, userId: authenticatedUserId });
+        await authenticationMethodRepository.create({ authenticationMethod });
+      }
+
+      accessToken = tokenService.createAccessTokenFromUser(authenticatedUserId, 'pole_emploi_connect');
     } else {
-      await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: foundUser.id });
-    }
 
-    const accessToken = tokenService.createAccessTokenFromUser(foundUser, 'pole_emploi_connect');
+      const user = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
+
+      if (!user) {
+
+        const user = new User({
+          firstName: userInfo.firstName,
+          lastName: userInfo.lastName,
+          password: '',
+          cgu: false,
+        });
+
+        let createdUserId;
+        await DomainTransaction.execute(async (domainTransaction) => {
+          createdUserId = (await userRepository.create(user, domainTransaction)).id;
+
+          const authenticationMethod = _buildPoleEmploiAuthenticationMethod({ userInfo, authenticationComplement, userId: createdUserId });
+          await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+        });
+
+        accessToken = tokenService.createAccessTokenFromUser(createdUserId, 'pole_emploi_connect');
+      } else {
+
+        await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: user.id });
+        accessToken = tokenService.createAccessTokenFromUser(user.id, 'pole_emploi_connect');
+
+      }
+    }
 
     return {
       access_token: accessToken,
@@ -58,3 +79,12 @@ module.exports = async function authenticatePoleEmploiUser({
     console.log(error);
   }
 };
+
+function _buildPoleEmploiAuthenticationMethod({ userInfo, authenticationComplement, userId }) {
+  return new AuthenticationMethod({
+    identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+    userId,
+    externalIdentifier: userInfo.externalIdentityId,
+    authenticationComplement,
+  });
+}

@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
 
@@ -61,6 +61,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     authenticationMethodRepository = {
       create: sinon.stub().resolves(),
       updatePoleEmploiAuthenticationComplementByUserId: sinon.stub().resolves(),
+      findOneByUserIdAndIdentityProvider: sinon.stub(),
     };
 
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
@@ -92,7 +93,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     expect(authenticationService.getPoleEmploiUserInfo).to.have.been.calledWith(idToken);
   });
 
-  context('When user does not exist yet', () => {
+  context('When there is no user with pole emploi authentication method', () => {
 
     it('should call user repository create function with firstname, lastname and a domain transaction', async () => {
       // given
@@ -142,7 +143,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     });
   });
 
-  context('When user already exists', () => {
+  context('When there is a user with pole emploi authentication method', () => {
 
     it('should not call user repository create function', async () => {
       // given
@@ -150,7 +151,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId,
+        code, redirectUri, clientId, userId,
         userRepository, authenticationMethodRepository, authenticationService, tokenService,
       });
 
@@ -178,12 +179,83 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     });
   });
 
+  context('When there is a userId', () => {
+
+    context('When the user does not have a pole emploi authentication method', () => {
+
+      it('should not call user repository create function', async () => {
+        // given
+        userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
+
+        // when
+        await authenticatePoleEmploiUser({
+          code, redirectUri, clientId,
+          userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        });
+
+        // then
+        expect(userRepository.create).to.not.have.been.called;
+      });
+
+      it('should call authentication method repository create function pole emploi authentication method and domain transaction', async () => {
+        // given
+        const userInfo = {
+          firstName, lastName, externalIdentityId,
+        };
+
+        authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
+        userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
+        const expectedAuthenticationMethod = new AuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+          externalIdentifier: externalIdentityId,
+          authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+            accessToken,
+            refreshToken,
+            expiredDate: moment().add(expiresIn, 's').toDate(),
+          }),
+          userId,
+        });
+
+        // when
+        await authenticatePoleEmploiUser({
+          code, redirectUri, clientId, authenticatedUserId: userId,
+          userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        });
+
+        // then
+        expect(authenticationMethodRepository.create).to.have.been.calledWith({ authenticationMethod: expectedAuthenticationMethod });
+      });
+    });
+
+    context('When the user does have a pole emploi authentication method', () => {
+
+      it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async () => {
+        // given
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod());
+        const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken,
+          refreshToken,
+          expiredDate: moment().add(expiresIn, 's').toDate(),
+        });
+
+        // when
+        await authenticatePoleEmploiUser({
+          code, redirectUri, clientId, authenticatedUserId: userId,
+          userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        });
+
+        // then
+        expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement: expectedAuthenticationComplement, userId });
+      });
+    });
+  });
+
   it('should call tokenService createAccessTokenFromUser function with external source and user parameters', async () => {
     // given
-    const user = new User({ firstName, lastName });
+    const user = new User({ id: userId, firstName, lastName });
     user.externalIdentityId = externalIdentityId;
 
-    userRepository.findByPoleEmploiExternalIdentifier.resolves(user);
+    userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: userId });
 
     // when
     await authenticatePoleEmploiUser({
@@ -192,7 +264,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     });
 
     // then
-    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(user, 'pole_emploi_connect');
+    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(userId, 'pole_emploi_connect');
   });
 
   it('should return accessToken and idToken', async () => {
