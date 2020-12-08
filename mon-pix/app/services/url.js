@@ -25,6 +25,10 @@ export default class Url extends Service {
   }
 
   get cguUrl() {
+    const currentLanguage = this.intl.t('current-lang');
+    if (currentLanguage === 'en') {
+      return 'https://pix.org/en-gb/terms-and-conditions';
+    }
     return `https://pix.${this.currentDomain.getExtension()}/conditions-generales-d-utilisation`;
   }
 
