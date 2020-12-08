@@ -4,7 +4,6 @@ import  EmberObject  from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import config from 'mon-pix/config/environment';
 
 describe('Integration | Component | competence-card-default', function() {
   setupIntlRenderingTest();
@@ -134,28 +133,10 @@ describe('Integration | Component | competence-card-default', function() {
     });
 
     context('when user has finished the competence', async function() {
-      const configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
-      afterEach(function() {
-        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
-      });
-
-      it('should not show the button to start or to continue', async function() {
-        // given
-        const scorecard = { area, level: 3, isFinished: true, isStarted: false };
-        this.set('scorecard', scorecard);
-
-        // when
-        await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
-
-        // then
-        expect(find('.competence-card-button__label')).to.be.null;
-      });
-
       it('should show the improving button when there is no remaining days before improving', async function() {
         // given
         const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 0 };
         this.set('scorecard', scorecard);
-        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
 
         // when
         await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);
@@ -169,7 +150,6 @@ describe('Integration | Component | competence-card-default', function() {
         // given
         const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 3 };
         this.set('scorecard', scorecard);
-        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
 
         // when
         await render(hbs`<CompetenceCardDefault @scorecard={{this.scorecard}} />`);

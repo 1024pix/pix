@@ -5,7 +5,6 @@ import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'mon-pix/config/environment';
 
 describe('Acceptance | Competence details | Afficher la page de détails d\'une compétence', () => {
   setupApplicationTest();
@@ -185,20 +184,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       });
 
       context('when it has remaining some days before improving', () => {
-        let configurationForImprovingCompetence;
-
-        before(() => {
-          configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
-        });
-
-        after(function() {
-          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
-        });
-
         it('should display remaining days before improving', async () => {
-          // given
-          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
-
           // when
           await visit(`/competences/${scorecardWithRemainingDaysBeforeImproving.competenceId}/details`);
 
@@ -210,20 +196,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       });
 
       context('when it has no remaining days before improving', () => {
-        let configurationForImprovingCompetence;
-
-        before(() => {
-          configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
-        });
-
-        after(function() {
-          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
-        });
-
         it('should display improving button', async () => {
-          // given
-          config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
-
           // when
           await visit(`/competences/${scorecardWithoutRemainingDaysBeforeImproving.competenceId}/details`);
 

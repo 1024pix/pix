@@ -4,7 +4,6 @@ import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import config from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | scorecard-details', function() {
@@ -100,15 +99,9 @@ describe('Integration | Component | scorecard-details', function() {
 
     context('When the user has finished a competence', async function() {
       let scorecard;
-      const configurationForImprovingCompetence = config.APP.FT_IMPROVE_COMPETENCE_EVALUATION;
-
-      afterEach(function() {
-        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = configurationForImprovingCompetence;
-      });
 
       beforeEach(function() {
         // given
-        config.APP.FT_IMPROVE_COMPETENCE_EVALUATION = true;
         scorecard = {
           remainingPixToNextLevel: 1,
           isFinished: true,
