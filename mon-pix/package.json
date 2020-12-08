@@ -76,7 +76,7 @@
     "ember-cli-test-loader": "^3.0.0",
     "ember-click-outside": "^2.0.0",
     "ember-collapsible-panel": "^4.0.0",
-    "ember-data": "~3.22.0",
+    "ember-data": "^3.23.0",
     "ember-decorators": "^6.1.1",
     "ember-exam": "^6.0.1",
     "ember-export-application-global": "^2.0.1",
