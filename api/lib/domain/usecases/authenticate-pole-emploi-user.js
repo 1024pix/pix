@@ -14,7 +14,7 @@ module.exports = async function authenticatePoleEmploiUser({
 }) {
 
   try {
-    const poleEmploiTokens = await authenticationService.generateAccessToken({ code, clientId, redirectUri });
+    const poleEmploiTokens = await authenticationService.generatePoleEmploiTokens({ code, clientId, redirectUri });
 
     const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
 
