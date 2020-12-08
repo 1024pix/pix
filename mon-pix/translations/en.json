@@ -84,7 +84,7 @@
                     "complement": "The Pix public service for the assessment and certification of digital skills enables assessment of your level in 5 major skill areas covering current uses of digital technology.",
                     "list": "'<ul><li>'finding information on the internet,'</li><li>'producing documents,'</li><li>'communicating and collaborating online,'</li><li>'securing your work environment,'</li><li>'etc.'</li></ul>'",
                     "more-info": {
-                        "link": "https://pix.org/competences",
+                        "link": "https://pix.org/en-gb/skills-assessed-by-pix",
                         "label": "Find out more."
                     }
                 },
@@ -317,10 +317,10 @@
                                 "other-site-improvement": "I have a suggestion for improving the platform",
                                 "other-difficulty": "I have another problem",
                                 "picture-not-displayed": {
-                                    "label": "",
-                                    "solution": ""
+                                    "label": "The picture isn't displayed.",
+                                    "solution": "Your internet connexion may be too slow.'<br>'Reload the page by clicking on the refresh button '<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait for a bit, the picture may be displayed. '<br><br>'If this isn't the case, please try again later or from somewhere with a better connection."
                                 },
-                                "picture-other": "",
+                                "picture-other": "There is another problem with the image.",
                                 "question-improvement": "I want to suggest an improvement to the question",
                                 "question-not-understood": "I do not understand the question",
                                 "tutorial-link-error": "The link to the tutorial is to another page or an error page",
@@ -370,7 +370,7 @@
                     },
                     "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
                     "file-type": "file .{fileExtension}",
-                    "help": ""
+                    "help": "Need help to '<'a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\"'>'open, edit or find this file'</a>'?"
                 }
             },
             "skip-error-message": {
@@ -378,8 +378,8 @@
                 "qcu": "To validate, select an answer. Otherwise, click Skip.",
                 "qroc": "To validate, please fill in the text field. Otherwise, click Skip.",
                 "qroc-auto-reply": "You did not answer correctly. Try again or skip to the next question.",
-                "qroc-number": "",
-                "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip."
+                "qrocm": "To validate, please complete all answer fields. Otherwise, click Skip.",
+                "qroc-number": "Please enter a number, or skip the question."
             },
             "timed": {
                 "cannot-answer": "You've run out of time."
@@ -740,8 +740,8 @@
             },
             "pole-emploi": {
                 "link": {
-                    "title": "",
-                    "img": ""
+                    "title": "Pôle emploi",
+                    "img": "picture Pôle emploi"
                 }
             }
         },
@@ -819,7 +819,7 @@
         },
         "terms-of-service": {
             "title": "Terms and conditions of use",
-            "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
+            "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
             "message": "We have updated our terms and conditions of use. Please agree to them in order to continue your experience on Pix.",
             "form": {
                 "button": "Continue",
@@ -863,7 +863,7 @@
             "info": "These tutorial links have been suggested by Pix users."
         },
         "user-account": {
-            "title": ""
+            "title": "My account"
         },
         "user-tutorials": {
             "title": "My tutorials",
@@ -969,14 +969,14 @@
         "footer": {
             "a11y": "Accessibility",
             "help-center": "Help center",
-            "link-a11y": "https://pix.fr/accessibility",
-            "link-help-center": "https://pix.org/help"
+            "link-a11y": "https://pix.org/en-gb/accessibility",
+            "link-help-center": "https://pix.org/en-gb/faq-pix"
         },
         "main": {
             "code": "I have a code",
             "dashboard": "",
             "help": "Help",
-            "link-help": "https://pix.org/help",
+            "link-help": "https://pix.org/en-gb/faq-pix",
             "profile": "Profile",
             "start-certification": "Certification",
             "tutorials": ""
@@ -987,12 +987,12 @@
         },
         "pix": "Pix",
         "user": {
-            "account": "",
+            "account": "My account",
             "account-panel": {
-                "first-name": "",
-                "last-name": "",
-                "email": "",
-                "username": ""
+                "first-name": "First name",
+                "last-name": "Last name",
+                "email": "Email address",
+                "username": "Username"
             },
             "certifications": "My certifications",
             "sign-out": "Log out"
