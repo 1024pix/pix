@@ -45,7 +45,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     };
 
     authenticationService = {
-      generateAccessToken: sinon.stub().resolves({ accessToken, idToken, expiresIn, refreshToken }),
+      generatePoleEmploiTokens: sinon.stub().resolves({ accessToken, idToken, expiresIn, refreshToken }),
       getPoleEmploiUserInfo: sinon.stub().resolves(userInfo),
     };
 
@@ -78,7 +78,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
     });
 
     // then
-    expect(authenticationService.generateAccessToken).to.have.been.calledWith({ code, redirectUri, clientId });
+    expect(authenticationService.generatePoleEmploiTokens).to.have.been.calledWith({ code, redirectUri, clientId });
   });
 
   it('should call get pole emploi user info with id token parameter', async () => {
