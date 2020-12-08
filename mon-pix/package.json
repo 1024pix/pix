@@ -50,7 +50,7 @@
     "babel-eslint": "^10.0.3",
     "broccoli-asset-rev": "^3.0.0",
     "chai-dom": "^1.8.2",
-    "ember-auto-import": "^1.6.0",
+    "ember-auto-import": "^1.8.0",
     "ember-burger-menu": "^3.3.4",
     "ember-classic-decorator": "^1.0.7",
     "ember-cli": "~3.22.0",
