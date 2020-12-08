@@ -370,7 +370,7 @@
                     },
                     "description": "Pix lets you choose which format of file to download. If you do not know which option to use, select the default option. This is the file format that is the most commonly used.",
                     "file-type": "file .{fileExtension}",
-                    "help": "Need help to '<'a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\"'>'open, edit or find this file'</a>'?"
+                    "help": "Need help to '<a href=\"https://support.pix.fr/fr/support/solutions/articles/15000036390\" class=\"challenge-statement__action-help--link\" target=\"_blank\">'open, edit or find this file'</a>'?"
                 }
             },
             "skip-error-message": {
@@ -579,7 +579,7 @@
                         "month-error": "Your birth month is in an invalid format.",
                         "year-error": "Your birth year is in an invalid format."
                     },
-                    "cgu": "I agree to the '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
+                    "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\" rel=\"noopener noreferrer\">'terms and conditions of use of the Pix platform'</a>'",
                     "email": {
                         "error": "Your email address is invalid.",
                         "help": "(eg. name@example.org)",
