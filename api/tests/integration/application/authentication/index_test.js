@@ -22,7 +22,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     }));
     sinon.stub(authenticationController, 'authenticatePoleEmploiUser').callsFake((request, h) => h.response('ok').code(200));
 
-    httpTestServer = new HttpTestServer(moduleUnderTest);
+    httpTestServer = new HttpTestServer(moduleUnderTest, true);
   });
 
   describe('POST /api/token', () => {

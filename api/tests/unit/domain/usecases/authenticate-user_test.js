@@ -42,7 +42,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
       username: userEmail, password: userPassword, userRepository,
     });
-    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user, source);
+    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user.id, source);
   });
 
   it('should rejects an error when given username (email) does not match an existing one', async () => {
