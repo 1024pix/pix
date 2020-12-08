@@ -28,6 +28,7 @@ Router.map(function() {
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
   this.route('user-account', { path: '/mon-compte' });
   this.route('user-tutorials', { path: '/mes-tutos' });
+  this.route('user-dashboard', { path: '/accueil' });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
     this.route('resume');

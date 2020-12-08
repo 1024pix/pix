@@ -974,6 +974,7 @@
         },
         "main": {
             "code": "I have a code",
+            "dashboard": "",
             "help": "Help",
             "link-help": "https://pix.org/help",
             "profile": "Profile",
