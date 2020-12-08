@@ -57,10 +57,10 @@ module.exports = {
 
   async getDivisions(request) {
     const certificationCenterId = parseInt(request.params.certificationCenterId);
-    const { data } = await usecases.findDivisionsByCertificationCenter({
+    const divisions = await usecases.findDivisionsByCertificationCenter({
       certificationCenterId,
     });
 
-    return divisionSerializer.serialize(data);
+    return divisionSerializer.serialize(divisions);
   },
 };

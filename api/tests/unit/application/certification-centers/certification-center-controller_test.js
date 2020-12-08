@@ -54,7 +54,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
   });
 
   describe('#getDivisions', () => {
-    it('Should return a seralized list of divisions', async () => {
+    it('Should return a serialized list of divisions', async () => {
       // given
       const request = {
         auth: {
@@ -68,22 +68,20 @@ describe('Unit | Controller | certifications-center-controller', () => {
       sinon
         .stub(usecases, 'findDivisionsByCertificationCenter')
         .withArgs({ certificationCenterId: 99 })
-        .resolves({
-          data: [
-            {
-              id: '3A',
-              name: '3A',
-            },
-            {
-              id: '3B',
-              name: '3B',
-            },
-            {
-              id: '4C',
-              name: '4C',
-            },
-          ],
-        });
+        .resolves([
+          {
+            id: '3A',
+            name: '3A',
+          },
+          {
+            id: '3B',
+            name: '3B',
+          },
+          {
+            id: '4C',
+            name: '4C',
+          },
+        ]);
 
       // when
       const response = await certificationCenterController.getDivisions(request, hFake);
@@ -91,7 +89,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
       // then
       expect(response).to.deep.equal(
         {
-          data: [ {
+          data: [{
             'type': 'divisions',
             'id': '3A',
             'attributes': {
