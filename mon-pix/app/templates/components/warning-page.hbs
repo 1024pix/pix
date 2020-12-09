@@ -1,19 +1,26 @@
-{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation --}}
 <div class="rounded-panel challenge-item-warning">
   <div class="challenge-item-warning__instruction-primary">
-    {{t 'pages.warning.instructions' time=allocatedHumanTime htmlSafe=true}}
+    {{t 'pages.warning.instructions' time=this.allocatedHumanTime htmlSafe=true}}
   </div>
 
   <div class="challenge-item-warning__intruction-secondary">
     {{t 'pages.warning.further-instructions'}}
   </div>
+
   <div class="challenge-item-warning__allocated-time">
     <div class="challenge__allocated-time__jauge">
-      <img class="challenge__allocated-time__warning-icon" src="/images/icon-timed-challenge.svg" alt="" role="presentation">
-      <span class="challenge__allocated-time__value">{{allocatedTime}}</span>
+      <img class="challenge__allocated-time__warning-icon" src="/images/icon-timed-challenge.svg"
+           alt=""
+           role="presentation">
+      <span class="challenge__allocated-time__value">{{this.allocatedTime}}</span>
     </div>
   </div>
+
   <div class="challenge-item-warning__action">
-    <button {{action hasUserConfirmedWarning}} class="challenge-item-warning__confirm-btn" type="button">{{t 'pages.warning.action'}}</button>
+    <button {{on "click" @hasUserConfirmedWarning}}
+            class="challenge-item-warning__confirm-btn"
+            type="button">
+      {{t 'pages.warning.action'}}
+    </button>
   </div>
 </div>
