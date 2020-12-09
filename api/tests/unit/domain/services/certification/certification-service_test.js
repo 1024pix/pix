@@ -4,7 +4,8 @@ const certificationService = require('../../../../../lib/domain/services/certifi
 const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
 const CompetenceMarks = require('../../../../../lib/domain/models/CompetenceMark');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
-
+const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
+const { CertificationIssueReportCategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 const assessmentRepository = require('../../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../../../lib/infrastructure/repositories/assessment-result-repository');
 const certificationAssessmentRepository = require('../../../../../lib/infrastructure/repositories/certification-assessment-repository');
@@ -50,7 +51,10 @@ describe('Unit | Service | Certification Service', function() {
         await certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
-        sinon.assert.calledWith(certificationResultService.getCertificationResult, { certificationAssessment, continueOnError: true });
+        sinon.assert.calledWith(certificationResultService.getCertificationResult, {
+          certificationAssessment,
+          continueOnError: true,
+        });
       });
     });
   });
@@ -80,7 +84,9 @@ describe('Unit | Service | Certification Service', function() {
           birthdate: '1992-01-28',
           sessionId: 123,
           externalId: 'TimonsFriend',
-          examinerComment: '',
+          certificationIssueReports: [
+            new CertificationIssueReport({ id: 1, category: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
+          ],
           hasSeenEndTestScreen: true,
         });
         sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
@@ -111,22 +117,22 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.sessionId).to.deep.equal(123);
       });
 
-      it('should return certified user informations', function() {
+      it('should return certified user informations', async function() {
         // when
-        const promise = certificationService.getCertificationResult(certificationCourseId);
+        const certification = await certificationService.getCertificationResult(certificationCourseId);
 
         // then
-        return promise.then((certification) => {
-          expect(certification.id).to.deep.equal(certificationCourseId);
-          expect(certification.firstName).to.deep.equal('Pumba');
-          expect(certification.lastName).to.deep.equal('De La Savane');
-          expect(certification.birthplace).to.deep.equal('Savane');
-          expect(certification.birthdate).to.deep.equal('1992-01-28');
-          expect(certification.externalId).to.deep.equal('TimonsFriend');
-          expect(certification.examinerComment).to.deep.equal('');
-          expect(certification.hasSeenEndTestScreen).to.deep.equal(true);
-          expect(certification.cleaCertificationStatus).to.deep.equal(cleaCertificationStatus);
-        });
+        expect(certification.id).to.deep.equal(certificationCourseId);
+        expect(certification.firstName).to.deep.equal('Pumba');
+        expect(certification.lastName).to.deep.equal('De La Savane');
+        expect(certification.birthplace).to.deep.equal('Savane');
+        expect(certification.birthdate).to.deep.equal('1992-01-28');
+        expect(certification.externalId).to.deep.equal('TimonsFriend');
+        expect(certification.certificationIssueReports).to.deep.equal([
+          new CertificationIssueReport({ id: 1, category: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Some comment' }),
+        ]);
+        expect(certification.hasSeenEndTestScreen).to.deep.equal(true);
+        expect(certification.cleaCertificationStatus).to.deep.equal(cleaCertificationStatus);
       });
     });
 
@@ -145,6 +151,9 @@ describe('Unit | Service | Certification Service', function() {
           sessionId: 123,
           externalId: 'TimonsFriend',
           examinerComment: 'Hakuna matata',
+          certificationIssueReports: [
+            new CertificationIssueReport({ id: 1, category: CertificationIssueReportCategories.OTHER, certificationCourseId, description: 'Hakuna matata' }),
+          ],
           hasSeenEndTestScreen: false,
         }));
       });
@@ -164,7 +173,7 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.completedAt).to.deep.equal(undefined);
           expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
           expect(certification.sessionId).to.deep.equal(123);
-          expect(certification.examinerComment).to.deep.equal('Hakuna matata');
+          expect(certification.certificationIssueReports[0].description).to.deep.equal('Hakuna matata');
           expect(certification.hasSeenEndTestScreen).to.deep.equal(false);
         });
       });

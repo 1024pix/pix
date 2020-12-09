@@ -22,9 +22,9 @@ class JuryCertificationSummary {
     createdAt,
     completedAt,
     isPublished,
-    examinerComment,
     hasSeenEndTestScreen,
     cleaCertificationStatus,
+    certificationIssueReports,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -38,8 +38,8 @@ class JuryCertificationSummary {
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
-    this.examinerComment = examinerComment;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
+    this.certificationIssueReports = certificationIssueReports;
   }
 }
 

@@ -1,6 +1,8 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-result-serializer');
 const CertificationResult = require('../../../../../lib/domain/models/CertificationResult');
+const { CertificationIssueReportCategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
+const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
 
 describe('Unit | Serializer | JSONAPI | certification-result-serializer', function() {
 
@@ -19,8 +21,9 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
         competenceMarks: [],
         juryId: 21,
       });
+      const certificationCourseId = 1;
       const certificationResult = new CertificationResult({
-        id: 1,
+        id: certificationCourseId,
         lastAssessmentResult,
         firstName: 'Guy-Manuel',
         lastName: 'De Homem Christo',
@@ -31,7 +34,14 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
         completedAt: new Date('2017-02-20T01:02:03Z'),
         isPublished: true,
         isV2Certification: true,
-        examinerComment: 'un commentaire',
+        certificationIssueReports: [
+          new CertificationIssueReport({
+            id: 42,
+            certificationCourseId: certificationCourseId,
+            category: CertificationIssueReportCategories.OTHER,
+            description: 'un commentaire',
+          }),
+        ],
         hasSeenEndTestScreen: true,
         cleaCertificationStatus: 'acquired',
         sessionId: 22,

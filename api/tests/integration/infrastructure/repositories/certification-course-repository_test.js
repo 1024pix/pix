@@ -21,7 +21,6 @@ describe('Integration | Repository | Certification Course', function() {
         birthdate: '1991-03-21',
         externalId: 'xenoverse2',
         isPublished: false,
-        examinerComment: 'Salut',
         hasSeenEndTestScreen: false,
         isV2Certification: false,
         sessionId,
@@ -31,6 +30,7 @@ describe('Integration | Repository | Certification Course', function() {
           domainBuilder.buildCertificationChallenge(),
           domainBuilder.buildCertificationChallenge(),
         ],
+        verificationCode: null,
       });
 
       return databaseBuilder.commit();
@@ -53,6 +53,7 @@ describe('Integration | Repository | Certification Course', function() {
         'challenges',
         'completedAt',
         'createdAt',
+        'certificationIssueReports',
       ];
       const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
 
@@ -135,6 +136,7 @@ describe('Integration | Repository | Certification Course', function() {
     let anotherCourseId;
     let sessionId;
     let userId;
+    const description = 'Un commentaire du surveillant';
 
     beforeEach(() => {
       userId = databaseBuilder.factory.buildUser().id;
@@ -170,6 +172,10 @@ describe('Integration | Repository | Certification Course', function() {
         { certificationCourseId: anotherCourseId, partnerKey: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }).key },
       ], (acquiredPartnerCertification) =>
         databaseBuilder.factory.buildPartnerCertification(acquiredPartnerCertification));
+      databaseBuilder.factory.buildCertificationIssueReport({
+        certificationCourseId: expectedCertificationCourse.id,
+        description,
+      });
       return databaseBuilder.commit();
     });
 
@@ -188,6 +194,7 @@ describe('Integration | Repository | Certification Course', function() {
         expect(actualCertificationCourse.birthplace).to.equal(expectedCertificationCourse.birthplace);
         expect(actualCertificationCourse.sessionId).to.equal(sessionId);
         expect(actualCertificationCourse.isPublished).to.equal(expectedCertificationCourse.isPublished);
+        expect(actualCertificationCourse.certificationIssueReports[0].description).to.equal(description);
       });
 
       it('should retrieve associated challenges with the certification course', async () => {
@@ -376,7 +383,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     function _cleanCertificationCourse(certificationCourse) {
-      return _.omit(certificationCourse, 'assessment', 'challenges', 'updatedAt');
+      return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
     }
     it('should returns all certification courses id with given sessionId', async () => {
       // when

@@ -6,14 +6,13 @@ const _ = require('lodash');
 module.exports = function buildCertificationReport({
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
-  examinerComment = faker.lorem.sentence(),
   hasSeenEndTestScreen = false,
   certificationCourseId,
   sessionId,
 } = {}) {
 
   certificationCourseId = _.isUndefined(certificationCourseId)
-    ? buildCertificationCourse({ firstName, lastName, sessionId, examinerComment, hasSeenEndTestScreen }).id
+    ? buildCertificationCourse({ firstName, lastName, sessionId, hasSeenEndTestScreen }).id
     : certificationCourseId;
 
   const id = CertificationReport.idFromCertificationCourseId(certificationCourseId);
@@ -22,7 +21,6 @@ module.exports = function buildCertificationReport({
     id,
     firstName,
     lastName,
-    examinerComment,
     hasSeenEndTestScreen,
     certificationCourseId,
   };

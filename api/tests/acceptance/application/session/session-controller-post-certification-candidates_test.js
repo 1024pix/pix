@@ -37,7 +37,6 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
             'external-id': certificationCandidate.externalId,
             birthdate: certificationCandidate.birthdate,
             'extra-time-percentage': certificationCandidate.extraTimePercentage,
-            'examiner-comment': certificationCandidate.examinerComment,
             'has-seen-end-test-screen': certificationCandidate.hasSeenEndTestScreen,
           },
         },

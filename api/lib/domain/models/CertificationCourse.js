@@ -8,7 +8,6 @@ class CertificationCourse {
       birthdate,
       birthplace,
       externalId,
-      examinerComment,
       hasSeenEndTestScreen,
       createdAt,
       completedAt,
@@ -18,6 +17,7 @@ class CertificationCourse {
       // includes
       assessment,
       challenges,
+      certificationIssueReports,
       // references
       userId,
       sessionId,
@@ -29,7 +29,6 @@ class CertificationCourse {
     this.birthplace = birthplace;
     this.birthdate = birthdate;
     this.externalId = externalId;
-    this.examinerComment = examinerComment;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
@@ -39,9 +38,14 @@ class CertificationCourse {
     // includes
     this.assessment = assessment;
     this.challenges = challenges;
+    this.certificationIssueReports = certificationIssueReports;
     // references
     this.userId = userId;
     this.sessionId = sessionId;
+  }
+
+  reportIssue(issueReport) {
+    this.certificationIssueReports.push(issueReport);
   }
 
   static from({ certificationCandidate, challenges, verificationCode }) {
