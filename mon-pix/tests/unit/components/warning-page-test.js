@@ -1,15 +1,16 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | warning-page-component ', function() {
+describe('Unit | Component | warning-page', function() {
 
   setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.owner.lookup('component:warning-page');
+    component = createGlimmerComponent('component:warning-page');
   });
 
   describe('#Test rendering Property', function() {
@@ -33,10 +34,10 @@ describe('Unit | Component | warning-page-component ', function() {
       ].forEach((data) => {
         it(`should return "${data.expected}" when passing ${data.input}`, function() {
           // given
-          component.set('time', data.input);
+          component.args.time = data.input;
 
           // when
-          const allocatedTime = component.get('allocatedTime');
+          const allocatedTime = component.allocatedTime;
 
           // then
           expect(allocatedTime).to.equal(data.expected);
@@ -63,10 +64,10 @@ describe('Unit | Component | warning-page-component ', function() {
       ].forEach((data) => {
         it(`should return "${data.expected}" when passing ${data.input}`, function() {
           // given
-          component.set('time', data.input);
+          component.args.time = data.input;
 
           // when
-          const allocatedHumanTime = component.get('allocatedHumanTime');
+          const allocatedHumanTime = component.allocatedHumanTime;
 
           // then
           expect(allocatedHumanTime).to.equal(data.expected);

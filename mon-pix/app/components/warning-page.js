@@ -1,23 +1,14 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { computed } from '@ember/object';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
 
-@classic
 export default class WarningPage extends Component {
-  @computed('time')
   get allocatedHumanTime() {
-    return _formatTimeForText(this.time);
+    return _formatTimeForText(this.args.time);
   }
 
-  @computed('time')
   get allocatedTime() {
-    return _formatTimeForButton(this.time);
+    return _formatTimeForButton(this.args.time);
   }
-
 }
 
 function _formatTimeForText(time) {
