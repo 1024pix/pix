@@ -214,7 +214,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('#submit-search');
 
             await fillIn('#username', 'jeanprescrit1012');
-            await fillIn('#password', 'pix123');
+            await fillIn('#password', 'Password123');
             await click('#submit-registration');
 
             // then
