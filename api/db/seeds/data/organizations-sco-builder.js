@@ -5,6 +5,11 @@ const MIDDLE_SCHOOL_ID = 3;
 module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   const defaultPassword = 'pix123';
   const SCO_EXTERNAL_ID = '1237457A';
+  const NUMBER_IN_3A_DIVISION = 32;
+  const NUMBER_IN_3B_DIVISION = 30;
+  const NUMBER_IN_5D_DIVISION = 28;
+  const NUMBER_IN_1F_DIVISION = 31;
+  const NUMBER_IN_2G_DIVISION = 29;
 
   /* COLLEGE */
   const scoUser1 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -72,6 +77,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: 'Last',
     birthdate: '2010-10-10',
     organizationId: middleSchool.id,
+    division: '3A',
     userId: null,
     nationalStudentId: '123456789AB',
   });
@@ -81,6 +87,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: 'George',
     lastName: 'De Cambridge',
     email: null,
+    division: '3A',
     username: 'george.decambridge2207',
     rawPassword: defaultPassword,
     cgu: false,
@@ -90,6 +97,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithUsername.firstName,
     lastName: userWithUsername.lastName,
     birthdate: '2013-07-22',
+    division: '3A',
     organizationId: middleSchool.id,
     userId: userWithUsername.id,
     nationalStudentId: '123123123A',
@@ -101,6 +109,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: 'Carter',
     email: 'blueivy.carter@example.net',
     username: 'blueivy.carter0701',
+    division: '3A',
     rawPassword: defaultPassword,
     cgu: false,
   });
@@ -109,6 +118,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithEmailAndUsername.firstName,
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2012-01-07',
+    division: '3A',
     organizationId: middleSchool.id,
     userId: userWithEmailAndUsername.id,
     nationalStudentId: '123123123B',
@@ -127,6 +137,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithEmail.firstName,
     lastName: userWithEmail.lastName,
     birthdate: '2002-01-07',
+    division: '3A',
     organizationId: middleSchool.id,
     userId: userWithEmail.id,
     nationalStudentId: '123123123C',
@@ -151,6 +162,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithGAR.firstName,
     lastName: userWithGAR.lastName,
     birthdate: '2002-01-07',
+    division: '3A',
     organizationId: middleSchool.id,
     userId: userWithGAR.id,
     nationalStudentId: '123123123D',
@@ -187,6 +199,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: userWithEmailAndUsername.lastName,
     birthdate: userWithEmailAndUsername.birtdate,
     organizationId: highSchool.id,
+    division: '2A',
     nationalStudentId: schoolingRegistrationAssociated2.nationalStudentId,
     createdAt: new Date('2020-08-14'),
   });
@@ -196,11 +209,47 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     userId: null,
     firstName: userWithUsername.firstName,
     lastName: userWithUsername.lastName,
+    division: '2A',
     birthdate: userWithUsername.birthdate,
     organizationId: highSchool.id,
     nationalStudentId: schoolingRegistrationAssociated.nationalStudentId,
     createdAt: new Date('2020-08-14'),
   });
+
+  for (let i = 0; i < NUMBER_IN_5D_DIVISION; ++i) {
+    databaseBuilder.factory.buildSchoolingRegistration({ 
+      division: '5D',
+      organizationId: middleSchool.id,
+    });
+  }
+
+  for (let i = 0; i < NUMBER_IN_3A_DIVISION; ++i) {
+    databaseBuilder.factory.buildSchoolingRegistration({ 
+      division: '3A',
+      organizationId: middleSchool.id,
+    });
+  }
+
+  for (let i = 0; i < NUMBER_IN_3B_DIVISION; ++i) {
+    databaseBuilder.factory.buildSchoolingRegistration({ 
+      division: '3B',
+      organizationId: middleSchool.id,
+    });
+  }
+
+  for (let i = 0; i < NUMBER_IN_1F_DIVISION; ++i) {
+    databaseBuilder.factory.buildSchoolingRegistration({ 
+      division: '1F',
+      organizationId: highSchool.id,
+    });
+  }
+
+  for (let i = 0; i < NUMBER_IN_2G_DIVISION; ++i) {
+    databaseBuilder.factory.buildSchoolingRegistration({ 
+      division: '2G',
+      organizationId: highSchool.id,
+    });
+  }
 
   /* AGRICULTURE */
   const agriculture = databaseBuilder.factory.buildOrganization({

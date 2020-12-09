@@ -1,11 +1,13 @@
 const _ = require('lodash');
 const {
-  STARTED_SESSION_ID,
-  STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
-  TO_FINALIZE_SESSION_ID,
-  NO_PROBLEM_FINALIZED_SESSION_ID,
-  PROBLEMS_FINALIZED_SESSION_ID,
-  PUBLISHED_SESSION_ID,
+  SUP_STARTED_SESSION_ID,
+  SUP_STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
+  SUP_TO_FINALIZE_SESSION_ID,
+  SUP_NO_PROBLEM_FINALIZED_SESSION_ID,
+  SUP_PROBLEMS_FINALIZED_SESSION_ID,
+  SUP_PUBLISHED_SESSION_ID,
+  SCO_STARTED_SESSION_ID,
+  SCO_STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID,
 } = require('./certification-sessions-builder');
 const {
   CERTIF_SUCCESS_USER_ID,
@@ -32,43 +34,45 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
 
   // Few candidates for the started session
   _.each([ CANDIDATE_DATA_SUCCESS, CANDIDATE_DATA_FAILURE, CANDIDATE_DATA_MISSING ], (candidate) => {
-    databaseBuilder.factory.buildCertificationCandidate({ ...candidate, sessionId: STARTED_SESSION_ID, userId: null });
+    databaseBuilder.factory.buildCertificationCandidate({ ...candidate, sessionId: SUP_STARTED_SESSION_ID, userId: null });
+    databaseBuilder.factory.buildCertificationCandidate({ ...candidate, sessionId: SCO_STARTED_SESSION_ID, userId: null });
   });
 
   // A LOT of candidates for the BIG started session
   for (let i = 0; i < A_LOT_OF_CANDIDATES_COUNT; ++i) {
-    databaseBuilder.factory.buildCertificationCandidate({ sessionId: STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null });
+    databaseBuilder.factory.buildCertificationCandidate({ sessionId: SUP_STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null });
+    databaseBuilder.factory.buildCertificationCandidate({ sessionId: SCO_STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID, userId: null });
   }
 
-  let sessionId;
+  let supSessionId;
   const candidateDataSuccessWithUser = { ...CANDIDATE_DATA_SUCCESS, userId: CERTIF_SUCCESS_USER_ID };
   const candidateDataFailureWithUser = { ...CANDIDATE_DATA_FAILURE, userId: CERTIF_FAILED_USER_ID };
   const candidateDataMissingWithUser = { ...CANDIDATE_DATA_MISSING, userId: null };
   const candidateDataStartedWithUser = { ...CANDIDATE_DATA_STARTED, userId: CERTIF_REGULAR_USER5_ID };
 
   // Few candidates with some that have passed certification test
-  sessionId = TO_FINALIZE_SESSION_ID;
-  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_SESSION_TO_FINALIZE_ID, ...candidateDataSuccessWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_SESSION_TO_FINALIZE_ID, ...candidateDataFailureWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId });
+  supSessionId = SUP_TO_FINALIZE_SESSION_ID;
+  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_SESSION_TO_FINALIZE_ID, ...candidateDataSuccessWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_SESSION_TO_FINALIZE_ID, ...candidateDataFailureWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId: supSessionId });
 
   // Few candidates with some that have passed certification test with finalized courses in the ZERO problem session
-  sessionId = NO_PROBLEM_FINALIZED_SESSION_ID;
-  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_NO_PROBLEM_FINALIZED_SESSION_ID, ...candidateDataSuccessWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_NO_PROBLEM_FINALIZED_SESSION_ID, ...candidateDataFailureWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId });
+  supSessionId = SUP_NO_PROBLEM_FINALIZED_SESSION_ID;
+  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_NO_PROBLEM_FINALIZED_SESSION_ID, ...candidateDataSuccessWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_NO_PROBLEM_FINALIZED_SESSION_ID, ...candidateDataFailureWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId: supSessionId });
 
   // Few candidates with some that have passed certification test with finalized courses in the Problematic session
-  sessionId = PROBLEMS_FINALIZED_SESSION_ID;
-  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID, ...candidateDataSuccessWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID, ...candidateDataFailureWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ id: STARTED_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID, ...candidateDataStartedWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId });
+  supSessionId = SUP_PROBLEMS_FINALIZED_SESSION_ID;
+  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID, ...candidateDataSuccessWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID, ...candidateDataFailureWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ id: STARTED_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID, ...candidateDataStartedWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ ...candidateDataMissingWithUser, sessionId: supSessionId });
 
   // Two candidates for published session
-  sessionId = PUBLISHED_SESSION_ID;
-  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_PUBLISHED_SESSION_ID, ...candidateDataSuccessWithUser, sessionId });
-  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_PUBLISHED_SESSION_ID, ...candidateDataFailureWithUser, sessionId });
+  supSessionId = SUP_PUBLISHED_SESSION_ID;
+  databaseBuilder.factory.buildCertificationCandidate({ id: SUCCESS_CANDIDATE_IN_PUBLISHED_SESSION_ID, ...candidateDataSuccessWithUser, sessionId: supSessionId });
+  databaseBuilder.factory.buildCertificationCandidate({ id: FAILURE_CANDIDATE_IN_PUBLISHED_SESSION_ID, ...candidateDataFailureWithUser, sessionId: supSessionId });
 }
 
 module.exports = {
