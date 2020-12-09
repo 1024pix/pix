@@ -1,7 +1,5 @@
-import classic from 'ember-classic-decorator';
 import ApplicationAdapter from './application';
 
-@classic
 export default class Scorecard extends ApplicationAdapter {
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     if (adapterOptions.resetCompetence) {
