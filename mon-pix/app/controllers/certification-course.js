@@ -1,8 +1,7 @@
-import classic from 'ember-classic-decorator';
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 
-@classic
 export default class CertificationCourseController extends Controller {
-  queryParams = 'code';
-  code = null;
+  @tracked queryParams = 'code';
+  @tracked code = null;
 }
