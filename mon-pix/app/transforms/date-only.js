@@ -1,7 +1,5 @@
-import classic from 'ember-classic-decorator';
 import Transform from '@ember-data/serializer/transform';
 
-@classic
 export default class DateOnly extends Transform {
   serialize(date) {
     return date;
