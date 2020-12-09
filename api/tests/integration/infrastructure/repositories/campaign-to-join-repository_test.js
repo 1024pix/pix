@@ -85,6 +85,44 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
     });
 
+    context('when the organization of the campaign has the POLE EMPLOI tag', () => {
+      it('should return true for organizationIsPoleEmploi', async () => {
+        // given
+        const code = 'LAURA456';
+        const organization = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildCampaign({ code, organizationId: organization.id });
+        databaseBuilder.factory.buildOrganizationTag({
+          organizationId: organization.id,
+          tagId: databaseBuilder.factory.buildTag({ name: 'POLE EMPLOI' }).id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const actualCampaign = await campaignToJoinRepository.getByCode(code);
+
+        // then
+        expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
+        expect(actualCampaign.organizationIsPoleEmploi).to.be.true;
+      });
+    });
+
+    context('when the organization of the campaign does not have the POLE EMPLOI tag', () => {
+      it('should return false for organizationIsPoleEmploi', async () => {
+        // given
+        const code = 'LAURA456';
+        const organization = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildCampaign({ code, organizationId: organization.id });
+        await databaseBuilder.commit();
+
+        // when
+        const actualCampaign = await campaignToJoinRepository.getByCode(code);
+
+        // then
+        expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
+        expect(actualCampaign.organizationIsPoleEmploi).to.be.false;
+      });
+    });
+
     it('should throw a NotFoundError when no campaign exists with given code', async () => {
       // given
       const code = 'LAURA123';
