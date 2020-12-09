@@ -7,7 +7,7 @@ module.exports = {
       attributes: ['code', 'title', 'type', 'idPixLabel', 'customLandingPageText',
         'externalIdHelpImageUrl', 'alternativeTextToExternalIdHelpImage', 'isArchived',
         'isRestricted', 'organizationName', 'organizationType', 'organizationLogoUrl',
-        'targetProfileName', 'targetProfileImageUrl'],
+        'organizationIsPoleEmploi', 'targetProfileName', 'targetProfileImageUrl'],
     }).serialize(campaignsToJoin);
   },
 };
