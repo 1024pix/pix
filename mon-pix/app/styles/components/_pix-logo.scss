@@ -2,22 +2,22 @@
   display: inline-block;
   position: relative;
   text-align: left;
-}
 
-.pix-logo__link {
-  display: inline-block;
+  &__link {
+    display: inline-block;
 
-  &:hover,
-  &:active,
-  &:focus {
-    text-decoration: none;
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: none;
+    }
   }
-}
 
-.pix-logo__image {
-  height: 45px;
+  &__image {
+    height: 45px;
 
-  @include device-is('desktop') {
-    height: 54px;
+    @include device-is('desktop') {
+      height: 54px;
+    }
   }
 }
