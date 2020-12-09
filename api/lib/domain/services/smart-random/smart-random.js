@@ -2,6 +2,7 @@ const _ = require('lodash');
 const catAlgorithm = require('./cat-algorithm');
 const { getFilteredSkillsForNextChallenge, getFilteredSkillsForFirstChallenge } = require('./skills-filter');
 const { computeTubesFromSkills } = require('./../tube-service');
+const AnswerStatus = require('../../models/AnswerStatus');
 
 module.exports = { getPossibleSkillsForNextChallenge };
 
@@ -19,7 +20,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
     ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
-    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes, isLastChallengeTimed });
+    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes, isLastChallengeTimed, allAnswers });
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return possibleSkillsForNextChallenge.length > 0
@@ -45,11 +46,18 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
+function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed, allAnswers }) {
+  const wrongAnswersSuccessiveCount = _getWrongAnswersSuccessiveCount(allAnswers);
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableSkills = getFilteredSkillsForNextChallenge({ knowledgeElements, tubes, predictedLevel, isLastChallengeTimed, targetSkills });
-  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements });
+  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements, wrongAnswersSuccessiveCount });
   return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
+}
+
+function _getWrongAnswersSuccessiveCount(allAnswers) {
+  return _.takeRightWhile(allAnswers, (answer) => {
+    return _.isEqual(answer.result, AnswerStatus.KO);
+  }).length;
 }
 
 function _findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {

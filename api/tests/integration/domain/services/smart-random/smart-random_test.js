@@ -24,7 +24,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil1, cnil2, challengeWeb_1,
     challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6,
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
-    challengeRechInfo_7, challengeInfo_2, challengeCnil_1, challengeCnil_2;
+    challengeRechInfo_7, challengeInfo_2, challengeCnil_1, challengeCnil_2, cnil4, challengeCnil_4;
 
   beforeEach(() => {
     targetSkills = null;
@@ -50,6 +50,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     info2 = domainBuilder.buildSkill({ name: '@info2' });
     cnil1 = domainBuilder.buildSkill({ name: '@cnil1' });
     cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
+    cnil4 = domainBuilder.buildSkill({ name: '@cnil4' });
 
     // Challenges
     challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skills: [web1] });
@@ -68,6 +69,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skills: [rechInfo7] });
     challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skills: [cnil1] });
     challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skills: [cnil2] });
+    challengeCnil_4 = domainBuilder.buildChallenge({ id: 'reccnil4', skills: [cnil4] });
     challengeInfo_2 = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2] });
   });
 
@@ -317,6 +319,65 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
         expect(possibleSkillsForNextChallenge[0].id).to.be.equal(rechInfo5.id);
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeRechInfo_5.id);
+      });
+
+      it('should return easier skill when user failed a sufficient statistically times in a row', () => {
+        // given
+        targetSkills = [web1, web2, web3, web4, web5, web6, web7, url3, url4, rechInfo5, rechInfo7, url6, cnil1, cnil2, cnil4];
+
+        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6,
+          challengeUrl_3, challengeUrl_4, challengeUrl_6, challengeRechInfo_5, challengeRechInfo_7, challengeCnil_1, challengeCnil_2, challengeCnil_4];
+
+        knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({
+            skillId: web1.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'indirect',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: web2.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: url3.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'indirect',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: url4.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: url6.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'direct',
+          }),
+        ];
+
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeUrl_6.id, result: AnswerStatus.KO });
+        allAnswers = [
+          lastAnswer,
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: challengeUrl_4.id, result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: challengeUrl_3.id, result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: challengeUrl_4.id, result: AnswerStatus.KO }),
+        ];
+
+        // when
+        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          lastAnswer,
+          allAnswers,
+        });
+
+        // then
+        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(cnil1.id);
       });
 
       it('should ask a challenge of maximum difficulty when maximum difficulty (minus 1) was correctly answered (edge case test)', function() {
