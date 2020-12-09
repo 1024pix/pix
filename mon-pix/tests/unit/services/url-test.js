@@ -115,6 +115,20 @@ describe('Unit | Service | locale', function() {
       expect(cguUrl).to.equal(expectedCguUrl);
     });
 
+    it('should get "pix.org" english url when current language is en', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('en') };
+
+      // when
+      const cguUrl = service.cguUrl;
+
+      // then
+      expect(cguUrl).to.equal(expectedCguUrl);
+    });
+
   });
 
 });
