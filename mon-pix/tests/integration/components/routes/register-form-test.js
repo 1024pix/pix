@@ -11,6 +11,7 @@ import {
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -249,6 +250,25 @@ describe('Integration | Component | routes/register-form', function() {
       });
     });
 
+    it('should not call api when email is invalid', async function() {
+      // given
+      const save = sinon.stub();
+      this.set('matchingStudentFound', true);
+      this.set('schoolingRegistrationDependentUser', EmberObject.create({ email : 'shi.fu' , unloadRecord() {return resolve();}, save  }));
+      await render(hbs`<Routes::RegisterForm @matchingStudentFound=true @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} /> `);
+
+      // when
+      await click('.pix-toggle__off');
+      await fillIn('#email', 'shi.fu');
+      await triggerEvent('#email', 'blur');
+      await click('#submit-registration');
+
+      // then
+      expect(find('#register-email-container #validationMessage-email').textContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
+      expect(find('#register-email-container .form-textfield__input-container--error')).to.exist;
+      sinon.assert.notCalled(save);
+    });
+
     [{ stringFilledIn: ' ' },
       { stringFilledIn: 'password' },
       { stringFilledIn: 'password1' },
@@ -269,6 +289,24 @@ describe('Integration | Component | routes/register-form', function() {
         expect(find('#register-password-container #validationMessage-password').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
         expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
       });
+    });
+
+    it('should not call api when password is invalid', async function() {
+      // given
+      const save = sinon.stub();
+      this.set('matchingStudentFound', true);
+      this.set('schoolingRegistrationDependentUser', EmberObject.create({ password : 'toto' , unloadRecord() {return resolve();}, save }));
+      await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+
+      // when
+      await fillIn('#password', 'toto');
+      await triggerEvent('#password', 'blur');
+      await click('#submit-registration');
+
+      // then
+      expect(find('#register-password-container #validationMessage-password').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+      expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
+      sinon.assert.notCalled(save);
     });
 
     const internalServerErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
