@@ -974,12 +974,12 @@
         },
         "main": {
             "code": "I have a code",
-            "dashboard": "",
+            "dashboard": "Home",
             "help": "Help",
             "link-help": "https://pix.org/en-gb/faq-pix",
             "profile": "Profile",
             "start-certification": "Certification",
-            "tutorials": ""
+            "tutorials": "My tutorials"
         },
         "not-logged": {
             "sign-in": "Log in",
