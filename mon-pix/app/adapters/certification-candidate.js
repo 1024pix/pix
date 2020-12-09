@@ -1,7 +1,5 @@
-import classic from 'ember-classic-decorator';
 import ApplicationAdapter from './application';
 
-@classic
 export default class CertificationCandidate extends ApplicationAdapter {
   urlForCreateRecord(modelName, { adapterOptions }) {
     const url = super.urlForCreateRecord(...arguments);
