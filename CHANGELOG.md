@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.229.2 (09/12/2020)
+
+- [#2257](https://github.com/1024pix/pix/pull/2257) [TRANSLATION] Mise à jour des traductions
+
 ## v2.229.1 (08/12/2020)
 
 - [#2258](https://github.com/1024pix/pix/pull/2258) [BUGFIX] Désactivation de la fonctionnalité dashboard par défaut (PIX-1759).
