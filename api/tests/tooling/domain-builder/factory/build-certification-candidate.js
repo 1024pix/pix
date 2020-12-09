@@ -16,7 +16,6 @@ module.exports = function buildCertificationCandidate(
     birthdate = moment(faker.date.past(10)).format('YYYY-MM-DD'),
     extraTimePercentage = 0.3,
     externalId = faker.random.uuid(),
-    examinerComment = faker.lorem.sentence(),
     hasSeendEndTestScreen = false,
     createdAt = faker.date.past(1),
     // includes
@@ -39,7 +38,6 @@ module.exports = function buildCertificationCandidate(
     sessionId,
     externalId,
     extraTimePercentage,
-    examinerComment,
     hasSeendEndTestScreen,
     createdAt,
     userId,

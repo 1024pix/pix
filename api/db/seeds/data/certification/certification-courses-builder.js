@@ -16,6 +16,7 @@ const {
   CANDIDATE_DATA_STARTED,
 } = require('./certification-candidates-builder');
 const { CERTIFICATION_CHALLENGES_DATA } = require('./certification-data');
+const { CertificationIssueReportCategories } = require('./../../../../lib/domain/models/CertificationIssueReportCategory');
 
 const ASSESSMENT_SUCCESS_IN_SESSION_TO_FINALIZE_ID = 100;
 const ASSESSMENT_FAILURE_IN_SESSION_TO_FINALIZE_ID = 101;
@@ -51,6 +52,13 @@ function _buildCertificationCourse(databaseBuilder, { id, assessmentId, userId, 
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     ...candidateData, id,  createdAt, isPublished, isV2Certification: true, examinerComment, hasSeenEndTestScreen, sessionId, userId, verificationCode,
   }).id;
+  if (examinerComment) {
+    databaseBuilder.factory.buildCertificationIssueReport({
+      certificationCourseId,
+      category: CertificationIssueReportCategories.OTHER,
+      description: examinerComment,
+    });
+  }
   databaseBuilder.factory.buildAssessment({
     id: assessmentId, certificationCourseId, type: 'CERTIFICATION', state: 'completed', userId, competenceId: null,
     campaignParticipationId: null, isImproving: false, createdAt,

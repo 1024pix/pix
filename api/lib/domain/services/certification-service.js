@@ -36,7 +36,7 @@ async function getCertificationResultByCertifCourse({ certificationCourse }) {
     isPublished: certificationCourse.isPublished,
     isV2Certification: certificationCourse.isV2Certification,
     cleaCertificationStatus,
-    examinerComment: certificationCourse.examinerComment,
+    certificationIssueReports: certificationCourse.certificationIssueReports,
     hasSeenEndTestScreen: certificationCourse.hasSeenEndTestScreen,
     sessionId: certificationCourse.sessionId,
   });

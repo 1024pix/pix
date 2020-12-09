@@ -1,5 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
+const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
+const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function() {
 
@@ -9,7 +11,8 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
     let expectedJsonApi;
 
     beforeEach(() => {
-      modelJuryCertifSummary = {
+      const issueReport = new CertificationIssueReport({ description: 'someComment' });
+      modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
         lastName: 'someLastName',
@@ -18,9 +21,11 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         createdAt: new Date('2020-04-20T04:05:06Z'),
         completedAt: new Date('2020-04-25T04:05:06Z'),
         isPublished: true,
-        examinerComment: 'someComment',
+        certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
-      };
+        cleaCertificationStatus: true,
+      });
+
       expectedJsonApi = {
         data: {
           type: 'jury-certification-summaries',
@@ -33,8 +38,9 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
             'created-at': modelJuryCertifSummary.createdAt,
             'completed-at': modelJuryCertifSummary.completedAt,
             'is-published': modelJuryCertifSummary.isPublished,
-            'examiner-comment': modelJuryCertifSummary.examinerComment,
+            'examiner-comment': 'someComment',
             'has-seen-end-test-screen': modelJuryCertifSummary.hasSeenEndTestScreen,
+            'clea-certification-status': 'acquired',
           },
         },
       };

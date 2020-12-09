@@ -1,4 +1,4 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | sessions-controller', () => {
@@ -80,6 +80,10 @@ describe('Acceptance | Controller | sessions-controller', () => {
     });
 
     describe('Success case', () => {
+
+      afterEach(() => {
+        return knex('certification-issue-reports').delete();
+      });
 
       it('should return the serialized updated session', async () => {
         // given

@@ -2,6 +2,8 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
+const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
+const { CertificationIssueReportCategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 
@@ -12,14 +14,22 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const assessment = new Assessment({
         'id': 'assessment_id',
       });
-
       const certificationCourse = new CertificationCourse({
         id: 'certification_id',
         assessment: assessment,
         challenges: ['challenge1', 'challenge2'],
-        'examinerComment': 'Signalement de l\'examinateur',
+        certificationIssueReports: [],
         'hasSeenEndTestScreen': true,
       });
+
+      const issueReport = new CertificationIssueReport({
+        id: 1234,
+        description: 'Signalement de l\'examinateur',
+        categoryId: CertificationIssueReportCategories.OTHER,
+        certificationCourseId: certificationCourse.id,
+      });
+
+      certificationCourse.reportIssue(issueReport);
 
       const jsonCertificationCourseWithAssessment = {
         data: {

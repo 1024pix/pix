@@ -15,7 +15,7 @@ class CertificationResult {
       isPublished,
       isV2Certification,
       cleaCertificationStatus,
-      examinerComment,
+      certificationIssueReports,
       hasSeenEndTestScreen,
       assessmentId,
       sessionId,
@@ -31,11 +31,11 @@ class CertificationResult {
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
     this.cleaCertificationStatus = cleaCertificationStatus;
-    this.examinerComment = examinerComment;
+    this.certificationIssueReports = certificationIssueReports;
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.assessmentId = assessmentId;
     this.sessionId = sessionId;
-    
+
     if (lastAssessmentResult) {
       this.resultCreatedAt = lastAssessmentResult.createdAt;
       this.pixScore = lastAssessmentResult.pixScore;
