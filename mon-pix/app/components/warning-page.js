@@ -6,19 +6,18 @@ import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
 import isInteger from 'lodash/isInteger';
 
-function _pluralize(word, count) {
-  if (!count) {
-    return '';
+@classic
+export default class WarningPage extends Component {
+  @computed('time')
+  get allocatedHumanTime() {
+    return _formatTimeForText(this.time);
   }
-  return (count > 1) ? `${count} ${word}s` : `${count} ${word}`;
-}
 
-function _getMinutes(time) {
-  return Math.floor(time / 60);
-}
+  @computed('time')
+  get allocatedTime() {
+    return _formatTimeForButton(this.time);
+  }
 
-function _getSeconds(time) {
-  return time % 60;
 }
 
 function _formatTimeForText(time) {
@@ -52,15 +51,17 @@ function _formatTimeForButton(time) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-@classic
-export default class WarningPage extends Component {
-  @computed('time')
-  get allocatedHumanTime() {
-    return _formatTimeForText(this.time);
-  }
+function _getMinutes(time) {
+  return Math.floor(time / 60);
+}
 
-  @computed('time')
-  get allocatedTime() {
-    return _formatTimeForButton(this.time);
+function _getSeconds(time) {
+  return time % 60;
+}
+
+function _pluralize(word, count) {
+  if (!count) {
+    return '';
   }
+  return (count > 1) ? `${count} ${word}s` : `${count} ${word}`;
 }
