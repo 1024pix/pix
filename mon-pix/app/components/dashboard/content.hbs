@@ -5,6 +5,10 @@
   </div>
 
   <ul>
-    <Campaign::Card />
+    {{#each @model.campaignParticipations as |campaignParticipation|}}
+      <li>
+        <CampaignParticipation::Card @model={{campaignParticipation}}/>
+      </li>
+    {{/each}}
   </ul>
 </section>

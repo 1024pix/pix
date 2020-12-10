@@ -1,0 +1,19 @@
+<article class="campaign-participation-card-wrapper">
+  <header class="campaign-participation-card-wrapper__header">
+    <PixTag class="campaign-participation-card-header__tag" @color={{this.status.tagColor}} data-test-tag>
+      {{t this.status.tagText}}
+    </PixTag>
+    <h1 class="campaign-participation-card-header__title">{{@model.campaign.title}}</h1>
+    <h2 class="campaign-participation-card-header__subtitle">{{@model.campaign.title}}</h2>
+    <time class="campaign-participation-card-header__date"
+          datetime="{{@model.createdAt}}">
+      {{t 'pages.campaign-participation.card.created-at' createddate=(format-date @model.createdAt)}}
+    </time>
+  </header>
+
+  <LinkTo class="button button--link {{this.status.actionClass}} campaign-participation-card-wrapper__action"
+          @route="campaigns.start-or-resume"
+          @model={{this.campaignCode}}>
+    {{t this.status.actionText }}
+  </LinkTo>
+</article>
