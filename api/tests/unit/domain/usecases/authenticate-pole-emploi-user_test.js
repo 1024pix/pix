@@ -1,9 +1,10 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
 
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const { UnexpectedUserAccount } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const moment = require('moment');
@@ -231,7 +232,9 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async () => {
         // given
-        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod());
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          externalIdentifier: userInfo.externalIdentityId,
+        }));
         const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
           accessToken,
           refreshToken,
@@ -246,6 +249,22 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
         // then
         expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement: expectedAuthenticationComplement, userId });
+      });
+
+      it('should throw an UnexpectedUserAccount error if the external identifier does not match the one in the pole emploi id token', async () => {
+        // given
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          externalIdentifier: 'other_external_identifier',
+        }));
+
+        // when
+        const error = await catchErr(authenticatePoleEmploiUser)({
+          code, redirectUri, clientId, authenticatedUserId: userId,
+          userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(UnexpectedUserAccount);
       });
     });
   });

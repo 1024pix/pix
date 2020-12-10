@@ -401,7 +401,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       context('When the user does have a POLE_EMPLOI authentication method', () => {
 
-        beforeEach(async () => {
+        it('should update POLE_EMPLOI authentication method authentication complement', async () => {
+          // given
           databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
             externalIdentifier,
             accessToken: 'old_access_token',
@@ -411,9 +412,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           });
 
           await databaseBuilder.commit();
-        });
 
-        it('should update POLE_EMPLOI authentication method authentication complement', async () => {
           // when
           await server.inject(options);
 
@@ -422,6 +421,23 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
           expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
           expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
+        });
+
+        it('should return a 409 Conflict if the authenticated user is not the expected one', async () => {
+          // given
+          const otherUser = databaseBuilder.factory.buildUser();
+          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+            externalIdentifier: 'other_external_identifier',
+            userId: otherUser.id,
+          });
+          await databaseBuilder.commit();
+          options.headers['Authorization'] = generateValidRequestAuthorizationHeader(otherUser.id);
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(409);
         });
       });
 
