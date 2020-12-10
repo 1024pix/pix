@@ -18,6 +18,16 @@ describe('Unit | Router | certification-center-router', function() {
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
+  describe('GET /api/certification-centers/{certificationCenterId}/divisions', function() {
+    it('should reject an invalid certification center id', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/certification-centers/invalid/divisions');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
+
   describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', function() {
 
     it('should reject unexpected filters ', async () => {

@@ -84,6 +84,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/divisions',
       config: {
+        validate: {
+          params: Joi.object({
+            certificationCenterId: idSpecification,
+          }),
+        },
         handler: certificationCenterController.getDivisions,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
