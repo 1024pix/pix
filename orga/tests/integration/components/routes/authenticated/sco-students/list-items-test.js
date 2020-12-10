@@ -288,7 +288,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
         });
 
         test('it should display import XML file button', async function(assert) {
-          assert.contains('Importer (.xml)');
+          assert.contains('Importer (.xml ou .zip)');
         });
 
         test('it should not display download template csv file button for agriculture/cfa organization', async function(assert) {
