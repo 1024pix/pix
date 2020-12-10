@@ -75,7 +75,8 @@
           type="button">
           Annuler
         </LinkTo>
-        <PixButton {{on 'click' this.enrollStudents}}
+        <PixButton
+          @triggerAction={{this.enrollStudents}}
           class="bottom-action-bar__actions--add-button button button--link {{if this.shouldEnableAddButton "" "button--disabled"}}">
           Ajouter
         </PixButton>
