@@ -492,6 +492,9 @@
                 "description": "Here are a selection of tutorials that will help you increase your pix score."
             }
         },
+        "dashboard": {
+            "title": "Homepage"
+        },
         "error": {
             "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://support.pix.fr/support/tickets/new\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
             "first-title": "Oops, an error occurred!"
