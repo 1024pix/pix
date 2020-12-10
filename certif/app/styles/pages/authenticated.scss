@@ -11,6 +11,49 @@
   &__main-content {
     width: 100%;
   }
+
+  .sco-temporary-banner {
+    background-color: $pix-certif-banner;
+
+    .pix-banner__content {
+      min-width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .sco-temporary-banner__informations-text {
+        display: flex;
+        align-items: center;
+        line-height: 22px;
+
+        .sco-temporary-banner-informations-text__triangle-icon {
+          font-size: 1.25rem;
+          margin-right: 16px;
+        }
+
+        p {
+          margin: 0;
+
+          a {
+            font-weight: bold;
+            color: $white;
+          }
+        }
+      }
+
+      .sco-temporary-banner-button {
+        background: none;
+        border: none;
+        width: 20px;
+        height: 20px;
+
+        &__times-icon {
+          font-size: 1.25rem;
+          color: $white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }
 
 .sidebar {

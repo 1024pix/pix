@@ -29,6 +29,22 @@
       <div class="topbar__disconnect"><LinkTo @route="logout">Se déconnecter</LinkTo></div>
     </div>
 
+    {{#if this.showBanner}}
+      <PixBanner class="sco-temporary-banner">
+        <span class="sco-temporary-banner__informations-text">
+          <FaIcon @icon="exclamation-triangle" class="sco-temporary-banner-informations-text__triangle-icon" />
+          <p>
+            Il est important de vérifier que les élèves sont certifiables avant de les inscrire en session de certification. <br>
+            Vous pouvez faire une <a href="https://view.genial.ly/5f27d6e8302a810d2ff9f0f6" target="_blank" rel="noopener noreferrer">campagne de collecte de profil <FaIcon @icon="external-link-alt"/></a> pour vous en assurer.
+          </p>
+        </span>
+        <button type="button" class="sco-temporary-banner-button" {{on 'click' this.closeBanner}}>
+          <FaIcon @icon="times" class="sco-temporary-banner-button__times-icon" />
+        </button>
+      </PixBanner>
+    {{/if}}
+
+
     <div class="main-content__body page">
       {{outlet}}
     </div>
