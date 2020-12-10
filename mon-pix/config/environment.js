@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 
 function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue, minValue }) {
   const valueToValidate = process.env[environmentVariableName] || defaultValue;
