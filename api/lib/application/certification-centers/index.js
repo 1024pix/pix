@@ -1,5 +1,7 @@
 const certificationCenterController = require('./certification-center-controller');
 const securityPreHandlers = require('../security-pre-handlers');
+const Joi = require('@hapi/joi');
+const { idSpecification } = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {
   server.route([
@@ -59,6 +61,17 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students',
       config: {
+        validate: {
+          params: Joi.object({
+            certificationCenterId: idSpecification,
+            sessionId: idSpecification,
+          }),
+          query: Joi.object({
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'page[number]': Joi.number().integer(),
+            'page[size]': Joi.number().integer(),
+          }),
+        },
         handler: certificationCenterController.getStudents,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
