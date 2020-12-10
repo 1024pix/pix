@@ -4,7 +4,7 @@ import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe.only('Integration | Component | Dashboard | Content', function() {
+describe('Integration | Component | Dashboard | Content', function() {
   setupIntlRenderingTest();
 
   it('should render component', async function() {
