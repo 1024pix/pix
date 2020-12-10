@@ -6,6 +6,9 @@ const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSendi
 const buildPoleEmploiSending = function({
   type = PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING,
   campaignParticipationId,
+  isSuccessful = true,
+  responseCode = '200',
+  payload = null,
   createdAt = faker.date.past(),
 } = {}) {
 
@@ -14,7 +17,9 @@ const buildPoleEmploiSending = function({
   return new PoleEmploiSending({
     campaignParticipationId,
     type,
-    payload: null,
+    isSuccessful,
+    responseCode,
+    payload,
     createdAt,
   });
 };
