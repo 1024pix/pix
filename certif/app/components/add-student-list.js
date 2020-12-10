@@ -3,13 +3,18 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import some from 'lodash/some';
 
+import { tracked } from '@glimmer/tracking';
+
 export default class AddStudentList extends Component {
 
   @service notifications;
   @service store;
+  @service router;
 
-  title = 'Classes'
-  emptyMessage = 'Aucune classe trouvée'
+  emptyMessage = 'Aucune classe trouvée';
+
+  @tracked
+  selectedDivisions = [];
 
   get headerCheckboxStatus() {
     return this.hasCheckedEverything
@@ -80,6 +85,8 @@ export default class AddStudentList extends Component {
   }
 
   @action
-  selectDivision() {
+  async selectDivision(divisions) {
+    this.selectedDivisions = divisions;
+    return this.router.replaceWith({ queryParams: { divisions } });
   }
 }
