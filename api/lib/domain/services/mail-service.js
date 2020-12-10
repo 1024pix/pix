@@ -3,31 +3,63 @@ const mailer = require('../../infrastructure/mailers/mailer');
 const moment = require('moment');
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
-const PIX_NAME = 'PIX - Ne pas répondre';
 const PIX_ORGA_NAME = 'Pix Orga - Ne pas répondre';
+const PIX_NAME_FR = 'PIX - Ne pas répondre';
+const PIX_NAME_EN = 'PIX - Noreply';
+const ACCOUNT_CREATION_EMAIL_SUBJECT_FR = 'Votre compte Pix a bien été créé';
+const ACCOUNT_CREATION_EMAIL_SUBJECT_EN = 'Your Pix account has been created';
+const RESET_PASSWORD_EMAIL_SUBJECT_FR = 'Demande de réinitialisation de mot de passe PIX';
+const RESET_PASSWORD_EMAIL_SUBJECT_EN = 'Pix password reset request';
+
+let pixName;
+let accountCreationEmailSubject;
+let resetPasswordEmailSubject;
 
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
-  let variables = {
-    homeName: `pix${settings.domain.tldFr}`,
-    homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
-    redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldFr}/connexion`,
-    locale,
-  };
+
+  let variables;
 
   if (locale === 'fr') {
     variables = {
       homeName: `pix${settings.domain.tldOrg}`,
-      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
-      redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/fr/`,
+      redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion/?lang=fr`,
       locale,
     };
+
+    pixName = PIX_NAME_FR;
+    accountCreationEmailSubject = ACCOUNT_CREATION_EMAIL_SUBJECT_FR;
+  }
+
+  else if (locale === 'en') {
+    variables = {
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
+      redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion/?lang=en`,
+      locale,
+    };
+
+    pixName = PIX_NAME_EN;
+    accountCreationEmailSubject = ACCOUNT_CREATION_EMAIL_SUBJECT_EN;
+  }
+
+  else {
+    variables = {
+      homeName: `pix${settings.domain.tldFr}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+      redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldFr}/connexion`,
+      locale,
+    };
+
+    pixName = PIX_NAME_FR;
+    accountCreationEmailSubject = ACCOUNT_CREATION_EMAIL_SUBJECT_FR;
   }
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_NAME,
+    fromName: pixName,
     to: email,
-    subject: 'Création de votre compte PIX',
+    subject: accountCreationEmailSubject,
     template: mailer.accountCreationTemplateId,
     variables,
   });
@@ -50,7 +82,7 @@ function sendCertificationResultEmail({
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_NAME,
+    fromName: pixName,
     to: email,
     template: mailer.certificationResultTemplateId,
     variables,
@@ -58,27 +90,49 @@ function sendCertificationResultEmail({
 }
 
 function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
-  let variables = {
-    homeName: `pix${settings.domain.tldFr}`,
-    homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
-    resetUrl: `${settings.domain.pixApp + settings.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
-    locale,
-  };
+  let variables;
 
   if (locale === 'fr') {
     variables = {
       homeName: `pix${settings.domain.tldOrg}`,
-      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
-      resetUrl: `${settings.domain.pixApp + settings.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/fr/`,
+      resetUrl: `${settings.domain.pixApp + settings.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=fr`,
       locale,
     };
+
+    pixName = PIX_NAME_FR;
+    resetPasswordEmailSubject = RESET_PASSWORD_EMAIL_SUBJECT_FR;
+  }
+
+  else if (locale === 'en') {
+    variables = {
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
+      resetUrl: `${settings.domain.pixApp + settings.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=en`,
+      locale,
+    };
+
+    pixName = PIX_NAME_EN;
+    resetPasswordEmailSubject = RESET_PASSWORD_EMAIL_SUBJECT_EN;
+  }
+
+  else {
+    variables = {
+      homeName: `pix${settings.domain.tldFr}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+      resetUrl: `${settings.domain.pixApp + settings.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
+      locale,
+    };
+
+    pixName = PIX_NAME_FR;
+    resetPasswordEmailSubject = RESET_PASSWORD_EMAIL_SUBJECT_FR;
   }
 
   return mailer.sendEmail({
     from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_NAME,
+    fromName: pixName,
     to: email,
-    subject: 'Demande de réinitialisation de mot de passe PIX',
+    subject: resetPasswordEmailSubject,
     template: mailer.passwordResetTemplateId,
     variables,
   });
