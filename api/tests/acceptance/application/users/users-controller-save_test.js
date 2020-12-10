@@ -93,7 +93,7 @@ describe('Acceptance | Controller | users-controller', () => {
         const expectedMail = {
           from: 'ne-pas-repondre@pix.fr',
           fromName: 'PIX - Ne pas répondre',
-          subject: 'Création de votre compte PIX',
+          subject: 'Votre compte Pix a bien été créé',
           template: 'test-account-creation-template-id',
           to: 'john.dodoe@example.net',
           variables: {
