@@ -142,6 +142,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         userId: null,
+        division: '3A',
       });
 
       await databaseBuilder.commit();
@@ -154,6 +155,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             size: 10,
             number: 1,
           },
+          filter: { divisions: ['3A'] },
         },
       );
 
@@ -173,8 +175,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       const user = databaseBuilder.factory.buildUser();
 
-      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id });
-      const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, userId: user.id });
+      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, division:'3A' });
+      const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, userId: user.id, division: '3A' });
       databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_2.id });
 
       await databaseBuilder.commit();
@@ -187,6 +189,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             size: 10,
             number: 1,
           },
+          filter: { divisions: ['3A'] },
         });
 
       // then
@@ -240,6 +243,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             size: 10,
             number: 1,
           },
+          filter: {},
         },
       );
 
@@ -280,6 +284,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             size: 1,
             number: 2,
           },
+          filter: {},
         },
       );
 
