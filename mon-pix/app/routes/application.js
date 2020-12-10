@@ -5,6 +5,7 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 import Route from '@ember/routing/route';
 
 import { inject as service } from '@ember/service';
+import get from 'lodash/get';
 
 export default Route.extend(ApplicationRouteMixin, {
 
@@ -49,7 +50,14 @@ export default Route.extend(ApplicationRouteMixin, {
   async sessionAuthenticated() {
     const _super = this._super;
     await this._getUserAndLocal();
-    _super.call(this, ...arguments);
+
+    const nextURL = this.session.data.nextURL;
+    if (nextURL && get(this.session, 'data.authenticated.source') === 'pole_emploi_connect') {
+      this.session.set('data.nextURL', undefined);
+      this.replaceWith(nextURL);
+    } else {
+      _super.call(this, ...arguments);
+    }
   },
 
   // We need to override the sessionInvalidated from ApplicationRouteMixin
