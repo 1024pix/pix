@@ -11,6 +11,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
   const campaignParticipationRepository = { get: _.noop() };
   const campaignParticipationResultRepository = { getByParticipationId: _.noop() };
   const organizationRepository = { get: _.noop() };
+  const poleEmploiSendingRepository = { create: _.noop() };
   const targetProfileRepository = { get: _.noop() };
   const userRepository = { get: _.noop() };
   const poleEmploiNotifier = { notify: _.noop() };
@@ -20,6 +21,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     campaignParticipationRepository,
     campaignParticipationResultRepository,
     organizationRepository,
+    poleEmploiSendingRepository,
     targetProfileRepository,
     userRepository,
     poleEmploiNotifier,
@@ -84,9 +86,14 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
     campaignParticipationRepository.get = sinon.stub();
     campaignParticipationResultRepository.getByParticipationId = sinon.stub();
     organizationRepository.get = sinon.stub();
+    poleEmploiSendingRepository.create = sinon.stub();
     targetProfileRepository.get = sinon.stub();
     userRepository.get = sinon.stub();
     poleEmploiNotifier.notify = sinon.stub();
+  });
+
+  afterEach(() => {
+    sinon.restore();
   });
 
   it('fails when event is not of correct type', async () => {
@@ -157,7 +164,18 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         );
       });
 
-      it('should notify pole emploi', async () => {
+      it('should notify pole emploi and create pole emploi sending accordingly', async () => {
+        // given
+        const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
+        poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
+        const poleEmploiSending = Symbol('Pole emploi sending');
+        sinon.stub(PoleEmploiSending, 'buildForParticipationShared').withArgs({
+          campaignParticipationId,
+          payload: expectedResults,
+          isSuccessful: expectedResponse.isSuccessful,
+          responseCode: expectedResponse.code,
+        }).returns(poleEmploiSending);
+
         // when
         await handlePoleEmploiParticipationShared({
           event,
@@ -165,19 +183,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         });
 
         // then
-        expect(poleEmploiNotifier.notify).to.have.been.calledWith(userId, expectedResults, sinon.match.instanceOf(PoleEmploiSending));
-      });
-
-      it('should notify with type CAMPAIGN_PARTICIPATION_SHARING', async () => {
-        // when
-        await handlePoleEmploiParticipationShared({
-          event,
-          ...dependencies,
-        });
-
-        // then
-        const poleEmploiSending = poleEmploiNotifier.notify.firstCall.args[2];
-        expect(poleEmploiSending.type).to.equal(PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING);
+        expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending });
       });
     });
 

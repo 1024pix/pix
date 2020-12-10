@@ -1,21 +1,30 @@
 const axios = require('axios');
 
+class HttpResponse {
+  constructor({
+    code,
+    isSuccessful,
+  }) {
+    this.code = code;
+    this.isSuccessful = isSuccessful;
+  }
+}
+
 module.exports = {
   async post(url, payload, headers) {
-    const response = {
-      isSuccessful: false,
-      code: null,
-    };
     try {
       const httpResponse = await axios.post(url, payload, {
         headers,
       });
-      response.isSuccessful = true;
-      response.code = httpResponse.status;
+      return new HttpResponse({
+        code: httpResponse.status,
+        isSuccessful: true,
+      });
     } catch (httpErr) {
-      response.code = httpErr.response.status;
+      return new HttpResponse({
+        code: httpErr.response.status,
+        isSuccessful: false,
+      });
     }
-
-    return response;
   },
 };

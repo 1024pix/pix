@@ -1,21 +1,20 @@
+const _ = require('lodash');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { handlePoleEmploiParticipationFinished } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
+const { handlePoleEmploiParticipationFinished } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
 describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', () => {
   let event;
-  let campaignRepositoryStub;
-  let assessmentRepositoryStub;
-  let campaignParticipationRepositoryStub;
-  let organizationRepositoryStub;
-  let targetProfileRepositoryStub;
-  let userRepositoryStub;
+
+  const assessmentRepository = { get: _.noop() };
+  const campaignRepository = { get: _.noop() };
+  const campaignParticipationRepository = { get: _.noop() };
+  const organizationRepository = { get: _.noop() };
+  const targetProfileRepository = { get: _.noop() };
+  const userRepository = { get: _.noop() };
+  const poleEmploiNotifier = { notify: _.noop() };
+  const poleEmploiSendingRepository = { create: _.noop() };
 
   const dependencies = {
     campaignRepository,
@@ -24,6 +23,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
     organizationRepository,
     targetProfileRepository,
     userRepository,
+    poleEmploiNotifier,
+    poleEmploiSendingRepository,
   };
 
   const expectedResults = JSON.stringify({
@@ -56,12 +57,18 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
   });
 
   beforeEach(() => {
-    campaignRepositoryStub = sinon.stub(campaignRepository, 'get');
-    assessmentRepositoryStub = sinon.stub(assessmentRepository, 'get');
-    campaignParticipationRepositoryStub = sinon.stub(campaignParticipationRepository, 'get');
-    organizationRepositoryStub = sinon.stub(organizationRepository, 'get');
-    targetProfileRepositoryStub = sinon.stub(targetProfileRepository, 'get');
-    userRepositoryStub = sinon.stub(userRepository, 'get');
+    assessmentRepository.get = sinon.stub();
+    campaignRepository.get = sinon.stub();
+    campaignParticipationRepository.get = sinon.stub();
+    organizationRepository.get = sinon.stub();
+    targetProfileRepository.get = sinon.stub();
+    userRepository.get = sinon.stub();
+    poleEmploiNotifier.notify = sinon.stub();
+    poleEmploiSendingRepository.create = sinon.stub();
+  });
+
+  afterEach(() => {
+    sinon.restore();
   });
 
   it('fails when event is not of correct type', async () => {
@@ -91,13 +98,13 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
-        campaignParticipationRepositoryStub.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        assessmentRepositoryStub.withArgs(assessmentId).resolves(domainBuilder.buildAssessment({
+        campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
+        assessmentRepository.get.withArgs(assessmentId).resolves(domainBuilder.buildAssessment({
           updatedAt: new Date('2020-01-03'),
         }));
-        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
-        userRepositoryStub.withArgs(userId).resolves({ firstName: 'Jean', lastName: 'Bonneau' });
-        campaignRepositoryStub.withArgs(campaignId).resolves(
+        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
+        userRepository.get.withArgs(userId).resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
+        campaignRepository.get.withArgs(campaignId).resolves(
           domainBuilder.buildCampaign({
             id: 11223344,
             name: 'Campagne Pôle Emploi',
@@ -109,12 +116,22 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
             organizationId,
           }),
         );
-        targetProfileRepositoryStub.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
-
-        sinon.stub(console, 'log');
+        targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
       });
 
-      it('it should console.log results', async () => {
+      it('should notify pole emploi and create pole emploi sending accordingly', async () => {
+        // given
+
+        const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
+        poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
+        const poleEmploiSending = Symbol('Pole emploi sending');
+        sinon.stub(PoleEmploiSending, 'buildForParticipationFinished').withArgs({
+          campaignParticipationId: 55667788,
+          payload: expectedResults,
+          isSuccessful: expectedResponse.isSuccessful,
+          responseCode: expectedResponse.code,
+        }).returns(poleEmploiSending);
+
         // when
         await handlePoleEmploiParticipationFinished({
           event,
@@ -122,12 +139,9 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
 
         // then
-        // eslint-disable-next-line no-console
-        expect(console.log).to.have.been.calledOnce;
-        // eslint-disable-next-line no-console
-        const results = console.log.firstCall.args[0];
-        expect(results).to.deep.equal(expectedResults);
+        expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending });
       });
+
     });
 
     context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
@@ -140,13 +154,12 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
-        campaignParticipationRepositoryStub.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepositoryStub.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
-        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: false });
-        sinon.stub(console, 'log');
+        campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
+        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
       });
 
-      it('it should not console.log results', async () => {
+      it('it should not notify to Pole Emploi', async () => {
         // when
         await handlePoleEmploiParticipationFinished({
           event,
@@ -154,8 +167,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
 
         // then
-        // eslint-disable-next-line no-console
-        sinon.assert.notCalled(console.log);
+        sinon.assert.notCalled(poleEmploiNotifier.notify);
       });
     });
 
@@ -169,15 +181,12 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
-        campaignParticipationRepositoryStub.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepositoryStub
-          .withArgs(campaignId)
-          .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organizationId }));
-        organizationRepositoryStub.withArgs(organizationId).resolves({ isPoleEmploi: true });
-        sinon.stub(console, 'log');
+        campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organizationId }));
+        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
       });
 
-      it('it should not console.log results', async () => {
+      it('it should not notify to Pole Emploi', async () => {
         // when
         await handlePoleEmploiParticipationFinished({
           event,
@@ -185,8 +194,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', (
         });
 
         // then
-        // eslint-disable-next-line no-console
-        sinon.assert.notCalled(console.log);
+        sinon.assert.notCalled(poleEmploiNotifier.notify);
       });
     });
   });
