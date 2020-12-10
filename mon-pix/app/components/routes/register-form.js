@@ -196,6 +196,9 @@ export default class RegisterForm extends Component {
   @action
   async register() {
     this.set('isLoading', true);
+    if (this.isCreationFormNotValid) {
+      return this.set('isLoading', false);
+    }
     try {
       this.set('schoolingRegistrationDependentUser.password', this.password);
       this.set('schoolingRegistrationDependentUser.withUsername', this.loginWithUsername);
