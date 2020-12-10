@@ -1,3 +1,5 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 
@@ -8,6 +10,8 @@ import { Response } from 'ember-cli-mirage';
 
 import visit from '../helpers/visit';
 import { contains } from '../helpers/contains';
+import sinon from 'sinon';
+import Service from '@ember/service';
 
 import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
@@ -373,6 +377,47 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+          });
+        });
+
+        context('When campaign belongs to Pole Emploi organization', function() {
+
+          let replaceLocationStub;
+
+          beforeEach(function() {
+            replaceLocationStub = sinon.stub().resolves();
+            this.owner.register('service:location', Service.extend({
+              replace: replaceLocationStub,
+            }));
+            campaign = server.create('campaign', { organizationIsPoleEmploi: true });
+          });
+
+          it('should redirect to Pole Emploi authentication form', async function() {
+            // given
+            await visit('/campagnes');
+
+            // when
+            await fillIn('#campaign-code', campaign.code);
+            await click('.fill-in-campaign-code__start-button');
+
+            // then
+            sinon.assert.called(replaceLocationStub);
+            expect(currentURL()).to.equal('/connexion-pole-emploi');
+          });
+
+          it('should redirect to landing page once user is authenticated', async function() {
+            // given
+            const state = 'state';
+
+            const session = currentSession();
+            session.set('data.state', state);
+            session.set('data.nextURL', `/campagnes/${campaign.code}`);
+
+            // when
+            await visit(`/connexion-pole-emploi?code=test&state=${state}`);
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
         });
       });

@@ -13,6 +13,7 @@ export default class Campaign extends Model {
   @attr('string') organizationName;
   @attr('string') organizationType;
   @attr('string') organizationLogoUrl;
+  @attr('boolean') organizationIsPoleEmploi;
   @attr('string') targetProfileName;
   @attr('string') targetProfileImageUrl;
 

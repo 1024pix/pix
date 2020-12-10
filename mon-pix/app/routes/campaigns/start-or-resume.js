@@ -33,6 +33,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.transitionTo('campaigns.restricted.login-or-register-to-access', campaign.code, { queryParams: { displayRegisterForm } });
   }
 
+  get _shouldVisitPoleEmploiLoginPage() {
+    return this.state.isCampaignPoleEmploi && !this.state.isUserLoggedInPoleEmploi;
+  }
+
   async model() {
     this.isLoading = true;
     return this.modelFor('campaigns');
@@ -85,6 +89,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return campaignCode !== this.state.campaignCode;
   }
 
+  _redirectToPoleEmploiLoginPage(transition) {
+    this.session.set('attemptedTransition', transition);
+    return this.transitionTo('login-pe');
+  }
+
   beforeModel(transition) {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
@@ -92,6 +101,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       this._resetState();
     }
     this._updateStateFrom({ campaign, queryParams: transition.to.queryParams, session: this.session });
+
+    if (this._shouldVisitPoleEmploiLoginPage) {
+      return this._redirectToPoleEmploiLoginPage(transition);
+    }
 
     if (this._shouldLoginToAccessRestrictedCampaign) {
       return this._redirectToLoginBeforeAccessingToCampaign(transition, campaign, !this.state.hasUserSeenJoinPage);
@@ -124,6 +137,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       doesCampaignAskForExternalId: false,
       participantExternalId: null,
       externalUser: null,
+      isCampaignPoleEmploi: false,
+      isUserLoggedInPoleEmploi: false,
     };
   }
 
@@ -143,6 +158,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
       participantExternalId: get(queryParams, 'participantExternalId', this.state.participantExternalId),
       externalUser: get(session, 'data.externalUser'),
+      isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
+      isUserLoggedInPoleEmploi: get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
     };
   }
 
