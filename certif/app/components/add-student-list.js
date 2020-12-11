@@ -13,8 +13,7 @@ export default class AddStudentList extends Component {
 
   emptyMessage = 'Aucune classe trouvée';
 
-  @tracked
-  selectedDivisions = [];
+  @tracked selectedDivisions = this.args.selectedDivisions;
 
   get headerCheckboxStatus() {
     return this.hasCheckedEverything
