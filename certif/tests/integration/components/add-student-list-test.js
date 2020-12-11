@@ -55,7 +55,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       // given
       const birthdate = new Date('2018-01-12T09:29:16Z');
       const firstStudent = _buildUnselectedStudent('firstName', 'lastName', 'division', birthdate);
-      const tableRow = '.table.add-student-list tbody tr';
+      const tableRow = '.add-student-list table tbody tr';
       this.set('students', [
         firstStudent,
         _buildUnselectedStudent(),

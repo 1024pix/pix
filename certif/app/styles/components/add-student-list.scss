@@ -3,6 +3,25 @@
   position: relative;
   box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 
+  &__filters {
+    background-color: $white;
+    color: $blue-zodia;
+    padding: 18px 24px;
+
+    label {
+      margin-right: 16px;
+    }
+
+    .pix-multi-select {
+      min-width: 200px;
+
+      &__list-button {
+        display: flex;
+        color: $blue-zodia;
+      }
+    }
+  }
+
   thead tr {
     background: $grey-10;
     border-radius: 4px;
