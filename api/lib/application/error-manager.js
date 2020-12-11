@@ -226,6 +226,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdatePasswordError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.UserNotAuthorizedToUpdateEmailError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.UserNotAuthorizedToCreateResourceError) {
     return new HttpErrors.ForbiddenError(error.message);
   }

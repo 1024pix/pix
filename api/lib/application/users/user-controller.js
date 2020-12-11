@@ -44,6 +44,18 @@ module.exports = {
     return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
   },
 
+  async updateEmail(request, h) {
+    const { email }  = request.payload.data.attributes;
+    const userId = parseInt(request.params.id);
+
+    await usecases.updateUserEmail({
+      email,
+      userId,
+    });
+
+    return h.response({}).code(204);
+  },
+
   async updatePassword(request) {
     const userId = parseInt(request.params.id);
     const user = userSerializer.deserialize(request.payload);

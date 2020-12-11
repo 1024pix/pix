@@ -8,4 +8,11 @@ module.exports = {
     }
     return true;
   },
+
+  async isMyAccountEnabled() {
+    if (!featureToggles.myAccount) {
+      throw new NotFoundError('cette route est désactivée');
+    }
+    return true;
+  },
 };

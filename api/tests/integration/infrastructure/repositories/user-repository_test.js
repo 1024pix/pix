@@ -810,6 +810,29 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#updateEmail', () => {
+
+    let userInDb;
+
+    beforeEach(async () => {
+      userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net' });
+      await databaseBuilder.commit();
+    });
+
+    it('should update the user email', async () => {
+      // given
+      const newEmail = 'new_email@example.net';
+
+      // when
+      const updatedUser = await userRepository.updateEmail({ id: userInDb.id, email: newEmail });
+
+      // then
+      expect(updatedUser).to.be.an.instanceOf(User);
+      expect(updatedUser.email).to.equal(newEmail);
+    });
+
+  });
+
   describe('#updateTemporaryPassword', () => {
 
     let userInDb;
