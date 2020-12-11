@@ -17,6 +17,8 @@ describe('Acceptance | Controller | users-controller', () => {
       let user;
 
       beforeEach(async () => {
+        featureToggles.myAccount = true;
+
         user = databaseBuilder.factory.buildUser({
           email: 'old_email@example.net',
         });
@@ -49,10 +51,12 @@ describe('Acceptance | Controller | users-controller', () => {
 
       it('should return 403 if account is not his own', async () => {
         // given
+        const wrongUserId = user.id - 1;
+
         const options = {
           method: 'PATCH',
           url: `/api/users/${user.id}/email`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id - 1) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(wrongUserId) },
           payload: {
             data: {
               type: 'users',
@@ -95,29 +99,6 @@ describe('Acceptance | Controller | users-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(403);
-      });
-
-      it('should return 422 if email is invalid', async () => {
-        // given
-        const options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/email`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id - 1) },
-          payload: {
-            data: {
-              type: 'users',
-              attributes: {
-                'email': 'not_an_email',
-              },
-            },
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(422);
       });
 
       it('should return 404 if FT_MY_ACCOUNT is not enabled', async () => {

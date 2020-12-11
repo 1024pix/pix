@@ -28,6 +28,7 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
             'certif-prescription-sco': false,
             'reports-categorization': false,
             'is-pole-emploi-enabled': false,
+            'my-account': false,
           },
           type: 'feature-toggles',
         },

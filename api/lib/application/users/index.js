@@ -183,6 +183,7 @@ exports.register = async function(server) {
           },
           payload: Joi.object({
             data: {
+              type: Joi.string().valid('users').required(),
               attributes: {
                 email: Joi.string().email().required(),
               },
