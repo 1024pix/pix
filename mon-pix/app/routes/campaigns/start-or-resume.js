@@ -81,9 +81,16 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       && !this.state.hasUserCompletedRestrictedCampaignAssociation;
   }
 
+  _shouldResetState(campaignCode) {
+    return campaignCode !== this.state.campaignCode;
+  }
+
   beforeModel(transition) {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
+    if (this._shouldResetState(campaign.code)) {
+      this._resetState();
+    }
     this._updateStateFrom({ campaign, queryParams: transition.to.queryParams, session: this.session });
 
     if (this._shouldLoginToAccessRestrictedCampaign) {
@@ -106,6 +113,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _resetState() {
     this.state = {
+      campaignCode: null,
       isCampaignRestricted: false,
       isCampaignForSCOOrganization: false,
       hasUserCompletedRestrictedCampaignAssociation: false,
@@ -124,6 +132,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     const hasUserSeenLandingPage = this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
     const hasUserSeenJoinPage = this._handleQueryParamBoolean(queryParams.hasUserSeenJoinPage, this.state.hasUserSeenJoinPage);
     this.state = {
+      campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
       isCampaignForSCOOrganization: get(campaign, 'organizationType') === 'SCO',
       hasUserCompletedRestrictedCampaignAssociation,
