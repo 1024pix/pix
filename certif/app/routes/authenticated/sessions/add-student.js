@@ -40,6 +40,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
       students,
       numberOfEnrolledStudents: certificationCandidates.length,
       certificationCenterDivisions,
+      selectedDivisions: params.divisions,
     };
   }
 
