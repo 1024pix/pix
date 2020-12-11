@@ -30,7 +30,9 @@
             "back": "Retour",
             "cancel": "Annuler",
             "close": "Fermer",
+            "modify": "Modifier",
             "quit": "Quitter",
+            "save": "Enregistrer",
             "sign-out": "Se déconnecter"
         },
         "form": {

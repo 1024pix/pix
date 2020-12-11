@@ -30,7 +30,9 @@
             "back": "Back",
             "cancel": "Cancel",
             "close": "Close",
+            "modify": "",
             "quit": "Exit",
+            "save": "Save",
             "sign-out": "Sign out"
         },
         "form": {

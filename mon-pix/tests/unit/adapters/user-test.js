@@ -90,6 +90,15 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/123/lang/en')).to.be.true;
     });
 
+    it('should redirect to email', async function() {
+      // when
+      const options = { adapterOptions: { updateEmail: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'user', options);
+
+      // then
+      expect(url.endsWith('/users/123/email')).to.be.true;
+    });
+
   });
 
   describe('#createRecord', () => {

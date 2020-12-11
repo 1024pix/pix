@@ -33,9 +33,16 @@ export default function index(config) {
       return new Response(204);
     }
   });
+
   config.patch('/users/:id/remember-user-has-seen-assessment-instructions', (schema, request) => {
     const user = schema.users.find(request.params.id);
     user.hasSeenAssessmentInstructions = true;
     return user;
+  });
+
+  config.patch('/users/:id/email', (schema, request) => {
+    const newEmail = JSON.parse(request.requestBody).data.attributes.email;
+    const user = schema.users.find(request.params.id);
+    return user.update({ email: newEmail });
   });
 }

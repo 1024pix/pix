@@ -73,6 +73,10 @@ export default class User extends ApplicationAdapter {
       return url + '/has-seen-new-level-info';
     }
 
+    if (adapterOptions && adapterOptions.updateEmail) {
+      return url + '/email';
+    }
+
     if (adapterOptions && adapterOptions.updatePassword) {
       delete adapterOptions.updatePassword;
       const temporaryKey = adapterOptions.temporaryKey;

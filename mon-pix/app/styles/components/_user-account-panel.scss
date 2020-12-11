@@ -3,12 +3,16 @@
   &__item {
     margin: 20px 0;
     display: flex;
-    align-content: flex-start;
+    align-items: center;
     border-bottom: $grey-15 1px solid;
     padding-bottom: 1rem;
 
     &:last-child {
       border-bottom: none;
+    }
+
+    input {
+      height: 31px;
     }
   }
 }
@@ -21,5 +25,11 @@
 
   &__value {
     color: $grey-50;
+    min-width: 200px;
+  }
+
+  &__button {
+    margin: 0 5px;
+    padding: 6px;
   }
 }

@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import sinon from 'sinon';
+import { describe, it, beforeEach } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { click, fillIn, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | user account panel', () => {
@@ -45,4 +46,98 @@ describe('Integration | Component | user account panel', () => {
     });
   });
 
+  context('when user does have an email', function() {
+
+    let user;
+
+    beforeEach(function() {
+      // given
+      user = {
+        firstName: 'John',
+        lastName: 'DOE',
+        username: 'john.doe0101',
+        email: 'john.doe@example.net',
+        save: sinon.stub(),
+      };
+      this.set('user', user);
+    });
+
+    it('should display a modify button', async function() {
+      // when
+      await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+
+      // then
+      expect(find('button[data-test-modify-button]')).to.exist;
+
+    });
+
+    context('When modify button is clicked', () => {
+
+      beforeEach(async () => {
+        // given
+        await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+        await click('button[data-test-modify-button]');
+      });
+
+      it('should display an input field', async function() {
+        // then
+        expect(find('input[data-test-modify-email-input]')).to.exist;
+      });
+
+      it('should display a save button', async function() {
+        // then
+        expect(find('button[data-test-save-button]')).to.exist;
+      });
+
+      it('should display a cancel button', async function() {
+        // then
+        expect(find('button[data-test-cancel-button]')).to.exist;
+      });
+
+      it('should hide input field when cancel button is clicked', async function() {
+        // when
+        await click('button[data-test-cancel-button]');
+
+        // then
+        expect(find('input[data-test-modify-email-input]')).to.not.exist;
+      });
+
+      it('should call user save function when save button is clicked', async function() {
+        // when
+        await fillIn('input', 'new_email@example.net');
+        await click('button[data-test-save-button]');
+
+        // then
+        sinon.assert.called(user.save);
+      });
+
+      it('should not call user save function when email is not valid', async function() {
+        // when
+        await fillIn('input', 'not_valid');
+        await click('button[data-test-save-button]');
+
+        // then
+        sinon.assert.notCalled(user.save);
+      });
+    });
+  });
+
+  context('when user does not have an email', function() {
+
+    it('should not display a modify button', async function() {
+      // given
+      const user = {
+        firstName: 'John',
+        lastName: 'DOE',
+        username: 'john.doe0101',
+      };
+      this.set('user', user);
+
+      // when
+      await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+
+      // then
+      expect(find('button[data-test-modify-button]')).to.not.exist;
+    });
+  });
 });
