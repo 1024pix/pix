@@ -151,4 +151,45 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
   });
+
+  describe('PATCH /api/users/{id}/email', () => {
+
+    const url = '/api/users/1/email';
+
+    it('should return 422 if email is invalid', async () => {
+      // given
+      const payload = {
+        data: {
+          type: 'users',
+          attributes: {
+            email: 'not_an_email',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(methodPATCH, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+    });
+
+    it('should return 422 if type attribute is missing', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            email: 'user@example.net',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(methodPATCH, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+    });
+
+  });
 });
