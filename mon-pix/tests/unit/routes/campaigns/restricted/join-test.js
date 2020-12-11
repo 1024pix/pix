@@ -11,7 +11,7 @@ const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_
 describe('Unit | Route | campaigns/restricted/join', function() {
   setupTest();
 
-  describe('#afterModel', function() {
+  describe('#redirect', function() {
 
     it('should redirect to campaigns.start-or-resume when an association already exists', async function() {
       // given
@@ -28,7 +28,7 @@ describe('Unit | Route | campaigns/restricted/join', function() {
       const transition = { to: { queryParams: {} } };
 
       // when
-      await route.afterModel(campaign, transition);
+      await route.redirect(campaign, transition);
 
       // then
       sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', campaign.code, { queryParams: { associationDone: true } });
