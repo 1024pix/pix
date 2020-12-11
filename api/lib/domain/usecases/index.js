@@ -224,5 +224,6 @@ module.exports = injectDependencies({
   updateSession: require('./update-session'),
   updateStudentNumber: require('./update-student-number'),
   updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
+  updateUserEmail: require('./update-user-email'),
   updateUserPassword: require('./update-user-password'),
 }, dependencies);

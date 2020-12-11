@@ -353,6 +353,19 @@ module.exports = {
       });
   },
 
+  updateEmail({ id, email }) {
+    return BookshelfUser
+      .where({ id })
+      .save({ email }, { patch: true, method: 'update' })
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+          throw new UserNotFoundError(`User not found for ID ${id}`);
+        }
+        throw err;
+      });
+  },
+
   async updateUserDetailsForAdministration(id, userAttributes) {
     try {
       const updatedUser = await BookshelfUser
