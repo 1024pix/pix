@@ -6,6 +6,11 @@ function getCampaignUrl(locale, campaignCode) {
   if (!campaignCode) {
     return null;
   }
-  const tld = locale === 'fr' ? settings.domain.tldOrg : settings.domain.tldFr;
-  return `${settings.domain.pixApp + tld}/campagnes/${campaignCode}`;
+  if (locale === 'fr') {
+    return `${settings.domain.pixApp + settings.domain.tldOrg}/campagnes/${campaignCode}/?lang=fr`;
+  }
+  if (locale === 'en') {
+    return `${settings.domain.pixApp + settings.domain.tldOrg}/campagnes/${campaignCode}/?lang=en`;
+  }
+  return `${settings.domain.pixApp + settings.domain.tldFr}/campagnes/${campaignCode}`;
 }

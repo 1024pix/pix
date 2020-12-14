@@ -14,7 +14,7 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendAccountCreationEmail', () => {
 
-    it('should use mailer to send an email with locale', async () => {
+    it('should use mailer to send an email with locale "fr-fr"', async () => {
       // given
       const locale = 'fr-fr';
       const domainFr = 'pix.fr';
@@ -22,7 +22,7 @@ describe('Unit | Service | MailService', () => {
         from: senderEmailAddress,
         fromName: 'PIX - Ne pas répondre',
         to: userEmailAddress,
-        subject: 'Création de votre compte PIX',
+        subject: 'Votre compte Pix a bien été créé',
         template: 'test-account-creation-template-id',
         variables: {
           homeName: `${domainFr}`,
@@ -48,7 +48,7 @@ describe('Unit | Service | MailService', () => {
         from: senderEmailAddress,
         fromName: 'PIX - Ne pas répondre',
         to: userEmailAddress,
-        subject: 'Création de votre compte PIX',
+        subject: 'Votre compte Pix a bien été créé',
         template: 'test-account-creation-template-id',
         variables: {
           homeName: `${domainFr}`,
@@ -145,9 +145,36 @@ describe('Unit | Service | MailService', () => {
           subject: 'Demande de réinitialisation de mot de passe PIX',
           template: 'test-password-reset-template-id',
           variables: {
-            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}`,
+            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=fr`,
             homeName: `${domainOrg}`,
-            homeUrl: `https://${domainOrg}`,
+            homeUrl: `https://${domainOrg}/fr/`,
+            locale,
+          },
+        };
+
+        // when
+        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      });
+
+      it('should call mailer with locale en', async () => {
+        // given
+        const fakeTemporaryKey = 'token';
+        const locale = 'en';
+        const domainOrg = 'pix.org';
+
+        const expectedOptions = {
+          from: senderEmailAddress,
+          fromName: 'PIX - Noreply',
+          to: userEmailAddress,
+          subject: 'Pix password reset request',
+          template: 'test-password-reset-template-id',
+          variables: {
+            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=en`,
+            homeName: `${domainOrg}`,
+            homeUrl: `https://${domainOrg}/en-gb/`,
             locale,
           },
         };
