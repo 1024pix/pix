@@ -24,18 +24,47 @@ module('Integration | Component | add-student-list', function(hooks) {
   });
 
   module('when there are students', () => {
+
+    test('it shows students divisons in the multiSelect', async function(assert) {
+      // given
+      const birthdate = new Date('2018-01-12T09:29:16Z');
+      const firstStudent = _buildUnselectedStudent('first', 'last', '3A', birthdate);
+      const secondStudent = _buildUnselectedStudent('second', 'lastName', '2B', birthdate);
+      const thirdStudent = _buildUnselectedStudent('third', 'lastName', '3A', birthdate);
+
+      const pixMultiSelect = '.pix-multi-select ul li';
+      this.set('students', [
+        firstStudent,
+        secondStudent,
+        thirdStudent,
+      ]);
+      const divisions = [{ label: '3A', value: '3A' }, { label: '2B', value: '2B' }];
+      this.set('divisions', divisions);
+
+      // when
+      await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
+      const multiSelectItemsList = document.querySelectorAll(pixMultiSelect);
+
+      // then
+      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-3A] span').includesText(firstStudent.division);
+      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-2B] span').includesText(secondStudent.division);
+      assert.equal(multiSelectItemsList.length, divisions.length);
+    });
+
     test('it shows student information in the table', async function(assert) {
       // given
       const birthdate = new Date('2018-01-12T09:29:16Z');
       const firstStudent = _buildUnselectedStudent('firstName', 'lastName', 'division', birthdate);
-      const tableRow = '.table.add-student-list tbody tr';
+      const tableRow = '.add-student-list table tbody tr';
       this.set('students', [
         firstStudent,
         _buildUnselectedStudent(),
       ]);
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      this.set('divisions', divisions);
 
       // when
-      await render(hbs`<AddStudentList @studentList={{this.students}}></AddStudentList>`);
+      await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
 
       // then
       assert.dom(tableRow).exists({ count: 2 });
@@ -50,7 +79,10 @@ module('Integration | Component | add-student-list', function(hooks) {
       this.set('students', [
         _buildUnselectedStudent(),
       ]);
-      await render(hbs`<AddStudentList @studentList={{this.students}}></AddStudentList>`);
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      this.set('divisions', divisions);
+
+      await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
 
       // when
       const firstStudentCheckbox = '.add-student-list__column-checkbox button:nth-of-type(1)';
@@ -65,7 +97,10 @@ module('Integration | Component | add-student-list', function(hooks) {
       this.set('students', [
         _buildSelectedStudent(),
       ]);
-      await render(hbs`<AddStudentList @studentList={{this.students}}></AddStudentList>`);
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      this.set('divisions', divisions);
+
+      await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
 
       // when
       const firstStudentCheckbox = '.add-student-list__column-checkbox button:nth-of-type(1)';
@@ -94,7 +129,10 @@ module('Integration | Component | add-student-list', function(hooks) {
       test(testLabel, async function(assert) {
         // given
         this.set('students', students);
-        await render(hbs`<AddStudentList @studentList={{this.students}}></AddStudentList>`);
+        const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+        this.set('divisions', divisions);
+
+        await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
 
         // when
         const selectAllCheckbox = '.add-student-list__checker';
@@ -111,7 +149,10 @@ module('Integration | Component | add-student-list', function(hooks) {
         _buildSelectedStudent(),
         _buildSelectedStudent(),
       ]);
-      await render(hbs`<AddStudentList @studentList={{this.students}}></AddStudentList>`);
+      const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+      this.set('divisions', divisions);
+
+      await render(hbs`<AddStudentList @studentList={{this.students}} @certificationCenterDivisions={{this.divisions}}></AddStudentList>`);
 
       // when
       const selectAllCheckbox = '.add-student-list__checker';
@@ -125,15 +166,16 @@ module('Integration | Component | add-student-list', function(hooks) {
       test('it should be possible to add these students as candidates', async function(assert) {
         // given
         const addCandidateButton = '.add-student-list__bottom-action-bar button';
+
         const birthdate = new Date('2018-01-12T09:29:16Z');
         const studentList = [
           _buildSelectedStudent('Marie', 'Dupont', '3E', birthdate),
           _buildSelectedStudent('Tom', 'Dupont', '4G', birthdate),
         ];
-
-        sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
-        const save = sinon.spy();
         this.set('students', studentList);
+        sinon.stub(store, 'peekAll').withArgs('student').returns(studentList);
+
+        const save = sinon.spy();
         this.set('session', EmberObject.create({
           id: 123,
           address: '13 rue des petits champs',
@@ -141,13 +183,21 @@ module('Integration | Component | add-student-list', function(hooks) {
           status: 'started',
           save,
         }));
+
         this.set('candidatesWasSaved', false);
         this.set('returnToSessionCandidates', () => { this.set('candidatesWasSaved', true); });
+
+        this.set('numberOfEnrolledStudents', 0);
+
+        const divisions = [{ label: '3E', value: '3E' }, { label: '4G', value: '4G' }];
+        this.set('divisions', divisions);
 
         // when
         await render(hbs`<AddStudentList
           @studentList={{this.students}}
           @session={{this.session}}
+          @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}
+          @certificationCenterDivisions={{this.divisions}}
           @returnToSessionCandidates={{this.returnToSessionCandidates}}>
         </AddStudentList>`);
         await click(addCandidateButton);
@@ -174,11 +224,14 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('studentList', studentList);
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            this.set('divisions', divisions);
 
             // when
             await render(hbs`<AddStudentList
               @studentList={{this.studentList}}
               @session={{this.session}}
+              @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}>
             </AddStudentList>`);
 
@@ -203,11 +256,14 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 0);
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            this.set('divisions', divisions);
 
             // when
             await render(hbs`<AddStudentList
               @studentList={{this.studentList}}
               @session={{this.session}}
+              @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
               @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);
@@ -234,11 +290,14 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 2);
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            this.set('divisions', divisions);
 
             // when
             await render(hbs`<AddStudentList
               @studentList={{this.studentList}}
               @session={{this.session}}
+              @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
               @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);
@@ -275,11 +334,14 @@ module('Integration | Component | add-student-list', function(hooks) {
             this.set('session', _buildSession());
             this.set('returnToSessionCandidates', () => {});
             this.set('numberOfEnrolledStudents', 2);
+            const divisions = [{ label: '3A', value: '3A' }, { label: '3B', value: '3B' }, { label : '3C', value: '3C' }];
+            this.set('divisions', divisions);
 
             // when
             await render(hbs`<AddStudentList
               @studentList={{this.studentList}}
               @session={{this.session}}
+              @certificationCenterDivisions={{this.divisions}}
               @returnToSessionCandidates={{this.returnToSessionCandidates}}
               @numberOfEnrolledStudents={{this.numberOfEnrolledStudents}}>
             </AddStudentList>`);

@@ -5,13 +5,20 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    divisions: { refreshModel: true, type: 'array' },
   };
 
   async model(params) {
     const session = await this.store.findRecord('session', params.session_id);
     const { id: certificationCenterId } = this.modelFor('authenticated');
 
-    const certificationCandidates = await this.store.query('certification-candidate', { sessionId:params.session_id });
+    const certificationCandidates = await this.store.query('certification-candidate', { sessionId: params.session_id });
+    const divisions = await this.store.query('division', { certificationCenterId });
+
+    const certificationCenterDivisions = divisions.map((division) => {
+      return { label: division.name, value: division.name };
+    });
+
     const DEFAULT_PAGE_SIZE = 50;
     const FIRST_PAGE_NUMBER = 1;
     const students = await this.store.query('student',
@@ -20,14 +27,21 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
           number: params.pageNumber || FIRST_PAGE_NUMBER,
           size: params.pageSize || DEFAULT_PAGE_SIZE,
         },
-        filter : {
+        filter: {
           certificationCenterId,
           sessionId: session.id,
-        } ,
+          divisions: params.divisions,
+        },
       },
     );
 
-    return { session, students, numberOfEnrolledStudents: certificationCandidates.length };
+    return {
+      session,
+      students,
+      numberOfEnrolledStudents: certificationCandidates.length,
+      certificationCenterDivisions,
+      selectedDivisions: params.divisions,
+    };
   }
 
   setupController(controller, model) {
@@ -43,6 +57,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     if (isExiting) {
       controller.set('pageSize', undefined);
       controller.set('pageNumber', undefined);
+      controller.set('divisions', undefined);
       const allStudentsInStore = this.store.peekAll('student');
       allStudentsInStore.forEach((student) => {
         student.isSelected = false;

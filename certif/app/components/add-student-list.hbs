@@ -1,52 +1,68 @@
 {{#if @studentList}}
-<div class="table add-student-list">
-  <table>
-    <thead>
-      <tr>
-        <th>
-          <CertifCheckbox
-            class="add-student-list__checker"
-            @state={{this.headerCheckboxStatus}}
-            {{on 'click' this.toggleAllItems}}>
-          </CertifCheckbox>
-        </th>
-        <th>Classe</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th class="add-student-list__column-birthdate">Date de naissance</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each @studentList as |student|}}
-        {{#if student.isEnrolled}}
-          <tr class="add-student-list__row add-student-list__row--disabled">
-            <td class="add-student-list__column-checkbox">
-              <CertifCheckbox
-                      @state='checked'
-                      class='button--disabled'
-              />
-            </td>
-            <td>{{student.division}}</td>
-            <td>{{student.lastName}}</td>
-            <td>{{student.firstName}}</td>
-            <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
-          </tr>
-        {{else}}
-          <tr class="add-student-list__row" {{on 'click' (fn this.toggleItem student)}}>
-            <td class="add-student-list__column-checkbox">
+
+<div class="add-student-list">
+  <div class="add-student-list__filters">
+    <label for="add-student-list__multi-select">Filtrer</label>
+    <PixMultiSelect
+      @title={{'Classes'}}
+      @emptyMessage={{this.emptyMessage}}
+      @id={{'add-student-list__multi-select'}}
+      @onSelect={{this.selectDivision}}
+      @selected={{this.selectedDivisions}}
+      @options={{@certificationCenterDivisions}} as |option|>
+      {{option.label}}
+    </PixMultiSelect>
+  </div>
+
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <CertifCheckbox
+              class="add-student-list__checker"
+              @state={{this.headerCheckboxStatus}}
+              {{on 'click' this.toggleAllItems}}>
+            </CertifCheckbox>
+          </th>
+          <th>Classe</th>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th class="add-student-list__column-birthdate">Date de naissance</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @studentList as |student|}}
+          {{#if student.isEnrolled}}
+            <tr class="add-student-list__row add-student-list__row--disabled">
+              <td class="add-student-list__column-checkbox">
                 <CertifCheckbox
-                  @state={{if student.isSelected 'checked' 'unchecked'}}
+                        @state='checked'
+                        class='button--disabled'
                 />
-            </td>
-            <td>{{student.division}}</td>
-            <td>{{student.lastName}}</td>
-            <td>{{student.firstName}}</td>
-            <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
-          </tr>
-          {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
+              </td>
+              <td>{{student.division}}</td>
+              <td>{{student.lastName}}</td>
+              <td>{{student.firstName}}</td>
+              <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
+            </tr>
+          {{else}}
+            <tr class="add-student-list__row" {{on 'click' (fn this.toggleItem student)}}>
+              <td class="add-student-list__column-checkbox">
+                  <CertifCheckbox
+                    @state={{if student.isSelected 'checked' 'unchecked'}}
+                  />
+              </td>
+              <td>{{student.division}}</td>
+              <td>{{student.lastName}}</td>
+              <td>{{student.firstName}}</td>
+              <td class="add-student-list__column-birthdate">{{moment-format student.birthdate 'DD/MM/YYYY'}}</td>
+            </tr>
+            {{/if}}
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 
   <PaginationControl @pagination={{@studentList.meta}}/>
 
@@ -81,7 +97,6 @@
           Ajouter
         </PixButton>
       </div>
-
     </div>
   {{/if}}
 </div>

@@ -7,6 +7,13 @@ export function findPaginatedStudents(schema, request) {
   const rowCount = students.length;
 
   const pagination = getPaginationFromQueryParams(queryParams);
+  const divisionsFilter = queryParams['filter[divisions]'];
+  if (divisionsFilter) {
+    students.models = students.models.filter((student) => {
+      return divisionsFilter.includes(student.division);
+    });
+  }
+
   const paginatedStudents = applyPagination(students.models, pagination);
 
   const json = this.serialize({ modelName: 'student', models: paginatedStudents }, 'student');

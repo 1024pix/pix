@@ -134,6 +134,7 @@ module.exports = injectDependencies({
   findCompetenceEvaluations: require('./find-competence-evaluations'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findLatestOngoingUserCampaignParticipations: require('./find-latest-ongoing-user-campaign-participations'),
+  findDivisionsByCertificationCenter: require('./find-divisions-by-certification-center'),
   findPaginatedCampaignAssessmentParticipationSummaries: require('./find-paginated-campaign-assessment-participation-summaries'),
   findPaginatedFilteredCertificationCenters: require('./find-paginated-filtered-certification-centers'),
   findPaginatedFilteredOrganizationCampaigns: require('./find-paginated-filtered-organization-campaigns'),

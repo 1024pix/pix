@@ -140,4 +140,8 @@ export default function() {
   this.get('feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
+
+  this.get('/certification-centers/:id/divisions', (schema, _) => {
+    return schema.divisions.all();
+  });
 }
