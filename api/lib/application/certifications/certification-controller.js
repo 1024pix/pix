@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
+const certificationsResultsForLsSerializer = require('../../infrastructure/serializers/jsonapi/certifications-livret-scolaire/certification-ls-serializer');
 
 module.exports = {
   findUserCertifications(request) {
@@ -19,6 +20,12 @@ module.exports = {
       certificationId,
     })
       .then((certification) => certificationSerializer.serialize(certification));
+  },
+
+  getOrganisationCertifications(request) {
+    const uai = request.params.uai;
+    return usecases.getCertificationsResultsForLS({ uai })
+      .then((certifications) => certificationsResultsForLsSerializer.serialize(certifications));
   },
 
   getCertificationByVerificationCode(request) {

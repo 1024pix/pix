@@ -133,6 +133,7 @@ module.exports = (function() {
     featureToggles: {
       certifPrescriptionSco: isFeatureEnabled(process.env.FT_CERTIF_PRESCRIPTION_SCO),
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
+      isApiForLSULSLEnabled: isFeatureEnabled(process.env.IS_API_FOR_LSU_LSL_ENABLED),
       reportsCategorization: isFeatureEnabled(process.env.FT_REPORTS_CATEGORISATION),
       myAccount: isFeatureEnabled(process.env.FT_MY_ACCOUNT),
     },
