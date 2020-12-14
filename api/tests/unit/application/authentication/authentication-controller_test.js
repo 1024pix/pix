@@ -185,6 +185,7 @@ describe('Unit | Application | Controller | Authentication', () => {
         code,
         clientId: client_id,
         redirectUri: redirect_uri,
+        authenticatedUserId: undefined,
       };
 
       // when

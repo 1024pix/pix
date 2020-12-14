@@ -1,16 +1,57 @@
 import Route from '@ember/routing/route';
-import OIDCAuthenticationRouteMixin from 'ember-simple-auth-oidc/mixins/oidc-authentication-route-mixin';
 
 import getAbsoluteUrl from 'ember-simple-auth-oidc/utils/absoluteUrl';
+import { inject as service } from '@ember/service';
 
 import { v4 } from 'uuid';
 import config from 'ember-simple-auth-oidc/config';
 
-const { host, clientId, authEndpoint, loginHintName } = config;
+const { host, clientId, authEndpoint } = config;
 
-export default class LoginPeRoute extends Route.extend(OIDCAuthenticationRouteMixin) {
+export default class LoginPeRoute extends Route {
 
-  _handleRedirectRequest(queryParams) {
+  @service session;
+  @service router;
+
+  get redirectUri() {
+    const { protocol, host } = location;
+    const path = this.router.urlFor(this.routeName);
+    return `${protocol}//${host}${path}`;
+  }
+
+  async afterModel(_, transition) {
+    if (!authEndpoint) {
+      throw new Error('There is no authEndpoint configured.');
+    }
+
+    const queryParams = transition.to
+      ? transition.to.queryParams
+      : transition.queryParams;
+
+    if (queryParams.code) {
+      return await this._handleCallbackRequest(
+        queryParams.code,
+        queryParams.state,
+      );
+    }
+
+    return this._handleRedirectRequest();
+  }
+
+  async _handleCallbackRequest(code, state) {
+    if (state !== this.session.data.state) {
+      throw new Error('State did not match');
+    }
+
+    this.session.set('data.state', undefined);
+
+    await this.session.authenticate('authenticator:oidc', {
+      code,
+      redirectUri: this.redirectUri,
+    });
+  }
+
+  _handleRedirectRequest() {
     const scope = `application_${clientId}%20api_peconnect-individuv1%20openid%20profile%20serviceDigitauxExposition%20api_peconnect-servicesdigitauxv1`;
 
     const state = v4();
@@ -29,8 +70,6 @@ export default class LoginPeRoute extends Route.extend(OIDCAuthenticationRouteMi
       );
     }
 
-    const key = loginHintName || 'login_hint';
-
     const search = [
       `client_id=${clientId}`,
       `redirect_uri=${this.redirectUri}`,
@@ -38,14 +77,13 @@ export default class LoginPeRoute extends Route.extend(OIDCAuthenticationRouteMi
       `state=${state}`,
       `scope=${scope}`,
       `nonce=${nonce}`,
-      queryParams[key] ? `${key}=${queryParams[key]}` : null,
     ]
       .filter(Boolean)
       .join('&');
 
     const updatedAuthEndpoint = `${authEndpoint}?realm=%2Findividu`;
 
-    this._redirectToUrl(`${getAbsoluteUrl(host)}${updatedAuthEndpoint}&${search}`);
+    location.replace(`${getAbsoluteUrl(host)}${updatedAuthEndpoint}&${search}`);
   }
 }
 

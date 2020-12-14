@@ -91,7 +91,7 @@ describe('Unit | Domain | Services | authentication', () => {
     });
   });
 
-  describe('#generateAccessToken', () => {
+  describe('#generatePoleEmploiTokens', () => {
 
     it('should return access token, id token and validity period', async () => {
       // given
@@ -120,7 +120,7 @@ describe('Unit | Domain | Services | authentication', () => {
       sinon.stub(axios, 'post').resolves(response);
 
       // when
-      const result = await service.generateAccessToken({ code, clientId, redirectUri });
+      const result = await service.generatePoleEmploiTokens({ code, clientId, redirectUri });
 
       // then
       expect(result).to.deep.equal(expectedResult);
