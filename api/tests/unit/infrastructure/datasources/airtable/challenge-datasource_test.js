@@ -41,21 +41,21 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       id: 'challenge-web1',
       fields: {
         'Acquix (id persistant)': [web1.id],
-        'Langues' : ['Francophone', 'Franco Français'],
+        'Langues': ['Francophone', 'Franco Français'],
       },
     }),
     challenge_web1_notValidated = challengeRawAirTableFixture({
       id: 'challenge-web1',
       fields: {
         'Acquix (id persistant)': [web1.id], Statut: 'proposé',
-        'Langues' : ['Francophone', 'Franco Français'],
+        'Langues': ['Francophone', 'Franco Français'],
       },
     }),
     challenge_web2 = challengeRawAirTableFixture({
       id: 'challenge-web2',
       fields: {
         'Acquix (id persistant)': [web2.id],
-        'Langues' : ['Anglais'],
+        'Langues': ['Anglais'],
       },
     }),
     challenge_web3 = challengeRawAirTableFixture({
@@ -66,7 +66,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       id: 'challenge-web3-archived',
       fields: {
         'Acquix (id persistant)': [web3.id], Statut: 'archivé',
-        'Langues' : ['Franco Français'],
+        'Langues': ['Franco Français'],
       },
     });
 

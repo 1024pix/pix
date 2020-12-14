@@ -203,7 +203,7 @@ module.exports = {
   getForObfuscation(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true, columns: ['id','email','username'] })
+      .fetch({ require: true, columns: ['id', 'email', 'username'] })
       .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
@@ -217,10 +217,10 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true,
-        columns: ['id','firstName','lastName','email','username','cgu','pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'],
+        columns: ['id', 'firstName', 'lastName', 'email', 'username', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'],
         withRelated: [{
           schoolingRegistrations: (query) => { query
-            .leftJoin('organizations', 'schooling-registrations.organizationId','organizations.id')
+            .leftJoin('organizations', 'schooling-registrations.organizationId', 'organizations.id')
             .where({ type: 'SCO' })
             .orderBy('id'); } },
         'schoolingRegistrations.organization',

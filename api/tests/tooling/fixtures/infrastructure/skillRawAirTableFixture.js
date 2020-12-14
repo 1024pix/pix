@@ -19,7 +19,7 @@ const DEFAULT_ID = 'recSK0X22abcdefgh',
 
 class SkillRawAirTableFixture extends AirtableRecord {
   constructor(id) {
-    super('Skill', id,{
+    super('Skill', id, {
       'id': id,
       'fields': {
         'id persistant': id,

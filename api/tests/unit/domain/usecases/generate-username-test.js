@@ -3,9 +3,9 @@ const { generateUsername } = require('../../../../lib/domain/usecases');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const schoolingRegistrationRepository = require ('../../../../lib/infrastructure/repositories/schooling-registration-repository');
-const studentRepository = require ('../../../../lib/infrastructure/repositories/student-repository');
-const userRepository = require ('../../../../lib/infrastructure/repositories/user-repository');
+const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 const Student = require('../../../../lib/domain/models/Student');
 const { CampaignCodeError, SchoolingRegistrationNotFound, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
@@ -44,9 +44,9 @@ describe('Unit | UseCase | generate-username', () => {
     getForObfuscationStub = sinon.stub(userRepository, 'getForObfuscation');
     findByOrganizationIdAndBirthdateStub = sinon.stub(schoolingRegistrationRepository, 'findByOrganizationIdAndBirthdate');
     getReconciledStudentByNationalStudentdStub = sinon.stub(studentRepository, 'getReconciledStudentByNationalStudentId');
-    getUserAuthenticationMethodWithObfuscationStub = sinon.stub(obfuscationService,'getUserAuthenticationMethodWithObfuscation');
-    findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService,'findMatchingCandidateIdForGivenUser');
-    createUsernameByUser = sinon.stub(userReconciliationService,'createUsernameByUser');
+    getUserAuthenticationMethodWithObfuscationStub = sinon.stub(obfuscationService, 'getUserAuthenticationMethodWithObfuscation');
+    findMatchingCandidateIdForGivenUserStub = sinon.stub(userReconciliationService, 'findMatchingCandidateIdForGivenUser');
+    createUsernameByUser = sinon.stub(userReconciliationService, 'createUsernameByUser');
   });
 
   context('When there is no campaign with the given code', () => {
@@ -115,7 +115,7 @@ describe('Unit | UseCase | generate-username', () => {
       findByOrganizationIdAndBirthdateStub.resolves([schoolingRegistration]);
       findMatchingCandidateIdForGivenUserStub.resolves(schoolingRegistration.id);
       getForObfuscationStub.resolves();
-      getUserAuthenticationMethodWithObfuscationStub.resolves({  authenticatedBy: 'email', value: 'e***@example.net' });
+      getUserAuthenticationMethodWithObfuscationStub.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
 
       // when
       const result = await catchErr(generateUsername)({
@@ -141,7 +141,7 @@ describe('Unit | UseCase | generate-username', () => {
       const student = new Student({ account: { userId: studentInformation.id } });
       getReconciledStudentByNationalStudentdStub.resolves(student);
       getForObfuscationStub.resolves();
-      getUserAuthenticationMethodWithObfuscationStub.resolves({  authenticatedBy: 'email', value: 'e***@example.net' });
+      getUserAuthenticationMethodWithObfuscationStub.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
 
       // when
       const result = await catchErr(generateUsername)({

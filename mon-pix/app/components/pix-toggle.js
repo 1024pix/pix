@@ -12,11 +12,11 @@ export default Component.extend({
   valueSecondLabel: '',
   isFirstOn: true,
 
-  firstButtonClass: computed ('isFirstOn', function() {
+  firstButtonClass: computed('isFirstOn', function() {
     return this.isFirstOn ? 'pix-toggle__on' : 'pix-toggle__off';
   }),
 
-  secondButtonClass: computed ('isFirstOn', function() {
+  secondButtonClass: computed('isFirstOn', function() {
     return this.isFirstOn ? 'pix-toggle__off' : 'pix-toggle__on';
   }),
 

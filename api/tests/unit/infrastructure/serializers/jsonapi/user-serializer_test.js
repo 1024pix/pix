@@ -41,7 +41,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'username': userModelObject.username,
               'cgu': userModelObject.cgu,
               'lang': userModelObject.lang,
-              'last-terms-of-service-validated-at' : userModelObject.lastTermsOfServiceValidatedAt,
+              'last-terms-of-service-validated-at': userModelObject.lastTermsOfServiceValidatedAt,
               'must-validate-terms-of-service': userModelObject.mustValidateTermsOfService,
               'pix-orga-terms-of-service-accepted': userModelObject.pixOrgaTermsOfServiceAccepted,
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,

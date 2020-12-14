@@ -239,7 +239,7 @@ describe('Unit | Service | Certification Result Service', function() {
         let startedCertificationAssessment;
 
         beforeEach(() => {
-          startedCertificationAssessment =  new CertificationAssessment({
+          startedCertificationAssessment = new CertificationAssessment({
             ...certificationAssessment,
             completedAt: null,
             state: states.STARTED,

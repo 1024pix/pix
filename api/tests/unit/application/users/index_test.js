@@ -341,7 +341,7 @@ describe('Unit | Router | user-router', () => {
 
       it('should return bad request when param id is not numeric', async () => {
         // given
-        const payload = { data: { attributes: { email : 'partial@update.net' } } };
+        const payload = { data: { attributes: { email: 'partial@update.net' } } };
 
         // when
         const result = await httpTestServer.request(method, url, payload);

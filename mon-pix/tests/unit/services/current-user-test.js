@@ -55,7 +55,7 @@ describe('Unit | Service | current-user', function() {
   describe('user token is expired', function() {
 
     beforeEach(function() {
-      sessionStub =  Service.create({
+      sessionStub = Service.create({
         isAuthenticated: true,
         invalidate: sinon.stub().resolves('invalidate'),
       });

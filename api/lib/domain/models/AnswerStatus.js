@@ -31,17 +31,17 @@ class AnswerStatus {
   isUNIMPLEMENTED() { return this.status === UNIMPLEMENTED; }
 
   /* PUBLIC CONSTRUCTORS */
-  static get OK()             { return new AnswerStatus({ status: OK }); }
-  static get KO()             { return new AnswerStatus({ status: KO }); }
-  static get SKIPPED()        { return new AnswerStatus({ status: SKIPPED }); }
-  static get TIMEDOUT()       { return new AnswerStatus({ status: TIMEDOUT }); }
-  static get PARTIALLY()      { return new AnswerStatus({ status: PARTIALLY }); }
-  static get UNIMPLEMENTED()  { return new AnswerStatus({ status: UNIMPLEMENTED }); }
+  static get OK() { return new AnswerStatus({ status: OK }); }
+  static get KO() { return new AnswerStatus({ status: KO }); }
+  static get SKIPPED() { return new AnswerStatus({ status: SKIPPED }); }
+  static get TIMEDOUT() { return new AnswerStatus({ status: TIMEDOUT }); }
+  static get PARTIALLY() { return new AnswerStatus({ status: PARTIALLY }); }
+  static get UNIMPLEMENTED() { return new AnswerStatus({ status: UNIMPLEMENTED }); }
 
   /* METHODES DE TRANSITION */
   static isFailed(otherResult) { return AnswerStatus.from(otherResult).isFailed(); }
-  static isOK(otherResult)      { return AnswerStatus.from(otherResult).isOK(); }
-  static isKO(otherResult)      { return AnswerStatus.from(otherResult).isKO(); }
+  static isOK(otherResult) { return AnswerStatus.from(otherResult).isOK(); }
+  static isKO(otherResult) { return AnswerStatus.from(otherResult).isKO(); }
   static isSKIPPED(otherResult) { return AnswerStatus.from(otherResult).isSKIPPED(); }
   static isPARTIALLY(otherResult) { return AnswerStatus.from(otherResult).isPARTIALLY(); }
 

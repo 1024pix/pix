@@ -126,7 +126,7 @@ describe('Acceptance | Controller | users-controller', () => {
 
       it('should return Unprocessable Entity (HTTP_422) with offending properties', async () => {
 
-        const invalidUserAttributes = { ...validUserAttributes, 'must-validate-terms-of-service': 'not_a_boolean'  };
+        const invalidUserAttributes = { ...validUserAttributes, 'must-validate-terms-of-service': 'not_a_boolean' };
 
         const options = {
           method: 'POST',

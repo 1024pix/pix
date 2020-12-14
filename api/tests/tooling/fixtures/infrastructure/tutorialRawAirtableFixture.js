@@ -9,7 +9,7 @@ module.exports = function tutorialRawAirTableFixture({ id } = { id: 'receomyzL0A
       'Format': 'video',
       'Lien': 'https://youtube.fr',
       'Source': 'Youtube',
-      'Titre':'Comment dresser un panda',
+      'Titre': 'Comment dresser un panda',
       'Langue': 'fr-fr',
     },
     'createdTime': '2018-01-31T12:41:07.000Z',

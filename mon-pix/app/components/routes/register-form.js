@@ -185,7 +185,7 @@ export default class RegisterForm extends Component {
 
   _showErrorMessageByShortCode(meta) {
     const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-    return this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe:true })  || defaultMessage;
+    return this.intl.t(getRegisterErrorsMessageByShortCode(meta), { value: meta.value, htlmSafe: true }) || defaultMessage;
 
   }
 
@@ -271,7 +271,7 @@ export default class RegisterForm extends Component {
   _executeFieldValidation(key, value, isValid) {
     const isInvalidInput = !isValid(value);
     const message = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
-    const status =  isInvalidInput ? 'error' : 'success';
+    const status = isInvalidInput ? 'error' : 'success';
     const statusObject = 'validation.' + key + '.status';
     const messageObject = 'validation.' + key + '.message';
     this.set(statusObject, status);

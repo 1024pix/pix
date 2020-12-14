@@ -2,10 +2,10 @@ const tokenService = require('../domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('./usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('./usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
-const checkUserBelongsToOrganizationManagingStudentsUseCase  = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
-const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserBelongsToOrganizationUseCase  = require('./usecases/checkUserBelongsToOrganization');
-const checkUserIsAdminAndManagingStudentsForOrganization  = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
+const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
+const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
+const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
+const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const Organization = require('../../lib/domain/models/Organization');
 const boom = require('boom');
 
@@ -99,7 +99,7 @@ function checkUserIsAdminInOrganization(request, h) {
   const userId = request.auth.credentials.userId;
 
   //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
-  const organizationId = (request.path && request.path.includes('memberships')) ?  request.payload.data.relationships.organization.data.id : parseInt(request.params.id) ;
+  const organizationId = (request.path && request.path.includes('memberships')) ? request.payload.data.relationships.organization.data.id : parseInt(request.params.id) ;
 
   return checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId)
     .then((isAdminInOrganization) => {
@@ -139,7 +139,7 @@ async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
 
   const userId = request.auth.credentials.userId;
   //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
-  const organizationId = (request.path && request.path.includes('memberships')) ?  request.payload.data.relationships.organization.data.id : parseInt(request.params.id) ;
+  const organizationId = (request.path && request.path.includes('memberships')) ? request.payload.data.relationships.organization.data.id : parseInt(request.params.id) ;
 
   const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
   if (isAdminInOrganization) {
@@ -198,7 +198,7 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
 
-  if (await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId,organizationId, Organization.types.SCO)) {
+  if (await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SCO)) {
     return h.response(true);
   }
   return _replyWithAuthorizationError(h);

@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { reject  } from 'rsvp';
+import { reject } from 'rsvp';
 
 describe('Unit | Service | competence-evaluation', function() {
   setupTest();

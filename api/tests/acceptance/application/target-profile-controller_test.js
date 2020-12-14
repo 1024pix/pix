@@ -99,7 +99,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       return knex('target-profile-shares').delete();
     });
 
-    it ('should return 200', async () => {
+    it('should return 200', async () => {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const organization1 = databaseBuilder.factory.buildOrganization();
@@ -111,7 +111,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         url: `/api/admin/target-profiles/${targetProfile.id}/attach-organizations`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
-          'organization-ids': [organization1.id,  organization2.id],
+          'organization-ids': [organization1.id, organization2.id],
         },
       };
 

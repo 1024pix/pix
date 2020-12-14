@@ -1,4 +1,4 @@
-const { expect,catchErr, databaseBuilder } = require('../../../test-helper');
+const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const Organization = require('../../../../lib/domain/models/Organization');

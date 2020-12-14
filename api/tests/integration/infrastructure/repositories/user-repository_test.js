@@ -769,7 +769,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const uppercaseEmailAlreadyInDb = secondUserToInsert.email.toUpperCase();
 
       // when
-      const result = await catchErr(userRepository.isEmailAllowedToUseForCurrentUser)(firstUser.id,uppercaseEmailAlreadyInDb);
+      const result = await catchErr(userRepository.isEmailAllowedToUseForCurrentUser)(firstUser.id, uppercaseEmailAlreadyInDb);
 
       // then
       expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
@@ -880,7 +880,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should update lang of the user', async () => {
       // given
       const userAttributes = {
-        lang : 'en',
+        lang: 'en',
       };
 
       // when
@@ -917,10 +917,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should update firstName,lastName,email of the user', async () => {
       // given
       const patchUserFirstNameLastNameEmail = {
-        id : userInDb.id,
-        firstName : 'firstname',
-        lastName : 'lastname',
-        email : 'firstname.lastname@example.net',
+        id: userInDb.id,
+        firstName: 'firstname',
+        lastName: 'lastname',
+        email: 'firstname.lastname@example.net',
       };
 
       // when
@@ -936,8 +936,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should update email of the user', async () => {
       // given
       const patchUserFirstNameLastNameEmail = {
-        id : userInDb.id,
-        email : 'partielupdate@hotmail.com',
+        id: userInDb.id,
+        email: 'partielupdate@hotmail.com',
       };
 
       // when
@@ -952,7 +952,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // given
       const wrongUserId = 0;
       const patchUserFirstNameLastNameEmail = {
-        email : 'partielupdate@hotmail.com',
+        email: 'partielupdate@hotmail.com',
       };
 
       // when
@@ -1295,7 +1295,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     let userId;
 
     beforeEach(() => {
-      userId = databaseBuilder.factory.buildUser({ mustValidateTermsOfService: true , lastTermsOfServiceValidatedAt: null }).id;
+      userId = databaseBuilder.factory.buildUser({ mustValidateTermsOfService: true, lastTermsOfServiceValidatedAt: null }).id;
       return databaseBuilder.commit();
     });
 

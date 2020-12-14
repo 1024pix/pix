@@ -86,6 +86,6 @@ describe('Integration | Infrastructure | EventHandler', () => {
     await eventDispatcher.dispatch(event, domainTransaction);
 
     // then
-    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event:returnedEvent });
+    expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent });
   });
 });

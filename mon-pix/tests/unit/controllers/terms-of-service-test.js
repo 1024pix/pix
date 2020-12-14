@@ -17,8 +17,8 @@ describe('Unit | Controller | terms-of-service', function() {
 
     it('it should save the acceptance date of the last terms of service', async function() {
       // when
-      controller.isTermsOfServiceValidated =  true ;
-      controller.showErrorTermsOfServiceNotSelected =  false ;
+      controller.isTermsOfServiceValidated = true ;
+      controller.showErrorTermsOfServiceNotSelected = false ;
 
       await controller.send('submit');
 
@@ -31,8 +31,8 @@ describe('Unit | Controller | terms-of-service', function() {
 
     it('it should show an error to user to validate terms of service ', async function() {
       // when
-      controller.isTermsOfServiceValidated =  false ;
-      controller.showErrorTermsOfServiceNotSelected =  false ;
+      controller.isTermsOfServiceValidated = false ;
+      controller.showErrorTermsOfServiceNotSelected = false ;
       await controller.send('submit');
 
       // then

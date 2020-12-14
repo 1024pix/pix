@@ -61,7 +61,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
       .resolves(ongoingAssessment);
 
     // when
-    await beginCampaignParticipationImprovement({ campaignParticipationId, userId , ...dependencies });
+    await beginCampaignParticipationImprovement({ campaignParticipationId, userId, ...dependencies });
 
     // then
     expect(assessmentRepository.save).to.not.have.been.called;

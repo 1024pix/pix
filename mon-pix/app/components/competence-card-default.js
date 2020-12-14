@@ -29,7 +29,7 @@ export default class CompetenceCardDefault extends Component {
     const userId = this.currentUser.user.id;
     const competenceId = this.args.scorecard.competenceId;
     const scorecardId = this.args.scorecard.id;
-    return  this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
+    return this.competenceEvaluation.improve({ userId, competenceId, scorecardId });
   }
 
 }

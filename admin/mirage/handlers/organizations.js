@@ -22,8 +22,8 @@ export function findPaginatedOrganizationMemberships(schema, request) {
 
 function _getPaginationFromQueryParams(queryParams) {
   return {
-    pageSize: parseInt(get(queryParams, 'page[size]',  10)),
-    page: parseInt(get(queryParams, 'page[number]',  1)),
+    pageSize: parseInt(get(queryParams, 'page[size]', 10)),
+    page: parseInt(get(queryParams, 'page[number]', 1)),
   };
 }
 

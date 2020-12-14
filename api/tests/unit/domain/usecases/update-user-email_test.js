@@ -12,7 +12,7 @@ describe('Unit | UseCase | update-user-email', () => {
     userRepository = {
       updateEmail: sinon.stub(),
       isEmailAvailable: sinon.stub(),
-      get: sinon.stub().resolves({ email:'old_email@example.net' }),
+      get: sinon.stub().resolves({ email: 'old_email@example.net' }),
     };
 
     schoolingRegistrationRepository = {

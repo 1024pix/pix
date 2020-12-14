@@ -22,7 +22,7 @@ export default class FillInCertificateVerificationCode extends Controller {
     this.clearErrors();
 
     if (!this.certificateVerificationCode) {
-      this.errorMessage =  this.intl.t(
+      this.errorMessage = this.intl.t(
         'pages.fill-in-certificate-verification-code.errors.missing-code',
       );
       return;

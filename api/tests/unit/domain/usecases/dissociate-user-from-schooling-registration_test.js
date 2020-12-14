@@ -17,11 +17,11 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
 
       schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization: { id: organizationId }, id: schoolingRegistrationId });
 
-      schoolingRegistrationRepositoryStub =  {
+      schoolingRegistrationRepositoryStub = {
         dissociateUserFromSchoolingRegistration: sinon.stub(),
         get: sinon.stub().resolves(schoolingRegistration),
       };
-      membershipRepositoryStub =  { findByUserIdAndOrganizationId: sinon.stub().withArgs({ userId, organizationId: 9, includeOrganization: true }).resolves([{ isAdmin: true }]) };
+      membershipRepositoryStub = { findByUserIdAndOrganizationId: sinon.stub().withArgs({ userId, organizationId: 9, includeOrganization: true }).resolves([{ isAdmin: true }]) };
     });
 
     it('should dissociate user from the schooling registration', async () => {
@@ -47,11 +47,11 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
 
       schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization: { id: organizationId }, id: schoolingRegistrationId });
 
-      schoolingRegistrationRepositoryStub =  {
+      schoolingRegistrationRepositoryStub = {
         dissociateUserFromSchoolingRegistration: sinon.stub(),
         get: sinon.stub().resolves(schoolingRegistration),
       };
-      membershipRepositoryStub =  { findByUserIdAndOrganizationId: sinon.stub().resolves([]) };
+      membershipRepositoryStub = { findByUserIdAndOrganizationId: sinon.stub().resolves([]) };
     });
 
     it('throws a ForbiddenAccess error', async () => {
@@ -73,11 +73,11 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
     beforeEach(() => {
       schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization: { id: organizationId }, id: schoolingRegistrationId });
 
-      schoolingRegistrationRepositoryStub =  {
+      schoolingRegistrationRepositoryStub = {
         dissociateUserFromSchoolingRegistration: sinon.stub(),
         get: sinon.stub().resolves(schoolingRegistration),
       };
-      membershipRepositoryStub =  { findByUserIdAndOrganizationId: sinon.stub().resolves([{ idAdmin: false }]) };
+      membershipRepositoryStub = { findByUserIdAndOrganizationId: sinon.stub().resolves([{ idAdmin: false }]) };
     });
 
     it('throws a ForbiddenAccess error', async () => {

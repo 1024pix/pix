@@ -9,10 +9,10 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
 
   const answer = (result) => {
     return {
-      skill:'@skill1',
-      challengeId:'rec12345',
-      order:'1',
-      result:result,
+      skill: '@skill1',
+      challengeId: 'rec12345',
+      order: '1',
+      result: result,
     };
   };
 
@@ -24,7 +24,7 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
       positionedScore: 26,
       obtainedLevel: -1,
       obtainedScore: 0,
-      answers:[answer(result[0]), answer(result[1]), answer(result[2])],
+      answers: [answer(result[0]), answer(result[1]), answer(result[2])],
     };
   };
 

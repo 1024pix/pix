@@ -16,7 +16,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
   describe('#emailObfuscation', () => {
 
-    it('should return obfuscated email',() => {
+    it('should return obfuscated email', () => {
       // Given
       const email = 'johnHarry@example.net';
       // When
@@ -29,7 +29,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
   describe('#usernameObfuscation', () => {
 
-    it('should return obfuscated username',() => {
+    it('should return obfuscated username', () => {
       // Given
       const username = 'john.harry0702';
       // When
@@ -53,7 +53,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
       //Then
       const expectedResult = {
-        authenticatedBy : 'samlId',
+        authenticatedBy: 'samlId',
         value: null,
       };
       expect(value).to.be.deep.equal(expectedResult);
@@ -71,7 +71,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
       //Then
       const expectedResult = {
-        authenticatedBy : 'samlId',
+        authenticatedBy: 'samlId',
         value: null,
       };
       expect(value).to.be.deep.equal(expectedResult);
@@ -90,7 +90,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
       //Then
       const expectedResult = {
-        authenticatedBy : 'samlId',
+        authenticatedBy: 'samlId',
         value: null,
       };
       expect(value).to.be.deep.equal(expectedResult);
@@ -105,7 +105,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
       const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
       //Then
       const expectedResult = {
-        authenticatedBy : 'username',
+        authenticatedBy: 'username',
         value: 'j***.h***2',
       };
       expect(value).to.be.deep.equal(expectedResult);
@@ -122,7 +122,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
       //Then
       const expectedResult = {
-        authenticatedBy : 'username',
+        authenticatedBy: 'username',
         value: 'j***.h***2',
       };
       expect(value).to.be.deep.equal(expectedResult);
@@ -138,7 +138,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
       //Then
       const expectedResult = {
-        authenticatedBy : 'email',
+        authenticatedBy: 'email',
         value: 'j***@example.net',
       };
       expect(value).to.be.deep.equal(expectedResult);

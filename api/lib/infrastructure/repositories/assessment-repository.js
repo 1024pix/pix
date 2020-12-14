@@ -72,7 +72,7 @@ module.exports = {
       });
   },
 
-  save({ assessment, domainTransaction = DomainTransaction.emptyTransaction()  }) {
+  save({ assessment, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return assessment.validate()
       .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
       .then((bookshelfAssessment) => bookshelfAssessment.save(null, { transacting: domainTransaction.knexTransaction }))

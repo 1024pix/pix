@@ -18,7 +18,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
       MEFCode: 'ABCDE',
       division: 'EDCBA',
     };
-    
+
     context('when all required fields are presents', () => {
       it('is valid', async () => {
         try {
@@ -55,7 +55,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
       context('nationalIdentifier is a National Student Id', () => {
         it('should be valid when National Student Id is not an apprentice', async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '1234', status: 'ST' });
-        
+
           expect(error.key).to.be.undefined;
         });
       });
@@ -63,13 +63,13 @@ describe('Unit | Domain | Schooling Registration validator', () => {
       context('nationalIdentifier is a National Apprentice Id', () => {
         it('should be valid when National Apprentice Id has the correct pattern', async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '0123456789A', status: 'AP' });
-        
+
           expect(error.key).to.be.undefined;
         });
-      
+
         it('throw an error when National Apprentice Id has only numbers', async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '12345678900', status: 'AP' });
-  
+
           expect(error.key).to.equal('nationalIdentifier');
           expect(error.why).to.equal('bad_pattern');
           expect(error.pattern).to.equal('INA');
@@ -77,7 +77,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
 
         it('throw an error when National Apprentice Id has only chars', async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: 'ABCDEFGHIJH', status: 'AP' });
-  
+
           expect(error.key).to.equal('nationalIdentifier');
           expect(error.why).to.equal('bad_pattern');
           expect(error.pattern).to.equal('INA');
@@ -85,7 +85,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
 
         it('throw an error when National Apprentice Id is too short', async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '1234', status: 'AP' });
-  
+
           expect(error.key).to.equal('nationalIdentifier');
           expect(error.why).to.equal('bad_pattern');
           expect(error.pattern).to.equal('INA');
@@ -93,7 +93,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
 
         it('throw an error when National Apprentice Id is too long', async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, nationalIdentifier: '12345678900A', status: 'AP' });
-  
+
           expect(error.key).to.equal('nationalIdentifier');
           expect(error.why).to.equal('bad_pattern');
           expect(error.pattern).to.equal('INA');
@@ -126,7 +126,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
             checkValidation({ ...validAttributes, birthCountryCode: '99123' });
           } catch (e) {
             expect.fail('SchoolingRegistration is valid birthCountryCode respect INSEE code');
-          }  
+          }
         });
       });
 
@@ -192,7 +192,7 @@ describe('Unit | Domain | Schooling Registration validator', () => {
       });
     });
 
-    context('birthdate',() => {
+    context('birthdate', () => {
       context('when birthdate is not a date', () => {
         it('throws an error', async () => {
           const error = await catchErr(checkValidation)({ ...validAttributes, birthdate: '123456' });
@@ -247,16 +247,16 @@ describe('Unit | Domain | Schooling Registration validator', () => {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '2B125' });
             } catch (e) {
               expect.fail('SchoolingRegistration is valid birthCityCode respect INSEE code, like Corsica');
-            }  
+            }
           });
-    
+
           it('respects INSEE Code, only number', async () => {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '13125' });
             } catch (e) {
               expect.fail('SchoolingRegistration is valid birthCityCode respect INSEE code, like Corsica');
-            }  
-          });    
+            }
+          });
         });
 
         context('when birthCountryCode not equal to France', () => {
@@ -274,25 +274,25 @@ describe('Unit | Domain | Schooling Registration validator', () => {
         context('when birthCountryCode is equal to France', () => {
           it('throw an error with a birthCityCode of 5 characters', async () => {
             const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '123456' });
-    
+
             expect(error.key).to.equal('birthCityCode');
             expect(error.why).to.equal('length');
             expect(error.limit).to.equal(5);
           });
-    
+
           it('throws an error with a birthCityCode which has a letter not in second character', async () => {
             const error = await catchErr(checkValidation)({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '21B22' });
-    
+
             expect(error.key).to.equal('birthCityCode');
             expect(error.why).to.equal('not_valid_insee_code');
           });
         });
-        
+
         context('when birthCountryCode is not equal to France', () => {
           it('throws an error with a birthCityCode of 256 characters', async () => {
             const stringOf256Char = 'hZSJIp6WBhnZFxsnTxEQo1oSoWkRDSB8nQsbScrK9IfAmVGb1PFNdX333k6Tsn6YKHfebdRg2VryzQcY06GTm1sYIN9Y3B0uy1ZsZIFpZ3cQNLxnawaUfVQFylq1GFba9LNDowH7lISfn7HJbdf3hNawofdCbVNgRdw7ZAN8XdggDJUgyAs91GpQ6vCkrxa08AMYTI8QClkhUVazVGgwndtwN4EBG23K2AfayHKWVi6jSlPOgUrx4tgSAcxELxW2';
             const error = await catchErr(checkValidation)({ ...validAttributes, birthCityCode: stringOf256Char });
-    
+
             expect(error.key).to.equal('birthCityCode');
             expect(error.why).to.equal('max_length');
             expect(error.limit).to.equal(255);

@@ -11,15 +11,15 @@ import { CREATED, FINALIZED } from 'pix-certif/models/session';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Session Details Parameters', function(hooks) {
-  
+
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  
+
   hooks.afterEach(function() {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
   });
-  
+
   module('when user is logged in', function(hooks) {
 
     let user;
@@ -42,7 +42,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
 
             // when
             await visit(`/sessions/${sessionCreated.id}`);
-    
+
             // then
             assert.dom('.session-details-content__finalize-button').doesNotExist();
           });
@@ -55,7 +55,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
             // when
             await visit(`/sessions/${sessionCreatedAndStarted.id}`);
             await click('.session-details-content__finalize-button');
-    
+
             // then
             assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
@@ -70,12 +70,12 @@ module('Acceptance | Session Details Parameters', function(hooks) {
           sessionFinalized = server.create('session', { status: FINALIZED });
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionFinalized.id });
         });
-    
+
         test('it should not redirect to finalize page on click on finalize button', async function(assert) {
           // when
           await visit(`/sessions/${sessionFinalized.id}`);
           await click('.session-details-content__finalize-button');
-    
+
           // then
           assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
         });
@@ -84,7 +84,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
           // when
           await visit(`/sessions/${sessionFinalized.id}`);
           const transitionError = new Error('TransitionAborted');
-    
+
           // then
           assert.rejects(
             visit(`/sessions/${sessionFinalized.id}/finalisation`),

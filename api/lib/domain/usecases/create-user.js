@@ -4,11 +4,11 @@ const User = require('../models/User');
 const userValidator = require('../validators/user-validator');
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
 
-function  _manageEmailAvailabilityError(error) {
+function _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
 }
 
-function  _manageReCaptchaTokenError(error) {
+function _manageReCaptchaTokenError(error) {
   return _manageError(error, InvalidRecaptchaTokenError, 'recaptchaToken', 'Merci de cocher la case ci-dessous :');
 }
 

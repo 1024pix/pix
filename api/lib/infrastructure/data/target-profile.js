@@ -26,7 +26,7 @@ module.exports = Bookshelf.model(modelName, {
   },
 
   organizations() {
-    return this.belongsToMany('Organization', 'target-profile-shares', 'targetProfileId',  'organizationId');
+    return this.belongsToMany('Organization', 'target-profile-shares', 'targetProfileId', 'organizationId');
   },
 }, {
   modelName,

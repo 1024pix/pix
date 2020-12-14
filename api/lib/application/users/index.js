@@ -69,7 +69,7 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
           '- Elle permet de récupérer le détail d\'un utilisateur dans un contexte d\'administration\n',
         ],
-        tags: ['api', 'administration' , 'user'],
+        tags: ['api', 'administration', 'user'],
       },
     },
     {
@@ -103,10 +103,10 @@ exports.register = async function(server) {
           },
         },
         handler: userController.updateUserDetailsForAdministration,
-        notes : [
+        notes: [
           '- Permet à un administrateur de mettre à jour certains attributs d\'un utilisateur identifié par son identifiant',
         ],
-        tags: ['api', 'administration' , 'user'],
+        tags: ['api', 'administration', 'user'],
       },
     },
     {
@@ -118,7 +118,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.getMemberships,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
@@ -135,7 +135,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.getCertificationCenterMemberships,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs pour les centres de certifs à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
@@ -152,7 +152,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.getCampaignParticipations,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des participations à des campagnes à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
@@ -193,7 +193,7 @@ exports.register = async function(server) {
             return EntityValidationError.fromJoiErrors(error.details);
           },
         },
-        notes : [
+        notes: [
           '- Met à jour l\'email d\'un utilisateur identifié par son id',
         ],
         tags: ['api', 'user'],
@@ -221,7 +221,7 @@ exports.register = async function(server) {
             },
           }),
         },
-        notes : [
+        notes: [
           '- Met à jour le mot de passe d\'un utilisateur identifié par son id\n' +
           '- Une clé d\'identification temporaire permet de vérifier l\'identité du demandeur',
         ],
@@ -237,7 +237,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.accepPixLastTermsOfService,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur a accepté les dernières Conditions Générales d\'Utilisation de Pix App\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
@@ -255,7 +255,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.acceptPixOrgaTermsOfService,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Orga\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
@@ -279,7 +279,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.changeLang,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Modifie la langue de l\'utilisateur\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
@@ -297,7 +297,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.acceptPixCertifTermsOfService,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Certif\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
@@ -315,7 +315,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.rememberUserHasSeenAssessmentInstructions,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur ait vu le didacticiel' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
@@ -333,7 +333,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.isCertifiable,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du nombre total de Pix de l\'utilisateur\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
@@ -350,7 +350,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.getProfile,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du nombre total de Pix de l\'utilisateur\n et de ses scorecards' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
@@ -391,7 +391,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.getUserProfileSharedForCampaign,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du profil d’un utilisateur partagé (**userId**) pour la campagne donnée (**campaignId**)\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
@@ -414,7 +414,7 @@ exports.register = async function(server) {
           assign: 'requestedUserIsAuthenticatedUser',
         }],
         handler: userController.getUserCampaignParticipationToCampaign,
-        notes : [
+        notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des participations d’un utilisateur (**userId**) à la campagne donnée (**campaignId**)\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
@@ -436,10 +436,10 @@ exports.register = async function(server) {
           assign: 'hasRolePixMaster',
         }],
         handler: userController.anonymizeUser,
-        notes : [
+        notes: [
           '- Permet à un administrateur d\'anonymiser un utilisateur',
         ],
-        tags: ['api', 'administration' , 'user'],
+        tags: ['api', 'administration', 'user'],
       },
     },
     {
@@ -456,11 +456,11 @@ exports.register = async function(server) {
           assign: 'hasRolePixMaster',
         }],
         handler: userController.dissociateSchoolingRegistrations,
-        notes : [
+        notes: [
           '- Permet à un administrateur de dissocier un utilisateur\n' +
           'des inscriptions scolaires qui lui sont rattachées.',
         ],
-        tags: ['api', 'administration' , 'user'],
+        tags: ['api', 'administration', 'user'],
       },
     },
   ]);

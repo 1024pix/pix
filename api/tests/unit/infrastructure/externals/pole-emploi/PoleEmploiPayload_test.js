@@ -17,7 +17,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
   });
 
   describe('buildForParticipationStarted', () => {
-  
+
     it('should build individu payload for a campaign participation started', () => {
       // when
       const payload = PoleEmploiPayload.buildForParticipationStarted({
@@ -80,9 +80,9 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
       });
     });
   });
-  
+
   describe('buildForParticipationFinished', () => {
-  
+
     it('should build individu payload for a campaign participation finished', () => {
       // when
       const payload = PoleEmploiPayload.buildForParticipationFinished({
@@ -150,7 +150,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
   });
 
   describe('buildForParticipationShared', () => {
-  
+
     it('should build individu payload for a campaign participation shared', () => {
       // when
       const payload = PoleEmploiPayload.buildForParticipationShared({
@@ -244,7 +244,7 @@ describe('Unit | Infrastructure | Externals | Pole-Emploi | PoleEmploiPayload', 
   });
 
   describe('map different test types in the payload', () => {
-  
+
     it('should map test type with target profile name "Diagnostic initial"', () => {
       // given
       targetProfile = domainBuilder.buildTargetProfile({ name: 'Diagnostic initial' });

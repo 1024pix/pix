@@ -34,7 +34,7 @@ export default function() {
         user_id: foundUser.id,
       };
     } else {
-      return new Response([{ 'status' : '401', 'title' : 'Unauthorized' , 'detail' : 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' }],
+      return new Response([{ 'status': '401', 'title': 'Unauthorized', 'detail': 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' }],
       );
     }
   });
@@ -212,7 +212,7 @@ export default function() {
 
   this.patch('/organizations/:id/schooling-registration-user-associations/:studentId', (schema, request) => {
     const { studentId } = request.params;
-    const { data: { attributes : { ['student-number']: studentNumber } } } = JSON.parse(request.requestBody);
+    const { data: { attributes: { ['student-number']: studentNumber } } } = JSON.parse(request.requestBody);
 
     if (schema.students.all().models.find((student) => student.studentNumber === studentNumber)) {
       return new Response(412);

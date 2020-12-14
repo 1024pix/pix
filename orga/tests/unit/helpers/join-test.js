@@ -8,7 +8,7 @@ module('Unit | Helper | join', function(hooks) {
   module('join', () => {
     module('when there are several values', () => {
       test('it joins all values using the seperator', function(assert) {
-        assert.equal(join([['Un',  'Deux'], ', ']), 'Un, Deux');
+        assert.equal(join([['Un', 'Deux'], ', ']), 'Un, Deux');
       });
     });
     module('when there is only one value', () => {

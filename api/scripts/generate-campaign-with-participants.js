@@ -108,7 +108,7 @@ function _validateAndNormalizeArgs(commandLineArgs) {
   }
   const campaignType = _validateAndNormalizeCampaignType(commandLineArgs);
   return {
-    organizationId : _validateAndNormalizeOrganizationId(commandLineArgs),
+    organizationId: _validateAndNormalizeOrganizationId(commandLineArgs),
     participantCount: _validateAndNormalizeParticipantCount(commandLineArgs),
     profileType: campaignType === 'ASSESSMENT' ? _validateAndNormalizeProfileType(commandLineArgs) : 'all',
     campaignType,

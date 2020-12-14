@@ -1,4 +1,4 @@
-const { expect,catchErr, databaseBuilder } = require('../../../test-helper');
+const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 

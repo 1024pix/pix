@@ -114,7 +114,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
         value: '2',
         result: 'ko',
         assessmentId: assessment.id,
-        challengeId :qcuChallenge.id,
+        challengeId: qcuChallenge.id,
         correction,
       });
 

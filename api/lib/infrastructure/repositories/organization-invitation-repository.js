@@ -63,7 +63,7 @@ module.exports = {
     return BookshelfOrganizationInvitation
       .where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
       .fetchAll()
-      .then((results) =>  bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationInvitation, results));
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationInvitation, results));
   },
 
   findOnePendingByOrganizationIdAndEmail({ organizationId, email }) {

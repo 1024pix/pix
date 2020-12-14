@@ -5,11 +5,11 @@ import sinon from 'sinon';
 describe('Unit | Service | file-saver', function() {
   setupTest();
   let fileSaver;
-  
+
   beforeEach(function() {
     fileSaver = this.owner.lookup('service:file-saver');
   });
-  
+
   describe('#save', function() {
     const id = 123456;
     const url = `/attestation/${id}`;
@@ -46,7 +46,7 @@ describe('Unit | Service | file-saver', function() {
           downloadFileForIEBrowser: downloadFileForIEBrowserStub,
           downloadFileForModernBrowsers: downloadFileForModernBrowsersStub,
         });
-  
+
         // then
         const expectedArgs = { fileContent: responseContent, fileName: responseFileName };
         sinon.assert.calledWith(downloadFileForModernBrowsersStub, expectedArgs);
@@ -58,7 +58,7 @@ describe('Unit | Service | file-saver', function() {
         // given
         const response = { blob: blobStub };
         fetchStub = sinon.stub().resolves(response);
-  
+
         // when
         await fileSaver.save({
           url,

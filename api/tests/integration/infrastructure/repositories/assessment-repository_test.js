@@ -604,7 +604,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should resolve true if the given assessmentId belongs to the user', async () => {
       // when
-      const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: user.id  });
+      const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: user.id });
 
       // then
       expect(ownedByUser).to.be.true;
@@ -612,7 +612,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should resolve false if the given assessmentId does not belong to the user', async () => {
       // when
-      const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: userWithNoAssessment.id  });
+      const ownedByUser = await assessmentRepository.ownedByUser({ id: assessment.id, userId: userWithNoAssessment.id });
 
       // then
       expect(ownedByUser).to.be.false;

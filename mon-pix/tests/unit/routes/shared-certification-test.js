@@ -11,7 +11,7 @@ describe('Unit | Route | shared-certification', function() {
     sinon.stub(route, 'replaceWith');
 
     route.redirect({}, {});
-    sinon.assert.calledWithExactly(route.replaceWith,'/verification-certificat?unallowedAccess=true');
+    sinon.assert.calledWithExactly(route.replaceWith, '/verification-certificat?unallowedAccess=true');
   });
 
   it('should not redirect with certification', function() {

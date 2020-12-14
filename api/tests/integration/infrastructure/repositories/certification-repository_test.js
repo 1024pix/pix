@@ -49,13 +49,13 @@ describe('Integration | Repository | Certification ', () => {
     sessionWithStartedAndErrorCertifCourseIds = [];
 
     sessionLatestAssessmentRejected = databaseBuilder.factory.buildSession();
-    let id = createCertifCourseWithAssessementResults(sessionLatestAssessmentRejected.id,{ status:'started', createdAt: new Date('2018-02-15T15:00:34Z') }, { status: 'rejected', createdAt: new Date('2018-02-16T15:00:34Z') });
+    let id = createCertifCourseWithAssessementResults(sessionLatestAssessmentRejected.id, { status: 'started', createdAt: new Date('2018-02-15T15:00:34Z') }, { status: 'rejected', createdAt: new Date('2018-02-16T15:00:34Z') });
     sessionLatestAssessmentRejectedCertifCourseIds.push(id);
 
     sessionWithStartedAndError = databaseBuilder.factory.buildSession();
-    id = createCertifCourseWithAssessementResults(sessionWithStartedAndError.id,{ status:'started' });
+    id = createCertifCourseWithAssessementResults(sessionWithStartedAndError.id, { status: 'started' });
     sessionWithStartedAndErrorCertifCourseIds.push(id);
-    id = createCertifCourseWithAssessementResults(sessionWithStartedAndError.id,{ status: 'error' });
+    id = createCertifCourseWithAssessementResults(sessionWithStartedAndError.id, { status: 'error' });
     sessionWithStartedAndErrorCertifCourseIds.push(id);
 
     await databaseBuilder.commit();
@@ -314,7 +314,7 @@ function _buildCertificationData({ isPublished, status, verificationCode, certif
     userId,
     type,
   });
-  const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, pixScore, status  });
+  const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, pixScore, status });
   return { session, certificationCourse, assessmentResult };
 }
 

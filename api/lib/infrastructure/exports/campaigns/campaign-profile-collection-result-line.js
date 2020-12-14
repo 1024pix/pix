@@ -14,8 +14,8 @@ class CampaignProfileCollectionResultLine {
     this.placementProfile = placementProfile;
   }
 
-  toCsvLine()  {
-    const line =  [
+  toCsvLine() {
+    const line = [
       this.organization.name,
       this.campaign.id,
       this.campaign.name,
@@ -69,7 +69,7 @@ class CampaignProfileCollectionResultLine {
 
   _getTotalEarnedPixColumn() {
     let totalEarnedPix = NOT_SHARED;
-    if (this.campaignParticipationResult.isShared)  {
+    if (this.campaignParticipationResult.isShared) {
       totalEarnedPix = 0;
       this.placementProfile.userCompetences.forEach(({ pixScore }) => {
         totalEarnedPix += pixScore;

@@ -72,7 +72,7 @@ module.exports = {
   async findByIds(targetProfileIds) {
     const targetProfilesBookshelf = await BookshelfTargetProfile
       .query((qb) => {
-        qb.whereIn('id',  targetProfileIds);
+        qb.whereIn('id', targetProfileIds);
       })
       .fetchAll();
 

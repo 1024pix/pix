@@ -34,7 +34,7 @@ const createOrganizationInvitation = async ({
 };
 
 const createScoOrganizationInvitation = async ({
-  organizationRepository, organizationInvitationRepository, organizationId,firstName, lastName, email, locale, tags,
+  organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email, locale, tags,
 }) => {
   let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
 

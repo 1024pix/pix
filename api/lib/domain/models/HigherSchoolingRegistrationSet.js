@@ -1,4 +1,4 @@
-const HigherSchoolingRegistration =  require('./HigherSchoolingRegistration');
+const HigherSchoolingRegistration = require('./HigherSchoolingRegistration');
 const { checkValidation } = require('../validators/higher-schooling-registration-set-validator');
 class HigherSchoolingRegistrationSet {
 

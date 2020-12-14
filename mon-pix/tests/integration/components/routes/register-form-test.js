@@ -139,7 +139,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       it('Should display registerErrorMessage when authentication service fails with username error', async function() {
         // given
-        const expectedRegisterErrorMessage =  this.intl.t('pages.login-or-register.register-form.error');
+        const expectedRegisterErrorMessage = this.intl.t('pages.login-or-register.register-form.error');
 
         this.set('loginWithUsername', true);
 
@@ -295,7 +295,7 @@ describe('Integration | Component | routes/register-form', function() {
       it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
         this.set('matchingStudentFound', true);
-        this.set('schoolingRegistrationDependentUser', EmberObject.create({ email : stringFilledIn , unloadRecord() {return resolve();}  }));
+        this.set('schoolingRegistrationDependentUser', EmberObject.create({ email: stringFilledIn, unloadRecord() {return resolve();} }));
         await render(hbs`<Routes::RegisterForm @matchingStudentFound=true @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} /> `);
 
         // when
@@ -313,7 +313,7 @@ describe('Integration | Component | routes/register-form', function() {
       // given
       const save = sinon.stub();
       this.set('matchingStudentFound', true);
-      this.set('schoolingRegistrationDependentUser', EmberObject.create({ email : 'shi.fu' , unloadRecord() {return resolve();}, save  }));
+      this.set('schoolingRegistrationDependentUser', EmberObject.create({ email: 'shi.fu', unloadRecord() {return resolve();}, save }));
       await render(hbs`<Routes::RegisterForm @matchingStudentFound=true @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} /> `);
 
       // when
@@ -337,7 +337,7 @@ describe('Integration | Component | routes/register-form', function() {
       it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
         this.set('matchingStudentFound', true);
-        this.set('schoolingRegistrationDependentUser', EmberObject.create({ password : stringFilledIn , unloadRecord() {return resolve();}  }));
+        this.set('schoolingRegistrationDependentUser', EmberObject.create({ password: stringFilledIn, unloadRecord() {return resolve();} }));
         await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
 
         // when
@@ -354,7 +354,7 @@ describe('Integration | Component | routes/register-form', function() {
       // given
       const save = sinon.stub();
       this.set('matchingStudentFound', true);
-      this.set('schoolingRegistrationDependentUser', EmberObject.create({ password : 'toto' , unloadRecord() {return resolve();}, save }));
+      this.set('schoolingRegistrationDependentUser', EmberObject.create({ password: 'toto', unloadRecord() {return resolve();}, save }));
       await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
 
       // when
@@ -420,7 +420,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S61)', async function() {
           // given
           const meta = { shortCode: 'S61', value: 'j***@example.net' };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s61', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s61', { value: meta.value });
 
           const error = {
             status: '409',
@@ -469,7 +469,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S62)', async function() {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
 
           const error = {
             status: '409',
@@ -518,7 +518,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S63)', async function() {
           // given
           const meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -567,7 +567,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S63)', async function() {
           // given
           const meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -616,7 +616,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S63)', async function() {
           // given
           const meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -664,8 +664,8 @@ describe('Integration | Component | routes/register-form', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
-          const  meta = { shortCode: 'S63', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
+          const meta = { shortCode: 'S63', value: undefined };
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
 
           const error = {
             status: '409',
@@ -714,7 +714,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S62)', async function() {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
 
           const error = {
             status: '409',
@@ -767,7 +767,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S51)', async function() {
           // given
           const meta = { shortCode: 'S51', value: 'j***@example.net' };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s51', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s51', { value: meta.value });
 
           const error = {
             status: '409',
@@ -816,7 +816,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S52)', async function() {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
 
           const error = {
             status: '409',
@@ -865,7 +865,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -914,7 +914,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -963,7 +963,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -1012,7 +1012,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S53)', async function() {
           // given
           const meta = { shortCode: 'S53', value: undefined };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
 
           const error = {
             status: '409',
@@ -1061,7 +1061,7 @@ describe('Integration | Component | routes/register-form', function() {
         it('should display the error message related to the short code S52)', async function() {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
-          const expectedErrorMessage =  this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
+          const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
 
           const error = {
             status: '409',

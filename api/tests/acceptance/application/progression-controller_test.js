@@ -24,7 +24,7 @@ describe('Acceptance | API | Progressions', () => {
         .activate();
 
       const skill = airtableBuilder.factory.buildSkill({});
-  
+
       airtableBuilder
         .mockList({ tableName: 'Acquis' })
         .returns([skill])

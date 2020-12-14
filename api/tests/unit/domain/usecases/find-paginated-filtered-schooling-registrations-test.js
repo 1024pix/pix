@@ -10,11 +10,11 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', () => {
   const isAuthenticatedFromGAR = true;
 
   const expectedSchoolingRegistrationNotYetReconciled = { id: 3 };
-  const expectedReconciledSchoolingRegistrationWithUsername = { id: 4, userId , username };
-  const expectedReconciledSchoolingRegistrationWithEmail = { id: 5, userId , email };
-  const expectedReconciledSchoolingRegistrationFromGAR = { id: 5, userId , isAuthenticatedFromGAR };
+  const expectedReconciledSchoolingRegistrationWithUsername = { id: 4, userId, username };
+  const expectedReconciledSchoolingRegistrationWithEmail = { id: 5, userId, email };
+  const expectedReconciledSchoolingRegistrationFromGAR = { id: 5, userId, isAuthenticatedFromGAR };
   let foundOrganizationSchoolingRegistrations;
-  const expectedSchoolingRegistrations = { 
+  const expectedSchoolingRegistrations = {
     data: [
       expectedSchoolingRegistrationNotYetReconciled,
       expectedReconciledSchoolingRegistrationWithUsername,

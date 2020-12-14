@@ -19,7 +19,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         getByCampaignParticipationId: sinon.stub(),
       };
       challengeRepository = {
-        findOperativeBySkills: sinon.stub(),answerRepository,
+        findOperativeBySkills: sinon.stub(), answerRepository,
       };
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),

@@ -39,7 +39,7 @@ describe('Unit | UseCase | get-campaign-participation', () => {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId:1 });
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId: 1 });
       campaignParticipationRepository.get.withArgs(campaignParticipationId, options).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignParticipation.campaignId, userId).resolves(true);
 
@@ -56,7 +56,7 @@ describe('Unit | UseCase | get-campaign-participation', () => {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
-      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId:1 });
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({ id: campaignParticipationId, userId: 1 });
       campaignParticipationRepository.get.withArgs(campaignParticipationId, options).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignParticipation.campaignId, userId).resolves(false);
 

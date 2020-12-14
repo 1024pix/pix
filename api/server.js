@@ -17,7 +17,7 @@ const createServer = async () => {
   const server = new Hapi.server({
     compression: false,
     routes: {
-      validate : {
+      validate: {
         failAction: handleFailAction,
       },
       cors: {

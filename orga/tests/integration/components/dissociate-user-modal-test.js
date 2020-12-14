@@ -19,7 +19,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
   module('when the user is authenticated with an email', function() {
 
     test('it displays a message for user authentified by email', async function(assert) {
-      this.set('student', { hasEmail: true, email: 'rocky.balboa@example.net', firstName: 'Rocky',  lastName: 'Balboa' });
+      this.set('student', { hasEmail: true, email: 'rocky.balboa@example.net', firstName: 'Rocky', lastName: 'Balboa' });
 
       assert.contains('Souhaitez-vous dissocier le compte Pix de l\'élève Rocky Balboa ?');
     });
@@ -28,7 +28,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
   module('when the user is authenticated with an username', function() {
 
     test('it displays a message for user authentified by username', async function(assert) {
-      this.set('student', { hasUsername: true, username: 'appolo.creed', firstName: 'Appolo',  lastName: 'Creed' });
+      this.set('student', { hasUsername: true, username: 'appolo.creed', firstName: 'Appolo', lastName: 'Creed' });
 
       assert.contains('Souhaitez-vous dissocier le compte Pix de l\'élève Appolo Creed ?');
     });

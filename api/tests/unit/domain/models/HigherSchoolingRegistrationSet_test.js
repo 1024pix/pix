@@ -1,6 +1,6 @@
 const HigherSchoolingRegistrationSet = require('../../../../lib/domain/models/HigherSchoolingRegistrationSet');
 const { expect, catchErr } = require('../../../test-helper');
-const {  EntityValidationError } = require('../../../../lib/domain/errors');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', () => {
 

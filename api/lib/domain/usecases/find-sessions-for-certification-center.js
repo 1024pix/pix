@@ -1,10 +1,10 @@
 const { ForbiddenAccess } = require('../../domain/errors');
 
-module.exports = async function findSessionsForCertificationCenter({ 
-  userId, 
-  certificationCenterId, 
+module.exports = async function findSessionsForCertificationCenter({
+  userId,
+  certificationCenterId,
   certificationCenterMembershipRepository,
-  sessionRepository, 
+  sessionRepository,
 }) {
   const hasAccess = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterId);
   if (hasAccess) {

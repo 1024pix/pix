@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat  });
+        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat });
       });
 
       it('should return an answer with skipped as result and null as resultDetails', () => {

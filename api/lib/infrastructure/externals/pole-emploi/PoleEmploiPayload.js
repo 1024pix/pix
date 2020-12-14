@@ -20,7 +20,7 @@ class PoleEmploiPayload {
   }
 
   static buildForParticipationStarted({ user, campaign, targetProfile, participation }) {
-    return new PoleEmploiPayload({ 
+    return new PoleEmploiPayload({
       individu: _buildIndividu({ user }),
       campagne: _buildCampaign({ campaign }),
       test: _buildTest({ etat: TEST_STATE.STARTED, targetProfile, participation }),
@@ -28,7 +28,7 @@ class PoleEmploiPayload {
   }
 
   static buildForParticipationFinished({ user, campaign, targetProfile, participation, assessment }) {
-    return new PoleEmploiPayload({ 
+    return new PoleEmploiPayload({
       individu: _buildIndividu({ user }),
       campagne: _buildCampaign({ campaign }),
       test: _buildTest({ etat: TEST_STATE.FINISHED, targetProfile, participation, assessment }),
@@ -36,7 +36,7 @@ class PoleEmploiPayload {
   }
 
   static buildForParticipationShared({ user, campaign, targetProfile, participation, participationResult }) {
-    return new PoleEmploiPayload({ 
+    return new PoleEmploiPayload({
       individu: _buildIndividu({ user }),
       campagne: _buildCampaign({ campaign }),
       test: _buildTest({ etat: TEST_STATE.SHARED, targetProfile, participation, participationResult }),

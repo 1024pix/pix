@@ -21,7 +21,7 @@ class CampaignProfile {
     this.sharedAt = sharedAt;
     this.isShared = isShared;
     this.createdAt = createdAt;
-    this.placementProfile  = placementProfile;
+    this.placementProfile = placementProfile;
   }
 
   get pixScore() {

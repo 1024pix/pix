@@ -28,7 +28,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
 }
 
 function _wasLastChallengeTimed(lastAnswer) {
-  return (_.get(lastAnswer,'timeout') === null) ? false : true;
+  return (_.get(lastAnswer, 'timeout') === null) ? false : true;
 }
 
 function _findTubes(skills, challenges) {

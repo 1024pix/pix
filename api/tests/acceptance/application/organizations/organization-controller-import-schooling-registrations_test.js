@@ -793,7 +793,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
       context('SCO AGRI - when no schooling registration has been imported yet, and the file is well formatted', () => {
         beforeEach(async () => {
-          const tag = databaseBuilder.factory.buildTag({ name : 'AGRICULTURE' });
+          const tag = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
           databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId: tag.id });
 
           await databaseBuilder.commit();
@@ -835,7 +835,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
            456F;O-Ren;;;;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
- 
+
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
           options.payload = buffer;
 
@@ -856,7 +856,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;51430;Reims;200;${wrongData};ST;MEF1;Division 1;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
- 
+
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
           options.payload = buffer;
 
@@ -878,7 +878,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
            123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;${wrongData};Reims;200;99100;ST;MEF1;Division 1;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
- 
+
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
           options.payload = buffer;
 
@@ -912,7 +912,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           // then
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-          
+
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
           expect(response.result.errors[0].detail).to.contains('Le champ “Identifiant unique*” de cette ligne est présent plusieurs fois dans le fichier.');

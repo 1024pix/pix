@@ -180,7 +180,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           });
           campaignParticipationResult.update({ reachedStage });
           campaignParticipationResult.update({ stageCount: 5 });
-          
+
           // when
           await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 

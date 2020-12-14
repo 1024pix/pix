@@ -83,7 +83,7 @@ describe('Unit | Component | scorecard-details ', function() {
   describe('#tutorialsGroupedByTubeName', function() {
     it('returns an array of tubes with related tutorials', function() {
       // given
-      const tutorial_1 =  EmberObject.create({
+      const tutorial_1 = EmberObject.create({
         modelName: 'tutorial',
         id: 'recR17mopxC9VAmGp',
         title: 'Définition : Lorem Ipsum',
@@ -108,7 +108,7 @@ describe('Unit | Component | scorecard-details ', function() {
       });
 
       const tutorials = [tutorial_1, tutorial_2, tutorial_3];
-      const scorecard =  EmberObject.create({ tutorials });
+      const scorecard = EmberObject.create({ tutorials });
       const component = createGlimmerComponent('component:scorecard-details', { scorecard });
 
       const expectedResult = [

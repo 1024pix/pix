@@ -13,7 +13,7 @@ describe('Event Choregraphy | Score Partner Certification', function() {
     const assessmentCompleted = new AssessmentCompleted();
     const certificationScoringCompleted = new CertificationScoringCompleted({});
 
-    handlerStubs.handleCertificationScoring.withArgs({ domainTransaction, event:assessmentCompleted }).resolves(
+    handlerStubs.handleCertificationScoring.withArgs({ domainTransaction, event: assessmentCompleted }).resolves(
       certificationScoringCompleted,
     );
 
@@ -21,6 +21,6 @@ describe('Event Choregraphy | Score Partner Certification', function() {
     await eventDispatcher.dispatch(assessmentCompleted, domainTransaction);
 
     // then
-    expect(handlerStubs.handlePartnerCertifications).to.have.been.calledWith({ domainTransaction, event:certificationScoringCompleted });
+    expect(handlerStubs.handlePartnerCertifications).to.have.been.calledWith({ domainTransaction, event: certificationScoringCompleted });
   });
 });

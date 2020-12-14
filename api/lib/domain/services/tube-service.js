@@ -13,7 +13,7 @@ function computeTubesFromSkills(skills) {
       tubes.push(new Tube({ skills: [skill], name: tubeNameOfSkill }));
     }
   });
-  tubes.forEach((tube) =>  {
+  tubes.forEach((tube) => {
     tube.skills = _.sortBy(tube.skills, ['difficulty']);
   });
 

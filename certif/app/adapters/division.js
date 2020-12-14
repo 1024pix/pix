@@ -9,5 +9,5 @@ export default class DivisionAdapter extends ApplicationAdapter {
       return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/divisions`;
     }
     return super.urlForQuery(...arguments);
-  } 
+  }
 }

@@ -42,7 +42,7 @@ export default class TargetProfileOrganizationsController extends Controller {
   async attachOrganizations() {
     const targetProfile = this.model;
     try {
-      await targetProfile.attachOrganizations({ 'organization-ids' : this._getUniqueOrganizations() });
+      await targetProfile.attachOrganizations({ 'organization-ids': this._getUniqueOrganizations() });
       this.organizationsToAttach = null;
       this.send('refreshModel');
       return this.notifications.success('Organisation(s) rattaché(es) avec succès.');

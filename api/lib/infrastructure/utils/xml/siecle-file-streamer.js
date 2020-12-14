@@ -81,7 +81,7 @@ class SiecleFileStreamer {
     let decodeStream;
     try {
       decodeStream = iconv.decodeStream(this.encoding);
-    } catch (err)  {
+    } catch (err) {
       throw new FileValidationError('L\'encodage du fichier n\'est pas supporté');
     }
     return this.stream.pipe(decodeStream).pipe(saxParser);
@@ -117,7 +117,7 @@ class SiecleFileStreamer {
   _getStreamWithoutBOM() {
     const streamWithoutBOM = new StreamWithoutBOM();
 
-    return  fs.createReadStream(this.path).pipe(streamWithoutBOM);
+    return fs.createReadStream(this.path).pipe(streamWithoutBOM);
   }
 
   _destroyStream() {

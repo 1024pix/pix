@@ -5,7 +5,7 @@ export default function(schema, request) {
   if (!campaignCode) {
     return new Response(500);
   }
-  
+
   const campaign = schema.campaigns.findBy((campaign) => {
     return campaign.code.toLowerCase() === campaignCode.toLowerCase();
   });

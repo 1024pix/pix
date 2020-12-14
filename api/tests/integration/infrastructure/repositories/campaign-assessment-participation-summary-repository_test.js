@@ -68,7 +68,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
           userId: user.id,
         };
 
-        const campaignParticipation =  databaseBuilder.factory.buildCampaignParticipation(participation);
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation(participation);
         const assessment1 = {
           campaignParticipationId: campaignParticipation.id,
           createdAt: new Date(2020, 1, 1),
@@ -110,7 +110,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, skills);
         const participation = { campaignId: campaign.id };
 
-        const campaignParticipation =  databaseBuilder.factory.buildCampaignParticipation(participation);
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation(participation);
         const assessment = { campaignParticipationId: campaignParticipation.id };
 
         databaseBuilder.factory.buildAssessment(assessment);
@@ -232,7 +232,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
       });
     });
 
-    context('pagination' , () => {
+    context('pagination', () => {
 
       beforeEach(async () => {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
@@ -248,9 +248,9 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
       });
 
       it('should return paginated campaign participations based on the given size and number', async () => {
-        const page = { size: 1 , number: 1 };
+        const page = { size: 1, number: 1 };
 
-        const { campaignAssessmentParticipationSummaries, pagination } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId:  campaign.id, page });
+        const { campaignAssessmentParticipationSummaries, pagination } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId: campaign.id, page });
         const participantExternalIds = campaignAssessmentParticipationSummaries.map((summary) => summary.participantExternalId);
 
         expect(participantExternalIds).to.have.lengthOf(1);
@@ -274,7 +274,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
 
         it('should return the first page with 10 elements', async () => {
 
-          const { campaignAssessmentParticipationSummaries, pagination } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId:  campaign.id });
+          const { campaignAssessmentParticipationSummaries, pagination } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
           const participantExternalIds = campaignAssessmentParticipationSummaries.map((summary) => summary.participantExternalId);
 
           expect(participantExternalIds).to.have.lengthOf(10);
@@ -292,7 +292,7 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
 
         it('should return the first page with 1 elements', async () => {
 
-          const { campaignAssessmentParticipationSummaries, pagination } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId:  campaign.id });
+          const { campaignAssessmentParticipationSummaries, pagination } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
           const participantExternalIds = campaignAssessmentParticipationSummaries.map((summary) => summary.participantExternalId);
 
           expect(participantExternalIds).to.have.lengthOf(0);

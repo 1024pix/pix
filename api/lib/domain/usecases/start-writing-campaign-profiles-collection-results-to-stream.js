@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
-const CampaignProfilCollectionExport  = require('../../infrastructure/serializers/csv/campaign-profile-collection-export');
+const CampaignProfilCollectionExport = require('../../infrastructure/serializers/csv/campaign-profile-collection-export');
 
 async function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
   const user = await userRepository.getWithMemberships(userId);

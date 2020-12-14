@@ -6,7 +6,7 @@ const {
 
 const querystring = require('querystring');
 
-const moduleUnderTest =  require('../../../../lib/application/authentication');
+const moduleUnderTest = require('../../../../lib/application/authentication');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 

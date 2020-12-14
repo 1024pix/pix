@@ -9,8 +9,8 @@ describe('Integration | Repository | StageRepository', () => {
       const tagetProfile = databaseBuilder.factory.buildTargetProfile();
       const campaign = databaseBuilder.factory.buildCampaign();
 
-      databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold : 24 });
-      databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold : 55 });
+      databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 24 });
+      databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 55 });
 
       databaseBuilder.factory.buildStage({ targetProfileId: tagetProfile.id });
 

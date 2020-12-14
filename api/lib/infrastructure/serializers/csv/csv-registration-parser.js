@@ -115,7 +115,7 @@ class CsvRegistrationParser {
     const missingMandatoryColumn = this._columns
       .filter((c) => c.isRequired)
       .find((c) => !parsedColumns.includes(c.label));
-    if (missingMandatoryColumn)  {
+    if (missingMandatoryColumn) {
       throw new CsvImportError(`La colonne "${missingMandatoryColumn.label}" est obligatoire.`);
     }
 
