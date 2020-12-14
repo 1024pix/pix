@@ -1,5 +1,7 @@
 const certificationCenterController = require('./certification-center-controller');
 const securityPreHandlers = require('../security-pre-handlers');
+const Joi = require('@hapi/joi');
+const { idSpecification } = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {
   server.route([
@@ -59,10 +61,38 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students',
       config: {
+        validate: {
+          params: Joi.object({
+            certificationCenterId: idSpecification,
+            sessionId: idSpecification,
+          }),
+          query: Joi.object({
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'page[number]': Joi.number().integer(),
+            'page[size]': Joi.number().integer(),
+          }),
+        },
         handler: certificationCenterController.getStudents,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération d\'une liste d\'élèves SCO à partir d\' un identifiant de centre de certification',
+        ],
+        tags: ['api', 'certification-center', 'students', 'session'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/certification-centers/{certificationCenterId}/divisions',
+      config: {
+        validate: {
+          params: Joi.object({
+            certificationCenterId: idSpecification,
+          }),
+        },
+        handler: certificationCenterController.getDivisions,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération d\'une liste de classes à partir d\' un identifiant de centre de certification',
         ],
         tags: ['api', 'certification-center', 'students', 'session'],
       },

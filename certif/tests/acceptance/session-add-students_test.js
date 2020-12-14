@@ -76,12 +76,33 @@ module('Acceptance | Session Add Students', function(hooks) {
 
       const rowSelector = '.add-student-list table tbody tr';
 
+      test('it should be possible to filter student list by division', async function(assert) {
+        // given
+        server.createList('student', 2, { division: '3A', isSelected: false, isEnrolled: false });
+        server.create('student', { division: '3B', isSelected: false, isEnrolled: false });
+        server.create('student', { division: '2A', isSelected: false, isEnrolled: false });
+        server.create('division', { name: '3A' });
+        server.create('division', { name: '2A' });
+        server.create('division', { name: '3B' });
+
+        // when
+        await visit(`/sessions/${session.id}/ajout-eleves`);
+        await click('.pix-multi-select__list-button');
+        await click('#add-student-list__multi-select-3A');
+
+        // then
+        const studentRows = document.querySelectorAll(rowSelector);
+        assert.equal(studentRows.length, 2);
+      });
+
       module('when there are no enrolled students', function() {
         const DEFAULT_PAGE_SIZE = 50;
 
         test('it should show first page of students (with default size)', async function(assert) {
           // given
           server.createList('student', DEFAULT_PAGE_SIZE + 2, { isSelected: false, isEnrolled: false });
+
+          // when
           await visit(`/sessions/${session.id}/ajout-eleves`);
 
           // then

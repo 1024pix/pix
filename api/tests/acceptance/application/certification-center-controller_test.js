@@ -218,6 +218,38 @@ describe('Acceptance | API | Certification Center', () => {
     });
   });
 
+  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/divisions', () => {
+    it('should return the divisions', async () => {
+      // given
+      const externalId = 'anExternalId';
+      const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
+      const organization = databaseBuilder.factory.buildOrganization({ externalId });
+
+      _buildSchoolingRegistrations(
+        organization,
+        { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
+        { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
+        { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
+        { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
+        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
+      );
+      await databaseBuilder.commit();
+
+      const request = {
+        method: 'GET',
+        url: '/api/certification-centers/' + certificationCenter.id + '/divisions',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(_.map(response.result.data, 'id')).to.deep.equal(['2ndB', '2ndA']);
+    });
+  });
+
   describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', () => {
     let request;
     const externalId = 'XXXX';

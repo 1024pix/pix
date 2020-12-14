@@ -5,13 +5,18 @@ module.exports = async function findStudentsForEnrollement({
   certificationCenterId,
   sessionId,
   page,
+  filter,
   organizationRepository,
   schoolingRegistrationRepository,
   certificationCandidateRepository,
 }) {
   try {
     const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
-    const paginatedStudents = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({ page, organizationId });
+    const paginatedStudents = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({
+      page,
+      filter,
+      organizationId,
+    });
     const certificationCandidates = await certificationCandidateRepository.findBySessionId(sessionId);
     return {
       data: _buildStudentsForEnrollement({ students: paginatedStudents.data, certificationCandidates }),

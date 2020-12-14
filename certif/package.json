@@ -63,6 +63,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^2.0.2",
     "ember-cli-terser": "^4.0.0",
+    "ember-click-outside": "^2.0.0",
     "ember-composable-helpers": "^4.3.0",
     "ember-data": "~3.21.0",
     "ember-export-application-global": "^2.0.1",

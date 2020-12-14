@@ -68,19 +68,40 @@ module.exports = {
       .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
   },
 
-  async findByOrganizationIdOrderByDivision({ organizationId, page }) {
-    const { models, pagination } = await BookshelfSchoolingRegistration
+  async findByOrganizationIdOrderByDivision({ organizationId, page, filter }) {
+    const query = BookshelfSchoolingRegistration
       .where({ organizationId })
-      .query((qb) => qb.orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC'))
+      .query((qb) => {
+        qb.orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC');
+        if (filter.divisions) {
+          qb.whereIn('division', filter.divisions);
+        }
+      })
       .fetchPage({
         page: page.number,
         pageSize: page.size,
       });
 
+    const { models, pagination } = await query;
+
     return {
       data: bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, models),
       pagination,
     };
+  },
+
+  async findDivisionsByOrganizationId({ organizationId }) {
+    const divisionRows = await knex('schooling-registrations')
+      .distinct('division')
+      .where('organizationId', organizationId)
+      .orderBy('division', 'desc');
+
+    return divisionRows.map((row) => {
+      return {
+        id: row.division,
+        name: row.division,
+      };
+    });
   },
 
   async findByUserId({ userId }) {
@@ -113,15 +134,18 @@ module.exports = {
   },
 
   async addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
-    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
+    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({
+      ...schoolingRegistrationData,
+      organizationId,
+    }));
     const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
 
-    const [ schoolingRegistrationStudent, schoolingRegistrationApprentice ] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
+    const [schoolingRegistrationStudent, schoolingRegistrationApprentice] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
       return schoolingRegistration.status === STATUS.STUDENT;
     });
 
-    const [ schoolingRegistrationsStudentToUpdate, schoolingRegistrationsStudentToCreate ] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations);
-    const [ schoolingRegistrationsApprenticeToUpdate, schoolingRegistrationsApprenticeToCreate ] = this._getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations);
+    const [schoolingRegistrationsStudentToUpdate, schoolingRegistrationsStudentToCreate] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations);
+    const [schoolingRegistrationsApprenticeToUpdate, schoolingRegistrationsApprenticeToCreate] = this._getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations);
 
     const schoolingRegistrationsToUpdate = _.concat(schoolingRegistrationsStudentToUpdate, schoolingRegistrationsApprenticeToUpdate);
     const schoolingRegistrationsToCreate = _.concat(schoolingRegistrationsStudentToCreate, schoolingRegistrationsApprenticeToCreate);
@@ -162,10 +186,13 @@ module.exports = {
   },
 
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
-    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({ ...schoolingRegistrationData, organizationId }));
+    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({
+      ...schoolingRegistrationData,
+      organizationId,
+    }));
     const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
 
-    const [ schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate ] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationsFromFile, currentSchoolingRegistrations);
+    const [schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationsFromFile, currentSchoolingRegistrations);
 
     const trx = await Bookshelf.knex.transaction();
     try {
@@ -300,7 +327,7 @@ module.exports = {
   },
 
   async findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page = {} }) {
-    const { models, pagination }  = await BookshelfSchoolingRegistration
+    const { models, pagination } = await BookshelfSchoolingRegistration
       .where({ organizationId })
       .query((qb) => {
         qb.select(
@@ -333,5 +360,4 @@ module.exports = {
       pagination,
     };
   },
-
 };

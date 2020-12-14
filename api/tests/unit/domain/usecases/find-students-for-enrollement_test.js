@@ -58,11 +58,11 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
     it('should return all students, enrolled or enrollable, regarding a session', async () => {
       // given
       const sessionId = 3;
-      const enrolledStudent = domainBuilder.buildSchoolingRegistration({ organization });
+      const enrolledStudent = domainBuilder.buildSchoolingRegistration({ organization, division: '3A' });
       const enrollableStudents = _.times(5, () => domainBuilder.buildSchoolingRegistration({ organization }));
       const certificationCandidates = [ domainBuilder.buildCertificationCandidate({ sessionId, schoolingRegistrationId: enrolledStudent.id }) ];
       schoolingRegistrationRepository.findByOrganizationIdOrderByDivision
-        .withArgs({ page: { number: 1, size: 10 }, organizationId: organization.id })
+        .withArgs({ page: { number: 1, size: 10 }, filter: { divisions: ['3A'] }, organizationId: organization.id })
         .resolves({
           data: [ enrolledStudent, ...enrollableStudents ],
           pagination: { page: 1, pageSize: 10, rowCount: 5, pageCount: 1 },
@@ -75,6 +75,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
         certificationCenterId,
         sessionId,
         page: { number: 1, size: 10 },
+        filter: { divisions: ['3A'] },
         organizationRepository,
         schoolingRegistrationRepository,
         certificationCandidateRepository,
@@ -95,7 +96,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
       it('should return empty array', async () => {
         // given
         schoolingRegistrationRepository.findByOrganizationIdOrderByDivision
-          .withArgs({ page: { number: 1, size: 10 }, organizationId: organization.id }).resolves({
+          .withArgs({ page: { number: 1, size: 10 }, filter: {}, organizationId: organization.id }).resolves({
             data: [],
             pagination: { page: 1, pageSize: 10, rowCount: 0, pageCount: 0 },
           });
@@ -105,6 +106,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
           userId,
           certificationCenterId,
           page: { number: 1, size: 10 },
+          filter:{},
           organizationRepository,
           schoolingRegistrationRepository,
           certificationCandidateRepository,
