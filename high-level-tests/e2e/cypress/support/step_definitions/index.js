@@ -57,7 +57,7 @@ given('je suis connecté à Pix Orga', () => {
 });
 
 given('je suis connecté à Pix Certif avec le mail {string}', (email) => {
-  cy.login(email, 'pix123');
+  cy.loginCertif(email, 'pix123');
 });
 
 given('je suis connecté à Pix en tant qu\'administrateur', () => {

@@ -42,6 +42,21 @@ Cypress.Commands.add('loginOrga', (username, password) => {
   cy.wait(['@getCurrentUser']);
 });
 
+Cypress.Commands.add('loginCertif', (username, password) => {
+  cy.server();
+  cy.route('/api/certification-point-of-contacts/**').as('getCurrentUser');
+  cy.request({
+    url: `${Cypress.env('API_URL')}/api/token`,
+    method: 'POST',
+    form: true,
+    body: {
+      username,
+      password,
+    }
+  }).then(setEmberSimpleAuthSession);
+  cy.wait(['@getCurrentUser']);
+});
+
 Cypress.Commands.add('loginAdmin', (username, password) => {
   cy.server();
   cy.route('/api/users/me').as('getCurrentUser');
