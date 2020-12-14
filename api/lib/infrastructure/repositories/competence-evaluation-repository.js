@@ -72,6 +72,14 @@ module.exports = {
     return queryBuilder.find(BookshelfCompetenceEvaluation, options);
   },
 
+  findByAssessmentId(assessmentId) {
+    return BookshelfCompetenceEvaluation
+      .where({ assessmentId })
+      .orderBy('createdAt', 'desc')
+      .fetchAll()
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
+  },
+
   async existsByCompetenceIdAndUserId({ competenceId, userId }) {
     let isCompetenceEvaluationExists = true;
     try {
