@@ -45,6 +45,7 @@ export default class RegisterForm extends Component {
   schoolingRegistrationUserAssociation = null;
   isLoading = false;
   errorMessage = null;
+  displayRegisterErrorMessage = false;
   matchingStudentFound = false;
   isPasswordVisible = false;
   loginWithUsername = true;
@@ -77,13 +78,12 @@ export default class RegisterForm extends Component {
       || !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
   }
 
-  @computed('email', 'username', 'password')
+  @computed('email', 'password')
   get isCreationFormNotValid() {
     const isPasswordNotValid = !isPasswordValid(this.password);
-    const isUsernameNotValid = !isStringValid(this.username);
     const isEmailNotValid = !isEmailValid(this.email);
     if (this.loginWithUsername) {
-      return isUsernameNotValid || isPasswordNotValid;
+      return isPasswordNotValid;
     }
     return isEmailNotValid || isPasswordNotValid;
   }
@@ -111,10 +111,6 @@ export default class RegisterForm extends Component {
         message: null,
       },
       email: {
-        status: 'default',
-        message: null,
-      },
-      username: {
         status: 'default',
         message: null,
       },
@@ -196,6 +192,7 @@ export default class RegisterForm extends Component {
   @action
   async register() {
     this.set('isLoading', true);
+    this.set('displayRegisterErrorMessage', false);
     if (this.isCreationFormNotValid) {
       return this.set('isLoading', false);
     }
@@ -283,12 +280,17 @@ export default class RegisterForm extends Component {
 
   _updateInputsStatus() {
     const errors = this.schoolingRegistrationDependentUser.errors;
-    errors.forEach(({ attribute, message }) => {
-      const statusObject = 'validation.' + attribute + '.status';
-      const messageObject = 'validation.' + attribute + '.message';
-      this.set(statusObject, 'error');
-      this.set(messageObject, message);
-    });
+
+    if (errors) {
+      errors.forEach(({ attribute, message }) => {
+        const statusObject = 'validation.' + attribute + '.status';
+        const messageObject = 'validation.' + attribute + '.message';
+        this.set(statusObject, 'error');
+        this.set(messageObject, message);
+      });
+    } else {
+      this.set('displayRegisterErrorMessage', true);
+    }
   }
 
   _validateInputString(key, value) {

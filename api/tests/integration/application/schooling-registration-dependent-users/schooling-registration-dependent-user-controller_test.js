@@ -35,7 +35,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
         'birthdate': '2012-12-12',
         'campaign-code': 'RESTRICTD',
         'password': 'P@ssw0rd',
-        'username': 'Robert.Smith1212',
+        'username': 'robert.smith1212',
         'with-username': true,
       };
     });
@@ -49,6 +49,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
         it('should return an HTTP response with status code 204', async () => {
           // given
           payload.data.attributes.email = 'toto@example.net';
+          delete payload.data.attributes.username;
           payload.data.attributes['with-username'] = false;
           usecases.createAndReconcileUserToSchoolingRegistration.resolves(createdUser);
 
@@ -64,6 +65,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
         it('should return an HTTP response with status code 204', async () => {
           // given
+          delete payload.data.attributes.email;
           payload.data.attributes.username = 'robert.smith1212';
           payload.data.attributes['with-username'] = true;
           usecases.createAndReconcileUserToSchoolingRegistration.resolves(createdUser);
@@ -84,6 +86,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
         it('should resolve a 404 HTTP response', async () => {
           // given
+          delete payload.data.attributes.username;
           usecases.createAndReconcileUserToSchoolingRegistration.rejects(new NotFoundError());
 
           // when

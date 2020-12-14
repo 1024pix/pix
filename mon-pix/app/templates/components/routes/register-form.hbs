@@ -76,16 +76,13 @@
 
   <form {{action 'register' on='submit'}} autocomplete="off">
     {{#if this.loginWithUsername}}
-        <div id="register-username-container">
-          <FormTextfield @label={{t 'pages.login-or-register.register-form.fields.username.label'}}
-                         @textfieldName="username"
-                         @inputBindingValue={{this.username}}
-                         @onValidate={{action "triggerInputStringValidation" "username" this.username}}
-                         @validationStatus={{this.validation.username.status}}
-                         @validationMessage={{this.validation.username.message}}
-                         @disabled={{true}}
-                         @require={{true}} />
-        </div>
+      <div id="register-username-container" class="register-form-username-container">
+        <label class="register-form-username-container__label">
+          <abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr>
+          {{t 'pages.login-or-register.register-form.fields.username.label'}}
+        </label>
+        <span class="register-form-username-container__span" data-test-username>{{this.username}}</span>
+      </div>
     {{else}}
         <div id="register-email-container">
           <FormTextfield @label={{t 'pages.login-or-register.register-form.fields.email.label'}}
@@ -108,6 +105,10 @@
                      @validationMessage={{this.validation.password.message}}
                      @require={{true}} />
     </div>
+
+    {{#if this.displayRegisterErrorMessage}}
+      <div class="register-form__error" aria-live="polite">{{t 'pages.login-or-register.register-form.error'}}</div>
+    {{/if}}
 
     <div class="register-button-container">
       {{#if this.isLoading}}
