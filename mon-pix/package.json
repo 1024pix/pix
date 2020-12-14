@@ -40,6 +40,7 @@
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^1.0.2",
     "@formatjs/intl-getcanonicallocales": "^1.5.2",
+    "@formatjs/intl-locale": "^2.4.8",
     "@formatjs/intl-pluralrules": "^4.0.0",
     "@fortawesome/ember-fontawesome": "^0.2.2",
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
