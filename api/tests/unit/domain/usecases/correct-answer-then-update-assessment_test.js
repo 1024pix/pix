@@ -26,7 +26,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   };
   const assessmentRepository = { get: () => undefined };
   const challengeRepository = { get: () => undefined };
-  const competenceEvaluationRepository = {  };
+  const competenceEvaluationRepository = { };
   const targetProfileRepository = { getByCampaignParticipationId: () => undefined };
   const skillRepository = { findActiveByCompetenceId: () => undefined };
   const scorecardService = { computeScorecard: () => undefined };
@@ -318,7 +318,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         });
         // then
         const expectedArgs = [
-          [completedAnswer,[firstKnowledgeElement, secondKnowledgeElement]],
+          [completedAnswer, [firstKnowledgeElement, secondKnowledgeElement]],
         ];
         expect(answerRepository.saveWithKnowledgeElements.args).to.deep.equal(expectedArgs);
       });

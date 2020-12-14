@@ -576,7 +576,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
       it('should save the user identifier who changes the organization role ', async () => {
         // given
-        const membershipAttributes = { organizationRole: Membership.roles.ADMIN , updatedByUserId };
+        const membershipAttributes = { organizationRole: Membership.roles.ADMIN, updatedByUserId };
 
         // when
         const membership = await membershipRepository.updateById({ id: existingMembershipId, membershipAttributes });
@@ -595,7 +595,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
         const organizationRole = Membership.roles.ADMIN;
         const messageNotRowUpdated = 'No Rows Updated';
         const notExistingMembershipId = 9898977;
-        const membershipAttributes = { organizationRole , updatedByUserId };
+        const membershipAttributes = { organizationRole, updatedByUserId };
 
         // when
         const error = await catchErr(membershipRepository.updateById)({ id: notExistingMembershipId, membershipAttributes });

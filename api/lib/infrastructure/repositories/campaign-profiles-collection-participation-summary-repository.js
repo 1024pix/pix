@@ -67,7 +67,7 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
     chunk(sharedResults, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING),
     (sharedResultsChunk) => {
       const sharedAtDatesByUsers = Object.fromEntries(sharedResultsChunk.map(({ userId, sharedAt }) => [userId, sharedAt]));
-      return  placementProfileService.getPlacementProfilesWithSnapshotting({
+      return placementProfileService.getPlacementProfilesWithSnapshotting({
         userIdsAndDates: sharedAtDatesByUsers,
         allowExcessPixAndLevels: false,
         competences,

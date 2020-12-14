@@ -142,7 +142,7 @@ describe('Unit | UseCase | accept-organization-invitation', () => {
       let membership;
 
       beforeEach(() => {
-        membership = domainBuilder.buildMembership({ user : userToInvite, organizationRole: Membership.roles.MEMBER });
+        membership = domainBuilder.buildMembership({ user: userToInvite, organizationRole: Membership.roles.MEMBER });
         membershipRepository.findByOrganizationId.withArgs({
           organizationId: pendingOrganizationInvitation.organizationId,
         }).resolves([ membership ]);

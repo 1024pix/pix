@@ -61,7 +61,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       const expectedCandidates = candidatesToBeCompared(scoCandidates);
       expect(actualCandidates).to.deep.equal(expectedCandidates);
     });
-    it ('does nothing when no candidate is given', async () => {
+    it('does nothing when no candidate is given', async () => {
       // when
       await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
         sessionId,

@@ -10,5 +10,5 @@ export default class StudentAdapter extends ApplicationAdapter {
       return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/sessions/${sessionId}/students`;
     }
     return super.urlForQuery(...arguments);
-  } 
+  }
 }

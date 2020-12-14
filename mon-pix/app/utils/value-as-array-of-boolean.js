@@ -14,15 +14,15 @@ import trim from 'lodash/trim';
 import identity from 'lodash/identity';
 import isEmpty from 'lodash/isEmpty';
 
-export default flow(                                        // in the worst case : ',4, 2 , 2,1,  ,-1'
-  thru((e) => isString(e) ? e : ''),                        // check if string
-  split(','),                                               // now ['', '4', ' 2 ', ' 2', '1', '  ', '','-1']
-  map(trim),                                                // now ['', '4', '2', '2', '1', '', '','-1']
-  reject(isEmpty),                                          // now ['4', '2', '2', '1','-1']
-  map(parseInt),                                            // now [4, 2, 2, 1,-1]
-  filter((e) => e >= 1),                                    // check if int >= 1
-  sortBy(identity),                                         // now [1, 2, 2, 4]
-  uniqBy(identity),                                         // now [1, 2, 4]
-  map((e) => e - 1),                                        // now [0, 1, 3]
-  thru((e) => times(max(e) + 1, (o) => includes(e, o))),    // now [true, true, false, true]
+export default flow( // in the worst case : ',4, 2 , 2,1,  ,-1'
+  thru((e) => isString(e) ? e : ''), // check if string
+  split(','), // now ['', '4', ' 2 ', ' 2', '1', '  ', '','-1']
+  map(trim), // now ['', '4', '2', '2', '1', '', '','-1']
+  reject(isEmpty), // now ['4', '2', '2', '1','-1']
+  map(parseInt), // now [4, 2, 2, 1,-1]
+  filter((e) => e >= 1), // check if int >= 1
+  sortBy(identity), // now [1, 2, 2, 4]
+  uniqBy(identity), // now [1, 2, 4]
+  map((e) => e - 1), // now [0, 1, 3]
+  thru((e) => times(max(e) + 1, (o) => includes(e, o))), // now [true, true, false, true]
 );

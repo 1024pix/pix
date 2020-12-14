@@ -1,7 +1,7 @@
 const ResultCompetenceTree = require('../../models/ResultCompetenceTree');
 
 module.exports = {
-  decorateWithCleaStatusAndCompetenceTree : async function({
+  decorateWithCleaStatusAndCompetenceTree: async function({
     certificationId,
     toBeDecorated,
     cleaCertificationStatusRepository,

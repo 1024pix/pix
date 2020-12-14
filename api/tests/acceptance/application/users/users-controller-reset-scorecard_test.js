@@ -200,7 +200,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
               description: competence.fields.Description,
               'competence-id': competenceId,
               index: competence.fields['Sous-domaine'],
-              'earned-pix': 0 ,
+              'earned-pix': 0,
               level: 0,
               'pix-score-ahead-of-next-level': 0,
               status: 'NOT_STARTED',

@@ -36,7 +36,7 @@ module.exports = function(environment) {
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
-      IS_DISSOCIATE_BUTTON_ENABLED : _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
+      IS_DISSOCIATE_BUTTON_ENABLED: _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
     },
 
     googleFonts: [

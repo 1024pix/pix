@@ -431,7 +431,7 @@ describe('Integration | Repository | Target-profile', () => {
     });
 
     context('when the organization does not exist', () => {
-      it('throws an error', async () =>   {
+      it('throws an error', async () => {
         databaseBuilder.factory.buildTargetProfile({ id: 12 });
 
         await databaseBuilder.commit();
@@ -448,7 +448,7 @@ describe('Integration | Repository | Target-profile', () => {
     });
 
     context('when the organization is already attached', () => {
-      it('throws an error', async () =>   {
+      it('throws an error', async () => {
         databaseBuilder.factory.buildTargetProfile({ id: 12 });
         const organization = databaseBuilder.factory.buildOrganization();
 

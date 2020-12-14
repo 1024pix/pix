@@ -25,7 +25,7 @@ describe('Integration | Repository | Certification Course', function() {
         isV2Certification: false,
         sessionId,
         userId,
-        challenges : [
+        challenges: [
           domainBuilder.buildCertificationChallenge(),
           domainBuilder.buildCertificationChallenge(),
           domainBuilder.buildCertificationChallenge(),

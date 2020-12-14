@@ -8,7 +8,7 @@ module.exports = {
     if (memberships.length === 0) {
       return false;
     }
-    return memberships.some((membership) => 
+    return memberships.some((membership) =>
       membership.organization.isManagingStudents
         && membership.organization.type === type
         && membership.organizationRole === Membership.roles.ADMIN,

@@ -17,14 +17,14 @@ export default {
       second: 'numeric',
     },
     L: {
-      day:'2-digit',
-      month:'2-digit',
-      year:'numeric',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     },
     LL: {
-      day:'numeric',
-      month:'long',
-      year:'numeric',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
     },
   },
   number: {

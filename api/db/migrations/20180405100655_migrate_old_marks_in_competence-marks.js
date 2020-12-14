@@ -7,7 +7,7 @@ const TABLE_NAME_ASSESSMENT_RESULTS = 'assessment-results';
 exports.up = function(knex) {
 
   return knex(TABLE_NAME_MARKS)
-    .select('id','level', 'score', 'area_code', 'competence_code','assessmentResultId')
+    .select('id', 'level', 'score', 'area_code', 'competence_code', 'assessmentResultId')
     .then((allMarks) => {
 
       return batch(knex, allMarks, (mark) => {

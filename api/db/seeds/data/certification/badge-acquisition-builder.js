@@ -1,4 +1,4 @@
-const { BADGE_PIX_EMPLOI_ID  } = require('../pix-emploi-target-profile-builder');
+const { BADGE_PIX_EMPLOI_ID } = require('../pix-emploi-target-profile-builder');
 const {
   CERTIF_REGULAR_USER1_ID, CERTIF_SUCCESS_USER_ID,
 } = require('./users');

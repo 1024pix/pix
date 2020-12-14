@@ -83,17 +83,17 @@ module('Acceptance | Sup Student List', function(hooks) {
           organizationId,
         });
       });
-      
+
       test('it should update the student number', async function(assert) {
         // given
         await visit('/etudiants');
-        
+
         // when
         await click('[aria-label="Afficher les actions"]');
         await click('[aria-label="Actions"]>*:first-child');
         await typeIn('#studentNumber', '1234');
         await click('button[type=submit]');
-      
+
         // then
         assert.contains('1234');
       });
@@ -101,13 +101,13 @@ module('Acceptance | Sup Student List', function(hooks) {
       test('it should not update the student number if exists', async function(assert) {
         // given
         await visit('/etudiants');
-        
+
         // when
         await click('[aria-label="Afficher les actions"]');
         await click('[aria-label="Actions"]>*:first-child');
         await typeIn('#studentNumber', '321');
         await click('button[type=submit]');
-      
+
         // then
         assert.contains('123');
       });

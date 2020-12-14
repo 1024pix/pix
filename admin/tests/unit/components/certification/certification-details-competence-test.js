@@ -8,10 +8,10 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
 
   const answer = (result) => {
     return {
-      skill:'@skill1',
-      challengeId:'rec12345',
-      order:'1',
-      result:result,
+      skill: '@skill1',
+      challengeId: 'rec12345',
+      order: '1',
+      result: result,
     };
   };
 
@@ -23,7 +23,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       positionedScore: data[0] ? data[0] : 25,
       obtainedLevel: data[3] ? data[3] : -1,
       obtainedScore: data[1] ? data[1] : 0,
-      answers:[answer(result1), answer(result2), answer(result3)],
+      answers: [answer(result1), answer(result2), answer(result3)],
     };
   };
 

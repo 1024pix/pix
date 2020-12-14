@@ -35,20 +35,20 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
               'comment-for-jury': 'Parce que',
               'comment-for-candidate': 'Voilà',
               'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
-              'competences-with-mark' : [
+              'competences-with-mark': [
                 {
                   level: 2,
                   score: 18,
                   'area_code': 2,
                   'competence_code': 2.1,
                   'competence-id': '2.1',
-                },{
+                }, {
                   level: 3,
                   score: 27,
                   'area_code': 3,
                   'competence_code': 3.2,
                   'competence-id': '3.2',
-                },{
+                }, {
                   level: 1,
                   score: 9,
                   'area_code': 1,
@@ -160,18 +160,18 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                 'comment-for-jury': 'Parce que',
                 'comment-for-candidate': 'Voilà',
                 'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
-                'competences-with-mark' : [
+                'competences-with-mark': [
                   {
                     level: 2,
                     score: 18,
                     'area_code': 2,
                     'competence_code': 2.1,
-                  },{
+                  }, {
                     level: 3,
                     score: wrongScore,
                     'area_code': 3,
                     'competence_code': 3.2,
-                  },{
+                  }, {
                     level: 1,
                     score: 218158186,
                     'area_code': 1,

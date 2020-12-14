@@ -17,7 +17,7 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   const studentAccount = await userRepository.get(schoolingRegistration.userId);
   _checkIfStudentAccountAlreadyHasUsername(studentAccount);
 
-  const username = await userReconciliationService.createUsernameByUser({ user: schoolingRegistration , userRepository });
+  const username = await userReconciliationService.createUsernameByUser({ user: schoolingRegistration, userRepository });
 
   if (studentAccount.password) {
     const updatedUser = await userRepository.addUsername(studentAccount.id, username);

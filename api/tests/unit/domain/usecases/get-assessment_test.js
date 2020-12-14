@@ -45,7 +45,7 @@ describe('Unit | UseCase | get-assessment', () => {
     assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(assessment);
 
     // when
-    const result = await getAssessment({ assessmentRepository, assessmentId: assessment.id  });
+    const result = await getAssessment({ assessmentRepository, assessmentId: assessment.id });
 
     // then
     expect(result).to.be.an.instanceOf(Assessment);
@@ -172,7 +172,7 @@ describe('Unit | UseCase | get-assessment', () => {
     assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(null);
 
     // when
-    const promise = getAssessment({ assessmentRepository, assessmentId: assessment.id  });
+    const promise = getAssessment({ assessmentRepository, assessmentId: assessment.id });
 
     // then
     return expect(promise).to.have.been.rejectedWith(NotFoundError, `Assessment not found for ID ${assessment.id}`);

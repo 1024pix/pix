@@ -133,7 +133,7 @@ describe('Integration | Repository | Organization', function() {
       beforeEach(async () => {
         insertedOrganization = databaseBuilder.factory.buildOrganization(organizationAttributes);
         expectedAttributes = {
-          id:  insertedOrganization.id,
+          id: insertedOrganization.id,
           type: 'SCO',
           name: 'Organization of the dark side',
           logoUrl: 'some logo url',

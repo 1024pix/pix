@@ -189,7 +189,7 @@ describe('Unit | UseCase | find-tutorials', () => {
           // given
           const competenceId = 'recCompetenceWikipedia';
           const skill_1 = domainBuilder.buildSkill({ name: '@wikipédia1', competenceId: competenceId });
-          const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2', competenceId: competenceId  });
+          const skill_2 = domainBuilder.buildSkill({ name: '@wikipédia2', competenceId: competenceId });
 
           const knowledgeElementList = [
             domainBuilder.buildKnowledgeElement({ skillId: skill_2.id, competenceId: skill_2.competenceId, status: KnowledgeElement.StatusType.VALIDATED }),

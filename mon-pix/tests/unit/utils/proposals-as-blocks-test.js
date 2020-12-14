@@ -38,7 +38,7 @@ describe('Unit | Utility | proposals as blocks', function() {
       data: '${plop}, ${plop} ${plop}',
       expected: [
         { input: 'plop', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 1' },
-        { input: undefined, text: ',' , placeholder: undefined, ariaLabel: null },
+        { input: undefined, text: ',', placeholder: undefined, ariaLabel: null },
         { input: 'plop', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 2' },
         { input: 'plop', text: undefined, placeholder: undefined, ariaLabel: 'Réponse 3' },
       ],

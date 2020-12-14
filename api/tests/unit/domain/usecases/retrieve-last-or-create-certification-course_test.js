@@ -160,7 +160,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         beforeEach(() => {
           // TODO : use the domainBuilder to instanciate userCompetences
-          placementProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: [{ challenges:[challenge1] }, { challenges:[challenge2] }] };
+          placementProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }] };
           placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
           const userCompetencesWithChallenges = _.clone(placementProfile.userCompetences);
           userCompetencesWithChallenges[0].challenges[0].testedSkill = skill1;

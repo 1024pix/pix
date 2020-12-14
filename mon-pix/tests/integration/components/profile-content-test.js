@@ -25,7 +25,7 @@ describe('Integration | Component | Profile-content', function() {
       }));
 
       model = {
-        profile : {
+        profile: {
           pixScore: '34',
           areasCode: [0, 1],
           scorecards: [

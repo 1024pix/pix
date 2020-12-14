@@ -1,11 +1,10 @@
 .examiner-report-modal {
-
   min-width: 496px;
 
   &__title {
     font-family: $open-sans;
     padding: 12px 32px;
-    
+
     h1 {
       font-size: 1.25rem;
       color: $grey-80;
@@ -29,7 +28,6 @@
     background-color: $grey-10;
 
     .content__report-type-button {
-
       display: flex;
       align-items: center;
 
@@ -47,11 +45,10 @@
         margin-left: 16px;
       }
     }
-    
 
     .content__report-type-details {
       margin-top: 16px;
-      padding-left:   32px;
+      padding-left: 32px;
 
       textarea {
         box-sizing: border-box;
@@ -82,7 +79,7 @@
     padding: 16px 32px;
     display: flex;
     justify-content: flex-end;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0 0 5px 5px;
 
     .button--showed-as-link {
       font-family: $roboto;

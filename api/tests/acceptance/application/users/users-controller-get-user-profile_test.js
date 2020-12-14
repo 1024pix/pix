@@ -76,7 +76,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
           id: competenceId,
           epreuves: [],
           titre: 'Mener une recherche et une veille d’information',
-          titreFrFr:  'Mener une recherche et une veille d’information',
+          titreFrFr: 'Mener une recherche et une veille d’information',
           description: 'Une description',
           descriptionFrFr: 'Une description',
           tests: [],

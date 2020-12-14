@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 const { expect, databaseBuilder } = require('../../../../test-helper');
 
-const readOdsUtils  = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');

@@ -5,7 +5,7 @@ const PlacementProfile = require('../../../../../lib/domain/models/PlacementProf
 
 describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', () => {
   describe('#toCsvLine', () => {
-    let organization,campaign, competences;
+    let organization, campaign, competences;
 
     const placementProfile = new PlacementProfile({
       userId: 123,
@@ -384,7 +384,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         organization.isSco = true;
         organization.isManagingStudents = false;
 
-        context ('when the participant has a division', () => {
+        context('when the participant has a division', () => {
           it('should return the line without division information', async () => {
             //given
             sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
@@ -404,7 +404,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
               userId: 123,
               participantFirstName: 'Juan',
               participantLastName: 'Carlitos',
-              division:'3eme',
+              division: '3eme',
             };
 
             const csvExcpectedLine = `"${organization.name}";` +
@@ -559,7 +559,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
               userId: 123,
               participantFirstName: 'Juan',
               participantLastName: 'Carlitos',
-              studentNumber:'goodBoï',
+              studentNumber: 'goodBoï',
             };
 
             const csvExcpectedLine = `"${organization.name}";` +

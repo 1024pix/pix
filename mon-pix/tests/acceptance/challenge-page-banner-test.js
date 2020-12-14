@@ -33,7 +33,7 @@ describe('Acceptance | Challenge page banner', function() {
     it('should display accessibility information in the banner', async function() {
       // given
       server.create('campaign-participation',
-        { campaign, user, isShared: false , createdAt: Date.now() });
+        { campaign, user, isShared: false, createdAt: Date.now() });
 
       // when
       await visit(`campagnes/${campaign.code}`);
@@ -48,7 +48,7 @@ describe('Acceptance | Challenge page banner', function() {
     it('should display the campaign name in the banner', async function() {
       // given
       server.create('campaign-participation',
-        { campaign, user, isShared: false , createdAt: Date.now() });
+        { campaign, user, isShared: false, createdAt: Date.now() });
 
       // when
       await visit(`campagnes/${campaign.code}`);

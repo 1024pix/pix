@@ -107,7 +107,7 @@ describe('Integration | Component | comparison-window', function() {
     it('should render corrected answers when challenge type is QROCM-ind', async function() {
       // given
       challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
-      correction.set('solution',  '');
+      correction.set('solution', '');
       answer.set('challenge', challenge);
       // when
       await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
@@ -125,7 +125,7 @@ describe('Integration | Component | comparison-window', function() {
       expect(find('.qcm-solution-panel')).to.exist;
     });
 
-    it('should render a feedback panel already opened',async  function() {
+    it('should render a feedback panel already opened', async function() {
       //when
       await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 

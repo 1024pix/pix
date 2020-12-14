@@ -6,7 +6,7 @@ const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
 } = require('../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
 const writeOdsUtils = require('../../../../lib/infrastructure/utils/ods/write-ods-utils');
-const readOdsUtils  = require('../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const readOdsUtils = require('../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const sessionXmlService = require('../../../../lib/domain/services/session-xml-service');
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');

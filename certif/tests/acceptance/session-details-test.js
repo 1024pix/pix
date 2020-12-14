@@ -11,29 +11,29 @@ import config from 'pix-certif/config/environment';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | Session Details', function(hooks) {
-  
+
   setupApplicationTest(hooks);
   setupMirage(hooks);
-  
+
   hooks.afterEach(function() {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
   });
-  
+
   module('when user is not logged in', function() {
-    
+
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // given
       const session = server.create('session');
 
       // when
       await visit(`/sessions/${session.id}`);
-      
+
       // then
       assert.equal(currentURL(), '/connexion');
     });
   });
-  
+
   module('when user is logged in', function(hooks) {
 
     let user;
@@ -45,7 +45,7 @@ module('Acceptance | Session Details', function(hooks) {
       session = server.create('session', { certificationCenterId: certificationCenter.id });
       await authenticateSession(user.id);
     });
-    
+
     test('it should redirect to session list on click on return button', async function(assert) {
       // when
       await visit(`/sessions/${session.id}`);

@@ -18,7 +18,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
     schoolingRegistrationData = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization, schoolingRegistrationsXmlService);
   } else if (format === 'csv') {
     const buffer = await fs.readFile(path);
-    
+
     const csvSiecleParser = new SchoolingRegistrationParser(buffer, organizationId, organization.isAgriculture);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
@@ -33,7 +33,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
 
   try {
     const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
-    
+
     await bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
       if (organization.isAgriculture) {
         return schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(chunk, organizationId);

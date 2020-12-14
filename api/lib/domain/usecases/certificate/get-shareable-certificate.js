@@ -10,7 +10,7 @@ module.exports = async function getShareableCertificate({
   const certificate = await certificationRepository.getShareableCertificateByVerificationCode({ verificationCode });
 
   return decorateWithCleaStatusAndCompetenceTree({
-    certificationId : certificate.id,
+    certificationId: certificate.id,
     toBeDecorated: certificate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,

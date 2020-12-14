@@ -93,11 +93,11 @@ describe('Integration | Component | result item', function() {
     });
 
     [
-      { status: 'ok', color:'green' },
-      { status: 'ko', color:'red' },
-      { status: 'aband', color:'grey' },
-      { status: 'partially', color:'orange' },
-      { status: 'timedout', color:'red' },
+      { status: 'ok', color: 'green' },
+      { status: 'ko', color: 'red' },
+      { status: 'aband', color: 'grey' },
+      { status: 'partially', color: 'orange' },
+      { status: 'timedout', color: 'red' },
     ].forEach(function(data) {
 
       it(`should display the good result icon when answer's result is "${data.status}"`, async function() {

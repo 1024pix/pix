@@ -26,7 +26,7 @@ export default function(schema, request) {
   const allChallenges = schema.challenges.where((challenge) => {
     return challenge.id.startsWith(challengeIdStartsWith);
   });
-  const allChallengeIds  = map(allChallenges.models, 'id');
+  const allChallengeIds = map(allChallenges.models, 'id');
 
   const nextChallengeId = first(difference(allChallengeIds, answeredChallengeIds));
   return nextChallengeId ? schema.challenges.find(nextChallengeId) : new Response(200, {}, { data: null });

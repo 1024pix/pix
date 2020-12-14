@@ -96,7 +96,7 @@ function _getNewSkillsInfoIfSkillSolved(skillTested, tubes, knowledgeElements) {
 }
 
 function _getNewSkillsInfoIfSkillUnsolved(skillTested, tubes, knowledgeElements) {
-  let extraFailedSkills =  _findTubeByName(tubes, skillTested.tubeNameWithoutPrefix)
+  let extraFailedSkills = _findTubeByName(tubes, skillTested.tubeNameWithoutPrefix)
     .getHarderThan(skillTested)
     .filter(_skillNotTestedYet(knowledgeElements));
 

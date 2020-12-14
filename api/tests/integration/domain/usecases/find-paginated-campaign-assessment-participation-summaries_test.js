@@ -10,7 +10,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
     let user;
 
     beforeEach(async () => {
-      const skill = { id: 'Skill1', name:  '@Acquis1' };
+      const skill = { id: 'Skill1', name: '@Acquis1' };
       campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill]);
       user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
@@ -35,7 +35,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
     let participant;
 
     beforeEach(async () => {
-      const skill = { id: 'Skill1', name:  '@Acquis1' };
+      const skill = { id: 'Skill1', name: '@Acquis1' };
       const organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [skill]);
       const participation = { participantExternalId: 'Ashitaka', campaignId: campaign.id };
@@ -76,7 +76,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
           userId: user.id,
           campaignId: campaign.id,
         });
-  
+
         expect(campaignAssessmentParticipationSummaries[0].badges.length).to.equal(1);
         expect(campaignAssessmentParticipationSummaries[0].badges[0]).to.includes(badge);
       });

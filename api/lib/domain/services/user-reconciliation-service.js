@@ -39,7 +39,7 @@ async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAn
     throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
 
-  if (!_.isNil(schoolingRegistration.userId))  {
+  if (!_.isNil(schoolingRegistration.userId)) {
     throw new SchoolingRegistrationAlreadyLinkedToUserError();
   }
   return schoolingRegistration;
@@ -77,7 +77,7 @@ async function checkIfStudentHasAnAlreadyReconciledAccount(schoolingRegistration
 
 async function _buildStudentReconciliationError(userId, errorContext, userRepository, obfuscationService) {
   const user = await userRepository.getForObfuscation(userId);
-  const authenticationMethod =  await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+  const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
   const detailWhenSameOrganization = 'Un compte existe déjà pour l‘élève dans le même établissement.';
   const detailWhenOtherOrganization = 'Un compte existe déjà pour l‘élève dans un autre établissement.';

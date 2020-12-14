@@ -12,9 +12,9 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
   let campaignParticipationRepository;
   let knowledgeElementRepository;
   let competenceRepository;
-  
+
   context('When user has shared its profile for the campaign', () => {
-    
+
     beforeEach(() => {
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
@@ -28,7 +28,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
 
     it('should return the shared profile for campaign', async () => {
       const knowledgeElements = { 'competence1': [], 'competence2': [] };
-      const competences = [{ id: 'competence1' },  { id: 'competence2' }];
+      const competences = [{ id: 'competence1' }, { id: 'competence2' }];
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(expectedCampaignParticipation);
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: sharedAt }).resolves(knowledgeElements);
@@ -41,7 +41,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
         .buildFrom
         .withArgs({ userId, knowledgeElements: knowledgeElements['competence2'], competence: competences[1] })
         .returns({ id: 'Score2', earnedPix: 5 });
-      
+
       // when
       const sharedProfile = await getUserProfileSharedForCampaign({
         userId,

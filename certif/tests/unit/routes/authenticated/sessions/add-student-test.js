@@ -13,7 +13,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
     const session = { id: session_id };
     const certificationCenterId = Symbol('certificationCenterId');
 
-    const paginatedStudents =  {
+    const paginatedStudents = {
       data: [{ id: '1', firstName: 'Tom', lastName: 'Dupont', isEnrolled: true }],
       meta: {
         page: 1,
@@ -40,7 +40,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       route.store.query.onCall(2).resolves(paginatedStudents);
 
       const expectedModel = {
-        certificationCenterDivisions:  [
+        certificationCenterDivisions: [
           {
             label: '3A',
             value: '3A',
@@ -57,7 +57,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       };
 
       // when
-      const actualModel = await route.model({ session_id, pageNumber: 1, pageSize: 1  });
+      const actualModel = await route.model({ session_id, pageNumber: 1, pageSize: 1 });
 
       // then
       sinon.assert.calledWith(route.modelFor, 'authenticated');
@@ -69,7 +69,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
         },
         page: {
           size: 1,
-          number:1,
+          number: 1,
         },
       },
       );

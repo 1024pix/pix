@@ -27,7 +27,7 @@ export default class QcmSolutionPanel extends Component {
   @computed('answer')
   get labeledCheckboxes() {
     const answer = this.answer.value;
-    let checkboxes  = [];
+    let checkboxes = [];
     if (!isEmpty(answer)) {
       const proposals = this.challenge.get('proposals');
       const proposalsArray = proposalsAsArray(proposals);

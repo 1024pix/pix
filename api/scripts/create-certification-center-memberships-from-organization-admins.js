@@ -30,7 +30,7 @@ async function getAdminMembershipsByOrganizationExternalId(externalId) {
     .query((qb) => {
       qb.innerJoin('organizations', 'memberships.organizationId', 'organizations.id');
       qb.where('organizationRole', Membership.roles.ADMIN);
-      qb.where('organizations.externalId', '=' , externalId);
+      qb.where('organizations.externalId', '=', externalId);
     })
     .fetchAll({ require: true })
     .then((memberships) => {

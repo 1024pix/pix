@@ -69,7 +69,7 @@ describe('Unit | Utility | progress-in-assessment', function() {
     it('when assessment is certification, should return the number of challenges in certification', function() {
       // given
       const nbChallenges = 23;
-      const assessment = EmberObject.create({ isCertification: true, certificationCourse : EmberObject.create({ nbChallenges }) });
+      const assessment = EmberObject.create({ isCertification: true, certificationCourse: EmberObject.create({ nbChallenges }) });
 
       // when
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
@@ -81,7 +81,7 @@ describe('Unit | Utility | progress-in-assessment', function() {
     it('should return the number of challenge in course', function() {
       // given
       const nbChallenges = 21;
-      const assessment = EmberObject.create({ course : EmberObject.create({ nbChallenges }) });
+      const assessment = EmberObject.create({ course: EmberObject.create({ nbChallenges }) });
 
       // when
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);

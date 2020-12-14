@@ -30,7 +30,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
 
     context('when the badge criteria are fulfilled', function() {
 
-      beforeEach(() =>  {
+      beforeEach(() => {
         const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,
@@ -68,7 +68,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
 
     context('when no badge criteria are fulfilled', function() {
-      beforeEach(() =>  {
+      beforeEach(() => {
         const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,
@@ -106,7 +106,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
 
     context('when the campaignParticipationResult badge criterion is not fulfilled', function() {
-      beforeEach(() =>  {
+      beforeEach(() => {
         const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,
@@ -139,7 +139,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
 
     context('when one competenceResult badge criterion is not fulfilled', function() {
-      beforeEach(() =>  {
+      beforeEach(() => {
         const partnerCompetenceResults = [
           domainBuilder.buildCompetenceResult({
             id: 1,

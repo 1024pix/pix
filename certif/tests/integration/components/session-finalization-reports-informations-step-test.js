@@ -78,7 +78,7 @@ module('Integration | Component | session-finalization-reports-informations-step
           @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
         />
       `);
-      
+
       // then
       assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${reportA.certificationCourseId}"]`).hasText('1 signalement');
       assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${reportB.certificationCourseId}"]`).doesNotExist();

@@ -232,7 +232,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should consider skipping a challenge equivalent to not knowing and decrease difficulty when it happens', function() {
         // given
-        targetSkills =  [web1, web2, web3];
+        targetSkills = [web1, web2, web3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2, challengeWeb_3];
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.SKIPPED });
         allAnswers = [lastAnswer];

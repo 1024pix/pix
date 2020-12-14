@@ -161,7 +161,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         id: 'recCompetence1',
         titre: 'Fabriquer un meuble',
         domaineIds: [area.id],
-        acquisViaTubes: ['recSkillId1','recSkillId2'],
+        acquisViaTubes: ['recSkillId1', 'recSkillId2'],
       });
       const tube1 = airtableBuilder.factory.buildTube({
         id: 'recTube1',

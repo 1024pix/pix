@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
-const constants  = require('../../constants');
+const constants = require('../../constants');
 
 module.exports = {
   getFilteredSkillsForFirstChallenge,
@@ -20,7 +20,7 @@ function getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSk
 function getFilteredSkillsForNextChallenge({ knowledgeElements, tubes, predictedLevel, isLastChallengeTimed, targetSkills }) {
   return pipe(
     _getPlayableSkill,
-    _getUntestedSkills.bind(null,knowledgeElements),
+    _getUntestedSkills.bind(null, knowledgeElements),
     _keepSkillsFromEasyTubes.bind(null, tubes),
     _removeTimedSkillsIfNeeded.bind(null, isLastChallengeTimed),
     _removeTooDifficultSkills.bind(null, predictedLevel),

@@ -1,4 +1,4 @@
-import uniq  from 'lodash/uniq';
+import uniq from 'lodash/uniq';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -14,7 +14,7 @@ export default class GetTargetProfilesController extends Controller {
   async attachTargetProfiles() {
     const organization = this.model;
     try {
-      await organization.attachTargetProfiles({ 'target-profiles-to-attach' : this._getUniqueTargetProfiles() });
+      await organization.attachTargetProfiles({ 'target-profiles-to-attach': this._getUniqueTargetProfiles() });
       this.targetProfilesToAttach = null;
       return this.notifications.success('Profil(s) cible(s) rattaché avec succès.');
     } catch (responseError) {

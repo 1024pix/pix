@@ -13,7 +13,7 @@ exports.up = async function(knex) {
       WHERE ?? = CAST(?? AS VARCHAR) 
       AND ?? = ?
     `, [
-    'assessments', 
+    'assessments',
     'certificationCourseId',
     'courseId',
     'certification-courses',

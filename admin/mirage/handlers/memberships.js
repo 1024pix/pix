@@ -20,7 +20,7 @@ export function createMembership(schema, request) {
     });
   }
 
-  const user =  schema.users.find(userId);
+  const user = schema.users.find(userId);
   const organization = schema.organizations.find(organizationId);
 
   if (!user || !organization) {

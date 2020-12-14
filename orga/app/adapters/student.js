@@ -23,7 +23,7 @@ export default class StudentAdapter extends ApplicationAdapter {
 
   updateRecord(store, type, snapshot) {
     const { id, adapterOptions } = snapshot;
-  
+
     if (adapterOptions.updateStudentNumber) {
       const { organizationId, studentNumber } = adapterOptions;
       const url = `${this.host}/${this.namespace}/organizations/${organizationId}/schooling-registration-user-associations/${id}`;
@@ -36,7 +36,7 @@ export default class StudentAdapter extends ApplicationAdapter {
       };
       return this.ajax(url, 'PATCH', { data });
     }
-  
+
     return super.updateRecord(store, type, snapshot);
   }
 }

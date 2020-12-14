@@ -104,7 +104,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
     const assessmentId = 1;
     const userId = 1234;
 
-    context('When there is still challenges to answer', () =>  {
+    context('When there is still challenges to answer', () => {
       beforeEach(async () => {
         databaseBuilder.factory.buildUser({ id: userId });
         databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });
@@ -139,7 +139,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
       });
     });
 
-    context('When there is no more challenges to answer', () =>  {
+    context('When there is no more challenges to answer', () => {
       beforeEach(async () => {
         databaseBuilder.factory.buildUser({ id: userId });
         databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });

@@ -69,7 +69,7 @@ module.exports = {
       delete options.filter.status;
     }
     const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
-    return campaignSerializer.serialize(campaigns, meta, { ignoreCampaignReportRelationshipData : false });
+    return campaignSerializer.serialize(campaigns, meta, { ignoreCampaignReportRelationshipData: false });
   },
 
   async findPaginatedFilteredMemberships(request) {
@@ -107,7 +107,7 @@ module.exports = {
     const organizationId = parseInt(request.params.id);
     const { format } = request.query;
 
-    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload : request.payload, format });
+    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload: request.payload, format });
     return h.response(null).code(204);
   },
 

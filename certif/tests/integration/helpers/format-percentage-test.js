@@ -18,7 +18,7 @@ module('Integration | Helper | format-percentage', function(hooks) {
     this.set('value', null);
 
     await render(hbs`{{format-percentage value}}`);
-    
+
     assert.dom(this.element).hasText('');
   });
 });

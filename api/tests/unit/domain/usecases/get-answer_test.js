@@ -48,7 +48,7 @@ describe('Unit | UseCase | get-answer', () => {
     it('should throw a Not Found error', () => {
 
       // when
-      const result = getAnswer({ answerId, userId: userId + 1 , answerRepository, assessmentRepository });
+      const result = getAnswer({ answerId, userId: userId + 1, answerRepository, assessmentRepository });
 
       // then
       return expect(result).to.be.rejectedWith(NotFoundError);
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-answer', () => {
     it('should throw a Not Found error', () => {
 
       // when
-      const result = getAnswer({ answerId: 'salut', userId: userId + 1 , answerRepository, assessmentRepository });
+      const result = getAnswer({ answerId: 'salut', userId: userId + 1, answerRepository, assessmentRepository });
 
       // then
       return expect(result).to.be.rejectedWith(NotFoundError);

@@ -5,35 +5,35 @@ _.mixin({
   /*
    * Returns the second element of an array.
    */
-  'second' : function(array) {
+  'second': function(array) {
     return _.nth(array, 1);
   },
 
   /*
    * Returns the third element of an array.
    */
-  'third' : function(array) {
+  'third': function(array) {
     return _.nth(array, 2);
   },
 
-  'isNotEmpty' : function(elt) {
+  'isNotEmpty': function(elt) {
     return !_.isEmpty(elt);
   },
 
-  'ensureString' : function(elt) {
+  'ensureString': function(elt) {
     if (elt) {
       return elt.toString();
     } else {
       return '';
     }
   },
-  'areCSVequivalent' : function(string1, string2) {
+  'areCSVequivalent': function(string1, string2) {
     if (_.isString(string1) && _.isString(string2)) {
       const splitTrimSort = function(str) {
-        return _.chain(str)   // "3, 1, 2 "
-          .split(',')   // ["3"," 1"," 2 "]
-          .map(_.trim)  // ["3","1","2"]
-          .sort()       // ["1","2","3"]
+        return _.chain(str) // "3, 1, 2 "
+          .split(',') // ["3"," 1"," 2 "]
+          .map(_.trim) // ["3","1","2"]
+          .sort() // ["1","2","3"]
           .value();
       };
       return _(splitTrimSort(string1)).isEqual(splitTrimSort(string2));
@@ -49,7 +49,7 @@ _.mixin({
    *
    *           result will be "3rd"
    */
-  'elementAfter' : function(array, currentElement) {
+  'elementAfter': function(array, currentElement) {
     if (_.isArray(array) && !_.isEmpty(array)) { // only relevant on non-empty array
       const currentIndex = _(array).indexOf(currentElement);
       if (currentIndex > -1) { // need to have an already-existing element inside the given array to work properly

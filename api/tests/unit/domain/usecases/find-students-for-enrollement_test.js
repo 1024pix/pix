@@ -106,7 +106,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
           userId,
           certificationCenterId,
           page: { number: 1, size: 10 },
-          filter:{},
+          filter: {},
           organizationRepository,
           schoolingRegistrationRepository,
           certificationCandidateRepository,

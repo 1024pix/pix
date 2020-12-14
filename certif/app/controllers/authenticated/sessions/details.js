@@ -13,7 +13,7 @@ export default class SessionsDetailsController extends Controller {
   @computed('certificationCandidates.length')
   get certificationCandidatesCount() {
     const certificationCandidatesCount = this.certificationCandidates.length;
-    return certificationCandidatesCount > 0 ? `(${certificationCandidatesCount})`  : '';
+    return certificationCandidatesCount > 0 ? `(${certificationCandidatesCount})` : '';
   }
 
   @computed('certificationCandidates.length')

@@ -17,7 +17,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
       const userId = databaseBuilder.factory.buildUser().id;
       const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
       const knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
-      const knowledgeElements =  [knowledgeElement1,knowledgeElement2];
+      const knowledgeElements = [knowledgeElement1, knowledgeElement2];
       await databaseBuilder.commit();
 
       // when

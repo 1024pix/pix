@@ -2,7 +2,7 @@ const { unlink, writeFile } = require('fs').promises;
 
 const { expect, databaseBuilder } = require('../../../../test-helper');
 
-const readOdsUtils  = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
 const getCandidatesImportSheet = require('../../../../../lib/domain/usecases/get-candidates-import-sheet');

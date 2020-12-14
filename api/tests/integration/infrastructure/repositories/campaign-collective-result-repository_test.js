@@ -309,7 +309,7 @@ describe('Integration | Repository | Campaign collective result repository', () 
 
           // Dan (did not share his campaign participation)
           const userWithCampaignParticipationDan = _createUserWithNonSharedCampaignParticipation('Dan', campaignId);
-          const danId =  userWithCampaignParticipationDan.userId;
+          const danId = userWithCampaignParticipationDan.userId;
 
           // Elo (participated in another campaign)
           const anotherCampaignId = databaseBuilder.factory.buildCampaign().id;
@@ -413,7 +413,7 @@ describe('Integration | Repository | Campaign collective result repository', () 
 
       context('when there are multiple participants with validated skills on old competences', () => {
 
-        beforeEach (() => {
+        beforeEach(() => {
 
           const campaignParticipationShareDate = new Date('2019-03-01');
           const beforeCampaignParticipationShareDate = new Date('2019-02-01');

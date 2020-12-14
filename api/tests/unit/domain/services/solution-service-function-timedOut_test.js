@@ -13,15 +13,15 @@ describe('Unit | Service | SolutionService', function() {
   describe('#_timedOut', function() {
 
     const allCases = [
-      { when: 'partially correct & timeout < 0', preresult: ANSWER_PARTIALLY , timeout: -5, output: ANSWER_TIMEDOUT },
-      { when: 'partially correct & timeout = 0', preresult: ANSWER_PARTIALLY , timeout: 0,  output: ANSWER_PARTIALLY },
-      { when: 'partially correct & timeout > 0', preresult: ANSWER_PARTIALLY , timeout: +5, output: ANSWER_PARTIALLY },
-      { when: 'completly correct & timeout < 0', preresult: ANSWER_OK ,        timeout: -5, output: ANSWER_TIMEDOUT },
-      { when: 'completly correct & timeout = 0', preresult: ANSWER_OK ,        timeout: 0,  output: ANSWER_OK },
-      { when: 'completly correct & timeout > 0', preresult: ANSWER_OK ,        timeout: +5, output: ANSWER_OK },
-      { when: 'user abandoned and timeout < 0',  preresult: ANSWER_SKIPPED ,     timeout: -5, output: ANSWER_SKIPPED },
-      { when: 'user abandoned and timeout = 0',  preresult: ANSWER_SKIPPED ,     timeout: 0,  output: ANSWER_SKIPPED },
-      { when: 'user abandoned and timeout > 0',  preresult: ANSWER_SKIPPED ,     timeout: +5, output: ANSWER_SKIPPED },
+      { when: 'partially correct & timeout < 0', preresult: ANSWER_PARTIALLY, timeout: -5, output: ANSWER_TIMEDOUT },
+      { when: 'partially correct & timeout = 0', preresult: ANSWER_PARTIALLY, timeout: 0, output: ANSWER_PARTIALLY },
+      { when: 'partially correct & timeout > 0', preresult: ANSWER_PARTIALLY, timeout: +5, output: ANSWER_PARTIALLY },
+      { when: 'completly correct & timeout < 0', preresult: ANSWER_OK, timeout: -5, output: ANSWER_TIMEDOUT },
+      { when: 'completly correct & timeout = 0', preresult: ANSWER_OK, timeout: 0, output: ANSWER_OK },
+      { when: 'completly correct & timeout > 0', preresult: ANSWER_OK, timeout: +5, output: ANSWER_OK },
+      { when: 'user abandoned and timeout < 0', preresult: ANSWER_SKIPPED, timeout: -5, output: ANSWER_SKIPPED },
+      { when: 'user abandoned and timeout = 0', preresult: ANSWER_SKIPPED, timeout: 0, output: ANSWER_SKIPPED },
+      { when: 'user abandoned and timeout > 0', preresult: ANSWER_SKIPPED, timeout: +5, output: ANSWER_SKIPPED },
 
     ];
 

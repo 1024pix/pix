@@ -29,7 +29,7 @@ module.exports = {
         // links
         'juryCertificationSummaries',
       ],
-      juryCertificationSummaries : {
+      juryCertificationSummaries: {
         ref: 'id',
         ignoreRelationshipData: true,
         nullIfMissing: true,
