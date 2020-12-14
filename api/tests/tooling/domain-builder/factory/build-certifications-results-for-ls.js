@@ -2,7 +2,7 @@ const { databaseBuilder, airtableBuilder } = require('../../../test-helper');
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
 
 function _createUser() {
-  return databaseBuilder.factory.buildUser().id;
+  return databaseBuilder.factory.buildUser();
 }
 
 function _createOrganization(uai) {
@@ -24,7 +24,7 @@ function _createCertificationCenter() {
 }
 
 function _buildCertificationData({ uai, isPublished, status, verificationCode, type, pixScore, competenceMarks = [] }) {
-  const userId = _createUser();
+  const userId = _createUser().id;
   const organizationId = _createOrganization(uai).id;
   const schoolingRegistration = _createSchoolingRegistration(userId, organizationId);
   const {
