@@ -203,6 +203,23 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should redirect to landing page when reconciliation and registration are done', async function() {
             // given
+            this.server.put('schooling-registration-user-associations/possibilities', () => {
+
+              const studentFoundWithUsernameGenerated = {
+                'data': {
+                  'attributes': {
+                    'last-name': 'JeanPrescrit',
+                    'first-name': 'Campagne',
+                    'birthdate': '2010-12-10',
+                    'campaign-code': 'RESTRICTD',
+                    'username': 'jeanprescrit.campagne1012',
+                  }, 'type': 'schooling-registration-user-associations',
+                },
+              };
+
+              return new Response(200, {}, studentFoundWithUsernameGenerated);
+            });
+
             await visit(`/campagnes/${campaign.code}`);
 
             // when
@@ -213,7 +230,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#yearOfBirth', '2000');
             await click('#submit-search');
 
-            await fillIn('#username', 'jeanprescrit1012');
             await fillIn('#password', 'Password123');
             await click('#submit-registration');
 
@@ -279,7 +295,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
             //go to username-based authentication window
             await click('.pix-toggle__off');
-            expect(find('#username').value).to.equal('first.last1010');
+            expect(find('span[data-test-username]').textContent).to.equal('first.last1010');
             expect(find('#password').value).to.equal('pix123');
 
           });

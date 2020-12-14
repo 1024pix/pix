@@ -28,6 +28,7 @@ exports.register = async function(server) {
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
                 'with-username': Joi.boolean().required(),
+                username: Joi.string().pattern(XRegExp('^([a-z]+[.]+[a-z]+[0-9]{4})$')).allow(null),
               },
             },
           }),

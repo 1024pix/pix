@@ -24,98 +24,212 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
     let payload;
     let response;
 
-    beforeEach(async () => {
-      // given
-      method = 'POST';
-      url = '/api/schooling-registration-dependent-users';
-      payload = {
-        data: {
-          attributes: {
-            'campaign-code': 'RESTRICTD',
-            'first-name': 'Robert',
-            'last-name': 'Smith',
-            birthdate: '2012-12-12',
-            username: 'robert.smith1212',
-            password: 'P@ssw0rd',
-            'with-username': true,
+    context('When registration succeed with email', () =>{
+
+      beforeEach(async () => {
+        // given
+        method = 'POST';
+        url = '/api/schooling-registration-dependent-users';
+        payload = {
+          data: {
+            attributes: {
+              'campaign-code': 'RESTRICTD',
+              'first-name': 'Robert',
+              'last-name': 'Smith',
+              birthdate: '2012-12-12',
+              email: 'robert.smith@example.net',
+              password: 'P@ssw0rd',
+              'with-username': false,
+              username: null,
+            },
           },
-        },
-      };
-    });
+        };
+      });
 
-    it('should succeed', async () => {
+      it('should return 204', async () => {
       // when
-      response = await httpTestServer.request(method, url, payload);
+        response = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(204);
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
     });
 
-    it('should return 400 when firstName is empty', async () => {
-      // given
-      payload.data.attributes['first-name'] = '';
+    context('When registration succeed with username', () =>{
 
-      // when
-      response = await httpTestServer.request(method, url, payload);
+      beforeEach(async () => {
+        // given
+        method = 'POST';
+        url = '/api/schooling-registration-dependent-users';
+        payload = {
+          data: {
+            attributes: {
+              'campaign-code': 'RESTRICTD',
+              'first-name': 'Robert',
+              'last-name': 'Smith',
+              birthdate: '2012-12-12',
+              username: 'robert.smith1212',
+              password: 'P@ssw0rd',
+              'with-username': true,
+              email: null,
+            },
+          },
+        };
+      });
 
-      // then
-      expect(response.statusCode).to.equal(400);
+      it('should return 204', async () => {
+        // when
+        response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
     });
 
-    it('should return 400 when lastName is empty', async () => {
-      // given
-      payload.data.attributes['last-name'] = '';
+    context('Error cases', () => {
 
-      // when
-      response = await httpTestServer.request(method, url, payload);
+      beforeEach(async () => {
+        // given
+        method = 'POST';
+        url = '/api/schooling-registration-dependent-users';
+        payload = {
+          data: {
+            attributes: {
+              'campaign-code': 'RESTRICTD',
+              'first-name': 'Robert',
+              'last-name': 'Smith',
+              birthdate: '2012-12-12',
+              username: 'robert.smith1212',
+              password: 'P@ssw0rd',
+              'with-username': true,
+            },
+          },
+        };
+      });
 
-      // then
-      expect(response.statusCode).to.equal(400);
+      it('should return 400 when firstName is empty', async () => {
+        // given
+        payload.data.attributes['first-name'] = '';
+
+        // when
+        response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return 400 when lastName is empty', async () => {
+        // given
+        payload.data.attributes['last-name'] = '';
+
+        // when
+        response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return 400 when birthDate is not a valid date', async () => {
+        // given
+        payload.data.attributes.birthdate = '2012*-12-12';
+
+        // when
+        response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return 400 when campaignCode is empty', async () => {
+        // given
+        payload.data.attributes['campaign-code'] = '';
+
+        // when
+        response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return 400 when password is not valid', async () => {
+        // given
+        payload.data.attributes.password = 'not_valid';
+
+        // when
+        response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should return 400 when withUsername is not a boolean', async () => {
+        // given
+        payload.data.attributes['with-username'] = 'not_a_boolean';
+
+        // when
+        response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      context('when username is not valid', () => {
+
+        it('should return 400 when username is an email', async () => {
+          // given
+          payload.data.attributes.username = 'robert.smith1212@example.net';
+
+          // when
+          response = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('should return 400 when username has not dot between names', async () => {
+          // given
+          payload.data.attributes.username = 'robertsmith1212';
+
+          // when
+          response = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('should return 400 when username does not end with 4 digits', async () => {
+          // given
+          payload.data.attributes.username = 'robert.smith';
+
+          // when
+          response = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('should return 400 when username is capitalized', async () => {
+          // given
+          payload.data.attributes.username = 'Robert.Smith1212';
+
+          // when
+          response = await httpTestServer.request(method, url, payload);
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+
+        it('should return 400 when username is a phone number', async () => {
+          // given
+          payload.data.attributes.username = '0601010101';
+
+          // when
+          response = await httpTestServer.request(method, url, payload);
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
     });
 
-    it('should return 400 when birthDate is not a valid date', async () => {
-      // given
-      payload.data.attributes.birthdate = '2012*-12-12';
-
-      // when
-      response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return 400 when campaignCode is empty', async () => {
-      // given
-      payload.data.attributes['campaign-code'] = '';
-
-      // when
-      response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return 400 when password is not valid', async () => {
-      // given
-      payload.data.attributes.password = 'not_valid';
-
-      // when
-      response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return 400 when withUsername is not a boolean', async () => {
-      // given
-      payload.data.attributes['with-username'] = 'not_a_boolean';
-
-      // when
-      response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
   });
 
   describe('POST /api/schooling-registration-dependent-users/external-user-token', () => {
