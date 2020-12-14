@@ -1,9 +1,9 @@
 <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
   <div class="examiner-report-modal">
-    <div class="pix-modal__close-link">
-      <a href="#" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
+    <div class="pix-modal__close-button">
+      <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
         <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
-      </a>
+      </button>
     </div>
 
     <form {{on 'submit' this.submitReport}} class="pix-modal__container pix-modal__container--white">
