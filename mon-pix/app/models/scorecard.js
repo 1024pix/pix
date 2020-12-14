@@ -3,10 +3,10 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { equal, and } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import ENV from 'mon-pix/config/environment';
 
 const NUMBER_OF_PIX_BY_LEVEL = 8;
 const MAX_DISPLAYED_PERCENTAGE = 95;
-const MAX_REACHABLE_LEVEL = 5;
 
 export default class Scorecard extends Model {
   @attr('string') description;
@@ -35,7 +35,7 @@ export default class Scorecard extends Model {
 
   @computed('level')
   get isMaxLevel() {
-    return this.level >= MAX_REACHABLE_LEVEL;
+    return this.level >= ENV.APP.MAX_REACHABLE_LEVEL;
   }
 
   @computed('earnedPix')
