@@ -27,6 +27,7 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
           attributes: {
             'certif-prescription-sco': false,
             'reports-categorization': false,
+            'is-livret-scolaire-sandbox-api-enabled': false,
             'is-pole-emploi-enabled': false,
             'my-account': false,
           },
