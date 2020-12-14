@@ -11,6 +11,7 @@ module.exports = [
   require('./application/certification-centers'),
   require('./application/certification-courses'),
   require('./application/certification-point-of-contacts'),
+  require('./application/certification-livret-scolaire'),
   require('./application/certification-reports'),
   require('./application/certification-issue-reports'),
   require('./application/certifications'),
