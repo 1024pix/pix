@@ -43,7 +43,7 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::List
-                  @campaigns={{campaigns}}
+                  @campaigns={{this.campaigns}}
                   @triggerFiltering={{this.triggerFilteringSpy}}
                   @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
 
@@ -216,6 +216,38 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
 
       // then
       assert.dom('[aria-label="Campagne"]').containsText('4');
+    });
+
+    test('it should display the placeholder of the filter by campaign field', async function(assert) {
+      // given
+      const campaigns = [];
+      campaigns.meta = { rowCount: 0 };
+      this.set('campaigns', campaigns);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::List
+                  @campaigns={{campaigns}}
+                  @triggerFiltering={{this.triggerFilteringSpy}}
+                  @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
+
+      // then
+      assert.dom('[placeholder="Rechercher une campagne"]').exists();
+    });
+
+    test('it should display the placeholder of the filter by creater field', async function(assert) {
+      // given
+      const campaigns = [];
+      campaigns.meta = { rowCount: 0 };
+      this.set('campaigns', campaigns);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::List
+                  @campaigns={{campaigns}}
+                  @triggerFiltering={{this.triggerFilteringSpy}}
+                  @goToCampaignPage={{this.goToCampaignPageSpy}} />`);
+
+      // then
+      assert.dom('[placeholder="Rechercher un créateur"]').exists();
     });
   });
 });
