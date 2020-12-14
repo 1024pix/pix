@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createUserWithMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -10,7 +10,7 @@ module('Acceptance | Session Update', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async () => {
-    const user = createUserWithMembershipAndTermsOfServiceAccepted();
+    const user = createCertificationPointOfContactWithTermsOfServiceAccepted();
 
     await authenticateSession(user.id);
   });

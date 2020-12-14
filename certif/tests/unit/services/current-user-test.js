@@ -10,15 +10,14 @@ module('Unit | Service | current-user', function(hooks) {
 
   module('user is authenticated', function() {
 
-    test('should load the current user', async function(assert) {
+    test('should load the current certification point of contact', async function(assert) {
       // Given
       const connectedUserId = 1;
-      const connectedUser = Object.create({
+      const connectedCertificationPointOfContact = Object.create({
         id: connectedUserId,
-        certificationCenterMemberships: [{ certificationCenter: [] }],
       });
       const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser),
+        findRecord: () => resolve(connectedCertificationPointOfContact),
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -32,33 +31,7 @@ module('Unit | Service | current-user', function(hooks) {
       await currentUser.load();
 
       // Then
-      assert.equal(currentUser.user, connectedUser);
-    });
-
-    test('should load the certification center', async function(assert) {
-      // Given
-      const connectedUserId = 1;
-      const certificationCenter = Object.create({ id: 9 });
-      const connectedUser = Object.create({
-        id: connectedUserId,
-        certificationCenterMemberships: [{ certificationCenter }],
-      });
-      const storeStub = Service.create({
-        queryRecord: () => resolve(connectedUser),
-      });
-      const sessionStub = Service.create({
-        isAuthenticated: true,
-        data: { authenticated: { user_id: connectedUserId } },
-      });
-      const currentUser = this.owner.lookup('service:currentUser');
-      currentUser.set('store', storeStub);
-      currentUser.set('session', sessionStub);
-
-      // When
-      await currentUser.load();
-
-      // Then
-      assert.equal(currentUser.certificationCenter, certificationCenter);
+      assert.equal(currentUser.certificationPointOfContact, connectedCertificationPointOfContact);
     });
   });
 
@@ -76,7 +49,7 @@ module('Unit | Service | current-user', function(hooks) {
       await currentUser.load();
 
       // Then
-      assert.equal(currentUser.user, null);
+      assert.equal(currentUser.certificationPointOfContact, null);
     });
   });
 
@@ -86,7 +59,7 @@ module('Unit | Service | current-user', function(hooks) {
       // Given
       const connectedUserId = 1;
       const storeStub = Service.create({
-        queryRecord: () => reject({ errors: [{ code: 401 }] }),
+        findRecord: () => reject({ errors: [{ code: 401 }] }),
       });
       const sessionStub = Service.create({
         isAuthenticated: true,

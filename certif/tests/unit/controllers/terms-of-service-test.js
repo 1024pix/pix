@@ -11,7 +11,7 @@ module('Unit | Controller | terms-of-service', function(hooks) {
     hooks.beforeEach(function() {
       controller = this.owner.lookup('controller:terms-of-service');
       controller.transitionToRoute = sinon.stub().resolves();
-      controller.currentUser = { user: { save: sinon.stub().resolves() } };
+      controller.currentUser = { certificationPointOfContact: { save: sinon.stub().resolves() } };
     });
 
     test('it should save acceptance of terms of service', async function(assert) {
@@ -19,7 +19,7 @@ module('Unit | Controller | terms-of-service', function(hooks) {
       await controller.send('submit');
 
       // then
-      sinon.assert.calledWith(controller.currentUser.user.save, { adapterOptions: { acceptPixCertifTermsOfService: true } });
+      sinon.assert.calledWith(controller.currentUser.certificationPointOfContact.save, { adapterOptions: { acceptPixCertifTermsOfService: true } });
       assert.ok(controller);
     });
 
