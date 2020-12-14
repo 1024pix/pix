@@ -1,7 +1,7 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
 const saveCertificationIssueReport = require('../../../../lib/domain/usecases/save-certification-issue-report');
-const { InvalidCertificationIssueReportForSaving } = require('../../../../lib/domain/errors');
+const { InvalidCertificationIssueReportForSaving, NotFoundError } = require('../../../../lib/domain/errors');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
 describe('Unit | UseCase | save-certification-issue-report', () => {
@@ -10,28 +10,60 @@ describe('Unit | UseCase | save-certification-issue-report', () => {
 
     let certificationCourseRepository;
     let certificationIssueReportRepository;
+    let sessionAuthorizationService;
 
     beforeEach(() => {
       certificationCourseRepository = { get: sinon.stub() };
       certificationIssueReportRepository = { save: sinon.stub() };
+      sessionAuthorizationService = { isAuthorizedToAccessSession: sinon.stub() };
     });
 
     context('when certificationCourseId is not valid', () => {
 
       it('should throw an error', async () => {
         // given
+        const userId = 'un user id';
         certificationCourseRepository.get.resolves(null);
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ certificationCourseId: 'un id completement aberrant' });
 
-        // when 
+        // when
         const error = await catchErr(saveCertificationIssueReport)({
+          userId,
           certificationIssueReport,
           certificationCourseRepository,
           certificationIssueReportRepository,
+          sessionAuthorizationService,
         });
 
         // then
-          expect(error).to.be.instanceOf(InvalidCertificationIssueReportForSaving);
+        expect(error).to.be.instanceOf(InvalidCertificationIssueReportForSaving);
+        expect(error.message).to.be.equal('Il y a un soucis avec l\'identification de cette certification, impossible de sauvegarder le signalement.');
+      });
+    });
+
+    context('when the user is not authorized', () => {
+
+      it('should throw an error', async () => {
+        // given
+        const sessionId = 1;
+        const userId = 'not authorized user id';
+        const certificationCourse = domainBuilder.buildCertificationCourse({ sessionId });
+        certificationCourseRepository.get.resolves(certificationCourse);
+        sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(false);
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ certificationCourseId: 'un id completement aberrant' });
+
+        // when
+        const error = await catchErr(saveCertificationIssueReport)({
+          userId,
+          certificationIssueReport,
+          certificationCourseRepository,
+          certificationIssueReportRepository,
+          sessionAuthorizationService,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.be.equal('Erreur lors de la sauvegarde du signalement. Veuillez vous connecter et réessayer.');
       });
     });
 
@@ -39,16 +71,19 @@ describe('Unit | UseCase | save-certification-issue-report', () => {
 
       it('should throw a validation error', async () => {
         // given
+        const userId = 'un user id';
         certificationCourseRepository.get.resolves(null);
         const badCertificationIssueReport = domainBuilder.buildCertificationIssueReport({
           category: 'une categorie inexistante',
         });
 
-        // when 
+        // when
         const error = await catchErr(saveCertificationIssueReport)({
+          userId,
           certificationIssueReport: badCertificationIssueReport,
           certificationCourseRepository,
           certificationIssueReportRepository,
+          sessionAuthorizationService,
         });
 
         // then
@@ -56,11 +91,14 @@ describe('Unit | UseCase | save-certification-issue-report', () => {
       });
     });
 
-    context('when certificationCourseId is valid', () => {
+    context('when certificationCourseId is valid and user is authorized', () => {
 
       it('should save the certification issue report', async () => {
         // given
-        const aCertificationCourse = domainBuilder.buildCertificationCourse();
+        const sessionId = 1;
+        const userId = 1;
+        const aCertificationCourse = domainBuilder.buildCertificationCourse({ sessionId });
+        sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);
         certificationCourseRepository.get.resolves(aCertificationCourse);
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           certificationCourseId: aCertificationCourse.id,
@@ -71,9 +109,11 @@ describe('Unit | UseCase | save-certification-issue-report', () => {
 
         // when
         const certifIssueReportResult = await saveCertificationIssueReport({
+          userId,
           certificationIssueReport,
           certificationCourseRepository,
           certificationIssueReportRepository,
+          sessionAuthorizationService,
         });
 
         // then

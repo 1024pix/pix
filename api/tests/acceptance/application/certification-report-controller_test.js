@@ -2,7 +2,7 @@ const {
   expect,
   databaseBuilder,
   knex,
-  generateValidRequestAuthorizationHeader
+  generateValidRequestAuthorizationHeader,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
@@ -14,17 +14,19 @@ describe('Acceptance | Controller | certification-report-controller-save-certifi
     server = await createServer();
   });
 
-
   afterEach(async () => {
     await knex('certification-issue-reports').delete();
   });
 
-  describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
+  describe('POST /api/certification-reports/{id}/certification-issue-reports', function() {
 
     it('should return 201 HTTP status code', async () => {
       // given
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const userId = databaseBuilder.factory.buildUser().id;
-      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }).id;
+      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
       const request = {
         method: 'POST',
         url: `/api/certification-reports/${certificationCourseId}/certification-issue-reports`,
@@ -38,15 +40,15 @@ describe('Acceptance | Controller | certification-report-controller-save-certifi
               'certification-report': {
                 data: {
                   type: 'certification-reports',
-                  id: 'CertificationReport:103836'
-                }
-              }
+                  id: 'CertificationReport:103836',
+                },
+              },
             },
             type: 'certification-issue-reports',
-          }
+          },
         },
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(userId)
+          authorization: generateValidRequestAuthorizationHeader(userId),
         },
       };
       await databaseBuilder.commit();
