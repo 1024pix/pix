@@ -76,7 +76,7 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/pole-emploi/token',
       config: {
-        auth: false,
+        auth: { mode: 'optional' },
         payload: {
           allow: 'application/x-www-form-urlencoded',
         },

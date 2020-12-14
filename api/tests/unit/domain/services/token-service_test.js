@@ -3,7 +3,6 @@ const jsonwebtoken = require('jsonwebtoken');
 
 const { catchErr, expect } = require('../../../test-helper');
 
-const User = require('../../../../lib/domain/models/User');
 const { InvalidTemporaryKeyError, InvalidExternalUserTokenError } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
 
@@ -71,8 +70,8 @@ describe('Unit | Domain | Service | Token Service', () => {
 
     it('should return userId if the accessToken is valid', () => {
       // given
-      const user = new User({ id: 123 });
-      const accessToken = tokenService.createAccessTokenFromUser(user, 'pix');
+      const userId = 123;
+      const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix');
 
       // when
       const result = tokenService.extractUserId(accessToken);

@@ -2,9 +2,9 @@ const jsonwebtoken = require('jsonwebtoken');
 const { InvalidTemporaryKeyError, InvalidExternalUserTokenError } = require('../../domain/errors');
 const settings = require('../../config');
 
-function createAccessTokenFromUser(user, source) {
+function createAccessTokenFromUser(userId, source) {
   return jsonwebtoken.sign({
-    user_id: user.id,
+    user_id: userId,
     source,
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
