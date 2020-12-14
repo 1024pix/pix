@@ -6,11 +6,8 @@ import Route from '@ember/routing/route';
 @classic
 export default class ResultsRoute extends Route.extend(SecuredRouteMixin) {
   async model(params) {
-    const competenceEvaluations = await this.store.query('competenceEvaluation', {
-      filter: {
-        assessmentId: params.assessment_id,
-      },
-    });
+    const assessmentId = params.assessment_id;
+    const competenceEvaluations = await this.store.findAll('competenceEvaluation', { adapterOptions: { assessmentId } });
     return competenceEvaluations.firstObject;
   }
 

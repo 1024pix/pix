@@ -1,6 +1,18 @@
 import ApplicationAdapter from './application';
 
 export default class CompetenceEvaluation extends ApplicationAdapter {
+  urlForFindAll(modelName, { adapterOptions }) {
+    const url = super.urlForFindAll(...arguments);
+
+    if (adapterOptions && adapterOptions.assessmentId) {
+      const assessmentId = adapterOptions.assessmentId;
+      delete adapterOptions.assessmentId;
+      return `${this.host}/${this.namespace}/assessments/${assessmentId}/competence-evaluations`;
+    }
+
+    return url;
+  }
+
   urlForQueryRecord(query) {
     if (query.startOrResume) {
       delete query.startOrResume;

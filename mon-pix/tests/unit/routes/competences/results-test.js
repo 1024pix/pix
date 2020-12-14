@@ -15,12 +15,12 @@ describe('Unit | Route | Competences | Results', function() {
     let route;
     let storeStub;
     let sessionStub;
-    let queryStub;
+    let findAllStub;
 
     beforeEach(function() {
-      queryStub = sinon.stub();
+      findAllStub = sinon.stub();
       storeStub = Service.create({
-        query: queryStub,
+        findAll: findAllStub,
       });
       sessionStub = Service.create({
         isAuthenticated: true,
@@ -34,8 +34,10 @@ describe('Unit | Route | Competences | Results', function() {
 
     it('should return the first competence-evaluation for a given assessment', async function() {
       // Given
-      const expectedCompetenceEvaluation = [{ id: 1 }];
-      queryStub.resolves(expectedCompetenceEvaluation);
+      const expectedCompetenceEvaluation = { id: 1 };
+      findAllStub
+        .withArgs('competenceEvaluation', { adapterOptions: { assessmentId } })
+        .resolves({ firstObject: expectedCompetenceEvaluation });
 
       // When
       const model = await route.model({
@@ -43,7 +45,6 @@ describe('Unit | Route | Competences | Results', function() {
       });
 
       // Then
-      sinon.assert.calledWith(queryStub, 'competenceEvaluation', { filter: { assessmentId } });
       expect(model.id).to.equal(1);
     });
   });

@@ -3,7 +3,7 @@ import getCampaigns from './routes/get-campaigns';
 import getCertifications from './routes/get-certifications';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
-import getCompetenceEvaluations from './routes/get-competence-evaluations';
+import getCompetenceEvaluationsByAssessment from './routes/get-competence-evaluations-by-assessment';
 import getProgression from './routes/get-progression';
 import getScorecard from './routes/get-scorecard';
 import getScorecardsTutorials from './routes/get-scorecards-tutorials';
@@ -41,6 +41,8 @@ export default function() {
   loadSchoolingRegistrationDependentUserRoutes(this);
   loadUserRoutes(this);
 
+  this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
+
   this.get('/campaigns', getCampaigns);
   this.get('/campaigns/:id?include=targetProfile', (schema, request) => {
     return schema.campaigns.find(request.params['id?include=targetProfile']);
@@ -53,7 +55,6 @@ export default function() {
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
 
-  this.get('/competence-evaluations', getCompetenceEvaluations);
   this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);
 
   this.get('/progressions/:id', getProgression);
