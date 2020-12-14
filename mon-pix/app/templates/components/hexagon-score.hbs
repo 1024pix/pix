@@ -8,6 +8,6 @@
         <span class="hexagon-score-information__text--strong">{{t 'pages.profile.total-score-helper.title'}}</span>
         <span class="hexagon-score-information__close" {{action 'hideHelp'}}><FaIcon @icon="times"/></span>
         <br><br>
-        {{t 'pages.profile.total-score-helper.explanation' htmlSafe=true}}
+        {{t 'pages.profile.total-score-helper.explanation' maxReachablePixCount=this.maxReachablePixCount maxReachableLevel=this.maxReachableLevel htmlSafe=true}}
         </div>
 </div>

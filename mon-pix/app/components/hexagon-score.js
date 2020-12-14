@@ -5,6 +5,7 @@ import { action, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
+import ENV from 'mon-pix/config/environment';
 
 @classic
 export default class HexagonScore extends Component {
@@ -13,6 +14,14 @@ export default class HexagonScore extends Component {
   @computed('pixScore')
   get score() {
     return (isNone(this.pixScore) || this.pixScore === 0) ? '–' : Math.floor(this.pixScore);
+  }
+
+  get maxReachablePixCount() {
+    return ENV.APP.MAX_REACHABLE_LEVEL * 8 * 16;
+  }
+
+  get maxReachableLevel() {
+    return ENV.APP.MAX_REACHABLE_LEVEL;
   }
 
   @action
