@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Add Students', function(hooks) {
+module('Acceptance | Session Add Sco Students', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -15,7 +15,7 @@ module('Acceptance | Session Add Students', function(hooks) {
 
   hooks.beforeEach(function() {
     server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
-    certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted('SCO');
+    certificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted('SCO');
     session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
   });
 

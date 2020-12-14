@@ -18,10 +18,6 @@ export default class EnrolledCandidates extends Component {
     return this.candidatesInStaging.length > 0;
   }
 
-  get isScoSession() {
-    return this.args.isCertifPrescriptionScoEnabled && this.args.isUserFromSco;
-  }
-
   @action
   async deleteCertificationCandidate(certificationCandidate) {
     this.notifications.clearAll();
