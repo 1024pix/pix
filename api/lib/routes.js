@@ -10,6 +10,7 @@ module.exports = [
   require('./application/certification-center-memberships'),
   require('./application/certification-centers'),
   require('./application/certification-courses'),
+  require('./application/certification-lsu-lsl'),
   require('./application/certification-reports'),
   require('./application/certifications'),
   require('./application/challenges'),
