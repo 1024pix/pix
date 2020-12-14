@@ -12,11 +12,11 @@ module('Unit | Route | authenticated/sessions/new', function(hooks) {
 
   module('#model', function(hooks) {
     const createdSession = Symbol('newSession');
-    const certificationCenter = Symbol('certificationCenter');
+    const certificationCenterId = 123;
 
     hooks.beforeEach(function() {
       route.store.createRecord = sinon.stub().resolves(createdSession);
-      route.currentUser = { certificationCenter };
+      route.currentUser = { certificationPointOfContact: { certificationCenterId } };
     });
 
     test('it should return the recently created session', async function(assert) {
@@ -24,7 +24,7 @@ module('Unit | Route | authenticated/sessions/new', function(hooks) {
       const actualSession = await route.model();
 
       // then
-      sinon.assert.calledWith(route.store.createRecord, 'session', { certificationCenter });
+      sinon.assert.calledWith(route.store.createRecord, 'session', { certificationCenterId });
       assert.equal(actualSession, createdSession);
     });
   });

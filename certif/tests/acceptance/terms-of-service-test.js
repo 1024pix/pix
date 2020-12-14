@@ -3,8 +3,8 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import {
-  createUserWithMembershipAndTermsOfServiceNotAccepted,
-  createUserWithMembershipAndTermsOfServiceAccepted,
+  createCertificationPointOfContactWithTermsOfServiceNotAccepted,
+  createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 
@@ -14,36 +14,36 @@ module('Acceptance | terms-of-service', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let user;
+  let certificationPointOfContact;
 
-  test('it should redirect user to login page if not logged in', async function(assert) {
+  test('it should redirect certificationPointOfContact to login page if not logged in', async function(assert) {
     // when
     await visit('/cgu');
 
     // then
     assert.equal(currentURL(), '/connexion');
-    assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
+    assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is still unauthenticated');
   });
 
-  module('When user is authenticated and has not yet accepted terms of service', function(hooks) {
+  module('When certificationPointOfContact is authenticated and has not yet accepted terms of service', function(hooks) {
 
     hooks.beforeEach(async () => {
-      user = createUserWithMembershipAndTermsOfServiceNotAccepted();
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
 
-      await authenticateSession(user.id);
+      await authenticateSession(certificationPointOfContact.id);
     });
 
     test('it should send request for saving Pix-certif terms of service acceptation when submitting', async function(assert) {
       // given
-      const previousPixCertifTermsOfServiceVal = user.pixCertifTermsOfServiceAccepted;
+      const previousPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
       await visit('/cgu');
 
       // when
       await click('button[type=submit]');
 
       // then
-      user.reload();
-      const actualPixCertifTermsOfServiceVal = user.pixCertifTermsOfServiceAccepted;
+      certificationPointOfContact.reload();
+      const actualPixCertifTermsOfServiceVal = certificationPointOfContact.pixCertifTermsOfServiceAccepted;
       assert.equal(actualPixCertifTermsOfServiceVal, true);
       assert.equal(previousPixCertifTermsOfServiceVal, false);
     });
@@ -71,12 +71,12 @@ module('Acceptance | terms-of-service', function(hooks) {
     });
   });
 
-  module('When user has already accepted terms of service', function(hooks) {
+  module('When certificationPointOfContact has already accepted terms of service', function(hooks) {
 
     hooks.beforeEach(async () => {
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
 
-      await authenticateSession(user.id);
+      await authenticateSession(certificationPointOfContact.id);
     });
 
     test('it should redirect to session list', async function(assert) {

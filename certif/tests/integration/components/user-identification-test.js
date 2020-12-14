@@ -11,17 +11,17 @@ module('Integration | Component | user-identification', function(hooks) {
 
   test('it renders', async function(assert) {
     // given
-    const givenCurrentUser = Object.create({
+    const certificationPointOfContact = Object.create({
       firstName: 'givenFirstName',
       lastName: 'givenLastName',
     });
-    this.owner.register('service:current-user', Service.extend({ user: givenCurrentUser }));
+    this.owner.register('service:current-user', Service.extend({ certificationPointOfContact }));
 
     // when
     await render(hbs`{{user-identification}}`);
 
     // then
-    assert.ok(this.element.textContent.includes(givenCurrentUser.get('firstName')), 'Should contains firstName');
-    assert.ok(this.element.textContent.includes(givenCurrentUser.get('lastName')), 'Should contains lastName');
+    assert.ok(this.element.textContent.includes(certificationPointOfContact.firstName, 'Should contains firstName'));
+    assert.ok(this.element.textContent.includes(certificationPointOfContact.lastName, 'Should contains lastName'));
   });
 });

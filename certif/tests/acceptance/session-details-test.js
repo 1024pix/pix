@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createUserAndMembershipAndTermsOfServiceAccepted,
+  createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 
@@ -20,9 +20,9 @@ module('Acceptance | Session Details', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('when user is not logged in', function() {
+  module('when certificationPointOfContact is not logged in', function() {
 
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       // given
       const session = server.create('session');
 
@@ -34,16 +34,15 @@ module('Acceptance | Session Details', function(hooks) {
     });
   });
 
-  module('when user is logged in', function(hooks) {
+  module('when certificationPointOfContact is logged in', function(hooks) {
 
-    let user;
+    let certificationPointOfContact;
     let session;
-    let certificationCenter;
 
     hooks.beforeEach(async () => {
-      ({ user, certificationCenter } = createUserAndMembershipAndTermsOfServiceAccepted());
-      session = server.create('session', { certificationCenterId: certificationCenter.id });
-      await authenticateSession(user.id);
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+      await authenticateSession(certificationPointOfContact.id);
     });
 
     test('it should redirect to session list on click on return button', async function(assert) {
@@ -152,6 +151,5 @@ module('Acceptance | Session Details', function(hooks) {
         });
       });
     });
-
   });
 });

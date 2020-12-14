@@ -11,7 +11,6 @@ module.exports = {
   serialize(sessions) {
     return new Serializer('session', {
       attributes: [
-        'certificationCenterName',
         'address',
         'room',
         'examiner',
@@ -24,9 +23,9 @@ module.exports = {
         'finalizedAt',
         'resultsSentToPrescriberAt',
         'publishedAt',
+        'certificationCenterId',
         'certificationCandidates',
         'certificationReports',
-        'certificationCenter',
       ],
       certificationCandidates: {
         ref: 'id',
@@ -46,25 +45,6 @@ module.exports = {
             return `/api/sessions/${parent.id}/certification-reports`;
           },
         },
-      },
-      certificationCenter: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related(record, current) {
-            return `/api/certification-centers/${current.id}`;
-          },
-        },
-      },
-      transform(session) {
-        const transformedSession = Object.assign({}, session);
-        transformedSession.status = session.status;
-        transformedSession.certificationCenterName = session.certificationCenter;
-        delete transformedSession.certificationCenter;
-        if (session.certificationCenterId) {
-          transformedSession.certificationCenter = { id: session.certificationCenterId };
-        }
-        return transformedSession;
       },
     }).serialize(sessions);
 
@@ -88,11 +68,9 @@ module.exports = {
       throw new WrongDateFormatError();
     }
 
-    const certificationCenterId = _.get(json.data, ['relationships', 'certification-center', 'data', 'id']);
-
     const result = new Session({
       id: json.data.id,
-      certificationCenterId: certificationCenterId ? parseInt(certificationCenterId) : null,
+      certificationCenterId: attributes['certification-center-id'],
       address: attributes.address,
       room: attributes.room,
       examiner: attributes.examiner,
