@@ -17,7 +17,11 @@ describe('Unit | Utils | url-builder', () => {
       });
 
       it('should return campaignUrl with org domain when locale is fr', () => {
-        expect(getCampaignUrl('fr', campaignCode)).to.be.equal(`https://app.pix.org/campagnes/${campaignCode}`);
+        expect(getCampaignUrl('fr', campaignCode)).to.be.equal(`https://app.pix.org/campagnes/${campaignCode}/?lang=fr`);
+      });
+
+      it('should return campaignUrl with org domain when locale is en', () => {
+        expect(getCampaignUrl('en', campaignCode)).to.be.equal(`https://app.pix.org/campagnes/${campaignCode}/?lang=en`);
       });
     });
   });
