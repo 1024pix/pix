@@ -3,7 +3,7 @@ import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import moment from 'moment';
 import {
-  createScoCertificationPointOfContactWithTermsOfServiceAccepted,
+  createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
@@ -254,12 +254,13 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           });
         });
 
-        module('when certificationPointOfContact is SCO', function() {
+        module('when certificationPointOfContact is SCO managing students', function() {
 
           test('it should display the list of students for session', async function(assert) {
             // given
             server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
             certificationPointOfContact.update({ certificationCenterType: 'SCO' });
+            certificationPointOfContact.update({ isRelatedOrganizationManagingStudents: true });
             server.createList('student', 10);
 
             // when
@@ -282,7 +283,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
       hooks.beforeEach(async () => {
         session = server.create('session');
-        scocertificationPointOfContact = createScoCertificationPointOfContactWithTermsOfServiceAccepted();
+        scocertificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
       });
 
       [
