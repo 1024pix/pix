@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.230.0 (14/12/2020)
+
+- [#2259](https://github.com/1024pix/pix/pull/2259) [FEATURE] Permettre la connexion à Pole Emploi pour un utilisateur connecté à Pix (PIX-1736).
+- [#2267](https://github.com/1024pix/pix/pull/2267) [FEATURE] Ajouter une bannière d'information pour les utilisateurs SCO de Pix Certif (PIX-1742)
+- [#2244](https://github.com/1024pix/pix/pull/2244) [FEATURE] Permettre à l'utilisateur de changer son email - API (PIX-1748).
+- [#2269](https://github.com/1024pix/pix/pull/2269) [FEATURE] Localiser l’image affichée lorsque l’utilisateur n’a pas enregistré de tutoriel (PIX-1076).
+- [#2245](https://github.com/1024pix/pix/pull/2245) [FEATURE] Envoi du parcours commencé à Pôle Emploi et enregistrement de la réponse (PIX-1734).
+- [#2246](https://github.com/1024pix/pix/pull/2246) [FEATURE] Envoi du parcours terminé à Pôle Emploi et enregistrement de la réponse (PIX-1735).
+- [#2176](https://github.com/1024pix/pix/pull/2176) [FEATURE] Permettre l'upload de fichier ZIP pour l'import d'élèves avec une fichier siècle (Pix-1615).
+- [#2242](https://github.com/1024pix/pix/pull/2242) [BUGFIX] Imposer un identifiant valide lors de la création de compte (réconciliation) dans Pix App (PIX-1549). 
+- [#2261](https://github.com/1024pix/pix/pull/2261) [BUGFIX] Empêcher l'appel à l'API quand le formulaire est invalide dans Pix App (PIX-215).
+- [#2256](https://github.com/1024pix/pix/pull/2256) [TECH] Mise a jour des dependance Pix App
+- [#2210](https://github.com/1024pix/pix/pull/2210) [TECH] Enregistrer les signalements surveillant dans la nouvelle table de signalements (PIX-1743)
+
 ## v2.229.2 (09/12/2020)
 
 - [#2257](https://github.com/1024pix/pix/pull/2257) [TRANSLATION] Mise à jour des traductions
