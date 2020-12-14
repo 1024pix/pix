@@ -1,4 +1,3 @@
-const sessionAuthorization = require('../preHandlers/session-authorization');
 const certificationReportController = require('./certification-report-controller');
 
 exports.register = async (server) => {
@@ -7,10 +6,6 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/certification-reports/{id}/certification-issue-reports',
       config: {
-        // pre: [{
-        //   method: sessionAuthorization.verify,
-        //   assign: 'authorizationCheck',
-        // }],
         handler: certificationReportController.saveCertificationIssueReport,
         tags: ['api', 'certification-reports'],
         notes: [

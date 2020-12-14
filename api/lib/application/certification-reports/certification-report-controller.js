@@ -4,9 +4,10 @@ const certificationIssueReportSerializer = require('../../infrastructure/seriali
 module.exports = {
 
   async saveCertificationIssueReport(request, h) {
+    const userId = request.auth.credentials.userId;
     const certificationIssueReport = certificationIssueReportSerializer.deserialize(request);
-    const certificationIssueReportSaved = await usecases.saveCertificationIssueReport({ certificationIssueReport });
+    const certificationIssueReportSaved = await usecases.saveCertificationIssueReport({ userId, certificationIssueReport });
 
     return h.response(certificationIssueReportSerializer.serialize(certificationIssueReportSaved)).created();
-  }
+  },
 };
