@@ -1,8 +1,8 @@
 <section class="page-container dashboard-content">
-  <div>
-    <h1>{{t 'pages.dashboard.campaigns.title'}}</h1>
-    <p>{{t 'pages.dashboard.campaigns.subtitle'}}</p>
-  </div>
+  <header>
+    <h1 class="dashboard-content__title">{{t 'pages.dashboard.campaigns.title'}}</h1>
+    <p class="dashboard-content__info">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
+  </header>
 
   <CampaignParticipation::Grid @model={{@model.campaignParticipations}}/>
 </section>
