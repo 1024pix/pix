@@ -1,0 +1,14 @@
+<div class="new-information">
+      <div class="new-information__content">
+        <img class="new-information-content__img"
+             src="{{this.rootURL}}/images/Illu_niveau6.svg"
+             alt=""
+             role="presentation"/>
+        <div class="new-information-content__text">
+          {{t @information htmlSafe=true}}
+        </div>
+      </div>
+  <button class="new-information__close" {{action @closeaction}} type="button">
+    <FaIcon @icon='times' @size='lg'/><span class="sr-only">{{t 'common.actions.close'}}</span>
+  </button>
+</div>
