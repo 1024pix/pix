@@ -1,14 +1,8 @@
-<section class="dashboard-content">
+<section class="page-container dashboard-content">
   <div>
-    <h2>{{t 'pages.dashboard.campaigns.title'}}</h2>
+    <h1>{{t 'pages.dashboard.campaigns.title'}}</h1>
     <p>{{t 'pages.dashboard.campaigns.subtitle'}}</p>
   </div>
 
-  <ul>
-    {{#each @model.campaignParticipations as |campaignParticipation|}}
-      <li>
-        <CampaignParticipation::Card @model={{campaignParticipation}}/>
-      </li>
-    {{/each}}
-  </ul>
+  <CampaignParticipation::Grid @model={{@model.campaignParticipations}}/>
 </section>

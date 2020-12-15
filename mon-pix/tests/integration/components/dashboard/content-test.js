@@ -14,4 +14,12 @@ describe('Integration | Component | Dashboard | Content', function() {
     // then
     expect(find('.dashboard-content')).to.exist;
   });
+
+  it('should render campaign participation grid', async function() {
+    // when
+    await render(hbs`<Dashboard::Content />}`);
+
+    // then
+    expect(find('.campaign-participation-grid')).to.exist;
+  });
 });
