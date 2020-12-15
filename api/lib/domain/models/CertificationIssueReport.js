@@ -23,7 +23,23 @@ class CertificationIssueReport {
     this.description = description;
   }
 
-  validateForSaving() {
+  static new({
+    id,
+    certificationCourseId,
+    category,
+    description,
+  }) {
+    const certificationIssueReport = new CertificationIssueReport({
+      id,
+      certificationCourseId,
+      category,
+      description,
+    });
+    certificationIssueReport.validate();
+    return certificationIssueReport;
+  }
+
+  validate() {
     const { error } = certificationIssueReportValidationJoiSchema.validate(this, { allowUnknown: true });
     if (error) {
       throw new InvalidCertificationIssueReportForSaving(error);

@@ -1,7 +1,6 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer');
 
-const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 
 describe('Unit | Serializer | JSONAPI | certification-issue-serializer', function() {
@@ -38,12 +37,11 @@ describe('Unit | Serializer | JSONAPI | certification-issue-serializer', functio
       const certificationIssueReport = serializer.deserialize(request);
 
       // then
-      const expectedCertificationIssueReport = new CertificationIssueReport({
+      const expectedCertificationIssueReport = {
         certificationCourseId,
         category: CertificationIssueReportCategories.OTHER,
         description,
-      });
-      expect(certificationIssueReport).to.be.instanceOf(CertificationIssueReport);
+      };
       expect(certificationIssueReport).to.deep.equal(expectedCertificationIssueReport);
     });
   });
