@@ -70,7 +70,7 @@ export default class User extends ApplicationAdapter {
 
     if (adapterOptions && adapterOptions.rememberUserHasSeenNewLevelInfo) {
       delete adapterOptions.rememberUserHasSeenNewLevelInfo;
-      return url + '/remember-user-has-seen-new-level-info';
+      return url + '/has-seen-new-level-info';
     }
 
     if (adapterOptions && adapterOptions.updatePassword) {
