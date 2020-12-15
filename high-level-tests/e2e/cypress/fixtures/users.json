@@ -102,5 +102,12 @@
     "pixCertifTermsOfServiceAccepted": true,
     "password": "",
     "shouldChangePassword": false
+  },
+  {
+    "id": 12,
+    "firstName": "user",
+    "lastName": "gar",
+    "password": "",
+    "shouldChangePassword": false
   }
 ]

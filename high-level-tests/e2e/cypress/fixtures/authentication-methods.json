@@ -97,5 +97,12 @@
       "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
       "shouldChangePassword": false
     }
+  },
+  {
+    "id": 12,
+    "userId": 12,
+    "identityProvider": "GAR",
+    "authenticationComplement": null,
+    "externalIdentifier": "SAMLID-1234"
   }
 ]
