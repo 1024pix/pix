@@ -21,6 +21,7 @@ class CertificationCourse {
       // references
       userId,
       sessionId,
+      maxReachableLevelOnCertificationDate,
     } = {}) {
     this.id = id;
     // attributes
@@ -42,13 +43,14 @@ class CertificationCourse {
     // references
     this.userId = userId;
     this.sessionId = sessionId;
+    this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
   }
 
   reportIssue(issueReport) {
     this.certificationIssueReports.push(issueReport);
   }
 
-  static from({ certificationCandidate, challenges, verificationCode }) {
+  static from({ certificationCandidate, challenges, verificationCode, maxReachableLevelOnCertificationDate }) {
     return new CertificationCourse({
       userId: certificationCandidate.userId,
       sessionId: certificationCandidate.sessionId,
@@ -60,6 +62,7 @@ class CertificationCourse {
       isV2Certification: true,
       challenges,
       verificationCode,
+      maxReachableLevelOnCertificationDate,
     });
   }
 }

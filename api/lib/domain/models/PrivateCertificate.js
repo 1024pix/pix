@@ -16,6 +16,7 @@ class PrivateCertificate {
     cleaCertificationStatus,
     resultCompetenceTree = null,
     verificationCode,
+    maxReachableLevelOnCertificationDate,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -33,6 +34,7 @@ class PrivateCertificate {
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
+    this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
   }
 }
 
