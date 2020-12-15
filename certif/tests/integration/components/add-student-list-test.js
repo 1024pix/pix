@@ -46,8 +46,8 @@ module('Integration | Component | add-student-list', function(hooks) {
       const multiSelectItemsList = document.querySelectorAll(pixMultiSelect);
 
       // then
-      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-3A] span').includesText(firstStudent.division);
-      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-2B] span').includesText(secondStudent.division);
+      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-3A]').includesText(firstStudent.division);
+      assert.dom(pixMultiSelect + ' label[for=add-student-list__multi-select-2B]').includesText(secondStudent.division);
       assert.equal(multiSelectItemsList.length, divisions.length);
     });
 

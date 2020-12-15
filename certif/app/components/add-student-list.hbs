@@ -8,6 +8,9 @@
       @emptyMessage={{this.emptyMessage}}
       @id={{'add-student-list__multi-select'}}
       @onSelect={{this.selectDivision}}
+      @placeholder={{"Chercher une classe ..."}}
+      @isSearchable={{true}}
+      @showOptionsOnInput={{true}}
       @selected={{this.selectedDivisions}}
       @options={{@certificationCenterDivisions}} as |option|>
       {{option.label}}
