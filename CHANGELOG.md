@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.232.0 (15/12/2020)
+
+- [#2287](https://github.com/1024pix/pix/pull/2287) [FEATURE] Ajout de la recherche sur le filtre par classe (PIX-1775)
+- [#2286](https://github.com/1024pix/pix/pull/2286) [FEATURE] Permettre le téléchargement du pv de session aux utilisateurs sco  (PIX-1787)
+- [#2285](https://github.com/1024pix/pix/pull/2285) [TECH] Supprimer l'avertissement CSS "start value has mixed support".
+- [#2280](https://github.com/1024pix/pix/pull/2280) [TECH] Fixer la version de pix-ui dans pix-certif
+- [#2273](https://github.com/1024pix/pix/pull/2273) [TECH] Script permettant d'ajouter plusieurs classes d'élèves à un centre de certification
+
 ## v2.231.0 (15/12/2020)
 
 - [#2270](https://github.com/1024pix/pix/pull/2270) [FEATURE]  Modification des urls de redirection présents dans les mails (PIX-1761).
