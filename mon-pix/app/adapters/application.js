@@ -1,4 +1,3 @@
-import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
@@ -8,12 +7,9 @@ const FRENCH_DOMAIN_EXTENSION = 'fr';
 const FRENCH_LOCALE = 'fr-fr';
 const FRENCHSPOKEN_LOCALE = 'fr';
 
-@classic
 export default class Application extends JSONAPIAdapter.extend(DataAdapterMixin) {
-  @service
-  currentDomain;
-  @service
-  ajaxQueue;
+  @service currentDomain;
+  @service ajaxQueue;
   @service intl;
 
   host = ENV.APP.API_HOST;
