@@ -52,6 +52,7 @@ function _getBaseCertificationQuery() {
       verificationCode: 'certification-courses.verificationCode',
       deliveredAt: 'sessions.publishedAt',
       certificationCenter: 'sessions.certificationCenter',
+      maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
