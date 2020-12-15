@@ -1,0 +1,7 @@
+.dashboard-content {
+  padding: 10px 20px;
+
+  @include device-is('desktop') {
+    padding: 10px 0;
+  }
+}
