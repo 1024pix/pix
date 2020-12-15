@@ -81,6 +81,10 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
       throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” n'est pas au format INSEE.`);
     }
 
+    if (err.why === 'not_a_date') {
+      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être au format JJ/MM/AAAA.`);
+    }
+
     super._handleError(...arguments);
   }
 }
