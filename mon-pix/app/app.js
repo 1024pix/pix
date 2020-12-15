@@ -4,6 +4,7 @@ import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 import { InitSentryForEmber } from '@sentry/ember';
 
+import '@formatjs/intl-locale/polyfill';
 import '@formatjs/intl-pluralrules/polyfill';
 import '@formatjs/intl-pluralrules/locale-data/en';
 import '@formatjs/intl-pluralrules/locale-data/fr';
