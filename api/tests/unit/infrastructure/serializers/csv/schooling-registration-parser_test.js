@@ -1,7 +1,7 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
 const SchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
-const { EntityValidationError, CsvImportError } = require('../../../../../lib/domain/errors');
+const { CsvImportError } = require('../../../../../lib/domain/errors');
 
 const schoolingRegistrationCsvColumns = SchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
 
@@ -127,7 +127,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
         });
 
         it('should throw an EntityValidationError with malformated birthDate', async () => {
-          const wrongData = 'aaaa';
+          const wrongData = '1/01/1970';
           //given
           const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;${wrongData};97422;Shangai;200;99100;ST;MEF1;Division 1;
@@ -138,7 +138,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           const error = await catchErr(parser.parse, parser)();
 
           //then
-          expect(error).to.be.an.instanceOf(EntityValidationError);
+          expect(error).to.be.an.instanceOf(CsvImportError);
+          expect(error.message).to.contains('Ligne 2 : Le champ “Date de naissance (jj/mm/aaaa)*” doit être au format JJ/MM/AAAA.');
         });
 
         it('should throw an EntityValidationError with malformated birthCountryCode', async () => {
