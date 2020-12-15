@@ -1,10 +1,8 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import classic from 'ember-classic-decorator';
 import { tracked } from '@glimmer/tracking';
 
-@classic
 export default class TermsOfServiceController extends Controller {
   @service session;
   @service currentUser;
