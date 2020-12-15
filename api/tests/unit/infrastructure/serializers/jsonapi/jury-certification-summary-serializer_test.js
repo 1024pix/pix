@@ -2,6 +2,7 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
+const { CertificationIssueReportCategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function() {
 
@@ -11,7 +12,11 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
     let expectedJsonApi;
 
     beforeEach(() => {
-      const issueReport = new CertificationIssueReport({ description: 'someComment' });
+      const issueReport = new CertificationIssueReport({
+        certificationCourseId: 1,
+        description: 'someComment',
+        category: CertificationIssueReportCategories.OTHER,
+      });
       modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
