@@ -1,5 +1,4 @@
 const { Serializer } = require('jsonapi-serializer');
-const CertificationIssueReport = require('../../../domain/models/CertificationIssueReport');
 
 module.exports = {
 
@@ -19,12 +18,10 @@ module.exports = {
     const certificationCourseId = parseInt(request.params.id);
     const attributes = request.payload.data.attributes;
 
-    const result = new CertificationIssueReport({
+    return {
       certificationCourseId,
       category: attributes.category,
       description: attributes.description,
-    });
-
-    return result;
+    };
   },
 };
