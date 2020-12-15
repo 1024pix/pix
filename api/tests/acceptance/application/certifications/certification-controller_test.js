@@ -78,6 +78,7 @@ describe('Acceptance | API | Certifications', () => {
             'status': assessmentResult.status,
             'clea-certification-status': 'not_passed',
             'verification-code': certificationCourse.verificationCode,
+            'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
           },
           relationships: {
             'result-competence-tree': {
@@ -186,6 +187,7 @@ describe('Acceptance | API | Certifications', () => {
             'status': assessmentResult.status,
             'clea-certification-status': 'not_passed',
             'verification-code': certificationCourse.verificationCode,
+            'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
           },
           'id': `${certificationCourse.id}`,
           'relationships': {
