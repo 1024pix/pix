@@ -68,6 +68,11 @@ export default class User extends ApplicationAdapter {
       return url + '/remember-user-has-seen-assessment-instructions';
     }
 
+    if (adapterOptions && adapterOptions.rememberUserHasSeenNewLevelInfo) {
+      delete adapterOptions.rememberUserHasSeenNewLevelInfo;
+      return url + '/remember-user-has-seen-new-level-info';
+    }
+
     if (adapterOptions && adapterOptions.updatePassword) {
       delete adapterOptions.updatePassword;
       const temporaryKey = adapterOptions.temporaryKey;
