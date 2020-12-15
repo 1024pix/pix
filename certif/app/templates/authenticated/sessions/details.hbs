@@ -3,13 +3,11 @@
     <div class="session-details-header__title">
       <PixReturnTo @route="authenticated.sessions.list" class="session-details-content__return-button" />
       <h1 class="page-title">Session {{this.session.id}}</h1>
-      {{#if this.isResultRecipientEmailVisible}}
-      {{#if this.hasOneOrMoreCandidates}}
+      {{#if this.shouldDisplayDownloadButton}}
       <a class="button button--link" href="{{this.session.urlToDownloadAttendanceSheet}}" target="_blank"
         rel="noopener noreferrer" download>
         Télécharger le PV
       </a>
-      {{/if}}
       {{/if}}
     </div>
 
