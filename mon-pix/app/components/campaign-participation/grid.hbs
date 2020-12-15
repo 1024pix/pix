@@ -1,5 +1,5 @@
 <ul class="campaign-participation-grid">
-  {{#each @model as |campaignParticipation|}}
+  {{#each this.campaignParticipations as |campaignParticipation|}}
     <li class="campaign-participation-grid-item">
       <CampaignParticipation::Card @model={{campaignParticipation}}/>
     </li>
