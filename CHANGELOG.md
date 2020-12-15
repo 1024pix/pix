@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.231.0 (15/12/2020)
+
+- [#2270](https://github.com/1024pix/pix/pull/2270) [FEATURE]  Modification des urls de redirection présents dans les mails (PIX-1761).
+- [#2251](https://github.com/1024pix/pix/pull/2251) [FEATURE] Filtrer les élèves par classe pour l'ajout à une session (PIX-1397)
+- [#2277](https://github.com/1024pix/pix/pull/2277) [BUGFIX] Corriger le problèmes des bulletins de compétences disparues (PIX-1780).
+- [#2274](https://github.com/1024pix/pix/pull/2274) [BUGFIX] Ajouter un  placeholder sur le champ de recherche du créateur des campagnes (PIX-1767).
+- [#2272](https://github.com/1024pix/pix/pull/2272) [BUGFIX] Ne plus pouvoir accéder à n'importe quelle campagne si un utilisateur est réconcilié 1 fois (PIX-1692).
+- [#2264](https://github.com/1024pix/pix/pull/2264) [TECH] Mise à jour des règles eslint sur pix
+- [#2263](https://github.com/1024pix/pix/pull/2263) [CLEANUP] Retirer les "classic" des transform et controller sur Mon-Pix
+- [#2262](https://github.com/1024pix/pix/pull/2262) [CLEANUP] Retirer les "classic" des adapters sur Mon-pix.
+
 ## v2.230.0 (14/12/2020)
 
 - [#2259](https://github.com/1024pix/pix/pull/2259) [FEATURE] Permettre la connexion à Pole Emploi pour un utilisateur connecté à Pix (PIX-1736).
