@@ -70,7 +70,6 @@
     "ember-cli-mirage": "^1.1.8",
     "ember-cli-moment-shim": "^3.8.0",
     "ember-cli-sass": "^10.0.1",
-    "ember-cli-shims": "^1.2.0",
     "ember-cli-showdown": "^4.5.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.1",
