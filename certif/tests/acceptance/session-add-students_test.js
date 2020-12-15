@@ -87,7 +87,7 @@ module('Acceptance | Session Add Students', function(hooks) {
 
         // when
         await visit(`/sessions/${session.id}/ajout-eleves`);
-        await click('.pix-multi-select-header__search-input');
+        await click('#add-student-list__multi-select');
         await click('#add-student-list__multi-select-3A');
 
         // then
