@@ -97,7 +97,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
     });
   });
 
-  describe('#doesUserHaveMembershipToCertificationCenter', () => {
+  describe('#isMemberOfCertificationCenter', () => {
 
     let userId;
     let certificationCenterInId;
@@ -116,7 +116,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     it('should return false if user has no membership in given certification center', async () => {
       // when
-      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterNotInId);
+      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(userId, certificationCenterNotInId);
 
       // then
       expect(hasMembership).to.be.false;
@@ -124,7 +124,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     it('should return true if user has membership in given certification center', async () => {
       // when
-      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterInId);
+      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(userId, certificationCenterInId);
 
       // then
       expect(hasMembership).to.be.true;

@@ -33,7 +33,7 @@ module.exports = {
     }
   },
 
-  async doesUserHaveMembershipToCertificationCenter(userId, certificationCenterId) {
+  async isMemberOfCertificationCenter(userId, certificationCenterId) {
     const certificationCenterMembership = await BookshelfCertificationCenterMembership
       .where({ userId, certificationCenterId })
       .fetch({ columns: 'id' });
