@@ -1,5 +1,5 @@
-<article class="campaign-participation-card-wrapper">
-  <header class="campaign-participation-card-wrapper__header">
+<article class="campaign-participation-card">
+  <header class="campaign-participation-card__header">
     <PixTag class="campaign-participation-card-header__tag" @color={{this.status.tagColor}} data-test-tag>
       {{t this.status.tagText}}
     </PixTag>
@@ -11,7 +11,7 @@
     </time>
   </header>
 
-  <LinkTo class="button button--link {{this.status.actionClass}} campaign-participation-card-wrapper__action"
+  <LinkTo class="button button--link {{this.status.actionClass}} campaign-participation-card__action"
           @route="campaigns.start-or-resume"
           @model={{this.campaignCode}}>
     {{t this.status.actionText }}

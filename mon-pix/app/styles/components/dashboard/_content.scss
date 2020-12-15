@@ -1,7 +1,24 @@
 .dashboard-content {
-  padding: 10px 20px;
+  padding: 40px 20px;
 
   @include device-is('desktop') {
-    padding: 10px 0;
+    padding: 40px 0;
+  }
+
+  &__title {
+    color: $grey-80;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    font-weight: $font-semi-bold;
+    letter-spacing: 0.009rem;
+    line-height: 1.562rem;
+  }
+
+  &__info {
+    color: $grey-50;
+    font-size: 0.8125rem;
+    font-family: $font-roboto;
+    letter-spacing: 0.009rem;
+    margin: 4px 0 24px;
   }
 }
