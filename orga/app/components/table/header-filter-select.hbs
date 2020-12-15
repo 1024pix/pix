@@ -1,5 +1,6 @@
 <Table::Header ...attributes>
   <SelectInput
+    @id="select-{{@field}}"
     class="table__input"
     @onChange={{fn @triggerFiltering @field false}}
     @options={{@options}}
