@@ -69,7 +69,7 @@ describe('Unit | Adapters | user', function() {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123/remember-user-has-seen-new-level-info')).to.be.true;
+      expect(url.endsWith('/users/123/has-seen-new-level-info')).to.be.true;
     });
 
     it('should include temporaryKey if present in adapterOptions', async function() {

@@ -125,6 +125,7 @@ function _toDomain(userBookshelf) {
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
+    hasSeenNewLevelInfo: Boolean(userBookshelf.get('hasSeenNewLevelInfo')),
   });
 }
 
@@ -395,6 +396,12 @@ module.exports = {
   async updateHasSeenAssessmentInstructionsToTrue(id) {
     const user = await BookshelfUser.where({ id }).fetch();
     await user.save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+  },
+
+  async updateHasSeenNewLevelInfoToTrue(id) {
+    const user = await BookshelfUser.where({ id }).fetch();
+    await user.save({ 'hasSeenNewLevelInfo': true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
