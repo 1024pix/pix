@@ -16,7 +16,7 @@ const buildUser = function buildUser({
   lastName = faker.name.lastName(),
   email,
   username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
-  password,
+  password = 'pix123',
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt = null,
