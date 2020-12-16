@@ -62,6 +62,7 @@
     "ember-cli-chai": "^0.5.0",
     "ember-cli-clipboard": "^0.15.0",
     "ember-cli-dependency-checker": "^3.2.0",
+    "ember-cli-deprecation-workflow": "^1.0.1",
     "ember-cli-google-fonts": "^2.16.2",
     "ember-cli-head": "^1.0.0",
     "ember-cli-htmlbars": "^5.3.1",
