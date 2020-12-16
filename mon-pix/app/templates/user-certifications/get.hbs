@@ -8,7 +8,9 @@
   </PixBlock>
 
   <div class="user-certifications-page-get__details-body">
-    <UserCertificationsDetailCompetencesList @resultCompetenceTree={{@model.resultCompetenceTree}} />
+    <UserCertificationsDetailCompetencesList
+            @resultCompetenceTree={{@model.resultCompetenceTree}}
+            @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}/>
     {{#if (or @model.commentForCandidate @model.hasCleaCertif)}}
       <UserCertificationsDetailResult @certification={{@model}} />
     {{/if}}
