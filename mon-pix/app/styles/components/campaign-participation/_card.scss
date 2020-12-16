@@ -9,6 +9,7 @@
   justify-content: space-between;
   padding: 16px 24px 32px 24px;
   font-family: $font-roboto;
+  min-width: 0;
 
   &__header {
     letter-spacing: 0.009rem;
@@ -22,6 +23,7 @@
 }
 
 .campaign-participation-card-header {
+  width: 100%;
 
   &__tag {
     margin-bottom: 16px;
@@ -32,6 +34,9 @@
     color: $grey-90;
     font-size: 1.125rem;
     font-weight: $font-medium;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   &__subtitle {
