@@ -1,0 +1,23 @@
+<fieldset class="late-or-leaving-certification-issue-report-fields">
+  <div class="late-or-leaving-certification-issue-report-fields__radio-button">
+    <input
+      id="input-radio-for-category-late-or-leaving"
+      type="radio"
+      name="late-or-leaving"
+      checked={{@lateOrLeavingCategory.isChecked}}
+      {{on 'click' (fn @toggleOnCategory @lateOrLeavingCategory)}} />
+    <label for="input-radio-for-category-late-or-leaving">Retard, absence ou départ</label>
+  </div>
+  {{#if @lateOrLeavingCategory.isChecked}}
+    <div class="late-or-leaving-certification-issue-report-fields__details">
+      <label for="text-area-for-category-late-or-leaving">Détaillez l'incident</label>
+      <Textarea
+        id="text-area-for-category-late-or-leaving"
+        @class="session-finalization-reports-informations-step__textarea"
+        @value={{@lateOrLeavingCategory.description}}
+        @maxlength={{@maxlength}}
+      />
+      <p class="late-or-leaving-certification-issue-report-fields-details__char-count">{{this.reportLength}} / {{@maxlength}}</p>
+    </div>
+  {{/if}}
+</fieldset>
