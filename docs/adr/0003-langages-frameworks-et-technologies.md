@@ -59,7 +59,7 @@ Nous privilégions l'usage de technologies Open Source pour les raisons suivante
 
 On PEUT toutefois utiliser des technologies ou services propriétaires si c'est la meilleure solution pour un problème donné, ex : 
 
-- Mailjet pour la gestion d'e-mails, 
+- SendInBlue pour la gestion d'e-mails, 
 - Airtable pour le référentiel pédagogique, 
 - prismic.io pour le contenu éditorial, 
 - Freshdesk pour le support.

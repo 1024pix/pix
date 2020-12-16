@@ -163,15 +163,15 @@ Dans le cas de fonctionnalités activables/désactivables, l'activation DOIT êt
 ```javascript
 // BAD
 
-mailing_mailjet: {
-  enabled: !!process.env.MAILJET_KEY,
+mailing_sendinblue: {
+  enabled: !!process.env.SENDINBLUE_KEY,
 }
 ```
 
 ```javascript
 // GOOD
 
-mailing_mailjet: {
+mailing_sendinblue: {
   enabled: (process.env.MAILING_ENABLED === 'true'),
 }
 ```

@@ -59,7 +59,6 @@ En revanche, tester l'intégration de ces dépendances dans le code, notamment d
 |                | autres                  | unitaire      |
 
 _wrapper_ : tout composant qui encapsule une dépendance ou une API
-* MailJetProvider.js
 * SendinblueProvider.js
 * airtable.js
 * RedisClient.js
