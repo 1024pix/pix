@@ -1,5 +1,5 @@
 const { expect, knex, sinon, databaseBuilder } = require('../../test-helper');
-const mailjetService = require('../../../lib/domain/services/mail-service');
+const mailingService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
@@ -71,7 +71,7 @@ describe('Acceptance | Controller | password-controller', () => {
           },
         };
 
-        sinon.stub(mailjetService, 'sendResetPasswordDemandEmail').resolves();
+        sinon.stub(mailingService, 'sendResetPasswordDemandEmail').resolves();
       });
 
       it('should reply with 201', () => {

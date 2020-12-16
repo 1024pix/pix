@@ -1,5 +1,4 @@
 const MailingProvider = require('./MailingProvider');
-const MailjetProvider = require('./MailjetProvider');
 const SendinblueProvider = require('./SendinblueProvider');
 const { mailing } = require('../../config');
 const logger = require('../logger');
@@ -15,9 +14,6 @@ class Mailer extends MailingProvider {
     switch (this._providerName) {
       case 'sendinblue':
         this._provider = new SendinblueProvider();
-        break;
-      case 'mailjet':
-        this._provider = new MailjetProvider();
         break;
       default:
         logger.warn('Undefined mailing provider');
