@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.233.0 (16/12/2020)
+
+- [#2234](https://github.com/1024pix/pix/pull/2234) [FEATURE] Ajouter de nouvelles catégories de signalement en certif (PIX-1744)
+
 ## v2.232.0 (15/12/2020)
 
 - [#2287](https://github.com/1024pix/pix/pull/2287) [FEATURE] Ajout de la recherche sur le filtre par classe (PIX-1775)
