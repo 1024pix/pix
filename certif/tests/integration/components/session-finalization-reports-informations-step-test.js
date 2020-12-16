@@ -1,35 +1,44 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
+import { A } from '@ember/array';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
+import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
 module('Integration | Component | session-finalization-reports-informations-step', function(hooks) {
   setupRenderingTest(hooks);
   let reportA;
   let reportB;
   let store;
+  let certificationIssueReportA;
 
   hooks.beforeEach(async function() {
     store = this.owner.lookup('service:store');
+
+    certificationIssueReportA = run(() => store.createRecord('certification-issue-report', {
+      description: 'Coucou',
+      category: certificationIssueReportCategories.OTHER,
+    }));
+
     reportA = run(() => store.createRecord('certification-report', {
       certificationCourseId: 1234,
       firstName: 'Alice',
       lastName: 'Alister',
-      examinerComment: 'coucou',
+      certificationIssueReports: A([certificationIssueReportA]),
       hasSeenEndTestScreen: null,
     }));
+
     reportB = run(() => store.createRecord('certification-report', {
       certificationCourseId: 3,
       firstName: 'Bob',
       lastName: 'Bober',
-      examinerComment: null,
       hasSeenEndTestScreen: true,
     }));
     this.set('certificationReports', [reportA, reportB]);
-    this.set('updateCertificationReportExaminerComment', sinon.stub().returns('new comment'));
-    this.set('examinerCommentMaxLength', 500);
+    this.set('updateCertificationIssueReport', sinon.stub().returns('new comment'));
+    this.set('issueReportDescriptionMaxLength', 500);
     this.set('toggleCertificationReportHasSeenEndTestScreen', sinon.stub().returns());
     this.set('toggleAllCertificationReportsHasSeenEndTestScreen', sinon.stub().returns());
   });
@@ -44,8 +53,8 @@ module('Integration | Component | session-finalization-reports-informations-step
       await render(hbs`
         <SessionFinalizationReportsInformationsStep
           @certificationReports={{this.certificationReports}}
-          @updateCertificationReportExaminerComment={{this.updateCertificationReportExaminerComment}}
-          @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
+          @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
           @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
           @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
         />
@@ -63,7 +72,7 @@ module('Integration | Component | session-finalization-reports-informations-step
 
   module('when feature categorizationOfReports is on', function() {
 
-    test('it shows "1 Signalement" only if there is an examinerComment', async function(assert) {
+    test('it shows "1 Signalement" only if there is a certification issue report', async function(assert) {
       // given
       this.set('isReportsCategorizationFeatureToggleEnabled', true);
 
@@ -71,8 +80,8 @@ module('Integration | Component | session-finalization-reports-informations-step
       await render(hbs`
         <SessionFinalizationReportsInformationsStep
           @certificationReports={{this.certificationReports}}
-          @updateCertificationReportExaminerComment={{this.updateCertificationReportExaminerComment}}
-          @examinerCommentMaxLength={{this.examinerCommentMaxLength}}
+          @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
           @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
           @toggleAllCertificationReportsHasSeenEndTestScreen={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
           @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}

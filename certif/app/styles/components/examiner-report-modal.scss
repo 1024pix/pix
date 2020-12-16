@@ -27,49 +27,63 @@
     padding: 22px 32px;
     background-color: $grey-10;
 
-    .content__report-type-button {
-      display: flex;
-      align-items: center;
+    .examiner-report-modal-content {
 
-      input[id="report-of-type-other__radio-button"] {
-        background-color: $communication-light;
-        -ms-transform: scale(1.2); /* IE */
-        -moz-transform: scale(1.2); /* FF */
-        -webkit-transform: scale(1.2); /* Safari and Chrome */
-        -o-transform: scale(1.2); /* Opera */
-        transform: scale(1.2);
+      fieldset {
+        border: 0;
+        padding: 0;
         margin: 0;
+        min-width: 0;
+        margin-bottom: 22px;
       }
 
-      label[for="report-of-type-other__radio-button"] {
-        margin-left: 16px;
-      }
-    }
+      &__report-category {
 
-    .content__report-type-details {
-      margin-top: 16px;
-      padding-left: 32px;
+        input[id|="input-radio-for-type"] {
+          background-color: $communication-light;
+          /* IE */
+          -ms-transform: scale(1.2);
+          /* FF */
+          -moz-transform: scale(1.2);
+          /* Safari and Chrome */
+          -webkit-transform: scale(1.2);
+          /* Opera */
+          -o-transform: scale(1.2);
+          transform: scale(1.2);
+          margin: 0;
+          cursor: pointer;
+        }
 
-      textarea {
-        box-sizing: border-box;
-        margin-top: 8px;
-        border: 1.2px solid $blue-zodia;
-        border-radius: 4px;
-        min-height: 82px;
-        padding: 8px;
-
-        &:focus {
-          outline: 2px solid $communication-dark;
-          -moz-outline-radius: 4px;
-          border: none;
+        label[for|="input-radio-for-type"] {
+          margin-left: 16px;
         }
       }
 
-      &__char-count {
-        margin-top: 6px;
-        font-size: 12px;
-        display: flex;
-        flex-direction: row-reverse;
+      &__report-category-details {
+        margin-top: 16px;
+        padding-left: 32px;
+
+        textarea {
+          box-sizing: border-box;
+          margin-top: 8px;
+          border: 1.2px solid $blue-zodia;
+          border-radius: 4px;
+          min-height: 82px;
+          padding: 8px;
+
+          &:focus {
+            outline: 2px solid $communication-dark;
+            -moz-outline-radius: 4px;
+            border: none;
+          }
+        }
+
+        .examiner-report-modal-content__char-count {
+          margin-top: 6px;
+          font-size: 12px;
+          display: flex;
+          flex-direction: row-reverse;
+        }
       }
     }
   }

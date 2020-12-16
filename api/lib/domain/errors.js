@@ -219,6 +219,12 @@ class InvalidCertificationReportForFinalization extends DomainError {
   }
 }
 
+class InvalidCertificationIssueReportForSaving extends DomainError {
+  constructor(message = 'Echec lors de la validation du signalement') {
+    super(message);
+  }
+}
+
 class InvalidParametersForSessionPublication extends DomainError {
   constructor(message = 'Echec lors de la publication des résultats de la session, paramètres entrants invalides.') {
     super(message);
@@ -702,6 +708,7 @@ module.exports = {
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
+  InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
   InvalidParametersForSessionPublication,
   InvalidRecaptchaTokenError,

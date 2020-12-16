@@ -154,48 +154,51 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
   });
 
-  module('#action updateCertificationReportExaminerComment', function() {
+  module('#action updateCertificationIssueReport', function() {
 
-    test('it should left certif examiner comment untouched if input value exceeds max size', function(assert) {
+    test('it should left issue report description untouched if input value exceeds max size', function(assert) {
       // given
       const initialValue = null;
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const certifReport = { examinerComment: initialValue };
-      controller.examinerCommentMaxLength = 5;
+      const issueReport = { description: initialValue, category: 'Autre' };
+      const certifReport = { certificationCourseId: 1, certificationIssueReports: [ issueReport ] };
+      controller.issueReportDescriptionMaxLength = 5;
 
       // when
-      controller.send('updateCertificationReportExaminerComment', certifReport, { target: { value: 'MoreThan5Characters' } });
+      controller.send('updateCertificationIssueReport', certifReport, { target: { value: 'MoreThan5Characters' } });
 
       // then
-      assert.equal(certifReport.examinerComment, initialValue);
+      assert.equal(certifReport.firstIssueReportDescription, initialValue);
     });
 
-    test('it should update certif examiner comment if input value is not exceeding max size', function(assert) {
+    test('it should update issue report description if input value is not exceeding max size', function(assert) {
       // given
-      const initialValue = null;
-      const newValue = 'hello';
+      const initialValue = 'Une première explication pas terminée';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const certifReport = { examinerComment: initialValue };
+      const issueReport = { description: initialValue, category: 'Autre' };
+      const certifReport = { certificationCourseId: 1, certificationIssueReports: [ issueReport ] };
 
       // when
-      controller.send('updateCertificationReportExaminerComment', certifReport, { target: { value: newValue } });
+      const newValue = 'Une deuxième explication plus explicite';
+      controller.send('updateCertificationIssueReport', certifReport, { target: { value: newValue } });
 
       // then
-      assert.equal(certifReport.examinerComment, newValue);
+      assert.equal(certifReport.certificationIssueReports[0].description, newValue);
     });
 
-    test('it should update certif examiner comment to null if trimmed input value is still empty', function(assert) {
+    test('it should update issue report description to null if trimmed input value is still empty', function(assert) {
       // given
       const initialValue = 'initialValue';
       const newValue = '  ';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const certifReport = { examinerComment: initialValue };
+      const issueReport = { description: initialValue, category: 'Autre' };
+      const certifReport = { certificationCourseId: 1, certificationIssueReports: [ issueReport ] };
 
       // when
-      controller.send('updateCertificationReportExaminerComment', certifReport, { target: { value: newValue } });
+      controller.send('updateCertificationIssueReport', certifReport, { target: { value: newValue } });
 
       // then
-      assert.equal(certifReport.examinerComment, null);
+      assert.equal(certifReport.firstIssueReportDescription, null);
     });
   });
 

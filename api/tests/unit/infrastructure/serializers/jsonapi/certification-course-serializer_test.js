@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         'id': 'assessment_id',
       });
       const certificationCourse = new CertificationCourse({
-        id: 'certification_id',
+        id: 1,
         assessment: assessment,
         challenges: ['challenge1', 'challenge2'],
         certificationIssueReports: [],
@@ -25,7 +25,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const issueReport = new CertificationIssueReport({
         id: 1234,
         description: 'Signalement de l\'examinateur',
-        categoryId: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.OTHER,
         certificationCourseId: certificationCourse.id,
       });
 
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const jsonCertificationCourseWithAssessment = {
         data: {
           type: 'certification-courses',
-          id: 'certification_id',
+          id: '1',
           attributes: {
             'nb-challenges': 2,
             'examiner-comment': 'Signalement de l\'examinateur',

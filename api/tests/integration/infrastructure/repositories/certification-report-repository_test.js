@@ -23,7 +23,7 @@ describe('Integration | Repository | CertificationReport', function() {
         });
         // In other session
         const anotherSessionId = databaseBuilder.factory.buildSession().id;
-        databaseBuilder.factory.buildCertificationCourse({ anotherSessionId }).id;
+        databaseBuilder.factory.buildCertificationCourse({ anotherSessionId });
 
         await databaseBuilder.commit();
 

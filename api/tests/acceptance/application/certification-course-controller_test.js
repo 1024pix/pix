@@ -343,7 +343,7 @@ describe('Acceptance | API | Certification Course', () => {
       userId = certificationCourse.userId;
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: certificationCourse.id,
-        categoryId: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.OTHER,
         description: 'il s\'est enfuit de la session',
       });
 

@@ -23,24 +23,21 @@ $pix-modal-border-radius: 5px;
       }
     }
 
-    .pix-modal__close-link {
+    .pix-modal__close-button {
       color: $white;
       text-align: right;
       margin-bottom: 5px;
       font-size: 1.2em;
+      display: flex;
+      justify-content: flex-end;
 
-      & > a {
+      & > button {
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-        text-decoration: none;
-        color: inherit;
-
-        &:hover,
-        &:active,
-        &:focus {
-          color: inherit;
-        }
+        background: none;
+        border: none;
+        color: $white;
+        cursor: pointer;
       }
     }
 
