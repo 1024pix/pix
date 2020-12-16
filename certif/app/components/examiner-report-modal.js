@@ -40,9 +40,9 @@ export default class ExaminerReportModal extends Component {
 
   @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });
   @tracked lateOrLeavingCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.LATE_OR_LEAVING });
-  @tracked candidateInformationsChangesCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES });
+  @tracked candidateInformationChangeCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES });
   @tracked connexionOrEndScreenCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CONNEXION_OR_END_SCREEN });
-  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationsChangesCategory, this.connexionOrEndScreenCategory ];
+  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connexionOrEndScreenCategory ];
 
   @tracked reportLength = 0;
 
