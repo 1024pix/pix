@@ -4,13 +4,13 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
-class RadioButtonCategory {
+export class RadioButtonCategory {
   @tracked isChecked;
   @tracked name;
 
-  constructor({ name }) {
+  constructor({ name, isChecked = false }) {
     this.name = name;
-    this.isChecked = false;
+    this.isChecked = isChecked;
   }
 
   toggle(categoryNameToBeingCheck) {
@@ -26,7 +26,7 @@ class RadioButtonCategory {
   }
 }
 
-class RadioButtonCategoryWithDescription extends RadioButtonCategory {
+export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
   @tracked description;
 
   toggle(categoryNameToBeingCheck) {
