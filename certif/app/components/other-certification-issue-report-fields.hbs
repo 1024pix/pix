@@ -4,19 +4,18 @@
       id="input-radio-for-category-other"
       type="radio"
       name="other"
-      checked={{this.otherCategory.isChecked}}
-      {{on 'click' (fn @toggleOnCategory this.otherCategory)}} />
+      checked={{@otherCategory.isChecked}}
+      {{on 'click' (fn @toggleOnCategory @otherCategory)}} />
     <label for="input-radio-for-category-other">Autre incident</label>
   </div>
-  {{#if this.otherCategory.isChecked}}
+  {{#if @otherCategory.isChecked}}
     <div class="other-certification-issue-report-fields__details">
       <label for="text-area-for-category-other">Détaillez l'incident</label>
       <Textarea
         id="text-area-for-category-other"
         @class="session-finalization-reports-informations-step__textarea"
-        @value={{@currentIssueReport.description}}
+        @value={{@otherCategory.description}}
         @maxlength={{@maxlength}}
-        {{on 'input' this.handleTextareaChange}}
       />
       <p class="other-certification-issue-report-fields-details__char-count">{{this.reportLength}} / {{@maxlength}}</p>
     </div>

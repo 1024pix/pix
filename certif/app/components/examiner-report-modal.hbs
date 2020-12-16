@@ -17,9 +17,7 @@
           <OtherCertificationIssueReportFields
             @otherCategory={{this.otherCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
-            @currentIssueReport={{this.currentIssueReport}}
             @maxlength={{@maxlength}}
-            @handleTextareaChange={{this.handleTextareaChange}}
           />
 
           <fieldset>
@@ -38,7 +36,7 @@
                 <Textarea
                     id="text-area-for-category-late-or-leaving"
                     @class="session-finalization-reports-informations-step__textarea"
-                    @value={{this.currentIssueReport.description}}
+                    @value={{this.lateOrLeavingCategory.description}}
                     @maxlength={{@maxlength}}
                     {{on 'input' this.handleTextareaChange}}
                     />
@@ -63,7 +61,7 @@
                 <Textarea
                     id="text-area-for-category-candidate-informations-changes"
                     @class="session-finalization-reports-informations-step__textarea"
-                    @value={{this.currentIssueReport.description}}
+                    @value={{this.candidateInformationsChangesCategory.description}}
                     @maxlength={{@maxlength}}
                     {{on 'input' this.handleTextareaChange}}
                     />
@@ -88,7 +86,7 @@
                 <Textarea
                     id="text-area-for-category-connexion-or-end-screen"
                     @class="session-finalization-reports-informations-step__textarea"
-                    @value={{this.currentIssueReport.description}}
+                    @value={{this.connexionOrEndScreenCategory.description}}
                     @maxlength={{@maxlength}}
                     {{on 'input' this.handleTextareaChange}}
                     />
