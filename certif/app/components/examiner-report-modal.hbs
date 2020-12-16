@@ -1,46 +1,125 @@
 <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
   <div class="examiner-report-modal">
-    <div class="pix-modal__close-link">
-      <a href="#" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
+    <div class="pix-modal__close-button">
+      <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
         <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
-      </a>
+      </button>
     </div>
 
-    <div class="pix-modal__container pix-modal__container--white">
+    <form {{on 'submit' this.submitReport}} class="pix-modal__container pix-modal__container--white">
       <div class="examiner-report-modal__title">
         <h1>Signalement du candidat</h1>
         <h3>{{@report.firstName}} {{@report.lastName}}</h3>
       </div>
 
       <div class="examiner-report-modal__content">
-        <div class="content__report-type-button">
-          <input
-              id="report-of-type-other__radio-button"
-              type="radio"
-              name="other"
-              checked={{this.isReportOfTypeOtherChecked}}
-              {{on 'click' this.toggleShowReportOfTypeOther}} />
-          <label for="report-of-type-other__radio-button">Autre incident</label>
-        </div>
-        {{#if this.isReportOfTypeOtherChecked}}
-          <div class="content__report-type-details">
-            <label for="report-of-type-other__text-area">Détaillez l'incident</label>
-            <Textarea
-                id="report-of-type-other__text-area"
-                @class="session-finalization-reports-informations-step__textarea"
-                @value={{this.reportOfTypeOther}}
-                @maxlength={{@maxlength}}
-                {{on 'input' this.handleChange}}
-                />
-              <p class="content__report-type-details__char-count">{{this.reportLength}} / 500</p>
-          </div>
-        {{/if}}
-      </div>
+        <div class="examiner-report-modal-content">
+          <fieldset>
+            <div class="examiner-report-modal-content__report-category">
+              <input
+                  id="input-radio-for-category-other"
+                  type="radio"
+                  name="other"
+                  checked={{this.otherCategory.isChecked}}
+                  {{on 'click' (fn this.toggleOnCategory this.otherCategory)}} />
+              <label for="input-radio-for-category-other">Autre incident</label>
+            </div>
+            {{#if this.otherCategory.isChecked}}
+              <div class="examiner-report-modal-content__report-category-details">
+                <label for="text-area-for-category-other">Détaillez l'incident</label>
+                <Textarea
+                    id="text-area-for-category-other"
+                    @class="session-finalization-reports-informations-step__textarea"
+                    @value={{this.currentIssueReport.description}}
+                    @maxlength={{@maxlength}}
+                    {{on 'input' this.handleTextareaChange}}
+                    />
+                  <p class="examiner-report-modal-content__char-count">{{this.reportLength}} / 500</p>
+              </div>
+            {{/if}}
+          </fieldset>
 
-      <div class="examiner-report-modal__actions">
-        <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
-        <button type="button" class="button button--extra-thin" {{on "click" this.submitReport}}>Valider</button>
+          <fieldset>
+            <div class="examiner-report-modal-content__report-category">
+              <input
+                id="input-radio-for-category-late-or-leaving"
+                type="radio"
+                name="other"
+                checked={{this.lateOrLeavingCategory.isChecked}}
+                {{on 'click' (fn this.toggleOnCategory this.lateOrLeavingCategory)}} />
+              <label for="input-radio-for-category-late-or-leaving">Retard, absence ou départ</label>
+            </div>
+            {{#if this.lateOrLeavingCategory.isChecked}}
+              <div class="examiner-report-modal-content__report-category-details">
+                <label for="text-area-for-category-late-or-leaving">Détaillez l'incident</label>
+                <Textarea
+                    id="text-area-for-category-late-or-leaving"
+                    @class="session-finalization-reports-informations-step__textarea"
+                    @value={{this.currentIssueReport.description}}
+                    @maxlength={{@maxlength}}
+                    {{on 'input' this.handleTextareaChange}}
+                    />
+                  <p class="examiner-report-modal-content__char-count">{{this.reportLength}} / 500</p>
+              </div>
+            {{/if}}
+          </fieldset>
+
+          <fieldset>
+            <div class="examiner-report-modal-content__report-category">
+              <input
+                id="input-radio-for-category-candidate-informations-changes"
+                type="radio"
+                name="other"
+                checked={{this.candidateInformationsChangesCategory.isChecked}}
+                {{on 'click' (fn this.toggleOnCategory this.candidateInformationsChangesCategory)}} />
+              <label for="input-radio-for-category-candidate-informations-changes">Modification infos candidat</label>
+            </div>
+            {{#if this.candidateInformationsChangesCategory.isChecked}}
+              <div class="examiner-report-modal-content__report-category-details">
+                <label for="text-area-for-category-candidate-informations-changes">Détaillez l'incident</label>
+                <Textarea
+                    id="text-area-for-category-candidate-informations-changes"
+                    @class="session-finalization-reports-informations-step__textarea"
+                    @value={{this.currentIssueReport.description}}
+                    @maxlength={{@maxlength}}
+                    {{on 'input' this.handleTextareaChange}}
+                    />
+                  <p class="examiner-report-modal-content__char-count">{{this.reportLength}} / 500</p>
+              </div>
+            {{/if}}
+          </fieldset>
+
+          <fieldset>
+            <div class="examiner-report-modal-content__report-category">
+              <input
+                id="input-radio-for-category-connexion-or-end-screen"
+                type="radio"
+                name="other"
+                checked={{this.connexionOrEndScreenCategory.isChecked}}
+                {{on 'click' (fn this.toggleOnCategory this.connexionOrEndScreenCategory)}} />
+              <label for="input-radio-for-category-connexion-or-end-screen">Connexion et fin de test</label>
+            </div>
+            {{#if this.connexionOrEndScreenCategory.isChecked}}
+              <div class="examiner-report-modal-content__report-category-details">
+                <label for="text-area-for-category-connexion-or-end-screen">Détaillez l'incident</label>
+                <Textarea
+                    id="text-area-for-category-connexion-or-end-screen"
+                    @class="session-finalization-reports-informations-step__textarea"
+                    @value={{this.currentIssueReport.description}}
+                    @maxlength={{@maxlength}}
+                    {{on 'input' this.handleTextareaChange}}
+                    />
+                  <p class="examiner-report-modal-content__char-count">{{this.reportLength}} / 500</p>
+              </div>
+            {{/if}}
+          </fieldset>
+        </div>
+
+        <div class="examiner-report-modal__actions">
+          <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
+          <button type="submit" class="button button--extra-thin">Valider</button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </AppModal>

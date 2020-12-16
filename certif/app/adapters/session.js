@@ -16,18 +16,26 @@ export default class SessionAdapter extends ApplicationAdapter {
     if (snapshot.adapterOptions) {
       if (snapshot.adapterOptions.finalization) {
         const model = snapshot.record;
+        const mustIncludeFormerExaminerComment = snapshot.adapterOptions.isReportsCategorizationFeatureToggleEnabled !== true;
         const data = {
           data: {
             attributes: {
               'examiner-global-comment': model.examinerGlobalComment,
             },
             included: model.certificationReports
-              .filter((certificationReport) => certificationReport.hasDirtyAttributes)
-              .map((certificationReport) => ({
-                type: 'certification-reports',
-                id: certificationReport.get('id'),
-                attributes: certificationReport.toJSON(),
-              })),
+              .map((certificationReport) => {
+                const certificationReportDTO = {
+                  type: 'certification-reports',
+                  id: certificationReport.get('id'),
+                  attributes: { ...certificationReport.toJSON() },
+                };
+                if (mustIncludeFormerExaminerComment) {
+                  certificationReportDTO.attributes.examinerComment = certificationReport.firstIssueReportDescription
+                    ? certificationReport.firstIssueReportDescription
+                    : null;
+                }
+                return certificationReportDTO;
+              }),
           },
         };
         return this.ajax(this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot), 'PUT', { data });

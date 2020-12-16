@@ -19,14 +19,6 @@ export default Factory.extend({
     return faker.random.uuid();
   },
 
-  examinerComment() {
-    if (faker.random.boolean()) {
-      return faker.lorem.sentence();
-    }
-
-    return '';
-  },
-
   hasSeenEndTestScreen() {
     return faker.random.boolean();
   },
