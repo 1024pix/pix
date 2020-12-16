@@ -4,11 +4,11 @@
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
   <h1 class="sr-only">{{t 'pages.profile.accessibility.title'}}</h1>
 
-    {{#unless currentUser.user.hasSeenNewLevelInfo}}
-      <NewInformation @information="pages.profile.new-info" @closeaction={{this.closeInformationAboutNewLevel}} />
-    {{/unless}}
-
-
+    {{#if this.newLevelMessage}}
+      {{#unless currentUser.user.hasSeenNewLevelInfo}}
+        <NewInformation @information={{this.newLevelMessage}} @closeaction={{this.closeInformationAboutNewLevel}} />
+      {{/unless}}
+    {{/if}}
 
     <div class="rounded-panel-header-with-components">
       <div class="rounded-panel-header__left-wrapper">
