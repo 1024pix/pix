@@ -15,6 +15,7 @@ describe('Integration | Component | user-certifications-detail-competences-list'
 
   beforeEach(async function() {
     // given
+    this.maxReachableLevelOnCertificationDate = 5;
     resultCompetenceTree = EmberObject.create({
       areas: A([
         EmberObject.create({
@@ -43,7 +44,9 @@ describe('Integration | Component | user-certifications-detail-competences-list'
     this.set('resultCompetenceTree', resultCompetenceTree);
 
     // when
-    await render(hbs`<UserCertificationsDetailCompetencesList @resultCompetenceTree={{this.resultCompetenceTree}} />`);
+    await render(hbs`<UserCertificationsDetailCompetencesList
+      @resultCompetenceTree={{this.resultCompetenceTree}}
+      @maxReachableLevelOnCertificationDate={{this.maxReachableLevelOnCertificationDate}} />`);
   });
 
   it('renders', async function() {
