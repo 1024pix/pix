@@ -32,30 +32,11 @@
             @maxlength={{@maxlength}}
           />
 
-          <fieldset>
-            <div class="examiner-report-modal-content__report-category">
-              <input
-                id="input-radio-for-category-connexion-or-end-screen"
-                type="radio"
-                name="other"
-                checked={{this.connexionOrEndScreenCategory.isChecked}}
-                {{on 'click' (fn this.toggleOnCategory this.connexionOrEndScreenCategory)}} />
-              <label for="input-radio-for-category-connexion-or-end-screen">Connexion et fin de test</label>
-            </div>
-            {{#if this.connexionOrEndScreenCategory.isChecked}}
-              <div class="examiner-report-modal-content__report-category-details">
-                <label for="text-area-for-category-connexion-or-end-screen">Détaillez l'incident</label>
-                <Textarea
-                    id="text-area-for-category-connexion-or-end-screen"
-                    @class="session-finalization-reports-informations-step__textarea"
-                    @value={{this.connexionOrEndScreenCategory.description}}
-                    @maxlength={{@maxlength}}
-                    {{on 'input' this.handleTextareaChange}}
-                    />
-                  <p class="examiner-report-modal-content__char-count">{{this.reportLength}} / 500</p>
-              </div>
-            {{/if}}
-          </fieldset>
+          <ConnexionOrEndScreenCertificationIssueReportFields
+            @connexionOrEndScreenCategory={{this.connexionOrEndScreenCategory}}
+            @toggleOnCategory={{this.toggleOnCategory}}
+            @maxlength={{@maxlength}}
+          />
         </div>
 
         <div class="examiner-report-modal__actions">
