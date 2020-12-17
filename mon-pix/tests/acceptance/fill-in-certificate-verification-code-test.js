@@ -1,10 +1,10 @@
 import { describe, it, context } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
-import { pauseTest, click, visit, fillIn, currentURL, find } from '@ember/test-helpers';
+import { click, visit, fillIn, currentURL, find } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe.only('Acceptance | Certificate verification', function() {
+describe('Acceptance | Certificate verification', function() {
   setupApplicationTest();
   setupMirage();
 
@@ -18,7 +18,7 @@ describe.only('Acceptance | Certificate verification', function() {
       await click('button[type=submit]');
 
       // Then
-      expect(currentURL()).to.not.equal('/verification-certificat');
+      expect(currentURL()).to.equal('/partage-certificat/200');
     });
   });
 
@@ -45,6 +45,16 @@ describe.only('Acceptance | Certificate verification', function() {
 
       // Then
       expect(find('.form__error--not-found')).to.exist;
+    });
+  });
+
+  context('when user visits /partage-certificat/200 directly', function() {
+    it('redirects to /verification-certificat', async function() {
+      // When
+      await visit('/partage-certificat/200');
+
+      // Then
+      expect(currentURL()).to.equal('/verification-certificat');
     });
   });
 
