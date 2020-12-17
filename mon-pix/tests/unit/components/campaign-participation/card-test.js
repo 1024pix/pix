@@ -29,7 +29,7 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       // then
       expect(result).to.eql({
         tagText: 'pages.campaign-participation.card.tag.completed',
-        tagColor: 'yellow',
+        tagColor: 'yellow-light',
         actionText: 'pages.campaign-participation.card.send',
         actionClass: 'button--yellow',
       });
@@ -48,7 +48,7 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       // then
       expect(result).to.eql({
         tagText: 'pages.campaign-participation.card.tag.started',
-        tagColor: 'green',
+        tagColor: 'green-light',
         actionText: 'pages.campaign-participation.card.resume',
         actionClass: '',
       });
