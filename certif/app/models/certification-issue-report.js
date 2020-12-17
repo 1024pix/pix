@@ -12,6 +12,7 @@ export const certificationIssueReportSubcategories = {
   EXTRA_TIME_PERCENTAGE: 'EXTRA_TIME_PERCENTAGE',
   LEFT_EXAM_ROOM: 'LEFT_EXAM_ROOM',
   SIGNATURE_ISSUE: 'SIGNATURE_ISSUE',
+  SKIP_QUESTION_MISSING_TIME: 'SKIP_QUESTION_MISSING_TIME',
 };
 
 export default class CertificationIssueReport extends Model {

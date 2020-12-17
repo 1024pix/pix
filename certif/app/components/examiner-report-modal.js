@@ -37,7 +37,7 @@ export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
 
 export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButtonCategory {
   @tracked subcategory;
-  @tracked description;
+  @tracked description = null;
 
   constructor({ name, subcategory }) {
     super({ name });
@@ -46,7 +46,7 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
 
   toggle(categoryNameBeingChecked) {
     super.toggle(categoryNameBeingChecked);
-    this.description = '';
+    this.description = null;
   }
 
   issueReport(certificationReport) {
@@ -71,7 +71,10 @@ export default class ExaminerReportModal extends Component {
     name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
     subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   });
-  @tracked connexionOrEndScreenCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CONNEXION_OR_END_SCREEN });
+  @tracked connexionOrEndScreenCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
+    name: certificationIssueReportCategories.CONNEXION_OR_END_SCREEN,
+    subcategory: certificationIssueReportSubcategories.SKIP_QUESTION_MISSING_TIME,
+  });
   categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connexionOrEndScreenCategory ];
 
   @tracked reportLength = 0;
