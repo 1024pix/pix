@@ -5,4 +5,8 @@ module.exports = {
     LATE_OR_LEAVING: 'LATE_OR_LEAVING',
     CONNEXION_OR_END_SCREEN: 'CONNEXION_OR_END_SCREEN',
   },
+  CertificationIssueReportSubcategories: {
+    NAME_OR_BIRTHDATE: 'NAME_OR_BIRTHDATE',
+    EXTRA_TIME_PERCENTAGE: 'EXTRA_TIME_PERCENTAGE',
+  },
 };
