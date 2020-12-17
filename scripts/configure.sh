@@ -86,11 +86,7 @@ function install_apps_dependencies() {
   echo "Installing Pix apps dependencies…"
 
   npm install
-  (cd admin && npm install --no-optional)
-  (cd api && npm install --no-optional)
-  (cd certif && npm install --no-optional)
-  (cd mon-pix && npm install --no-optional)
-  (cd orga && npm install --no-optional)
+  npm run ci:all
 
   echo "✅ Dependencies installed."
   echo ""
@@ -103,6 +99,15 @@ function setup_and_run_infrastructure() {
   (cd api && npm run db:migrate)
 
   echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
+  echo ""
+}
+
+function load_seed() {
+  echo "Loading seed data"
+
+  (cd api && npm run db:seed)
+
+  echo "✅ Seed data loaded"
   echo ""
 }
 
@@ -142,5 +147,6 @@ verify_prerequesite_programs
 generate_environment_config_file
 install_apps_dependencies
 setup_and_run_infrastructure
+load_seed
 execute_apps_tests
 display_footer
