@@ -10,6 +10,8 @@ export const certificationIssueReportCategories = {
 export const certificationIssueReportSubcategories = {
   NAME_OR_BIRTHDATE: 'NAME_OR_BIRTHDATE',
   EXTRA_TIME_PERCENTAGE: 'EXTRA_TIME_PERCENTAGE',
+  LEFT_EXAM_ROOM: 'LEFT_EXAM_ROOM',
+  SIGNATURE_ISSUE: 'SIGNATURE_ISSUE',
 };
 
 export default class CertificationIssueReport extends Model {
