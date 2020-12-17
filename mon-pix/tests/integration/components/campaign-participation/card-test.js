@@ -28,8 +28,8 @@ describe('Integration | Component | CampaignParticipation | Card', function() {
 
     // then
     expect(find('h1').textContent).to.equal('My campaign');
-    expect(find('[data-test-tag]')).to.exist;
-    expect(find('[data-test-tag]').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation.card.tag.started'));
+    expect(find('.campaign-participation-card-header__tag')).to.exist;
+    expect(find('.campaign-participation-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation.card.tag.started'));
     expect(find('time').getAttribute('datetime')).to.equal('2020-12-10T15:16:20.109Z');
     expect(find('a').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation.card.resume'));
   });
@@ -53,7 +53,7 @@ describe('Integration | Component | CampaignParticipation | Card', function() {
     await render(hbs`<CampaignParticipation::Card @model={{campaignParticipation}} />}`);
 
     // then
-    expect(find('[data-test-tag]').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation.card.tag.completed'));
+    expect(find('.campaign-participation-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation.card.tag.completed'));
     expect(find('a').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation.card.send'));
   });
 });
