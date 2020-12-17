@@ -68,60 +68,6 @@ describe('Integration | Repository | CertificationReport', function() {
     });
   });
 
-  describe('#finalize', () => {
-
-    afterEach(() => {
-      return knex('certification-issue-reports').delete();
-    });
-
-    describe('when saving informations from certification report', () => {
-
-      it('should save hasSeenEndTestScreen into certification course', async () => {
-        // given
-        const sessionId = databaseBuilder.factory.buildSession().id;
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-          sessionId,
-        }).id;
-        await databaseBuilder.commit();
-
-        // when
-        const hasSeenEndTestScreen = true;
-        const certificationReport = domainBuilder.buildCertificationReport({
-          certificationCourseId,
-          hasSeenEndTestScreen,
-        });
-        await certificationReportRepository.finalize({ certificationReport });
-
-        // then
-        const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
-
-        expect(actualCertificationReports[0].hasSeenEndTestScreen).to.equal(true);
-      });
-
-      it('should save examiner comment into certification-issue-report', async () => {
-        // given
-        const sessionId = databaseBuilder.factory.buildSession().id;
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
-          sessionId,
-        }).id;
-        await databaseBuilder.commit();
-
-        // when
-        const examinerComment = 'Un commentaire examinateur';
-        const certificationReport = domainBuilder.buildCertificationReport({
-          certificationCourseId,
-          examinerComment,
-        });
-        await certificationReportRepository.finalize({ certificationReport });
-
-        // then
-        const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
-
-        expect(actualCertificationReports[0].examinerComment).to.equal(examinerComment);
-      });
-    });
-  });
-
   describe('#finalizeAll', () => {
     let sessionId;
 
