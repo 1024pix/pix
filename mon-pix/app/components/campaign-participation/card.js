@@ -3,13 +3,13 @@ import Component from '@glimmer/component';
 const STATUSES = {
   completed: {
     tagText: 'pages.campaign-participation.card.tag.completed',
-    tagColor: 'yellow',
+    tagColor: 'yellow-light',
     actionText: 'pages.campaign-participation.card.send',
     actionClass: 'button--yellow',
   },
   started: {
     tagText: 'pages.campaign-participation.card.tag.started',
-    tagColor: 'green',
+    tagColor: 'green-light',
     actionText: 'pages.campaign-participation.card.resume',
     actionClass: '',
   },
