@@ -21,6 +21,7 @@ import loadSchoolingRegistrationUserAssociationRoutes from './routes/schooling-r
 import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-registration-dependent-users/index';
 import loadUserRoutes from './routes/users/index';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
+import postSharedCertifications from './routes/post-shared-certifications';
 
 /* eslint max-statements: off */
 export default function() {
@@ -77,4 +78,6 @@ export default function() {
   this.get('/feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
+
+  this.post('/shared-certifications', postSharedCertifications);
 }
