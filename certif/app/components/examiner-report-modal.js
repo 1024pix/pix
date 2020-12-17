@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
+import { certificationIssueReportCategories, certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
 
 export class RadioButtonCategory {
   @tracked isChecked;
@@ -13,8 +13,17 @@ export class RadioButtonCategory {
     this.isChecked = isChecked;
   }
 
-  toggle(categoryNameToBeingCheck) {
-    this.isChecked = this.name === categoryNameToBeingCheck;
+  toggle(categoryNameBeingChecked) {
+    this.isChecked = this.name === categoryNameBeingChecked;
+  }
+}
+
+export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
+  @tracked description;
+
+  toggle(categoryNameBeingChecked) {
+    super.toggle(categoryNameBeingChecked);
+    this.description = '';
   }
 
   issueReport(certificationReport) {
@@ -26,12 +35,27 @@ export class RadioButtonCategory {
   }
 }
 
-export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
+export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButtonCategory {
+  @tracked subcategory;
   @tracked description;
 
-  toggle(categoryNameToBeingCheck) {
-    super.toggle(categoryNameToBeingCheck);
+  constructor({ name, subcategory }) {
+    super({ name });
+    this.subcategory = subcategory;
+  }
+
+  toggle(categoryNameBeingChecked) {
+    super.toggle(categoryNameBeingChecked);
     this.description = '';
+  }
+
+  issueReport(certificationReport) {
+    return {
+      category: this.name,
+      subcategory: this.subcategory,
+      description: this.description,
+      certificationReport,
+    };
   }
 }
 
@@ -40,7 +64,7 @@ export default class ExaminerReportModal extends Component {
 
   @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });
   @tracked lateOrLeavingCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.LATE_OR_LEAVING });
-  @tracked candidateInformationChangeCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES });
+  @tracked candidateInformationChangeCategory = new RadioButtonCategoryWithSubcategoryWithDescription({ name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES, subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE });
   @tracked connexionOrEndScreenCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CONNEXION_OR_END_SCREEN });
   categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connexionOrEndScreenCategory ];
 
