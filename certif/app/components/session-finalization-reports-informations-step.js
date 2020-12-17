@@ -4,6 +4,8 @@ import { tracked } from '@glimmer/tracking';
 
 export default class SessionFinalizationReportsInformationsStep extends Component {
   textareaMaxLength = 500;
+
+  @tracked
   reportToEdit = null;
 
   @tracked
