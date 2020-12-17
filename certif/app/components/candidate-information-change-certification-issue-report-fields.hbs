@@ -19,10 +19,11 @@
       />
       <label for="text-area-for-category-candidate-information-change">Détaillez les changements</label>
       <Textarea
-              id="text-area-for-category-candidate-information-change"
-              @class="session-finalization-reports-informations-step__textarea"
-              @value={{@candidateInformationChangeCategory.description}}
-              @maxlength={{@maxlength}}
+        id="text-area-for-category-candidate-information-change"
+        @class="session-finalization-reports-informations-step__textarea"
+        @value={{@candidateInformationChangeCategory.description}}
+        @maxlength={{@maxlength}}
+        required
       />
       <p class="candidate-information-change-certification-issue-report-fields-details__char-count">{{this.reportLength}}
         / {{@maxlength}}</p>
