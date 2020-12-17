@@ -39,6 +39,10 @@
           />
         </div>
 
+        {{#if this.showCategoryMissingError}}
+          <PixMessage @type='alert'>Veuillez selectionner une catégorie</PixMessage>
+        {{/if}}
+
         <div class="examiner-report-modal__actions">
           <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
           <button type="submit" class="button button--extra-thin">Valider</button>

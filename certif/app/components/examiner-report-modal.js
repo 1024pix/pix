@@ -78,9 +78,11 @@ export default class ExaminerReportModal extends Component {
   categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connexionOrEndScreenCategory ];
 
   @tracked reportLength = 0;
+  @tracked showCategoryMissingError = false;
 
   @action
   toggleOnCategory(selectedCategory) {
+    this.showCategoryMissingError = false;
     this.categories.forEach((category) => category.toggle(selectedCategory.name));
   }
 
@@ -88,9 +90,13 @@ export default class ExaminerReportModal extends Component {
   async submitReport(event) {
     event.preventDefault();
     const categoryToAdd = this.categories.find((category) => category.isChecked);
-    const issueReportToSave = this.store.createRecord('certification-issue-report', categoryToAdd.issueReport(this.args.report));
-    await issueReportToSave.save();
-    this.args.closeModal();
+    if (categoryToAdd) {
+      const issueReportToSave = this.store.createRecord('certification-issue-report', categoryToAdd.issueReport(this.args.report));
+      await issueReportToSave.save();
+      this.args.closeModal();
+    } else {
+      this.showCategoryMissingError = true;
+    }
   }
 
   @action
