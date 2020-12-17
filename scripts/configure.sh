@@ -102,6 +102,15 @@ function setup_and_run_infrastructure() {
   echo ""
 }
 
+function load_seed() {
+  echo "Loading seed data"
+
+  (cd api && npm run db:seed)
+
+  echo "✅ Seed data loaded"
+  echo ""
+}
+
 function execute_apps_tests() {
   echo "Executing Pix apps tests…"
 
@@ -138,5 +147,6 @@ verify_prerequesite_programs
 generate_environment_config_file
 install_apps_dependencies
 setup_and_run_infrastructure
+load_seed
 execute_apps_tests
 display_footer
