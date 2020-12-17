@@ -10,12 +10,13 @@ describe('Unit | Serializer | JSONAPI | certification-issue-serializer', functio
     it('should convert JSON API data to a CertificagtionIssueReport', function() {
       // given
       const certificationCourseId = 1;
-      const description = 'Il y a eu un problème';
+      const description = '65%';
       const json = {
         data: {
           attributes: {
-            category: 'OTHER',
+            category: 'CANDIDATE_INFORMATIONS_CHANGES',
             description,
+            subcategory: 'EXTRA_TIME_PERCENTAGE',
           },
           relationships: {
             'certification-report': {
@@ -39,8 +40,9 @@ describe('Unit | Serializer | JSONAPI | certification-issue-serializer', functio
       // then
       const expectedCertificationIssueReport = {
         certificationCourseId,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
         description,
+        subcategory: 'EXTRA_TIME_PERCENTAGE',
       };
       expect(certificationIssueReport).to.deep.equal(expectedCertificationIssueReport);
     });

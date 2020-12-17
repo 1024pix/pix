@@ -20,6 +20,7 @@ describe('Integration | Repository | Certification Issue Course', function() {
         certificationCourseId,
         category: CertificationIssueReportCategories.OTHER,
         description: 'Un gros problème',
+        subcategory: null,
       });
       await databaseBuilder.commit();
 
@@ -31,6 +32,7 @@ describe('Integration | Repository | Certification Issue Course', function() {
         certificationCourseId,
         category: CertificationIssueReportCategories.OTHER,
         description: 'Un gros problème',
+        subcategory: null,
       };
 
       expect(omit(savedCertificationIssueReport, 'id')).to.deep.equal(expectedSavedCertificationIssueReport);

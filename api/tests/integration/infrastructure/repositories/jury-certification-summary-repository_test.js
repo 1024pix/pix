@@ -80,6 +80,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             id: certificationIssueReport.id,
             certificationCourseId: manyAsrCertification.id,
             description,
+            subcategory: null,
             category: CertificationIssueReportCategories.OTHER,
           })],
         });
@@ -161,12 +162,14 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             category: issueReport1.category,
             certificationCourseId: manyAsrCertification.id,
             description: 'first certification issue report',
+            subcategory: null,
           }),
           new CertificationIssueReport({
             id: issueReport2.id,
             category: issueReport2.category,
             certificationCourseId: manyAsrCertification.id,
             description: 'second certification issue report',
+            subcategory: null,
           }),
         ]);
       });
