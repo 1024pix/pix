@@ -31,24 +31,22 @@ describe('Integration | Repository | CertificationReport', function() {
         const certificationReports = await certificationReportRepository.findBySessionId(sessionId);
 
         // then
-        const expectedCertificationReport1 = {
+        const expectedCertificationReport1 = domainBuilder.buildCertificationReport({
           id: CertificationReport.idFromCertificationCourseId(certificationCourse1.id),
           certificationCourseId: certificationCourse1.id,
           firstName: certificationCourse1.firstName,
           lastName: certificationCourse1.lastName,
-          examinerComment: certificationIssueReport1.description,
           certificationIssueReports: [ certificationIssueReport1 ],
           hasSeenEndTestScreen: certificationCourse1.hasSeenEndTestScreen,
-        };
-        const expectedCertificationReport2 = {
+        });
+        const expectedCertificationReport2 = domainBuilder.buildCertificationReport({
           id: CertificationReport.idFromCertificationCourseId(certificationCourse2.id),
           certificationCourseId: certificationCourse2.id,
           firstName: certificationCourse2.firstName,
           lastName: certificationCourse2.lastName,
-          examinerComment: null,
           certificationIssueReports: [],
           hasSeenEndTestScreen: certificationCourse2.hasSeenEndTestScreen,
-        };
+        });
         expect(certificationReports).to.deep.equal([expectedCertificationReport1, expectedCertificationReport2]);
       });
     });
@@ -101,14 +99,12 @@ describe('Integration | Repository | CertificationReport', function() {
           sessionId,
           certificationCourseId: certificationCourseId1,
           hasSeenEndTestScreen: true,
-          examinerComment: null,
         });
 
         const certificationReport2 = domainBuilder.buildCertificationReport({
           sessionId,
           certificationCourseId: certificationCourseId2,
           hasSeenEndTestScreen: false,
-          examinerComment: 'J\'aime les fruits et les poulets',
         });
 
         // when
@@ -117,10 +113,8 @@ describe('Integration | Repository | CertificationReport', function() {
         // then
         const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
         const actualReport1 = _.find(actualCertificationReports, { id: certificationReport1.id });
-        const actualReport2 = _.find(actualCertificationReports, { id: certificationReport2.id });
 
         expect(actualReport1.hasSeenEndTestScreen).to.equal(true);
-        expect(actualReport2.examinerComment).to.equal('J\'aime les fruits et les poulets');
       });
 
       it('should save only not null examiner comment into certification-issue-report', async () => {
@@ -136,12 +130,11 @@ describe('Integration | Repository | CertificationReport', function() {
         }).id;
         await databaseBuilder.commit();
 
-        const notNullExaminerComment = 'Un commentaire examinateur';
         const nullExaminerComment = null;
 
         const certificationReportWithNotNullExaminerComment = domainBuilder.buildCertificationReport({
           certificationCourseId: certificationCourseId1,
-          examinerComment: notNullExaminerComment,
+          examinerComment: 'Un commentaire examinateur',
         });
         const certificationReportWithNullExaminerComment = domainBuilder.buildCertificationReport({
           certificationCourseId: certificationCourseId2,
@@ -154,7 +147,7 @@ describe('Integration | Repository | CertificationReport', function() {
         // then
         const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
 
-        expect(actualCertificationReports[0].certificationIssueReports[0].description).to.equal(notNullExaminerComment);
+        expect(actualCertificationReports[0].certificationIssueReports[0].description).to.equal('Un commentaire examinateur');
         expect(actualCertificationReports[1].certificationIssueReports.length).to.equal(0);
       });
 
@@ -198,7 +191,7 @@ describe('Integration | Repository | CertificationReport', function() {
         const actualReport1 = _.find(actualCertificationReports, { id: certificationReport1.id });
         const actualReport2 = _.find(actualCertificationReports, { id: certificationReport2.id });
 
-        expect(actualReport1.examinerComment).to.equal(null);
+        expect(actualReport1.certificationIssueReports).to.deep.equal([]);
         expect(actualReport2.hasSeenEndTestScreen).to.equal(false);
         expect(error).to.be.an.instanceOf(CertificationCourseUpdateError);
       });
