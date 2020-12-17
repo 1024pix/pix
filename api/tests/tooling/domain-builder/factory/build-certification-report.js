@@ -1,5 +1,6 @@
 const faker = require('faker');
 const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
+const buildCertificationIssueReport = require('./build-certification-issue-report');
 
 module.exports = function buildCertificationReport(
   {
@@ -7,8 +8,9 @@ module.exports = function buildCertificationReport(
     // attributes
     firstName = faker.name.firstName(),
     lastName = faker.name.lastName(),
-    examinerComment = faker.lorem.sentence(),
     hasSeenEndTestScreen = false,
+    examinerComment,
+    certificationIssueReports,
     // references
     certificationCourseId = faker.random.number(),
   } = {}) {
@@ -18,7 +20,10 @@ module.exports = function buildCertificationReport(
     certificationCourseId,
     firstName,
     lastName,
-    examinerComment,
     hasSeenEndTestScreen,
+    examinerComment,
+    certificationIssueReports: certificationIssueReports
+      ? certificationIssueReports
+      : [buildCertificationIssueReport({ certificationCourseId })],
   });
 };

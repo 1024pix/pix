@@ -1,11 +1,11 @@
-const faker = require('faker');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
+const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
 module.exports = function buildCertificationIssueReport({
-  id = faker.random.number(),
+  id = 123,
   certificationCourseId,
-  category,
-  description = null,
+  category = CertificationIssueReportCategories.OTHER,
+  description = 'Une super description',
 } = {}) {
   return new CertificationIssueReport({
     id,
