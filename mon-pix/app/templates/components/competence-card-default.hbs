@@ -43,7 +43,7 @@
           </div>
         {{else}}
           <PixButton class="button button--extra-thin button--round button--link button--green competence-card__button"
-            @action={{action "improveCompetenceEvaluation"}} @loading-color="white">
+            @triggerAction={{action "improveCompetenceEvaluation"}} @loading-color="white">
             <span class="competence-card-button__label">{{t 'pages.competence-details.actions.improve.label'}}<span class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</span>
             </span>
             <span class="competence-card-button__arrow"><FaIcon @icon='long-arrow-alt-right'></FaIcon></span>
