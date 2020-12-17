@@ -35,31 +35,21 @@
         margin: 0;
         min-width: 0;
         margin-bottom: 22px;
-      }
 
-      &__report-category {
-
-        input[id|="input-radio-for-type"] {
+        input[id|="input-radio-for-category"] {
           background-color: $communication-light;
-          /* IE */
-          -ms-transform: scale(1.2);
-          /* FF */
-          -moz-transform: scale(1.2);
-          /* Safari and Chrome */
-          -webkit-transform: scale(1.2);
-          /* Opera */
-          -o-transform: scale(1.2);
           transform: scale(1.2);
           margin: 0;
           cursor: pointer;
         }
 
-        label[for|="input-radio-for-type"] {
+        label[for|="input-radio-for-category"] {
           margin-left: 16px;
+          cursor: pointer;
         }
       }
 
-      &__report-category-details {
+      div[class$="certification-issue-report-fields__details"] {
         margin-top: 16px;
         padding-left: 32px;
 
@@ -78,7 +68,7 @@
           }
         }
 
-        .examiner-report-modal-content__char-count {
+        p[class$="certification-issue-report-fields-details__char-count"] {
           margin-top: 6px;
           font-size: 12px;
           display: flex;
