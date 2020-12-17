@@ -16,7 +16,7 @@ const buildUser = function buildUser({
   lastName = faker.name.lastName(),
   email,
   username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
-  password,
+  password = 'pix123',
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt = null,
@@ -29,11 +29,11 @@ const buildUser = function buildUser({
   updatedAt = new Date(),
 } = {}) {
 
-  password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
+  const encryptedPassword = encrypt.hashPasswordSync(password);
   email = _.isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;
 
   const values = {
-    id, firstName, lastName, email, username, password, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
+    id, firstName, lastName, email, username, password: encryptedPassword, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword, createdAt, updatedAt,
   };
 
