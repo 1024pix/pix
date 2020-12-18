@@ -1,5 +1,5 @@
 .examiner-report-modal {
-  min-width: 496px;
+  min-width: 600px;
 
   &__title {
     font-family: $open-sans;
@@ -29,6 +29,20 @@
 
     .examiner-report-modal-content {
 
+      label[for^="subcategory-for-category"], label[for^="text-area-for-category"] {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      select[id^="subcategory-for-category"] {
+        font-size: 14px;
+        color: $grey-90;
+      }
+
+      label[for^="text-area-for-category"] {
+        margin-top: 16px;
+      }
+
       fieldset {
         border: 0;
         padding: 0;
@@ -55,7 +69,6 @@
 
         textarea {
           box-sizing: border-box;
-          margin-top: 8px;
           border: 1.2px solid $blue-zodia;
           border-radius: 4px;
           min-height: 82px;

@@ -50,6 +50,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', () => 
         attributes: {
           category: certificationIssueReport.category,
           description: certificationIssueReport.description,
+          subcategory: certificationIssueReport.subcategory,
         },
       }];
 
