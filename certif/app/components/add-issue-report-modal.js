@@ -65,7 +65,7 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
   }
 }
 
-export default class ExaminerReportModal extends Component {
+export default class AddIssueReportModal extends Component {
   @service store
 
   @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });

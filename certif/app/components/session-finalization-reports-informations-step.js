@@ -9,7 +9,7 @@ export default class SessionFinalizationReportsInformationsStep extends Componen
   reportToEdit = null;
 
   @tracked
-  showExaminerReportModal = false;
+  showAddIssueReportModal = false;
 
   get certifReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
@@ -30,14 +30,14 @@ export default class SessionFinalizationReportsInformationsStep extends Componen
   }
 
   @action
-  async openExaminerReportModal(report) {
-    this.showExaminerReportModal = true;
+  async openAddIssueReportModal(report) {
+    this.showAddIssueReportModal = true;
     this.reportToEdit = report;
   }
 
   @action
-  async closeExaminerReportModal() {
-    this.showExaminerReportModal = false;
+  async closeAddIssueReportModal() {
+    this.showAddIssueReportModal = false;
   }
 
 }
