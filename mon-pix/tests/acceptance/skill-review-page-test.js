@@ -6,7 +6,7 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Campaigns | Campaigns Result', function() {
+describe('Acceptance | Campaigns | Campaigns Result', function() {
   setupApplicationTest();
   setupMirage();
   let user;
