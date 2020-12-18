@@ -30,7 +30,6 @@ class Scorecard {
   } = {}) {
 
     this.id = id;
-    // attributes
     this.name = name;
     this.description = description;
     this.competenceId = competenceId;

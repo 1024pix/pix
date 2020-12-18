@@ -8,15 +8,9 @@ const Validator = require('./Validator');
 class ValidatorQROC extends Validator {
 
   constructor({
-    // attributes
-    // includes
     solution,
-    // references
   } = {}) {
     super({ solution });
-    // attributes
-    // includes
-    // references
   }
 
   assess({ answer, challengeFormat }) {

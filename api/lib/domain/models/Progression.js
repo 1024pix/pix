@@ -10,22 +10,16 @@ class Progression {
 
   constructor({
     id,
-    // attributes
-    // includes
     targetedSkills = [],
     knowledgeElements = [],
     isProfileCompleted = false,
-    // references
   }) {
     this.id = id;
-    // attributes
-    // includes
     this.knowledgeElements = knowledgeElements;
     this.targetedSkills = targetedSkills;
     this.targetedSkillsIds = _.map(targetedSkills, 'id');
     this.targetedKnowledgeElements = _.filter(knowledgeElements, (ke) => _.includes(this.targetedSkillsIds, ke.skillId));
     this.isProfileCompleted = isProfileCompleted;
-    // references
   }
 
   _getTargetedSkillsAlreadyTestedCount() {

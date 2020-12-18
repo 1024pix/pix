@@ -21,13 +21,10 @@ class KnowledgeElement {
 
   constructor({
     id,
-    // attributes
     createdAt,
     source,
     status,
     earnedPix,
-    // includes
-    // references
     answerId,
     assessmentId,
     skillId,
@@ -35,13 +32,10 @@ class KnowledgeElement {
     competenceId,
   } = {}) {
     this.id = id;
-    // attributes
     this.createdAt = createdAt;
     this.source = source;
     this.status = status;
     this.earnedPix = earnedPix;
-    // includes
-    // references
     this.answerId = answerId;
     this.assessmentId = assessmentId;
     this.skillId = skillId;

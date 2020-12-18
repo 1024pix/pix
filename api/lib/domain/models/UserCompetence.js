@@ -9,26 +9,20 @@ class UserCompetence {
 
   constructor({
     id,
-    // attributes
     index,
     name,
     area,
     pixScore,
     estimatedLevel,
-    // includes
     skills = [],
-    // references
   } = {}) {
     this.id = id;
-    // attributes
     this.index = index;
     this.name = name;
     this.area = area;
     this.pixScore = pixScore;
     this.estimatedLevel = estimatedLevel;
-    // includes
     this.skills = skills;
-    // references
   }
 
   addSkill(newSkill) {

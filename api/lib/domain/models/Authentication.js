@@ -1,16 +1,10 @@
 class Authentication {
 
   constructor({
-    // attributes
     token,
-    // includes
-    // references
     userId,
   } = {}) {
-    // attributes
     this.token = token;
-    // includes
-    // references
     this.userId = userId;
   }
 

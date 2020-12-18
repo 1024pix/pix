@@ -17,7 +17,6 @@ const NO_EXAMINER_GLOBAL_COMMENT = null;
 class Session {
   constructor({
     id,
-    // attributes
     accessCode,
     address,
     certificationCenter,
@@ -30,14 +29,11 @@ class Session {
     finalizedAt,
     resultsSentToPrescriberAt,
     publishedAt,
-    // includes
     certificationCandidates,
-    // references
     certificationCenterId,
     assignedCertificationOfficerId,
   } = {}) {
     this.id = id;
-    // attributes
     this.accessCode = accessCode;
     this.address = address;
     this.certificationCenter = certificationCenter;
@@ -50,9 +46,7 @@ class Session {
     this.finalizedAt = finalizedAt;
     this.resultsSentToPrescriberAt = resultsSentToPrescriberAt;
     this.publishedAt = publishedAt;
-    // includes
     this.certificationCandidates = certificationCandidates;
-    // references
     this.certificationCenterId = certificationCenterId;
     this.assignedCertificationOfficerId = assignedCertificationOfficerId;
   }

@@ -2,7 +2,6 @@ class CertificationCourse {
   constructor(
     {
       id,
-      // attributes
       firstName,
       lastName,
       birthdate,
@@ -14,17 +13,14 @@ class CertificationCourse {
       isPublished = false,
       isV2Certification = false,
       verificationCode,
-      // includes
       assessment,
       challenges,
       certificationIssueReports,
-      // references
       userId,
       sessionId,
       maxReachableLevelOnCertificationDate,
     } = {}) {
     this.id = id;
-    // attributes
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthplace = birthplace;
@@ -36,11 +32,9 @@ class CertificationCourse {
     this.isPublished = isPublished;
     this.isV2Certification = isV2Certification;
     this.verificationCode = verificationCode;
-    // includes
     this.assessment = assessment;
     this.challenges = challenges;
     this.certificationIssueReports = certificationIssueReports;
-    // references
     this.userId = userId;
     this.sessionId = sessionId;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;

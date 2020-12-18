@@ -5,29 +5,23 @@ class Answer {
 
   constructor({
     id,
-    // attributes
     elapsedTime,
     result,
     resultDetails,
     timeout,
     value,
-    // includes
     levelup,
-    // references
     assessmentId,
     challengeId,
   } = {}) {
     this.id = id;
-    // attributes
     this.elapsedTime = elapsedTime;
     // XXX result property should not be auto-created from result to an AnswerStatus Object
     this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
     this.timeout = timeout;
     this.value = value;
-    // includes
     this.levelup = levelup;
-    // references
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
   }
