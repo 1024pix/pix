@@ -3,10 +3,10 @@ import { action } from '@ember/object';
 
 import { certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
 
-export default class ConnexionOrEndScreenCertificationIssueReportFieldsComponent extends Component {
+export default class ConnectionOrEndScreenCertificationIssueReportFieldsComponent extends Component {
   @action
   onChangeSubcategory(event) {
-    this.args.connexionOrEndScreenCategory.subcategory = event.target.value;
+    this.args.connectionOrEndScreenCategory.subcategory = event.target.value;
   }
 
   options = [

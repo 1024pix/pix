@@ -4,43 +4,43 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
-module('Integration | Component | connexion-or-end-screen-certification-issue-report-fields', function(hooks) {
+module('Integration | Component | connection-or-end-screen-certification-issue-report-fields', function(hooks) {
   setupRenderingTest(hooks);
 
-  const INPUT_RADIO_SELECTOR = '#input-radio-for-category-connexion-or-end-screen';
-  const SUBCATEGORY_SELECTOR = '#subcategory-for-category-connexion-or-end-screen';
+  const INPUT_RADIO_SELECTOR = '#input-radio-for-category-connection-or-end-screen';
+  const SUBCATEGORY_SELECTOR = '#subcategory-for-category-connection-or-end-screen';
 
   test('it should call toggle function on click radio button', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
-    const connexionOrEndScreenCategory = { isChecked: false };
+    const connectionOrEndScreenCategory = { isChecked: false };
     this.set('toggleOnCategory', toggleOnCategory);
-    this.set('connexionOrEndScreenCategory', connexionOrEndScreenCategory);
+    this.set('connectionOrEndScreenCategory', connectionOrEndScreenCategory);
 
     // when
     await render(hbs`
-      <ConnexionOrEndScreenCertificationIssueReportFields
-        @connexionOrEndScreenCategory={{this.connexionOrEndScreenCategory}}
+      <ConnectionOrEndScreenCertificationIssueReportFields
+        @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
     await click(INPUT_RADIO_SELECTOR);
 
     // then
-    assert.ok(toggleOnCategory.calledOnceWith(connexionOrEndScreenCategory));
+    assert.ok(toggleOnCategory.calledOnceWith(connectionOrEndScreenCategory));
   });
 
   test('it should show subcategory selector if category is checked', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
-    const connexionOrEndScreenCategory = { isChecked: true };
+    const connectionOrEndScreenCategory = { isChecked: true };
     this.set('toggleOnCategory', toggleOnCategory);
-    this.set('connexionOrEndScreenCategory', connexionOrEndScreenCategory);
+    this.set('connectionOrEndScreenCategory', connectionOrEndScreenCategory);
 
     // when
     await render(hbs`
-      <ConnexionOrEndScreenCertificationIssueReportFields
-        @connexionOrEndScreenCategory={{this.connexionOrEndScreenCategory}}
+      <ConnectionOrEndScreenCertificationIssueReportFields
+        @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
@@ -53,14 +53,14 @@ module('Integration | Component | connexion-or-end-screen-certification-issue-re
   test('it should not show subcategory selector if category is unchecked', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
-    const connexionOrEndScreenCategory = { isChecked: false };
+    const connectionOrEndScreenCategory = { isChecked: false };
     this.set('toggleOnCategory', toggleOnCategory);
-    this.set('connexionOrEndScreenCategory', connexionOrEndScreenCategory);
+    this.set('connectionOrEndScreenCategory', connectionOrEndScreenCategory);
 
     // when
     await render(hbs`
-      <ConnexionOrEndScreenCertificationIssueReportFields
-        @connexionOrEndScreenCategory={{this.connexionOrEndScreenCategory}}
+      <ConnectionOrEndScreenCertificationIssueReportFields
+        @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
