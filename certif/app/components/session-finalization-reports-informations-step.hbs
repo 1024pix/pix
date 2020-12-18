@@ -33,7 +33,13 @@
                   <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openExaminerReportModal report)}}>
                     Ajouter / modifier
                   </button>
-                  <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}"> 1 signalement </p>
+                  <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
+                    {{#if (gt report.certificationIssueReports.length 1)}}
+                      {{report.certificationIssueReports.length}} signalements
+                    {{else}}
+                      1 signalement
+                    {{/if}}
+                  </p>
                 {{else}}
                   <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openExaminerReportModal report)}}>
                     Ajouter ?

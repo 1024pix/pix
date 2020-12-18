@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 const Bookshelf = require('../bookshelf');
 const CertificationReport = require('../../domain/models/CertificationReport');
@@ -26,30 +27,11 @@ module.exports = {
     return _.map(certificationCourses, CertificationReport.fromCertificationCourse);
   },
 
-  async finalize({ certificationReport, transaction = undefined }) {
-    const saveOptions = { patch: true, method: 'update' };
-    if (transaction) {
-      saveOptions.transacting = transaction;
-    }
-
-    await new CertificationCourseBookshelf({ id: certificationReport.certificationCourseId })
-      .save({ hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen }, saveOptions);
-
-    if (certificationReport.examinerComment) {
-      await new CertificationIssueReportBookshelf({
-        certificationCourseId: certificationReport.certificationCourseId,
-        description: certificationReport.examinerComment,
-        category: CertificationIssueReportCategories.OTHER,
-      }).save(null, { transacting: transaction });
-    }
-  },
-
   async finalizeAll(certificationReports) {
     try {
       await Bookshelf.transaction((trx) => {
-        return Promise.all(certificationReports.map((certificationReport) => {
-          return this.finalize({ certificationReport, transaction: trx });
-        }));
+        const finalizeReport = (certificationReport) => _finalize({ certificationReport, transaction: trx });
+        return bluebird.mapSeries(certificationReports, finalizeReport);
       });
     } catch (err) {
       throw new CertificationCourseUpdateError('An error occurred while finalizing the session');
@@ -57,3 +39,22 @@ module.exports = {
   },
 
 };
+
+async function _finalize({ certificationReport, transaction = undefined }) {
+  const saveOptions = { patch: true, method: 'update' };
+  if (transaction) {
+    saveOptions.transacting = transaction;
+  }
+
+  await new CertificationCourseBookshelf({ id: certificationReport.certificationCourseId })
+    .save({ hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen }, saveOptions);
+
+  // Remove this behavior when FT_REPORTS_CATEGORISATION is removed
+  if (certificationReport.examinerComment) {
+    await new CertificationIssueReportBookshelf({
+      certificationCourseId: certificationReport.certificationCourseId,
+      description: certificationReport.examinerComment,
+      category: CertificationIssueReportCategories.OTHER,
+    }).save(null, { transacting: transaction });
+  }
+}
