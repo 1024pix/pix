@@ -32,12 +32,16 @@
             @maxlength={{@maxlength}}
           />
 
-          <ConnexionOrEndScreenCertificationIssueReportFields
-            @connexionOrEndScreenCategory={{this.connexionOrEndScreenCategory}}
+          <ConnectionOrEndScreenCertificationIssueReportFields
+            @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
         </div>
+
+        {{#if this.showCategoryMissingError}}
+          <PixMessage @type='alert'>Veuillez selectionner une catégorie</PixMessage>
+        {{/if}}
 
         <div class="examiner-report-modal__actions">
           <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>

@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
+import { certificationIssueReportCategories, certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
 
 export class RadioButtonCategory {
   @tracked isChecked;
@@ -13,14 +13,13 @@ export class RadioButtonCategory {
     this.isChecked = isChecked;
   }
 
-  toggle(categoryNameToBeingCheck) {
-    this.isChecked = this.name === categoryNameToBeingCheck;
+  toggle(categoryNameBeingChecked) {
+    this.isChecked = this.name === categoryNameBeingChecked;
   }
 
   issueReport(certificationReport) {
     return {
       category: this.name,
-      description: this.description,
       certificationReport,
     };
   }
@@ -29,9 +28,40 @@ export class RadioButtonCategory {
 export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
   @tracked description;
 
-  toggle(categoryNameToBeingCheck) {
-    super.toggle(categoryNameToBeingCheck);
+  toggle(categoryNameBeingChecked) {
+    super.toggle(categoryNameBeingChecked);
     this.description = '';
+  }
+
+  issueReport(certificationReport) {
+    const result = super.issueReport(certificationReport);
+    return {
+      ...result,
+      description: this.description,
+    };
+  }
+}
+
+export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButtonCategory {
+  @tracked subcategory;
+  @tracked description = null;
+
+  constructor({ name, subcategory }) {
+    super({ name });
+    this.subcategory = subcategory;
+  }
+
+  toggle(categoryNameBeingChecked) {
+    super.toggle(categoryNameBeingChecked);
+    this.description = null;
+  }
+
+  issueReport(certificationReport) {
+    return {
+      ...super.issueReport(certificationReport),
+      subcategory: this.subcategory,
+      description: this.description,
+    };
   }
 }
 
@@ -39,15 +69,25 @@ export default class ExaminerReportModal extends Component {
   @service store
 
   @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });
-  @tracked lateOrLeavingCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.LATE_OR_LEAVING });
-  @tracked candidateInformationChangeCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES });
-  @tracked connexionOrEndScreenCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.CONNEXION_OR_END_SCREEN });
-  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connexionOrEndScreenCategory ];
+  @tracked lateOrLeavingCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
+    name: certificationIssueReportCategories.LATE_OR_LEAVING,
+    subcategory: certificationIssueReportSubcategories.LEFT_EXAM_ROOM,
+  });
+  @tracked candidateInformationChangeCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
+    name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+    subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+  });
+  @tracked connectionOrEndScreenCategory = new RadioButtonCategory({
+    name: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+  });
+  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connectionOrEndScreenCategory ];
 
   @tracked reportLength = 0;
+  @tracked showCategoryMissingError = false;
 
   @action
   toggleOnCategory(selectedCategory) {
+    this.showCategoryMissingError = false;
     this.categories.forEach((category) => category.toggle(selectedCategory.name));
   }
 
@@ -55,9 +95,13 @@ export default class ExaminerReportModal extends Component {
   async submitReport(event) {
     event.preventDefault();
     const categoryToAdd = this.categories.find((category) => category.isChecked);
-    const issueReportToSave = this.store.createRecord('certification-issue-report', categoryToAdd.issueReport(this.args.report));
-    await issueReportToSave.save();
-    this.args.closeModal();
+    if (categoryToAdd) {
+      const issueReportToSave = this.store.createRecord('certification-issue-report', categoryToAdd.issueReport(this.args.report));
+      await issueReportToSave.save();
+      this.args.closeModal();
+    } else {
+      this.showCategoryMissingError = true;
+    }
   }
 
   @action

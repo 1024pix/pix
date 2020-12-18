@@ -1,0 +1,11 @@
+<fieldset class="connection-or-end-screen-certification-issue-report-fields">
+  <div class="connection-or-end-screen-certification-issue-report-fields__radio-button">
+    <input
+      id="input-radio-for-category-connection-or-end-screen"
+      type="radio"
+      name="connection-or-end-screen"
+      checked={{@connectionOrEndScreenCategory.isChecked}}
+      {{on 'click' (fn @toggleOnCategory @connectionOrEndScreenCategory)}} />
+    <label for="input-radio-for-category-connection-or-end-screen">Connexion et fin de test : le candidat a passé les dernières questions, faute de temps</label>
+  </div>
+</fieldset>

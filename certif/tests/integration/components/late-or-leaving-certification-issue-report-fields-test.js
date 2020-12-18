@@ -11,6 +11,7 @@ module('Integration | Component | late-or-leaving-certification-issue-report-fie
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-late-or-leaving';
   const TEXTAREA_SELECTOR = '#text-area-for-category-late-or-leaving';
+  const SUBCATEGORY_SELECTOR = '#subcategory-for-category-late-or-leaving';
   const CHAR_COUNT_SELECTOR = '.late-or-leaving-certification-issue-report-fields-details__char-count';
 
   test('it should call toggle function on click radio button', async function(assert) {
@@ -50,7 +51,8 @@ module('Integration | Component | late-or-leaving-certification-issue-report-fie
     await click(INPUT_RADIO_SELECTOR);
 
     // then
-    assert.dom('.late-or-leaving-certification-issue-report-fields__details').exists();
+    assert.dom(SUBCATEGORY_SELECTOR).exists();
+    assert.dom(TEXTAREA_SELECTOR).exists();
   });
 
   test('it should not show textarea if category is unchecked', async function(assert) {
@@ -70,7 +72,8 @@ module('Integration | Component | late-or-leaving-certification-issue-report-fie
     await click(INPUT_RADIO_SELECTOR);
 
     // then
-    assert.dom('.late-or-leaving-certification-issue-report-fields__details').doesNotExist();
+    assert.dom(TEXTAREA_SELECTOR).doesNotExist();
+    assert.dom(SUBCATEGORY_SELECTOR).doesNotExist();
   });
 
   test('it should count textarea characters length', async function(assert) {

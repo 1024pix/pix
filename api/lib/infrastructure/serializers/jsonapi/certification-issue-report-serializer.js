@@ -7,6 +7,7 @@ module.exports = {
       attributes: [
         'category',
         'description',
+        'subcategory',
       ],
       transform: function(certificationIssueReport) {
         return Object.assign({}, certificationIssueReport);
@@ -22,6 +23,7 @@ module.exports = {
       certificationCourseId,
       category: attributes.category,
       description: attributes.description,
+      subcategory: attributes.subcategory,
     };
   },
 };

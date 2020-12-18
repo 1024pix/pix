@@ -10,12 +10,20 @@
   </div>
   {{#if @lateOrLeavingCategory.isChecked}}
     <div class="late-or-leaving-certification-issue-report-fields__details">
+      <label for="subcategory-for-category-late-or-leaving">Sélectionnez une sous-catégorie :</label>
+      <PixSelect
+        id="subcategory-for-category-late-or-leaving"
+        @options={{this.options}}
+        @selectedOption={{@lateOrLeavingCategory.subcategory}}
+        @onChange={{this.onChangeSubcategory}}
+      />
       <label for="text-area-for-category-late-or-leaving">Détaillez l'incident</label>
       <Textarea
         id="text-area-for-category-late-or-leaving"
         @class="session-finalization-reports-informations-step__textarea"
         @value={{@lateOrLeavingCategory.description}}
         @maxlength={{@maxlength}}
+        required
       />
       <p class="late-or-leaving-certification-issue-report-fields-details__char-count">{{this.reportLength}} / {{@maxlength}}</p>
     </div>
