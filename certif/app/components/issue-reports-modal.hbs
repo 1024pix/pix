@@ -14,6 +14,11 @@
 
       <div class="add-issue-report-modal__content">
         <h2>Mes signalements ({{@report.certificationIssueReports.length}})</h2>
+        <ul>
+          {{#each @report.certificationIssueReports as |issueReport|}}
+            <li>{{issueReport.category}}</li>
+          {{/each}}
+        </ul>
         <button {{on 'click' (fn @onClickIssueReport @report)}}>Ajouter un signalement</button>
       </div>
     </div>
