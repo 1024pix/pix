@@ -1,5 +1,5 @@
 const { statuses } = require('../../infrastructure/repositories/clea-certification-status-repository');
-const MAX_PIX_BY_COMPETENCE = 8;
+const PIX_COUNT_BY_LEVEL = 8;
 const COMPETENCE_COUNT = 16;
 
 class CertificationAttestation {
@@ -38,7 +38,7 @@ class CertificationAttestation {
     this.verificationCode = verificationCode;
     this.hasAcquiredCleaCertification = cleaCertificationStatus === statuses.ACQUIRED;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
-    this.maxReachableScore = this.maxReachableLevelOnCertificationDate * MAX_PIX_BY_COMPETENCE * COMPETENCE_COUNT;
+    this.maxReachableScore = this.maxReachableLevelOnCertificationDate * PIX_COUNT_BY_LEVEL * COMPETENCE_COUNT;
   }
 }
 
