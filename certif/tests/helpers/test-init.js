@@ -1,4 +1,9 @@
 import { authenticateSession as emberAuthenticateSession } from 'ember-simple-auth/test-support';
+import QUnit from 'qunit';
+import { contains, notContains } from './contains';
+
+QUnit.assert.contains = contains;
+QUnit.assert.notContains = notContains;
 
 export function createUserAndMembership(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix') {
   const user = server.create('user', {
