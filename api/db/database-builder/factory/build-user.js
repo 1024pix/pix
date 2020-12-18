@@ -24,6 +24,7 @@ const buildUser = function buildUser({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
+  hasSeenNewLevelInfo = false,
   shouldChangePassword = false,
   createdAt = new Date(),
   updatedAt = new Date(),
@@ -34,7 +35,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, username, password: encryptedPassword, cgu, lang, lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, shouldChangePassword, createdAt, updatedAt,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, hasSeenNewLevelInfo, shouldChangePassword, createdAt, updatedAt,
   };
 
   return databaseBuffer.pushInsertable({
