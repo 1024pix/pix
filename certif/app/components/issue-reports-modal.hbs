@@ -14,12 +14,16 @@
 
       <div class="add-issue-report-modal__content">
         <h2>Mes signalements ({{@report.certificationIssueReports.length}})</h2>
-        <ul>
-          {{#each @report.certificationIssueReports as |issueReport|}}
-            <li>{{issueReport.categoryLabel}}</li>
-          {{/each}}
-        </ul>
-        <button {{on 'click' (fn @onClickIssueReport @report)}}>Ajouter un signalement</button>
+        <div class="add-issue-report-modal__content--frame">
+          <ul>
+            {{#each @report.certificationIssueReports as |issueReport|}}
+              <li>{{issueReport.categoryLabel}}</li>
+            {{/each}}
+          </ul>
+          <button type="button" class="button__secondary" {{on 'click' (fn @onClickIssueReport @report)}}>
+            <FaIcon @icon="plus"/>Ajouter un signalement
+          </button>
+        </div>
       </div>
     </div>
   </div>
