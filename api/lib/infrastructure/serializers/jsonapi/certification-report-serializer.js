@@ -18,6 +18,7 @@ module.exports = {
         attributes: [
           'category',
           'description',
+          'subcategory',
         ],
       },
     }).serialize(certificationReports);
