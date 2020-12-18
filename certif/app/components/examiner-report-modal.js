@@ -16,6 +16,13 @@ export class RadioButtonCategory {
   toggle(categoryNameBeingChecked) {
     this.isChecked = this.name === categoryNameBeingChecked;
   }
+
+  issueReport(certificationReport) {
+    return {
+      category: this.name,
+      certificationReport,
+    };
+  }
 }
 
 export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
@@ -27,10 +34,10 @@ export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
   }
 
   issueReport(certificationReport) {
+    const result = super.issueReport(certificationReport);
     return {
-      category: this.name,
+      ...result,
       description: this.description,
-      certificationReport,
     };
   }
 }
@@ -51,10 +58,9 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
 
   issueReport(certificationReport) {
     return {
-      category: this.name,
+      ...super.issueReport(certificationReport),
       subcategory: this.subcategory,
       description: this.description,
-      certificationReport,
     };
   }
 }
@@ -71,9 +77,8 @@ export default class ExaminerReportModal extends Component {
     name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
     subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   });
-  @tracked connectionOrEndScreenCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
+  @tracked connectionOrEndScreenCategory = new RadioButtonCategory({
     name: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
-    subcategory: certificationIssueReportSubcategories.SKIP_QUESTION_MISSING_TIME,
   });
   categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connectionOrEndScreenCategory ];
 

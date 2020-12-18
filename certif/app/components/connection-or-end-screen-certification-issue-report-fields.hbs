@@ -6,17 +6,6 @@
       name="connection-or-end-screen"
       checked={{@connectionOrEndScreenCategory.isChecked}}
       {{on 'click' (fn @toggleOnCategory @connectionOrEndScreenCategory)}} />
-    <label for="input-radio-for-category-connection-or-end-screen">Connexion et fin de test</label>
+    <label for="input-radio-for-category-connection-or-end-screen">Connexion et fin de test : le candidat a passé les dernières questions, faute de temps</label>
   </div>
-  {{#if @connectionOrEndScreenCategory.isChecked}}
-    <div class="connection-or-end-screen-certification-issue-report-fields__details">
-      <label for="subcategory-for-category-connection-or-end-screen">Sélectionnez une sous-catégorie :</label>
-      <PixSelect
-        id="subcategory-for-category-connection-or-end-screen"
-        @options={{this.options}}
-        @selectedOption={{@connectionOrEndScreenCategory.subcategory}}
-        @onChange={{this.onChangeSubcategory}}
-      />
-    </div>
-  {{/if}}
 </fieldset>

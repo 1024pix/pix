@@ -8,7 +8,26 @@ module('Integration | Component | connection-or-end-screen-certification-issue-r
   setupRenderingTest(hooks);
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-connection-or-end-screen';
-  const SUBCATEGORY_SELECTOR = '#subcategory-for-category-connection-or-end-screen';
+
+  test('it should render', async function(assert) {
+    // given
+    const toggleOnCategory = sinon.stub();
+    const connectionOrEndScreenCategory = { isChecked: false };
+    this.set('toggleOnCategory', toggleOnCategory);
+    this.set('connectionOrEndScreenCategory', connectionOrEndScreenCategory);
+
+    // when
+    await render(hbs`
+      <ConnectionOrEndScreenCertificationIssueReportFields
+        @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+        @maxlength={{500}}
+      />`);
+
+    // then
+    const expectedLabel = 'Connexion et fin de test : le candidat a passé les dernières questions, faute de temps';
+    assert.contains(expectedLabel);
+  });
 
   test('it should call toggle function on click radio button', async function(assert) {
     // given
@@ -28,46 +47,6 @@ module('Integration | Component | connection-or-end-screen-certification-issue-r
 
     // then
     assert.ok(toggleOnCategory.calledOnceWith(connectionOrEndScreenCategory));
-  });
-
-  test('it should show subcategory selector if category is checked', async function(assert) {
-    // given
-    const toggleOnCategory = sinon.stub();
-    const connectionOrEndScreenCategory = { isChecked: true };
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('connectionOrEndScreenCategory', connectionOrEndScreenCategory);
-
-    // when
-    await render(hbs`
-      <ConnectionOrEndScreenCertificationIssueReportFields
-        @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
-    await click(INPUT_RADIO_SELECTOR);
-
-    // then
-    assert.dom(SUBCATEGORY_SELECTOR).exists();
-  });
-
-  test('it should not show subcategory selector if category is unchecked', async function(assert) {
-    // given
-    const toggleOnCategory = sinon.stub();
-    const connectionOrEndScreenCategory = { isChecked: false };
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('connectionOrEndScreenCategory', connectionOrEndScreenCategory);
-
-    // when
-    await render(hbs`
-      <ConnectionOrEndScreenCertificationIssueReportFields
-        @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
-    await click(INPUT_RADIO_SELECTOR);
-
-    // then
-    assert.dom(SUBCATEGORY_SELECTOR).doesNotExist();
   });
 
 });
