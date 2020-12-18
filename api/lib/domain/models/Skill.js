@@ -3,21 +3,15 @@ const _ = require('lodash');
 class Skill {
   constructor({
     id,
-    // attributes
     name,
     pixValue,
-    // includes
-    // references
     competenceId,
     tutorialIds = [],
     tubeId,
   } = {}) {
     this.id = id;
-    // attributes
     this.name = name;
     this.pixValue = pixValue;
-    // includes
-    // references
     this.competenceId = competenceId;
     this.tutorialIds = tutorialIds;
     this.tubeId = tubeId;

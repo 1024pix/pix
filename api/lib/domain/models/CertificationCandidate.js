@@ -44,7 +44,6 @@ class CertificationCandidate {
   constructor(
     {
       id,
-      // attributes
       firstName,
       lastName,
       birthCity,
@@ -56,14 +55,11 @@ class CertificationCandidate {
       birthdate,
       extraTimePercentage,
       createdAt,
-      // includes
-      // references
       sessionId,
       userId,
       schoolingRegistrationId = null,
     } = {}) {
     this.id = id;
-    // attributes
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthCity = birthCity;
@@ -75,7 +71,6 @@ class CertificationCandidate {
     this.birthdate = birthdate;
     this.extraTimePercentage = !isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
     this.createdAt = createdAt;
-    // references
     this.sessionId = sessionId;
     this.userId = userId;
     this.schoolingRegistrationId = schoolingRegistrationId;

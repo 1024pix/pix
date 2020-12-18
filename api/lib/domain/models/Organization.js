@@ -10,7 +10,6 @@ class Organization {
 
   constructor({
     id,
-    // attributes
     name,
     type,
     logoUrl,
@@ -20,16 +19,13 @@ class Organization {
     credit,
     canCollectProfiles,
     email,
-    // includes
     memberships = [],
     targetProfileShares = [],
     students = [],
     organizationInvitations = [],
     tags = [],
-    // references
   } = {}) {
     this.id = id;
-    // attributes
     this.name = name;
     this.type = type;
     this.logoUrl = logoUrl;
@@ -39,13 +35,11 @@ class Organization {
     this.credit = credit;
     this.canCollectProfiles = canCollectProfiles;
     this.email = email;
-    // includes
     this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     this.students = students;
     this.organizationInvitations = organizationInvitations;
     this.tags = tags;
-    // references
   }
 
   get isSup() {

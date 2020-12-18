@@ -7,7 +7,6 @@ class OrganizationInvitation {
 
   constructor({
     id,
-    // attributes
     email,
     status,
     code,
@@ -19,7 +18,6 @@ class OrganizationInvitation {
     organizationId,
   } = {}) {
     this.id = id;
-    // attributes
     this.email = email;
     this.status = status;
     this.code = code;

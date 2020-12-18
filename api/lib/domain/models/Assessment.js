@@ -28,19 +28,16 @@ const TYPES_OF_ASSESSMENT_NEEDING_USER = [
 class Assessment {
   constructor({
     id,
-    // attributes
     createdAt,
     updatedAt,
     state,
     title,
     type,
     isImproving,
-    // includes
     answers = [],
     campaignParticipation,
     course,
     targetProfile,
-    // references
     courseId,
     certificationCourseId,
     userId,
@@ -48,19 +45,16 @@ class Assessment {
     campaignParticipationId,
   } = {}) {
     this.id = id;
-    // attributes
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.state = state;
     this.title = title;
     this.type = type;
     this.isImproving = isImproving;
-    // includes
     this.answers = answers;
     this.campaignParticipation = campaignParticipation;
     this.course = course;
     this.targetProfile = targetProfile;
-    // references
     this.courseId = courseId;
     this.certificationCourseId = certificationCourseId;
     this.userId = userId;

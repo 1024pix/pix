@@ -1,29 +1,23 @@
 class Badge {
   constructor({
     id,
-    // attributes
     key,
     altMessage,
     imageUrl,
     message,
     title,
-    // includes
     badgeCriteria = [],
     badgePartnerCompetences = [],
-    // references
     targetProfileId,
   } = {}) {
     this.id = id;
-    // attributes
     this.altMessage = altMessage;
     this.imageUrl = imageUrl;
     this.message = message;
     this.title = title;
     this.key = key;
-    // includes
     this.badgeCriteria = badgeCriteria;
     this.badgePartnerCompetences = badgePartnerCompetences;
-    // references
     this.targetProfileId = targetProfileId;
   }
 }

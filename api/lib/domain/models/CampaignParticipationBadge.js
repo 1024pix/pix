@@ -4,18 +4,15 @@ class CampaignParticipationBadge extends Badge {
 
   constructor({
     id,
-    // attributes
     key,
     altMessage,
     imageUrl,
     message,
     title,
     isAcquired,
-    // includes
     badgeCriteria = [],
     badgePartnerCompetences = [],
     partnerCompetenceResults = [],
-    // references
     targetProfileId,
   } = {}) {
     super({
