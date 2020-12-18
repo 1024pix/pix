@@ -23,6 +23,7 @@ function checkData(campaignData) {
 }
 
 async function prepareCampaigns(campaignsData, creatorId) {
+  const generatedList = [];
   const campaigns = await bluebird.map(campaignsData, async (campaignData) => {
 
     const campaign = {
@@ -35,7 +36,9 @@ async function prepareCampaigns(campaignsData, creatorId) {
     };
 
     campaignValidator.validate(campaign);
-    campaign.code = await campaignCodeGenerator.generate(campaignRepository);
+    campaign.code = await campaignCodeGenerator.generate(campaignRepository, generatedList);
+
+    generatedList.push(campaign.code);
 
     if (require.main === module) process.stdout.write(`Collecte de Profile ${ campaign.name } pour l'organisation ${ campaign.organizationId } ===> ✔\n`);
     return campaign;
