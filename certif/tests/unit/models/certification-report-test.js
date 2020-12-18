@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { A } from '@ember/array';
 
-module('Unit | Model | finalized session', function(hooks) {
+module('Unit | Model | certification report', function(hooks) {
   setupTest(hooks);
 
   test('it should return the right data in the finalized session model', function(assert) {

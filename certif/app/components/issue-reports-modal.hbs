@@ -16,7 +16,7 @@
         <h2>Mes signalements ({{@report.certificationIssueReports.length}})</h2>
         <ul>
           {{#each @report.certificationIssueReports as |issueReport|}}
-            <li>{{issueReport.category}}</li>
+            <li>{{issueReport.categoryLabel}}</li>
           {{/each}}
         </ul>
         <button {{on 'click' (fn @onClickIssueReport @report)}}>Ajouter un signalement</button>
