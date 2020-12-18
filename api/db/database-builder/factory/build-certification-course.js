@@ -21,6 +21,7 @@ module.exports = function buildCertificationCourse({
   isV2Certification = faker.random.boolean(),
   userId,
   sessionId,
+  maxReachableLevelOnCertificationDate = 5,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -41,6 +42,7 @@ module.exports = function buildCertificationCourse({
     isV2Certification,
     userId,
     sessionId,
+    maxReachableLevelOnCertificationDate,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',

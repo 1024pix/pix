@@ -23,6 +23,7 @@ export default class Certification extends Model {
   @attr('string') verificationCode;
   @attr() cleaCertificationStatus;
   @attr() deliveredAt;
+  @attr('number') maxReachableLevelOnCertificationDate;
 
   // includes
   @belongsTo('resultCompetenceTree') resultCompetenceTree;
