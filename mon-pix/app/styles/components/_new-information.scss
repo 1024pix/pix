@@ -1,0 +1,61 @@
+.new-information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: $yellow;
+  margin-top: 30px;
+  height: 330px;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+
+  @include device-is('desktop') {
+    height: 175px;
+  }
+
+  &__close {
+    align-self: flex-start;
+    margin: 5px 10px 0 0;
+    padding: 7px 10px;
+    background-color: transparent;
+    border-radius: 20px;
+    border-color: $grey-200;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
+  }
+
+  .new-information-content {
+
+    &__img {
+      height: 100%;
+      margin: 0 20px;
+    }
+
+    &__text {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      font-weight: $font-light;
+      font-size: 1.5rem;
+      line-height: 2rem;
+
+      @include device-is('desktop') {
+        text-align: left;
+      }
+    }
+  }
+}

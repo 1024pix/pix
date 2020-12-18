@@ -42,6 +42,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
             'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
             'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,
+            'has-seen-new-level-info': user.hasSeenNewLevelInfo,
           },
           relationships: {
             memberships: {
