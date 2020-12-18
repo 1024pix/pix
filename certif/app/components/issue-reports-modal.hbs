@@ -1,0 +1,20 @@
+<AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
+  <div class="add-issue-report-modal">
+    <div class="pix-modal__close-button">
+      <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
+        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
+      </button>
+    </div>
+
+    <div class="pix-modal__container pix-modal__container--white">
+      <div class="add-issue-report-modal__title">
+        <h1>Signalement du candidat</h1>
+        <h3>{{@report.firstName}} {{@report.lastName}}</h3>
+      </div>
+
+      <div class="add-issue-report-modal__content">
+        <button {{on 'click' (fn @onClickIssueReport @report)}}>Ajouter un signalement</button>
+      </div>
+    </div>
+  </div>
+</AppModal>
