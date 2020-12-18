@@ -4,6 +4,7 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
+import { certificationIssueReportCategories, categoryToLabel } from 'pix-certif/models/certification-issue-report';
 
 module('Integration | Component | issue-reports-modal', function(hooks) {
   setupRenderingTest(hooks);
@@ -67,15 +68,11 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
   test('it should show Mes signalements (2)', async function(assert) {
     // given
     const issue1 = EmberObject.create({
-      category: 'category',
-      subcategory: 'subcategory',
-      description: 'description',
+      category: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
     });
 
     const issue2 = EmberObject.create({
-      category: 'category2',
-      subcategory: 'subcategory2',
-      description: 'description2',
+      category: certificationIssueReportCategories.LATE_OR_LEAVING,
     });
 
     const report = EmberObject.create({
@@ -107,15 +104,13 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
   test('it should list existing issue reports', async function(assert) {
     // given
     const issue1 = EmberObject.create({
-      category: 'category',
-      subcategory: 'subcategory',
-      description: 'description',
+      category: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.CONNECTION_OR_END_SCREEN],
     });
 
     const issue2 = EmberObject.create({
-      category: 'category2',
-      subcategory: 'subcategory2',
-      description: 'description2',
+      category: certificationIssueReportCategories.LATE_OR_LEAVING,
+      categoryLabel: categoryToLabel[certificationIssueReportCategories.LATE_OR_LEAVING],
     });
 
     const report = EmberObject.create({
@@ -141,8 +136,8 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
     `);
 
     // then
-    assert.contains('category');
-    assert.contains('category2');
+    assert.contains(categoryToLabel[certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]);
+    assert.contains(categoryToLabel[certificationIssueReportCategories.LATE_OR_LEAVING]);
     assert.dom('li').exists({ count: 2 });
   });
 });
