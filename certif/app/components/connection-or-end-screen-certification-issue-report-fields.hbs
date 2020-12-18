@@ -1,0 +1,22 @@
+<fieldset class="connection-or-end-screen-certification-issue-report-fields">
+  <div class="connection-or-end-screen-certification-issue-report-fields__radio-button">
+    <input
+      id="input-radio-for-category-connection-or-end-screen"
+      type="radio"
+      name="connection-or-end-screen"
+      checked={{@connectionOrEndScreenCategory.isChecked}}
+      {{on 'click' (fn @toggleOnCategory @connectionOrEndScreenCategory)}} />
+    <label for="input-radio-for-category-connection-or-end-screen">Connexion et fin de test</label>
+  </div>
+  {{#if @connectionOrEndScreenCategory.isChecked}}
+    <div class="connection-or-end-screen-certification-issue-report-fields__details">
+      <label for="subcategory-for-category-connection-or-end-screen">Sélectionnez une sous-catégorie :</label>
+      <PixSelect
+        id="subcategory-for-category-connection-or-end-screen"
+        @options={{this.options}}
+        @selectedOption={{@connectionOrEndScreenCategory.subcategory}}
+        @onChange={{this.onChangeSubcategory}}
+      />
+    </div>
+  {{/if}}
+</fieldset>

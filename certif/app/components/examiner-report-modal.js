@@ -71,11 +71,11 @@ export default class ExaminerReportModal extends Component {
     name: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
     subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   });
-  @tracked connexionOrEndScreenCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
-    name: certificationIssueReportCategories.CONNEXION_OR_END_SCREEN,
+  @tracked connectionOrEndScreenCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
+    name: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
     subcategory: certificationIssueReportSubcategories.SKIP_QUESTION_MISSING_TIME,
   });
-  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connexionOrEndScreenCategory ];
+  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connectionOrEndScreenCategory ];
 
   @tracked reportLength = 0;
   @tracked showCategoryMissingError = false;
