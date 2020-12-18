@@ -30,7 +30,7 @@
             {{#if @isReportsCategorizationFeatureToggleEnabled}}
               <div class="finalization-report-examiner-comment">
                 {{#if report.certificationIssueReports}}
-                  <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openAddIssueReportModal report)}}>
+                  <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openIssueReportsModal report)}}>
                     Ajouter / modifier
                   </button>
                   <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
@@ -71,6 +71,13 @@
       @closeModal={{this.closeAddIssueReportModal}}
       @report={{this.reportToEdit}}
       @maxlength={{@issueReportDescriptionMaxLength}}
+      />
+  {{/if}}
+  {{#if this.showIssueReportsModal}}
+    <IssueReportsModal
+      @closeModal={{this.closeIssueReportsModal}}
+      @onClickIssueReport={{this.openAddIssueReportModal}}
+      @report={{this.reportToEdit}}
       />
   {{/if}}
 </div>
