@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { RadioButtonCategoryWithDescription } from 'pix-certif/components/examiner-report-modal';
+import { RadioButtonCategoryWithDescription } from 'pix-certif/components/add-issue-report-modal';
 
 import sinon from 'sinon';
 

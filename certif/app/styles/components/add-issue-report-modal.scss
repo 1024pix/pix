@@ -1,4 +1,4 @@
-.examiner-report-modal {
+.add-issue-report-modal {
   min-width: 600px;
 
   &__title {
@@ -27,7 +27,7 @@
     padding: 22px 32px;
     background-color: $grey-10;
 
-    .examiner-report-modal-content {
+    .add-issue-report-modal-content {
 
       label[for^="subcategory-for-category"], label[for^="text-area-for-category"] {
         display: block;
