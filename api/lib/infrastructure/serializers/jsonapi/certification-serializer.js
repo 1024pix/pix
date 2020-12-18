@@ -28,6 +28,7 @@ const attributes = [
   'pixScore',
   'resultCompetenceTree',
   'cleaCertificationStatus',
+  'maxReachableLevelOnCertificationDate',
 ];
 
 const resultCompetenceTree = {
@@ -70,7 +71,14 @@ module.exports = {
 
   serializeFromCertificationCourse(certificationCourse) {
     return new Serializer('certifications', {
-      attributes: ['firstName', 'lastName', 'birthplace', 'birthdate', 'externalId'],
+      attributes: [
+        'firstName',
+        'lastName',
+        'birthplace',
+        'birthdate',
+        'externalId',
+        'maxReachableLevelOnCertificationDate',
+      ],
     }).serialize(certificationCourse);
   },
 

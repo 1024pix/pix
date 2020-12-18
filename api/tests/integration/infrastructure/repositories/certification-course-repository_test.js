@@ -31,6 +31,7 @@ describe('Integration | Repository | Certification Course', function() {
           domainBuilder.buildCertificationChallenge(),
         ],
         verificationCode: null,
+        maxReachableLevelOnCertificationDate: 5,
       });
 
       return databaseBuilder.commit();

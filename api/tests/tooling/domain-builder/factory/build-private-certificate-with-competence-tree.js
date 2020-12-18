@@ -21,6 +21,7 @@ module.exports = function buildPrivateCertificate({
   status,
   cleaCertificationStatus = 'acquired',
   verificationCode = 'P-BBBCCCDD',
+  maxReachableLevelOnCertificationDate = 5,
 
   // the id of the ResultCompetenceTree should be with the most recent assessment result.
   resultCompetenceTree = buildResultCompetenceTree({ id: `${id}-${assessmentResults[0].id}` }),
@@ -42,6 +43,7 @@ module.exports = function buildPrivateCertificate({
     resultCompetenceTree,
     cleaCertificationStatus,
     verificationCode,
+    maxReachableLevelOnCertificationDate,
   });
 
   if (pixScore !== undefined) {

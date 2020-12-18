@@ -124,8 +124,8 @@
                 "alternative": "Certification cléA numérique"
             },
             "competences": {
-                "informations": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau 5 des compétences et 640 pix au maximum.",
-                "subtitle": "(niveaux sur 5)",
+                "informations": "Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification. Il peut donc différer du nombre de Pix affiché dans votre profil. Le jour de votre certification il était possible d’atteindre le niveau {maxReachableLevel} des compétences et {maxReachablePixCount} pix au maximum.",
+                "subtitle": "(niveaux sur {maxReachableLevel})",
                 "title": "Compétences certifiées"
             },
             "exam-date": "Date de passage :",
@@ -664,7 +664,7 @@
             },
             "total-score-helper": {
                 "title": "Pourquoi 1024 pix ?",
-                "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de 640 pix'</span>', correspondant au niveau 5."
+                "explanation": "C’est le nombre maximum de pix qu’on pourra atteindre lorsque les 8 niveaux du référentiel Pix seront disponibles.'<br>'Aujourd’hui, '<span class=\"hexagon-score-information__text--strong\">'le maximum est de {maxReachablePixCount} pix'</span>', correspondant au niveau {maxReachableLevel}."
             }
         },
         "profile-already-shared": {

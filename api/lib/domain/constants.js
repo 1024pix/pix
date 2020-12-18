@@ -1,9 +1,11 @@
 const settings = require('../config');
 
+const PIX_COUNT_BY_LEVEL = 8;
+
 module.exports = {
-  MAX_REACHABLE_LEVEL: 5,
-  MAX_REACHABLE_PIX_BY_COMPETENCE: 40,
-  PIX_COUNT_BY_LEVEL: 8,
+  PIX_COUNT_BY_LEVEL,
+  MAX_REACHABLE_LEVEL: settings.features.maxReachableLevel,
+  MAX_REACHABLE_PIX_BY_COMPETENCE: settings.features.maxReachableLevel * PIX_COUNT_BY_LEVEL,
   MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION: 3,
   MINIMUM_DELAY_IN_DAYS_FOR_RESET: settings.features.dayBeforeCompetenceResetV2,
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING: settings.features.dayBeforeImproving,

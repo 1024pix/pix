@@ -1,6 +1,7 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
+const { features } = require('../../config');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -82,7 +83,7 @@ async function _startNewCertification({
   }
 
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
-  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges });
+  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges, maxReachableLevelOnCertificationDate: features.maxReachableLevel });
 
   const savedCertificationCourse = await certificationCourseRepository.save({
     certificationCourse: newCertificationCourse,

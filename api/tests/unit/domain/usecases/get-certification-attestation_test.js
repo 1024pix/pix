@@ -112,6 +112,7 @@ describe('Unit | UseCase | getCertificationAttestation', async () => {
         'status': 'validated',
         'userId': 2,
         'verificationCode': 'P-BBBCCCDD',
+        maxReachableLevelOnCertificationDate: 5,
       });
 
       // when

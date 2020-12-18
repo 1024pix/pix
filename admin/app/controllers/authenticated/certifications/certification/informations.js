@@ -6,14 +6,16 @@ import { inject as service } from '@ember/service';
 import { schedule } from '@ember/runloop';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
+import ENV from 'pix-admin/config/environment';
 
 import { tracked } from '@glimmer/tracking';
+const PIX_COUNT_BY_LEVEL = 8;
 
 export default class CertificationInformationsController extends Controller {
 
   // Domain constants
-  MAX_REACHABLE_LEVEL = 5;
-  MAX_REACHABLE_PIX_BY_COMPETENCE = 40;
+  MAX_REACHABLE_LEVEL = ENV.APP.MAX_REACHABLE_LEVEL;
+  MAX_REACHABLE_PIX_BY_COMPETENCE = this.MAX_REACHABLE_LEVEL * PIX_COUNT_BY_LEVEL;
 
   // Properties
   @alias('model') certification;

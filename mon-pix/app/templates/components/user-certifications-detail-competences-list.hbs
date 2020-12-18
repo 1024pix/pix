@@ -1,5 +1,5 @@
 <div class="user-certifications-detail-competences-list">
-  <h2>{{t "pages.certificate.competences.title"}} <span>{{t "pages.certificate.competences.subtitle"}}</span></h2>
+  <h2>{{t "pages.certificate.competences.title"}} <span>{{t "pages.certificate.competences.subtitle" maxReachableLevel=this.maxReachableLevel}}</span></h2>
 
   {{#each this.sortedAreas as |area index|}}
 
@@ -8,6 +8,6 @@
   {{/each}}
 
   <p class="user-certifications-detail-competences-list__note">
-    {{t "pages.certificate.competences.informations"}}
+    {{t "pages.certificate.competences.informations" maxReachableLevel=this.maxReachableLevel maxReachablePixCount=this.maxReachablePixCount}}
   </p>
 </div>
