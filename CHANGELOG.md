@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.234.0 (18/12/2020)
+
+- [#2301](https://github.com/1024pix/pix/pull/2301) [FEATURE] Afficher le nombre correct de signalements d'une certification sur la page de finalisation de session PixCertif (PIX-1813)
+- [#2283](https://github.com/1024pix/pix/pull/2283) [BUGFIX] Traduire l'erreur sur le format des dates de naissances en français lors de l'import d'étudiants AGRI (PIX-1765)
+- [#2297](https://github.com/1024pix/pix/pull/2297) [BUGFIX] Afficher le certificat quand le code de vérification saisi est correct (PIX-1791).
+- [#2289](https://github.com/1024pix/pix/pull/2289) [TECH] Mise à jour de pix-ui sur mon-pix en version 1.3.0
+- [#2298](https://github.com/1024pix/pix/pull/2298) [TECH] Le script configure charge les données de tests en bdd
+- [#2290](https://github.com/1024pix/pix/pull/2290) [TECH] Ajouter un composant pour chaque catégorie de signalement (PIX-1786)
+- [#2299](https://github.com/1024pix/pix/pull/2299) [TECH] Réduit les occurrences de timeout sur les tests du knex-utils
+- [#2288](https://github.com/1024pix/pix/pull/2288) [TECH] Faciliter la connexion sur les utilisateurs créées par seeds.
+- [#2295](https://github.com/1024pix/pix/pull/2295) [TECH] Suppression de `ember-cli-eslint`
+
 ## v2.233.0 (16/12/2020)
 
 - [#2234](https://github.com/1024pix/pix/pull/2234) [FEATURE] Ajouter de nouvelles catégories de signalement en certif (PIX-1744)
