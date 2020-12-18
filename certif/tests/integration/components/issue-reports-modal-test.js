@@ -4,7 +4,6 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
-import { A } from '@ember/array';
 
 module('Integration | Component | issue-reports-modal', function(hooks) {
   setupRenderingTest(hooks);
@@ -81,7 +80,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
 
     const report = EmberObject.create({
       certificationCourseId: 1,
-      certificationIssueReports: A([issue1, issue2]),
+      certificationIssueReports: [issue1, issue2],
       firstName: 'Lisa',
       lastName: 'Monpud',
       hasSeenEndTestScreen: false,
@@ -103,5 +102,47 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
 
     // then
     assert.contains('Mes signalements (2)');
+  });
+
+  test('it should list existing issue reports', async function(assert) {
+    // given
+    const issue1 = EmberObject.create({
+      category: 'category',
+      subcategory: 'subcategory',
+      description: 'description',
+    });
+
+    const issue2 = EmberObject.create({
+      category: 'category2',
+      subcategory: 'subcategory2',
+      description: 'description2',
+    });
+
+    const report = EmberObject.create({
+      certificationCourseId: 1,
+      certificationIssueReports: [issue1, issue2],
+      firstName: 'Lisa',
+      lastName: 'Monpud',
+      hasSeenEndTestScreen: false,
+    });
+    const onClickIssueReportStub = sinon.stub();
+    const closeIssueReportsModalStub = sinon.stub();
+    this.set('report', report);
+    this.set('onClickIssueReport', onClickIssueReportStub);
+    this.set('closeIssueReportsModal', closeIssueReportsModalStub);
+
+    // when
+    await render(hbs`
+      <IssueReportsModal
+        @report={{this.report}}
+        @closeModal={{this.closeIssueReportsModal}}
+        @onClickIssueReport={{this.onClickIssueReport}}
+      />
+    `);
+
+    // then
+    assert.contains('category');
+    assert.contains('category2');
+    assert.dom('li').exists({ count: 2 });
   });
 });
