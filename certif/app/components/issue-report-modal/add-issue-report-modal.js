@@ -93,10 +93,12 @@ export default class AddIssueReportModal extends Component {
 
   @tracked reportLength = 0;
   @tracked showCategoryMissingError = false;
+  @tracked showIssueReportSubmitError = false;
 
   @action
   toggleOnCategory(selectedCategory) {
     this.showCategoryMissingError = false;
+    this.showIssueReportSubmitError = false;
     this.categories.forEach((category) => category.toggle(selectedCategory.name));
   }
 
@@ -104,12 +106,17 @@ export default class AddIssueReportModal extends Component {
   async submitReport(event) {
     event.preventDefault();
     const categoryToAdd = this.categories.find((category) => category.isChecked);
-    if (categoryToAdd) {
-      const issueReportToSave = this.store.createRecord('certification-issue-report', categoryToAdd.issueReport(this.args.report));
+    if (!categoryToAdd) {
+      this.showCategoryMissingError = true;
+      return;
+    }
+    const issueReportToSave = this.store.createRecord('certification-issue-report', categoryToAdd.issueReport(this.args.report));
+    try {
       await issueReportToSave.save();
       this.args.closeModal();
-    } else {
-      this.showCategoryMissingError = true;
+    } catch (err) {
+      issueReportToSave.rollbackAttributes();
+      this.showIssueReportSubmitError = true;
     }
   }
 
