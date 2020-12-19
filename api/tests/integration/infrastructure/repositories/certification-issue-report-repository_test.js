@@ -5,7 +5,7 @@ const certificationIssueReportRepository = require('../../../../lib/infrastructu
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Integration | Repository | Certification Issue Course', function() {
+describe('Integration | Repository | Certification Issue Report', function() {
 
   afterEach(async () => {
     await knex('certification-issue-reports').delete();
