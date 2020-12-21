@@ -1,19 +1,35 @@
 const Assessment = require('../models/Assessment');
-
-const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
 const CampaignParticipation = require('../models/CampaignParticipation');
+const { AlreadyExistingCampaignParticipationError, ForbiddenAccess } = require('../../domain/errors');
 
-module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction }) {
-  const campaign = await campaignRepository.get(campaignParticipation.campaignId);
+module.exports = async function startCampaignParticipation({
+  campaignParticipation,
+  userId,
+  campaignParticipationRepository,
+  assessmentRepository,
+  campaignToJoinRepository,
+  schoolingRegistrationRepository,
+  domainTransaction,
+}) {
+  const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId);
+  if (campaignToJoin.isArchived()) {
+    throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
+  }
 
-  if (campaign === null) {
-    throw new NotFoundError('La campagne demandée n\'existe pas');
+  if (campaignToJoin.isRestricted) {
+    const schoolingRegistration = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
+      userId,
+      organizationId: campaignToJoin.organizationId,
+    });
+    if (!schoolingRegistration) {
+      throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
+    }
   }
 
   const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
 
-  if (campaign.isAssessment()) {
+  if (campaignToJoin.isAssessment()) {
     await _createCampaignAssessment(userId, createdCampaignParticipation.id, assessmentRepository, domainTransaction);
   }
 
