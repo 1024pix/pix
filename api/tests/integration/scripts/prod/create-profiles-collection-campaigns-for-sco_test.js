@@ -6,7 +6,7 @@ const Campaign = require('../../../../lib/domain/models/Campaign');
 const {
   prepareCampaigns,
   checkData,
-} = require('../../../../scripts/prod/create-prolifes-collection-campaigns-for-sco');
+} = require('../../../../scripts/prod/create-profiles-collection-campaigns-for-sco');
 
 describe('Integration | Scripts | create-profile-collection-campaigns', () => {
 
