@@ -11,12 +11,12 @@ export default class AuthenticatedRoute extends Route.extend(AuthenticatedRouteM
     if (transition.isAborted) {
       return;
     }
-    if (!this.currentUser.user.pixCertifTermsOfServiceAccepted) {
+    if (!this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted) {
       return this.replaceWith('terms-of-service');
     }
   }
 
   model() {
-    return this.currentUser.certificationCenter;
+    return this.currentUser.certificationPointOfContact;
   }
 }

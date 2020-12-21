@@ -6,7 +6,7 @@ module.exports = async function findSessionsForCertificationCenter({
   certificationCenterMembershipRepository,
   sessionRepository,
 }) {
-  const hasAccess = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterId);
+  const hasAccess = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(userId, certificationCenterId);
   if (hasAccess) {
     return sessionRepository.findByCertificationCenterId(certificationCenterId);
   }

@@ -1,22 +1,13 @@
 import ApplicationAdapter from './application';
 
-export default class UserAdapter extends ApplicationAdapter {
-
-  urlForQueryRecord(query) {
-    if (query.me) {
-      delete query.me;
-      return `${super.urlForQueryRecord(...arguments)}/me`;
-    }
-
-    return super.urlForQueryRecord(...arguments);
-  }
+export default class CertificationPointOfContactAdapter extends ApplicationAdapter {
 
   urlForUpdateRecord(id, modelName, { adapterOptions }) {
     const url = super.urlForUpdateRecord(...arguments);
 
     if (adapterOptions && adapterOptions.acceptPixCertifTermsOfService) {
       delete adapterOptions.acceptPixCertifTermsOfService;
-      return url + '/pix-certif-terms-of-service-acceptance';
+      return `${this.host}/${this.namespace}/users/${id}/pix-certif-terms-of-service-acceptance`;
     }
 
     return url;

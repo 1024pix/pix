@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createUserWithMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -10,12 +10,12 @@ module('Acceptance | Session Finalization', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let user;
+  let certificationPointOfContact;
   let session;
 
   hooks.beforeEach(function() {
-    user = createUserWithMembershipAndTermsOfServiceAccepted();
-    const certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
+    certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+    const certificationCenterId = certificationPointOfContact.certificationCenterId;
     session = server.create('session', { certificationCenterId });
 
     const certificationReports = server.createList('certification-report', 2, { hasSeenEndTestScreen: false });
@@ -27,9 +27,9 @@ module('Acceptance | Session Finalization', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('When user is not logged in', function() {
+  module('When certificationPointOfContact is not logged in', function() {
 
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       // when
       await visit(`/sessions/${session.id}/finalisation`);
 
@@ -38,13 +38,13 @@ module('Acceptance | Session Finalization', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When certificationPointOfContact is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
-      await authenticateSession(user.id);
+      await authenticateSession(certificationPointOfContact.id);
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
+    test('it should be accessible for an authenticated certificationPointOfContact', async function(assert) {
       // when
       await visit(`/sessions/${session.id}/finalisation`);
 
@@ -52,7 +52,7 @@ module('Acceptance | Session Finalization', function(hooks) {
       assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
     });
 
-    module('When user click on "Finaliser" button', function() {
+    module('When certificationPointOfContact click on "Finaliser" button', function() {
 
       let finalizeController;
 
@@ -114,7 +114,7 @@ module('Acceptance | Session Finalization', function(hooks) {
           return visit(`/sessions/${session.id}/finalisation`);
         });
 
-        test('it should allow the user to comment the session in textarea', async function(assert) {
+        test('it should allow the certificationPointOfContact to comment the session in textarea', async function(assert) {
           // given
           const expectedComment = 'You are a wizard Harry!';
           const expectedIndicator = expectedComment.length + ' / 500';

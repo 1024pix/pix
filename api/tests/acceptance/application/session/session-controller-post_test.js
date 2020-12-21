@@ -23,20 +23,13 @@ describe('Acceptance | Controller | session-controller-post', () => {
           data: {
             type: 'sessions',
             attributes: {
+              'certification-center-id': certificationCenterId,
               address: 'Nice',
               date: '2017-12-08',
               description: '',
               examiner: 'Michel Essentiel',
               room: '28D',
               time: '14:30',
-            },
-            relationships: {
-              'certification-center': {
-                data: {
-                  type: 'certification-centers',
-                  id: certificationCenterId,
-                },
-              },
             },
           },
         },

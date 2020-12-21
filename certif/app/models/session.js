@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ENV from 'pix-certif/config/environment';
@@ -25,7 +25,7 @@ export default class Session extends Model {
   @attr('string') room;
   @attr('string') status;
   @attr('string') examinerGlobalComment;
-  @belongsTo('certificationCenter') certificationCenter;
+  @attr() certificationCenterId;
   @hasMany('certificationReport') certificationReports;
 
   @computed('status')

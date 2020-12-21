@@ -3,8 +3,8 @@ import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import moment from 'moment';
 import {
-  createScoUserWithMembershipAndTermsOfServiceAccepted,
-  createUserAndMembershipAndTermsOfServiceAccepted,
+  createScoCertificationPointOfContactWithTermsOfServiceAccepted,
+  createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
@@ -30,9 +30,9 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
   });
 
-  module('When user is not logged in', function() {
+  module('When certificationPointOfContact is not logged in', function() {
 
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       const session = server.create('session');
 
       // when
@@ -43,19 +43,18 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     });
   });
 
-  module('when user is logged in', function(hooks) {
+  module('when certificationPointOfContact is logged in', function(hooks) {
 
-    let user;
-    let certificationCenter;
+    let certificationPointOfContact;
     let session;
 
     hooks.beforeEach(async () => {
-      ({ user, certificationCenter } = createUserAndMembershipAndTermsOfServiceAccepted());
-      session = server.create('session', { certificationCenterId: certificationCenter.id });
-      await authenticateSession(user.id);
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+      await authenticateSession(certificationPointOfContact.id);
     });
 
-    module('when there is no candidats yet', function() {
+    module('when there is no candidates yet', function() {
 
       test('it should display a download button and upload button', async function(assert) {
         // when
@@ -84,7 +83,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       let candidates;
 
       hooks.beforeEach(function() {
-        sessionWithCandidates = server.create('session', { certificationCenterId: certificationCenter.id });
+        sessionWithCandidates = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
         candidates = server.createList('certification-candidate', 3, { sessionId: sessionWithCandidates.id, isLinked: false });
       });
 
@@ -173,7 +172,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
       module('add candidate', () => {
 
-        module('when user is not SCO', function(hooks) {
+        module('when certificationPointOfContact is not SCO', function(hooks) {
 
           hooks.beforeEach(async function() {
             server.create('feature-toggle', { id: 0, certifPrescriptionSco: false });
@@ -255,12 +254,12 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           });
         });
 
-        module('when user is SCO', function() {
+        module('when certificationPointOfContact is SCO', function() {
 
           test('it should display the list of students for session', async function(assert) {
             // given
             server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
-            certificationCenter.update({ type: 'SCO' });
+            certificationPointOfContact.update({ certificationCenterType: 'SCO' });
             server.createList('student', 10);
 
             // when
@@ -278,29 +277,29 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
     module('prescription sco toogle', function() {
       let session;
-      let scoUser;
+      let scocertificationPointOfContact;
       const linkToCandidate = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
 
       hooks.beforeEach(async () => {
         session = server.create('session');
-        scoUser = createScoUserWithMembershipAndTermsOfServiceAccepted();
+        scocertificationPointOfContact = createScoCertificationPointOfContactWithTermsOfServiceAccepted();
       });
 
       [
-        { isFeatureToggleEnabled: false, isUserSco: false },
-        { isFeatureToggleEnabled: true, isUserSco: false },
-        { isFeatureToggleEnabled: false, isUserSco: true },
-        { isFeatureToggleEnabled: true, isUserSco: true },
-      ].forEach(({ isFeatureToggleEnabled, isUserSco }) => {
-        module(`when certification prescription sco feature toggle is ${isFeatureToggleEnabled ? 'enabled' : 'disabled'} and the user is ${isUserSco ? 'SCO' : 'not SCO'}`, () => {
+        { isFeatureToggleEnabled: false, iscertificationPointOfContactSco: false },
+        { isFeatureToggleEnabled: true, iscertificationPointOfContactSco: false },
+        { isFeatureToggleEnabled: false, iscertificationPointOfContactSco: true },
+        { isFeatureToggleEnabled: true, iscertificationPointOfContactSco: true },
+      ].forEach(({ isFeatureToggleEnabled, iscertificationPointOfContactSco }) => {
+        module(`when certification prescription sco feature toggle is ${isFeatureToggleEnabled ? 'enabled' : 'disabled'} and the certificationPointOfContact is ${iscertificationPointOfContactSco ? 'SCO' : 'not SCO'}`, () => {
 
           test('it should redirect to the default candidates detail view', async (assert) => {
             // given
             server.create('feature-toggle', {
               certifPrescriptionSco: isFeatureToggleEnabled,
             });
-            const connectedUserId = isUserSco ? scoUser.id : user.id;
-            await authenticateSession(connectedUserId);
+            const connectedcertificationPointOfContactId = iscertificationPointOfContactSco ? scocertificationPointOfContact.id : certificationPointOfContact.id;
+            await authenticateSession(connectedcertificationPointOfContactId);
 
             // when
             await visit(`/sessions/${session.id}`);
