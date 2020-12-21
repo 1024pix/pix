@@ -6,22 +6,17 @@ const {
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | certification-report-controller-save-certification-issue-report', () => {
+describe('Acceptance | Controller | certification-report-controller', () => {
 
-  let server;
+  describe('POST /api/certification-reports/{id}/certification-issue-reports', () => {
 
-  beforeEach(async () => {
-    server = await createServer();
-  });
-
-  afterEach(async () => {
-    await knex('certification-issue-reports').delete();
-  });
-
-  describe('POST /api/certification-reports/{id}/certification-issue-reports', function() {
+    afterEach(() => {
+      return knex('certification-issue-reports').delete();
+    });
 
     it('should return 201 HTTP status code', async () => {
       // given
+      const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }).id;
@@ -63,5 +58,4 @@ describe('Acceptance | Controller | certification-report-controller-save-certifi
       expect(response.result.data.attributes.description).to.equal('Houston nous avons un problème');
     });
   });
-
 });
