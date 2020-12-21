@@ -9,6 +9,7 @@ class CertificationPointOfContact {
     certificationCenterName,
     certificationCenterType,
     certificationCenterExternalId,
+    isRelatedOrganizationManagingStudents,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -19,6 +20,7 @@ class CertificationPointOfContact {
     this.certificationCenterName = certificationCenterName;
     this.certificationCenterType = certificationCenterType;
     this.certificationCenterExternalId = certificationCenterExternalId;
+    this.isRelatedOrganizationManagingStudents = Boolean(isRelatedOrganizationManagingStudents);
   }
 }
 

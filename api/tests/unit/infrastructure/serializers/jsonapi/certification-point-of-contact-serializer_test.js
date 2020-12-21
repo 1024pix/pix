@@ -26,6 +26,7 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
             'certification-center-name': certificationPointOfContact.certificationCenterName,
             'certification-center-type': certificationPointOfContact.certificationCenterType,
             'certification-center-external-id': certificationPointOfContact.certificationCenterExternalId,
+            'is-related-organization-managing-students': certificationPointOfContact.isRelatedOrganizationManagingStudents,
           },
           relationships: {
             sessions: {

@@ -8,7 +8,7 @@ module.exports = {
       attributes: [
         'firstName', 'lastName', 'email', 'pixCertifTermsOfServiceAccepted',
         'certificationCenterId', 'certificationCenterName',
-        'certificationCenterType', 'certificationCenterExternalId',
+        'certificationCenterType', 'certificationCenterExternalId', 'isRelatedOrganizationManagingStudents',
         'sessions',
       ],
       sessions: {
