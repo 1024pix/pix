@@ -46,7 +46,10 @@ function _toDomain(bookshelfOrganization) {
 }
 
 function _setSearchFiltersForQueryBuilder(filter, qb) {
-  const { name, type, externalId } = filter;
+  const { id, name, type, externalId } = filter;
+  if (id) {
+    qb.where('organizations.id', id);
+  }
   if (name) {
     qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
   }
