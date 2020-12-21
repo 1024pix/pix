@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { RadioButtonCategoryWithDescription } from 'pix-certif/components/examiner-report-modal';
+import { RadioButtonCategoryWithDescription } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 import sinon from 'sinon';
 
 module('Integration | Component | other-certification-issue-report-fields', function(hooks) {
@@ -21,7 +21,7 @@ module('Integration | Component | other-certification-issue-report-fields', func
 
     // when
     await render(hbs`
-      <OtherCertificationIssueReportFields
+      <IssueReportModal::OtherCertificationIssueReportFields
         @otherCategory={{this.otherCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
@@ -41,7 +41,7 @@ module('Integration | Component | other-certification-issue-report-fields', func
 
     // when
     await render(hbs`
-      <OtherCertificationIssueReportFields
+      <IssueReportModal::OtherCertificationIssueReportFields
         @otherCategory={{this.otherCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
@@ -61,7 +61,7 @@ module('Integration | Component | other-certification-issue-report-fields', func
 
     // when
     await render(hbs`
-      <OtherCertificationIssueReportFields
+      <IssueReportModal::OtherCertificationIssueReportFields
         @otherCategory={{this.otherCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
@@ -81,7 +81,7 @@ module('Integration | Component | other-certification-issue-report-fields', func
 
     // when
     await render(hbs`
-      <OtherCertificationIssueReportFields
+      <IssueReportModal::OtherCertificationIssueReportFields
         @otherCategory={{this.otherCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}

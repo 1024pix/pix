@@ -84,7 +84,7 @@ module('Acceptance | Session Finalization', function(hooks) {
             const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 = '[data-test-id="finalization-report-certification-issue-reports_2"] .button--showed-as-link';
             const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-category-other';
             const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-category-other';
-            const VALIDATE_CERTIFICATION_ISSUE_REPORT = '.examiner-report-modal__actions .button.button--extra-thin';
+            const VALIDATE_CERTIFICATION_ISSUE_REPORT = '.add-issue-report-modal__actions .button.button--extra-thin';
             server.create('feature-toggle', { id: 0, reportsCategorization: true });
 
             const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', { certificationCourseId: 1 });

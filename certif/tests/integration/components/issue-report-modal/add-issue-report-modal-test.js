@@ -5,7 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | examiner-report-modal', function(hooks) {
+module('Integration | Component | add-issue-report-modal', function(hooks) {
   setupRenderingTest(hooks);
 
   const LABEL_FOR_RADIO_BUTTON_OF_CATEGORY_OTHER_SELECTOR = 'label[for="input-radio-for-category-other"]';
@@ -21,22 +21,22 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
       lastName: 'Monpud',
       hasSeenEndTestScreen: false,
     });
-    const closeExaminerReportModalStub = sinon.stub();
-    this.set('closeExaminerReportModal', closeExaminerReportModalStub);
+    const closeAddIssueReportModalStub = sinon.stub();
+    this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
     this.set('reportToEdit', report);
     this.set('maxlength', 500);
 
     // when
     await render(hbs`
-      <ExaminerReportModal
-        @closeModal={{this.closeExaminerReportModal}}
+      <IssueReportModal::AddIssueReportModal
+        @closeModal={{this.closeAddIssueReportModal}}
         @report={{this.reportToEdit}}
         @maxlength={{@issueReportDescriptionMaxLength}}
       />
     `);
 
     // then
-    const reportModalTitleSelector = '.examiner-report-modal__title h3';
+    const reportModalTitleSelector = '.add-issue-report-modal__title h3';
     assert.dom(reportModalTitleSelector).hasText('Lisa Monpud');
   });
 
@@ -49,15 +49,15 @@ module('Integration | Component | examiner-report-modal', function(hooks) {
         lastName: 'Monpud',
         hasSeenEndTestScreen: false,
       });
-      const closeExaminerReportModalStub = sinon.stub();
-      this.set('closeExaminerReportModal', closeExaminerReportModalStub);
+      const closeAddIssueReportModalStub = sinon.stub();
+      this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
       this.set('reportToEdit', report);
       this.set('maxlength', 500);
 
       // when
       await render(hbs`
-        <ExaminerReportModal
-          @closeModal={{this.closeExaminerReportModal}}
+        <IssueReportModal::AddIssueReportModal
+          @closeModal={{this.closeAddIssueReportModal}}
           @report={{this.reportToEdit}}
           @maxlength={{@issueReportDescriptionMaxLength}}
         />

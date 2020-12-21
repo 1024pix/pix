@@ -1,5 +1,5 @@
 <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
-  <div class="examiner-report-modal">
+  <div class="add-issue-report-modal">
     <div class="pix-modal__close-button">
       <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
         <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
@@ -7,32 +7,32 @@
     </div>
 
     <form {{on 'submit' this.submitReport}} class="pix-modal__container pix-modal__container--white">
-      <div class="examiner-report-modal__title">
+      <div class="add-issue-report-modal__title">
         <h1>Signalement du candidat</h1>
         <h3>{{@report.firstName}} {{@report.lastName}}</h3>
       </div>
 
-      <div class="examiner-report-modal__content">
-        <div class="examiner-report-modal-content">
-          <OtherCertificationIssueReportFields
+      <div class="add-issue-report-modal__content">
+        <div class="add-issue-report-modal-content">
+          <IssueReportModal::OtherCertificationIssueReportFields
             @otherCategory={{this.otherCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
 
-          <LateOrLeavingCertificationIssueReportFields
+          <IssueReportModal::LateOrLeavingCertificationIssueReportFields
             @lateOrLeavingCategory={{this.lateOrLeavingCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
 
-          <CandidateInformationChangeCertificationIssueReportFields
+          <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
             @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
 
-          <ConnectionOrEndScreenCertificationIssueReportFields
+          <IssueReportModal::ConnectionOrEndScreenCertificationIssueReportFields
             @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
@@ -43,7 +43,7 @@
           <PixMessage @type='alert'>Veuillez selectionner une catégorie</PixMessage>
         {{/if}}
 
-        <div class="examiner-report-modal__actions">
+        <div class="add-issue-report-modal__actions">
           <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
           <button type="submit" class="button button--extra-thin">Valider</button>
         </div>
