@@ -191,6 +191,22 @@ input[type=number] {
     background: url('/images/loader-white.svg') no-repeat center;
     background-size: 50px;
   }
+
+  &__secondary {
+    color: $grey-90;
+    height: 36px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: 1px solid $grey-50;
+    cursor: pointer;
+    font-family: $roboto;
+    font-size: 0.875rem;;
+    background-color: $white;
+
+    &:hover {
+      background: $grey-15;
+    }
+  }
 }
 
 .icon-button {

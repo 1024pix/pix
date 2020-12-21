@@ -6,7 +6,7 @@
       name="late-or-leaving"
       checked={{@lateOrLeavingCategory.isChecked}}
       {{on 'click' (fn @toggleOnCategory @lateOrLeavingCategory)}} />
-    <label for="input-radio-for-category-late-or-leaving">Retard, absence ou départ</label>
+    <label for="input-radio-for-category-late-or-leaving">{{@lateOrLeavingCategory.categoryLabel}}</label>
   </div>
   {{#if @lateOrLeavingCategory.isChecked}}
     <div class="late-or-leaving-certification-issue-report-fields__details">

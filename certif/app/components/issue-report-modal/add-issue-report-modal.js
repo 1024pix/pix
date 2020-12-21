@@ -2,15 +2,20 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { certificationIssueReportCategories, certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
+import {
+  certificationIssueReportCategories,
+  certificationIssueReportSubcategories,
+  categoryToLabel,
+  subcategoryToLabel,
+} from 'pix-certif/models/certification-issue-report';
 
 export class RadioButtonCategory {
   @tracked isChecked;
-  @tracked name;
 
   constructor({ name, isChecked = false }) {
     this.name = name;
     this.isChecked = isChecked;
+    this.categoryLabel = categoryToLabel[name];
   }
 
   toggle(categoryNameBeingChecked) {
@@ -51,6 +56,10 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
     this.subcategory = subcategory;
   }
 
+  get subcategoryLabel() {
+    return subcategoryToLabel[this.subcategory];
+  }
+
   toggle(categoryNameBeingChecked) {
     super.toggle(categoryNameBeingChecked);
     this.description = null;
@@ -65,7 +74,7 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
   }
 }
 
-export default class ExaminerReportModal extends Component {
+export default class AddIssueReportModal extends Component {
   @service store
 
   @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });

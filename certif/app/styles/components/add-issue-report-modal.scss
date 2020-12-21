@@ -1,4 +1,4 @@
-.examiner-report-modal {
+.add-issue-report-modal {
   min-width: 600px;
 
   &__title {
@@ -27,7 +27,52 @@
     padding: 22px 32px;
     background-color: $grey-10;
 
-    .examiner-report-modal-content {
+    h2 {
+      font-size: 0.875rem;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        padding-bottom: 18px;
+      }
+    }
+
+    &--frame {
+      max-height: 50vh;
+      overflow-y: scroll;
+
+      background-color: $white;
+      border: 1px solid $grey-22;
+      border-radius: 4px;
+      padding: 24px;
+
+      .add-issue-report-modal-content__category-label {
+        font-family: $roboto;
+        padding: 0;
+        margin: 0;
+      }
+
+
+      .add-issue-report-modal-content__subcategory-label {
+        font-family: $roboto;
+        color: $grey-50;
+        padding: 0 0 0 16px;
+        margin: 8px 0 0 0;
+      }
+
+      button {
+        font-weight: 500;
+        svg {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .add-issue-report-modal-content {
 
       label[for^="subcategory-for-category"], label[for^="text-area-for-category"] {
         display: block;

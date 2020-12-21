@@ -5,11 +5,9 @@ import { tracked } from '@glimmer/tracking';
 export default class SessionFinalizationReportsInformationsStep extends Component {
   textareaMaxLength = 500;
 
-  @tracked
-  reportToEdit = null;
-
-  @tracked
-  showExaminerReportModal = false;
+  @tracked reportToEdit = null;
+  @tracked showAddIssueReportModal = false;
+  @tracked showIssueReportsModal = false;
 
   get certifReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
@@ -30,14 +28,27 @@ export default class SessionFinalizationReportsInformationsStep extends Componen
   }
 
   @action
-  async openExaminerReportModal(report) {
-    this.showExaminerReportModal = true;
+  openAddIssueReportModal(report) {
+    this.showIssueReportsModal = false;
+    this.showAddIssueReportModal = true;
     this.reportToEdit = report;
   }
 
   @action
-  async closeExaminerReportModal() {
-    this.showExaminerReportModal = false;
+  openIssueReportsModal(report) {
+    this.showAddIssueReportModal = false;
+    this.showIssueReportsModal = true;
+    this.reportToEdit = report;
+  }
+
+  @action
+  closeAddIssueReportModal() {
+    this.showAddIssueReportModal = false;
+  }
+
+  @action
+  closeIssueReportsModal() {
+    this.showIssueReportsModal = false;
   }
 
 }

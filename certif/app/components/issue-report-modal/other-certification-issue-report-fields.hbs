@@ -6,7 +6,7 @@
       name="other"
       checked={{@otherCategory.isChecked}}
       {{on 'click' (fn @toggleOnCategory @otherCategory)}} />
-    <label for="input-radio-for-category-other">Autre incident</label>
+    <label for="input-radio-for-category-other">{{@otherCategory.categoryLabel}}</label>
   </div>
   {{#if @otherCategory.isChecked}}
     <div class="other-certification-issue-report-fields__details">
