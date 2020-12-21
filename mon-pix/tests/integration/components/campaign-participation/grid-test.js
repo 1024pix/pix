@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import times from 'lodash/times';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | CampaignParticipation | Grid', function() {
@@ -138,5 +139,23 @@ describe('Integration | Component | CampaignParticipation | Grid', function() {
     expect(findAll('.campaign-participation-grid-item').length).to.equal(1);
     const participationCardTitles = findAll('.campaign-participation-card-header__title');
     expect(participationCardTitles[0].textContent).to.equal('My campaign 2');
+  });
+
+  it('should render up to 9 cards', async function() {
+    // given
+    const campaignParticipations = times(10, (index) => {
+      return EmberObject.create({
+        createdAt: '2020-12-10T15:16:20.109Z',
+        assessment: EmberObject.create({ isCompleted: false, state: 'started' }),
+        campaign: { title: `My campaign ${index}`, isTypeAssessment: true },
+      });
+    });
+    this.set('campaignParticipations', campaignParticipations);
+
+    // when
+    await render(hbs`<CampaignParticipation::Grid @model={{campaignParticipations}} />}`);
+
+    // then
+    expect(findAll('.campaign-participation-grid-item').length).to.equal(9);
   });
 });
