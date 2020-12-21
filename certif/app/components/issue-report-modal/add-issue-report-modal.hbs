@@ -14,25 +14,25 @@
 
       <div class="add-issue-report-modal__content">
         <div class="add-issue-report-modal-content">
-          <OtherCertificationIssueReportFields
+          <IssueReportModal::OtherCertificationIssueReportFields
             @otherCategory={{this.otherCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
 
-          <LateOrLeavingCertificationIssueReportFields
+          <IssueReportModal::LateOrLeavingCertificationIssueReportFields
             @lateOrLeavingCategory={{this.lateOrLeavingCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
 
-          <CandidateInformationChangeCertificationIssueReportFields
+          <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
             @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
 
-          <ConnectionOrEndScreenCertificationIssueReportFields
+          <IssueReportModal::ConnectionOrEndScreenCertificationIssueReportFields
             @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}

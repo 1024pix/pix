@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import { RadioButtonCategoryWithDescription } from 'pix-certif/components/add-issue-report-modal';
+import { RadioButtonCategoryWithDescription } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 
 module('Integration | Component | candidate-information-change-certification-issue-report-fields', function(hooks) {
   setupRenderingTest(hooks);
@@ -22,7 +22,7 @@ module('Integration | Component | candidate-information-change-certification-iss
 
     // when
     await render(hbs`
-      <CandidateInformationChangeCertificationIssueReportFields
+      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
         @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
@@ -42,7 +42,7 @@ module('Integration | Component | candidate-information-change-certification-iss
 
     // when
     await render(hbs`
-      <CandidateInformationChangeCertificationIssueReportFields
+      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
         @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
@@ -63,7 +63,7 @@ module('Integration | Component | candidate-information-change-certification-iss
 
     // when
     await render(hbs`
-      <CandidateInformationChangeCertificationIssueReportFields
+      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
         @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
@@ -84,7 +84,7 @@ module('Integration | Component | candidate-information-change-certification-iss
 
     // when
     await render(hbs`
-      <CandidateInformationChangeCertificationIssueReportFields
+      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
         @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}

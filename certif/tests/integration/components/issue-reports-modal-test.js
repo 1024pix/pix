@@ -25,7 +25,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
 
     // when
     await render(hbs`
-      <IssueReportsModal
+      <IssueReportModal::IssueReportsModal
         @report={{this.reportToEdit}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
@@ -53,7 +53,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
 
     // when
     await render(hbs`
-      <IssueReportsModal
+      <IssueReportModal::IssueReportsModal
         @report={{this.report}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
@@ -90,7 +90,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
 
     // when
     await render(hbs`
-      <IssueReportsModal
+      <IssueReportModal::IssueReportsModal
         @report={{this.report}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
@@ -128,7 +128,7 @@ module('Integration | Component | issue-reports-modal', function(hooks) {
 
     // when
     await render(hbs`
-      <IssueReportsModal
+      <IssueReportModal::IssueReportsModal
         @report={{this.report}}
         @closeModal={{this.closeIssueReportsModal}}
         @onClickIssueReport={{this.onClickIssueReport}}
