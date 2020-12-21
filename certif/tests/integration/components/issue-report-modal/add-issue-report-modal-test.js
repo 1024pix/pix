@@ -28,7 +28,7 @@ module('Integration | Component | add-issue-report-modal', function(hooks) {
 
     // when
     await render(hbs`
-      <AddIssueReportModal
+      <IssueReportModal::AddIssueReportModal
         @closeModal={{this.closeAddIssueReportModal}}
         @report={{this.reportToEdit}}
         @maxlength={{@issueReportDescriptionMaxLength}}
@@ -56,7 +56,7 @@ module('Integration | Component | add-issue-report-modal', function(hooks) {
 
       // when
       await render(hbs`
-        <AddIssueReportModal
+        <IssueReportModal::AddIssueReportModal
           @closeModal={{this.closeAddIssueReportModal}}
           @report={{this.reportToEdit}}
           @maxlength={{@issueReportDescriptionMaxLength}}

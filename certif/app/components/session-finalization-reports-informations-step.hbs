@@ -67,14 +67,14 @@
     </tbody>
   </table>
   {{#if this.showAddIssueReportModal}}
-    <AddIssueReportModal
+    <IssueReportModal::AddIssueReportModal
       @closeModal={{this.closeAddIssueReportModal}}
       @report={{this.reportToEdit}}
       @maxlength={{@issueReportDescriptionMaxLength}}
       />
   {{/if}}
   {{#if this.showIssueReportsModal}}
-    <IssueReportsModal
+    <IssueReportModal::IssueReportsModal
       @closeModal={{this.closeIssueReportsModal}}
       @onClickIssueReport={{this.openAddIssueReportModal}}
       @report={{this.reportToEdit}}

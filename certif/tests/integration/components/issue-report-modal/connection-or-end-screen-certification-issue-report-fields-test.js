@@ -22,7 +22,7 @@ module('Integration | Component | connection-or-end-screen-certification-issue-r
 
     // when
     await render(hbs`
-      <ConnectionOrEndScreenCertificationIssueReportFields
+      <IssueReportModal::ConnectionOrEndScreenCertificationIssueReportFields
         @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
@@ -42,7 +42,7 @@ module('Integration | Component | connection-or-end-screen-certification-issue-r
 
     // when
     await render(hbs`
-      <ConnectionOrEndScreenCertificationIssueReportFields
+      <IssueReportModal::ConnectionOrEndScreenCertificationIssueReportFields
         @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
