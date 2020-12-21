@@ -25,12 +25,14 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
     this._super(...arguments);
     document.querySelector('#modal-overlays').classList.add('active');
     document.body.classList.add('centered-modal-showing');
+    document.body.style.overflowY = 'hidden';
   },
 
   willDestroyElement() {
     document.querySelector('#modal-overlays').classList.remove('active');
     document.body.classList.remove('centered-modal-showing');
     this._super(...arguments);
+    document.body.style.overflowY = '';
   },
 
   closeOnEsc: on(keyUp('Escape'), function() {
