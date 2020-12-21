@@ -13,7 +13,7 @@ exports.register = async function(server) {
           '- **Route en version v0 sans authentification**\n' +
           '- Récupération des résultats de certifications pour une organisation accompagnée du référentiel des compétences',
         ],
-        tags: ['api', 'organisation', 'certifications'],
+        tags: ['api', 'organisation', 'certifications', 'livret-scolaire'],
       },
     },
   ]);
