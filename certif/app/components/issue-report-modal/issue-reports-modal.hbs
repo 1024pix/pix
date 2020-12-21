@@ -17,7 +17,12 @@
         <div class="add-issue-report-modal__content--frame">
           <ul>
             {{#each @report.certificationIssueReports as |issueReport|}}
-              <li>{{issueReport.categoryLabel}}</li>
+              <li>
+                <p class="add-issue-report-modal-content__category-label">{{issueReport.categoryLabel}}</p>
+                {{#if issueReport.subcategoryLabel}}
+                <p class="add-issue-report-modal-content__subcategory-label">{{issueReport.subcategoryLabel}}</p>
+                {{/if}}
+              </li>
             {{/each}}
           </ul>
           <button type="button" class="button__secondary" {{on 'click' (fn @onClickIssueReport @report)}}>
