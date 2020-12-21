@@ -45,7 +45,6 @@ class Challenge {
   constructor(
     {
       id,
-      // attributes
       attachments,
       embedHeight,
       embedTitle,
@@ -61,15 +60,12 @@ class Challenge {
       type,
       locales,
       autoReply,
-      // includes
       answer,
       skills = [],
-      // references
       validator,
       competenceId,
     } = {}) {
     this.id = id;
-    // attributes
     this.answer = answer;
     this.attachments = attachments;
     this.embedHeight = embedHeight;
@@ -86,10 +82,8 @@ class Challenge {
     this.locales = locales;
     this.autoReply = autoReply;
     this.alternativeInstruction = alternativeInstruction;
-    // includes
     this.skills = skills;
     this.validator = validator;
-    // references
     this.competenceId = competenceId;
   }
 

@@ -4,16 +4,13 @@ class CampaignParticipation {
 
   constructor({
     id,
-    // attributes
     createdAt,
     isShared,
     participantExternalId,
     sharedAt,
-    // includes
     assessments,
     campaign,
     user,
-    // references
     assessmentId,
     campaignId,
     userId,

@@ -20,26 +20,20 @@ class Solution {
    */
   constructor({
     id,
-    // attributes
     isT1Enabled = false,
     isT2Enabled = false,
     isT3Enabled = false,
     scoring,
     type,
     value,
-    // includes
-    // references
   } = {}) {
     this.id = id;
-    // attributes
     this.isT1Enabled = isT1Enabled;
     this.isT2Enabled = isT2Enabled;
     this.isT3Enabled = isT3Enabled;
     this.scoring = scoring;
     this.type = type;
     this.value = value;
-    // includes
-    // references
   }
 
   get enabledTreatments() {

@@ -63,25 +63,19 @@ class AuthenticationMethod {
 
   constructor({
     id,
-    // attributes
     identityProvider,
     authenticationComplement,
     externalIdentifier,
     createdAt,
     updatedAt,
-    // includes
-    // references
     userId,
   } = {}) {
     this.id = id;
-    // attributes
     this.identityProvider = identityProvider;
     this.authenticationComplement = authenticationComplement;
     this.externalIdentifier = externalIdentifier;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    // includes
-    // references
     this.userId = userId;
 
     validateEntity(validationSchema, this);

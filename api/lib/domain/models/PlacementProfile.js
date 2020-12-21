@@ -6,12 +6,10 @@ const _ = require('lodash');
 class PlacementProfile {
   constructor(
     {
-      // attributes
       profileDate,
       userId,
       userCompetences,
     } = {}) {
-    // attributes
     this.profileDate = profileDate;
     this.userId = userId;
     this.userCompetences = userCompetences;

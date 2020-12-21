@@ -8,7 +8,6 @@ class AssessmentResult {
   // FIXME: assessmentId && juryId to replace by assessment && jury domain objects
   constructor({
     id,
-    // attributes
     commentForCandidate,
     commentForJury,
     commentForOrganization,
@@ -16,14 +15,11 @@ class AssessmentResult {
     emitter,
     pixScore,
     status,
-    // includes
     competenceMarks = [],
-    // references
     assessmentId,
     juryId,
   } = {}) {
     this.id = id;
-    // attributes
     this.commentForCandidate = commentForCandidate;
     this.commentForJury = commentForJury;
     this.commentForOrganization = commentForOrganization;
@@ -31,9 +27,7 @@ class AssessmentResult {
     this.emitter = emitter;
     this.pixScore = pixScore;
     this.status = status;
-    // includes
     this.competenceMarks = competenceMarks;
-    // references
     this.assessmentId = assessmentId;
     this.juryId = juryId;
   }

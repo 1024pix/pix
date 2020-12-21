@@ -4,7 +4,6 @@ class User {
 
   constructor({
     id,
-    // attributes
     cgu,
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
@@ -20,17 +19,14 @@ class User {
     shouldChangePassword,
     mustValidateTermsOfService,
     lang,
-    // includes
     memberships = [],
     certificationCenterMemberships = [],
     pixRoles = [],
     pixScore,
     scorecards = [],
     campaignParticipations = [],
-    // references
   } = {}) {
     this.id = id;
-    // attributes
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
@@ -46,14 +42,12 @@ class User {
     this.knowledgeElements = knowledgeElements;
     this.shouldChangePassword = shouldChangePassword;
     this.lang = lang;
-    // includes
     this.pixRoles = pixRoles;
     this.pixScore = pixScore;
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
     this.scorecards = scorecards;
     this.campaignParticipations = campaignParticipations;
-    // references
   }
 
   get hasRolePixMaster() {
