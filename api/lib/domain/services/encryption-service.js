@@ -13,9 +13,6 @@ module.exports = {
     });
   },
 
-  /**
-   * Not for usage on server. Script only, as the function is very CPU intensive and would block the server thread
-   */
   hashPasswordSync: (password) => {
     /* eslint-disable-next-line no-sync */
     return bcrypt.hashSync(password, NUMBER_OF_SALT_ROUNDS);
