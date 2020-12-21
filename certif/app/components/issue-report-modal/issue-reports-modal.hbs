@@ -18,7 +18,12 @@
           <ul>
             {{#each @report.certificationIssueReports as |issueReport|}}
               <li>
-                <p class="add-issue-report-modal-content__category-label">{{issueReport.categoryLabel}}</p>
+                <p class="add-issue-report-modal-content__category-label">
+                  {{issueReport.categoryLabel}}
+                <button type="button" class="button--showed-as-link" {{on 'click' (fn this.handleClickOnDeleteButton issueReport)}}>
+                  <FaIcon @icon="trash"/>
+                </button>
+                </p>
                 {{#if issueReport.subcategoryLabel}}
                 <p class="add-issue-report-modal-content__subcategory-label">{{issueReport.subcategoryLabel}}</p>
                 {{/if}}
@@ -29,6 +34,10 @@
             <FaIcon @icon="plus"/>Ajouter un signalement
           </button>
         </div>
+
+        {{#if this.showDeletionError}}
+          <PixMessage @type='alert'>Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer</PixMessage>
+        {{/if}}
       </div>
     </div>
   </div>

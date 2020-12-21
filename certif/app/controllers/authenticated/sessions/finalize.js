@@ -58,6 +58,11 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   @action
+  deleteCertificationIssueReport(certificationIssueReport) {
+    return certificationIssueReport.destroyRecord();
+  }
+
+  @action
   updateExaminerGlobalComment(event) {
     const inputText = event.target.value;
     if (inputText.length <= this.examinerGlobalCommentMaxLength) {
