@@ -1,8 +1,9 @@
 const _ = require('lodash');
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const certificationIssueReportRepository = require('../../../../lib/infrastructure/repositories/certification-issue-report-repository');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Certification Issue Report', function() {
 
@@ -78,4 +79,28 @@ describe('Integration | Repository | Certification Issue Report', function() {
       expect(deleted).to.be.false;
     });
   });
+
+  describe('#get', () => {
+    it('should return a certification issue report', async () => {
+      // given
+      const expectedIssueReport = databaseBuilder.factory.buildCertificationIssueReport();
+      await databaseBuilder.commit();
+
+      // when
+      const result = await certificationIssueReportRepository.get(expectedIssueReport.id);
+
+      // then
+      expect(result).to.deep.equal(expectedIssueReport);
+      expect(result).to.be.instanceOf(CertificationIssueReport);
+    });
+
+    it('should throw a notFound error', async () => {
+      // when
+      const error = await catchErr(certificationIssueReportRepository.get)(1234);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
+
 });
