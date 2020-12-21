@@ -3,11 +3,19 @@
     <table>
       <thead>
         <tr>
+          <th>ID</th>
           <th>Nom</th>
           <th>Type</th>
           <th>Identifiant externe</th>
         </tr>
         <tr>
+          <th>
+            <input id="id"
+                   type="text"
+                   value={{@id}}
+                   oninput={{fn @triggerFiltering 'id'}}
+                   class="table-admin-input form-control" />
+          </th>
           <th>
             <input id="name"
                    type="text"
@@ -36,6 +44,7 @@
         <tbody>
         {{#each @organizations as |organization|}}
           <tr aria-label="Organisation" role="button" {{on "click" (fn @goToOrganizationPage organization.id)}} class="tr--clickable">
+            <td>{{organization.id}}</td>
             <td>{{organization.name}}</td>
             <td>{{organization.type}}</td>
             <td>{{organization.externalId}}</td>

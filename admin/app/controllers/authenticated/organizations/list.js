@@ -8,11 +8,12 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 export default class ListController extends Controller {
 
-  queryParams = ['pageNumber', 'pageSize', 'name', 'type', 'externalId'];
+  queryParams = ['pageNumber', 'pageSize', 'id', 'name', 'type', 'externalId'];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
+  @tracked id = null;
   @tracked name = null;
   @tracked type = null;
   @tracked externalId = null;
