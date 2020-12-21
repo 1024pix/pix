@@ -23,6 +23,7 @@ module.exports = {
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
   buildCertificationCourse: require('./build-certification-course'),
+  buildCertificationPointOfContact: require('./build-certification-point-of-contact'),
   buildCertificationReport: require('./build-certification-report'),
   buildChallenge: require('./build-challenge'),
   buildChallengeAirtableDataObject: require('./build-challenge-airtable-data-object'),

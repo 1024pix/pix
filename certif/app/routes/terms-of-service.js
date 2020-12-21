@@ -12,7 +12,7 @@ export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRoute
     if (transition.isAborted) {
       return;
     }
-    if (this.currentUser.user.pixCertifTermsOfServiceAccepted) {
+    if (this.currentUser.certificationPointOfContact.pixCertifTermsOfServiceAccepted) {
       return this.replaceWith('');
     }
   }

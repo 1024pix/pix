@@ -11,12 +11,12 @@ describe('Unit | UseCase | find-sessions-for-certification-center', () => {
     findByCertificationCenterId: sinon.stub(),
   };
   const certificationCenterMembershipRepository = {
-    doesUserHaveMembershipToCertificationCenter: sinon.stub(),
+    isMemberOfCertificationCenter: sinon.stub(),
   };
 
   it('should return sessions of the certificationCenter', async () => {
     // given
-    certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter.withArgs(userId, certificationCenterId).resolves(true);
+    certificationCenterMembershipRepository.isMemberOfCertificationCenter.withArgs(userId, certificationCenterId).resolves(true);
     sessionRepository.findByCertificationCenterId.withArgs(certificationCenterId).resolves(sessions);
 
     // when
@@ -28,7 +28,7 @@ describe('Unit | UseCase | find-sessions-for-certification-center', () => {
 
   it('should throw a forbidden error if user is not a member of the given certification center', async () => {
     // given
-    certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter.withArgs(userId, certificationCenterId).resolves(false);
+    certificationCenterMembershipRepository.isMemberOfCertificationCenter.withArgs(userId, certificationCenterId).resolves(false);
     sessionRepository.findByCertificationCenterId.withArgs(certificationCenterId).resolves(sessions);
 
     // when

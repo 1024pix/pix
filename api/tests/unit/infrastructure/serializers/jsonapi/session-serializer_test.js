@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           type: 'sessions',
           id: '12',
           attributes: {
-            'certification-center-name': 'Université des Laura en folie',
+            'certification-center-id': 123,
             address: 'Nice',
             room: '28D',
             'access-code': '',
@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       };
       modelSession = new Session({
         id: 12,
-        certificationCenter: 'Université des Laura en folie',
+        certificationCenterId: 123,
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
@@ -72,25 +72,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       });
     });
 
-    context('when session has a link to an existing certification center', () => {
-
-      it('should convert a Session model object into JSON API data with a link to the certification center', function() {
-        // given
-        modelSession.certificationCenterId = 13;
-
-        // when
-        const json = serializer.serialize(modelSession);
-
-        // then
-        expectedJsonApi.data.relationships['certification-center'] = {
-          'links': {
-            'related': '/api/certification-centers/13',
-          },
-        };
-        expect(json).to.deep.equal(expectedJsonApi);
-      });
-    });
-
   });
 
   describe('#deserialize()', function() {
@@ -107,6 +88,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           time: '14:30',
           status: statuses.CREATED,
           description: '',
+          'certification-center-id': 42,
           'examiner-global-comment': 'It was a fine session my dear',
           'finalized-at': new Date('2020-02-17T14:23:56Z'),
           'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
@@ -132,12 +114,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     };
 
     beforeEach(() => {
-      jsonApiSession.data.relationships['certification-center'] = {
-        data: {
-          id: 42,
-        },
-      };
-
       jsonApiSession.data.attributes.date = '2017-01-20';
     });
 

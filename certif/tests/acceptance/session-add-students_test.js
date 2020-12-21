@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createUserAndMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -10,14 +10,13 @@ module('Acceptance | Session Add Students', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let user;
-  let certificationCenter;
+  let certificationPointOfContact;
   let session;
 
   hooks.beforeEach(function() {
     server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
-    ({ user, certificationCenter } = createUserAndMembershipAndTermsOfServiceAccepted('SCO'));
-    session = server.create('session', { certificationCenterId: certificationCenter.id });
+    certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted('SCO');
+    session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
   });
 
   hooks.afterEach(function() {
@@ -25,9 +24,9 @@ module('Acceptance | Session Add Students', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('When user is not logged in', function() {
+  module('When certificationPointOfContact is not logged in', function() {
 
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+    test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       // when
       await visit(`/sessions/${session.id}/ajout-eleves`);
 
@@ -36,10 +35,10 @@ module('Acceptance | Session Add Students', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When certificationPointOfContact is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
-      await authenticateSession(user.id);
+      await authenticateSession(certificationPointOfContact.id);
     });
 
     test('it should be possible to access student add page', async function(assert) {
@@ -199,7 +198,7 @@ module('Acceptance | Session Add Students', function(hooks) {
 
         hooks.beforeEach(async () => {
           // given
-          sessionWithEnrolledStudent = server.create('session', { certificationCenterId: certificationCenter.id });
+          sessionWithEnrolledStudent = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
           server.create('student', { isSelected: false, isEnrolled: false });
           const enrolledStudent = server.create('student', { isSelected: false, isEnrolled: true });
           server.create('certification-candidate', { schoolingRegistrationId: enrolledStudent.id, sessionId: sessionWithEnrolledStudent.id });
@@ -251,9 +250,7 @@ module('Acceptance | Session Add Students', function(hooks) {
             assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
           });
         });
-
       });
-
     });
   });
 });

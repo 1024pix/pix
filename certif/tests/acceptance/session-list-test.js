@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createUserWithMembershipAndTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
 import { statusToDisplayName } from 'pix-certif/models/session';
 import moment from 'moment';
 
@@ -12,9 +12,9 @@ module('Acceptance | Session List', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let user;
+  let certificationPointOfContact;
 
-  module('When user is not authenticated', function() {
+  module('When certificationPointOfContact is not authenticated', function() {
 
     test('it should not be accessible', async function(assert) {
       // when
@@ -26,14 +26,14 @@ module('Acceptance | Session List', function(hooks) {
 
   });
 
-  module('When user is authenticated', function(hooks) {
+  module('When certificationPointOfContact is authenticated', function(hooks) {
     let certificationCenterId;
 
     hooks.beforeEach(async function() {
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
-      certificationCenterId = user.certificationCenterMemberships.models[0].certificationCenterId;
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      certificationCenterId = certificationPointOfContact.certificationCenterId;
 
-      await authenticateSession(user.id);
+      await authenticateSession(certificationPointOfContact.id);
     });
 
     test('it should be accessible', async function(assert) {
@@ -44,7 +44,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    test('it should show title indicating that the user can create a session', async function(assert) {
+    test('it should show title indicating that the certificationPointOfContact can create a session', async function(assert) {
       // when
       await visit('/sessions/liste');
 

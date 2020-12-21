@@ -97,7 +97,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
     });
   });
 
-  describe('#doesUserHaveMembershipToCertificationCenter', () => {
+  describe('#isMemberOfCertificationCenter', () => {
 
     let userId;
     let certificationCenterInId;
@@ -116,7 +116,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     it('should return false if user has no membership in given certification center', async () => {
       // when
-      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterNotInId);
+      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(userId, certificationCenterNotInId);
 
       // then
       expect(hasMembership).to.be.false;
@@ -124,7 +124,39 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     it('should return true if user has membership in given certification center', async () => {
       // when
-      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToCertificationCenter(userId, certificationCenterInId);
+      const hasMembership = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(userId, certificationCenterInId);
+
+      // then
+      expect(hasMembership).to.be.true;
+    });
+  });
+
+  describe('#doesUserHaveMembershipToAnyCertificationCenter', () => {
+
+    it('should return false if user has no membership to any certification center', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const someOtherUserId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId: someOtherUserId, certificationCenterId });
+      await databaseBuilder.commit();
+
+      // when
+      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToAnyCertificationCenter(userId);
+
+      // then
+      expect(hasMembership).to.be.false;
+    });
+
+    it('should return true if user has membership in a certification center', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      await databaseBuilder.commit();
+
+      // when
+      const hasMembership = await certificationCenterMembershipRepository.doesUserHaveMembershipToAnyCertificationCenter(userId);
 
       // then
       expect(hasMembership).to.be.true;

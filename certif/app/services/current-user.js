@@ -1,29 +1,20 @@
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { computed } from '@ember/object';
 import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
   @service session;
   @service store;
-  @tracked user;
-  @tracked certificationCenter;
+  @tracked certificationPointOfContact;
 
-  @computed('certificationCenter.isSco')
   get isFromSco() {
-    return this.certificationCenter.isSco;
+    return this.certificationPointOfContact.isSco;
   }
 
   async load() {
     if (this.session.isAuthenticated) {
       try {
-        const user = await this.store.queryRecord('user', { me: true });
-        const userCertificationCenterMemberships = await user.certificationCenterMemberships;
-        const userCertificationCenterMembership = await userCertificationCenterMemberships.firstObject;
-        const certificationCenter = await userCertificationCenterMembership.certificationCenter;
-
-        this.user = user;
-        this.certificationCenter = certificationCenter;
+        this.certificationPointOfContact = await this.store.findRecord('certification-point-of-contact', this.session.data.authenticated.user_id);
       } catch (error) {
         if (get(error, 'errors[0].code') === 401) {
           return this.session.invalidate();

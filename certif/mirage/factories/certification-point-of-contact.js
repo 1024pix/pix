@@ -1,21 +1,20 @@
 import { Factory } from 'ember-cli-mirage';
-import faker from 'faker';
 
 export default Factory.extend({
 
   firstName() {
-    return faker.name.firstName();
+    return 'Laura';
   },
 
   lastName() {
-    return faker.name.lastName();
+    return 'PassTaCertif';
   },
 
   email() {
-    return faker.internet.exampleEmail();
+    return 'laura.passtacertif@example.net';
   },
 
   pixCertifTermsOfServiceAccepted() {
-    return faker.random.boolean();
+    return false;
   },
 });

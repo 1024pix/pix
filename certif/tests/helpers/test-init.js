@@ -5,45 +5,32 @@ import { contains, notContains } from './contains';
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
-export function createUserAndMembership(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix') {
-  const user = server.create('user', {
+export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix') {
+  const certificationPointOfContact = server.create('certification-point-of-contact', {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
     pixCertifTermsOfServiceAccepted,
+    certificationCenterId: 1,
+    certificationCenterName,
+    certificationCenterType,
+    certificationCenterExternalId: 'ABC123',
   });
+  certificationPointOfContact.save();
 
-  const certificationCenter = server.create('certificationCenter', {
-    name: certificationCenterName,
-    type: certificationCenterType,
-  });
-
-  const certificationCenterMembership = server.create('certificationCenterMembership', {
-    certificationCenter,
-    user,
-  });
-
-  user.certificationCenterMemberships = [certificationCenterMembership];
-  user.save();
-
-  return { user, certificationCenter };
+  return certificationPointOfContact;
 }
 
-export function createScoUserWithMembershipAndTermsOfServiceAccepted() {
-  return createUserWithMembershipAndTermsOfServiceAccepted('SCO', 'Centre de certification SCO du pix');
+export function createScoCertificationPointOfContactWithTermsOfServiceAccepted() {
+  return createCertificationPointOfContactWithTermsOfServiceAccepted('SCO', 'Centre de certification SCO du pix');
 }
 
-export function createUserAndMembershipAndTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
-  return createUserAndMembership(true, certificationCenterType, certificationCenterName);
+export function createCertificationPointOfContactWithTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
+  return createCertificationPointOfContact(true, certificationCenterType, certificationCenterName);
 }
 
-export function createUserWithMembershipAndTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
-  const { user } = createUserAndMembership(true, certificationCenterType, certificationCenterName);
-  return user;
-}
-export function createUserWithMembershipAndTermsOfServiceNotAccepted() {
-  const { user } = createUserAndMembership(false);
-  return user;
+export function createCertificationPointOfContactWithTermsOfServiceNotAccepted() {
+  return createCertificationPointOfContact(false);
 }
 
 export function authenticateSession(userId) {

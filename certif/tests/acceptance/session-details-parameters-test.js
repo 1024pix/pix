@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createUserWithMembershipAndTermsOfServiceAccepted,
+  createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 
@@ -20,13 +20,13 @@ module('Acceptance | Session Details Parameters', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('when user is logged in', function(hooks) {
+  module('when certificationPointOfContact is logged in', function(hooks) {
 
-    let user;
+    let certificationPointOfContact;
 
     hooks.beforeEach(async () => {
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
-      await authenticateSession(user.id);
+      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
+      await authenticateSession(certificationPointOfContact.id);
     });
 
     module('when looking at the session details', function() {
@@ -94,6 +94,5 @@ module('Acceptance | Session Details Parameters', function(hooks) {
         });
       });
     });
-
   });
 });
