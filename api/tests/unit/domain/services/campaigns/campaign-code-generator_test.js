@@ -13,7 +13,6 @@ describe('Unit | Domain | Services | campaign code generator', function() {
     beforeEach(() => {
       sinon.stub(campaignRepository, 'isCodeAvailable');
       campaignRepository.isCodeAvailable.resolves(true);
-      sinon.spy(randomString, 'generate');
     });
 
     it('should create a code with a length of 9 characters', () => {
@@ -67,6 +66,8 @@ describe('Unit | Domain | Services | campaign code generator', function() {
     });
 
     it('should not contains unreadable characters (I, l, 0)', () => {
+      sinon.spy(randomString, 'generate');
+
       // when
       const promise = campaignCodeGenerator.generate(campaignRepository);
 
@@ -78,6 +79,8 @@ describe('Unit | Domain | Services | campaign code generator', function() {
     });
 
     it('should not contains unreadable numbers (O)', () => {
+      sinon.spy(randomString, 'generate');
+
       // when
       const promise = campaignCodeGenerator.generate(campaignRepository);
 
@@ -88,5 +91,29 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       });
     });
 
+    it('should returns different campaign code from a given list when batch insert campaigns', () => {
+      sinon.stub(randomString, 'generate');
+
+      const pendingCodeNumbers = '345';
+      const pendingCodeLetters = 'AZERTY';
+
+      const pendingCode = pendingCodeLetters.concat(pendingCodeNumbers);
+
+      // given
+      randomString.generate.onCall(0).returns(pendingCodeLetters);
+      randomString.generate.onCall(1).returns(pendingCodeNumbers);
+
+      randomString.generate.onCall(2).returns('YTREZA');
+      randomString.generate.onCall(3).returns('543');
+
+      // when
+      const promise = campaignCodeGenerator.generate(campaignRepository, [pendingCode]);
+
+      // then
+      return promise.then((generatedCode) => {
+        expect(generatedCode).to.not.equal(pendingCode);
+        expect(generatedCode).to.equal('YTREZA543');
+      });
+    });
   });
 });
