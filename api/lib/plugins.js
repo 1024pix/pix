@@ -3,19 +3,6 @@ const settings = require('./config');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const HapiSwagger = require('hapi-swagger');
-
-const swaggerOptions = {
-
-  basePath: '/api',
-  grouping: 'tags',
-  info: {
-    'title': 'Welcome to the Pix api catalog',
-    'version': Pack.version,
-  },
-  documentationPath: '/api/documentation',
-};
-
 const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
 
 const consoleReporters =
@@ -54,18 +41,6 @@ const plugins = [
   Inert,
   Vision,
   Blipp,
-  {
-    plugin: HapiSwagger,
-    options: swaggerOptions,
-  },
-  {
-    plugin: require('good'),
-    options: {
-      reporters: {
-        console: consoleReporters,
-      },
-    },
-  },
   ...(settings.sentry.enabled ? [
     {
       plugin: require('hapi-sentry'),
