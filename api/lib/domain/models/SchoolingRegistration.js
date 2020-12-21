@@ -6,7 +6,6 @@ class SchoolingRegistration {
 
   constructor({
     id,
-    // attributes
     lastName,
     preferredLastName,
     firstName,
@@ -23,12 +22,10 @@ class SchoolingRegistration {
     nationalApprenticeId,
     division,
     updatedAt,
-    // references
     userId,
     organizationId,
   } = {}) {
     this.id = id;
-    // attributes
     this.lastName = lastName;
     this.preferredLastName = preferredLastName;
     this.firstName = firstName;
@@ -45,7 +42,6 @@ class SchoolingRegistration {
     this.nationalApprenticeId = nationalApprenticeId;
     this.division = division;
     this.updatedAt = updatedAt;
-    // references
     this.userId = userId;
     this.organizationId = organizationId;
   }

@@ -14,25 +14,19 @@ const schema = Joi.object({
 class CompetenceMark {
   constructor({
     id,
-    // attributes
     area_code,
     competence_code,
     competenceId,
     level,
     score,
-    // includes
-    // references
     assessmentResultId,
   } = {}) {
     this.id = id;
-    // attributes
     this.area_code = area_code;
     this.competence_code = competence_code;
     this.competenceId = competenceId;
     this.level = level;
     this.score = score;
-    // includes
-    // references
     this.assessmentResultId = assessmentResultId;
   }
 

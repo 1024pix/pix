@@ -8,16 +8,10 @@ const UNIMPLEMENTED = 'unimplemented';
 
 class AnswerStatus {
   constructor({
-    // attributes
     status,
-    // includes
-    // references
   } = {}) {
-    // attributes
     // TODO: throw a BadAnswerStatus error if the status is bad + adapt the tests
     this.status = status;
-    // includes
-    // references
   }
 
   /* PUBLIC INTERFACE */

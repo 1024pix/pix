@@ -7,7 +7,6 @@ const _ = require('lodash');
 class CampaignParticipationResult {
   constructor({
     id,
-    // attributes
     isCompleted,
     totalSkillsCount,
     testedSkillsCount,
@@ -20,7 +19,6 @@ class CampaignParticipationResult {
     stageCount,
   } = {}) {
     this.id = id;
-    // attributes
     this.isCompleted = isCompleted;
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;

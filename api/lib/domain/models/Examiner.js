@@ -7,15 +7,9 @@ const AnswerStatus = require('./AnswerStatus');
 class Examiner {
 
   constructor({
-    // attributes
     validator,
-    // includes
-    // references
   } = {}) {
-    // attributes
     this.validator = validator;
-    // includes
-    // references
   }
 
   evaluate({ answer, challengeFormat }) {

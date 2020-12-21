@@ -7,7 +7,6 @@ class Campaign {
 
   constructor({
     id,
-    // attributes
     name,
     code,
     title,
@@ -22,17 +21,14 @@ class Campaign {
     isRestricted = false,
     archivedAt,
     type,
-    // includes
     targetProfile,
     campaignReport,
     creator,
-    // references
     organizationId,
     targetProfileId,
     creatorId,
   } = {}) {
     this.id = id;
-    // attributes
     this.name = name;
     this.code = code;
     this.title = title;
@@ -47,11 +43,9 @@ class Campaign {
     this.isRestricted = isRestricted;
     this.archivedAt = archivedAt;
     this.type = type;
-    // includes
     this.targetProfile = targetProfile;
     this.campaignReport = campaignReport;
     this.creator = creator;
-    // references
     this.organizationId = organizationId;
     this.targetProfileId = targetProfileId;
     this.creatorId = creatorId;
