@@ -8,8 +8,4 @@ export default class UserCertificationsDetailCompetencesList extends Component {
   get maxReachableLevel() {
     return this.args.maxReachableLevelOnCertificationDate;
   }
-
-  get maxReachablePixCount() {
-    return this.args.maxReachableLevelOnCertificationDate * 8 * 16;
-  }
 }
