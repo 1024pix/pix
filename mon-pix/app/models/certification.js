@@ -38,4 +38,8 @@ export default class Certification extends Model {
   get fullName() {
     return capitalize(this.firstName) + ' ' + capitalize(this.lastName);
   }
+
+  get maxReachablePixCountOnCertificationDate() {
+    return this.maxReachableLevelOnCertificationDate * 8 * 16;
+  }
 }
