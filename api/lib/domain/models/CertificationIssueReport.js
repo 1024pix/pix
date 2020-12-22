@@ -6,7 +6,6 @@ const categoryOtherJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.OTHER),
   description: Joi.string().trim().required(),
-  subcategory: Joi.string().min(0).max(0).allow('').allow(null).optional(),
 });
 
 const categoryLateOrLeavingJoiSchema = Joi.object({
@@ -26,8 +25,35 @@ const categoryCandidateInformationChangesJoiSchema = Joi.object({
 const categoryConnectionOrEndScreenJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN),
-  description: Joi.string().trim().min(0).max(0).allow('').allow(null).optional(),
-  subcategory: Joi.string().min(0).max(0).allow('').allow(null).optional(),
+});
+
+const categoryInChallengeJoiSchema = Joi.object({
+  certificationCourseId: Joi.number().required().empty(null),
+  category: Joi.string().required().valid(CertificationIssueReportCategories.IN_CHALLENGE),
+  questionNumber: Joi.number().min(1).max(500).required(),
+  subcategory: Joi.string().required().valid(
+    CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+    CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+    CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+    CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+    CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+    CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+    CertificationIssueReportSubcategories.OTHER,
+  ),
+  description: Joi.string()
+    .when('subcategory', {
+      switch: [
+        { is: Joi.valid(
+          CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+          CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+          CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+          CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+          CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+          CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+        ), then: Joi.string().min(0).max(0).allow('').allow(null).optional() },
+      ],
+      otherwise: Joi.string().trim().required(),
+    }),
 });
 
 const categorySchemas = {
@@ -35,6 +61,7 @@ const categorySchemas = {
   [CertificationIssueReportCategories.LATE_OR_LEAVING]: categoryLateOrLeavingJoiSchema,
   [CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: categoryCandidateInformationChangesJoiSchema,
   [CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: categoryConnectionOrEndScreenJoiSchema,
+  [CertificationIssueReportCategories.IN_CHALLENGE]: categoryInChallengeJoiSchema,
 };
 
 class CertificationIssueReport {
@@ -45,12 +72,26 @@ class CertificationIssueReport {
       category,
       description,
       subcategory,
+      questionNumber,
     } = {}) {
     this.id = id;
     this.certificationCourseId = certificationCourseId;
     this.category = category;
-    this.description = description;
     this.subcategory = subcategory;
+    this.description = description;
+    this.questionNumber = questionNumber;
+
+    if ([CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(this.category)) {
+      this.subcategory = null;
+    }
+
+    if (this.category === CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN) {
+      this.description = null;
+    }
+
+    if (this.category !== CertificationIssueReportCategories.IN_CHALLENGE) {
+      this.questionNumber = null;
+    }
   }
 
   static new({
@@ -59,6 +100,7 @@ class CertificationIssueReport {
     category,
     description,
     subcategory,
+    questionNumber,
   }) {
     const certificationIssueReport = new CertificationIssueReport({
       id,
@@ -66,6 +108,7 @@ class CertificationIssueReport {
       category,
       description,
       subcategory,
+      questionNumber,
     });
     certificationIssueReport.validate();
     return certificationIssueReport;
