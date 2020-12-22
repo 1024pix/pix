@@ -19,6 +19,7 @@ module.exports = {
           'category',
           'description',
           'subcategory',
+          'questionNumber',
         ],
       },
     }).serialize(certificationReports);
