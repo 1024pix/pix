@@ -14,6 +14,10 @@ module.exports = Bookshelf.model(modelName, {
   hasTimestamps: ['createdAt', null],
   requireFetch: false,
 
+  organization() {
+    return this.belongsTo('Organization', 'organizationId');
+  },
+
   campaignParticipations() {
     return this.hasMany('CampaignParticipation', 'campaignId');
   },
