@@ -105,6 +105,32 @@ module('Acceptance | Session Finalization', function(hooks) {
             assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2).hasText(expectedTextWithIssueReport);
           });
         });
+
+        module('when we delete a certification issue report', function() {
+          test('it should show the remaining count of issue reports', async function(assert) {
+            // given
+            const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
+
+            server.create('feature-toggle', { id: 0, reportsCategorization: true });
+
+            const certificationReport = server.create('certification-report', { certificationCourseId: 1 });
+            const certificationIssueReport1 = server.create('certification-issue-report', { certificationReportId: certificationReport.id });
+            const certificationIssueReport2 = server.create('certification-issue-report', { certificationReportId: certificationReport.id });
+
+            const certificationIssueReports = [certificationIssueReport1, certificationIssueReport2];
+            certificationReport.update({ certificationIssueReports });
+            session.update({ certificationReports: [certificationReport] });
+
+            // when
+            await visit(`/sessions/${session.id}/finalisation`);
+            await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1);
+            await click('button[aria-label="Supprimer le signalement"]');
+            await click('button[aria-label="Fermer"]');
+
+            // then
+            assert.contains('1 signalement');
+          });
+        });
       });
 
       module('when reportsCategorization toggle is off', function(hooks) {

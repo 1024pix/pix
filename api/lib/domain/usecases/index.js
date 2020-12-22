@@ -121,6 +121,7 @@ module.exports = injectDependencies({
   createOrUpdateUserOrgaSettings: require('./create-or-update-user-orga-settings'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
+  deleteCertificationIssueReport: require('./delete-certification-issue-report'),
   deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
   disableMembership: require('./disable-membership'),
   dissociateUserFromSchoolingRegistration: require('./dissociate-user-from-schooling-registration'),

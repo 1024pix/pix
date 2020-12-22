@@ -54,8 +54,16 @@
         font-family: $roboto;
         padding: 0;
         margin: 0;
-      }
+        display: flex;
+        justify-content: space-between;
+        line-height: 32px;
 
+        svg {
+          font-size: 20px;
+          margin: 0;
+          padding: 0;
+        }
+      }
 
       .add-issue-report-modal-content__subcategory-label {
         font-family: $roboto;
@@ -73,15 +81,31 @@
     }
 
     .add-issue-report-modal-content {
-
-      label[for^="subcategory-for-category"], label[for^="text-area-for-category"] {
+      label[for^="subcategory-for-category"],
+      label[for^="text-area-for-category"] {
         display: block;
         margin-bottom: 4px;
       }
 
-      select[id^="subcategory-for-category"] {
-        font-size: 14px;
-        color: $grey-90;
+      .pix-select {
+        height: 35px;
+        background: $white;
+        border: 1.2px solid $grey-45;
+        border-radius: 4px;
+
+        select[id^="subcategory-for-category"] {
+          font-size: 14px;
+          color: $grey-90;
+        }
+
+        svg {
+          width: 14px;
+          height: 16px;
+          color: $blue-zodia;
+          font-size: 16px;
+          font-weight: normal;
+          letter-spacing: 0px;
+        }
       }
 
       label[for^="text-area-for-category"] {

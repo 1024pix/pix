@@ -1,7 +1,7 @@
 <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
   <div class="add-issue-report-modal">
     <div class="pix-modal__close-button">
-      <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
+      <button type="button" aria-label="Fermer" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
         <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
       </button>
     </div>
@@ -18,17 +18,26 @@
           <ul>
             {{#each @report.certificationIssueReports as |issueReport|}}
               <li>
-                <p class="add-issue-report-modal-content__category-label">{{issueReport.categoryLabel}}</p>
+                <p class="add-issue-report-modal-content__category-label">
+                  {{issueReport.categoryLabel}}
+                <button type="button" aria-label="Supprimer le signalement" class="button--showed-as-link" {{on 'click' (fn this.handleClickOnDeleteButton issueReport)}}>
+                  <FaIcon @icon="trash"/>
+                </button>
+                </p>
                 {{#if issueReport.subcategoryLabel}}
                 <p class="add-issue-report-modal-content__subcategory-label">{{issueReport.subcategoryLabel}}</p>
                 {{/if}}
               </li>
             {{/each}}
           </ul>
-          <button type="button" class="button__secondary" {{on 'click' (fn @onClickIssueReport @report)}}>
+          <button type="button" aria-label="Ajouter un signalement" class="button__secondary" {{on 'click' (fn @onClickIssueReport @report)}}>
             <FaIcon @icon="plus"/>Ajouter un signalement
           </button>
         </div>
+
+        {{#if this.showDeletionError}}
+          <PixMessage @type='alert'>Une erreur s'est produite lors de la suppression du signalement. Merci de réessayer</PixMessage>
+        {{/if}}
       </div>
     </div>
   </div>
