@@ -7,6 +7,7 @@ module.exports = function buildCertificationIssueReport({
   category = CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
   subcategory = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   description = 'Une super description',
+  questionNumber = null,
 } = {}) {
   return new CertificationIssueReport({
     id,
@@ -14,5 +15,6 @@ module.exports = function buildCertificationIssueReport({
     category,
     subcategory,
     description,
+    questionNumber,
   });
 };
