@@ -1,5 +1,6 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
+const Campaign = require('../../domain/models/Campaign');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 function _toCampaignParticipationOverview(campaignParticipation) {
@@ -28,6 +29,7 @@ module.exports = {
         qb.orderBy('campaign-participations.createdAt', 'DESC');
       })
       .where({ userId })
+      .where('campaigns.type', '=', Campaign.types.ASSESSMENT)
       .fetchAll({
         required: false,
         withRelated: ['campaign.organization', 'campaign', 'assessments'],
