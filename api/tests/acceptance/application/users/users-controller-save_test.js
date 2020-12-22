@@ -1,5 +1,16 @@
-const { expect, sinon, knex, nock } = require('../../../test-helper');
+const pick = require('lodash/pick');
+
+const {
+  domainBuilder,
+  expect,
+  knex,
+  nock,
+  sinon,
+} = require('../../../test-helper');
+
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller', () => {
@@ -10,28 +21,34 @@ describe('Acceptance | Controller | users-controller', () => {
     server = await createServer();
   });
 
+  afterEach(async () => {
+    await knex('authentication-methods').delete();
+    await knex('users_pix_roles').delete();
+    await knex('sessions').delete();
+    await knex('users').delete();
+  });
+
   describe('save', () => {
 
-    context('user is valid', () => {
-
-      const options = {
-        method: 'POST',
-        url: '/api/users',
-        payload: {
-          data: {
-            type: 'users',
-            attributes: {
-              'first-name': 'John',
-              'last-name': 'DoDoe',
-              'email': 'john.dodoe@example.net',
-              'password': 'Ab124B2C3#!',
-              'cgu': true,
-              'recaptcha-token': 'reCAPTCHAToken',
-            },
-            relationships: {},
+    const options = {
+      method: 'POST',
+      url: '/api/users',
+      payload: {
+        data: {
+          type: 'users',
+          attributes: {
+            'password': 'Password123',
+            'cgu': true,
+            'recaptcha-token': 'reCAPTCHAToken',
           },
+          relationships: {},
         },
-      };
+      },
+    };
+
+    let user;
+
+    context('user is valid', () => {
 
       beforeEach(() => {
         sinon.stub(mailer, 'sendEmail');
@@ -42,60 +59,72 @@ describe('Acceptance | Controller | users-controller', () => {
           .reply(200, {
             'success': true,
           });
+
+        user = domainBuilder.buildUser({ username: null });
+
+        options.payload.data.attributes = {
+          ...options.payload.data.attributes,
+          'first-name': user.firstName,
+          'last-name': user.lastName,
+          email: user.email,
+        };
       });
 
-      afterEach(() => {
+      afterEach(async () => {
         nock.cleanAll();
-        return knex('users').delete();
       });
 
-      it('should return status 201 with user', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
-          expect(response.result.data.type).to.equal('users');
-          expect(response.result.data.attributes['first-name']).to.equal('John');
-          expect(response.result.data.attributes['last-name']).to.equal('DoDoe');
-          expect(response.result.data.attributes.email).to.equal('john.dodoe@example.net');
-          expect(response.result.data.attributes.cgu).to.be.true;
-          expect(response.result.data.attributes.password).to.be.undefined;
-          expect(response.result.data.attributes['recaptcha-token']).to.be.undefined;
-        });
-      });
-
-      it('should create user in Database', () => {
+      it('should return status 201 with user', async () => {
         // given
-        const expectedUserWithNoPasswordNorId = {
-          firstName: 'John',
-          lastName: 'DoDoe',
-          email: 'john.dodoe@example.net',
+        const pickedUserAttributes = ['first-name', 'last-name', 'email', 'username', 'cgu'];
+        const expectedAttributes = {
+          'first-name': user.firstName,
+          'last-name': user.lastName,
+          email: user.email,
+          username: user.username,
+          cgu: user.cgu,
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise
-          .then(() => knex('users').select())
-          .then((users) => {
-            expect(users).to.have.lengthOf(1);
-            expect(users[0]).to.include(expectedUserWithNoPasswordNorId);
-            expect(users[0].cgu).to.be.ok;
-            expect(users[0].password).to.exist;
-          });
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.data.type).to.equal('users');
+        expect(response.result.data.attributes['recaptcha-token']).to.be.undefined;
+
+        const userAttributes = pick(response.result.data.attributes, pickedUserAttributes);
+        expect(userAttributes).to.deep.equal(expectedAttributes);
       });
 
-      it('should send account creation email to user', () => {
+      it('should create user in Database', async () => {
+        // given
+        const pickedUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
+        const expectedUser = {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          username: user.username,
+          cgu: user.cgu,
+        };
+
+        // when
+        await server.inject(options);
+
+        // then
+        const userFound = await userRepository.getByUsernameOrEmailWithRolesAndPassword(user.email);
+        expect(pick(userFound, pickedUserAttributes)).to.deep.equal(expectedUser);
+        expect(userFound.authenticationMethods[0].authenticationComplement.password).to.exist;
+      });
+
+      it('should send account creation email to user', async () => {
         // given
         const expectedMail = {
           from: 'ne-pas-repondre@pix.fr',
           fromName: 'PIX - Ne pas répondre',
           subject: 'Votre compte Pix a bien été créé',
           template: 'test-account-creation-template-id',
-          to: 'john.dodoe@example.net',
+          to: user.email,
           variables: {
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
@@ -105,11 +134,10 @@ describe('Acceptance | Controller | users-controller', () => {
         };
 
         // when
-        const promise = server.inject(options);
+        await server.inject(options);
 
         // then
-        return promise
-          .then(() => expect(mailer.sendEmail).to.have.been.calledWith(expectedMail));
+        expect(mailer.sendEmail).to.have.been.calledWith(expectedMail);
       });
     });
 

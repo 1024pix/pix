@@ -12,46 +12,62 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 
 const service = require('../../../../lib/domain/services/authentication-service');
 
-describe('Unit | Domain | Services | authentication', () => {
+describe('Unit | Domain | Services | authentication-service', () => {
 
   describe('#getUserByUsernameAndPassword', () => {
 
     const username = 'user@example.net';
-    const password = 'userPassword';
+    const password = 'Password123';
 
+    let user;
+    let authenticationMethod;
     let userRepository;
 
     beforeEach(() => {
+      user = domainBuilder.buildUser({ username });
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
+        userId: user.id,
+        rawPassword: password,
+      });
+      user.authenticationMethods = [authenticationMethod];
+
       userRepository = {
-        getByUsernameOrEmailWithRoles: sinon.stub(),
+        getByUsernameOrEmailWithRolesAndPassword: sinon.stub(),
       };
-      sinon.stub(encryptionService, 'check');
+      sinon.stub(encryptionService, 'checkPassword');
     });
 
     context('When user exist', () => {
 
-      let user;
-
       beforeEach(() => {
-        user = domainBuilder.buildUser({ username, password });
-        userRepository.getByUsernameOrEmailWithRoles.resolves(user);
-        encryptionService.check.resolves();
+        userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
+        encryptionService.checkPassword.resolves();
       });
 
       it('should call the user repository', async () => {
         // when
-        await service.getUserByUsernameAndPassword({ username, password, userRepository });
+        await service.getUserByUsernameAndPassword({
+          username, password, userRepository,
+        });
 
         // then
-        expect(userRepository.getByUsernameOrEmailWithRoles).to.has.been.calledWith(username);
+        expect(userRepository.getByUsernameOrEmailWithRolesAndPassword).to.has.been.calledWith(username);
       });
 
       it('should call the encryptionService check function', async () => {
+        // given
+        const expectedHashedPassword = authenticationMethod.authenticationComplement.password;
+
         // when
-        await service.getUserByUsernameAndPassword({ username, password, userRepository });
+        await service.getUserByUsernameAndPassword({
+          username, password, userRepository,
+        });
 
         // then
-        expect(encryptionService.check).to.has.been.calledWith(password, user.password);
+        expect(encryptionService.checkPassword).to.has.been.calledWith({
+          rawPassword: password,
+          hashedPassword: expectedHashedPassword,
+        });
       });
 
       it('should return user found', async () => {
@@ -68,7 +84,7 @@ describe('Unit | Domain | Services | authentication', () => {
 
       it('should throw UserNotFoundError when username does not exist', async () => {
         // given
-        userRepository.getByUsernameOrEmailWithRoles.rejects(new UserNotFoundError());
+        userRepository.getByUsernameOrEmailWithRolesAndPassword.rejects(new UserNotFoundError());
 
         // when
         const error = await catchErr(service.getUserByUsernameAndPassword)({ username, password, userRepository });
@@ -79,8 +95,8 @@ describe('Unit | Domain | Services | authentication', () => {
 
       it('should throw PasswordNotMatching when password does not match', async () => {
         // given
-        userRepository.getByUsernameOrEmailWithRoles.resolves({});
-        encryptionService.check.rejects(new PasswordNotMatching());
+        userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
+        encryptionService.checkPassword.rejects(new PasswordNotMatching());
 
         // when
         const error = await catchErr(service.getUserByUsernameAndPassword)({ username, password, userRepository });

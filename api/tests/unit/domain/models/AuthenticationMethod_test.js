@@ -1,6 +1,7 @@
 const { expect } = require('../../../test-helper');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
+
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 describe('Unit | Domain | Models | AuthenticationMethod', () => {
 
@@ -54,7 +55,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', () => {
         .to.throw(ObjectValidationError);
     });
 
-    context('PasswordAuthenticationMethod', () => {
+    context('PixAuthenticationComplement', () => {
 
       let validArguments;
       beforeEach(() => {
@@ -66,22 +67,22 @@ describe('Unit | Domain | Models | AuthenticationMethod', () => {
 
       it('should successfully instantiate object when passing all valid arguments', () => {
         // when
-        expect(() => new AuthenticationMethod.PasswordAuthenticationMethod(validArguments)).not.to.throw(ObjectValidationError);
+        expect(() => new AuthenticationMethod.PixAuthenticationComplement(validArguments)).not.to.throw(ObjectValidationError);
       });
 
       it('should throw an ObjectValidationError when password is not valid', () => {
         // when
-        expect(() => new AuthenticationMethod.PasswordAuthenticationMethod({ ...validArguments, password: 1234 }))
+        expect(() => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, password: 1234 }))
           .to.throw(ObjectValidationError);
-        expect(() => new AuthenticationMethod.PasswordAuthenticationMethod({ ...validArguments, password: undefined }))
+        expect(() => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, password: undefined }))
           .to.throw(ObjectValidationError);
       });
 
       it('should throw an ObjectValidationError when shouldChangePassword is not valid', () => {
         // when
-        expect(() => new AuthenticationMethod.PasswordAuthenticationMethod({ ...validArguments, shouldChangePassword: 'not_valid' }))
+        expect(() => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, shouldChangePassword: 'not_valid' }))
           .to.throw(ObjectValidationError);
-        expect(() => new AuthenticationMethod.PasswordAuthenticationMethod({ ...validArguments, shouldChangePassword: undefined }))
+        expect(() => new AuthenticationMethod.PixAuthenticationComplement({ ...validArguments, shouldChangePassword: undefined }))
           .to.throw(ObjectValidationError);
       });
     });

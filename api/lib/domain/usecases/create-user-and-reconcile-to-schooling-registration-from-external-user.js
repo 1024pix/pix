@@ -4,17 +4,18 @@ const AuthenticationMethod = require('../models/AuthenticationMethod');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 
 module.exports = async function createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+  birthdate,
   campaignCode,
   token,
-  birthdate,
-  campaignRepository,
-  userReconciliationService,
+  obfuscationService,
   tokenService,
+  userReconciliationService,
+  userService,
+  authenticationMethodRepository,
+  campaignRepository,
   userRepository,
   schoolingRegistrationRepository,
   studentRepository,
-  obfuscationService,
-  authenticationMethodRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
@@ -36,7 +37,6 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   const domainUser = new User({
     firstName: externalUser.firstName,
     lastName: externalUser.lastName,
-    password: '',
     cgu: false,
   });
 
@@ -48,7 +48,6 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   ];
 
   try {
-
     matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
       organizationId: campaign.organizationId,
       reconciliationInfo,
@@ -62,16 +61,18 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
       return user;
     }
 
-    userId = await userRepository.createAndReconcileUserToSchoolingRegistration({
-      domainUser,
+    userId = await userService.createAndReconcileUserToSchoolingRegistration({
+      user: domainUser,
       schoolingRegistrationId: matchedSchoolingRegistration.id,
       samlId: externalUser.samlId,
+      authenticationMethodRepository,
+      schoolingRegistrationRepository,
+      userRepository,
     });
 
   } catch (error) {
 
     if (reconciliationErrors.includes(error.code)) {
-
       await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
         externalIdentifier: externalUser.samlId,
         userId: error.meta.userId,
@@ -86,7 +87,6 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     } else {
       throw error;
     }
-
   }
 
   return userRepository.get(userId);

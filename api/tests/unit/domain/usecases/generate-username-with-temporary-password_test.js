@@ -1,17 +1,14 @@
 const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
 
-const passwordGenerator = require('../../../../lib/domain/services/password-generator');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../../lib/domain/errors');
 
 const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/usecases/generate-username-with-temporary-password.js');
 
 describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
-  const userRelatedToStudent = domainBuilder.buildUser({ username: null, password: '' });
+  const userRelatedToStudent = domainBuilder.buildUser({
+    username: null,
+  });
   const organization = userRelatedToStudent.memberships[0].organization;
   const organizationId = userRelatedToStudent.memberships[0].organization.id;
 
@@ -20,29 +17,62 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
   const hashedPassword = 'ABC';
 
   let schoolingRegistration;
+  let schoolingRegistrationId;
+
+  let passwordGenerator;
+  let encryptionService;
+  let userReconciliationService;
+  let userService;
+
+  let authenticationMethodRepository;
+  let userRepository;
+  let schoolingRegistrationRepository;
 
   beforeEach(() => {
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({
       organization,
     });
+    schoolingRegistrationId = schoolingRegistration.id;
 
-    sinon.stub(passwordGenerator, 'generate').returns(expectedPassword);
-    sinon.stub(encryptionService, 'hashPassword').resolves(hashedPassword);
-    sinon.stub(userReconciliationService, 'createUsernameByUser').resolves(expectedUsername);
+    passwordGenerator = {
+      generate: sinon.stub().returns(expectedPassword),
+    };
+    encryptionService = {
+      hashPassword: sinon.stub().resolves(hashedPassword),
+    };
+    userReconciliationService = {
+      createUsernameByUser: sinon.stub().resolves(expectedUsername),
+    };
+    userService = {
+      updateUsernameAndAddPassword: sinon.stub(),
+    };
+    authenticationMethodRepository = {
+      hasIdentityProviderPIX: sinon.stub().resolves(),
+      updatePasswordThatShouldBeChanged: sinon.stub().resolves(),
+    };
+    userRepository = {
+      addUsername: sinon.stub(),
+      get: sinon.stub(),
+      updateUsernameAndPassword: sinon.stub().resolves(),
+    };
+    schoolingRegistrationRepository = {
+      get: sinon.stub(),
+    };
 
-    sinon.stub(userRepository, 'get').resolves(userRelatedToStudent);
-    sinon.stub(userRepository, 'updateUsernameAndPassword').resolves();
-
-    sinon.stub(schoolingRegistrationRepository, 'get').resolves(schoolingRegistration);
+    schoolingRegistrationRepository.get.resolves(schoolingRegistration);
+    userRepository.get.resolves(userRelatedToStudent);
   });
 
   it('should generate username and temporary password', async () => {
     // when
     const result = await generateUsernameWithTemporaryPassword({
-      schoolingRegistrationId: schoolingRegistration.id,
+      schoolingRegistrationId,
       organizationId,
-      passwordGenerator, encryptionService, userReconciliationService,
-      userRepository, schoolingRegistrationRepository,
+      passwordGenerator,
+      encryptionService, userReconciliationService, userService,
+      authenticationMethodRepository,
+      userRepository,
+      schoolingRegistrationRepository,
     });
 
     // then
@@ -56,10 +86,13 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      schoolingRegistrationId: schoolingRegistration.id,
-      organizationId: organizationId,
-      passwordGenerator, encryptionService, userReconciliationService,
-      userRepository, schoolingRegistrationRepository,
+      schoolingRegistrationId,
+      organizationId,
+      passwordGenerator,
+      encryptionService, userReconciliationService, userService,
+      authenticationMethodRepository,
+      userRepository,
+      schoolingRegistrationRepository,
     });
 
     // then
@@ -74,10 +107,13 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      schoolingRegistrationId: schoolingRegistration.id,
+      schoolingRegistrationId,
       organizationId,
-      passwordGenerator, encryptionService, userReconciliationService,
-      userRepository, schoolingRegistrationRepository,
+      passwordGenerator,
+      encryptionService, userReconciliationService, userService,
+      authenticationMethodRepository,
+      userRepository,
+      schoolingRegistrationRepository,
     });
 
     // then
@@ -89,16 +125,17 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
 
     const username = 'john.doe2510';
     const userEmail = 'john.doe@example.net';
-    const userPassword = 'Pix12345';
+
     let userWithEmail;
     let organization;
     let organizationId;
     let schoolingRegistration;
 
     beforeEach(()=>{
-
-      // given
-      userWithEmail = domainBuilder.buildUser({ email: userEmail, password: userPassword, username: null });
+      userWithEmail = domainBuilder.buildUser({
+        email: userEmail,
+        username: null,
+      });
       organization = userWithEmail.memberships[0].organization;
       organizationId = userWithEmail.memberships[0].organization.id;
 
@@ -106,30 +143,30 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
         organization,
       });
 
-      sinon.restore();
+      userReconciliationService.createUsernameByUser.resolves(username);
 
-      sinon.stub(userReconciliationService, 'createUsernameByUser').resolves(username);
-      sinon.stub(userRepository, 'get').resolves(userWithEmail);
-      sinon.stub(userRepository, 'addUsername').resolves({ ...userWithEmail, username: username });
+      schoolingRegistrationRepository.get.resolves(schoolingRegistration);
+      userRepository.get.resolves(userWithEmail);
+      userRepository.addUsername.resolves({ ...userWithEmail, username });
 
-      sinon.stub(schoolingRegistrationRepository, 'get').resolves(schoolingRegistration);
-
+      authenticationMethodRepository.hasIdentityProviderPIX.resolves(true);
     });
 
     it('should return an username', async () => {
-
       // when
       const result = await generateUsernameWithTemporaryPassword({
         schoolingRegistrationId: schoolingRegistration.id,
         organizationId,
-        passwordGenerator, encryptionService, userReconciliationService,
-        userRepository, schoolingRegistrationRepository,
+        passwordGenerator,
+        encryptionService, userReconciliationService, userService,
+        authenticationMethodRepository,
+        userRepository,
+        schoolingRegistrationRepository,
       });
 
       // then
       expect(result.username).to.be.equal(username);
     });
-
   });
 
 });

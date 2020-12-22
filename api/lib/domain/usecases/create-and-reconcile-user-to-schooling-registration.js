@@ -1,3 +1,5 @@
+const isNil = require('lodash/isNil');
+
 const {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
@@ -5,11 +7,13 @@ const {
   EntityValidationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
 } = require('../errors');
+
 const User = require('../models/User');
 
+const passwordValidator = require('../validators/password-validator');
 const userValidator = require('../validators/user-validator');
+
 const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
-const isNil = require('lodash/isNil');
 
 function _encryptPassword(userPassword, encryptionService) {
   const encryptedPassword = encryptionService.hashPassword(userPassword);
@@ -21,13 +25,12 @@ function _encryptPassword(userPassword, encryptionService) {
   return encryptedPassword;
 }
 
-function _createDomainUser(userAttributes, encryptedPawsword) {
+function _createDomainUser(userAttributes) {
   return new User({
     firstName: userAttributes.firstName,
     lastName: userAttributes.lastName,
     email: userAttributes.email,
     username: userAttributes.username,
-    password: encryptedPawsword,
     cgu: false,
   });
 }
@@ -46,21 +49,40 @@ function _manageError(error, errorType, attribute, message) {
       invalidAttributes: [{ attribute, message }],
     });
   }
-
   throw error;
 }
 
 function _emptyOtherMode(isUsernameMode, userAttributes) {
-  return isUsernameMode ? { ...userAttributes, email: undefined } : { ...userAttributes, username: undefined };
+  return isUsernameMode
+    ? { ...userAttributes, email: undefined }
+    : { ...userAttributes, username: undefined };
 }
 
-async function _validateData(isUsernameMode, userAttributes, userRepository, userValidator) {
+function _validatePassword(password) {
+  let result;
+  try {
+    passwordValidator.validate(password);
+  } catch (err) {
+    result = err;
+  }
+  return result;
+}
+
+async function _validateData({
+  isUsernameMode,
+  password,
+  userAttributes,
+  userRepository,
+}) {
   const validationErrors = [];
+
   try {
     userValidator.validate({ user: userAttributes, cguRequired: false });
   } catch (err) {
     validationErrors.push(err);
   }
+
+  validationErrors.push(_validatePassword(password));
 
   if (isUsernameMode) {
     try {
@@ -83,9 +105,11 @@ async function _validateData(isUsernameMode, userAttributes, userRepository, use
 }
 
 module.exports = async function createAndReconcileUserToSchoolingRegistration({
-  userAttributes,
   campaignCode,
   locale,
+  password,
+  userAttributes,
+  authenticationMethodRepository,
   campaignRepository,
   schoolingRegistrationRepository,
   userRepository,
@@ -93,13 +117,20 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
   mailService,
   obfuscationService,
   userReconciliationService,
+  userService,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
     throw new CampaignCodeError();
   }
 
-  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({ organizationId: campaign.organizationId, reconciliationInfo: userAttributes, schoolingRegistrationRepository, userRepository, obfuscationService });
+  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+    organizationId: campaign.organizationId,
+    reconciliationInfo: userAttributes,
+    schoolingRegistrationRepository,
+    userRepository,
+    obfuscationService,
+  });
 
   if (!isNil(matchedSchoolingRegistration.userId)) {
     throw new SchoolingRegistrationAlreadyLinkedToUserError('Un compte existe déjà pour l‘élève dans le même établissement.');
@@ -107,12 +138,25 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
 
   const isUsernameMode = userAttributes.withUsername;
   const cleanedUserAttributes = _emptyOtherMode(isUsernameMode, userAttributes);
-  await _validateData(isUsernameMode, cleanedUserAttributes, userRepository, userValidator);
 
-  const encryptedPassword = await _encryptPassword(cleanedUserAttributes.password, encryptionService);
-  const domainUser = _createDomainUser(cleanedUserAttributes, encryptedPassword);
+  await _validateData({
+    isUsernameMode,
+    password,
+    userAttributes: cleanedUserAttributes,
+    userRepository,
+  });
 
-  const userId = await userRepository.createAndReconcileUserToSchoolingRegistration({ domainUser, schoolingRegistrationId: matchedSchoolingRegistration.id });
+  const hashedPassword = await _encryptPassword(password, encryptionService);
+  const domainUser = _createDomainUser(cleanedUserAttributes);
+
+  const userId = await userService.createAndReconcileUserToSchoolingRegistration({
+    hashedPassword,
+    schoolingRegistrationId: matchedSchoolingRegistration.id,
+    user: domainUser,
+    authenticationMethodRepository,
+    schoolingRegistrationRepository,
+    userRepository,
+  });
 
   const createdUser = await userRepository.get(userId);
   if (!isUsernameMode) {

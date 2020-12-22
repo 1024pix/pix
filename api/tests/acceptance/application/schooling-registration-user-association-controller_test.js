@@ -1,4 +1,11 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, generateIdTokenForExternalUser, knex } = require('../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  generateIdTokenForExternalUser,
+  knex,
+} = require('../../test-helper');
+
 const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');

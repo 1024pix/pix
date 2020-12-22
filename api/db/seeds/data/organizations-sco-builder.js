@@ -137,7 +137,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   // schooling registration associated with gar
-  const userWithGAR = databaseBuilder.factory.buildUser.withoutPassword({
+  const userWithGAR = databaseBuilder.factory.buildUser({
     firstName: 'user',
     lastName: 'gar',
     email: null,
