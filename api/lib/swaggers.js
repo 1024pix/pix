@@ -4,9 +4,10 @@ const Pack = require('../package');
 const swaggerOptionsLivretScolaire = {
   routeTag: 'livret-scolaire',
   info: {
-    'title': 'Welcome to the Pix open api catalog',
+    'title': 'Welcome to the Pix LSU/LSL open api',
     'version': Pack.version,
   },
+  jsonPath: '/swagger.json',
 };
 
 const swaggerOptionsIn = {
@@ -18,11 +19,10 @@ const swaggerOptionsIn = {
     'version': Pack.version,
   },
   documentationPath: '/documentation',
-  jsonPath: '/swagger.json'
+  jsonPath: '/swagger.json',
 };
 
-
-const swaggers = [ swaggerOptionsLivretScolaire, swaggerOptionsIn, ].map(_buildSwaggerArgs);
+const swaggers = [ swaggerOptionsLivretScolaire, swaggerOptionsIn ].map(_buildSwaggerArgs);
 module.exports = swaggers;
 
 function _buildSwaggerArgs(swaggerOptions)
@@ -31,6 +31,6 @@ function _buildSwaggerArgs(swaggerOptions)
     plugin: HapiSwagger,
     options: swaggerOptions,
   }, {
-    routes: {prefix: '/' + swaggerOptions.routeTag},
-  }]
+    routes: { prefix: '/' + swaggerOptions.routeTag },
+  }];
 }
