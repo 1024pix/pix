@@ -10,11 +10,11 @@ module.exports = {
   /* eslint-disable-next-line no-sync */
   hashPasswordSync: (password) => bcrypt.hashSync(password, NUMBER_OF_SALT_ROUNDS),
 
-  checkPassword: ({ rawPassword, hashedPassword }) => {
-    return new Promise((resolve, reject) => {
-      bcrypt.compare(rawPassword, hashedPassword, (err, res) => {
-        (res) ? resolve() : reject(new PasswordNotMatching());
-      });
-    });
+  checkPassword: async ({ rawPassword, hashedPassword }) => {
+    const matching = await bcrypt.compare(rawPassword, hashedPassword);
+    if (!matching) {
+      throw new PasswordNotMatching();
+    }
   },
+
 };
