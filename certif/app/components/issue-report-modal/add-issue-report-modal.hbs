@@ -43,6 +43,10 @@
           <PixMessage @type='alert'>Veuillez selectionner une catégorie</PixMessage>
         {{/if}}
 
+        {{#if this.showIssueReportSubmitError}}
+          <PixMessage @type='alert'>Une erreur s'est produite lors de l'ajout du signalement. Merci de réessayer</PixMessage>
+        {{/if}}
+
         <div class="add-issue-report-modal__actions">
           <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
           <button type="submit" class="button button--extra-thin">Valider</button>
