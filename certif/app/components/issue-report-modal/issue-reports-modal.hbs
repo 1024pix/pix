@@ -1,7 +1,7 @@
 <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{@closeModal}}>
   <div class="add-issue-report-modal">
     <div class="pix-modal__close-button">
-      <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
+      <button type="button" aria-label="Fermer" data-test-id="finalize-session-modal__close-cross" {{on "click" @closeModal}}>Fermer
         <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24">
       </button>
     </div>
@@ -20,7 +20,7 @@
               <li>
                 <p class="add-issue-report-modal-content__category-label">
                   {{issueReport.categoryLabel}}
-                <button type="button" class="button--showed-as-link" {{on 'click' (fn this.handleClickOnDeleteButton issueReport)}}>
+                <button type="button" aria-label="Supprimer le signalement" class="button--showed-as-link" {{on 'click' (fn this.handleClickOnDeleteButton issueReport)}}>
                   <FaIcon @icon="trash"/>
                 </button>
                 </p>

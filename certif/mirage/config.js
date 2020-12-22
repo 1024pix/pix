@@ -72,6 +72,14 @@ export default function() {
     return schema.certificationIssueReports.create({ certificationReport, description, category });
   });
 
+  this.delete('/certification-issue-reports/:id', function(schema, request) {
+    const certificationIssueReportId = request.params.id;
+    const certificationIssueReport = schema.certificationIssueReports.find(certificationIssueReportId);
+
+    certificationIssueReport.destroy();
+    return { data: null };
+  });
+
   this.get('/sessions/:id/certification-reports', function(schema, request) {
     const sessionId = request.params.id;
 
