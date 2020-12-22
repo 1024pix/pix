@@ -6,7 +6,7 @@ class DomainError extends Error {
   }
 }
 
-class AlreadyExistingEntity extends DomainError {
+class AlreadyExistingEntityError extends DomainError {
   constructor(message = 'L’entité existe déjà.') {
     super(message);
   }
@@ -14,6 +14,12 @@ class AlreadyExistingEntity extends DomainError {
 
 class AlreadyExistingMembershipError extends DomainError {
   constructor(message = 'Le membership existe déjà.') {
+    super(message);
+  }
+}
+
+class AuthenticationMethodNotFoundError extends DomainError {
+  constructor(message = 'Authentication method not found.') {
     super(message);
   }
 }
@@ -668,8 +674,7 @@ class NotImplementedError extends Error {
 }
 
 module.exports = {
-  DomainError,
-  AlreadyExistingEntity,
+  AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,
   AlreadyExistingOrganizationInvitationError,
@@ -677,17 +682,16 @@ module.exports = {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
-  NoCampaignParticipationForUserAndCampaign,
+  ArchivedCampaignError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
   AssessmentResultNotCreatedError,
-  ArchivedCampaignError,
+  AuthenticationMethodNotFoundError,
   CampaignCodeError,
   CertificateVerificationCodeGenerationTooManyTrials,
   CertificationCandidateForbiddenDeletionError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
-  MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CertificationCandidateCreationOrUpdateError,
   CertificationCandidateDeletionError,
@@ -697,11 +701,13 @@ module.exports = {
   CertificationCandidatesImportError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
-  CertificationCourseUpdateError,
   CertificationCourseNotPublishableError,
+  CertificationCourseUpdateError,
   ChallengeAlreadyAnsweredError,
   CompetenceResetError,
+  CsvImportError,
   CsvParsingError,
+  DomainError,
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
@@ -713,27 +719,30 @@ module.exports = {
   InvalidParametersForSessionPublication,
   InvalidRecaptchaTokenError,
   InvalidTemporaryKeyError,
-  UnexpectedUserAccount,
+  ManyOrganizationsFoundError,
+  MatchingReconciledStudentNotFoundError,
   MembershipCreationError,
   MembershipUpdateError,
-  MissingOrInvalidCredentialsError,
   MissingAssessmentId,
+  MissingOrInvalidCredentialsError,
+  NoCampaignParticipationForUserAndCampaign,
   NotEligibleCandidateError,
   NotFoundError,
+  NotImplementedError,
   ObjectValidationError,
   OrganizationNotFoundError,
   OrganizationWithoutEmailError,
-  ManyOrganizationsFoundError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
+  SameNationalApprenticeIdInOrganizationError,
   SameNationalStudentIdInFileError,
   SameNationalStudentIdInOrganizationError,
-  SameNationalApprenticeIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
-  SchoolingRegistrationsCouldNotBeSavedError,
   SchoolingRegistrationNotFound,
+  SchoolingRegistrationsCouldNotBeSavedError,
   SessionAlreadyFinalizedError,
   TargetProfileInvalidError,
+  UnexpectedUserAccount,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserCouldNotBeReconciledError,
@@ -741,8 +750,8 @@ module.exports = {
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToCreateResourceError,
-  UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGenerateUsernamePasswordError,
+  UserNotAuthorizedToGetCampaignResultsError,
   UserNotAuthorizedToGetCertificationCoursesError,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToUpdatePasswordError,
@@ -753,6 +762,4 @@ module.exports = {
   UserOrgaSettingsCreationError,
   UserShouldChangePasswordError,
   WrongDateFormatError,
-  NotImplementedError,
-  CsvImportError,
 };

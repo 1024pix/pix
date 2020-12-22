@@ -1,7 +1,15 @@
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const { knex } = require('../bookshelf');
-const { NotFoundError, SameNationalStudentIdInOrganizationError, SameNationalApprenticeIdInOrganizationError, SchoolingRegistrationsCouldNotBeSavedError, UserCouldNotBeReconciledError } = require('../../domain/errors');
+
+const {
+  NotFoundError,
+  SameNationalStudentIdInOrganizationError,
+  SameNationalApprenticeIdInOrganizationError,
+  SchoolingRegistrationNotFound,
+  SchoolingRegistrationsCouldNotBeSavedError,
+  UserCouldNotBeReconciledError,
+} = require('../../domain/errors');
+
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
@@ -9,13 +17,14 @@ const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
 const BookshelfSchoolingRegistration = require('../data/schooling-registration');
+
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const bookshelfUtils = require('../utils/knex-utils');
+const DomainTransaction = require('../DomainTransaction');
 
 const STATUS = SchoolingRegistration.STATUS;
 
 function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
-
   const rawUserWithSchoolingRegistration = BookshelfSchoolingRegistration.toJSON();
 
   return new UserWithSchoolingRegistration({
@@ -91,7 +100,7 @@ module.exports = {
   },
 
   async findDivisionsByOrganizationId({ organizationId }) {
-    const divisionRows = await knex('schooling-registrations')
+    const divisionRows = await Bookshelf.knex('schooling-registrations')
       .distinct('division')
       .where('organizationId', organizationId)
       .orderBy('division', 'desc');
@@ -114,8 +123,7 @@ module.exports = {
   },
 
   async isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ userId, schoolingRegistrationId }) {
-
-    const exist = await knex('schooling-registrations')
+    const exist = await Bookshelf.knex('schooling-registrations')
       .select('schooling-registrations.id')
       .join('organizations', 'schooling-registrations.organizationId', 'organizations.id')
       .where({ userId, type: 'SCO', 'schooling-registrations.id': schoolingRegistrationId })
@@ -360,4 +368,29 @@ module.exports = {
       pagination,
     };
   },
+
+  updateUserIdWhereNull({
+    schoolingRegistrationId,
+    userId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    return BookshelfSchoolingRegistration
+      .where({ id: schoolingRegistrationId, userId: null })
+      .save(
+        { userId },
+        {
+          transacting: domainTransaction.knexTransaction,
+          patch: true,
+          method: 'update',
+        },
+      )
+      .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration))
+      .catch((err) => {
+        if (err instanceof BookshelfSchoolingRegistration.NoRowsUpdatedError) {
+          throw new SchoolingRegistrationNotFound(`SchoolingRegistration not found for ID ${schoolingRegistrationId} and user ID null.`);
+        }
+        throw err;
+      });
+  },
+
 };

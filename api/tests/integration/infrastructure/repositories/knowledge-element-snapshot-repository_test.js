@@ -1,7 +1,7 @@
 const { knex, expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const { AlreadyExistingEntity } = require('../../../../lib/domain/errors');
+const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => {
 
@@ -48,7 +48,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', () => 
       const error = await catchErr(knowledgeElementSnapshotRepository.save)({ userId, snappedAt, knowledgeElements: [] });
 
       // then
-      expect(error).to.be.instanceOf(AlreadyExistingEntity);
+      expect(error).to.be.instanceOf(AlreadyExistingEntityError);
     });
   });
 

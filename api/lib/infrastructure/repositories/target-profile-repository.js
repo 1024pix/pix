@@ -5,7 +5,7 @@ const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { NotFoundError, AlreadyExistingEntity } = require('../../domain/errors');
+const { NotFoundError, AlreadyExistingEntityError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -108,7 +108,7 @@ module.exports = {
       }
       if (isUniqConstraintViolated(error)) {
         const organizationId = error.detail.match(/=\((\d+),/)[1];
-        throw new AlreadyExistingEntity(`Le profil cible est déjà associé à l’organisation ${organizationId}.`);
+        throw new AlreadyExistingEntityError(`Le profil cible est déjà associé à l’organisation ${organizationId}.`);
       }
     }
   },

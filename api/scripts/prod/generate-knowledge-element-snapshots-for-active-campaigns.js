@@ -3,7 +3,7 @@ const bluebird = require('bluebird');
 const { knex } = require('../../db/knex-database-connection');
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
-const { AlreadyExistingEntity } = require('../../lib/domain/errors');
+const { AlreadyExistingEntityError } = require('../../lib/domain/errors');
 
 const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
@@ -67,7 +67,7 @@ async function generateKnowledgeElementSnapshots(campaignParticipationData, conc
     try {
       await knowledgeElementSnapshotRepository.save({ userId, snappedAt: sharedAt, knowledgeElements });
     } catch (err) {
-      if (err instanceof AlreadyExistingEntity) {
+      if (err instanceof AlreadyExistingEntityError) {
         console.log(`Un snapshot existe déjà pour l'utilisateur ${userId} à la date ${sharedAt}. Ignoré.`);
       } else {
         throw err;

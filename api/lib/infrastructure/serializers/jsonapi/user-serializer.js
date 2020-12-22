@@ -91,7 +91,6 @@ module.exports = {
       firstName: json.data.attributes['first-name'],
       lastName: json.data.attributes['last-name'],
       email: json.data.attributes.email,
-      password: json.data.attributes.password,
       cgu: json.data.attributes.cgu,
       lang: json.data.attributes.lang,
       lastTermsOfServiceValidatedAt: json.data.attributes['lastTermsOfServiceValidatedAt'],

@@ -4,93 +4,110 @@
     "firstName": "Daenerys",
     "lastName": "Targaryen",
     "email": "daenerys.targaryen@pix.fr",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
-    "pixOrgaTermsOfServiceAccepted": true
+    "pixOrgaTermsOfServiceAccepted": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 2,
     "firstName": "Samwell",
     "lastName": "Tarly",
     "email": "samwell.tarly@pix.fr",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
-    "cgu": true
+    "cgu": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 3,
     "firstName": "John",
     "lastName": "Snow",
     "email": "john.snow@pix.fr",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
-    "pixOrgaTermsOfServiceAccepted": true
+    "pixOrgaTermsOfServiceAccepted": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 4,
     "firstName": "Tyrion",
     "lastName": "Lannister",
     "email": "tyrion.lannister@example.net",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
-    "cgu": true
+    "cgu": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 5,
     "firstName": "Jaime",
     "lastName": "Lannister",
     "email": "jaime.lannister@example.net",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
-    "cgu": true
+    "cgu": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 6,
     "firstName": "Cersei",
     "lastName": "Lannister",
     "email": "cersei.lannister@example.net",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
-    "cgu": true
+    "cgu": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 7,
     "firstName": "Certif",
     "lastName": "Sco",
     "email": "certif.sco@example.net",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
-    "pixCertifTermsOfServiceAccepted": true
+    "pixCertifTermsOfServiceAccepted": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 8,
     "firstName": "user",
     "lastName": "name",
     "username": "user.shouldChangePassword1234",
-    "password": "$2b$05$Ryd6vVDoubvN9MQmSGmfY.tscxdmWhu1g8NOrHI4dveemziMof6Qm",
-    "shouldChangePassword": true
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 9,
     "firstName": "Joffrey",
     "lastName": "Baratheon",
     "email": "user-who-must-validate-the-last-terms-of-service@example.net",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
-    "mustValidateTermsOfService": true
+    "mustValidateTermsOfService": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 10,
     "firstName": "Aemon",
     "lastName": "Targaryen",
     "email": "aemon.targaryen@pix.fr",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
-    "pixOrgaTermsOfServiceAccepted": true
+    "pixOrgaTermsOfServiceAccepted": true,
+    "password": "",
+    "shouldChangePassword": false
   },
   {
     "id": 11,
     "firstName": "Certif",
     "lastName": "Sup",
     "email": "certif.sup@example.net",
-    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true,
-    "pixCertifTermsOfServiceAccepted": true
+    "pixCertifTermsOfServiceAccepted": true,
+    "password": "",
+    "shouldChangePassword": false
+  },
+  {
+    "id": 12,
+    "firstName": "user",
+    "lastName": "gar",
+    "password": "",
+    "shouldChangePassword": false
   }
 ]

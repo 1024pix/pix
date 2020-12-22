@@ -25,9 +25,6 @@ afterEach(function() {
   return databaseBuilder.clean();
 });
 
-/**
- * @returns string
- */
 function generateValidRequestAuthorizationHeader(userId = 1234) {
   const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix');
   return `Bearer ${accessToken}`;
@@ -38,13 +35,12 @@ function generateIdTokenForExternalUser(externalUser) {
 }
 
 async function insertUserWithRolePixMaster() {
-
   const user = databaseBuilder.factory.buildUser.withPixRolePixMaster({
     id: 1234,
     firstName: 'Super',
     lastName: 'Papa',
     email: 'super.papa@example.net',
-    password: 'abcd1234',
+    password: 'Password123',
   });
 
   await databaseBuilder.commit();

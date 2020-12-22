@@ -1,9 +1,9 @@
 /* eslint-disable no-sync */
+const faker = require('faker');
+const isUndefined = require('lodash/isUndefined');
+
 const databaseBuffer = require('../database-buffer');
 const buildUser = require('./build-user');
-const encrypt = require('../../../lib/domain/services/encryption-service');
-const isUndefined = require('lodash/isUndefined');
-const faker = require('faker');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 const buildAuthenticationMethod = function({
@@ -32,22 +32,24 @@ const buildAuthenticationMethod = function({
   });
 };
 
-buildAuthenticationMethod.buildPasswordAuthenticationMethod = function({
+buildAuthenticationMethod.buildWithHashedPassword = function({
   id,
-  password,
+  hashedPassword = 'ABCDEF123',
   shouldChangePassword = false,
   userId,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
 
-  password = isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
   userId = isUndefined(userId) ? buildUser().id : userId;
 
   const values = {
     id,
     identityProvider: AuthenticationMethod.identityProviders.PIX,
-    authenticationComplement: new AuthenticationMethod.PasswordAuthenticationMethod({ password, shouldChangePassword }),
+    authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
+      password: hashedPassword,
+      shouldChangePassword,
+    }),
     externalIdentifier: undefined,
     userId,
     createdAt,
@@ -75,7 +77,11 @@ buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
   const values = {
     id,
     identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-    authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({ accessToken, refreshToken, expiredDate }),
+    authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+      accessToken,
+      refreshToken,
+      expiredDate,
+    }),
     externalIdentifier,
     userId,
     createdAt,

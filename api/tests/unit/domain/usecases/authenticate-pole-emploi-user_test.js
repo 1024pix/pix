@@ -34,6 +34,7 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
   let authenticationMethodRepository;
 
   let userInfo;
+  let authenticatedUserId;
 
   let clock;
 
@@ -106,12 +107,18 @@ describe('Unit | Application | Use Case | authenticate-pole-emploi-user', () => 
 
       // when
       await authenticatePoleEmploiUser({
-        code, redirectUri, clientId,
-        userRepository, authenticationMethodRepository, authenticationService, tokenService,
+        code,
+        clientId,
+        redirectUri,
+        authenticatedUserId,
+        authenticationService,
+        tokenService,
+        userRepository,
+        authenticationMethodRepository,
       });
 
       // then
-      expect(userRepository.create).to.have.been.calledWithMatch({ firstName, lastName }, domainTransaction);
+      expect(userRepository.create).to.have.been.calledWithMatch({ user: { firstName, lastName }, domainTransaction });
     });
 
     it('should call authentication method repository create function pole emploi authentication method and domain transaction', async () => {

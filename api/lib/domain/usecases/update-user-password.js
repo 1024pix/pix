@@ -4,14 +4,19 @@ module.exports = async function updateUserPassword({
   temporaryKey,
   encryptionService,
   resetPasswordService,
+  authenticationMethodRepository,
   userRepository,
 }) {
-
   const hashedPassword = await encryptionService.hashPassword(password);
   const user = await userRepository.get(userId);
 
   await resetPasswordService.hasUserAPasswordResetDemandInProgress(user.email, temporaryKey);
-  const updatedUser = await userRepository.updatePassword(user.id, hashedPassword);
+
+  const updatedUser = await authenticationMethodRepository.updateOnlyPassword({
+    userId: user.id,
+    hashedPassword,
+  });
   await resetPasswordService.invalidateOldResetPasswordDemand(user.email);
+
   return updatedUser;
 };

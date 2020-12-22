@@ -1,16 +1,11 @@
-const updateUserPassword = require('../../../../lib/domain/usecases/update-user-password');
-
-const { sinon, expect } = require('../../../test-helper');
+const { catchErr, expect, sinon } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
+const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-
-const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+const updateUserPassword = require('../../../../lib/domain/usecases/update-user-password');
 
 describe('Unit | UseCase | update-user-password', () => {
 
@@ -22,157 +17,132 @@ describe('Unit | UseCase | update-user-password', () => {
   const password = '123ASXCG';
   const temporaryKey = 'good-temporary-key';
 
+  let encryptionService;
+  let resetPasswordService;
+  let authenticationMethodRepository;
+  let userRepository;
+
   beforeEach(() => {
-    sinon.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress').throws();
-    sinon.stub(resetPasswordService, 'invalidateOldResetPasswordDemand');
+    encryptionService = {
+      hashPassword: sinon.stub(),
+    };
+    resetPasswordService = {
+      hasUserAPasswordResetDemandInProgress: sinon.stub(),
+      invalidateOldResetPasswordDemand: sinon.stub(),
+    };
+    authenticationMethodRepository = {
+      updateOnlyPassword: sinon.stub(),
+    };
+    userRepository = {
+      get: sinon.stub(),
+    };
+
     sinon.stub(validationErrorSerializer, 'serialize');
-    sinon.stub(userRepository, 'updatePassword');
-    sinon.stub(userRepository, 'get').resolves(user);
-    sinon.stub(encryptionService, 'hashPassword');
-  });
 
-  it('should get user by his id', () => {
-    // given
-
+    encryptionService.hashPassword.resolves();
     resetPasswordService.hasUserAPasswordResetDemandInProgress
       .withArgs(user.email, temporaryKey)
       .resolves();
+    resetPasswordService.invalidateOldResetPasswordDemand.resolves();
 
+    authenticationMethodRepository.updateOnlyPassword.resolves();
+    userRepository.get.resolves(user);
+  });
+
+  it('should get user by his id', async () => {
     // when
-    const promise = updateUserPassword({
-      userId,
+    await updateUserPassword({
       password,
+      userId,
       temporaryKey,
       encryptionService,
       resetPasswordService,
+      authenticationMethodRepository,
       userRepository,
     });
 
     // then
-    return promise.then(() => {
-      sinon.assert.calledOnce(userRepository.get);
-      sinon.assert.calledWith(userRepository.get, userId);
-    });
+    expect(userRepository.get).to.have.been.calledWith(userId);
   });
 
-  it('should check if user has a current password reset demand', () => {
-    // given
-    resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.email, temporaryKey)
-      .resolves();
-
+  it('should check if user has a current password reset demand', async () => {
     // when
-    const promise = updateUserPassword({
-      userId,
+    await updateUserPassword({
       password,
+      userId,
       temporaryKey,
       encryptionService,
       resetPasswordService,
+      authenticationMethodRepository,
       userRepository,
     });
 
     // then
-    return promise.then(() => {
-      sinon.assert.calledOnce(resetPasswordService.hasUserAPasswordResetDemandInProgress);
-      sinon.assert.calledWith(resetPasswordService.hasUserAPasswordResetDemandInProgress, user.email);
-    });
+    expect(resetPasswordService.hasUserAPasswordResetDemandInProgress)
+      .to.have.been.calledWith(user.email);
   });
 
   it('should update user password with a hashed password', async () => {
-    // given
-    resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.email, temporaryKey)
-      .resolves();
-    const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
-    encryptionService.hashPassword.resolves(encryptedPassword);
+    const hashedPassword = 'ABCD1234';
+    encryptionService.hashPassword.resolves(hashedPassword);
 
     // when
-    const promise = updateUserPassword({
-      userId,
+    await updateUserPassword({
       password,
+      userId,
       temporaryKey,
       encryptionService,
       resetPasswordService,
+      authenticationMethodRepository,
       userRepository,
     });
 
     // then
-    return promise.then(() => {
-      sinon.assert.calledOnce(userRepository.updatePassword);
-      sinon.assert.calledOnce(encryptionService.hashPassword);
-      sinon.assert.calledWith(encryptionService.hashPassword, password);
-      sinon.assert.calledWith(userRepository.updatePassword, userId, encryptedPassword);
+    expect(encryptionService.hashPassword).to.have.been.calledWith(password);
+    expect(authenticationMethodRepository.updateOnlyPassword).to.have.been.calledWith({
+      userId,
+      hashedPassword,
     });
   });
 
-  it('should invalidate current password reset demand (mark as being used)', () => {
-    // given
-    resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.email, temporaryKey)
-      .resolves();
-    userRepository.updatePassword.resolves();
-    resetPasswordService.invalidateOldResetPasswordDemand.resolves();
-
+  it('should invalidate current password reset demand (mark as being used)', async () => {
     // when
-    const promise = updateUserPassword({
-      userId,
+    await updateUserPassword({
       password,
+      userId,
       temporaryKey,
       encryptionService,
       resetPasswordService,
+      authenticationMethodRepository,
       userRepository,
     });
 
     // then
-    return promise.then(() => {
-      sinon.assert.calledOnce(resetPasswordService.invalidateOldResetPasswordDemand);
-      sinon.assert.calledWith(resetPasswordService.invalidateOldResetPasswordDemand, user.email);
-    });
+    expect(resetPasswordService.invalidateOldResetPasswordDemand)
+      .to.have.been.calledWith(user.email);
   });
 
   describe('When user has not a current password reset demand', () => {
-    it('should return PasswordResetDemandNotFoundError', () => {
+
+    it('should return PasswordResetDemandNotFoundError', async () => {
       // given
-      const error = new PasswordResetDemandNotFoundError();
       resetPasswordService.hasUserAPasswordResetDemandInProgress
         .withArgs(user.email, temporaryKey)
-        .rejects(error);
+        .rejects(new PasswordResetDemandNotFoundError());
 
       // when
-      const promise = updateUserPassword({
-        userId,
+      const error = await catchErr(updateUserPassword)({
         password,
+        userId,
         temporaryKey,
         encryptionService,
         resetPasswordService,
+        authenticationMethodRepository,
         userRepository,
       });
 
       // then
-      return expect(promise).to.have.been.rejectedWith(PasswordResetDemandNotFoundError);
-    });
-  });
-
-  describe('When user has not a matching password reset demand', () => {
-    it('should return PasswordResetDemandNotFoundError', () => {
-      // given
-      const error = new PasswordResetDemandNotFoundError();
-      resetPasswordService.hasUserAPasswordResetDemandInProgress
-        .withArgs(user.email, temporaryKey)
-        .rejects(error);
-
-      // when
-      const promise = updateUserPassword({
-        userId,
-        password,
-        temporaryKey,
-        encryptionService,
-        resetPasswordService,
-        userRepository,
-      });
-
-      // then
-      return expect(promise).to.have.been.rejectedWith(PasswordResetDemandNotFoundError);
+      expect(error).to.be.an.instanceOf(PasswordResetDemandNotFoundError);
     });
   });
 

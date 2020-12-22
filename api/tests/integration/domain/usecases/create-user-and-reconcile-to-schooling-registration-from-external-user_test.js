@@ -7,8 +7,9 @@ const studentRepository = require('../../../../lib/infrastructure/repositories/s
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
-const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
+const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
+const userService = require('../../../../lib/domain/services/user-service');
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
@@ -49,7 +50,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
         // when
-        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({ campaignCode, token, tokenService, campaignRepository });
+        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+          campaignCode,
+          token,
+          tokenService,
+          campaignRepository,
+        });
 
         // then
         expect(error).to.be.instanceof(ObjectValidationError);
@@ -68,7 +74,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
         // when
-        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({ campaignCode, token, tokenService, campaignRepository });
+        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+          campaignCode,
+          token,
+          tokenService,
+          campaignRepository,
+        });
 
         // then
         expect(error).to.be.instanceof(ObjectValidationError);
@@ -87,7 +98,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
         // when
-        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({ campaignCode, token, tokenService, campaignRepository });
+        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+          campaignCode,
+          token,
+          tokenService,
+          campaignRepository,
+        });
 
         // then
         expect(error).to.be.instanceof(ObjectValidationError);
@@ -119,8 +135,13 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
       // when
       const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
-        campaignCode, token, birthdate,
-        campaignRepository, tokenService, userReconciliationService, schoolingRegistrationRepository,
+        birthdate,
+        campaignCode,
+        token,
+        campaignRepository,
+        tokenService,
+        userReconciliationService,
+        schoolingRegistrationRepository,
       });
 
       // then
@@ -160,20 +181,34 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       await databaseBuilder.commit();
 
       // when
-      const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
-        birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService, schoolingRegistrationRepository, studentRepository,
-        userRepository, userReconciliationService, obfuscationService });
+      const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+        birthdate: schoolingRegistration.birthdate,
+        campaignCode,
+        campaignRepository,
+        token,
+        obfuscationService,
+        tokenService,
+        userReconciliationService,
+        userService,
+        authenticationMethodRepository,
+        schoolingRegistrationRepository,
+        studentRepository,
+        userRepository,
+      });
 
       // then
       expect(user.firstName).to.equal(firstName);
       expect(user.lastName).to.equal(lastName);
-      expect(user.password).to.be.empty;
       expect(user.cgu).to.be.false;
 
       const schoolingRegistrationInDB = await knex('schooling-registrations').where({ id: schoolingRegistration.id });
       expect(schoolingRegistrationInDB[0].userId).to.equal(user.id);
 
-      const authenticationMethodInDB = await knex('authentication-methods').where({ identityProvider: AuthenticationMethod.identityProviders.GAR, userId: user.id });
+      const authenticationMethodInDB = await knex('authentication-methods')
+        .where({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          userId: user.id,
+        });
       expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
     });
 
@@ -186,8 +221,15 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
         // when
         const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
-          campaignCode, token, birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService,
-          schoolingRegistrationRepository, userRepository, userReconciliationService, obfuscationService,
+          birthdate: schoolingRegistration.birthdate,
+          campaignCode,
+          token,
+          obfuscationService,
+          tokenService,
+          userReconciliationService,
+          campaignRepository,
+          schoolingRegistrationRepository,
+          userRepository,
         });
 
         // then
@@ -225,8 +267,16 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
           // when
           const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
-            birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService, schoolingRegistrationRepository, studentRepository,
-            userRepository, userReconciliationService, obfuscationService, authenticationMethodRepository });
+            birthdate: schoolingRegistration.birthdate,
+            obfuscationService,
+            tokenService,
+            userReconciliationService,
+            authenticationMethodRepository,
+            campaignRepository,
+            schoolingRegistrationRepository,
+            studentRepository,
+            userRepository,
+          });
 
           // then
           expect(user.firstName).to.equal(firstName);
@@ -261,8 +311,16 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
           // when
           const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
-            birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService, schoolingRegistrationRepository, studentRepository,
-            userRepository, userReconciliationService, obfuscationService, authenticationMethodRepository });
+            birthdate: schoolingRegistration.birthdate,
+            obfuscationService,
+            tokenService,
+            userReconciliationService,
+            authenticationMethodRepository,
+            campaignRepository,
+            schoolingRegistrationRepository,
+            studentRepository,
+            userRepository,
+          });
 
           // then
           expect(user.firstName).to.equal(firstName);
@@ -290,8 +348,16 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
         // when
         const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({
-          campaignCode, token, birthdate: schoolingRegistration.birthdate, campaignRepository, tokenService,
-          schoolingRegistrationRepository, studentRepository, userRepository, userReconciliationService, obfuscationService,
+          birthdate: schoolingRegistration.birthdate,
+          campaignCode,
+          token,
+          obfuscationService,
+          tokenService,
+          userReconciliationService,
+          campaignRepository,
+          schoolingRegistrationRepository,
+          studentRepository,
+          userRepository,
         });
 
         // then

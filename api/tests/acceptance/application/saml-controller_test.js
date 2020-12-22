@@ -1,9 +1,12 @@
-const { expect, knex, sinon, databaseBuilder } = require('../../test-helper');
+const _ = require('lodash');
+
+const { databaseBuilder, expect, sinon } = require('../../test-helper');
+
 const samlify = require('samlify');
 const createServer = require('../../../server');
 const settings = require('../../../lib/config');
+
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-const _ = require('lodash');
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG
 UjEPMA0GA1UECAwGRlJBTkNFMQ4wDAYDVQQHDAVQQVJJUzEMMAoGA1UECgwDUElY
@@ -94,10 +97,12 @@ const spConfig = {
 };
 
 describe('Acceptance | Controller | saml-controller', () => {
+
   let server;
 
   beforeEach(async () => {
     server = await createServer();
+
     sinon.stub(settings.saml, 'spConfig').value(spConfig);
     sinon.stub(settings.saml, 'idpConfig').value(idpConfig);
     sinon.stub(settings.saml, 'attributeMapping').value({
@@ -114,16 +119,14 @@ describe('Acceptance | Controller | saml-controller', () => {
       url: '/api/saml/metadata.xml',
     };
 
-    it('should return SAML Service Provider metadata', () => {
+    it('should return SAML Service Provider metadata', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.equal(spMetadata);
-        expect(response.headers['content-type']).to.equal('application/xml');
-      });
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.equal(spMetadata);
+      expect(response.headers['content-type']).to.equal('application/xml');
     });
   });
 
@@ -134,15 +137,13 @@ describe('Acceptance | Controller | saml-controller', () => {
       url: '/api/saml/login',
     };
 
-    it('should redirect to IDP when login requested', () => {
+    it('should redirect to IDP when login requested', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(302);
-        expect(response.headers['location']).to.have.string('https://pixpoc.samlidp.io/saml2/idp/SSOService.php?SAMLRequest=');
-      });
+      expect(response.statusCode).to.equal(302);
+      expect(response.headers['location']).to.have.string('https://pixpoc.samlidp.io/saml2/idp/SSOService.php?SAMLRequest=');
     });
   });
 
@@ -180,27 +181,29 @@ describe('Acceptance | Controller | saml-controller', () => {
     const firstName = 'Saml';
     const lastName = 'Jackson';
     const samlId = 'IDO-for-saml-jackson';
+
+    let options;
     let validSamlResponse;
 
     beforeEach(async () => {
-      await knex('users').delete();
-
       validSamlResponse = await buildLoginResponse({
         'IDO': samlId,
         'NOM': lastName,
         'PRE': firstName,
       });
-    });
 
-    it('should return externalUser idToken if the user does not a have an account yet', async () => {
-      // when
-      const firstVisitResponse = await server.inject({
+      options = {
         method: 'POST',
         url: '/api/saml/assert',
         payload: {
           SAMLResponse: validSamlResponse.context,
         },
-      });
+      };
+    });
+
+    it('should return externalUser idToken if the user does not a have an account yet', async () => {
+      // when
+      const firstVisitResponse = await server.inject(options);
 
       // then
       expect(firstVisitResponse.statusCode).to.equal(302);
@@ -209,18 +212,21 @@ describe('Acceptance | Controller | saml-controller', () => {
 
     it('should return an accessToken if the user already exists', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser({ firstName, lastName, password: '', cgu: false }).id;
-      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId, userId });
+      const userId = databaseBuilder.factory.buildUser({
+        firstName,
+        lastName,
+        samlId,
+        cgu: false,
+      }).id;
+      databaseBuilder.factory.buildAuthenticationMethod({
+        externalIdentifier: samlId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+        userId,
+      });
       await databaseBuilder.commit();
 
       // when
-      const response = await server.inject({
-        method: 'POST',
-        url: '/api/saml/assert',
-        payload: {
-          SAMLResponse: validSamlResponse.context,
-        },
-      });
+      const response = await server.inject(options);
 
       // then
       expect(response.statusCode).to.equal(302);

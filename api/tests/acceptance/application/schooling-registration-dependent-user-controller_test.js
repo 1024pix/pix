@@ -1,4 +1,10 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  knex,
+  generateValidRequestAuthorizationHeader,
+} = require('../../test-helper');
+
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | Schooling-registration-dependent-user', () => {
@@ -7,6 +13,10 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
 
   beforeEach(async () => {
     server = await createServer();
+  });
+
+  afterEach(async () => {
+    await knex('authentication-methods').delete();
   });
 
   describe('POST /api/schooling-registration-dependent-users', () => {
@@ -138,14 +148,18 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
     let options;
 
     beforeEach(async () => {
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
-      const user = databaseBuilder.factory.buildUser();
-      user.username = null;
-      const userId = user.id;
+      organizationId = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        isManagingStudents: true,
+      }).id;
+      const userId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+        username: null,
+      }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId, userId,
       }).id;
+
       await databaseBuilder.commit();
 
       options = {
@@ -186,7 +200,8 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
     it('should return a 404 status when schoolingRegistration\'s userId does not exist', async () => {
       // given
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId, userId: null,
+        organizationId,
+        userId: null,
       }).id;
       options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
 
@@ -259,7 +274,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
 
     it('should return a 200 status after having successfully updated the password', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser().id;
+      const userId = databaseBuilder.factory.buildUser.withUnencryptedPassword().id;
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId, userId,
       }).id;

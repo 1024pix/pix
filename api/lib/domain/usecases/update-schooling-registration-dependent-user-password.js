@@ -1,14 +1,16 @@
-const _ = require('lodash');
+const isEmpty = require('lodash/isEmpty');
+
 const { UserNotAuthorizedToUpdatePasswordError } = require('../errors');
 
 module.exports = async function updateSchoolingRegistrationDependentUserPassword({
-  userId,
   organizationId,
   schoolingRegistrationId,
-  passwordGenerator,
+  userId,
   encryptionService,
-  userRepository,
+  passwordGenerator,
+  authenticationMethodRepository,
   schoolingRegistrationRepository,
+  userRepository,
 }) {
   const userWithMemberships = await userRepository.getWithMemberships(userId);
   const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
@@ -18,14 +20,17 @@ module.exports = async function updateSchoolingRegistrationDependentUserPassword
   }
 
   const userStudent = await userRepository.get(schoolingRegistration.userId);
-  if (_.isEmpty(userStudent.username) && _.isEmpty(userStudent.email)) {
+  if (isEmpty(userStudent.username) && isEmpty(userStudent.email)) {
     throw new UserNotAuthorizedToUpdatePasswordError(`Le changement de mot de passe n'est possible que si l'élève (utilisateur:  ${schoolingRegistration.userId}) utilise les méthodes d'authentification email ou identifiant.`);
   }
 
   const generatedPassword = passwordGenerator.generate();
   const hashedPassword = await encryptionService.hashPassword(generatedPassword);
 
-  await userRepository.updatePasswordThatShouldBeChanged(userStudent.id, hashedPassword);
+  await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
+    userId: userStudent.id,
+    hashedPassword,
+  });
 
   return generatedPassword;
 };
