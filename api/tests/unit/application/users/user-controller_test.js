@@ -12,6 +12,7 @@ const mailService = require('../../../../lib/domain/services/mail-service');
 const usecases = require('../../../../lib/domain/usecases');
 
 const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const campaignParticipationOverviewSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
@@ -573,13 +574,45 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(usecases, 'findLatestOngoingUserCampaignParticipations');
     });
 
-    it('should return serialized Memberships', async function() {
+    it('should return serialized campaignParticipations', async function() {
       // given
       usecases.findLatestOngoingUserCampaignParticipations.withArgs({ userId }).resolves([]);
       campaignParticipationSerializer.serialize.withArgs([]).returns({});
 
       // when
       const response = await userController.getCampaignParticipations(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({});
+    });
+  });
+
+  describe('#getCampaignParticipationOverviews', () => {
+    const userId = '1';
+
+    const request = {
+      auth: {
+        credentials: {
+          userId: userId,
+        },
+      },
+      params: {
+        id: userId,
+      },
+    };
+
+    beforeEach(() => {
+      sinon.stub(campaignParticipationOverviewSerializer, 'serialize');
+      sinon.stub(usecases, 'findUserCampaignParticipationOverviews');
+    });
+
+    it('should return serialized campaignParticipationOverviews', async function() {
+      // given
+      usecases.findUserCampaignParticipationOverviews.withArgs({ userId }).resolves([]);
+      campaignParticipationOverviewSerializer.serialize.withArgs([]).returns({});
+
+      // when
+      const response = await userController.getCampaignParticipationOverviews(request, hFake);
 
       // then
       expect(response).to.deep.equal({});
