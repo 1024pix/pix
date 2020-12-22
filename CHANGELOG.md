@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.235.0 (22/12/2020)
+
+- [#2306](https://github.com/1024pix/pix/pull/2306) [FEATURE] Autoriser la suppression de signalement pendant la finalisation d'une session de certification (PIX-1488)
+- [#2304](https://github.com/1024pix/pix/pull/2304) [FEATURE] Afficher la modale listant les signalements existants (PIX-1487)
+- [#2293](https://github.com/1024pix/pix/pull/2293) [FEATURE] Créer une campagne de collecte de profil pour une liste d'organisation précise (PIX-1773)
+- [#2291](https://github.com/1024pix/pix/pull/2291) [FEATURE] Afficher une annonce pour le lancement du niveau 6 (PIX-1793).
+- [#2276](https://github.com/1024pix/pix/pull/2276) [FEATURE] Ouvrir les questions de niveau 6 (PIX-1781).
+- [#2300](https://github.com/1024pix/pix/pull/2300) [FEATURE] Ajouter catégorisation dans les signalements quand je finalise une session (PIX-1526).
+- [#2278](https://github.com/1024pix/pix/pull/2278) [TECH] Remplacer l'appel à users/me par l'usage d'un nouveau modèle CertificationPointOfContact dans PixCertif (PIX-1782)
+- [#2303](https://github.com/1024pix/pix/pull/2303) [CLEANUP] Supprimer les commentaires peu utilisés "// attributes", ...
+
 ## v2.234.0 (18/12/2020)
 
 - [#2301](https://github.com/1024pix/pix/pull/2301) [FEATURE] Afficher le nombre correct de signalements d'une certification sur la page de finalisation de session PixCertif (PIX-1813)
