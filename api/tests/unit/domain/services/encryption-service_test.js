@@ -1,45 +1,77 @@
-/* eslint-disable no-sync */
-const bcrypt = require('bcrypt');
-
 const { catchErr, expect } = require('../../../test-helper');
 
-const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
-
+const bcrypt = require('bcrypt');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
+const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
 
 describe('Unit | Service | Encryption', () => {
 
   describe('#checkPassword', () => {
 
-    it('should reject when passwords are not matching', async () => {
-      // given
-      const rawPassword = 'my-expected-password';
-      const hashedPassword = 'ABCDEF1234';
+    describe('when password and hash are matching', async() => {
 
-      // when
-      const error = await catchErr(encryptionService.checkPassword)({
-        rawPassword,
-        hashedPassword,
+      it('should resolve to undefined', async () => {
+
+        // given
+        const password = 'my-real-password';
+        /* eslint-disable no-sync */
+        const passwordHash = bcrypt.hashSync(password, 1);
+
+        // when
+        const result = await encryptionService.checkPassword({
+          password,
+          passwordHash,
+        });
+
+        // then
+        expect(result).to.be.undefined;
+
       });
-
-      // then
-      expect(error).to.be.an.instanceof(PasswordNotMatching);
     });
 
-    it('should resolve to undefined when passwords are matching', async () => {
-      // given
-      const rawPassword = 'Password123';
-      const hashedPassword = bcrypt.hashSync(rawPassword, 1);
+    describe('when password and hash are not matching', async () => {
 
-      // when
-      const result = await encryptionService.checkPassword({
-        rawPassword,
-        hashedPassword,
+      it('should reject a PasswordNotMatching error ', async () => {
+
+        // given
+        const password = 'my-expected-password';
+        const passwordHash = 'ABCDEF1234';
+
+        // when
+        const error = await catchErr(encryptionService.checkPassword)({
+          password,
+          passwordHash,
+        });
+
+        // then
+        expect(error).to.be.an.instanceof(PasswordNotMatching);
+
       });
 
-      // then
-      expect(result).to.be.undefined;
     });
+
+    describe('when password is not supplied', async () => {
+
+      it('should reject, but not a PasswordNotMatching error ', async () => {
+
+        // given
+        const password = undefined;
+        /* eslint-disable no-sync */
+        const passwordHash = bcrypt.hashSync('my-real-password', 1);
+
+        try {
+          await encryptionService.checkPassword({
+            password,
+            passwordHash,
+          });
+        } catch (error) {
+          expect(error).not.to.be.an.instanceof(PasswordNotMatching);
+        }
+
+      });
+
+    });
+
   });
 
 });
