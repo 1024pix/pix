@@ -19,8 +19,8 @@ describe('Unit | Service | Encryption', () => {
 
         // when
         const result = await encryptionService.checkPassword({
-          rawPassword: password,
-          hashedPassword: passwordHash,
+          password,
+          passwordHash,
         });
 
         // then
@@ -39,8 +39,8 @@ describe('Unit | Service | Encryption', () => {
 
         // when
         const error = await catchErr(encryptionService.checkPassword)({
-          rawPassword: password,
-          hashedPassword: passwordHash,
+          password,
+          passwordHash,
         });
 
         // then
@@ -61,8 +61,8 @@ describe('Unit | Service | Encryption', () => {
 
         try {
           await encryptionService.checkPassword({
-            rawPassword: password,
-            hashedPassword: passwordHash,
+            password,
+            passwordHash,
           });
         } catch (error) {
           expect(error).not.to.be.an.instanceof(PasswordNotMatching);
