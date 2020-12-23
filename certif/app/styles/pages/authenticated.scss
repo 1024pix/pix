@@ -73,24 +73,6 @@
     height: 60px;
   }
 
-  &__certification-center {
-    margin-top: 20px;
-    padding-left: 25px;
-    padding-right: 15px;
-  }
-
-  &__certification-center-label {
-    color: $grey-45;
-    font-size: 0.8125rem;
-    text-transform: uppercase;
-  }
-
-  &__certification-center-name {
-    color: $grey-45;
-    font-size: 0.8125rem;
-    padding-top: 8px;
-  }
-
   &__documentation {
     flex-grow: 1;
     display: flex;
@@ -139,7 +121,7 @@
   overflow: auto;
 
   &__topbar {
-    background-color: white;
+    background-color: $white;
     min-height: 60px;
   }
 }
@@ -148,9 +130,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 35px;
 
-  &__user-identification {
-    padding-right: 16px;
+  &__user-logged-menu {
+    padding: 0 30px;
+    border-left: 1px solid $grey-20;
   }
 }
