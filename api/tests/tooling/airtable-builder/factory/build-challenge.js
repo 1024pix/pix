@@ -398,7 +398,7 @@ buildChallenge.fromDomain = function buildChallengeFromDomain({
       'Pièce jointe': domainChallenge.attachments ? domainChallenge.attachments.map((attachmentUrl) => {
         return { url: attachmentUrl };
       }) : null,
-      'Bonnes réponses': 'Une solution',
+      'Bonnes réponses': domainChallenge.validator ? domainChallenge.validator.solution : '',
       'Timer': domainChallenge.timer,
       'Compétences (via tube) (id persistant)': [domainChallenge.competenceId],
       'Statut': domainChallenge.status,

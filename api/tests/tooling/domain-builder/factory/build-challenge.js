@@ -22,13 +22,15 @@ module.exports = function buildChallenge(
     type = Challenge.Type.QCM,
     locales = ['fr'],
     autoReply = false,
+    solution,
     // includes
     answer,
-    validator = new Validator(),
+    validator,
     skills = buildSkillCollection(),
     // references
     competenceId = faker.random.uuid(),
   } = {}) {
+  const currentValidator = validator || new Validator({ solution });
   return new Challenge({
     id,
     // attributes
@@ -48,7 +50,7 @@ module.exports = function buildChallenge(
     alternativeInstruction,
     // includes
     answer,
-    validator,
+    validator: currentValidator,
     skills,
     // references
     competenceId,
