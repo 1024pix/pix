@@ -136,6 +136,7 @@ module.exports = (function() {
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
       reportsCategorization: isFeatureEnabled(process.env.FT_REPORTS_CATEGORISATION),
       myAccount: isFeatureEnabled(process.env.FT_MY_ACCOUNT),
+      godmode: isFeatureEnabled(process.env.FT_GODMODE),
     },
 
     infra: {
