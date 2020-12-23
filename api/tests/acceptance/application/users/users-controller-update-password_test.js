@@ -14,7 +14,7 @@ describe('Acceptance | Controller | users-controller-update-password', () => {
   beforeEach(async () => {
     server = await createServer();
 
-    user = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    user = databaseBuilder.factory.buildUser.withRawPassword({
       email: 'harry.cover@truc.so',
       rawPassword: 'Password2020',
     });

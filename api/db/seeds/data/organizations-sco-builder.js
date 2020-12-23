@@ -7,7 +7,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   const SCO_EXTERNAL_ID = '1237457A';
 
   /* COLLEGE */
-  const scoUser1 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const scoUser1 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 4,
     firstName: 'John',
     lastName: 'Snow',
@@ -17,7 +17,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
   });
 
-  const scoUser2 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const scoUser2 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 5,
     firstName: 'Aemon',
     lastName: 'Targaryen',
@@ -50,7 +50,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
-  const disabledUserId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const disabledUserId = databaseBuilder.factory.buildUser.withRawPassword({
     id: 6,
     firstName: 'Mance',
     lastName: 'Rayder',
@@ -78,7 +78,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   // schooling registration associated with username
-  const userWithUsername = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const userWithUsername = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'George',
     lastName: 'De Cambridge',
     email: null,
@@ -98,7 +98,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   // schooling registration associated with username and email
-  const userWithEmailAndUsername = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const userWithEmailAndUsername = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Blue Ivy',
     lastName: 'Carter',
     email: 'blueivy.carter@example.net',
@@ -118,7 +118,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   // schooling registration associated with email
-  const userWithEmail = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const userWithEmail = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Lyanna',
     lastName: 'Mormont',
     email: 'mormont.lyanna@example.net',
