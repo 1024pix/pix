@@ -508,4 +508,36 @@ describe('Integration | Repository | Target-profile', () => {
       });
     });
   });
+
+  describe('#updateName', () => {
+
+    it('should update the target profile name', async () => {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.name = 'Karam';
+      await targetProfileRepository.updateName(targetProfile);
+
+      // then
+      const { name } = await knex('target-profiles').select('name').where('id', targetProfile.id).first();
+      expect(name).to.equal(targetProfile.name);
+    });
+
+    it('should not update the target profile name and throw an error', async () => {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.id = 999999;
+      targetProfile.name = 'Karam';
+      const error = await catchErr(targetProfileRepository.updateName)(targetProfile);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
+
 });
