@@ -105,6 +105,7 @@ describe('Acceptance | API | Certifications', () => {
   });
 
   describe('GET /api/certifications/:id', () => {
+
     before(function() {
       const area = airtableBuilder.factory.buildArea();
       airtableBuilder.mockList({ tableName: 'Domaines' })

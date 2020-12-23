@@ -143,6 +143,7 @@ buildLearningContent.fromTargetProfileWithLearningContent = function buildLearni
     allCompetences.push(competences);
     return buildArea({
       id: area.id,
+      code: area.code,
       titreFr: locale === FRENCH_FRANCE ? area.title : null,
       titreEn: locale === ENGLISH_SPOKEN ? area.title : null,
       couleur: area.color,
