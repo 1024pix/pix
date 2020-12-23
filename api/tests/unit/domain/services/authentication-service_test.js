@@ -56,7 +56,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
 
       it('should call the encryptionService check function', async () => {
         // given
-        const expectedHashedPassword = authenticationMethod.authenticationComplement.password;
+        const expectedPasswordHash = authenticationMethod.authenticationComplement.password;
 
         // when
         await service.getUserByUsernameAndPassword({
@@ -65,8 +65,8 @@ describe('Unit | Domain | Services | authentication-service', () => {
 
         // then
         expect(encryptionService.checkPassword).to.has.been.calledWith({
-          rawPassword: password,
-          hashedPassword: expectedHashedPassword,
+          password,
+          passwordHash: expectedPasswordHash,
         });
       });
 
