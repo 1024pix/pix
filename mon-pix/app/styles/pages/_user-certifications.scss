@@ -1,7 +1,5 @@
 .user-certifications-page__container {
-  max-width: 1200px;
   min-height: 500px;
-  margin: 0 auto;
   padding: 0 10px;
 
   @include device-is('desktop') {
