@@ -1,0 +1,20 @@
+<div class="dropdown logged-user-summary content-text content-text--small" aria-label="Résumé utilisateur">
+  <a href="#" class="logged-user-summary__link" {{on 'click' (toggle 'isMenuOpen' this)}} aria-haspopup="listbox" aria-expanded="{{this.isMenuOpen}}">
+    <div>
+      <div class="logged-user-summary__name">{{this.userFullName}}</div>
+      <div class="logged-user-summary__certificationPointOfContact">{{this.certificationCenterNameAndExternalId}}</div>
+    </div>
+    {{#if this.isMenuOpen}}
+      <FaIcon @icon="chevron-up" @class="logged-user-summary__chevron logged-user-summary__chevron-up"></FaIcon>
+    {{else}}
+      <FaIcon @icon="chevron-down" @class="logged-user-summary__chevron"></FaIcon>
+    {{/if}}
+  </a>
+</div>
+
+<Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="logged-user-menu" aria-label="Menu utilisateur">
+  <Dropdown::ItemLink @linkTo="logout" class="logged-user-menu-item logged-user-menu-item__last">
+    <FaIcon @icon="power-off" @class="logged-user-menu-item__icon"></FaIcon>
+    Se déconnecter
+  </Dropdown::ItemLink>
+</Dropdown::Content>
