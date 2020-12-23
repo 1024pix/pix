@@ -1,6 +1,6 @@
 module.exports = function addPixAileUserAndRelations({ databaseBuilder }) {
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: 1,
     firstName: 'Pix',
     lastName: 'Aile',

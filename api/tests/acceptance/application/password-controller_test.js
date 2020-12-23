@@ -257,9 +257,9 @@ describe('Acceptance | Controller | password-controller', () => {
     };
 
     beforeEach(async () => {
-      databaseBuilder.factory.buildUser.withUnencryptedPassword({
+      databaseBuilder.factory.buildUser.withRawPassword({
         username,
-        password: expiredPassword,
+        rawPassword: expiredPassword,
         shouldChangePassword: true,
       });
       await databaseBuilder.commit();
@@ -313,9 +313,9 @@ describe('Acceptance | Controller | password-controller', () => {
       it('should respond 403 HTTP status code', async () => {
         // given
         const username = 'jean.oubliejamais0105';
-        databaseBuilder.factory.buildUser.withUnencryptedPassword({
+        databaseBuilder.factory.buildUser.withRawPassword({
           username,
-          password: expiredPassword,
+          rawPassword: expiredPassword,
           shouldChangePassword: false,
         });
 

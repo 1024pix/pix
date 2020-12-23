@@ -19,12 +19,12 @@ const PIX_MASTER_ROLE_ID = 1;
 
 function _buildPixAuthenticationMethod({
   userId,
-  password = 'Password123',
+  rawPassword = 'Password123',
   shouldChangePassword,
   createdAt,
   updatedAt,
 } = {}) {
-  const hashedPassword = encrypt.hashPasswordSync(password);
+  const hashedPassword = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
     userId,
@@ -81,7 +81,7 @@ const buildUser = function buildUser({
   });
 };
 
-buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
+buildUser.withRawPassword = function buildUserWithRawPassword({
   id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
@@ -97,7 +97,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   createdAt = new Date(),
   updatedAt = new Date(),
 
-  password = 'Password123',
+  rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
 
@@ -118,7 +118,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
 
   _buildPixAuthenticationMethod({
     userId: user.id,
-    password,
+    rawPassword,
     shouldChangePassword,
     createdAt,
     updatedAt,
@@ -142,7 +142,7 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   createdAt = new Date(),
   updatedAt = new Date(),
 
-  password = 'Password123',
+  rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
 
@@ -163,7 +163,7 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
 
   _buildPixAuthenticationMethod({
     userId: user.id,
-    password,
+    rawPassword,
     shouldChangePassword,
     createdAt, updatedAt,
   });
@@ -191,7 +191,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   organizationRole = Membership.roles.ADMIN,
   organizationId = null,
 
-  password = 'Password123',
+  rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
 
@@ -212,7 +212,7 @@ buildUser.withMembership = function buildUserWithMemberships({
 
   _buildPixAuthenticationMethod({
     userId: user.id,
-    password,
+    rawPassword,
     shouldChangePassword,
     createdAt, updatedAt,
   });

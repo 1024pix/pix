@@ -12,7 +12,7 @@ const CERTIF_REGULAR_USER5_ID = 110;
 
 function certificationUsersBuilder({ databaseBuilder }) {
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_SCO_CERTIF_USER_ID,
     firstName: 'SCO',
     lastName: 'Certification',
@@ -21,7 +21,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_PRO_CERTIF_USER_ID,
     firstName: 'PRO',
     lastName: 'Certification',
@@ -30,7 +30,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_SUP_CERTIF_USER_ID,
     firstName: 'SUP',
     lastName: 'Certification',
@@ -39,7 +39,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_NONE_CERTIF_USER_ID,
     firstName: 'NONE',
     lastName: 'Certification',
@@ -48,7 +48,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: CERTIF_SUCCESS_USER_ID,
     firstName: 'AnneSuccess',
     lastName: 'Certif',
@@ -57,7 +57,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: CERTIF_FAILURE_USER_ID,
     firstName: 'AnneFailure',
     lastName: 'Certif',
@@ -66,7 +66,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: CERTIF_REGULAR_USER1_ID,
     firstName: 'AnneNormale1',
     lastName: 'Certif1',
@@ -75,7 +75,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: CERTIF_REGULAR_USER2_ID,
     firstName: 'AnneNormale2',
     lastName: 'Certif2',
@@ -84,7 +84,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: CERTIF_REGULAR_USER3_ID,
     firstName: 'AnneNormale3',
     lastName: 'Certif3',
@@ -93,7 +93,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: CERTIF_REGULAR_USER4_ID,
     firstName: 'AnneNormale4',
     lastName: 'Certif4',
@@ -102,7 +102,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: CERTIF_REGULAR_USER5_ID,
     firstName: 'AnneNormale5',
     lastName: 'Certif5',

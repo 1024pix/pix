@@ -3,7 +3,7 @@ const Membership = require('../../../lib/domain/models/Membership');
 module.exports = function organizationsSupBuilder({ databaseBuilder }) {
   const defaultPassword = 'pix123';
 
-  const supUser1 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const supUser1 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 7,
     firstName: 'Tyrion',
     lastName: 'Lannister',
@@ -13,7 +13,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
   });
 
-  const supUser2 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const supUser2 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 8,
     firstName: 'Jaime',
     lastName: 'Lannister',
@@ -56,7 +56,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
   });
 
   // active imported
-  const aryaStark = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const aryaStark = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Arya',
     lastName: 'Stark',
     email: 'arya.stark@example.net',
@@ -73,7 +73,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
   });
 
   // supernumerary with student number
-  const sansaStark = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const sansaStark = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Sansa',
     lastName: 'Stark',
     email: 'sansa.stark@example.net',
@@ -92,7 +92,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
   });
 
   // supernumerary without student number
-  const branStark = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const branStark = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Bran',
     lastName: 'Stark',
     email: 'bran.stark@example.net',
