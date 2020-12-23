@@ -23,9 +23,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
   beforeEach(async () => {
     server = await createServer();
 
-    userId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    userId = databaseBuilder.factory.buildUser.withRawPassword({
       email: userEmailAddress,
-      password: userPassword,
+      rawPassword: userPassword,
       cgu: true,
     }).id;
 
@@ -75,9 +75,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
       const username = 'username123';
       const shouldChangePassword = true;
 
-      databaseBuilder.factory.buildUser.withUnencryptedPassword({
+      databaseBuilder.factory.buildUser.withRawPassword({
         username,
-        password: userPassword,
+        rawPassword: userPassword,
         cgu: true,
         shouldChangePassword,
       });
@@ -120,9 +120,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
         lastName: 'jackson',
         samlId: 'SAMLJACKSONID',
       };
-      const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+      const user = databaseBuilder.factory.buildUser.withRawPassword({
         username: 'saml.jackson1234',
-        password: password,
+        rawPassword: password,
       });
       const expectedExternalToken = tokenService.createIdTokenForUserReconciliation(userAttributes);
 
@@ -177,15 +177,15 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       it('should return a 401 Unauthorized', async () => {
         // given
-        const password = 'Password123';
-        const user = databaseBuilder.factory.buildUser.withUnencryptedPassword({
-          password,
+        const rawPassword = 'Password123';
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          rawPassword,
           shouldChangePassword: true,
         });
         await databaseBuilder.commit();
 
         options.payload.data.attributes.username = user.email;
-        options.payload.data.attributes.password = password;
+        options.payload.data.attributes.password = rawPassword;
 
         // when
         const response = await server.inject(options);

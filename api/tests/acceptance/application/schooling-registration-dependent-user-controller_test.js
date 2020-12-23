@@ -152,7 +152,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
         type: 'SCO',
         isManagingStudents: true,
       }).id;
-      const userId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+      const userId = databaseBuilder.factory.buildUser.withRawPassword({
         username: null,
       }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
@@ -274,7 +274,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
 
     it('should return a 200 status after having successfully updated the password', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser.withUnencryptedPassword().id;
+      const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId, userId,
       }).id;
