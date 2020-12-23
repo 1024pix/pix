@@ -65,7 +65,6 @@
             }
         },
         "campaign": {
-            "title": "Parcours",
             "errors": {
                 "not-accessible": "Oups, la page demandée n’est pas accessible.",
                 "no-longer-accessible": "Oups, la page demandée n’est plus accessible."
@@ -102,6 +101,18 @@
                 "action": "C'est parti !",
                 "announcement": "Inscrivez-vous ou connectez-vous sur la plateforme Pix et envoyez votre profil à l'organisation destinataire.",
                 "legal": "Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
+            }
+        },
+        "campaign-participation": {
+            "title": "Parcours",
+            "card": {
+                "resume": "Reprendre",
+                "send": "Envoyer mes résultats",
+                "created-at": "Commencé le {createddate}",
+                "tag": {
+                    "started": "En cours",
+                    "completed": "A envoyer"
+                }
             }
         },
         "certificate": {
@@ -490,6 +501,13 @@
             "tutorials": {
                 "title": "Cultivez vos compétences",
                 "description": "Voici une sélection de tutos qui pourront vous aider à gagner des Pix."
+            }
+        },
+        "dashboard": {
+            "title": "Accueil",
+            "campaigns": {
+                "title": "Parcours",
+                "subtitle": "Continuez vos parcours de test en cours ou envoyez vos résultats"
             }
         },
         "error": {

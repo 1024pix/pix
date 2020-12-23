@@ -1,0 +1,54 @@
+.campaign-participation-card {
+  height: 273px;
+  background: $white;
+  box-shadow: 0 2px 0 0 rgba(23, 43, 77, 0.06);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 24px 32px 24px;
+  font-family: $font-roboto;
+  min-width: 0;
+
+  &__header {
+    letter-spacing: 0.009rem;
+    width: 100%;
+  }
+
+  &__action {
+    padding: 11px 16px;
+    font-size: 0.825rem;
+    font-weight: $font-medium;
+  }
+}
+
+.campaign-participation-card-header {
+
+  &__tag {
+    margin-bottom: 16px;
+    border-radius: 11px;
+  }
+
+  &__title {
+    color: $grey-90;
+    font-size: 1.125rem;
+    font-weight: $font-medium;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__subtitle {
+    margin-top: 8px;
+    color: $grey-50;
+    font-size: 0.875rem;
+    font-weight: $font-medium;
+  }
+
+  &__date {
+    color: $grey-50;
+    font-size: 0.8125rem;
+    font-weight: $font-light;
+  }
+}
