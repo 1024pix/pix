@@ -5,7 +5,7 @@ module.exports = function organizationsProBuilder({ databaseBuilder }) {
   const defaultPassword = 'pix123';
 
   /* PRIVATE COMPANY */
-  const proUser1 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const proUser1 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 2,
     firstName: 'Daenerys',
     lastName: 'Targaryen',
@@ -15,7 +15,7 @@ module.exports = function organizationsProBuilder({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
   });
 
-  const proUser2 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const proUser2 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 3,
     firstName: 'Thorgo',
     lastName: 'Nudo',
@@ -49,7 +49,7 @@ module.exports = function organizationsProBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
-  const userInvited = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const userInvited = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Viserys',
     lastName: 'Targaryen',
     email: 'pro.invited@example.net',

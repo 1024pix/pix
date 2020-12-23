@@ -5,7 +5,7 @@ const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationM
 
 function usersBuilder({ databaseBuilder }) {
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_MASTER_ID,
     firstName: 'Pix',
     lastName: 'Master',
@@ -14,7 +14,7 @@ function usersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: 10,
     firstName: 'Lance',
     lastName: 'Low',
@@ -32,9 +32,9 @@ function usersBuilder({ databaseBuilder }) {
     cgu: false,
     shouldChangePassword: true,
   };
-  databaseBuilder.factory.buildUser.withUnencryptedPassword(userShouldChangePassword);
+  databaseBuilder.factory.buildUser.withRawPassword(userShouldChangePassword);
 
-  const userWithSamlId = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  const userWithSamlId = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Margaery',
     lastName: 'Tyrell',
     email: null,
@@ -57,7 +57,7 @@ function usersBuilder({ databaseBuilder }) {
     mustValidateTermsOfService: false,
     lastTermsOfServiceValidatedAt: '2020-07-22',
   };
-  databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithLastTermsOfServiceValidated);
+  databaseBuilder.factory.buildUser.withRawPassword(userWithLastTermsOfServiceValidated);
 
   const userWithLastTermsOfServiceNotValidated = {
     firstName: 'lasttermsofservice',
@@ -68,9 +68,9 @@ function usersBuilder({ databaseBuilder }) {
     mustValidateTermsOfService: true,
     lastTermsOfServiceValidatedAt: null,
   };
-  databaseBuilder.factory.buildUser.withUnencryptedPassword(userWithLastTermsOfServiceNotValidated);
+  databaseBuilder.factory.buildUser.withRawPassword(userWithLastTermsOfServiceNotValidated);
 
-  databaseBuilder.factory.buildUser.withUnencryptedPassword({
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: 200,
     firstName: 'Pix',
     lastName: 'Masteur',
