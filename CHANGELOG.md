@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.236.0 (23/12/2020)
+
+- [#2220](https://github.com/1024pix/pix/pull/2220) [FEATURE] Création de la méthode d'authentification utilisant spécifiquement un mot de passe (PIX-1365).
+
 ## v2.235.0 (22/12/2020)
 
 - [#2306](https://github.com/1024pix/pix/pull/2306) [FEATURE] Autoriser la suppression de signalement pendant la finalisation d'une session de certification (PIX-1488)
