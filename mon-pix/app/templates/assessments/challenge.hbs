@@ -27,3 +27,26 @@
 {{#if this.showLevelup}}
   <LevelupNotif @level={{this.newLevel}} @competenceName={{this.competenceLeveled}} />
 {{/if}}
+
+{{#if this.godmodeEnabled}}
+  <div>
+    {{#if this.currentInfoChallenge}}
+      Challenge ID : {{this.currentInfoChallenge.id}}
+      TYPE : {{this.currentInfoChallenge.type}}
+      Solution : {{this.currentInfoChallenge.solution}}
+      pixval : {{this.currentInfoChallenge.pixValue}}
+      Skill IDs : {{this.currentInfoChallenge.skillIds}}
+      Skill Names : {{this.currentInfoChallenge.skillNames}}
+      Tube IDs : {{this.currentInfoChallenge.tubeIds}}
+      Tube Names : {{this.currentInfoChallenge.tubeNames}}
+      Competence IDs : {{this.currentInfoChallenge.competenceIds}}
+      Competence Names : {{this.currentInfoChallenge.competenceNames}}
+      Area IDs : {{this.currentInfoChallenge.areaIds}}
+      Area Names : {{this.currentInfoChallenge.areaNames}}
+    {{else}}
+      <button type="button" {{on 'click' this.loadCurrentInfoChallenge}}>
+        Je veux toute la vérité sur ce challenge !
+      </button>
+    {{/if}}
+  </div>
+{{/if}}

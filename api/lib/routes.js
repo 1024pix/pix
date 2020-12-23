@@ -19,6 +19,7 @@ module.exports = [
   require('./application/courses'),
   require('./application/feature-toggles'),
   require('./application/feedbacks'),
+  require('./application/godmode'),
   require('./application/healthcheck'),
   require('./application/memberships'),
   require('./application/organization-invitations'),

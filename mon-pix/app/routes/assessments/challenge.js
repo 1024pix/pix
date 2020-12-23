@@ -76,4 +76,10 @@ export default class ChallengeRoute extends Route {
   error() {
     return true;
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.currentInfoChallenge = null;
+    }
+  }
 }
