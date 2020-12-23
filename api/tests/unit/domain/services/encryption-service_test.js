@@ -1,45 +1,47 @@
-/* eslint-disable no-sync */
-const bcrypt = require('bcrypt');
-
 const { catchErr, expect } = require('../../../test-helper');
 
-const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
-
+const bcrypt = require('bcrypt');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
+const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
 
 describe('Unit | Service | Encryption', () => {
 
   describe('#checkPassword', () => {
 
-    it('should reject when passwords are not matching', async () => {
-      // given
-      const rawPassword = 'my-expected-password';
-      const hashedPassword = 'ABCDEF1234';
+    describe('#when password and hash are matching', async() => {
+      it('should resolve', async () => {
+        // given
+        const password = 'my-real-password';
+        /* eslint-disable no-sync */
+        const passwordHashed = bcrypt.hashSync(password, 1);
 
-      // when
-      const error = await catchErr(encryptionService.checkPassword)({
-        rawPassword,
-        hashedPassword,
+        // when
+        const error = await catchErr(encryptionService.checkPassword)({
+          password,
+          passwordHashed,
+        });
+
+        // then
+        expect(error).to.be.an.instanceof(PasswordNotMatching);
       });
-
-      // then
-      expect(error).to.be.an.instanceof(PasswordNotMatching);
     });
 
-    it('should resolve to undefined when passwords are matching', async () => {
-      // given
-      const rawPassword = 'Password123';
-      const hashedPassword = bcrypt.hashSync(rawPassword, 1);
+    describe('#when password and hash are not matching', async () => {
+      it('should reject a PasswordNotMatching error ', async () => {
+        // given
+        const password = 'my-expected-password';
+        const passwordHashed = 'ABCDEF1234';
 
-      // when
-      const result = await encryptionService.checkPassword({
-        rawPassword,
-        hashedPassword,
+        // when
+        const error = await catchErr(encryptionService.checkPassword)({
+          password,
+          passwordHashed,
+        });
+        // then
+        expect(error).to.be.an.instanceof(PasswordNotMatching);
       });
-
-      // then
-      expect(result).to.be.undefined;
     });
+
   });
 
 });
