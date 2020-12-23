@@ -12,11 +12,11 @@ async function getUserByUsernameAndPassword({
   userRepository,
 }) {
   const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
-  const hashedPassword = foundUser.authenticationMethods[0].authenticationComplement.password;
+  const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
 
   await encryptionService.checkPassword({
-    rawPassword: password,
-    hashedPassword,
+    password,
+    passwordHash,
   });
 
   return foundUser;
