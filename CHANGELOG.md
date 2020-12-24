@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.237.0 (24/12/2020)
+
+- [#2268](https://github.com/1024pix/pix/pull/2268) [FEATURE] Ajouter "Mes parcours" au dashboard Mon-Pix (PIX-1651).
+- [#2279](https://github.com/1024pix/pix/pull/2279) [FEATURE] Exposer une api qui renvoie le résultat des certifications d'une organisation et le référentiel de compétences pour le livret scolaire LSU/LSL (PIX-1727)
+- [#2312](https://github.com/1024pix/pix/pull/2312) [BUGFIX] Supprimer la phrase en bas du certificat partageable (PIX-1818).
+- [#2310](https://github.com/1024pix/pix/pull/2310) [TECH] Améliorer l'encryption-service.
+- [#2311](https://github.com/1024pix/pix/pull/2311) [TECH] Utiliser les règles de lint octane pour le hbs sur Pix App (PIX-1821).
+- [#2314](https://github.com/1024pix/pix/pull/2314) [TECH] Réparer les seeds suite à la remodélisation des accès par MDP (PIX-1823)
+
 ## v2.236.0 (23/12/2020)
 
 - [#2220](https://github.com/1024pix/pix/pull/2220) [FEATURE] Création de la méthode d'authentification utilisant spécifiquement un mot de passe (PIX-1365).
