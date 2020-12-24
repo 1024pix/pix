@@ -472,6 +472,31 @@ describe('Integration | Repository | Organization', function() {
       });
     });
 
+    context('when there is an Organization matching the "id"', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildOrganization({ id: 123 });
+        databaseBuilder.factory.buildOrganization({ id: 456 });
+        databaseBuilder.factory.buildOrganization({ id: 789 });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only the Organization matching "id" if given in filters', async () => {
+        // given
+        const filter = { id: 123 };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingOrganizations).to.have.lengthOf(1);
+        expect(matchingOrganizations[0].id).to.equal(123);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
     context('when there are multiple Organizations matching the same "name" search pattern', () => {
 
       beforeEach(() => {
@@ -583,15 +608,15 @@ describe('Integration | Repository | Organization', function() {
     context('when there are filters that should be ignored', () => {
 
       beforeEach(() => {
-        databaseBuilder.factory.buildOrganization({ id: 1 });
-        databaseBuilder.factory.buildOrganization({ id: 2 });
+        databaseBuilder.factory.buildOrganization({ provinceCode: 'ABC' });
+        databaseBuilder.factory.buildOrganization({ provinceCode: 'DEF' });
 
         return databaseBuilder.commit();
       });
 
       it('should ignore the filters and retrieve all organizations', async () => {
         // given
-        const filter = { id: 1 };
+        const filter = { provinceCode: 'ABC' };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
@@ -599,7 +624,7 @@ describe('Integration | Repository | Organization', function() {
         const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(_.map(matchingOrganizations, 'id')).to.have.members([1, 2]);
+        expect(_.map(matchingOrganizations, 'provinceCode')).to.have.members(['ABC', 'DEF']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -661,6 +686,32 @@ describe('Integration | Repository | Organization', function() {
 
         // then
         expect(matchingOrganizations).to.have.lengthOf(3);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+    });
+
+    context('when there is a filter on "id"', () => {
+
+      beforeEach(() => {
+        const organizationId1 = databaseBuilder.factory.buildOrganization({ id: 123 }).id;
+        const organizationId2 = databaseBuilder.factory.buildOrganization({ id: 456 }).id;
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId1, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId2, targetProfileId });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only organizations matching "id"', async () => {
+        // given
+        const filter = { id: 456 };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 1 };
+
+        // when
+        const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
+
+        // then
+        expect(matchingOrganizations).to.have.lengthOf(1);
+        expect(matchingOrganizations[0].id).to.equal(456);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
@@ -781,8 +832,8 @@ describe('Integration | Repository | Organization', function() {
     context('when there are filters that should be ignored', () => {
 
       beforeEach(() => {
-        const organizationId1 = databaseBuilder.factory.buildOrganization({ id: 1 }).id;
-        const organizationId2 = databaseBuilder.factory.buildOrganization({ id: 2 }).id;
+        const organizationId1 = databaseBuilder.factory.buildOrganization({ provinceCode: 'ABC' }).id;
+        const organizationId2 = databaseBuilder.factory.buildOrganization({ provinceCode: 'DEF' }).id;
         databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId1, targetProfileId });
         databaseBuilder.factory.buildTargetProfileShare({ organizationId: organizationId2, targetProfileId });
         return databaseBuilder.commit();
@@ -790,7 +841,7 @@ describe('Integration | Repository | Organization', function() {
 
       it('should ignore the filters and retrieve all organizations', async () => {
         // given
-        const filter = { id: 1 };
+        const filter = { provinceCode: 'DEF' };
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
@@ -798,7 +849,7 @@ describe('Integration | Repository | Organization', function() {
         const { models: matchingOrganizations, pagination } = await organizationRepository.findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page });
 
         // then
-        expect(_.map(matchingOrganizations, 'id')).to.have.members([1, 2]);
+        expect(_.map(matchingOrganizations, 'provinceCode')).to.have.members(['ABC', 'DEF']);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
