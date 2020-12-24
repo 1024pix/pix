@@ -94,6 +94,7 @@ exports.register = async (server) => {
             id: Joi.number().integer().required(),
           }),
           query: Joi.object({
+            'filter[id]': Joi.number().integer().empty('').allow(null).optional(),
             'filter[name]': Joi.string().empty('').allow(null).optional(),
             'filter[type]': Joi.string().empty('').allow(null).optional(),
             'filter[external-id]': Joi.string().empty('').allow(null).optional(),

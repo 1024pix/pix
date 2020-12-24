@@ -15,14 +15,15 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     this.goToOrganizationPage = goToOrganizationPage;
   });
 
-  test('it should display header with name, type and externalId', async function(assert) {
+  test('it should display header with id, name, type and externalId', async function(assert) {
     // when
     await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
 
     // then
-    assert.dom('table thead tr:first-child th:first-child').hasText('Nom');
-    assert.dom('table thead tr:first-child th:nth-child(2)').hasText('Type');
-    assert.dom('table thead tr:first-child th:nth-child(3)').hasText('Identifiant externe');
+    assert.dom('table thead tr:first-child th:first-child').hasText('ID');
+    assert.dom('table thead tr:first-child th:nth-child(2)').hasText('Nom');
+    assert.dom('table thead tr:first-child th:nth-child(3)').hasText('Type');
+    assert.dom('table thead tr:first-child th:nth-child(4)').hasText('Identifiant externe');
   });
 
   test('if should display search inputs', async function(assert) {
@@ -30,6 +31,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
 
     // then
+    assert.dom('table thead tr:nth-child(2) input#id').exists();
     assert.dom('table thead tr:nth-child(2) input#name').exists();
     assert.dom('table thead tr:nth-child(2) input#type').exists();
     assert.dom('table thead tr:nth-child(2) input#externalId').exists();
@@ -52,9 +54,10 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     await render(hbs`<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} @goToOrganizationPage={{this.goToOrganizationPage}} />`);
 
     // then
-    assert.dom('table tbody tr:first-child td:first-child').hasText('École ACME');
-    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('SCO');
-    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText(externalId);
+    assert.dom('table tbody tr:first-child td:first-child').hasText('1');
+    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('École ACME');
+    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('SCO');
+    assert.dom('table tbody tr:first-child td:nth-child(4)').hasText(externalId);
     assert.dom('table tbody tr').exists({ count: 3 });
   });
 });

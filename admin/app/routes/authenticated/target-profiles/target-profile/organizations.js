@@ -5,6 +5,7 @@ export default class TargetProfileOrganizationsRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    id: { refreshModel: true },
     name: { refreshModel: true },
     type: { refreshModel: true },
     externalId: { refreshModel: true },
@@ -15,6 +16,7 @@ export default class TargetProfileOrganizationsRoute extends Route {
     await targetProfile.hasMany('organizations').reload({ adapterOptions: {
       'page[size]': params.pageSize,
       'page[number]': params.pageNumber,
+      'filter[id]': params.id,
       'filter[name]': params.name,
       'filter[type]': params.type,
       'filter[externalId]': params.externalId,
@@ -26,6 +28,7 @@ export default class TargetProfileOrganizationsRoute extends Route {
     if (isExiting) {
       controller.pageNumber = 1;
       controller.pageSize = 10;
+      controller.id = null;
       controller.name = null;
       controller.type = null;
       controller.externalId = null;
