@@ -78,7 +78,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
           index: 1,
           isShared: false,
           lastAssessmentState: Assessment.states.STARTED,
-          campaignParticipationCreatedAt: new Date('2018-05-05T01:02:03Z'),
+          campaignParticipationCreatedAt: new Date('2018-05-05T01:04:03Z'),
         });
 
         sharableCampaignParticipationElements = databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
@@ -86,7 +86,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
           index: 2,
           isShared: false,
           lastAssessmentState: Assessment.states.COMPLETED,
-          campaignParticipationCreatedAt: new Date('2018-05-05T01:02:03Z'),
+          campaignParticipationCreatedAt: new Date('2018-05-05T01:03:03Z'),
         });
 
         databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
@@ -104,7 +104,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
         // given
         options = {
           method: 'GET',
-          url: `/api/users/${userId}/campaign-participation-overviews?filter[state]=ONGOING`,
+          url: `/api/users/${userId}/campaign-participation-overviews?filter[states][]=ONGOING`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
 

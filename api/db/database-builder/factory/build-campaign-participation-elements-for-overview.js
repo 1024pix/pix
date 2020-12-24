@@ -4,7 +4,7 @@ const buildOrganization = require('./build-organization');
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildCampaign = require('./build-campaign');
 
-module.exports = ({ userId, index, lastAssessmentState, campaignParticipationCreatedAt, isShared }) => {
+module.exports = ({ userId, index, lastAssessmentState, campaignParticipationCreatedAt, campaignArchivedAt, isShared }) => {
   const organization = buildOrganization({
     name: `${index} - My organization`,
   });
@@ -13,7 +13,7 @@ module.exports = ({ userId, index, lastAssessmentState, campaignParticipationCre
     organizationId: organization.id,
     title: `${index} - My campaign`,
     createdAt: new Date('2000-01-01T10:00:00Z'),
-    archivedAt: null,
+    archivedAt: campaignArchivedAt ? campaignArchivedAt : null,
   });
 
   const campaignParticipation = buildCampaignParticipation({
