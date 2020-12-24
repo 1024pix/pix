@@ -39,6 +39,30 @@ module.exports = {
       return new CampaignParticipationOverview(data);
     });
   },
+
+  async findByUserIdWithFilters({ userId, states }) {
+    const queryBuilder = _findByUserId({ userId });
+
+    const assessmentStates = [];
+
+    states.forEach((state) => {
+      if (state === 'ONGOING') {
+        assessmentStates.push(Assessment.states.STARTED);
+      } else if (state === 'TO_SHARE') {
+        assessmentStates.push(Assessment.states.COMPLETED);
+      }
+    });
+
+    queryBuilder.modify(_filterByAssessmentStates, assessmentStates);
+    queryBuilder.modify(_filterBySharedState, false);
+    queryBuilder.modify(_filterByCampaignArchivedState, false);
+
+    const rawCampaignParticipationOverviews = await queryBuilder;
+
+    return rawCampaignParticipationOverviews.map((data) => {
+      return new CampaignParticipationOverview(data);
+    });
+  },
 };
 
 function _findByUserId({ userId }) {

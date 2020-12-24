@@ -301,4 +301,102 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
     });
   });
 
+  describe('#findByUserIdWithFilters', () => {
+
+    context('with one campaign participation of type `ASSESSMENT`', () => {
+
+      beforeEach(async () => {
+
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
+          index: '1',
+          isShared: false,
+          lastAssessmentState: Assessment.states.COMPLETED,
+          campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should retrieve no campaign participation overviews for the user when state is ONGOING', async () => {
+        const states = ['ONGOING'];
+        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        expect(campaignParticipationOverviews).to.have.lengthOf(0);
+      });
+
+      it('should retrieve no campaign participation overviews for the user when state is TO_SHARE', async () => {
+        const states = ['TO_SHARE'];
+        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        expect(campaignParticipationOverviews).to.have.lengthOf(1);
+
+        expect(campaignParticipationOverviews[0]).to.be.instanceOf(CampaignParticipationOverview);
+        expect(campaignParticipationOverviews[0].createdAt).to.deep.equal(new Date('2000-07-01T10:00:00Z'));
+        expect(campaignParticipationOverviews[0].assessmentState).to.equal('completed');
+        expect(campaignParticipationOverviews[0].organizationName).to.equal('1 - My organization');
+      });
+    });
+
+    context('with many campaign participations of type `ASSESSMENT`', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
+          index: '1',
+          isShared: false,
+          lastAssessmentState: Assessment.states.STARTED,
+          campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
+        });
+
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
+          index: '2',
+          isShared: false,
+          lastAssessmentState: Assessment.states.COMPLETED,
+          campaignParticipationCreatedAt: new Date('2000-07-02T10:00:00Z'),
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should retrieve the campaign participations of the user with filtered assessment where state is completed', async () => {
+        const states = undefined;
+        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+
+        expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign']);
+
+        expect(campaignParticipationOverviews[0]).to.be.instanceOf(CampaignParticipationOverview);
+        expect(campaignParticipationOverviews[0].createdAt).to.deep.equal(new Date('2000-07-02T10:00:00Z'));
+        expect(campaignParticipationOverviews[0].assessmentState).to.equal('completed');
+        expect(campaignParticipationOverviews[0].organizationName).to.equal('2 - My organization');
+      });
+    });
+
+    context('with one campaign participation of type `PROFILES_COLLECTION`', () => {
+      beforeEach(async () => {
+        const organizationId = databaseBuilder.factory.buildOrganization({ name: 'My organization' }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          title: 'My campaign',
+          createdAt: new Date('2000-01-01T10:00:00Z'),
+          archivedAt: null,
+          type: Campaign.types.PROFILES_COLLECTION,
+        }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          createdAt: new Date('2000-07-01T10:00:00Z'),
+          campaignId,
+        }).id;
+
+        await databaseBuilder.commit();
+      });
+
+      it('should retrieve no campaign participation of the user', async () => {
+        const states = undefined;
+        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+
+        expect(campaignParticipationOverviews).to.have.lengthOf(0);
+      });
+    });
+  });
+
 });

@@ -174,10 +174,12 @@ module.exports = {
   getCampaignParticipationOverviews(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
-    const state = options.filter.state;
+    const states = options.filter.states;
 
-    return usecases.findUserCampaignParticipationOverviews({ userId: authenticatedUserId, state })
-      .then(campaignParticipationOverviewSerializer.serialize);
+    return usecases.findUserCampaignParticipationOverviews({
+      userId: authenticatedUserId,
+      states,
+    }).then(campaignParticipationOverviewSerializer.serialize);
   },
 
   async isCertifiable(request) {
