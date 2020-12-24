@@ -590,26 +590,49 @@ describe('Unit | Controller | user-controller', () => {
   describe('#getCampaignParticipationOverviews', () => {
     const userId = '1';
 
-    const request = {
-      auth: {
-        credentials: {
-          userId: userId,
-        },
-      },
-      params: {
-        id: userId,
-      },
-    };
-
     beforeEach(() => {
       sinon.stub(campaignParticipationOverviewSerializer, 'serialize');
+      sinon.stub(campaignParticipationOverviewSerializer, 'serializeForPaginatedList');
       sinon.stub(usecases, 'findUserCampaignParticipationOverviews');
     });
 
     it('should return serialized campaignParticipationOverviews', async function() {
       // given
-      usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined }).resolves([]);
-      campaignParticipationOverviewSerializer.serialize.withArgs([]).returns({});
+      const request = {
+        auth: {
+          credentials: {
+            userId: userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+      };
+      usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined, page: {} }).resolves([]);
+      campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({});
+
+      // when
+      const response = await userController.getCampaignParticipationOverviews(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({});
+    });
+
+    it('should forward state and page query parameters', async function() {
+      // given
+      const request = {
+        auth: {
+          credentials: {
+            userId: userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        query: { 'filter[states][]': 'ONGOING', 'page[number]': 1, 'page[size]': 10 },
+      };
+      usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: 'ONGOING', page: { number: 1, size: 10 } }).resolves([]);
+      campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({});
 
       // when
       const response = await userController.getCampaignParticipationOverviews(request, hFake);

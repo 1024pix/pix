@@ -171,15 +171,17 @@ module.exports = {
       .then(campaignParticipationSerializer.serialize);
   },
 
-  getCampaignParticipationOverviews(request) {
+  async getCampaignParticipationOverviews(request) {
     const authenticatedUserId = request.auth.credentials.userId;
-    const options = queryParamsUtils.extractParameters(request.query);
-    const states = options.filter.states;
+    const { filter: { states }, page } = queryParamsUtils.extractParameters(request.query);
 
-    return usecases.findUserCampaignParticipationOverviews({
+    const userCampaignParticipationOverviews = await usecases.findUserCampaignParticipationOverviews({
       userId: authenticatedUserId,
       states,
-    }).then(campaignParticipationOverviewSerializer.serialize);
+      page,
+    });
+
+    return campaignParticipationOverviewSerializer.serializeForPaginatedList(userCampaignParticipationOverviews);
   },
 
   async isCertifiable(request) {

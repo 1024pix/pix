@@ -40,8 +40,9 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       it('should retrieve the campaign participations of the user', async () => {
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findAllByUserId(userId);
-        const [campaignParticipationOverview1] = campaignParticipationOverviews;
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findAllByUserId(userId);
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
+        const campaignParticipationOverview1 = campaignParticipationOverviews[0];
 
         expect(campaignParticipationOverview1).to.be.instanceOf(CampaignParticipationOverview);
         expect(campaignParticipationOverview1.createdAt).to.deep.equal(new Date('2000-07-01T10:00:00Z'));
@@ -74,7 +75,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       it('should retrieve all the campaign participations ordered by the newest createdAt', async () => {
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findAllByUserId(userId);
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findAllByUserId(userId);
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
         expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign', '1 - My campaign']);
 
@@ -111,7 +113,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       it('should retrieve no campaign participation of the user', async () => {
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findAllByUserId(userId);
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findAllByUserId(userId);
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
         expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
@@ -137,15 +140,17 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       it('should retrieve no campaign participation overviews for the user when state is ONGOING', async () => {
         const states = ['ONGOING'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
         expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
 
       it('should retrieve no campaign participation overviews for the user when state is TO_SHARE', async () => {
         const states = ['TO_SHARE'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        expect(campaignParticipationOverviews).to.have.lengthOf(1);
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
+        expect(campaignParticipationOverviews).to.have.lengthOf(1);
         expect(campaignParticipationOverviews[0]).to.be.instanceOf(CampaignParticipationOverview);
         expect(campaignParticipationOverviews[0].createdAt).to.deep.equal(new Date('2000-07-01T10:00:00Z'));
         expect(campaignParticipationOverviews[0].assessmentState).to.equal('completed');
@@ -170,19 +175,22 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       it('should retrieve no campaign participation overviews for the user when state is ONGOING', async () => {
         const states = ['ONGOING'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
         expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
 
       it('should retrieve no campaign participation overviews for the user when state is TO_SHARE', async () => {
         const states = ['TO_SHARE'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
         expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
 
       it('should retrieve no campaign participation overviews for the user when state is ENDED', async () => {
         const states = ['ENDED'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
         expect(campaignParticipationOverviews).to.have.lengthOf(1);
 
         expect(campaignParticipationOverviews[0]).to.be.instanceOf(CampaignParticipationOverview);
@@ -232,7 +240,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       it('should retrieve the campaign participations of the user with filtered assessment where state is TO_SHARE', async () => {
         const states = ['TO_SHARE'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
         expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign']);
 
@@ -244,7 +253,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       it('should retrieve the campaign participations of the user with filtered assessment where state is ONGOING and TO_SHARE', async () => {
         const states = ['ONGOING', 'TO_SHARE'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
         expect(campaignParticipationOverviews).to.have.lengthOf(2);
         expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign', '1 - My campaign']);
@@ -252,7 +262,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       it('should retrieve the campaign participations of the user with filtered assessment where state is TO_SHARE and ENDED', async () => {
         const states = ['TO_SHARE', 'ENDED'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
         expect(campaignParticipationOverviews).to.have.lengthOf(3);
         expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['4 - My campaign', '3 - My campaign', '2 - My campaign']);
@@ -260,7 +271,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       it('should retrieve the campaign participations of the user with filtered assessment where state is  ENDED', async () => {
         const states = ['ENDED'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
         expect(campaignParticipationOverviews).to.have.lengthOf(2);
         expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['4 - My campaign', '3 - My campaign']);
@@ -289,7 +301,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       it('should retrieve no campaign participation of the user', async () => {
         const states = ['ONGOING', 'TO_SHARE', 'ENDED'];
-        const campaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
 
         expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
