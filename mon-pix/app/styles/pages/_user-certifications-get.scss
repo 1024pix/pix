@@ -17,6 +17,14 @@
   h2 {
     color: $grey-90;
   }
+
+  &__note {
+    color: $grey-60;
+    font-size: 0.875rem;
+    letter-spacing: 0.15px;
+    line-height: 22px;
+    max-width: 980px;
+  }
 }
 
 @mixin contentInColumn() {

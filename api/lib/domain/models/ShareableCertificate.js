@@ -14,6 +14,7 @@ class ShareableCertificate {
     status,
     cleaCertificationStatus,
     resultCompetenceTree = null,
+    maxReachableLevelOnCertificationDate,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -29,6 +30,7 @@ class ShareableCertificate {
     this.status = status;
     this.cleaCertificationStatus = cleaCertificationStatus;
     this.resultCompetenceTree = resultCompetenceTree;
+    this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
   }
 }
 

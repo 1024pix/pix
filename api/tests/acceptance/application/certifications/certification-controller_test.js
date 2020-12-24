@@ -25,6 +25,7 @@ describe('Acceptance | API | Certifications', () => {
       sessionId: session.id,
       userId,
       isPublished: true,
+      maxReachableLevelOnCertificationDate: 3,
     });
     assessment = databaseBuilder.factory.buildAssessment({
       userId,
@@ -379,6 +380,7 @@ describe('Acceptance | API | Certifications', () => {
               'pix-score': assessmentResult.pixScore,
               'status': assessmentResult.status,
               'clea-certification-status': 'not_passed',
+              'max-reachable-level-on-certification-date': certificationCourse.maxReachableLevelOnCertificationDate,
             },
             'id': `${certificationCourse.id}`,
             'relationships': {
