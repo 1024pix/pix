@@ -129,6 +129,22 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
         expect(response.result.data).to.deep.equal(expectedData);
       });
 
+      it('should paginate the result with 200 HTTP status code', async () => {
+        // given
+        options = {
+          method: 'GET',
+          url: `/api/users/${userId}/campaign-participation-overviews?page[number]=0&page[size]=2`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.have.lengthOf(2);
+      });
+
       it('should return only the ongoing and the sharable campaign participation overviews with 200 HTTP status code', async () => {
         // given
         options = {

@@ -35,16 +35,18 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
       // given
       const states = 'ONGOING';
       const userId = 1;
+      const page = {};
 
       // when
       findUserCampaignParticipationOverviews({
         userId,
         states,
         campaignParticipationOverviewRepository,
+        page,
       });
 
       // then
-      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, { userId, states: ['ONGOING'] });
+      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, { page, userId, states: ['ONGOING'] });
     });
   });
 
@@ -53,16 +55,18 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
       // given
       const states = ['ONGOING'];
       const userId = 1;
+      const page = {};
 
       // when
       findUserCampaignParticipationOverviews({
         userId,
         states,
         campaignParticipationOverviewRepository,
+        page,
       });
 
       // then
-      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, { userId, states: ['ONGOING'] });
+      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, { page, userId, states: ['ONGOING'] });
     });
   });
 });

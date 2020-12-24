@@ -2,19 +2,26 @@ const { knex } = require('../bookshelf');
 const Assessment = require('../../domain/models/Assessment');
 const Campaign = require('../../domain/models/Campaign');
 const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
+const { fetchPage } = require('../utils/knex-utils');
 
 module.exports = {
 
-  async findAllByUserId(userId) {
+  async findAllByUserId(userId, page) {
     const queryBuilder = _findByUserId({ userId });
-    const rawCampaignParticipationOverviews = await queryBuilder;
+    const rawCampaignParticipationOverviews = await fetchPage(queryBuilder, page);
+    const { results, pagination } = rawCampaignParticipationOverviews;
 
-    return rawCampaignParticipationOverviews.map((data) => {
+    const campaignParticipationOverviews = results.map((data) => {
       return new CampaignParticipationOverview(data);
     });
+
+    return {
+      campaignParticipationOverviews,
+      pagination,
+    };
   },
 
-  async findByUserIdWithFilters({ userId, states }) {
+  async findByUserIdWithFilters({ userId, states, page }) {
     const queryBuilder = _findByUserId({ userId });
 
     if (states.includes('ENDED')) {
@@ -25,11 +32,17 @@ module.exports = {
       queryBuilder.whereNull('campaigns.archivedAt');
     }
 
-    const rawCampaignParticipationOverviews = await queryBuilder;
+    const rawCampaignParticipationOverviews = await fetchPage(queryBuilder, page);
+    const { results, pagination } = rawCampaignParticipationOverviews;
 
-    return rawCampaignParticipationOverviews.map((data) => {
+    const campaignParticipationOverviews = results.map((data) => {
       return new CampaignParticipationOverview(data);
     });
+
+    return {
+      campaignParticipationOverviews,
+      pagination,
+    };
   },
 };
 
