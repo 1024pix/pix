@@ -14,26 +14,20 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
 
     let user;
     let userId;
-    let organization1;
-    let campaign1;
-    let campaignParticipationToShare;
+    let sharableCampaignParticipationElements;
     let options;
 
     beforeEach(() => {
       user = databaseBuilder.factory.buildUser();
       userId = user.id;
 
-      organization1 = databaseBuilder.factory.buildOrganization({ name: 'My organization' });
-      campaign1 = databaseBuilder.factory.buildCampaign({ organizationId: organization1.id, title: 'My campaign', code: 'mycode' });
-      const oldDate = new Date('2018-02-03T01:02:03Z');
-      campaignParticipationToShare = databaseBuilder.factory.buildCampaignParticipation({
+      sharableCampaignParticipationElements = databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
         userId,
-        campaignId: campaign1.id,
-        createdAt: oldDate,
+        index: 1,
         isShared: false,
+        lastAssessmentState: Assessment.states.COMPLETED,
+        campaignParticipationCreatedAt: new Date('2018-05-05T01:02:03Z'),
       });
-
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipationToShare.id });
 
       options = {
         method: 'GET',
@@ -53,15 +47,15 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
         expect(response.statusCode).to.equal(200);
         const expectedData = [{
           type: 'campaign-participation-overviews',
-          id: campaignParticipationToShare.id.toString(),
+          id: sharableCampaignParticipationElements.campaignParticipation.id.toString(),
           attributes: {
-            'is-shared': campaignParticipationToShare.isShared,
-            'shared-at': campaignParticipationToShare.sharedAt,
-            'created-at': campaignParticipationToShare.createdAt,
-            'organization-name': organization1.name,
-            'campaign-code': campaign1.code,
-            'campaign-title': campaign1.title,
-            'assessment-state': 'completed',
+            'is-shared': sharableCampaignParticipationElements.campaignParticipation.isShared,
+            'shared-at': sharableCampaignParticipationElements.campaignParticipation.sharedAt,
+            'created-at': sharableCampaignParticipationElements.campaignParticipation.createdAt,
+            'organization-name': sharableCampaignParticipationElements.organization.name,
+            'campaign-code': sharableCampaignParticipationElements.campaign.code,
+            'campaign-title': sharableCampaignParticipationElements.campaign.title,
+            'assessment-state': Assessment.states.COMPLETED,
           },
         }];
         expect(response.result.data).to.deep.equal(expectedData);
@@ -69,21 +63,17 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
     });
 
     context('when user has many campaigns', () => {
-      let organization2;
-      let campaign2;
-      let campaignParticipationStarted;
+
+      let startedCampaignParticipationElements;
 
       beforeEach(() => {
-        organization2 = databaseBuilder.factory.buildOrganization({ name: 'My organization' });
-        campaign2 = databaseBuilder.factory.buildCampaign({ organizationId: organization2.id, title: 'My campaign', code: 'mycode' });
-        const oldDate = new Date('2018-05-05T01:02:03Z');
-        campaignParticipationStarted = databaseBuilder.factory.buildCampaignParticipation({
+        startedCampaignParticipationElements = databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
           userId,
-          campaignId: campaign2.id,
-          createdAt: oldDate,
+          index: 1,
           isShared: false,
+          lastAssessmentState: Assessment.states.STARTED,
+          campaignParticipationCreatedAt: new Date('2018-05-05T01:02:03Z'),
         });
-        databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipationStarted.id, state: Assessment.states.STARTED });
 
         options = {
           method: 'GET',
@@ -102,15 +92,15 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
         expect(response.statusCode).to.equal(200);
         const expectedData = [{
           type: 'campaign-participation-overviews',
-          id: campaignParticipationStarted.id.toString(),
+          id: startedCampaignParticipationElements.campaignParticipation.id.toString(),
           attributes: {
-            'is-shared': campaignParticipationStarted.isShared,
-            'shared-at': campaignParticipationStarted.sharedAt,
-            'created-at': campaignParticipationStarted.createdAt,
-            'organization-name': organization2.name,
-            'campaign-code': campaign2.code,
-            'campaign-title': campaign2.title,
-            'assessment-state': 'started',
+            'is-shared': startedCampaignParticipationElements.campaignParticipation.isShared,
+            'shared-at': startedCampaignParticipationElements.campaignParticipation.sharedAt,
+            'created-at': startedCampaignParticipationElements.campaignParticipation.createdAt,
+            'organization-name': startedCampaignParticipationElements.organization.name,
+            'campaign-code': startedCampaignParticipationElements.campaign.code,
+            'campaign-title': startedCampaignParticipationElements.campaign.title,
+            'assessment-state': Assessment.states.STARTED,
           },
         }];
         expect(response.result.data).to.deep.equal(expectedData);

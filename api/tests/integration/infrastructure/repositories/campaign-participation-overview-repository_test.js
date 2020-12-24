@@ -28,7 +28,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       beforeEach(async () => {
 
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '1',
           isShared: false,
           lastAssessmentState: Assessment.states.COMPLETED,
@@ -53,14 +54,16 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
     context('with many campaign participations of type `ASSESSMENT`', () => {
       beforeEach(async () => {
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '1',
           isShared: false,
           lastAssessmentState: Assessment.states.STARTED,
           campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
         });
 
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '2',
           isShared: false,
           lastAssessmentState: Assessment.states.COMPLETED,
@@ -121,7 +124,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       beforeEach(async () => {
 
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '1',
           isShared: false,
           lastAssessmentState: Assessment.states.STARTED,
@@ -146,14 +150,16 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
     context('with many campaign participations of type `ASSESSMENT`', () => {
       beforeEach(async () => {
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '1',
           isShared: false,
           lastAssessmentState: Assessment.states.STARTED,
           campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
         });
 
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '2',
           isShared: false,
           lastAssessmentState: Assessment.states.COMPLETED,
@@ -210,7 +216,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
       beforeEach(async () => {
 
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '1',
           isShared: false,
           lastAssessmentState: Assessment.states.COMPLETED,
@@ -235,14 +242,16 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
 
     context('with many campaign participations of type `ASSESSMENT`', () => {
       beforeEach(async () => {
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '1',
           isShared: false,
           lastAssessmentState: Assessment.states.STARTED,
           campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
         });
 
-        _createCampaignParticipationsWithAssessments({
+        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
+          userId,
           index: '2',
           isShared: false,
           lastAssessmentState: Assessment.states.COMPLETED,
@@ -293,34 +302,3 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
   });
 
 });
-
-function _createCampaignParticipationsWithAssessments({ index, isShared, campaignParticipationCreatedAt, lastAssessmentState }) {
-  const organizationId = databaseBuilder.factory.buildOrganization({ name: `${index} - My organization` }).id;
-  const campaignId = databaseBuilder.factory.buildCampaign({
-    organizationId,
-    title: `${index} - My campaign`,
-    createdAt: new Date('2000-01-01T10:00:00Z'),
-    archivedAt: null,
-  }).id;
-
-  const expectedCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
-    userId,
-    createdAt: campaignParticipationCreatedAt,
-    campaignId,
-    isShared,
-  }).id;
-
-  databaseBuilder.factory.buildAssessment({
-    userId,
-    campaignParticipationId: expectedCampaignParticipationId,
-    state: Assessment.states.COMPLETED,
-    createdAt: new Date('2000-07-01T10:00:00Z'),
-  });
-
-  databaseBuilder.factory.buildAssessment({
-    userId,
-    campaignParticipationId: expectedCampaignParticipationId,
-    state: lastAssessmentState,
-    createdAt: new Date('2000-07-02T10:00:00Z'),
-  });
-}
