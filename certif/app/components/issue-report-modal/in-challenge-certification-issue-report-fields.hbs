@@ -1,0 +1,45 @@
+<fieldset class="candidate-information-change-certification-issue-report-fields">
+  <div class="candidate-information-change-certification-issue-report-fields__radio-button">
+    <input
+            aria-label="Sélectionner la catégorie '{{@inChallengeCategory.categoryLabel}}'"
+            id="input-radio-for-category-in-challenge"
+            type="radio"
+            name="in-challenge"
+            checked={{@inChallengeCategory.isChecked}}
+      {{on 'click' (fn @toggleOnCategory @inChallengeCategory)}}
+    />
+    <label for="input-radio-for-category-in-challenge">{{@inChallengeCategory.categoryLabel}}</label>
+  </div>
+  {{#if @inChallengeCategory.isChecked}}
+    <div class="candidate-information-change-certification-issue-report-fields__details">
+      <label for="input-for-category-in-challenge-question-number">Numéro de question :</label>
+       <Input
+              @id="input-for-category-in-challenge-question-number"
+              @name="question-number"
+              @type="text"
+              @required="true"
+              @value={{@inChallengeCategory.questionNumber}}
+       />
+       <label for="subcategory-for-category-in-challenge">Sélectionnez une sous-catégorie :</label>
+       <PixSelect
+               aria-label="Sélectionner la sous-catégorie"
+               id="subcategory-for-category-in-challenge"
+               @options={{this.options}}
+               @selectedOption={{@inChallengeCategory.subcategory}}
+               @onChange={{this.onChangeSubcategory}}
+       />
+      {{#if this.isOtherSubcategorySelected }}
+        <label for="text-area-for-category-in-challenge-subcategory-other">Détaillez les changements</label>
+        <Textarea
+                id="text-area-for-category-in-challenge-subcategory-other"
+                @class="session-finalization-reports-informations-step__textarea"
+                @value={{@inChallengeCategory.description}}
+                @maxlength={{@maxlength}}
+                required
+        />
+        <p class="candidate-information-change-certification-issue-report-fields-details__char-count">{{this.reportLength}}
+          / {{@maxlength}}</p>
+      {{/if}}
+     </div>
+   {{/if}}
+ </fieldset>

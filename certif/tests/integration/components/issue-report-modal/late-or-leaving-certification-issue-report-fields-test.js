@@ -55,27 +55,6 @@ module('Integration | Component | late-or-leaving-certification-issue-report-fie
     assert.dom(TEXTAREA_SELECTOR).exists();
   });
 
-  test('it should not show textarea if category is unchecked', async function(assert) {
-    // given
-    const toggleOnCategory = sinon.stub();
-    const lateOrLeavingCategory = { isChecked: false };
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('lateOrLeavingCategory', lateOrLeavingCategory);
-
-    // when
-    await render(hbs`
-      <IssueReportModal::LateOrLeavingCertificationIssueReportFields
-        @lateOrLeavingCategory={{this.lateOrLeavingCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
-    await click(INPUT_RADIO_SELECTOR);
-
-    // then
-    assert.dom(TEXTAREA_SELECTOR).doesNotExist();
-    assert.dom(SUBCATEGORY_SELECTOR).doesNotExist();
-  });
-
   test('it should count textarea characters length', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
