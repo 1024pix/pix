@@ -135,7 +135,7 @@
                 "alternative": "Digital CléA certification"
             },
             "competences": {
-                "informations": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the score shown on your profile. When you took the certification, it was possible to reach a maximum of level {maxReachableLevel} each skill and {maxReachablePixCount} pix.",
+                "information": "Your certified score was calculated based on the answers you gave whilst taking the certification. It may be different from the score shown on your profile. When you took the certification, it was possible to reach a maximum of level {maxReachableLevelOnCertificationDate} each skill and {maxReachablePixCountOnCertificationDate} pix.",
                 "subtitle": "(levels out of {maxReachableLevel})",
                 "title": "Certified skills"
             },

@@ -12,6 +12,7 @@ module.exports = async function getShareableCertificate({
   return decorateWithCleaStatusAndCompetenceTree({
     certificationId: certificate.id,
     toBeDecorated: certificate,
+    maxReachableLevelOnCertificationDate: certificate.maxReachableLevelOnCertificationDate,
     cleaCertificationStatusRepository,
     assessmentResultRepository,
     competenceTreeRepository,
