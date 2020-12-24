@@ -51,8 +51,8 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
   @tracked subcategory;
   @tracked description = null;
 
-  constructor({ name, subcategory }) {
-    super({ name });
+  constructor({ name, subcategory, isChecked }) {
+    super({ name, isChecked });
     this.subcategory = subcategory;
   }
 
@@ -74,6 +74,22 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
   }
 }
 
+export class RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber extends RadioButtonCategoryWithSubcategoryWithDescription {
+  @tracked questionNumber = null;
+
+  toggle(categoryNameBeingChecked) {
+    super.toggle(categoryNameBeingChecked);
+    this.questionNumber = null;
+  }
+
+  issueReport(certificationReport) {
+    return {
+      ...super.issueReport(certificationReport),
+      questionNumber: this.questionNumber,
+    };
+  }
+}
+
 export default class AddIssueReportModal extends Component {
   @service store
 
@@ -89,7 +105,11 @@ export default class AddIssueReportModal extends Component {
   @tracked connectionOrEndScreenCategory = new RadioButtonCategory({
     name: certificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
   });
-  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connectionOrEndScreenCategory ];
+  @tracked inChallengeCategory = new RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber({
+    name: certificationIssueReportCategories.IN_CHALLENGE,
+    subcategory: certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+  });
+  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connectionOrEndScreenCategory, this.inChallengeCategory ];
 
   @tracked reportLength = 0;
   @tracked showCategoryMissingError = false;
