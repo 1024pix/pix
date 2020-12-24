@@ -1,6 +1,7 @@
 module.exports = async function findUserCampaignParticipationOverviews({ userId, states, campaignParticipationOverviewRepository }) {
   if (states && states.length > 0) {
-    return campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+    const newStates = [].concat(states);
+    return campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states: newStates });
   }
 
   return campaignParticipationOverviewRepository.findAllByUserId(userId);

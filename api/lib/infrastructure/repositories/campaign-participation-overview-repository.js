@@ -14,48 +14,16 @@ module.exports = {
     });
   },
 
-  async findOngoingByUserId(userId) {
-    const queryBuilder = _findByUserId({ userId });
-    queryBuilder.modify(_filterByAssessmentStates, [Assessment.states.STARTED]);
-    queryBuilder.modify(_filterBySharedState, false);
-    queryBuilder.modify(_filterByCampaignArchivedState, false);
-
-    const rawCampaignParticipationOverviews = await queryBuilder;
-
-    return rawCampaignParticipationOverviews.map((data) => {
-      return new CampaignParticipationOverview(data);
-    });
-  },
-
-  async findToShareByUserId(userId) {
-    const queryBuilder = _findByUserId({ userId });
-    queryBuilder.modify(_filterByAssessmentStates, [Assessment.states.COMPLETED]);
-    queryBuilder.modify(_filterBySharedState, false);
-    queryBuilder.modify(_filterByCampaignArchivedState, false);
-
-    const rawCampaignParticipationOverviews = await queryBuilder;
-
-    return rawCampaignParticipationOverviews.map((data) => {
-      return new CampaignParticipationOverview(data);
-    });
-  },
-
   async findByUserIdWithFilters({ userId, states }) {
     const queryBuilder = _findByUserId({ userId });
 
-    const assessmentStates = [];
-
-    states.forEach((state) => {
-      if (state === 'ONGOING') {
-        assessmentStates.push(Assessment.states.STARTED);
-      } else if (state === 'TO_SHARE') {
-        assessmentStates.push(Assessment.states.COMPLETED);
-      }
-    });
-
-    queryBuilder.modify(_filterByAssessmentStates, assessmentStates);
-    queryBuilder.modify(_filterBySharedState, false);
-    queryBuilder.modify(_filterByCampaignArchivedState, false);
+    if (states.includes('ENDED')) {
+      queryBuilder.modify(_filterWhithEndedState, states);
+    } else {
+      queryBuilder.modify(_filterByAssessmentStates, buildAssessementStates(states));
+      queryBuilder.modify(_filterBySharedState, false);
+      queryBuilder.whereNull('campaigns.archivedAt');
+    }
 
     const rawCampaignParticipationOverviews = await queryBuilder;
 
@@ -64,6 +32,20 @@ module.exports = {
     });
   },
 };
+
+function buildAssessementStates(states) {
+  const assessmentStates = [];
+
+  states.forEach((state) => {
+    if (state === 'ONGOING') {
+      assessmentStates.push(Assessment.states.STARTED);
+    } else if (state === 'TO_SHARE') {
+      assessmentStates.push(Assessment.states.COMPLETED);
+    }
+  });
+
+  return assessmentStates;
+}
 
 function _findByUserId({ userId }) {
   return knex
@@ -99,7 +81,7 @@ function _filterMostRecentAssessments(queryBuilder) {
 }
 
 function _filterByAssessmentStates(queryBuilder, assessmentStates) {
-  if (assessmentStates) {
+  if (assessmentStates.length > 0) {
     queryBuilder.whereIn('assessments.state', assessmentStates);
   }
 }
@@ -108,10 +90,13 @@ function _filterBySharedState(queryBuilder, sharedState) {
   queryBuilder.where('campaign-participations.isShared', sharedState);
 }
 
-function _filterByCampaignArchivedState(queryBuilder, archivedState) {
-  if (archivedState) {
-    queryBuilder.whereNotNull('campaigns.archivedAt');
-  } else {
-    queryBuilder.whereNull('campaigns.archivedAt');
-  }
+function _filterWhithEndedState(queryBuilder, states) {
+  queryBuilder.andWhere(function() {
+    if (states.length === 1) {
+      this.where('campaign-participations.isShared', true);
+    } else {
+      this.modify(_filterByAssessmentStates, buildAssessementStates(states));
+    }
+    this.orWhereNotNull('campaigns.archivedAt');
+  });
 }

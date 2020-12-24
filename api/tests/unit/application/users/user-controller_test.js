@@ -608,7 +608,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should return serialized campaignParticipationOverviews', async function() {
       // given
-      usecases.findUserCampaignParticipationOverviews.withArgs({ userId }).resolves([]);
+      usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined }).resolves([]);
       campaignParticipationOverviewSerializer.serialize.withArgs([]).returns({});
 
       // when
