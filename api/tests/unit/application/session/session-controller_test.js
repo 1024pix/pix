@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { expect, sinon, hFake } = require('../../../test-helper');
 
+const { featureToggles } = require('../../../../lib/config');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
@@ -206,7 +207,7 @@ describe('Unit | Controller | sessionController', () => {
 
   describe('#getAttendanceSheet', () => {
     const tokenService = { extractUserId: _.noop };
-    let request, expectedHeaders;
+    let request;
     const sessionId = 1;
     const odsBuffer = Buffer.alloc(5);
     const accessToken = 'ABC123';
@@ -220,23 +221,39 @@ describe('Unit | Controller | sessionController', () => {
         },
       };
 
-      expectedHeaders = {
-        'Content-Disposition': `attachment; filename=pv-session-${sessionId}.ods`,
-        'Content-Type': 'application/vnd.oasis.opendocument.spreadsheet',
-      };
-
       sinon.stub(usecases, 'getAttendanceSheet');
       sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(userId);
     });
 
-    it('should return attendance sheet', async () => {
+    it('should return attendance sheet with correct file name when reportsCategorization feature is disabled', async () => {
       // given
+      sinon.stub(featureToggles, 'reportsCategorization').value(false);
       usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves(odsBuffer);
 
       // when
       const response = await sessionController.getAttendanceSheet(request, hFake);
 
       // then
+      const expectedHeaders = {
+        'Content-Disposition': `attachment; filename=pv-session-${sessionId}.ods`,
+        'Content-Type': 'application/vnd.oasis.opendocument.spreadsheet',
+      };
+      expect(response.headers).to.deep.equal(expectedHeaders);
+    });
+
+    it('should return attendance sheet with correct file name when reportsCategorization feature is enabled', async () => {
+      // given
+      sinon.stub(featureToggles, 'reportsCategorization').value(true);
+      usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves(odsBuffer);
+
+      // when
+      const response = await sessionController.getAttendanceSheet(request, hFake);
+
+      // then
+      const expectedHeaders = {
+        'Content-Disposition': `attachment; filename=feuille-emargement-session-${sessionId}.ods`,
+        'Content-Type': 'application/vnd.oasis.opendocument.spreadsheet',
+      };
       expect(response.headers).to.deep.equal(expectedHeaders);
     });
 
