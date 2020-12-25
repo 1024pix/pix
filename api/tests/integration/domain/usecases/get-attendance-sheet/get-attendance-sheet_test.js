@@ -1,18 +1,12 @@
 const { unlink, writeFile } = require('fs').promises;
 const _ = require('lodash');
-
-const { expect, databaseBuilder } = require('../../../../test-helper');
-
+const { featureToggles } = require('../../../../../lib/config');
+const { expect, sinon, databaseBuilder } = require('../../../../test-helper');
 const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-
 const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
 
 describe('Integration | UseCases | getAttendanceSheet', () => {
-
-  const expectedOdsFilePath = `${__dirname}/attendance_sheet_template_target.ods`;
-  const actualOdsFilePath = `${__dirname}/attendance_sheet_template_actual.tmp.ods`;
-
   let userId;
   let sessionId;
 
@@ -48,19 +42,47 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
-    await unlink(actualOdsFilePath);
+  context('Ancien PV de session', () => {
+    const expectedOdsFilePath = `${__dirname}/attendance_sheet_template_target.ods`;
+    const actualOdsFilePath = `${__dirname}/attendance_sheet_template_actual.tmp.ods`;
+
+    afterEach(async () => {
+      await unlink(actualOdsFilePath);
+    });
+
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
+      // when
+      sinon.stub(featureToggles, 'reportsCategorization').value(false);
+      const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository });
+      await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+      const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+      const expectResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+
+      // then
+      expect(actualResult).to.deep.equal(expectResult);
+    });
   });
 
-  it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
-    // when
-    const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository });
-    await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
-    const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-    const expectResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+  context('Feuille d\'émargement', () => {
+    const expectedOdsFilePath = `${__dirname}/attendance_sheet_template_reports_categorization_target.ods`;
+    const actualOdsFilePath = `${__dirname}/attendance_sheet_template_reports_categorization_actual.tmp.ods`;
 
-    // then
-    expect(actualResult).to.deep.equal(expectResult);
+    afterEach(async () => {
+      await unlink(actualOdsFilePath);
+    });
+
+    it('should aa an attendance sheet with session data, certification candidates data prefilled', async () => {
+      // when
+      sinon.stub(featureToggles, 'reportsCategorization').value(true);
+      const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository });
+      await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
+      const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
+      const expectResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+
+      // then
+      expect(actualResult).to.deep.equal(expectResult);
+    });
+
   });
 
 });
