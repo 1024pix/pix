@@ -31,9 +31,20 @@
           <FaIcon @icon="file-download" />
         </div>
         <div class="panel-actions__description">
-          <div class="panel-actions__title">Télécharger le PV de session</div>
+          <div class="panel-actions__title">
+            {{#if @isReportsCategorizationFeatureToggleEnabled}}
+              Télécharger la feuille d'émargement
+            {{else}}
+              Télécharger le PV de session
+            {{/if}}
+          </div>
           <div class="panel-actions__subtitle">Renseignez les informations des candidats (Nom, Prénom, &#x2026;)
-            <br> Lors du premier téléchargement, le PV de session est vide. Il contiendra ensuite les informations des candidats ajoutés à la session.
+            <br>
+            {{#if @isReportsCategorizationFeatureToggleEnabled}}
+              Lors du premier téléchargement, la feuille d'émargement est vide. Elle contiendra ensuite les informations des candidats ajoutés à la session.
+            {{else}}
+              Lors du premier téléchargement, le PV de session est vide. Il contiendra ensuite les informations des candidats ajoutés à la session.
+            {{/if}}
           </div>
         </div>
         <div class="panel-actions__button">
@@ -61,9 +72,19 @@
               </strong>
             </div>
           {{else}}
-            <div class="panel-actions__title">Importer le PV de session</div>
+            <div class="panel-actions__title">
+              {{#if @isReportsCategorizationFeatureToggleEnabled}}
+                Importer la feuille d'émargement
+              {{else}}
+                Importer le PV de session
+              {{/if}}
+            </div>
             <div class="panel-actions__subtitle">
-              Sélectionnez le PV de session préalablement rempli.
+              {{#if @isReportsCategorizationFeatureToggleEnabled}}
+                Sélectionnez la feuille d'émargement préalablement remplie.
+              {{else}}
+                Sélectionnez le PV de session préalablement rempli.
+              {{/if}}
               <br>
               <strong>
                 Attention, tout nouvel import efface la liste des candidats existante.
