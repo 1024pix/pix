@@ -34,6 +34,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.organizationType).to.deep.equal(organization.type);
       expect(actualCampaign.organizationLogoUrl).to.deep.equal(organization.logoUrl);
       expect(actualCampaign.isRestricted).to.deep.equal(organization.isManagingStudents);
+      expect(actualCampaign.targetProfileId).to.deep.equal(targetProfile.id);
       expect(actualCampaign.targetProfileName).to.deep.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
     });
@@ -81,6 +82,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.organizationType).to.deep.equal(organization.type);
       expect(actualCampaign.organizationLogoUrl).to.deep.equal(organization.logoUrl);
       expect(actualCampaign.isRestricted).to.deep.equal(organization.isManagingStudents);
+      expect(actualCampaign.targetProfileId).to.deep.equal(targetProfile.id);
       expect(actualCampaign.targetProfileName).to.deep.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
     });

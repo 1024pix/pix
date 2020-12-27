@@ -13,6 +13,7 @@ module.exports = {
         'organizationType': 'organizations.type',
         'organizationLogoUrl': 'organizations.logoUrl',
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
+        'targetProfileId': 'target-profiles.id',
         'targetProfileName': 'target-profiles.name',
         'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
@@ -37,6 +38,7 @@ module.exports = {
         'organizationType': 'organizations.type',
         'organizationLogoUrl': 'organizations.logoUrl',
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
+        'targetProfileId': 'target-profiles.id',
         'targetProfileName': 'target-profiles.name',
         'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
