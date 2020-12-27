@@ -508,4 +508,28 @@ describe('Integration | Repository | Target-profile', () => {
       });
     });
   });
+
+  describe('#getImageUrl', () => {
+
+    it('should return imageUrl of target-profile', async () => {
+      // given
+      const imageUrl = 'someImageUrl';
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ imageUrl }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const actualImageUrl = await targetProfileRepository.getImageUrl(targetProfileId);
+
+      // then
+      expect(actualImageUrl).to.equal(imageUrl);
+    });
+
+    it('should throw a NotFoundError when target profile does not exist', async () => {
+      // when
+      const error = await catchErr(targetProfileRepository.getImageUrl)(123);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
 });

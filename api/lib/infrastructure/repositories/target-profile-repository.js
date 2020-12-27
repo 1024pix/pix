@@ -120,6 +120,20 @@ module.exports = {
 
     return attachedOrganizations.some((e) => e);
   },
+
+  async getImageUrl(id) {
+    const result = await knex
+      .select('target-profiles.imageUrl')
+      .from('target-profiles')
+      .where({ id })
+      .first();
+
+    if (!result) {
+      throw new NotFoundError(`Not found target profile for ID ${id}`);
+    }
+
+    return result.imageUrl;
+  },
 };
 
 async function _getWithAirtableSkills(targetProfile) {
