@@ -12,9 +12,7 @@ export default class CheckpointRoute extends Route {
     }
 
     if (assessment.isForCampaign) {
-      const campaigns = await this.store.query('campaign', { filter: { code: assessment.codeCampaign } });
-
-      assessment.campaign = campaigns.get('firstObject');
+      assessment.campaign = await this.store.queryRecord('campaign', { filter: { code: assessment.codeCampaign } });
     }
   }
 }
