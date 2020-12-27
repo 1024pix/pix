@@ -13,8 +13,11 @@ module.exports = {
         'organizationType': 'organizations.type',
         'organizationLogoUrl': 'organizations.logoUrl',
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
+        'targetProfileName': 'target-profiles.name',
+        'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
+      .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .where('campaigns.id', id)
       .first();
 
@@ -34,8 +37,11 @@ module.exports = {
         'organizationType': 'organizations.type',
         'organizationLogoUrl': 'organizations.logoUrl',
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
+        'targetProfileName': 'target-profiles.name',
+        'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
+      .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .where('campaigns.code', code)
       .first();
 
