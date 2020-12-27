@@ -108,6 +108,18 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/organizations/{id}/logo-url',
+      config: {
+        handler: organizationController.getLogoUrl,
+        tags: ['api', 'organizations', 'logoUrl'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération du logo de l\'organisation\n',
+        ],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/organizations/{id}/target-profiles',
       config: {

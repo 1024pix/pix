@@ -3,6 +3,7 @@ const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const imageSerializer = require('../../infrastructure/serializers/jsonapi/image-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
@@ -11,17 +12,18 @@ const userWithSchoolingRegistrationSerializer = require('../../infrastructure/se
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 
 module.exports = {
 
-  getOrganizationDetails: (request) => {
+  getOrganizationDetails(request) {
     const organizationId = parseInt(request.params.id);
 
     return usecases.getOrganizationDetails({ organizationId })
       .then(organizationSerializer.serialize);
   },
 
-  create: (request) => {
+  create(request) {
     const {
       name,
       type,
@@ -144,5 +146,11 @@ module.exports = {
     return h.response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', 'attachment; filename=modele-import.csv');
+  },
+
+  async getLogoUrl(request) {
+    const organizationId = parseInt(request.params.id);
+    const logoUrl = await organizationRepository.getLogoUrl(organizationId);
+    return imageSerializer.serializeOrganizationLogoUrl(organizationId, logoUrl);
   },
 };

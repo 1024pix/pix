@@ -8,6 +8,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const organizationService = require('../../../../lib/domain/services/organization-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
+const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
@@ -611,6 +612,31 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       // then
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['Content-Disposition']).to.equal('attachment; filename=modele-import.csv');
+    });
+  });
+
+  describe('#getLogoUrl', () => {
+
+    it('should return the serialized logo', async () => {
+      // given
+      const organizationId = 123;
+      const organizationLogoUrl = 'someLogoUrl';
+      const request = {
+        params: { id: organizationId },
+      };
+      sinon.stub(organizationRepository, 'getLogoUrl').withArgs(organizationId).resolves(organizationLogoUrl);
+
+      // when
+      const response = await organizationController.getLogoUrl(request);
+
+      // then
+      expect(response.data).to.deep.equal({
+        type: 'organization-logo-urls',
+        id: organizationId.toString(),
+        attributes: {
+          'image': organizationLogoUrl,
+        },
+      });
     });
   });
 });

@@ -3,6 +3,7 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
@@ -20,6 +21,7 @@ describe('Unit | Router | organization-router', () => {
     sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
     sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
     sinon.stub(organizationController, 'getSchoolingRegistrationsCsvTemplate').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(organizationController, 'getLogoUrl');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -194,6 +196,35 @@ describe('Unit | Router | organization-router', () => {
         // then
         expect(response.statusCode).to.equal(400);
       });
+    });
+  });
+
+  describe('GET /api/organizations/:id/logo-url', () => {
+
+    it('should exist', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/logo-url';
+      organizationController.getLogoUrl.callsFake((request, h) => h.response('ok').code(200));
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should throw a 404 error when controller returns NotFoundError domain error', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/logo-url';
+      organizationController.getLogoUrl.rejects(new NotFoundError());
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(404);
     });
   });
 });
