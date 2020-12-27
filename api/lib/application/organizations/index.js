@@ -111,6 +111,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/logo-url',
       config: {
+        auth: false,
         handler: organizationController.getLogoUrl,
         tags: ['api', 'organizations', 'logoUrl'],
         notes: [

@@ -114,6 +114,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/target-profiles/{id}/image-url',
       config: {
+        auth: false,
         handler: targetProfileController.getImageUrl,
         tags: ['api', 'target-profiles', 'imageUrl'],
         notes: [
