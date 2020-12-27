@@ -17,77 +17,23 @@ describe('Acceptance | API | Campaign Controller', () => {
     server = await createServer();
   });
 
-  describe('GET /api/campaign', function() {
+  describe('GET /api/campaign', () => {
 
-    it('should return one NotFoundError if there is no campaign link to the code', async () => {
+    it('should return the campaign ask by code', async () => {
       // given
-      const fakeCampaignCode = 'FAKE_CAMPAIGN_CODE';
+      campaign = databaseBuilder.factory.buildCampaign();
+      await databaseBuilder.commit();
       const options = {
         method: 'GET',
-        url: `/api/campaigns/?filter[code]=${fakeCampaignCode}`,
+        url: `/api/campaigns/?filter[code]=${campaign.code}`,
       };
 
       // when
       const response = await server.inject(options);
 
       // then
-      expect(response.statusCode).to.equal(404);
-      expect(response.result.errors[0].title).to.equal('Not Found');
-      expect(response.result.errors[0].detail).to.equal(`Campaign with code ${fakeCampaignCode} not found`);
-    });
-
-    context('when organization does not manage student', () => {
-
-      beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: false });
-        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-        await databaseBuilder.commit();
-      });
-
-      it('should return the campaign ask by code', async () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/campaigns/?filter[code]=${campaign.code}`,
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data[0].attributes.code).to.equal(campaign.code);
-        expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
-        expect(response.result.data[0].attributes['organization-name']).to.equal(organization.name);
-        expect(response.result.data[0].attributes['is-restricted']).to.be.false;
-      });
-    });
-
-    context('when organization manage student and is type SCO', () => {
-
-      beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-        await databaseBuilder.commit();
-      });
-
-      it('should return the campaign ask by code', async () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/campaigns/?filter[code]=${campaign.code}`,
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data[0].attributes.code).to.equal(campaign.code);
-        expect(response.result.data[0].attributes['organization-logo-url']).to.equal(organization.logoUrl);
-        expect(response.result.data[0].attributes['organization-name']).to.equal(organization.name);
-        expect(response.result.data[0].attributes['is-restricted']).to.be.true;
-      });
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.attributes.code).to.equal(campaign.code);
     });
   });
 

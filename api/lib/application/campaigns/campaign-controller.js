@@ -5,6 +5,7 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignToJoinSerializer = require('../../infrastructure/serializers/jsonapi/campaign-to-join-serializer');
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
@@ -34,8 +35,8 @@ module.exports = {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
     await _validateFilters(filters);
 
-    const campaign = await usecases.retrieveCampaignInformation({ code: filters.code });
-    return campaignSerializer.serialize([campaign]);
+    const campaignToJoin = await usecases.getCampaignByCode({ code: filters.code });
+    return campaignToJoinSerializer.serialize(campaignToJoin);
   },
 
   getById(request) {
@@ -163,4 +164,3 @@ function _validateFilters(filters) {
     throw new MissingQueryParamError('filter.code');
   }
 }
-

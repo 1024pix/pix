@@ -181,49 +181,41 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   describe('#getByCode ', () => {
 
-    let request;
-    const campaignCode = 'AZERTY123';
-    const createdCampaign = domainBuilder.buildCampaign();
-
-    beforeEach(() => {
-      request = {
-        query: { 'filter[code]': campaignCode },
+    it('should return the serialized campaign', async () => {
+      // given
+      const code = 'AZERTY123';
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ code });
+      const request = {
+        query: { 'filter[code]': code },
       };
-      sinon.stub(usecases, 'retrieveCampaignInformation');
-      sinon.stub(campaignSerializer, 'serialize');
-    });
-
-    it('should call retrieveCampaignInformation usecase to retrieve the campaign by code', async () => {
-      // given
-      usecases.retrieveCampaignInformation.resolves(createdCampaign);
-
-      const serializedCampaign = { name: createdCampaign.name };
-      campaignSerializer.serialize.returns(serializedCampaign);
-
-      // when
-      await campaignController.getByCode(request, hFake);
-
-      // then
-      expect(usecases.retrieveCampaignInformation).to.have.been.calledWith({ code: campaignCode });
-    });
-
-    it('should return the serialized campaign found by the use case', async () => {
-      // given
-      const createdCampaign = domainBuilder.buildCampaign();
-      usecases.retrieveCampaignInformation.resolves(createdCampaign);
-
-      const augmentedCampaign = Object.assign(createdCampaign, { organizationLogoUrl: 'url for the orga logo' });
-
-      const serializedCampaign = { name: augmentedCampaign.name };
-      campaignSerializer.serialize.returns(serializedCampaign);
+      sinon.stub(usecases, 'getCampaignByCode').withArgs({ code }).resolves(campaignToJoin);
 
       // when
       const response = await campaignController.getByCode(request, hFake);
 
       // then
-      expect(campaignSerializer.serialize).to.have.been.calledWith([augmentedCampaign]);
-      expect(response).to.deep.equal(serializedCampaign);
+      expect(response.data).to.deep.equal({
+        type: 'campaigns',
+        id: campaignToJoin.id.toString(),
+        attributes: {
+          'code': campaignToJoin.code,
+          'title': campaignToJoin.title,
+          'type': campaignToJoin.type,
+          'id-pix-label': campaignToJoin.idPixLabel,
+          'custom-landing-page-text': campaignToJoin.customLandingPageText,
+          'external-id-help-image-url': campaignToJoin.externalIdHelpImageUrl,
+          'alternative-text-to-external-id-help-image': campaignToJoin.alternativeTextToExternalIdHelpImage,
+          'is-archived': campaignToJoin.isArchived,
+          'is-restricted': campaignToJoin.isRestricted,
+          'organization-name': campaignToJoin.organizationName,
+          'organization-type': campaignToJoin.organizationType,
+          'organization-logo-url': campaignToJoin.organizationLogoUrl,
+          'target-profile-name': campaignToJoin.targetProfileName,
+          'target-profile-image-url': campaignToJoin.targetProfileImageUrl,
+        },
+      });
     });
+
   });
 
   describe('#getById ', () => {

@@ -9,7 +9,7 @@ describe('Unit | Domain | Models | CampaignToJoin', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.ASSESSMENT });
 
       // when / then
-      expect(campaignToJoin.isAssessment()).to.be.true;
+      expect(campaignToJoin.isAssessment).to.be.true;
     });
 
     it('should return false if the campaign is not of type ASSESSMENT', () => {
@@ -17,7 +17,7 @@ describe('Unit | Domain | Models | CampaignToJoin', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.PROFILES_COLLECTION });
 
       // when / then
-      expect(campaignToJoin.isAssessment()).to.be.false;
+      expect(campaignToJoin.isAssessment).to.be.false;
     });
   });
 
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | CampaignToJoin', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.PROFILES_COLLECTION });
 
       // when / then
-      expect(campaignToJoin.isProfilesCollection()).to.be.true;
+      expect(campaignToJoin.isProfilesCollection).to.be.true;
     });
 
     it('should return false if the campaign is not of type PROFILES_COLLECTION', () => {
@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | CampaignToJoin', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.ASSESSMENT });
 
       // when / then
-      expect(campaignToJoin.isProfilesCollection()).to.be.false;
+      expect(campaignToJoin.isProfilesCollection).to.be.false;
     });
   });
 
@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | CampaignToJoin', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ archivedAt: new Date('2020-02-02') });
 
       // when / then
-      expect(campaignToJoin.isArchived()).to.be.true;
+      expect(campaignToJoin.isArchived).to.be.true;
     });
 
     it('should return false if the campaign is not archived', () => {
@@ -53,7 +53,7 @@ describe('Unit | Domain | Models | CampaignToJoin', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ archivedAt: null });
 
       // when / then
-      expect(campaignToJoin.isArchived()).to.be.false;
+      expect(campaignToJoin.isArchived).to.be.false;
     });
   });
 });
