@@ -53,7 +53,7 @@ module.exports = {
   },
 
   async isCampaignJoinableByUser(campaign, userId) {
-    if (campaign.isArchived()) {
+    if (campaign.isArchived) {
       return false;
     }
 

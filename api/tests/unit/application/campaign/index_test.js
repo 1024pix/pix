@@ -5,6 +5,7 @@ const {
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/campaigns');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
@@ -19,8 +20,34 @@ describe('Unit | Application | Router | campaign-router ', function() {
     sinon.stub(campaignController, 'getCollectiveResult').returns('ok');
     sinon.stub(campaignController, 'archiveCampaign').returns('ok');
     sinon.stub(campaignController, 'unarchiveCampaign').returns('ok');
+    sinon.stub(campaignController, 'getByCode');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
+  });
+
+  describe('GET /api/campaigns?filter[code=SOMECODE]', () => {
+
+    it('should exist', async () => {
+      // given
+      campaignController.getByCode.returns('ok');
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/campaigns?filter[code=SOMECODE]');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should throw a 404 NotFound error when controller throws a NotFound domain error', async () => {
+      // given
+      campaignController.getByCode.rejects(new NotFoundError());
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/campaigns?filter[code=SOMECODE]');
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
   });
 
   describe('GET /api/campaigns/{id}/collective-results', () => {
