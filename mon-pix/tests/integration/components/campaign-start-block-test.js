@@ -39,7 +39,7 @@ describe('Integration | Component | campaign-start-block template', function() {
     // given
     this.set('campaign', {
       organizationName: 'My organisation',
-      organizationLogoUrl: 'http://orga.com/logo.png',
+      organizationLogoUrl: { image: 'http://orga.com/logo.png' },
       customLandingPageText: 'My campaign text',
     });
     this.set('startCampaignParticipation', () => {});

@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
 export default class Campaign extends Model {
   @attr('string') code;
@@ -12,9 +12,11 @@ export default class Campaign extends Model {
   @attr('boolean') isArchived;
   @attr('string') organizationName;
   @attr('string') organizationType;
-  @attr('string') organizationLogoUrl;
   @attr('string') targetProfileName;
   @attr('string') targetProfileImageUrl;
+
+  @belongsTo('organization-logo-url') organizationLogoUrl;
+  @belongsTo('target-profile-image-url') targetProfileImageUrl;
 
   get isAssessment() {
     return this.type === 'ASSESSMENT';

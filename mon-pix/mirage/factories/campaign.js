@@ -19,10 +19,6 @@ export default Factory.extend({
     return null;
   },
 
-  organizationLogoUrl() {
-    return 'data:jpeg;base64=somelogo';
-  },
-
   organizationName() {
     return faker.company.companyName();
   },
