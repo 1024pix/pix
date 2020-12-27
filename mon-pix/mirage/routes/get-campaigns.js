@@ -12,5 +12,5 @@ export default function(schema, request) {
   if (campaigns.length === 0) {
     return new Response(404);
   }
-  return campaigns;
+  return campaigns.models[0];
 }

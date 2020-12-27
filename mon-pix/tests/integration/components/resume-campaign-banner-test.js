@@ -20,7 +20,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
       campaign: EmberObject.create({
         code: 'AZERTY',
         title: 'Parcours Pix',
-        isTypeAssessment: true,
+        isAssessment: true,
       }),
     });
     const oldCampaignNotFinished = EmberObject.create({
@@ -28,7 +28,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
       createdAt: '2019-09-30T10:30:00Z',
       campaign: EmberObject.create({
         code: 'AZERTY',
-        isTypeAssessment: true,
+        isAssessment: true,
       }),
     });
     const campaignFinished = EmberObject.create({
@@ -36,7 +36,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
       createdAt: '2019-09-30T14:30:00Z',
       campaign: EmberObject.create({
         code: 'AZERTY',
-        isTypeAssessment: true,
+        isAssessment: true,
       }),
       assessment: EmberObject.create({
         isCompleted: true,
@@ -105,7 +105,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
           campaign: EmberObject.create({
             code: 'AZERTY',
             title: 'Parcours Pix',
-            isTypeAssessment: true,
+            isAssessment: true,
           }),
           assessment: EmberObject.create({
             isCompleted: true,
@@ -193,7 +193,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
           createdAt: '2019-09-30T14:30:00Z',
           campaign: EmberObject.create({
             code: 'AZERTY',
-            isTypeAssessment: false,
+            isAssessment: false,
           }),
         });
 

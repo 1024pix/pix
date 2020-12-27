@@ -21,15 +21,15 @@ describe('Unit | Component | CampaignParticipation | Grid', function() {
       const campaignParticipations = [
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
-          campaign: { title: 'My campaign 1', isTypeAssessment: true },
+          campaign: { title: 'My campaign 1', isAssessment: true },
         }),
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
-          campaign: { title: 'My campaign 2', isTypeProfilesCollection: true },
+          campaign: { title: 'My campaign 2', isProfilesCollection: true },
         }),
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
-          campaign: { title: 'My campaign 3', isTypeAssessment: true },
+          campaign: { title: 'My campaign 3', isAssessment: true },
         }),
       ];
       component.args.model = campaignParticipations;
@@ -50,17 +50,17 @@ describe('Unit | Component | CampaignParticipation | Grid', function() {
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
           isShared: true,
-          campaign: { title: 'My campaign 1', isTypeAssessment: true },
+          campaign: { title: 'My campaign 1', isAssessment: true },
         }),
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
           isShared: false,
-          campaign: { title: 'My campaign 2', isTypeAssessment: true },
+          campaign: { title: 'My campaign 2', isAssessment: true },
         }),
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
           isShared: true,
-          campaign: { title: 'My campaign 3', isTypeAssessment: true },
+          campaign: { title: 'My campaign 3', isAssessment: true },
         }),
       ];
       component.args.model = campaignParticipations;
@@ -80,22 +80,22 @@ describe('Unit | Component | CampaignParticipation | Grid', function() {
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
           isShared: true,
-          campaign: { title: 'My campaign 1', isTypeAssessment: true },
+          campaign: { title: 'My campaign 1', isAssessment: true },
         }),
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
           isShared: false,
-          campaign: { title: 'My campaign 2', isTypeAssessment: true },
+          campaign: { title: 'My campaign 2', isAssessment: true },
         }),
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
           isShared: true,
-          campaign: { title: 'My campaign 3', isTypeProfilesCollection: true },
+          campaign: { title: 'My campaign 3', isProfilesCollection: true },
         }),
         EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
           isShared: false,
-          campaign: { title: 'My campaign 4', isTypeProfilesCollection: true },
+          campaign: { title: 'My campaign 4', isProfilesCollection: true },
         }),
       ];
       component.args.model = campaignParticipations;
@@ -114,7 +114,7 @@ describe('Unit | Component | CampaignParticipation | Grid', function() {
       const campaignParticipations = times(10, (index) => {
         return EmberObject.create({
           createdAt: '2020-12-10T15:16:20.109Z',
-          campaign: { title: `My campaign ${index}`, isTypeAssessment: true },
+          campaign: { title: `My campaign ${index}`, isAssessment: true },
         });
       });
       component.args.model = campaignParticipations;

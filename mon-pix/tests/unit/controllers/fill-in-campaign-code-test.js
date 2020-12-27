@@ -10,19 +10,16 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
   setupIntl();
 
   let controller;
-  let storeStub;
   let sessionStub;
   let currentUserStub;
   let eventStub;
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:fill-in-campaign-code');
-    storeStub = { query: sinon.stub() };
     controller.transitionToRoute = sinon.stub();
     sessionStub = { invalidate: sinon.stub() };
     eventStub = { preventDefault: sinon.stub() };
     currentUserStub = { user: { firstName: 'John', lastname: 'Doe' } };
-    controller.set('store', storeStub);
     controller.set('session', sessionStub);
     controller.set('currentUser', currentUserStub);
     controller.set('errorMessage', null);
@@ -34,9 +31,10 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
     it('should call start-or-resume', async () => {
       // given
       const campaignCode = 'azerty1';
+      const campaign = Symbol('someCampaign');
+      const storeStub = { queryRecord: sinon.stub().withArgs('campaign', { filter: { code: campaignCode } }).resolves(campaign) };
+      controller.set('store', storeStub);
       controller.set('campaignCode', campaignCode);
-      const campaign = 'someCampaign';
-      storeStub.query.resolves([campaign]);
 
       // when
       await controller.actions.startCampaign.call(controller, eventStub);
@@ -56,10 +54,12 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       expect(controller.get('errorMessage')).to.equal('Veuillez saisir un code.');
     });
 
-    it('should set error when campaign code is wrong', async () => {
+    it('should set error when no campaign found with code', async () => {
       // given
-      controller.set('campaignCode', 'SOMECODE');
-      storeStub.query.rejects({ errors: [{ status: '404' }] });
+      const campaignCode = 'azerty1';
+      controller.set('campaignCode', campaignCode);
+      const storeStub = { queryRecord: sinon.stub().withArgs('campaign', { filter: { code: campaignCode } }).rejects({ errors: [{ status: '404' }] }) };
+      controller.set('store', storeStub);
 
       // when
       await controller.actions.startCampaign.call(controller, eventStub);
@@ -70,8 +70,10 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
 
     it('should set error when student is not authorized in campaign', async () => {
       // given
-      controller.set('campaignCode', 'SOMECODE');
-      storeStub.query.rejects({ errors: [{ status: '403' }] });
+      const campaignCode = 'azerty1';
+      controller.set('campaignCode', campaignCode);
+      const storeStub = { queryRecord: sinon.stub().withArgs('campaign', { filter: { code: campaignCode } }).rejects({ errors: [{ status: '403' }] }) };
+      controller.set('store', storeStub);
 
       // When
       await controller.actions.startCampaign.call(controller, eventStub);

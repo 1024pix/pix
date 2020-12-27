@@ -3,8 +3,12 @@ import faker from 'faker';
 
 export default Factory.extend({
 
-  name() {
+  title() {
     return faker.random.words();
+  },
+
+  type() {
+    return 'ASSESSMENT';
   },
 
   code() {
@@ -27,17 +31,8 @@ export default Factory.extend({
     return false;
   },
 
-  afterCreate(campaign, server) {
-    if (!campaign.targetProfile) {
-      campaign.update({
-        targetProfile: server.create('target-profile', { name: 'Target Profile' }),
-      });
-    }
-    if (!campaign.type) {
-      campaign.update({
-        type: 'ASSESSMENT',
-      });
-    }
+  targetProfileName() {
+    return 'Target Profile';
   },
 
   withOneChallenge: trait({
