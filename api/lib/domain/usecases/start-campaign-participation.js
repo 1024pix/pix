@@ -20,7 +20,7 @@ module.exports = async function startCampaignParticipation({
 
   const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
 
-  if (campaignToJoin.isAssessment()) {
+  if (campaignToJoin.isAssessment) {
     await _createCampaignAssessment(userId, createdCampaignParticipation.id, assessmentRepository, domainTransaction);
   }
 
