@@ -18,6 +18,16 @@ module.exports = {
           },
         },
       },
+      targetProfileImageUrl: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related(record) {
+            return `/api/target-profiles/${record.targetProfileId}/image-url`;
+          },
+        },
+      },
     }).serialize(campaignsToJoin);
   },
 };

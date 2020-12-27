@@ -17,7 +17,6 @@ module.exports = function buildCampaignToJoin({
   organizationIsManagingStudents = false,
   targetProfileId = 456,
   targetProfileName = 'Le profil cible',
-  targetProfileImageUrl = 'targetProfileImageUrl',
 } = {}) {
   return new CampaignToJoin({
     id,
@@ -35,6 +34,5 @@ module.exports = function buildCampaignToJoin({
     organizationIsManagingStudents,
     targetProfileId,
     targetProfileName,
-    targetProfileImageUrl,
   });
 };

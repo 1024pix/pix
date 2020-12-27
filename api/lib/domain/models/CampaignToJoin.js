@@ -17,7 +17,6 @@ class CampaignToJoin {
     organizationIsManagingStudents,
     targetProfileId,
     targetProfileName,
-    targetProfileImageUrl,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -34,7 +33,6 @@ class CampaignToJoin {
     this.organizationType = organizationType;
     this.targetProfileId = targetProfileId;
     this.targetProfileName = targetProfileName;
-    this.targetProfileImageUrl = targetProfileImageUrl;
   }
 
   get isAssessment() {

@@ -14,7 +14,6 @@ module.exports = {
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
         'targetProfileId': 'target-profiles.id',
         'targetProfileName': 'target-profiles.name',
-        'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
@@ -38,7 +37,6 @@ module.exports = {
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
         'targetProfileId': 'target-profiles.id',
         'targetProfileName': 'target-profiles.name',
-        'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')

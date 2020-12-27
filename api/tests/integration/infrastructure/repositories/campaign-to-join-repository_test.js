@@ -35,7 +35,6 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.isRestricted).to.deep.equal(organization.isManagingStudents);
       expect(actualCampaign.targetProfileId).to.deep.equal(targetProfile.id);
       expect(actualCampaign.targetProfileName).to.deep.equal(targetProfile.name);
-      expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
     });
 
     it('should throw a NotFoundError when no campaign exists with given id', async () => {
@@ -82,7 +81,6 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.isRestricted).to.deep.equal(organization.isManagingStudents);
       expect(actualCampaign.targetProfileId).to.deep.equal(targetProfile.id);
       expect(actualCampaign.targetProfileName).to.deep.equal(targetProfile.name);
-      expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
     });
 
     it('should throw a NotFoundError when no campaign exists with given code', async () => {

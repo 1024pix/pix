@@ -30,12 +30,16 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', () => {
             'organization-name': campaignToJoin.organizationName,
             'organization-type': campaignToJoin.organizationType,
             'target-profile-name': campaignToJoin.targetProfileName,
-            'target-profile-image-url': campaignToJoin.targetProfileImageUrl,
           },
           relationships: {
             'organization-logo-url': {
               links: {
                 related: `/api/organizations/${campaignToJoin.organizationId}/logo-url`,
+              },
+            },
+            'target-profile-image-url': {
+              links: {
+                related: `/api/target-profiles/${campaignToJoin.targetProfileId}/image-url`,
               },
             },
           },
