@@ -110,6 +110,18 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/target-profiles/{id}/image-url',
+      config: {
+        handler: targetProfileController.getImageUrl,
+        tags: ['api', 'target-profiles', 'imageUrl'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération du logo du profil cible\n',
+        ],
+      },
+    },
   ]);
 };
 

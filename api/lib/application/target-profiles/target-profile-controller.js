@@ -3,6 +3,8 @@ const targetProfileSerializer = require('../../infrastructure/serializers/jsonap
 const targetProfileWithLearningContentSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const imageSerializer = require('../../infrastructure/serializers/jsonapi/image-serializer');
+const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 module.exports = {
 
   async findPaginatedFilteredTargetProfiles(request) {
@@ -31,5 +33,11 @@ module.exports = {
     const targetProfileId = request.params.id;
     await usecases.attachOrganizationsToTargetProfile({ targetProfileId, organizationIds });
     return h.response({}).code(204);
+  },
+
+  async getImageUrl(request) {
+    const targetProfileId = parseInt(request.params.id);
+    const imageUrl = await targetProfileRepository.getImageUrl(targetProfileId);
+    return imageSerializer.serializeTargetProfileImageUrl(targetProfileId, imageUrl);
   },
 };

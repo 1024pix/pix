@@ -2,6 +2,7 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
 describe('Integration | Application | Target Profiles | Routes', () => {
@@ -13,6 +14,7 @@ describe('Integration | Application | Target Profiles | Routes', () => {
     sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfiles').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'getTargetProfileDetails').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(targetProfileController, 'getImageUrl');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -167,6 +169,35 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('GET /api/target-profiles/:id/image-url', () => {
+
+    it('should exist', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/target-profiles/1/image-url';
+      targetProfileController.getImageUrl.callsFake((request, h) => h.response('ok').code(200));
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should throw a 404 error when controller returns NotFoundError domain error', async () => {
+      // given
+      const method = 'GET';
+      const url = '/api/target-profiles/1/image-url';
+      targetProfileController.getImageUrl.rejects(new NotFoundError());
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(404);
     });
   });
 });
