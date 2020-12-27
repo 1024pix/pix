@@ -4,6 +4,7 @@ const BookshelfOrganization = require('../data/organization');
 const Organization = require('../../domain/models/Organization');
 const User = require('../../domain/models/User');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../bookshelf');
 
 const DEFAULT_PAGE_SIZE = 10;
 const DEFAULT_PAGE_NUMBER = 1;
@@ -161,5 +162,19 @@ module.exports = {
       });
     const organizations = bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganization, models);
     return { models: organizations, pagination };
+  },
+
+  async getLogoUrl(id) {
+    const result = await knex
+      .select('organizations.logoUrl')
+      .from('organizations')
+      .where({ id })
+      .first();
+
+    if (!result) {
+      throw new NotFoundError(`Not found organization for ID ${id}`);
+    }
+
+    return result.logoUrl;
   },
 };

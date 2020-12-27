@@ -854,4 +854,28 @@ describe('Integration | Repository | Organization', function() {
       });
     });
   });
+
+  describe('#getLogoUrl', () => {
+
+    it('should return logoUrl of organization', async () => {
+      // given
+      const logoUrl = 'someLogoUrl';
+      const organizationId = databaseBuilder.factory.buildOrganization({ logoUrl }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const actualLogoUrl = await organizationRepository.getLogoUrl(organizationId);
+
+      // then
+      expect(actualLogoUrl).to.equal(logoUrl);
+    });
+
+    it('should throw a NotFoundError when organization does not exist', async () => {
+      // when
+      const error = await catchErr(organizationRepository.getLogoUrl)(123);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
 });
