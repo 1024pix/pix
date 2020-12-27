@@ -16,6 +16,8 @@ class CampaignToJoin {
     organizationType,
     organizationLogoUrl,
     organizationIsManagingStudents,
+    targetProfileName,
+    targetProfileImageUrl,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -26,11 +28,13 @@ class CampaignToJoin {
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.archivedAt = archivedAt;
     this.type = type;
+    this.isRestricted = organizationIsManagingStudents;
     this.organizationId = organizationId;
     this.organizationName = organizationName;
     this.organizationType = organizationType;
     this.organizationLogoUrl = organizationLogoUrl;
-    this.isRestricted = organizationIsManagingStudents;
+    this.targetProfileName = targetProfileName;
+    this.targetProfileImageUrl = targetProfileImageUrl;
   }
 
   isAssessment() {
