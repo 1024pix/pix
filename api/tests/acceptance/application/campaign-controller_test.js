@@ -19,7 +19,7 @@ describe('Acceptance | API | Campaign Controller', () => {
 
   describe('GET /api/campaign', () => {
 
-    it('should return the campaign ask by code', async () => {
+    it('should return the campaign requested by code', async () => {
       // given
       campaign = databaseBuilder.factory.buildCampaign();
       await databaseBuilder.commit();

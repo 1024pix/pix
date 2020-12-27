@@ -16,7 +16,7 @@ export default class ResumeCampaignBanner extends Component {
       return {
         title: this.lastUnsharedCampaignParticipation.campaign.get('title'),
         code: this.lastUnsharedCampaignParticipation.campaign.get('code'),
-        isTypeAssessment: this.lastUnsharedCampaignParticipation.campaign.get('isTypeAssessment'),
+        isTypeAssessment: this.lastUnsharedCampaignParticipation.campaign.get('isAssessment'),
         assessment: this.lastUnsharedCampaignParticipation.assessment,
       };
     }
