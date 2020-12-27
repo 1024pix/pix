@@ -8,6 +8,16 @@ module.exports = {
         'externalIdHelpImageUrl', 'alternativeTextToExternalIdHelpImage', 'isArchived',
         'isRestricted', 'organizationName', 'organizationType', 'organizationLogoUrl',
         'targetProfileName', 'targetProfileImageUrl'],
+      organizationLogoUrl: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related(record) {
+            return `/api/organizations/${record.organizationId}/logo-url`;
+          },
+        },
+      },
     }).serialize(campaignsToJoin);
   },
 };

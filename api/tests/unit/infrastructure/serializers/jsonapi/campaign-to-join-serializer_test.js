@@ -29,9 +29,15 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', () => {
             'is-restricted': campaignToJoin.isRestricted,
             'organization-name': campaignToJoin.organizationName,
             'organization-type': campaignToJoin.organizationType,
-            'organization-logo-url': campaignToJoin.organizationLogoUrl,
             'target-profile-name': campaignToJoin.targetProfileName,
             'target-profile-image-url': campaignToJoin.targetProfileImageUrl,
+          },
+          relationships: {
+            'organization-logo-url': {
+              links: {
+                related: `/api/organizations/${campaignToJoin.organizationId}/logo-url`,
+              },
+            },
           },
         },
       });
