@@ -7,7 +7,38 @@
 </header>
 
 <main class="page-body">
+  {{#if this.isEditMode}}
+  <section class="page-section mb_10">
+    <div class="organization__edit-form">
+      <form class="form" {{on "submit" this.updateProfileName}}>
 
+        <span class="form__instructions">
+          Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont
+          obligatoires.
+        </span>
+
+        <div class="form-field">
+          <label for="name" class="form-field__label">
+            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom
+          </label>
+          {{#if (v-get this.form 'name' 'isInvalid')}}
+          <div class="form-field__error" aria-label="Message d'erreur du champ nom">
+            {{v-get this.form 'name' 'message'}}
+          </div>
+          {{/if}}
+          <Input id="name" @type="text" class={{if (v-get this.form 'name' 'isInvalid'
+            ) "form-control is-invalid" "form-control" }} @value={{this.form.name}} required={{true}} />
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click"
+            this.cancel}}>Annuler</button>
+          <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  {{else}}
   <section class="page-section mb_10">
     <div class="page-section__header">
       <h1 class="page-section__title">{{@model.name}}</h1>
@@ -16,9 +47,16 @@
       ID : {{@model.id}}<br>
       Public : {{this.isPublic}}<br>
       Archivé : {{this.isOutdated}}<br>
-      Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}> {{@model.organizationId}} </LinkTo><br>
+      Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}>
+        {{@model.organizationId}} </LinkTo><br>
     </div>
+    <br>
+    <button type="button" class="btn btn-outline-default" aria-label="Editer" {{on "click"
+      this.toggleEditMode}}>Editer</button>
+
   </section>
+
+  {{/if}}
 
   <nav class="navbar">
     <LinkTo @route="authenticated.target-profiles.target-profile.details" @model={{@model}} class="navbar-item">
