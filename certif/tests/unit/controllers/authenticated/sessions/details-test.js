@@ -62,67 +62,40 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
 
     module('when there is at least one enrolled candidate', function() {
 
-      module('when the toggle CertifPrescriptionSco is enabled', function() {
+      module('when it should display the CertifPrescriptionScoFeature', function() {
 
-        module('when the user is of type SCO', function() {
+        test('should return true ', function(assert) {
+          // given
+          const controller = this.owner.lookup('controller:authenticated/sessions/details');
+          controller.model = {
+            certificationCandidates: ['candidate1', 'candidate2'],
+            shouldDisplayPrescriptionScoStudentRegistrationFeature: true,
+          };
 
-          test('should return true', function(assert) {
-            // given
-            const controller = this.owner.lookup('controller:authenticated/sessions/details');
-            controller.model = {
-              certificationCandidates: ['candidate1', 'candidate2'],
-              isUserFromSco: true,
-              isCertifPrescriptionScoEnabled: true,
-            };
+          // when
+          const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
 
-            // when
-            const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
-
-            // then
-            assert.ok(shouldDisplayDownloadButton);
-          });
-        });
-
-        module('when user is not from sco', function() {
-
-          test('should return false', function(assert) {
-            // given
-            const controller = this.owner.lookup('controller:authenticated/sessions/details');
-            controller.model = {
-              certificationCandidates: ['candidate1', 'candidate2'],
-              isUserFromSco: false,
-              isCertifPrescriptionScoEnabled: true,
-            };
-
-            // when
-            const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
-
-            // then
-            assert.notOk(shouldDisplayDownloadButton);
-          });
+          // then
+          assert.ok(shouldDisplayDownloadButton);
         });
 
       });
 
-      module('when the toggle CertifPrescriptionSco is not enabled', function() {
+      module('when it should not display the CertifPrescriptionScoFeature', function() {
 
-        module('when user is from sco', function() {
+        test('should return false ', function(assert) {
+          // given
+          const controller = this.owner.lookup('controller:authenticated/sessions/details');
+          controller.model = {
+            certificationCandidates: ['candidate1', 'candidate2'],
+            shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
+          };
 
-          test('should return false ', function(assert) {
-            // given
-            const controller = this.owner.lookup('controller:authenticated/sessions/details');
-            controller.model = {
-              certificationCandidates: ['candidate1', 'candidate2'],
-              isUserFromSco: true,
-              isCertifPrescriptionScoEnabled: false,
-            };
+          // when
+          const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
 
-            // when
-            const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
-
-            // then
-            assert.notOk(shouldDisplayDownloadButton);
-          });
+          // then
+          assert.notOk(shouldDisplayDownloadButton);
         });
       });
 
@@ -133,8 +106,7 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
           const controller = this.owner.lookup('controller:authenticated/sessions/details');
           controller.model = {
             certificationCandidates: ['candidate1', 'candidate2'],
-            isUserFromSco: false,
-            isCertifPrescriptionScoEnabled: false,
+            shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
           };
 
           // when

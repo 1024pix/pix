@@ -91,7 +91,7 @@ module('Integration | Component | session-finalization-examiner-global-comment-s
 
       // then
       assert.contains('Aucun problème particulier à signaler, dans l’ensemble tout s’est bien déroulé');
-      assert.contains('Je souhaite signaler un ou plusieurs incident(s) ayant impactés la session dans son ensemble');
+      assert.contains('Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble');
     });
 
     test('it should display a text area to declare some incident when the appropriate choice is selected', async function(assert) {
