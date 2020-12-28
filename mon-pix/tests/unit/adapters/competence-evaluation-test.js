@@ -6,6 +6,25 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Adapters | competence-evaluation', function() {
   setupTest();
 
+  describe('#urlForFindAll', () => {
+
+    let adapter;
+
+    beforeEach(function() {
+      adapter = this.owner.lookup('adapter:competence-evaluation');
+    });
+
+    it('should build url for fetching competence-evaluations based on assessment route', async function() {
+      // when
+      const assessmentId = 123;
+      const url = await adapter.urlForFindAll('competenceEvaluation', { adapterOptions: { assessmentId } });
+
+      // then
+      expect(url.endsWith(`/assessments/${assessmentId}/competence-evaluations`)).to.be.true;
+    });
+
+  });
+
   describe('#urlQueryForRecord', () => {
 
     let adapter;

@@ -28,6 +28,10 @@ exports.register = async function(server) {
       },
     },
     {
+      /**
+       * @deprecated Method that should be deleted at some point, when replacement working.
+       * Replacement in assessment-controller::findCompetenceEvaluations
+       */
       method: 'GET',
       path: '/api/competence-evaluations',
       config: {

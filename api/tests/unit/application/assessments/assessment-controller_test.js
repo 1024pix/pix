@@ -1,4 +1,4 @@
-const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
+const { sinon, expect, generateValidRequestAuthorizationHeader, hFake, domainBuilder } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const events = require('../../../../lib/domain/events');
@@ -170,6 +170,81 @@ describe('Unit | Controller | assessment-controller', function() {
 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(assessmentCompletedEvent, domainTransaction);
+    });
+  });
+
+  describe('#findCompetenceEvaluations', () => {
+
+    it('should return the competence evaluations', async () => {
+      // given
+      const userId = 123;
+      const assessmentId = 456;
+      const competenceEvaluation1 = domainBuilder.buildCompetenceEvaluation({ assessmentId, userId });
+      const competenceEvaluation2 = domainBuilder.buildCompetenceEvaluation({ assessmentId, userId });
+      sinon.stub(usecases, 'findCompetenceEvaluationsByAssessment')
+        .withArgs({ assessmentId, userId })
+        .resolves([competenceEvaluation1, competenceEvaluation2]);
+      const request = {
+        auth: { credentials: { userId } },
+        params: {
+          id: assessmentId,
+        },
+      };
+
+      // when
+      const result = await assessmentController.findCompetenceEvaluations(request, hFake);
+
+      // then
+      expect(result.data).to.be.deep.equal([
+        {
+          type: 'competence-evaluations',
+          id: competenceEvaluation1.id.toString(),
+          attributes: {
+            'competence-id': competenceEvaluation1.competenceId,
+            'user-id': competenceEvaluation1.userId,
+            'created-at': competenceEvaluation1.createdAt,
+            'updated-at': competenceEvaluation1.updatedAt,
+            status: competenceEvaluation1.status,
+          },
+          relationships: {
+            assessment: {
+              data: {
+                id: assessmentId.toString(),
+                type: 'assessments',
+              },
+            },
+            scorecard: {
+              links: {
+                related: `/api/scorecards/${userId}_${competenceEvaluation1.competenceId}`,
+              },
+            },
+          },
+        },
+        {
+          type: 'competence-evaluations',
+          id: competenceEvaluation2.id.toString(),
+          attributes: {
+            'competence-id': competenceEvaluation2.competenceId,
+            'user-id': competenceEvaluation2.userId,
+            'created-at': competenceEvaluation2.createdAt,
+            'updated-at': competenceEvaluation2.updatedAt,
+            status: competenceEvaluation2.status,
+          },
+          relationships: {
+            assessment: {
+              data: {
+                id: assessmentId.toString(),
+                type: 'assessments',
+              },
+            },
+            scorecard: {
+              links: {
+                related: `/api/scorecards/${userId}_${competenceEvaluation2.competenceId}`,
+              },
+            },
+          },
+        },
+      ]);
     });
   });
 });
