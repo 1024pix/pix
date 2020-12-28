@@ -9,8 +9,7 @@ export default class SessionsDetailsController extends Controller {
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
-  @alias('model.isCertifPrescriptionScoEnabled') isCertifPrescriptionScoEnabled;
-  @alias('model.isUserFromSco') isUserFromSco;
+  @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
 
   @computed('certificationCandidates.length')
   get certificationCandidatesCount() {
@@ -24,8 +23,8 @@ export default class SessionsDetailsController extends Controller {
     return certificationCandidatesCount > 0;
   }
 
-  @computed('hasOneOrMoreCandidates', 'isCertifPrescriptionScoEnabled', 'isResultRecipientEmailVisible', 'isUserFromSco')
+  @computed('hasOneOrMoreCandidates', 'shouldDisplayPrescriptionScoStudentRegistrationFeature', 'isResultRecipientEmailVisible')
   get shouldDisplayDownloadButton() {
-    return this.hasOneOrMoreCandidates && ((this.isUserFromSco && this.isCertifPrescriptionScoEnabled) || this.isResultRecipientEmailVisible);
+    return this.hasOneOrMoreCandidates && (this.shouldDisplayPrescriptionScoStudentRegistrationFeature || this.isResultRecipientEmailVisible);
   }
 }
