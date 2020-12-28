@@ -44,6 +44,28 @@ export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.OTHER]: 'Autre',
 };
 
+export const categoryToCode = {
+  [certificationIssueReportCategories.OTHER]: 'A2',
+  [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'C1-C2',
+  [certificationIssueReportCategories.LATE_OR_LEAVING]: 'C3-C4',
+  [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'C5',
+  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E7',
+};
+
+export const subcategoryToCode = {
+  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'C1',
+  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'C2',
+  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'C3',
+  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'C4',
+  [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
+  [certificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E2',
+  [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E3',
+  [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E4',
+  [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E5',
+  [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E6',
+  [certificationIssueReportSubcategories.OTHER]: 'E7',
+};
+
 export default class CertificationIssueReport extends Model {
   @attr('string') category;
   @attr('string') subcategory;
@@ -58,5 +80,13 @@ export default class CertificationIssueReport extends Model {
 
   get subcategoryLabel() {
     return this.subcategory ? subcategoryToLabel[this.subcategory] : '';
+  }
+
+  get categoryCode() {
+    return categoryToCode[this.category];
+  }
+
+  get subcategoryCode() {
+    return subcategoryToCode[this.subcategory];
   }
 }
