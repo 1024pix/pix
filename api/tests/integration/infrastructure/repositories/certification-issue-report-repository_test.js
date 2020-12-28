@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const certificationIssueReportRepository = require('../../../../lib/infrastructure/repositories/certification-issue-report-repository');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Certification Issue Report', function() {
@@ -18,9 +18,10 @@ describe('Integration | Repository | Certification Issue Report', function() {
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       const certificationIssueReport = new CertificationIssueReport({
         certificationCourseId,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.IN_CHALLENGE,
         description: 'Un gros problème',
-        subcategory: null,
+        subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+        questionNumber: 5,
       });
       await databaseBuilder.commit();
 
@@ -30,9 +31,10 @@ describe('Integration | Repository | Certification Issue Report', function() {
       // then
       const expectedSavedCertificationIssueReport = {
         certificationCourseId,
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.IN_CHALLENGE,
         description: 'Un gros problème',
-        subcategory: null,
+        subcategory: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+        questionNumber: 5,
       };
 
       expect(_.omit(savedCertificationIssueReport, 'id')).to.deep.equal(expectedSavedCertificationIssueReport);

@@ -81,6 +81,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             certificationCourseId: manyAsrCertification.id,
             description,
             subcategory: null,
+            questionNumber: null,
             category: CertificationIssueReportCategories.OTHER,
           })],
         });
@@ -163,6 +164,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             certificationCourseId: manyAsrCertification.id,
             description: 'first certification issue report',
             subcategory: null,
+            questionNumber: null,
           }),
           new CertificationIssueReport({
             id: issueReport2.id,
@@ -170,6 +172,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
             certificationCourseId: manyAsrCertification.id,
             description: 'second certification issue report',
             subcategory: null,
+            questionNumber: null,
           }),
         ]);
       });

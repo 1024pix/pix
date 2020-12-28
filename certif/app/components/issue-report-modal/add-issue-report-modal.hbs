@@ -37,6 +37,12 @@
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
+
+          <IssueReportModal::InChallengeCertificationIssueReportFields
+            @inChallengeCategory={{this.inChallengeCategory}}
+            @toggleOnCategory={{this.toggleOnCategory}}
+            @maxlength={{@maxlength}}
+          />
         </div>
 
         {{#if this.showCategoryMissingError}}
@@ -49,7 +55,7 @@
 
         <div class="add-issue-report-modal__actions">
           <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
-          <button type="submit" class="button button--extra-thin">Valider</button>
+          <button type="submit" aria-label="Ajouter le signalement" class="button button--extra-thin">Valider</button>
         </div>
       </div>
     </form>
