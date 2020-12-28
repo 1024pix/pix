@@ -71,13 +71,11 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
     ];
 
     this.set('certificationCandidates', certificationCandidates);
-    this.set('isUserFromSco', true);
 
     await render(hbs`
       <EnrolledCandidates
         @sessionId="1"
-        @certificationCandidates={{this.certificationCandidates}}
-        @isUserFromSco={{this.isUserFromSco}}>
+        @certificationCandidates={{this.certificationCandidates}}>
       </EnrolledCandidates>
     `);
 
@@ -93,43 +91,26 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
 
     [
       {
-        isSco: true,
-        toggle: true,
+        shouldDisplayPrescriptionScoStudentRegistrationFeature: true,
         multipleButtonVisible: true,
-        it: 'it does display button to add multiple candidates if user is sco and feature toggle is on',
+        it: 'it does display button to add multiple candidates if prescription sco feature is allowed',
       },
       {
-        isSco: true,
-        toggle: false,
+        shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
         multipleButtonVisible: false,
-        it: 'it does not display button to add multiple candidates if user is sco and feature toggle is off',
+        it: 'it does not display button to add multiple candidates if prescription sco feature is not allowed',
       },
-      {
-        isSco: false,
-        toggle: false,
-        multipleButtonVisible: false,
-        it: 'it does not display button to add multiple candidates if user is not sco and feature toggle is on',
-      },
-      {
-        isSco: false,
-        toggle: true,
-        multipleButtonVisible: false,
-        it: 'it does not display button to add multiple candidates if user is not sco and feature toggle is off',
-      },
-    ].forEach(({ isSco, toggle, multipleButtonVisible, it }) =>
+    ].forEach(({ shouldDisplayPrescriptionScoStudentRegistrationFeature, multipleButtonVisible, it }) =>
       test(it, async function(assert) {
         const certificationCandidates = [];
 
         this.set('certificationCandidates', certificationCandidates);
-        this.set('isUserFromSco', isSco);
-        this.set('isCertifPrescriptionScoEnabled', toggle);
-
+        this.set('shouldDisplayPrescriptionScoStudentRegistrationFeature', shouldDisplayPrescriptionScoStudentRegistrationFeature);
         await render(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{this.certificationCandidates}}
-          @isUserFromSco={{this.isUserFromSco}}
-          @isCertifPrescriptionScoEnabled={{this.isCertifPrescriptionScoEnabled}}
+          @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
         >
         </EnrolledCandidates>
         `);
@@ -146,11 +127,9 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   });
 
   [
-    { isSco: true, toggle: true, shouldColumnsBeEmpty: true, it: 'it hides externalId and email columns if user is sco and feature toggle is on' },
-    { isSco: true, toggle: false, shouldColumnsBeEmpty: false, it: 'it shows externalId and email columns if user is sco and feature toggle is off' },
-    { isSco: false, toggle: false, shouldColumnsBeEmpty: false, it: 'it shows externalId and email columns if user is not sco and feature toggle is off' },
-    { isSco: false, toggle: true, shouldColumnsBeEmpty: false, it: 'it shows externalId and email columns if user is not sco and feature toggle is on' },
-  ].forEach(({ isSco, toggle, shouldColumnsBeEmpty, it }) =>
+    { shouldDisplayPrescriptionScoStudentRegistrationFeature: true, shouldColumnsBeEmpty: true, it: 'it hides externalId and email columns if prescription sco feature allowed' },
+    { shouldDisplayPrescriptionScoStudentRegistrationFeature: false, shouldColumnsBeEmpty: false, it: 'it shows externalId and email columns if prescription sco feature not allowed' },
+  ].forEach(({ shouldDisplayPrescriptionScoStudentRegistrationFeature, shouldColumnsBeEmpty, it }) =>
     test(it, async function(assert) {
       const candidate = _buildCertificationCandidate({});
       const certificationCandidates = [
@@ -158,15 +137,13 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
       ];
 
       this.set('certificationCandidates', certificationCandidates);
-      this.set('isUserFromSco', isSco);
-      this.set('isCertifPrescriptionScoEnabled', toggle);
+      this.set('shouldDisplayPrescriptionScoStudentRegistrationFeature', shouldDisplayPrescriptionScoStudentRegistrationFeature);
 
       await render(hbs`
       <EnrolledCandidates
         @sessionId="1"
         @certificationCandidates={{certificationCandidates}}
-        @isUserFromSco={{isUserFromSco}}
-        @isCertifPrescriptionScoEnabled={{isCertifPrescriptionScoEnabled}}
+        @shouldDisplayPrescriptionScoStudentRegistrationFeature={{this.shouldDisplayPrescriptionScoStudentRegistrationFeature}}
       >
       </EnrolledCandidates>
     `);

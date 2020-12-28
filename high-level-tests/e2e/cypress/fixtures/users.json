@@ -58,8 +58,8 @@
   {
     "id": 7,
     "firstName": "Certif",
-    "lastName": "Sco",
-    "email": "certif.sco@example.net",
+    "lastName": "Pro",
+    "email": "certif.pro@example.net",
     "cgu": true,
     "pixCertifTermsOfServiceAccepted": true,
     "password": "",

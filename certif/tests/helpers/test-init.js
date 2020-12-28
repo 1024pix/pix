@@ -5,7 +5,7 @@ import { contains, notContains } from './contains';
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
-export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix') {
+export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false) {
   const certificationPointOfContact = server.create('certification-point-of-contact', {
     firstName: 'Harry',
     lastName: 'Cover',
@@ -15,18 +15,19 @@ export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepte
     certificationCenterName,
     certificationCenterType,
     certificationCenterExternalId: 'ABC123',
+    isRelatedOrganizationManagingStudents,
   });
   certificationPointOfContact.save();
 
   return certificationPointOfContact;
 }
 
-export function createScoCertificationPointOfContactWithTermsOfServiceAccepted() {
-  return createCertificationPointOfContactWithTermsOfServiceAccepted('SCO', 'Centre de certification SCO du pix');
+export function createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted() {
+  return createCertificationPointOfContactWithTermsOfServiceAccepted('SCO', 'Centre de certification SCO du pix', true);
 }
 
-export function createCertificationPointOfContactWithTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix') {
-  return createCertificationPointOfContact(true, certificationCenterType, certificationCenterName);
+export function createCertificationPointOfContactWithTermsOfServiceAccepted(certificationCenterType = undefined, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false) {
+  return createCertificationPointOfContact(true, certificationCenterType, certificationCenterName, isRelatedOrganizationManagingStudents);
 }
 
 export function createCertificationPointOfContactWithTermsOfServiceNotAccepted() {

@@ -12,6 +12,7 @@ module.exports = function buildCertificationPointOfContact(
     certificationCenterName = 'Centre de la prairie verdoyante',
     certificationCenterType = CertificationCenter.types.PRO,
     certificationCenterExternalId = 'CHEVRE456',
+    isRelatedOrganizationManagingStudents = false,
   } = {}) {
 
   return new CertificationPointOfContact({
@@ -24,5 +25,6 @@ module.exports = function buildCertificationPointOfContact(
     certificationCenterName,
     certificationCenterType,
     certificationCenterExternalId,
+    isRelatedOrganizationManagingStudents,
   });
 };
