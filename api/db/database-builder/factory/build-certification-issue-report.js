@@ -10,6 +10,7 @@ module.exports = function buildCertificationIssueReport({
   category = CertificationIssueReportCategories.OTHER,
   description = faker.lorem.sentence(),
   subcategory = null,
+  questionNumber = null,
 } = {}) {
 
   certificationCourseId = _.isUndefined(certificationCourseId)
@@ -22,6 +23,7 @@ module.exports = function buildCertificationIssueReport({
     category,
     description,
     subcategory,
+    questionNumber,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-issue-reports',

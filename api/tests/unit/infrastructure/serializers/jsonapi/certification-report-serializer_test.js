@@ -51,6 +51,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', () => 
           category: certificationIssueReport.category,
           description: certificationIssueReport.description,
           subcategory: certificationIssueReport.subcategory,
+          'question-number': certificationIssueReport.questionNumber,
         },
       }];
 

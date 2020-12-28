@@ -54,27 +54,6 @@ module('Integration | Component | candidate-information-change-certification-iss
     assert.dom(TEXTAREA_SELECTOR).exists();
   });
 
-  test('it should not show textarea if category is unchecked', async function(assert) {
-    // given
-    const toggleOnCategory = sinon.stub();
-    const candidateInformationChangeCategory = { isChecked: false };
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
-
-    // when
-    await render(hbs`
-      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
-        @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-        @maxlength={{500}}
-      />`);
-    await click(INPUT_RADIO_SELECTOR);
-
-    // then
-    assert.dom(TEXTAREA_SELECTOR).doesNotExist();
-    assert.dom(SUBCATEGORY_SELECTOR).doesNotExist();
-  });
-
   test('it should count textarea characters length', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
@@ -94,5 +73,4 @@ module('Integration | Component | candidate-information-change-certification-iss
     // then
     assert.dom(CHAR_COUNT_SELECTOR).hasText('6 / 500');
   });
-
 });

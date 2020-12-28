@@ -2,7 +2,7 @@ const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
 const certificationReportController = require('../../../../lib/application/certification-reports/certification-report-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | certification-issue-report-controller', () => {
+describe('Unit | Controller | certification-report-controller', () => {
 
   describe('#saveCertificationIssueReport', () => {
 
@@ -23,6 +23,7 @@ describe('Unit | Controller | certification-issue-report-controller', () => {
               category: 'someCategory',
               description: 'someDescription',
               subcategory: 'someSubcategory',
+              'question-number': 'someQuestionNumber',
             },
           },
         },
@@ -32,6 +33,7 @@ describe('Unit | Controller | certification-issue-report-controller', () => {
         category: 'someCategory',
         description: 'someDescription',
         subcategory: 'someSubcategory',
+        questionNumber: 'someQuestionNumber',
       };
       const savedCertificationIssueReport = domainBuilder.buildCertificationIssueReport();
       sinon.stub(usecases, 'saveCertificationIssueReport')
@@ -49,6 +51,7 @@ describe('Unit | Controller | certification-issue-report-controller', () => {
           category: savedCertificationIssueReport.category,
           description: savedCertificationIssueReport.description,
           subcategory: savedCertificationIssueReport.subcategory,
+          'question-number': savedCertificationIssueReport.questionNumber,
         },
       });
       expect(response.statusCode).to.equal(201);
