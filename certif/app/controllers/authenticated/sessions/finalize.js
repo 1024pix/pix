@@ -33,6 +33,10 @@ export default class SessionsFinalizeController extends Controller {
     return this.uncheckedHasSeenEndTestScreenCount > 0;
   }
 
+  get stepTwoTitle() {
+    return this.isReportsCategorizationFeatureToggleEnabled ? 'Transmettre des documents (facultatif)' : 'Transmettre le PV de session scanné et autres documents éventuels' ;
+  }
+
   showErrorNotification(message) {
     this.notifications.error(message);
   }
