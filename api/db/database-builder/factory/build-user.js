@@ -14,6 +14,8 @@ const encrypt = require('../../../lib/domain/services/encryption-service');
 const buildUserPixRole = require('./build-user-pix-role');
 const buildOrganization = require('./build-organization');
 const buildMembership = require('./build-membership');
+const buildCertificationCenter = require('./build-certification-center');
+const buildCertificationCenterMembership = require('./build-certification-center-membership');
 
 const PIX_MASTER_ROLE_ID = 1;
 
@@ -223,6 +225,54 @@ buildUser.withMembership = function buildUserWithMemberships({
     userId: user.id,
     organizationId,
     organizationRole,
+  });
+
+  return user;
+};
+
+buildUser.withCertificationCenterMembership = function buildUserWithCertificationCenterMembership({
+  id,
+  firstName = faker.name.firstName(),
+  lastName = faker.name.lastName(),
+  email,
+  username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
+  cgu = true,
+  lang = 'fr',
+  lastTermsOfServiceValidatedAt = null,
+  mustValidateTermsOfService = false,
+  pixOrgaTermsOfServiceAccepted = false,
+  pixCertifTermsOfServiceAccepted = false,
+  hasSeenAssessmentInstructions = false,
+  hasSeenNewLevelInfo = false,
+  createdAt = new Date(),
+  updatedAt = new Date(),
+
+  certificationCenterId = null,
+} = {}) {
+
+  const user = buildUser({
+    id,
+    firstName,
+    lastName,
+    username,
+    email,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
+    hasSeenNewLevelInfo,
+    createdAt,
+    updatedAt,
+  });
+
+  certificationCenterId = isNil(certificationCenterId) ? buildCertificationCenter().id : certificationCenterId;
+
+  buildCertificationCenterMembership({
+    userId: user.id,
+    certificationCenterId,
   });
 
   return user;
