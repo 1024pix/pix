@@ -10,24 +10,19 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
 
     it('should return CertificationPointOfContact with all the info if exists', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser({
-        firstName: 'Jean',
-        lastName: 'Acajou',
-        email: 'jean.acajou@example.net',
-        pixCertifTermsOfServiceAccepted: true,
-      }).id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: 'Centre des papys gâteux',
         type: CertificationCenter.types.PRO,
         externalId: 'ABC123',
       }).id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
+      const userId = databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+        firstName: 'Jean',
+        lastName: 'Acajou',
+        email: 'jean.acajou@example.net',
+        pixCertifTermsOfServiceAccepted: true,
         certificationCenterId,
-      });
-      const someOtherUserId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId: someOtherUserId,
+      }).id;
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
         certificationCenterId,
       });
       await databaseBuilder.commit();
@@ -51,14 +46,16 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
 
     it('should return CertificationRPointOfContact with isRelatedOrganizationManagingStudents as true when the certification center is related to an organization that manages students', async () => {
       // given
-      const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         externalId: 'ABC123',
       }).id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId,
+      const userId = databaseBuilder.factory.buildUser.withCertificationCenterMembership({
+        firstName: 'Jean',
+        lastName: 'Acajou',
+        email: 'jean.acajou@example.net',
+        pixCertifTermsOfServiceAccepted: true,
         certificationCenterId,
-      });
+      }).id;
       databaseBuilder.factory.buildOrganization({
         externalId: 'ABC123',
         isManagingStudents: true,
@@ -76,9 +73,7 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const someOtherUserId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        userId: someOtherUserId,
+      databaseBuilder.factory.buildUser.withCertificationCenterMembership({
         certificationCenterId,
       });
       await databaseBuilder.commit();
