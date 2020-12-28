@@ -1,45 +1,162 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, find } from '@ember/test-helpers';
+import { render, fillIn, find, click } from '@ember/test-helpers';
 import Object from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | session-finalization-examiner-global-comment-step', function(hooks) {
   setupRenderingTest(hooks);
 
-  let firstComment;
-  const updateExaminerGlobalCommentStub = sinon.stub().returns();
+  module('when feature categorizationOfReports is off', function() {
 
-  hooks.beforeEach(async function() {
-    firstComment = 'You are a wizard Harry !';
-    this.set('examinerGlobalCommentMaxLength', 500);
-    this.set('session', Object.create({ examinerGlobalComment: '' }));
-    this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+    test('it renders', async function(assert) {
+      // given
+      const updateExaminerGlobalCommentStub = sinon.stub();
+      this.set('examinerGlobalCommentMaxLength', 500);
+      this.set('session', Object.create({ examinerGlobalComment: '' }));
+      this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+      this.set('isReportsCategorizationFeatureToggleEnabled', false);
 
-    await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}} 
+      // when
+      await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
+              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
               @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
-    await fillIn('#examiner-global-comment', firstComment);
-  });
 
-  test('it renders', async function(assert) {
-    assert.dom('label').hasText(
-      'Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.',
-    );
-    assert.dom('div.session-finalization-examiner-global-comment-step__characters-information')
-      .hasText(this.session.examinerGlobalComment.length + ' / ' + this.examinerGlobalCommentMaxLength);
-    assert.equal(
-      find('textarea').value.trim(),
-      firstComment,
-    );
-  });
+      // then
+      assert.contains('Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.');
+    });
 
-  module('when changing textarea content', function() {
-    test('it calls the appropriate callback function', async function(assert) {
+    test('it should update the character count accordingly', async function(assert) {
+      // given
+      const updateExaminerGlobalCommentStub = sinon.stub();
+      const firstComment = 'You are a wizard Harry !';
+      this.set('examinerGlobalCommentMaxLength', 500);
+      this.set('session', Object.create({ examinerGlobalComment: '' }));
+      this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+      this.set('isReportsCategorizationFeatureToggleEnabled', false);
+
+      // when
+      await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
+              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
+              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
+      await fillIn('#examiner-global-comment', firstComment);
+
+      // then
+      assert.dom('div.session-finalization-examiner-global-comment-step__characters-information')
+        .hasText(this.session.examinerGlobalComment.length + ' / ' + this.examinerGlobalCommentMaxLength);
+      assert.equal(
+        find('textarea').value.trim(),
+        firstComment,
+      );
+    });
+
+    test('it should call the appropriate callback function when typing in the text area', async function(assert) {
+      // given
+      const updateExaminerGlobalCommentStub = sinon.stub();
+      this.set('examinerGlobalCommentMaxLength', 500);
+      this.set('session', Object.create({ examinerGlobalComment: '' }));
+      this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+      this.set('isReportsCategorizationFeatureToggleEnabled', false);
+
+      // when
+      await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
+              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
+              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
       await fillIn('#examiner-global-comment', 'You are no more a wizard Harry!');
+
+      // then
       assert.equal(updateExaminerGlobalCommentStub.called, true);
     });
   });
 
+  module('when feature categorizationOfReports is on', function() {
+
+    test('it renders the radio buttons', async function(assert) {
+      // given
+      const updateExaminerGlobalCommentStub = sinon.stub();
+      this.set('examinerGlobalCommentMaxLength', 500);
+      this.set('session', Object.create({ examinerGlobalComment: '' }));
+      this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+      this.set('isReportsCategorizationFeatureToggleEnabled', true);
+
+      // when
+      await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
+              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
+              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
+
+      // then
+      assert.contains('Aucun problème particulier à signaler, dans l’ensemble tout s’est bien déroulé');
+      assert.contains('Je souhaite signaler un ou plusieurs incident(s) ayant impactés la session dans son ensemble');
+    });
+
+    test('it should display a text area to declare some incident when the appropriate choice is selected', async function(assert) {
+      // given
+      const updateExaminerGlobalCommentStub = sinon.stub();
+      this.set('examinerGlobalCommentMaxLength', 500);
+      this.set('session', Object.create({ examinerGlobalComment: '' }));
+      this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+      this.set('isReportsCategorizationFeatureToggleEnabled', true);
+
+      // when
+      await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
+              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
+              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
+      await click('[aria-label="Signaler un incident"]');
+
+      // then
+      assert.dom('textarea').exists();
+    });
+
+    test('it should update the character count accordingly when declaring an incident', async function(assert) {
+      // given
+      const updateExaminerGlobalCommentStub = sinon.stub();
+      const firstComment = 'You are a wizard Harry !';
+      this.set('examinerGlobalCommentMaxLength', 500);
+      this.set('session', Object.create({ examinerGlobalComment: '' }));
+      this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+      this.set('isReportsCategorizationFeatureToggleEnabled', true);
+
+      // when
+      await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
+              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
+              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
+      await click('[aria-label="Signaler un incident"]');
+      await fillIn('#examiner-global-comment', firstComment);
+
+      // then
+      assert.dom('div.session-finalization-examiner-global-comment-step__characters-information')
+        .hasText(this.session.examinerGlobalComment.length + ' / ' + this.examinerGlobalCommentMaxLength);
+      assert.equal(
+        find('textarea').value.trim(),
+        firstComment,
+      );
+    });
+
+    test('it should call the appropriate callback function when typing in the text area when declaring an incident', async function(assert) {
+      // given
+      const updateExaminerGlobalCommentStub = sinon.stub();
+      this.set('examinerGlobalCommentMaxLength', 500);
+      this.set('session', Object.create({ examinerGlobalComment: '' }));
+      this.set('updateExaminerGlobalComment', updateExaminerGlobalCommentStub);
+      this.set('isReportsCategorizationFeatureToggleEnabled', true);
+
+      // when
+      await render(hbs`<SessionFinalizationExaminerGlobalCommentStep @session={{this.session}}
+              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
+              @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
+              @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
+      await click('[aria-label="Signaler un incident"]');
+      await fillIn('#examiner-global-comment', 'You are no more a wizard Harry!');
+
+      // then
+      assert.equal(updateExaminerGlobalCommentStub.called, true);
+    });
+  });
 });
