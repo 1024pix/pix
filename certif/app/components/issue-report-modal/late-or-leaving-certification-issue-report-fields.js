@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { certificationIssueReportSubcategories, subcategoryToLabel } from 'pix-certif/models/certification-issue-report';
+import { certificationIssueReportSubcategories, subcategoryToCode, subcategoryToLabel } from 'pix-certif/models/certification-issue-report';
 
 export default class OtherCertificationissueReportFields extends Component {
   get reportLength() {
@@ -17,11 +17,11 @@ export default class OtherCertificationissueReportFields extends Component {
   options = [
     {
       value: certificationIssueReportSubcategories.LEFT_EXAM_ROOM,
-      label: subcategoryToLabel[certificationIssueReportSubcategories.LEFT_EXAM_ROOM],
+      label: `${subcategoryToCode[certificationIssueReportSubcategories.LEFT_EXAM_ROOM]} ${subcategoryToLabel[certificationIssueReportSubcategories.LEFT_EXAM_ROOM]}`,
     },
     {
       value: certificationIssueReportSubcategories.SIGNATURE_ISSUE,
-      label: subcategoryToLabel[certificationIssueReportSubcategories.SIGNATURE_ISSUE],
+      label: `${subcategoryToCode[certificationIssueReportSubcategories.SIGNATURE_ISSUE]} ${subcategoryToLabel[certificationIssueReportSubcategories.SIGNATURE_ISSUE]}`,
     },
   ];
 }

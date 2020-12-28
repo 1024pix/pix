@@ -33,7 +33,7 @@ export const categoryToLabel = {
 export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Prénom/Nom/Date de naissance',
   [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Temps majoré',
-  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'A quitté la salle d\'examen, sans l\'accord du surveillant',
+  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Ecran de fin de test non vu (précisez ici pourquoi)',
   [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Etait présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
   [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'L\'image ne s\'affiche pas',
   [certificationIssueReportSubcategories.LINK_NOT_WORKING]: 'Le lien ne fonctionne pas',

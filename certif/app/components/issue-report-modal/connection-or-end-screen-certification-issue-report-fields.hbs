@@ -6,6 +6,6 @@
       name="connection-or-end-screen"
       checked={{@connectionOrEndScreenCategory.isChecked}}
       {{on 'click' (fn @toggleOnCategory @connectionOrEndScreenCategory)}} />
-    <label for="input-radio-for-category-connection-or-end-screen">{{@connectionOrEndScreenCategory.categoryLabel}}</label>
+    <label for="input-radio-for-category-connection-or-end-screen"><span>{{@connectionOrEndScreenCategory.categoryCode}}&nbsp;</span>{{@connectionOrEndScreenCategory.categoryLabel}}</label>
   </div>
 </fieldset>

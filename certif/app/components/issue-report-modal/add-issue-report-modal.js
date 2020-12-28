@@ -7,6 +7,8 @@ import {
   certificationIssueReportSubcategories,
   categoryToLabel,
   subcategoryToLabel,
+  categoryToCode,
+  subcategoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 
 export class RadioButtonCategory {
@@ -16,6 +18,7 @@ export class RadioButtonCategory {
     this.name = name;
     this.isChecked = isChecked;
     this.categoryLabel = categoryToLabel[name];
+    this.categoryCode = categoryToCode[name];
   }
 
   toggle(categoryNameBeingChecked) {
@@ -54,6 +57,7 @@ export class RadioButtonCategoryWithSubcategoryWithDescription extends RadioButt
   constructor({ name, subcategory, isChecked }) {
     super({ name, isChecked });
     this.subcategory = subcategory;
+    this.subcategoryCode = subcategoryToCode[name];
   }
 
   get subcategoryLabel() {

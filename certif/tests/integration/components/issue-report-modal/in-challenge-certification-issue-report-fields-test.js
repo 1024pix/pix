@@ -8,6 +8,7 @@ import {
   categoryToLabel,
   certificationIssueReportSubcategories,
   subcategoryToLabel,
+  subcategoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 import { RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 
@@ -35,7 +36,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     assert.ok(toggleOnCategory.calledOnceWith(inChallengeCategory));
   });
 
-  test('it should show dropdown menu with subcategories when category is checked', async function(assert) {
+  test('it should show dropdown menu with code & subcategories when category is checked', async function(assert) {
     // given
     const toggleOnCategory = sinon.stub();
     const inChallengeCategory = new RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber({ name: 'IN_CHALLENGE', isChecked: true });
@@ -52,13 +53,13 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     await click('[aria-label="Sélectionner la sous-catégorie"]');
 
     // then
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]);
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.LINK_NOT_WORKING]);
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.EMBED_NOT_WORKING]);
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]);
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]);
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]);
-    assert.contains(subcategoryToLabel[certificationIssueReportSubcategories.OTHER]);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]} ${subcategoryToLabel[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.LINK_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.LINK_NOT_WORKING]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.EMBED_NOT_WORKING]} ${subcategoryToLabel[certificationIssueReportSubcategories.EMBED_NOT_WORKING]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_BLOCKED]} ${subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]}`);
+    assert.contains(`${subcategoryToCode[certificationIssueReportSubcategories.OTHER]} ${subcategoryToLabel[certificationIssueReportSubcategories.OTHER]}`);
   });
 
   test('it should show a textarea with characters length when selecting subcategory OTHER', async function(assert) {

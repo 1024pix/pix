@@ -7,6 +7,7 @@ import EmberObject from '@ember/object';
 import {
   certificationIssueReportCategories,
   categoryToLabel,
+  categoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 
 module('Integration | Component | add-issue-report-modal', function(hooks) {
@@ -39,7 +40,7 @@ module('Integration | Component | add-issue-report-modal', function(hooks) {
     assert.contains('Lisa Monpud');
   });
 
-  test('it should show all categories label', async function(assert) {
+  test('it should show all categories code & label', async function(assert) {
     // given
     const report = EmberObject.create({
       certificationCourseId: 1,
@@ -63,7 +64,7 @@ module('Integration | Component | add-issue-report-modal', function(hooks) {
 
     // then
     for (const category of Object.values(certificationIssueReportCategories)) {
-      assert.contains(categoryToLabel[category]);
+      assert.contains(`${categoryToCode[category]}\u00a0${categoryToLabel[category]}`);
     }
   });
 
