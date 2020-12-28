@@ -13,6 +13,7 @@ describe('Integration | Application | Target Profiles | Routes', () => {
     sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfiles').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'getTargetProfileDetails').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(targetProfileController, 'updateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -169,4 +170,40 @@ describe('Integration | Application | Target Profiles | Routes', () => {
       expect(response.statusCode).to.equal(400);
     });
   });
+  describe('PATCH /api/target-profiles', () => {
+
+    it('should exist', async () => {
+      // given
+      const method = 'PATCH';
+      const payload = { data: {
+        attributes: {
+          name: 'test',
+        },
+      } };
+      const url = '/api/admin/target-profiles/123';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+    it('should return a 400 error when payload does not exist', async () => {
+      // given
+      const method = 'PATCH';
+      const payload = { data: {
+        attributes: {
+          name: undefined,
+        },
+      } };
+      const url = '/api/admin/target-profiles/123';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
 });

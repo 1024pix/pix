@@ -147,4 +147,32 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       expect(organizationIds).to.exactlyContain([organization1.id, organization2.id]);
     });
   });
+
+  describe('PATCH /api/admin/target-profiles/{id}', () => {
+
+    it('should return 204', async () => {
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PATCH',
+        url: `/api/admin/target-profiles/${targetProfile.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            attributes: {
+              'name': 'CoolPixer',
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });

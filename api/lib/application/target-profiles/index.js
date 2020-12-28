@@ -110,6 +110,31 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/admin/target-profiles/{id}',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'name': Joi.string().required().min(1),
+              },
+            },
+          }).options({ allowUnknown: true }),
+        },
+        handler: targetProfileController.updateTargetProfile,
+        tags: ['api', 'target-profiles'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de mettre à jour le nom d\'un profil cible',
+        ],
+      },
+    },
   ]);
 };
 
