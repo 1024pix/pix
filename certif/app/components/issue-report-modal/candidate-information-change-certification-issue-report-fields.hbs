@@ -6,7 +6,7 @@
             name="candidate-information-change"
             checked={{@candidateInformationChangeCategory.isChecked}}
       {{on 'click' (fn @toggleOnCategory @candidateInformationChangeCategory)}} />
-    <label for="input-radio-for-category-candidate-information-change">{{@candidateInformationChangeCategory.categoryLabel}}</label>
+    <label for="input-radio-for-category-candidate-information-change"><span>{{@candidateInformationChangeCategory.categoryCode}}&nbsp;</span>{{@candidateInformationChangeCategory.categoryLabel}}</label>
   </div>
   {{#if @candidateInformationChangeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">

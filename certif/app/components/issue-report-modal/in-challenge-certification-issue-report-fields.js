@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { certificationIssueReportSubcategories, subcategoryToLabel } from 'pix-certif/models/certification-issue-report';
+import { certificationIssueReportSubcategories, subcategoryToLabel, subcategoryToCode } from 'pix-certif/models/certification-issue-report';
 
 export default class InChallengeCertificationIssueReportFields extends Component {
   get reportLength() {
@@ -24,7 +24,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
     const subcategory = certificationIssueReportSubcategories[subcategoryKey];
     return {
       value: certificationIssueReportSubcategories[subcategory],
-      label: subcategoryToLabel[subcategory],
+      label: `${subcategoryToCode[subcategory]} ${subcategoryToLabel[subcategory]}`,
     };
   })
 }
