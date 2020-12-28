@@ -14,12 +14,14 @@ export default class SessionsDetailsRoute extends Route {
     const isScoManagingStudents = this.currentUser.certificationPointOfContact.isScoManagingStudents;
     const featureToggles = this.store.peekRecord('feature-toggle', 0);
     const isCertifPrescriptionScoEnabled = featureToggles.certifPrescriptionSco;
+    const isReportsCategorizationFeatureToggleEnabled = featureToggles.reportsCategorization;
     const shouldDisplayPrescriptionScoStudentRegistrationFeature = isScoManagingStudents && isCertifPrescriptionScoEnabled;
 
     return EmberObject.create({
       session,
       certificationCandidates,
       shouldDisplayPrescriptionScoStudentRegistrationFeature,
+      isReportsCategorizationFeatureToggleEnabled,
       async reloadCertificationCandidate() {
         const certificationCandidates = await loadCertificationCandidates();
         this.set('certificationCandidates', certificationCandidates);
