@@ -111,7 +111,7 @@ module('Acceptance | Session Details', function(hooks) {
           await visit(`/sessions/${sessionWithCandidates.id}`);
 
           // then
-          assert.dom('.session-details-header__title .button').hasText('Télécharger le PV');
+          assert.dom('.session-details-header__title .button').hasText('Télécharger la feuille d\'émargement');
         });
 
         test('it should not show download button where there is no candidate', async function(assert) {

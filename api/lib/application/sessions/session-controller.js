@@ -15,6 +15,7 @@ const requestResponseUtils = require('../../infrastructure/utils/request-respons
 const { getCertificationResultsCsv } = require('../../infrastructure/utils/csv/certification-results');
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
+const { featureToggles } = require('../../config');
 
 module.exports = {
 
@@ -70,9 +71,11 @@ module.exports = {
     const userId = tokenService.extractUserId(token);
     const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
 
+    const fileName = featureToggles.reportsCategorization ?
+      `feuille-emargement-session-${sessionId}.ods` : `pv-session-${sessionId}.ods`;
     return h.response(attendanceSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
-      .header('Content-Disposition', 'attachment; filename=pv-session-' + sessionId + '.ods');
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
   async getCandidatesImportSheet(request, h) {
