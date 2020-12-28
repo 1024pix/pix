@@ -5,14 +5,14 @@ module('Unit | Controller | authenticated', function(hooks) {
   setupTest(hooks);
 
   module('#get documentationLink', function() {
-    test('should return a different link whether the center is SCO or not', function(assert) {
+    test('should return a different link whether the center is SCO managing students or not', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated');
 
       // when
-      controller.model = { isSco: true };
+      controller.model = { isScoManagingStudents: true };
       const actualScoLink = controller.documentationLink;
-      controller.model = { isSco: false };
+      controller.model = { isScoManagingStudents: false };
       const actualOtherLink = controller.documentationLink;
 
       // then
