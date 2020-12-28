@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.238.0 (28/12/2020)
+
+- [#2323](https://github.com/1024pix/pix/pull/2323) [FEATURE] Changer le lien dans dans le bandeau d'informations Pix Certif SCO (PIX-1815)
+- [#2317](https://github.com/1024pix/pix/pull/2317) [FEATURE] Ajouter la catégorie "Problème sur une question" dans la fenêtre de catégorisation des signalements sur PixCertif (PIX-1699)
+- [#2308](https://github.com/1024pix/pix/pull/2308) [FEATURE] Ajouter l'ID de l'organisation dans les diverses listes d'organisations dans PixAdmin (PIX-1817)
+- [#2319](https://github.com/1024pix/pix/pull/2319) [FEAT] Rendre le renseignement du champ Commentaire Global vraiment facultatif dans PixCertif lors de la finalisation de session (PIX-1795)
+
 ## v2.237.0 (24/12/2020)
 
 - [#2268](https://github.com/1024pix/pix/pull/2268) [FEATURE] Ajouter "Mes parcours" au dashboard Mon-Pix (PIX-1651).
