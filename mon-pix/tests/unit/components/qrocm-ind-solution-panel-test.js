@@ -2,11 +2,13 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
-import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Component | qrocm-solution-panel', function() {
+describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
   setupTest();
+  setupIntl();
 
   describe('#inputFields', function() {
 

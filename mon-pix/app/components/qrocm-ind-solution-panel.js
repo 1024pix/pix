@@ -6,6 +6,7 @@ import answersAsObject from 'mon-pix/utils/answers-as-object';
 import solutionsAsObject from 'mon-pix/utils/solution-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
 import resultDetailsAsObject from 'mon-pix/utils/result-details-as-object';
+import { inject as service } from '@ember/service';
 
 function _computeAnswerOutcome(inputFieldValue, resultDetail) {
   if (inputFieldValue === '') {
@@ -25,6 +26,8 @@ function _computeInputClass(answerOutcome) {
 }
 
 export default class QrocmIndSolutionPanel extends Component {
+  @service intl;
+
   get inputFields() {
     if (!this.args.solution) {
       return undefined;
@@ -42,7 +45,7 @@ export default class QrocmIndSolutionPanel extends Component {
       const inputClass = _computeInputClass(answerOutcome);
 
       if (answers[labelKey] === '') {
-        answers[labelKey] = 'Pas de réponse';
+        answers[labelKey] = this.intl.t('pages.result-item.aband');
       }
 
       const inputField = {
