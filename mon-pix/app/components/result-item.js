@@ -35,7 +35,7 @@ export default class ResultItemComponent extends Component {
   }
 
   get resultTooltip() {
-    return this.resultItem ? this.intl.t(`pages.result-item.${this.answer.result}`) : null;
+    return this.resultItem ? this.intl.t(`pages.comparison-window.results.${this.args.answer.result}.tooltip`) : null;
   }
 
   get validationImplementedForChallengeType() {

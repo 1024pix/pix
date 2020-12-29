@@ -709,7 +709,7 @@
             }
         },
         "result-item": {
-            "aband": "Sans réponse",
+            "aband": "Pas de réponse",
             "actions": {
                 "see-answers-and-tutorials": {
                     "label": "Réponses et tutos"
