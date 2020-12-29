@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
@@ -14,9 +15,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
       const answer = { value: 'smiley1: \':)\' smiley2: \'\'', result: 'ko' };
 
-      const component = this.owner.lookup('component:qrocm-dep-solution-panel');
-      component.set('challenge', challenge);
-      component.set('answer', answer);
+      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { challenge, answer });
 
       const expectedFieldsData = [{
         label: 'content : ',
@@ -29,7 +28,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       }];
 
       //when
-      const inputFields = component.get('inputFields');
+      const inputFields = component.inputFields;
 
       //Then
       expect(inputFields).to.be.deep.equal(expectedFieldsData);
@@ -41,11 +40,10 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
     it('should return true', function() {
       //Given
-      const component = this.owner.lookup('component:qrocm-dep-solution-panel');
-      component.set('answer', { result: 'ok' });
+      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ok' } });
 
       //when
-      const answerIsCorrect = component.get('answerIsCorrect');
+      const answerIsCorrect = component.answerIsCorrect;
 
       //Then
       expect(answerIsCorrect).to.be.true;
@@ -53,11 +51,10 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
     it('should return false', function() {
       //Given
-      const component = this.owner.lookup('component:qrocm-dep-solution-panel');
-      component.set('answer', { result: 'ko' });
+      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', { answer: { result: 'ko' } });
 
       //when
-      const answerIsCorrect = component.get('answerIsCorrect');
+      const answerIsCorrect = component.answerIsCorrect;
 
       //Then
       expect(answerIsCorrect).to.be.false;
@@ -68,12 +65,16 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
     it('should return the expected answers', function() {
       //Given
-      const component = this.owner.lookup('component:qrocm-dep-solution-panel');
-      component.set('inputFields', [1, 2]);
-      component.set('solution', 'groupe 1:\n- horizontalité\n- organisation plate\ngroupe 2:\n- cadre');
+      const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
+      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
+        challenge,
+        answer: { result: 'ko' },
+        inputFields: [1, 2],
+        solution: 'groupe 1:\n- horizontalité\n- organisation plate\ngroupe 2:\n- cadre',
+      });
 
       //when
-      const expectedAnswers = component.get('expectedAnswers');
+      const expectedAnswers = component.expectedAnswers;
 
       //Then
       expect(expectedAnswers).to.be.equal('horizontalité et cadre');
@@ -81,12 +82,16 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
 
     it('should return examples of good answers', function() {
       //Given
-      const component = this.owner.lookup('component:qrocm-dep-solution-panel');
-      component.set('inputFields', [1, 2]);
-      component.set('solution', 'groupe 1:\n- tag\n- slogan\ngroupe 2:\n- marche\n- sitting\ngroupe 3:\n- masque');
+      const challenge = EmberObject.create({ proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' });
+      const component = createGlimmerComponent('component:qrocm-dep-solution-panel', {
+        challenge,
+        answer: { result: 'ko' },
+        inputFields: [1, 2],
+        solution: 'groupe 1:\n- tag\n- slogan\ngroupe 2:\n- marche\n- sitting\ngroupe 3:\n- masque',
+      });
 
       //when
-      const expectedAnswers = component.get('expectedAnswers');
+      const expectedAnswers = component.expectedAnswers;
 
       //Then
       expect(expectedAnswers).to.be.equal('tag ou marche ou ...');

@@ -61,7 +61,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
           this.set('answer', answer);
 
           // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
         });
 
         it('should display the correct answer in green bold', function() {
@@ -92,7 +92,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
           this.set('answer', answer);
 
           // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
         });
 
         it('should display one solution in bold green', async function() {
@@ -123,7 +123,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
           this.set('answer', answer);
 
           // when
-          await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
         });
 
         it('should display one solution in bold green', async function() {
@@ -171,7 +171,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
         this.challenge.set('format', data.format);
 
         //when
-        await render(hbs`{{qrocm-dep-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
 
         //then
         expect(find(PARAGRAPH)).to.not.exist;
