@@ -9,22 +9,13 @@ module.exports = async function startCampaignParticipation({
   campaignParticipationRepository,
   assessmentRepository,
   campaignToJoinRepository,
-  schoolingRegistrationRepository,
   domainTransaction,
 }) {
   const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId);
-  if (campaignToJoin.isArchived()) {
-    throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
-  }
 
-  if (campaignToJoin.isRestricted) {
-    const schoolingRegistration = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
-      userId,
-      organizationId: campaignToJoin.organizationId,
-    });
-    if (!schoolingRegistration) {
-      throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
-    }
+  const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
+  if (!canJoinCampaign) {
+    throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
   }
 
   const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);

@@ -9,46 +9,30 @@ describe('Unit | UseCase | start-campaign-participation', () => {
 
   const userId = 19837482;
   const campaignParticipation = domainBuilder.buildCampaignParticipation();
-  const campaignToJoinRepository = { get: () => undefined };
+  const campaignToJoinRepository = { get: () => undefined, isCampaignJoinableByUser: () => undefined };
   const campaignParticipationRepository = { save: () => undefined, findOneByCampaignIdAndUserId: () => undefined };
   const assessmentRepository = { save: () => undefined };
-  const schoolingRegistrationRepository = { findOneByUserIdAndOrganizationId: () => undefined };
   const domainTransaction = Symbol('DomainTransaction');
   const dependencies = {
     campaignParticipationRepository,
     campaignToJoinRepository,
     assessmentRepository,
-    schoolingRegistrationRepository,
     domainTransaction,
   };
 
   beforeEach(() => {
     sinon.stub(campaignToJoinRepository, 'get');
-    sinon.stub(schoolingRegistrationRepository, 'findOneByUserIdAndOrganizationId');
+    sinon.stub(campaignToJoinRepository, 'isCampaignJoinableByUser');
     sinon.stub(campaignParticipationRepository, 'save');
     sinon.stub(campaignParticipationRepository, 'findOneByCampaignIdAndUserId');
     sinon.stub(assessmentRepository, 'save');
   });
 
-  it('should throw a ForbiddenAccess if the campaign is archived', async () => {
+  it('should throw a ForbiddenAccess if the campaign is not joinable by the user', async () => {
     // given
-    const archivedCampaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId, archivedAt: new Date('2020-01-01') });
-    campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(archivedCampaignToJoin);
-
-    // when
-    const error = await catchErr(usecases.startCampaignParticipation)({ campaignParticipation, userId, ...dependencies });
-
-    // then
-    return expect(error).to.be.instanceOf(ForbiddenAccess);
-  });
-
-  it('should throw a ForbiddenAccess if the campaign is restricted and the user does not have a schooling registration for this campaign', async () => {
-    // given
-    const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId, organizationIsManagingStudents: true });
+    const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
-    schoolingRegistrationRepository.findOneByUserIdAndOrganizationId
-      .withArgs({ userId, organizationId: campaignToJoin.organizationId })
-      .resolves(null);
+    campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(false);
 
     // when
     const error = await catchErr(usecases.startCampaignParticipation)({ campaignParticipation, userId, ...dependencies });
@@ -61,6 +45,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     // given
     const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId, organizationIsManagingStudents: false });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
+    campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
     const alreadyStartedParticipation = domainBuilder.buildCampaignParticipation();
     campaignParticipationRepository.findOneByCampaignIdAndUserId
       .withArgs({ campaignId: campaignToJoin.id, userId })
@@ -77,6 +62,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     // given
     const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId, organizationIsManagingStudents: false });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
+    campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
     campaignParticipationRepository.findOneByCampaignIdAndUserId
       .withArgs({ campaignId: campaignToJoin.id, userId })
       .resolves(null);
@@ -107,6 +93,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
         type: types.ASSESSMENT,
       });
       campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
+      campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
       campaignParticipationRepository.findOneByCampaignIdAndUserId
         .withArgs({ campaignId: campaignToJoin.id, userId })
         .resolves(null);
@@ -137,6 +124,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
         type: types.PROFILES_COLLECTION,
       });
       campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
+      campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
       campaignParticipationRepository.findOneByCampaignIdAndUserId
         .withArgs({ campaignId: campaignToJoin.id, userId })
         .resolves(null);
@@ -158,6 +146,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       organizationIsManagingStudents: false,
     });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
+    campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
     campaignParticipationRepository.findOneByCampaignIdAndUserId
       .withArgs({ campaignId: campaignToJoin.id, userId })
       .resolves(null);
