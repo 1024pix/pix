@@ -106,7 +106,7 @@ module('Acceptance | authentication', function(hooks) {
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
 
-      assert.dom('.topbar__user-identification').hasText('Harry Cover');
+      assert.dom('.logged-user-summary__name').hasText('Harry Cover');
     });
   });
 
@@ -127,10 +127,10 @@ module('Acceptance | authentication', function(hooks) {
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is authenticated');
     });
 
-    test('it should show the name of certification center', async function(assert) {
+    test('it should show the name and externalId of certification center', async function(assert) {
       await visit('/sessions/liste');
 
-      assert.dom('.sidebar__certification-center-name').hasText('Centre de certification du pix');
+      assert.dom('.logged-user-summary__certificationPointOfContact').hasText('Centre de certification du pix (ABC123)');
     });
 
     test('it should redirect certificationPointOfContact to the session list on root url', async function(assert) {
