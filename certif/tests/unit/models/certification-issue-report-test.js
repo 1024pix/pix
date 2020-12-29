@@ -8,6 +8,8 @@ import {
   certificationIssueReportSubcategories,
   categoryToLabel,
   subcategoryToLabel,
+  categoryToCode,
+  subcategoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 
 module('Unit | Model | certification issue report', function(hooks) {
@@ -38,6 +40,34 @@ module('Unit | Model | certification issue report', function(hooks) {
     // when / then
     for (const model of models) {
       assert.equal(model.subcategoryLabel, subcategoryToLabel[model.subcategory]);
+    }
+  });
+
+  test('it should return the right code for the category', function(assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+
+    const models = map(certificationIssueReportCategories, (category) => {
+      return run(() => store.createRecord('certification-issue-report', { category }));
+    });
+
+    // when / then
+    for (const model of models) {
+      assert.equal(model.categoryCode, categoryToCode[model.category]);
+    }
+  });
+
+  test('it should return the right code for the subcategory', function(assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+
+    const models = map(certificationIssueReportSubcategories, (subcategory) => {
+      return run(() => store.createRecord('certification-issue-report', { subcategory }));
+    });
+
+    // when / then
+    for (const model of models) {
+      assert.equal(model.subcategoryCode, subcategoryToCode[model.subcategory]);
     }
   });
 
