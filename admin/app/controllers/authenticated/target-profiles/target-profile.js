@@ -61,14 +61,15 @@ export default class TargetProfileController extends Controller {
     this.model.name = this.form.name.trim();
     this.isEditMode = false;
 
-    return this.model.save()
-      .then(() => {
-        this.notifications.success('Le nom a bien été modifée.');
-      })
-      .catch(() => {
-        this.model.rollbackAttributes();
-        this.notifications.error('Une erreur est survenue.');
-      });
+    try {
+      await this.model.save();
+      await this.notifications.success('Le nom a bien été modifée.');
+
+    } catch (error) {
+      this.model.rollbackAttributes();
+      this.notifications.error('Une erreur est survenue.');
+    }
+
   }
 
   @action
