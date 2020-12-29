@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.239.0 (29/12/2020)
+
+- [#2325](https://github.com/1024pix/pix/pull/2325) [FEATURE] Ajout des codes de signalement pour les catégories et sous-catégories (PIX-1819)
+- [#2320](https://github.com/1024pix/pix/pull/2320) [FEATURE] Transformer le PV de session en feuille d'émargement (PIX-1536)
+- [#2309](https://github.com/1024pix/pix/pull/2309) [BUGFIX] Empêcher la participation à une campagne archivée ou restreinte et à laquelle l'utilisateur n'a pas accès (PIX-1779)
+- [#2326](https://github.com/1024pix/pix/pull/2326) [BUGFIX] Le bouton de téléchargement de la feuille d'émargement ne s'affiche pas pour les centres de certification SCO dans le cadre de la prescription de certif SCO (PIX-1831)
+- [#2281](https://github.com/1024pix/pix/pull/2281) [BUGFIX] Renforce la contrainte d'accès à la prescription de certif SCO côté PixCertif en limitant l'accès aux centres de certification dont l'organisation soeur est isManagingStudents (PIX-1766)
+- [#2282](https://github.com/1024pix/pix/pull/2282) [TECH] Remplacer la route GET /api/competence-evaluations?filter[assessmentId=123] par GET /api/assessments/123/competence-evaluations (PIX-1788)
+
 ## v2.238.0 (28/12/2020)
 
 - [#2323](https://github.com/1024pix/pix/pull/2323) [FEATURE] Changer le lien dans dans le bandeau d'informations Pix Certif SCO (PIX-1815)
