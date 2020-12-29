@@ -18,7 +18,7 @@
         </span>
 
         <div class="form-field">
-          <label for="name" class="form-field__label">
+          <label for="targetProfileName" class="form-field__label">
             <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom
           </label>
           {{#if (v-get this.form 'name' 'isInvalid')}}
@@ -26,7 +26,7 @@
             {{v-get this.form 'name' 'message'}}
           </div>
           {{/if}}
-          <Input id="name" @type="text" class={{if (v-get this.form 'name' 'isInvalid'
+          <Input id="targetProfileName" @type="text" class={{if (v-get this.form 'name' 'isInvalid'
             ) "form-control is-invalid" "form-control" }} @value={{this.form.name}} required={{true}} />
         </div>
         <div class="form-actions">
