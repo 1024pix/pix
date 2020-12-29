@@ -1,5 +1,4 @@
 const CertificationPointOfContact = require('../../../../lib/domain/read-models/CertificationPointOfContact');
-const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 
 module.exports = function buildCertificationPointOfContact(
   {
@@ -8,23 +7,16 @@ module.exports = function buildCertificationPointOfContact(
     lastName = 'Brebis',
     email = 'chevre.brebis@example.net',
     pixCertifTermsOfServiceAccepted = true,
-    certificationCenterId = 456,
-    certificationCenterName = 'Centre de la prairie verdoyante',
-    certificationCenterType = CertificationCenter.types.PRO,
-    certificationCenterExternalId = 'CHEVRE456',
-    isRelatedOrganizationManagingStudents = false,
+    currentCertificationCenterId = 456,
+    certificationCenters,
   } = {}) {
-
   return new CertificationPointOfContact({
     id,
     firstName,
     lastName,
     email,
     pixCertifTermsOfServiceAccepted,
-    certificationCenterId,
-    certificationCenterName,
-    certificationCenterType,
-    certificationCenterExternalId,
-    isRelatedOrganizationManagingStudents,
+    currentCertificationCenterId,
+    certificationCenters,
   });
 };
