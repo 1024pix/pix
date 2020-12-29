@@ -25,7 +25,6 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.customLandingPageText).to.deep.equal(expectedCampaign.customLandingPageText);
       expect(actualCampaign.externalIdHelpImageUrl).to.deep.equal(expectedCampaign.externalIdHelpImageUrl);
       expect(actualCampaign.alternativeTextToExternalIdHelpImage).to.deep.equal(expectedCampaign.alternativeTextToExternalIdHelpImage);
-      expect(actualCampaign.createdAt).to.deep.equal(expectedCampaign.createdAt);
       expect(actualCampaign.archivedAt).to.deep.equal(expectedCampaign.archivedAt);
       expect(actualCampaign.type).to.deep.equal(expectedCampaign.type);
       expect(actualCampaign.organizationId).to.deep.equal(organization.id);
