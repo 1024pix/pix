@@ -18,6 +18,7 @@ const dependencies = {
   campaignProfilesCollectionParticipationSummaryRepository: require('../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository'),
   campaignProfileRepository: require('../../infrastructure/repositories/campaign-profile-repository'),
   campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
+  campaignToJoinRepository: require('../../infrastructure/repositories/campaign-to-join-repository'),
   campaignCsvExportService: require('../../domain/services/campaign-csv-export-service'),
   certificationAssessmentRepository: require('../../infrastructure/repositories/certification-assessment-repository'),
   certificationAttestationPdf: require('../../infrastructure/utils/pdf/certification-attestation-pdf'),
