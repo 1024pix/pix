@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.240.0 (29/12/2020)
+
+- [#2327](https://github.com/1024pix/pix/pull/2327) [FEATURE] Modifier le wording de l'étape 2 de la finalisation de session (PIX-1794)
+- [#2328](https://github.com/1024pix/pix/pull/2328) [BUGFIX] Le mauvais résultat de fin de compétence s'affiche lorsqu'on termine une évaluation de compétence sur PixApp (PIX-1835)
+- [#2318](https://github.com/1024pix/pix/pull/2318) [BUGFIX] Renseigner la bonne traduction sur la page de présentation de la campagne (PIX-1825).
+
 ## v2.239.0 (29/12/2020)
 
 - [#2325](https://github.com/1024pix/pix/pull/2325) [FEATURE] Ajout des codes de signalement pour les catégories et sous-catégories (PIX-1819)
