@@ -5,10 +5,12 @@
 
   &__text {
     display: inline-block;
-    margin-right: 16px;
+    span {
+      margin-right: 16px;
+    }
   }
 
-  &__link {
-    display: inline-block;
+  &__sub-text {
+    font-weight: bold;
   }
 }

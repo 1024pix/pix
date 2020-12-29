@@ -1,10 +1,15 @@
 <div class="session-finalization-formbuilder-link-step">
   <div class="session-finalization-formbuilder-link-step__text">
-    Pour transmettre le PV de session scanné, suivez ce lien
+    <span>
+      {{this.text}}
+    </span>
+      <a href={{this.linkTo}} target="_blank" rel="noopener noreferrer">
+        <FaIcon @icon='arrow-right' /> Formulaire 123formbuilder
+      </a>
   </div>
-  <div class="session-finalization-formbuilder-link-step__link">
-    <a href={{this.formBuilderLinkUrl}} target="_blank" rel="noopener noreferrer" >
-      <FaIcon @icon='arrow-right' /> Formulaire 123formbuilder
-    </a>
-  </div>
+  {{#if this.subText.length}}
+    <p class="session-finalization-formbuilder-link-step__sub-text">
+      {{this.subText}}
+    </p>
+  {{/if}}
 </div>
