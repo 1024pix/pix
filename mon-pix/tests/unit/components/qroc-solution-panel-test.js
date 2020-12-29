@@ -1,11 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import setupIntl from '../../helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | qroc-solution-panel', function() {
 
   setupTest();
+  setupIntl();
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
 

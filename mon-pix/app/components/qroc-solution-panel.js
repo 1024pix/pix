@@ -21,7 +21,7 @@ export default class QrocSolutionPanel extends Component {
   get answerToDisplay() {
     const answer = this.args.answer.value;
     if (answer === '#ABAND#') {
-      return 'Pas de réponse';
+      return this.intl.t('pages.result-item.aband');
     }
     return answer;
   }
