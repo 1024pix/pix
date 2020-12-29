@@ -53,7 +53,10 @@ describe('Integration | Component | QROCm ind solution panel', function() {
         this.challenge.set('format', data.format);
 
         // when
-        await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
+        await render(hbs`<QrocmIndSolutionPanel
+          @answer={{this.answer}}
+          @solution={{this.solution}}
+          @challenge={{this.challenge}} />`);
       });
 
       describe('When the answer is correct', function() {
