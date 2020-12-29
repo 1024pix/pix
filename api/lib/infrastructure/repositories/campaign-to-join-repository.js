@@ -24,4 +24,24 @@ module.exports = {
 
     return new CampaignToJoin(result);
   },
+
+  async isCampaignJoinableByUser(campaign, userId) {
+    if (campaign.isArchived()) {
+      return false;
+    }
+
+    if (campaign.isRestricted) {
+      const result = await knex
+        .select('schooling-registrations.id')
+        .from('schooling-registrations')
+        .where({ userId, organizationId: campaign.organizationId })
+        .first();
+
+      if (!result) {
+        return false;
+      }
+    }
+
+    return true;
+  },
 };

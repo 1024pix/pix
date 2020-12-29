@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
 const CampaignToJoin = require('../../../../lib/domain/models/CampaignToJoin');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -46,6 +46,61 @@ describe('Integration | Repository | CampaignToJoin', () => {
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+    });
+  });
+
+  describe('#isCampaignJoinableByUser', () => {
+
+    it('should return false if the campaign is archived', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignData = databaseBuilder.factory.buildCampaign({ archivedAt: new Date('2020-01-01') });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin(campaignData);
+      await databaseBuilder.commit();
+
+      // when
+      const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
+
+      // then
+      expect(canJoinCampaign).to.be.false;
+    });
+
+    it('should return false if the campaign is restricted and the user does not have a corresponding schooling registration', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId });
+      const campaignData = databaseBuilder.factory.buildCampaign({ organizationId });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+        organizationIsManagingStudents: true,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
+
+      // then
+      expect(canJoinCampaign).to.be.false;
+    });
+
+    it('should return true when the campaign is restricted and the user has a corresponding schooling registration', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId });
+      const campaignData = databaseBuilder.factory.buildCampaign({ organizationId });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({
+        ...campaignData,
+        organizationIsManagingStudents: true,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
+
+      // then
+      expect(canJoinCampaign).to.be.true;
     });
   });
 });
