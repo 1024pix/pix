@@ -1,11 +1,5 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-computed-property-dependencies: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/template';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 import forEach from 'lodash/forEach';
 import keys from 'lodash/keys';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
@@ -30,16 +24,16 @@ function _computeInputClass(answerOutcome) {
   return 'correction-qroc-box-answer--wrong';
 }
 
-@classic
-class QrocmIndSolutionPanel extends Component {
-  @computed('challenge.proposals', 'answer.value', 'solution')
+export default class QrocmIndSolutionPanel extends Component {
   get inputFields() {
-
-    const escapedProposals = this.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
+    if (!this.args.solution) {
+      return undefined;
+    }
+    const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
-    const answers = answersAsObject(this.answer.value, keys(labels));
-    const solutions = solutionsAsObject(this.solution);
-    const resultDetails = resultDetailsAsObject(this.answer.resultDetails);
+    const answers = answersAsObject(this.args.answer.value, keys(labels));
+    const solutions = solutionsAsObject(this.args.solution);
+    const resultDetails = resultDetailsAsObject(this.args.answer.resultDetails);
 
     const inputFields = [];
 
@@ -64,6 +58,4 @@ class QrocmIndSolutionPanel extends Component {
     return inputFields;
   }
 }
-
-export default QrocmIndSolutionPanel;
 
