@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import { A } from '@ember/array';
 
 describe('Unit | Route | Competences | Results', function() {
 
@@ -32,12 +33,16 @@ describe('Unit | Route | Competences | Results', function() {
       route.transitionTo = sinon.stub();
     });
 
-    it('should return the first competence-evaluation for a given assessment', async function() {
+    it('should return the most recent competence-evaluation for a given assessment', async function() {
       // Given
-      const expectedCompetenceEvaluation = { id: 1 };
+      const competenceEvaluationsInStore = A([
+        { id: 1, createdAt: new Date('2020-01-01'), assessment: { get: () => assessmentId } },
+        { id: 2, createdAt: new Date('2020-02-01'), assessment: { get: () => assessmentId } },
+        { id: 3, createdAt: new Date('2020-03-01'), assessment: { get: () => 456 } },
+      ]);
       findAllStub
-        .withArgs('competenceEvaluation', { adapterOptions: { assessmentId } })
-        .resolves({ firstObject: expectedCompetenceEvaluation });
+        .withArgs('competenceEvaluation', { reload: true, adapterOptions: { assessmentId } })
+        .resolves(competenceEvaluationsInStore);
 
       // When
       const model = await route.model({
@@ -45,7 +50,7 @@ describe('Unit | Route | Competences | Results', function() {
       });
 
       // Then
-      expect(model.id).to.equal(1);
+      expect(model.id).to.equal(2);
     });
   });
 
