@@ -78,7 +78,8 @@ module.exports = function(environment) {
 
     matomo: {},
 
-    formBuilderLinkUrl: 'https://eu.123formbuilder.com/form-29080/certification-depot-du-pv-de-session-scanne',
+    formBuilderLinkUrlReportsCategorisation: 'https://form-eu.123formbuilder.com/41052/form',
+    formBuilderLinkUrlNoReportsCategorisation: 'https://eu.123formbuilder.com/form-29080/certification-depot-du-pv-de-session-scanne',
   };
 
   if (environment === 'development') {
