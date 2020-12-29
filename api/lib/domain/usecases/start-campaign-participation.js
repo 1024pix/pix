@@ -1,19 +1,26 @@
 const Assessment = require('../models/Assessment');
-
-const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
 const CampaignParticipationStarted = require('../events/CampaignParticipationStarted');
 const CampaignParticipation = require('../models/CampaignParticipation');
+const { AlreadyExistingCampaignParticipationError, ForbiddenAccess } = require('../../domain/errors');
 
-module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository, domainTransaction }) {
-  const campaign = await campaignRepository.get(campaignParticipation.campaignId);
+module.exports = async function startCampaignParticipation({
+  campaignParticipation,
+  userId,
+  campaignParticipationRepository,
+  assessmentRepository,
+  campaignToJoinRepository,
+  domainTransaction,
+}) {
+  const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId);
 
-  if (campaign === null) {
-    throw new NotFoundError('La campagne demandée n\'existe pas');
+  const canJoinCampaign = await campaignToJoinRepository.isCampaignJoinableByUser(campaignToJoin, userId);
+  if (!canJoinCampaign) {
+    throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
   }
 
   const createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
 
-  if (campaign.isAssessment()) {
+  if (campaignToJoin.isAssessment()) {
     await _createCampaignAssessment(userId, createdCampaignParticipation.id, assessmentRepository, domainTransaction);
   }
 
