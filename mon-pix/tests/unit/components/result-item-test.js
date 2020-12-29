@@ -1,8 +1,9 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { describe, it } from 'mocha';
 import setupIntl from '../../helpers/setup-intl';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 const undefinedAnswer = 'undefined';
 const answerWithEmptyResult = {
@@ -28,10 +29,6 @@ describe('Unit | Component | result-item-component', function() {
 
   let component;
 
-  beforeEach(function() {
-    component = this.owner.lookup('component:result-item');
-  });
-
   describe('#resultItem Computed property - undefined case', function() {
     [
       undefinedAnswer,
@@ -41,10 +38,10 @@ describe('Unit | Component | result-item-component', function() {
     ].forEach(function(answer) {
       it(`should returns undefined when answer provided is: ${answer.name}`, function() {
         // when
-        component.set('answer', answer);
+        component = createGlimmerComponent('component:result-item', { answer });
 
         // then
-        expect(component.get('resultItem')).to.be.undefined;
+        expect(component.resultItem).to.be.undefined;
       });
     });
 
@@ -63,11 +60,11 @@ describe('Unit | Component | result-item-component', function() {
         const answerWithOkResult = { result: `${data.result}` };
 
         // when
-        component.set('answer', answerWithOkResult);
+        component = createGlimmerComponent('component:result-item', { answer: answerWithOkResult });
 
         // then
-        expect(component.get('resultItem.color')).to.equal(`${data.expectedColor}`);
-        expect(component.get('resultItem.icon')).to.equal(`${data.expectedIcon}`);
+        expect(component.resultItem.color).to.equal(`${data.expectedColor}`);
+        expect(component.resultItem.icon).to.equal(`${data.expectedIcon}`);
       });
     });
   });
@@ -83,10 +80,10 @@ describe('Unit | Component | result-item-component', function() {
       it(`should return a tooltip text equal to ${data.expectedTooltip}`, function() {
         // given
         const answerWithOkResult = { result: `${data.result}` };
+        component = createGlimmerComponent('component:result-item', { answer: answerWithOkResult });
 
         // when
-        component.set('answer', answerWithOkResult);
-        const tooltipText = component.get('resultTooltip');
+        const tooltipText = component.resultTooltip;
 
         // then
         expect(tooltipText).to.equal(`${data.expectedTooltip}`);
@@ -101,7 +98,7 @@ describe('Unit | Component | result-item-component', function() {
       window.innerWidth = 600;
 
       //then
-      expect(component.get('textLength')).to.equal(60);
+      expect(component.textLength).to.equal(60);
     });
 
     it('should be 110 when it a tablet/desktop', function() {
@@ -109,7 +106,7 @@ describe('Unit | Component | result-item-component', function() {
       window.innerWidth = 1200;
 
       //then
-      expect(component.get('textLength')).to.equal(110);
+      expect(component.textLength).to.equal(110);
     });
   });
 
@@ -130,10 +127,10 @@ describe('Unit | Component | result-item-component', function() {
         const answer = EmberObject.create({ challenge });
 
         // when
-        component.set('answer', answer);
+        component = createGlimmerComponent('component:result-item', { answer });
 
         // then
-        expect(component.get('validationImplementedForChallengeType')).to.equal(data.expected);
+        expect(component.validationImplementedForChallengeType).to.equal(data.expected);
       });
     });
   });
