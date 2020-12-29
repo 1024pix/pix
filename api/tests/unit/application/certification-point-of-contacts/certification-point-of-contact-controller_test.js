@@ -13,7 +13,8 @@ describe('Unit | Controller | certifications-point-of-contact-controller', () =>
     it('should return a serialized CertificationReferent', async () => {
       // given
       const userId = 123;
-      const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact();
+      const certificationCenter = { id: 1, name: 'Serre tiff', type: 'SCO', externalId: 'externalId', isRelatedOrganizationManagingStudents: false };
+      const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({ certificationCenters: [certificationCenter] });
       const request = {
         auth: {
           credentials: { userId },
@@ -34,20 +35,36 @@ describe('Unit | Controller | certifications-point-of-contact-controller', () =>
             'last-name': certificationPointOfContact.lastName,
             email: certificationPointOfContact.email,
             'pix-certif-terms-of-service-accepted': certificationPointOfContact.pixCertifTermsOfServiceAccepted,
-            'certification-center-id': certificationPointOfContact.certificationCenterId,
-            'certification-center-name': certificationPointOfContact.certificationCenterName,
-            'certification-center-type': certificationPointOfContact.certificationCenterType,
-            'certification-center-external-id': certificationPointOfContact.certificationCenterExternalId,
-            'is-related-organization-managing-students': certificationPointOfContact.isRelatedOrganizationManagingStudents,
+            'current-certification-center-id': certificationPointOfContact.currentCertificationCenterId,
           },
           relationships: {
+            'certification-centers': {
+              data: [
+                {
+                  type: 'certificationCenters',
+                  id: certificationCenter.id.toString(),
+                },
+              ],
+            },
             sessions: {
               links: {
-                related: `/api/certification-centers/${certificationPointOfContact.certificationCenterId}/sessions`,
+                related: `/api/certification-centers/${certificationPointOfContact.currentCertificationCenterId}/sessions`,
               },
             },
           },
         },
+        included: [
+          {
+            type: 'certificationCenters',
+            id: certificationCenter.id.toString(),
+            attributes: {
+              name: certificationCenter.name,
+              type: certificationCenter.type,
+              'external-id': certificationCenter.externalId,
+              'is-related-organization-managing-students': certificationCenter.isRelatedOrganizationManagingStudents,
+            },
+          },
+        ],
       });
     });
   });
