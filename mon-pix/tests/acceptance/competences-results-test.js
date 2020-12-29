@@ -27,11 +27,32 @@ describe('Acceptance | competences results', function() {
         state: 'completed',
       });
 
+      // Older competence-evaluation
+      const area = this.server.schema.areas.find(3);
+      const olderCompetenceScoreCard = this.server.create('scorecard', {
+        id: '1_9',
+        index: 5.1,
+        type: 'COMPETENCE_EVALUATION',
+        state: 'completed',
+        area,
+        earnedPix: 17,
+        level: 2,
+      });
+      const olderCompetence = this.server.create('competence-evaluation', {
+        id: 2,
+        assessmentId: assessmentId,
+        competenceId: 9,
+        userId: user.id,
+        createdAt: new Date('2020-01-01'),
+      });
+      olderCompetence.update({ scorecard: olderCompetenceScoreCard });
+
       this.server.create('competence-evaluation', {
         id: 1,
         assessmentId: assessmentId,
         competenceId: competenceId,
         userId: user.id,
+        createdAt: new Date('2020-02-01'),
       });
     });
 
