@@ -1,0 +1,67 @@
+.logged-user-container {
+  position: relative;
+}
+
+.logged-user-summary {
+  letter-spacing: 0.03125rem;
+  text-align: right;
+
+  &__link {
+    color: $grey-60;
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $grey-70;
+    }
+  }
+
+  &__name {
+    font-size: 0.875rem;
+    font-weight: bold;
+    height: 19px;
+  }
+
+  &__certificationPointOfContact {
+    height: 18px;
+  }
+
+  &__chevron {
+    align-self: center;
+    margin-left: 18px;
+    vertical-align: middle;
+
+    &-up {
+      color: $blue;
+    }
+  }
+}
+
+.logged-user-menu {
+  right: 0;
+  top: 49px;
+  width: 400px;
+
+  &-item {
+    color: $grey-60;
+    text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $grey-60;
+      text-decoration: none;
+    }
+
+    &__icon {
+      margin-right: 8px;
+    }
+
+    &__last:not(:first-child) {
+      border-top: 1px solid $grey-20;
+    }
+  }
+}
