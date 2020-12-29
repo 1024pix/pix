@@ -58,7 +58,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     return expect(error).to.be.instanceOf(AlreadyExistingCampaignParticipationError);
   });
 
-  it('should save the campaign participation with userId', async () => {
+  it('should return the saved campaign participation', async () => {
     // given
     const campaignToJoin = domainBuilder.buildCampaignToJoin({ id: campaignParticipation.campaignId, organizationIsManagingStudents: false });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
@@ -66,21 +66,43 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     campaignParticipationRepository.findOneByCampaignIdAndUserId
       .withArgs({ campaignId: campaignToJoin.id, userId })
       .resolves(null);
-    const assessmentId = 987654321;
-    assessmentRepository.save.resolves({ id: assessmentId });
-    campaignParticipationRepository.save.resolves({});
-
-    // when
-    await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
-
-    // then
-    expect(campaignParticipationRepository.save).to.have.been.called;
-    const campaignParticipationToSave = campaignParticipationRepository.save.firstCall.args[0];
-    expect(campaignParticipationToSave.userId).to.equal(userId);
-    expect(campaignParticipationToSave).to.deep.equal({
+    assessmentRepository.save.resolves();
+    const campaignParticipationToSave = domainBuilder.buildCampaignParticipation({
       ...campaignParticipation,
       userId,
     });
+    const savedCampaignParticipation = Symbol('savedCampaignParticipation');
+    campaignParticipationRepository.save.withArgs(campaignParticipationToSave).resolves(savedCampaignParticipation);
+
+    // when
+    const { campaignParticipation: actualSavedCampaignParticipation } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+
+    // then
+    expect(actualSavedCampaignParticipation).to.deep.equal(savedCampaignParticipation);
+  });
+
+  it('should return CampaignParticipationStarted event', async () => {
+    // given
+    const campaignParticipation = domainBuilder.buildCampaignParticipation();
+    const campaignToJoin = domainBuilder.buildCampaignToJoin({
+      id: campaignParticipation.campaignId,
+      organizationIsManagingStudents: false,
+    });
+    campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
+    campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
+    campaignParticipationRepository.findOneByCampaignIdAndUserId
+      .withArgs({ campaignId: campaignToJoin.id, userId })
+      .resolves(null);
+    const assessmentId = 987654321;
+    const campaignParticipationStartedEvent = new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id });
+    assessmentRepository.save.resolves({ id: assessmentId });
+    campaignParticipationRepository.save.resolves(campaignParticipation);
+
+    // when
+    const { event } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+
+    // then
+    expect(event).to.deep.equal(campaignParticipationStartedEvent);
   });
 
   context('when campaign is of type ASSESSMENT', () => {
@@ -97,20 +119,15 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       campaignParticipationRepository.findOneByCampaignIdAndUserId
         .withArgs({ campaignId: campaignToJoin.id, userId })
         .resolves(null);
-      assessmentRepository.save.resolves({});
+      assessmentRepository.save.resolves();
       campaignParticipationRepository.save.resolves({ id: 1 });
 
       // when
       await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
 
       // then
-      expect(assessmentRepository.save).to.have.been.called;
-      const assessmentToSave = assessmentRepository.save.firstCall.args[0].assessment;
-      expect(assessmentToSave.type).to.equal(Assessment.types.CAMPAIGN);
-      expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
-      expect(assessmentToSave.userId).to.equal(userId);
-      expect(assessmentToSave.courseId).to.equal('[NOT USED] Campaign Assessment CourseId Not Used');
-      expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipation.id);
+      const createdAssessment = Assessment.createForCampaign({ userId, campaignParticipationId: 1 });
+      expect(assessmentRepository.save).to.have.been.calledWith({ assessment: createdAssessment, domainTransaction });
     });
   });
 
@@ -136,29 +153,5 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       // then
       expect(assessmentRepository.save).to.not.have.been.called;
     });
-  });
-
-  it('should return CampaignParticipationStarted event', async () => {
-    // given
-    const campaignParticipation = domainBuilder.buildCampaignParticipation();
-    const campaignToJoin = domainBuilder.buildCampaignToJoin({
-      id: campaignParticipation.campaignId,
-      organizationIsManagingStudents: false,
-    });
-    campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
-    campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
-    campaignParticipationRepository.findOneByCampaignIdAndUserId
-      .withArgs({ campaignId: campaignToJoin.id, userId })
-      .resolves(null);
-    const assessmentId = 987654321;
-    const campaignParticipationStartedEvent = new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id });
-    assessmentRepository.save.resolves({ id: assessmentId });
-    campaignParticipationRepository.save.resolves(campaignParticipation);
-
-    // when
-    const { event } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
-
-    // then
-    expect(event).to.deep.equal(campaignParticipationStartedEvent);
   });
 });

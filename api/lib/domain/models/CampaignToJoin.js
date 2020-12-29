@@ -9,7 +9,6 @@ class CampaignToJoin {
     customLandingPageText,
     externalIdHelpImageUrl,
     alternativeTextToExternalIdHelpImage,
-    createdAt,
     archivedAt,
     type,
     organizationId,
@@ -25,7 +24,6 @@ class CampaignToJoin {
     this.customLandingPageText = customLandingPageText;
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
-    this.createdAt = createdAt;
     this.archivedAt = archivedAt;
     this.type = type;
     this.organizationId = organizationId;
