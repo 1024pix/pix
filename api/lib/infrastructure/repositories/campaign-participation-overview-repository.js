@@ -8,12 +8,8 @@ module.exports = {
 
   async findAllByUserId(userId, page) {
     const queryBuilder = _findByUserId({ userId });
-    const rawCampaignParticipationOverviews = await fetchPage(queryBuilder, page);
-    const { results, pagination } = rawCampaignParticipationOverviews;
-
-    const campaignParticipationOverviews = results.map((data) => {
-      return new CampaignParticipationOverview(data);
-    });
+    const { results, pagination } = await _paginateQuery(queryBuilder, page);
+    const campaignParticipationOverviews = _toReadModel(results);
 
     return {
       campaignParticipationOverviews,
@@ -32,12 +28,8 @@ module.exports = {
       queryBuilder.whereNull('campaigns.archivedAt');
     }
 
-    const rawCampaignParticipationOverviews = await fetchPage(queryBuilder, page);
-    const { results, pagination } = rawCampaignParticipationOverviews;
-
-    const campaignParticipationOverviews = results.map((data) => {
-      return new CampaignParticipationOverview(data);
-    });
+    const { results, pagination } = await _paginateQuery(queryBuilder, page);
+    const campaignParticipationOverviews = _toReadModel(results);
 
     return {
       campaignParticipationOverviews,
@@ -111,5 +103,15 @@ function _filterWhithEndedState(queryBuilder, states) {
       this.modify(_filterByAssessmentStates, buildAssessementStates(states));
     }
     this.orWhereNotNull('campaigns.archivedAt');
+  });
+}
+
+async function _paginateQuery(queryBuilder, page) {
+  return await fetchPage(queryBuilder, page);
+}
+
+function _toReadModel(campaignParticipationOverviews) {
+  return campaignParticipationOverviews.map((data) => {
+    return new CampaignParticipationOverview(data);
   });
 }
