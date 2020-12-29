@@ -4,6 +4,7 @@ import answersAsObject from 'mon-pix/utils/answers-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
 import keys from 'lodash/keys';
 import jsyaml from 'js-yaml';
+import { inject as service } from '@ember/service';
 
 const classByResultValue = {
   ok: 'correction-qroc-box-answer--correct',
@@ -13,6 +14,8 @@ const classByResultValue = {
 };
 
 export default class QrocmDepSolutionPanel extends Component {
+  @service intl;
+
   get inputFields() {
     const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
@@ -23,7 +26,7 @@ export default class QrocmDepSolutionPanel extends Component {
 
       return {
         label: labels[key],
-        answer: answerIsEmpty ? 'Pas de réponse' : answers[key],
+        answer: answerIsEmpty ? this.intl.t('pages.result-item.aband') : answers[key],
         inputClass: answerIsEmpty ? classByResultValue['aband'] : this.inputClass,
       };
     });
