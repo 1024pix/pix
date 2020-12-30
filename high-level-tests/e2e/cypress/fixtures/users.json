@@ -7,7 +7,8 @@
     "cgu": true,
     "pixOrgaTermsOfServiceAccepted": true,
     "password": "",
-    "shouldChangePassword": false
+    "shouldChangePassword": false,
+    "lang": "fr-fr"
   },
   {
     "id": 2,
