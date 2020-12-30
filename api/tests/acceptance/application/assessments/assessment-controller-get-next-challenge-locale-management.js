@@ -115,44 +115,6 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
           });
         });
       });
-
-      context('when there is no challenge in the accepted language (fr-fr)', () => {
-        beforeEach(async () => {
-          airtableBuilder.mockList({ tableName: 'Epreuves' })
-            .returns([frenchSpokenChallenge])
-            .activate();
-
-          databaseBuilder.factory.buildUser({ id: userId });
-          databaseBuilder.factory.buildAssessment({
-            id: assessmentId,
-            type: Assessment.types.COMPETENCE_EVALUATION,
-            userId,
-            competenceId,
-          });
-          databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
-          await databaseBuilder.commit();
-        });
-
-        it('should return the challenge in the fallback language (fr)', () => {
-          // given
-          const options = {
-            method: 'GET',
-            url: `/api/assessments/${assessmentId}/next`,
-            headers: {
-              authorization: generateValidRequestAuthorizationHeader(userId),
-              'accept-language': FRENCH_FRANCE,
-            },
-          };
-
-          // when
-          const promise = server.inject(options);
-
-          // then
-          return promise.then((response) => {
-            expect(response.result.data.id).to.equal(frenchSpokenChallenge.id);
-          });
-        });
-      });
     });
   });
 });
