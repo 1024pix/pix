@@ -2,10 +2,13 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Component | qrocm-solution-panel', function() {
+describe('Unit | Component | qrocm-ind-solution-panel', function() {
 
   setupTest();
+  setupIntl();
 
   describe('#inputFields', function() {
 
@@ -18,14 +21,6 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       answer = {};
       solution = '';
     });
-
-    function _getComponentInputFields(context) {
-      const component = context.owner.lookup('component:qrocm-ind-solution-panel');
-      component.set('challenge', challenge);
-      component.set('answer', answer);
-      component.set('solution', solution);
-      return component.get('inputFields');
-    }
 
     it('should return an array with data to display (case when the answers are right)', function() {
       //Given
@@ -47,11 +42,15 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         inputClass: 'correction-qroc-box-answer--correct',
       }];
 
-      //when
-      const inputFields = _getComponentInputFields(this);
+      //When
+      const component = createGlimmerComponent('component:qrocm-ind-solution-panel', {
+        challenge,
+        answer,
+        solution,
+      });
 
       //Then
-      expect(inputFields).to.be.deep.equal(expectedFieldsData);
+      expect(component.inputFields).to.be.deep.equal(expectedFieldsData);
     });
 
     it('should return an array with data to display (case when there is wrong answers)', function() {
@@ -74,11 +73,14 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       }];
 
       //When
-      const inputFields = _getComponentInputFields(this);
+      const component = createGlimmerComponent('component:qrocm-ind-solution-panel', {
+        challenge,
+        answer,
+        solution,
+      });
 
-      //then
-      expect(inputFields).to.be.deep.equal(result);
-
+      //Then
+      expect(component.inputFields).to.be.deep.equal(result);
     });
 
     it('should return an array with data to display (case when there is some empty answer)', function() {
@@ -102,10 +104,14 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       }];
 
       //When
-      const inputFields = _getComponentInputFields(this);
+      const component = createGlimmerComponent('component:qrocm-ind-solution-panel', {
+        challenge,
+        answer,
+        solution,
+      });
 
-      //then
-      expect(inputFields).to.be.deep.equal(result);
+      //Then
+      expect(component.inputFields).to.be.deep.equal(result);
     });
 
     it('should return an array with data to display (proposals contains a dash ("-"))', function() {
@@ -155,11 +161,15 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         inputClass: 'correction-qroc-box-answer--wrong',
       }];
 
-      // when
-      const inputFields = _getComponentInputFields(this);
+      //When
+      const component = createGlimmerComponent('component:qrocm-ind-solution-panel', {
+        challenge,
+        answer,
+        solution,
+      });
 
-      // then
-      expect(inputFields).to.be.deep.equal(result);
+      //Then
+      expect(component.inputFields).to.be.deep.equal(result);
     });
 
     it('should return an array with data to display (proposals are questions)', function() {
@@ -182,11 +192,15 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         inputClass: 'correction-qroc-box-answer--wrong',
       }];
 
-      // when
-      const inputFields = _getComponentInputFields(this);
+      //When
+      const component = createGlimmerComponent('component:qrocm-ind-solution-panel', {
+        challenge,
+        answer,
+        solution,
+      });
 
-      // then
-      expect(inputFields).to.be.deep.equal(result);
+      //Then
+      expect(component.inputFields).to.be.deep.equal(result);
     });
 
     it('it should return "Pas de réponse" in each answer if the question was passed', function() {
@@ -209,11 +223,15 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         inputClass: 'correction-qroc-box-answer--aband',
       }];
 
-      // when
-      const inputFields = _getComponentInputFields(this);
+      //When
+      const component = createGlimmerComponent('component:qrocm-ind-solution-panel', {
+        challenge,
+        answer,
+        solution,
+      });
 
-      // then
-      expect(inputFields).to.be.deep.equal(result);
+      //Then
+      expect(component.inputFields).to.be.deep.equal(result);
     });
 
     /**
@@ -234,11 +252,15 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         inputClass: 'correction-qroc-box-answer--correct',
       }];
 
-      // when
-      const inputFields = _getComponentInputFields(this);
+      //When
+      const component = createGlimmerComponent('component:qrocm-ind-solution-panel', {
+        challenge,
+        answer,
+        solution,
+      });
 
-      // then
-      expect(inputFields).to.be.deep.equal(result);
+      //Then
+      expect(component.inputFields).to.be.deep.equal(result);
     });
 
   });

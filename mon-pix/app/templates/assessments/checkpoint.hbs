@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-action --}}
 {{page-title this.pageTitle}}
 
 <div class="background-banner-wrapper assessment-challenge">
@@ -35,7 +34,7 @@
 
         <div class="assessment-results__list">
           {{#each @model.answersSinceLastCheckpoints as |answer|}}
-            <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{action "openComparisonWindow"}} />
+            <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{this.openComparisonWindow}} />
           {{/each}}
         </div>
         <CheckpointContinue @assessmentId={{@model.id}} @nextPageButtonText={{this.nextPageButtonText}} />
@@ -54,7 +53,7 @@
   </div>
 
   {{#if this.isShowingModal}}
-    <ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{action "closeComparisonWindow"}} />
+    <ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />
   {{/if}}
 
 </div>

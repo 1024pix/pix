@@ -1,15 +1,10 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-computed-property-dependencies: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { computed } from '@ember/object';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/template';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
 import keys from 'lodash/keys';
 import jsyaml from 'js-yaml';
+import { inject as service } from '@ember/service';
 
 const classByResultValue = {
   ok: 'correction-qroc-box-answer--correct',
@@ -18,39 +13,36 @@ const classByResultValue = {
   aband: 'correction-qroc-box-answer--aband',
 };
 
-@classic
 export default class QrocmDepSolutionPanel extends Component {
-  @computed('challenge.proposals', 'answer.value')
+  @service intl;
+
   get inputFields() {
-    const escapedProposals = this.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
+    const escapedProposals = this.args.challenge.get('proposals').replace(/(\n\n|\n)/gm, '<br>');
     const labels = labelsAsObject(htmlSafe(escapedProposals).string);
-    const answers = answersAsObject(this.answer.value, keys(labels));
+    const answers = answersAsObject(this.args.answer.value, keys(labels));
 
     return Object.keys(labels).map((key) => {
       const answerIsEmpty = answers[key] === '';
 
       return {
         label: labels[key],
-        answer: answerIsEmpty ? 'Pas de réponse' : answers[key],
+        answer: answerIsEmpty ? this.intl.t('pages.result-item.aband') : answers[key],
         inputClass: answerIsEmpty ? classByResultValue['aband'] : this.inputClass,
       };
     });
   }
 
-  @computed('answer.result')
   get answerIsCorrect() {
-    return this.answer.result === 'ok';
+    return this.args.answer.result === 'ok';
   }
 
-  @computed('answer.result')
   get inputClass() {
-    return classByResultValue[this.answer.result];
+    return classByResultValue[this.args.answer.result];
   }
 
-  @computed('solution', 'inputFields.length')
   get expectedAnswers() {
     const inputFieldsCount = this.inputFields.length;
-    const solutions = jsyaml.safeLoad(this.solution);
+    const solutions = jsyaml.safeLoad(this.args.solution);
     const solutionsKeys = Object.keys(solutions);
 
     const expectedAnswers = solutionsKeys.slice(0, inputFieldsCount).map((key) => {

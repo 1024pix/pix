@@ -17,7 +17,7 @@ describe('Integration | Component | QROC solution panel', function() {
       this.set('answer', answer);
 
       //when
-      await render(hbs`{{qroc-solution-panel answer=answer}}`);
+      await render(hbs`<QrocSolutionPanel @answer={{this.answer}}/>`);
 
       // then
       expect(find('input')).to.not.exist;
@@ -34,7 +34,7 @@ describe('Integration | Component | QROC solution panel', function() {
       this.set('answer', answer);
 
       //when
-      await render(hbs`{{qroc-solution-panel answer=answer}}`);
+      await render(hbs`<QrocSolutionPanel @answer={{this.answer}}/>`);
 
       // then
       expect(find('input.correction-qroc-box-answer--sentence')).to.have.attr('disabled');
@@ -52,10 +52,10 @@ describe('Integration | Component | QROC solution panel', function() {
         const challenge = EmberObject.create({ format: data.format });
         const answer = EmberObject.create({ challenge });
         this.set('answer', answer);
-        await render(hbs`{{qroc-solution-panel answer=answer}}`);
+        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
 
         //when
-        await render(hbs`{{qroc-solution-panel answer=answer}}`);
+        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
 
         // then
         expect(find('textarea.correction-qroc-box-answer--paragraph')).to.not.exist;
@@ -83,7 +83,7 @@ describe('Integration | Component | QROC solution panel', function() {
 
           // when
           this.set('answer', answer);
-          await render(hbs`{{qroc-solution-panel answer=answer}}`);
+          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
         });
 
         it('should display the answer in bold green', async function() {
@@ -109,7 +109,7 @@ describe('Integration | Component | QROC solution panel', function() {
 
           // when
           this.set('answer', answer);
-          await render(hbs`{{qroc-solution-panel answer=answer}}`);
+          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
         });
 
         it('should display the false answer with line-through', function() {
@@ -145,7 +145,7 @@ describe('Integration | Component | QROC solution panel', function() {
           this.set('answer', answer);
           this.set('isResultWithoutAnswer', true);
 
-          await render(hbs`{{qroc-solution-panel answer=answer}}`);
+          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
         });
 
         it('should display "Pas de réponse" in italic', function() {
