@@ -403,7 +403,7 @@
             },
             "actions": {
                 "next-page": {
-                    "continue": "Continue my personalised test",
+                    "continue": "Continue",
                     "results": "See my results"
                 }
             },
