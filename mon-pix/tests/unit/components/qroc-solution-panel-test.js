@@ -1,10 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import setupIntl from '../../helpers/setup-intl';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | qroc-solution-panel', function() {
 
   setupTest();
+  setupIntl();
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
 
@@ -12,20 +15,18 @@ describe('Unit | Component | qroc-solution-panel', function() {
 
     it('should return true when result is ok', function() {
       // given
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('answer', rightAnswer);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { answer: rightAnswer });
       // when
-      const isResultOk = component.get('isResultOk');
+      const isResultOk = component.isResultOk;
       // then
       expect(isResultOk).to.be.true;
     });
 
     it('should return true when result is not ok', function() {
       // given
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('answer', wrongAnswer);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { answer: wrongAnswer });
       // when
-      const isResultOk = component.get('isResultOk');
+      const isResultOk = component.isResultOk;
       // then
       expect(isResultOk).to.be.false;
     });
@@ -39,10 +40,9 @@ describe('Unit | Component | qroc-solution-panel', function() {
       const answer = {
         value: '#ABAND#',
       };
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('answer', answer);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { answer });
       // when
-      const answerToDisplay = component.get('answerToDisplay');
+      const answerToDisplay = component.answerToDisplay;
       // then
       expect(answerToDisplay).to.equal('Pas de réponse');
     });
@@ -52,10 +52,9 @@ describe('Unit | Component | qroc-solution-panel', function() {
       const answer = {
         value: 'La Reponse B',
       };
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('answer', answer);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { answer });
       // when
-      const answerToDisplay = component.get('answerToDisplay');
+      const answerToDisplay = component.answerToDisplay;
       // then
       expect(answerToDisplay).to.equal('La Reponse B');
     });
@@ -66,10 +65,9 @@ describe('Unit | Component | qroc-solution-panel', function() {
     it('should return the first solution if the solution has some variants', function() {
       // given
       const solution = 'Reponse\nreponse\nréponse';
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('solution', solution);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
-      const solutionToDisplay = component.get('solutionToDisplay');
+      const solutionToDisplay = component.solutionToDisplay;
       // then
       expect(solutionToDisplay).to.equal('Reponse');
     });
@@ -77,10 +75,9 @@ describe('Unit | Component | qroc-solution-panel', function() {
     it('should return the solution', function() {
       // given
       const solution = 'Reponse';
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('solution', solution);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
-      const solutionToDisplay = component.get('solutionToDisplay');
+      const solutionToDisplay = component.solutionToDisplay;
       // then
       expect(solutionToDisplay).to.equal('Reponse');
     });
@@ -88,10 +85,9 @@ describe('Unit | Component | qroc-solution-panel', function() {
     it('should return an empty string if the solution is null', function() {
       // given
       const emptySolution = '';
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('solution', emptySolution);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { solution: emptySolution });
       // when
-      const solutionToDisplay = component.get('solutionToDisplay');
+      const solutionToDisplay = component.solutionToDisplay;
       // then
       expect(solutionToDisplay).to.equal('');
     });
@@ -99,10 +95,9 @@ describe('Unit | Component | qroc-solution-panel', function() {
     it('should return an empty string if the solution is an empty String', function() {
       // given
       const solutionNull = null;
-      const component = this.owner.lookup('component:qroc-solution-panel');
-      component.set('solution', solutionNull);
+      const component = createGlimmerComponent('component:qroc-solution-panel', { solution: solutionNull });
       // when
-      const solutionToDisplay = component.get('solutionToDisplay');
+      const solutionToDisplay = component.solutionToDisplay;
       // then
       expect(solutionToDisplay).to.equal('');
     });

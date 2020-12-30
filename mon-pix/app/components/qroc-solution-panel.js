@@ -1,10 +1,5 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-computed-property-dependencies: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { computed } from '@ember/object';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 
 const classByResultValue = {
   ok: 'correction-qroc-box-answer--correct',
@@ -12,33 +7,27 @@ const classByResultValue = {
   aband: 'correction-qroc-box-answer--aband',
 };
 
-@classic
 export default class QrocSolutionPanel extends Component {
-  answer = null;
-  solution = null;
+  @service intl;
 
-  @computed('answer.result')
   get inputClass() {
-    return classByResultValue[this.answer.result] || '';
+    return classByResultValue[this.args.answer.result] || '';
   }
 
-  @computed('answer')
   get isResultOk() {
-    return this.answer.result === 'ok';
+    return this.args.answer.result === 'ok';
   }
 
-  @computed('answer')
   get answerToDisplay() {
-    const answer = this.answer.value;
+    const answer = this.args.answer.value;
     if (answer === '#ABAND#') {
-      return 'Pas de réponse';
+      return this.intl.t('pages.result-item.aband');
     }
     return answer;
   }
 
-  @computed('solution')
   get solutionToDisplay() {
-    const solutionVariants = this.solution;
+    const solutionVariants = this.args.solution;
     if (!solutionVariants) {
       return '';
     }

@@ -1,10 +1,4 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-computed-property-dependencies: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import Component from '@ember/component';
-import { computed } from '@ember/object';
+import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 
 const contentReference = {
@@ -30,30 +24,28 @@ const contentReference = {
   },
 };
 
-export default Component.extend({
-  classNames: ['result-item'],
+export default class ResultItemComponent extends Component {
+  @service intl;
 
-  intl: service(),
+  get resultItem() {
+    if (!this.args.answer.result) {
+      return undefined;
+    }
+    return contentReference[this.args.answer.result];
+  }
 
-  openComparison: null,
+  get resultTooltip() {
+    return this.resultItem ? this.intl.t(`pages.comparison-window.results.${this.args.answer.result}.tooltip`) : null;
+  }
 
-  resultItem: computed('answer.result', function() {
-    if (!this.answer.result) return;
-    return contentReference[this.answer.result];
-  }),
-
-  resultTooltip: computed('resultItem', function() {
-    return this.resultItem ? this.intl.t(`pages.result-item.${this.answer.result}`) : null;
-  }),
-
-  validationImplementedForChallengeType: computed('answer.challenge.type', function() {
+  get validationImplementedForChallengeType() {
     const implementedTypes = ['QCM', 'QROC', 'QCU', 'QROCM-ind', 'QROCM-dep'];
-    const challengeType = this.answer.get('challenge.type');
+    const challengeType = this.args.answer.get('challenge.type');
     return implementedTypes.includes(challengeType);
-  }),
+  }
 
-  textLength: computed('', function() {
+  get textLength() {
     return window.innerWidth <= 767 ? 60 : 110;
-  }),
+  }
 
-});
+}
