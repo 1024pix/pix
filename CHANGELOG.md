@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.241.0 (30/12/2020)
+
+- [#2329](https://github.com/1024pix/pix/pull/2329) [FEATURE] Traduction du nom de la compétence sur la notification d'augmentation de niveau (PIX-1784)
+- [#2324](https://github.com/1024pix/pix/pull/2324) [FEATURE] Déplacer le nom du centre de certification et ajouter l'UAI dans le header de Pix Certif (PIX-1629).
+- [#2330](https://github.com/1024pix/pix/pull/2330) [BUGFIX] Traduire le texte affiché lorsque l’utilisateur n’a pas répondu. (PIX-1830).
+
 ## v2.240.0 (29/12/2020)
 
 - [#2327](https://github.com/1024pix/pix/pull/2327) [FEATURE] Modifier le wording de l'étape 2 de la finalisation de session (PIX-1794)
