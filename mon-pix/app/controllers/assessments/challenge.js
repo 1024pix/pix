@@ -5,10 +5,9 @@ import { tracked } from '@glimmer/tracking';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
 export default class ChallengeController extends Controller {
-  queryParams = ['newLevel', 'competenceLeveled'];
+  queryParams = ['newLevel'];
   @service intl;
   @tracked newLevel = null;
-  @tracked competenceLeveled = null;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
