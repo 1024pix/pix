@@ -2,7 +2,7 @@
   <a href="#" class="logged-user-summary__link" {{on 'click' (toggle 'isMenuOpen' this)}} aria-haspopup="listbox" aria-expanded="{{this.isMenuOpen}}">
     <div>
       <div class="logged-user-summary__name">{{this.userFullName}}</div>
-      <div class="logged-user-summary__certificationPointOfContact">{{this.certificationCenterNameAndExternalId}}</div>
+      <div class="logged-user-summary__certification-center">{{this.certificationCenterNameAndExternalId}}</div>
     </div>
     {{#if this.isMenuOpen}}
       <FaIcon @icon="chevron-up" @class="logged-user-summary__chevron logged-user-summary__chevron-up"></FaIcon>
@@ -13,6 +13,14 @@
 </div>
 
 <Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="logged-user-menu" aria-label="Menu utilisateur">
+  {{#each this.eligibleCertificationCenters as |certificationCenter|}}
+    <Dropdown::Item @onClick={{fn this.onCertificationCenterChange certificationCenter}} title="{{certificationCenter.name}}" class="logged-user-menu-item">
+      <span class="logged-user-menu-item__certification-center-name">{{certificationCenter.name}}</span>
+      {{#if certificationCenter.externalId}}
+        <span class="logged-user-menu-item__certification-center-externalId">({{certificationCenter.externalId}})</span>
+      {{/if}}
+    </Dropdown::Item>
+  {{/each}}
   <Dropdown::ItemLink @linkTo="logout" class="logged-user-menu-item logged-user-menu-item__last">
     <FaIcon @icon="power-off" @class="logged-user-menu-item__icon"></FaIcon>
     Se déconnecter
