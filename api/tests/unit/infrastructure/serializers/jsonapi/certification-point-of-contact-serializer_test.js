@@ -34,11 +34,6 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
                 },
               ],
             },
-            sessions: {
-              links: {
-                related: `/api/certification-centers/${certificationPointOfContact.currentCertificationCenterId}/sessions`,
-              },
-            },
           },
         },
         included: [
@@ -50,6 +45,13 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               type: certificationCenter.type,
               'external-id': certificationCenter.externalId,
               'is-related-organization-managing-students': certificationCenter.isRelatedOrganizationManagingStudents,
+            },
+            relationships: {
+              sessions: {
+                links: {
+                  related: `/api/certification-centers/${certificationCenter.id}/sessions`,
+                },
+              },
             },
           },
         ],
