@@ -5,6 +5,6 @@ export default class SessionsListRoute extends Route {
   @service currentUser;
 
   model() {
-    return this.currentUser.certificationPointOfContact.hasMany('sessions').reload();
+    return this.currentUser.currentCertificationCenter.hasMany('sessions').reload();
   }
 }

@@ -6,17 +6,19 @@ export default class CurrentUserService extends Service {
   @service session;
   @service store;
   @tracked certificationPointOfContact;
-  @tracked currentCertificationCenter;
 
   get isFromSco() {
     return this.certificationPointOfContact.isSco;
+  }
+
+  get currentCertificationCenter() {
+    return this.certificationPointOfContact.certificationCenters.findBy('id', String(this.certificationPointOfContact.currentCertificationCenterId));
   }
 
   async load() {
     if (this.session.isAuthenticated) {
       try {
         this.certificationPointOfContact = await this.store.findRecord('certification-point-of-contact', this.session.data.authenticated.user_id, { include: 'certificationCenters' });
-        this.currentCertificationCenter = this.certificationPointOfContact.certificationCenters.findBy('id', String(this.certificationPointOfContact.currentCertificationCenterId));
       } catch (error) {
         if (get(error, 'errors[0].code') === 401) {
           return this.session.invalidate();

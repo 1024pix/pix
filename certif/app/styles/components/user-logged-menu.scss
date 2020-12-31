@@ -25,7 +25,7 @@
     height: 19px;
   }
 
-  &__certificationPointOfContact {
+  &__certification-center {
     height: 18px;
   }
 
@@ -62,6 +62,17 @@
 
     &__last:not(:first-child) {
       border-top: 1px solid $grey-20;
+    }
+
+    &__certification-center-name {
+      margin-right: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__certification-center-externalId {
+      flex: 0;
     }
   }
 }
