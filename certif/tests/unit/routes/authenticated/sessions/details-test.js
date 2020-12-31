@@ -23,7 +23,7 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
     test('it should return the session and the certification candidates', async function(assert) {
       // given
       route.store.peekRecord = sinon.stub().returns({ certifPrescriptionSco: false });
-      route.currentUser = { certificationPointOfContact: { isScoManagingStudents: true } };
+      route.currentUser = { currentCertificationCenter: { isScoManagingStudents: true } };
 
       // when
       const model = await route.model({ session_id });
@@ -44,7 +44,7 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
       test(it, async function(assert) {
         // given
         route.store.peekRecord = sinon.stub().returns({ certifPrescriptionSco });
-        route.currentUser = { certificationPointOfContact: { isScoManagingStudents } };
+        route.currentUser = { currentCertificationCenter: { isScoManagingStudents } };
 
         // when
         const model = await route.model({ session_id });

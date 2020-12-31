@@ -50,7 +50,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
     hooks.beforeEach(async () => {
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+      session = server.create('session', { certificationCenterId: certificationPointOfContact.currentCertificationCenterId });
       await authenticateSession(certificationPointOfContact.id);
     });
 
@@ -259,8 +259,9 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           test('it should display the list of students for session', async function(assert) {
             // given
             server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
-            certificationPointOfContact.update({ certificationCenterType: 'SCO' });
-            certificationPointOfContact.update({ isRelatedOrganizationManagingStudents: true });
+            const certificationCenter = server.schema.certificationCenters.findBy({ id: certificationPointOfContact.currentCertificationCenterId });
+            certificationCenter.update({ type: 'SCO' });
+            certificationCenter.update({ isRelatedOrganizationManagingStudents: true });
             server.createList('student', 10);
 
             // when
