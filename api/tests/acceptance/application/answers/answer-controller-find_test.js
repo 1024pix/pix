@@ -28,7 +28,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.statusCode).to.equal(200);
       });
 
@@ -36,7 +36,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.result.data).to.be.null;
       });
 
@@ -61,7 +61,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.statusCode).to.equal(200);
       });
 
@@ -69,7 +69,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
       });
@@ -78,7 +78,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         const answerReceived = response.result.data;
         expect(answerReceived.id).to.equal(answer.id.toString());
         expect(answerReceived.attributes.value.toString()).to.equal(answer.value.toString());
@@ -108,7 +108,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.statusCode).to.equal(200);
       });
 
@@ -116,7 +116,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.result.data).to.be.null;
       });
     });
@@ -138,7 +138,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -173,7 +173,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.statusCode).to.equal(200);
       });
 
@@ -181,7 +181,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
       });
@@ -190,7 +190,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         const answerReceived = response.result.data;
         expect(answerReceived.length).to.equal(2);
         expect(answerReceived[0].type).to.equal('answers');
@@ -219,7 +219,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.statusCode).to.equal(403);
       });
     });
@@ -241,7 +241,7 @@ describe('Acceptance | Controller | answer-controller-find', () => {
         // when
         const response = await server.inject(options);
 
-        // given
+        // then
         expect(response.statusCode).to.equal(200);
       });
     });
