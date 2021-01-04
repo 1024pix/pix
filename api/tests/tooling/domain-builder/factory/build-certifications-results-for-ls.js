@@ -1,4 +1,4 @@
-const { databaseBuilder, airtableBuilder } = require('../../../test-helper');
+const { databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
 
 function _createUser() {
@@ -137,12 +137,12 @@ const buildErrorUnpublishedCertificationData = function({ uai, verificationCode,
   return _buildCertificationData({ uai, verificationCode, type, pixScore, isPublished: false, status: status.ERROR });
 };
 
-const mockAirTableCompetences = function() {
+function mockLearningContentCompetences() {
 
-  const areas = [{
+  const learningContent = [{
     'id': 'rec99',
     code: '2',
-    'title': 'Communication et collaboration',
+    'titleFr': 'Communication et collaboration',
     'competences': [
       {
         'id': 'rec50',
@@ -161,11 +161,10 @@ const mockAirTableCompetences = function() {
         tubes: [],
       },
     ],
-  },
-  {
+  }, {
     'id': 'rec98',
     code: '3',
-    'title': 'Création de contenu',
+    'titleFr': 'Création de contenu',
     competences: [
       {
         'id': 'rec53',
@@ -180,12 +179,10 @@ const mockAirTableCompetences = function() {
         tubes: [],
       },
     ],
-  },
-  {
-
+  }, {
     'id': 'rec97',
     code: '1',
-    'title': 'Information et données',
+    'titleFr': 'Information et données',
     competences: [
       {
         'id': 'rec55',
@@ -200,16 +197,15 @@ const mockAirTableCompetences = function() {
         tubes: [],
       },
     ],
-  },
-  ];
+  }];
 
-  const airtableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({ targetProfile: { areas } });
-  airtableBuilder.mockLists(airtableObjects);
-};
+  const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+  mockLearningContent(learningContentObjects);
+}
 
 module.exports = {
   buildValidatedPublishedCertificationData,
   buildRejectedPublishedCertificationData,
   buildErrorUnpublishedCertificationData,
-  mockAirTableCompetences,
+  mockLearningContentCompetences,
 };

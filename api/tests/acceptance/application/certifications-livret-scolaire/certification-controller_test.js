@@ -1,12 +1,10 @@
 const {
   expect,
-  airtableBuilder,
   databaseBuilder,
 } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { buildValidatedPublishedCertificationData, mockAirTableCompetences } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
+const { buildValidatedPublishedCertificationData, mockLearningContentCompetences } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
 const config = require('../../../../lib/config');
 
 describe('Acceptance | API | Certifications', () => {
@@ -185,12 +183,7 @@ describe('Acceptance | API | Certifications', () => {
     ];
 
     beforeEach(() => {
-      mockAirTableCompetences();
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
+      mockLearningContentCompetences();
     });
 
     context('when the given uai is correct', () => {
