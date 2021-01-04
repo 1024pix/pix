@@ -43,6 +43,11 @@
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
+
+          <IssueReportModal::FraudCertificationIssueReportFields
+            @fraudCategory={{this.fraudCategory}}
+            @toggleOnCategory={{this.toggleOnCategory}}
+          />
         </div>
 
         {{#if this.showCategoryMissingError}}
