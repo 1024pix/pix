@@ -622,7 +622,8 @@ describe('Acceptance | API | Campaign Controller', () => {
   describe('GET /api/campaigns/{id}/assessment-participations', function() {
     let userId;
     let campaign;
-    const participant = { firstName: 'John', lastName: 'McClane' };
+    const participant1 = { firstName: 'John', lastName: 'McClane', id: 12 };
+    const participant2 = { firstName: 'John', lastName: 'McClane', id: 13 };
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
@@ -655,7 +656,10 @@ describe('Acceptance | API | Campaign Controller', () => {
         campaignId: campaign.id,
       };
 
-      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant);
+      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant1);
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, division: '5eme', firstName: 'John', lastName: 'McClane', userId: participant1.id });
+      databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant2);
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, division: '4eme', firstName: 'Holly', lastName: 'McClane', userId: participant2.id });
 
       return databaseBuilder.commit();
     });
@@ -663,7 +667,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     it('should return the campaign participation result summaries as JSONAPI', async () => {
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/assessment-participations?page[number]=1&page[size]=10`,
+        url: `/api/campaigns/${campaign.id}/assessment-participations?page[number]=1&page[size]=10&filter[divisions]=5eme`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -671,8 +675,30 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       expect(response.statusCode).to.equal(200);
       const participation = response.result.data[0].attributes;
-      expect(participation['first-name']).to.equal(participant.firstName);
-      expect(participation['last-name']).to.equal(participant.lastName);
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(participation['first-name']).to.equal(participant1.firstName);
+    });
+  });
+
+  describe('GET /api/campaigns/{id}/divisions', function() {
+
+    it('should return the campaign participants division', async () => {
+      const division = '3emeA';
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division }, { campaignId: campaign.id });
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/divisions`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].attributes.name).to.equal(division);
     });
   });
 });
