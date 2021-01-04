@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       };
 
       it('should not throw any error', () => {
-        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw;
+        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw();
       });
 
       [
@@ -58,7 +58,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       };
 
       it('should not throw any error', () => {
-        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw;
+        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw();
       });
 
       [
@@ -101,7 +101,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       };
 
       it('should not throw any error', () => {
-        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw;
+        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw();
       });
 
       [
@@ -142,7 +142,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       };
 
       it('should not throw any error', () => {
-        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw;
+        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw();
       });
 
       [
@@ -180,7 +180,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       };
 
       it('should not throw any error', () => {
-        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw;
+        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).to.not.throw();
       });
 
       // Test dynamically all subcategories
