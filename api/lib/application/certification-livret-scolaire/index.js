@@ -16,7 +16,7 @@ exports.register = async function(server) {
         handler: certificationController.getCertificationsByOrganizationUAI,
         notes: [
           '- **API for LSU/LSL qui nécessite une authentification de type client credentiel grant**\n' +
-          '- Récupération des résultats de certifications pour une organisation accompagnée du référentiel des compétences',
+          '- Récupération des résultats de certifications pour une organisation. Les résultats sont accompagnés du référentiel des compétences',
         ],
         response: {
           failAction: 'log',
