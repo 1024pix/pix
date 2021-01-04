@@ -257,5 +257,15 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           .to.throw(InvalidCertificationIssueReportForSaving);
       });
     });
+    context('CATEGORY : FRAUD', () => {
+      const certificationIssueReportDTO = {
+        certificationCourseId: 123,
+        category: CertificationIssueReportCategories.FRAUD,
+      };
+
+      it('it should be valid', () => {
+        expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).not.to.throw();
+      });
+    });
   });
 });
