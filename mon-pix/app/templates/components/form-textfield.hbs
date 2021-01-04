@@ -20,9 +20,13 @@
       {{#if isPassword}}
           <button type="button" aria-label={{t 'common.form.visible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
             {{#if isPasswordVisible}}
-                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye' class="fa-fw form-textfield-icon-button__eye"}}</div>
+                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
+                  <FaIcon @icon="eye" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+                </div>
             {{else}}
-                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye-slash' class="fa-fw form-textfield-icon-button__eye"}}</div>
+                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>
+                  <FaIcon @icon="eye-slash" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+                </div>
             {{/if}}
           </button>
       {{/if}}

@@ -1,6 +1,6 @@
 <div class="congratulations-banner" >
   <button aria-label={{t 'common.actions.close'}} class="icon-button congratulations-banner__icon" {{on 'click' @closeBanner}} type="button">
-    {{fa-icon 'times'}}
+    <FaIcon @icon="times"></FaIcon>
   </button>
   <p class="congratulations-banner__message">{{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}</p>
 </div>
