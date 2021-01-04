@@ -1,6 +1,6 @@
 <div class="result-item">
   <div class="result-item__icon" title="{{this.resultTooltip}}">
-    {{fa-icon this.resultItem.icon class=(concat 'result-item__icon--' this.resultItem.color)}}
+    <FaIcon @icon={{this.resultItem.icon}} class={{concat 'result-item__icon--' this.resultItem.color}} />
   </div>
 
   <div class="result-item__instruction">
