@@ -59,7 +59,7 @@ async function main() {
     const tags = argTags ? [argTags] : TAGS;
 
     console.log('Reading and parsing csv file... ');
-    const csvData = parseCsvWithHeader(filePath);
+    const csvData = await parseCsvWithHeader(filePath);
     console.log(`Succesfully read ${csvData.length} records.`);
 
     console.log('Preparing data before sending... ');
