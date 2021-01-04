@@ -123,10 +123,10 @@ module.exports = {
 };
 
 async function _getWithLearningContentSkills(targetProfile) {
-  const associatedSkillLearningContentDataObjects = await _getLearningContentDataObjectsSkills(targetProfile);
+  const associatedSkillDatasourceObjects = await _getLearningContentDataObjectsSkills(targetProfile);
 
   return targetProfileAdapter.fromDatasourceObjects({
-    bookshelfTargetProfile: targetProfile, associatedSkillLearningContentDataObjects,
+    bookshelfTargetProfile: targetProfile, associatedSkillDatasourceObjects,
   });
 }
 
