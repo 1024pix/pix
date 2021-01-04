@@ -301,5 +301,46 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         });
       });
     });
+
+    context('when there is a filter on division', () => {
+      it('returns participants which have the correct division', async () => {
+        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+
+        const participation1 = {
+          participantExternalId: 'The good',
+          campaignId: campaign.id,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 1, division: 'Good Guys Team' });
+
+        const participation2 = {
+          participantExternalId: 'The bad',
+          campaignId: campaign.id,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 2, division: 'Bad Guys Team' });
+
+        const participation3 = {
+          participantExternalId: 'The ugly',
+          campaignId: campaign.id,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, { id: 3 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 3, division: 'Ugly Guys Team' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignAssessmentParticipationSummaries } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ campaignId: campaign.id, filters: { divisions: ['Good Guys Team', 'Ugly Guys Team'] } });
+
+        const participantExternalIds = campaignAssessmentParticipationSummaries.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['The good', 'The ugly']);
+      });
+
+    });
   });
 });
