@@ -11,7 +11,7 @@ const buildLearningContent = function(learningContent) {
 
   const areas = learningContent.map((area) => {
     const competences = area.competences.map((competence) => {
-      const tubes = competence.tubes.map((tube) => {
+      const tubes = competence.tubes && competence.tubes.map((tube) => {
         const skills = tube.skills.map((skill) => {
           const tutorials = skill.tutorials && skill.tutorials.map((tutorial) => {
             return {
@@ -69,7 +69,7 @@ const buildLearningContent = function(learningContent) {
       allTubes.push(tubes);
       return {
         id: competence.id,
-        skillIds: competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
+        skillIds: competence.tubes && competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
         areaId: area.id,
         origin: competence.origin || 'Pix',
         index: competence.index,

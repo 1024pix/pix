@@ -4,7 +4,7 @@ const Solution = require('../../../../lib/domain/models/Solution');
 
 describe('Unit | Adapter | Solution', () => {
 
-  describe('#fromChallengeAirtableDataObject', () => {
+  describe('#fromDatasourceObject', () => {
 
     it('should create a Solution model', () => {
       // given
@@ -17,10 +17,10 @@ describe('Unit | Adapter | Solution', () => {
         type: 'QCM',
         value: '1, 5',
       });
-      const challengeAirtableDataObject = domainBuilder.buildChallengeAirtableDataObject();
+      const challengeLearningContentDataObject = domainBuilder.buildChallengeLearningContentDataObject({});
 
       // when
-      const solution = solutionAdapter.fromChallengeAirtableDataObject(challengeAirtableDataObject);
+      const solution = solutionAdapter.fromDatasourceObject(challengeLearningContentDataObject);
 
       // then
       expect(solution).to.be.an.instanceof(Solution);

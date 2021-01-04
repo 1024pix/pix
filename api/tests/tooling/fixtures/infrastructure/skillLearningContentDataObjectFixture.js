@@ -1,6 +1,18 @@
-const { DEFAULT_TUTORIAL_ID, DEFAULT_PIX_VALUE, DEFAULT_NAME, DEFAULT_LEARNING_TUTORIAL_IDS, DEFAULT_COMPETENCE_ID, DEFAULT_STATUS, DEFAULT_HINT_STATUS, DEFAULT_ID, DEFAULT_HINT_FR_FR, DEFAULT_HINT_EN_US, DEFAULT_TUBE_ID } = require('./skillRawAirTableFixture');
+const ACTIVE_STATUS = 'actif';
 
-module.exports = function SkillAirtableDataObjectFixture({
+const DEFAULT_ID = 'recSK0X22abcdefgh',
+  DEFAULT_HINT_FR_FR = 'Peut-on géo-localiser un lapin sur la banquise ?',
+  DEFAULT_HINT_EN_US = 'Can we geo-locate a rabbit on the ice floe?',
+  DEFAULT_HINT_STATUS = 'Validé',
+  DEFAULT_NAME = '@accesDonnées1',
+  DEFAULT_TUTORIAL_ID = 'recCO0X22abcdefgh',
+  DEFAULT_LEARNING_TUTORIAL_IDS = ['recSP0X22abcdefgh', 'recSP0X23abcdefgh'],
+  DEFAULT_COMPETENCE_ID = 'recCT0X22abcdefgh',
+  DEFAULT_STATUS = ACTIVE_STATUS,
+  DEFAULT_PIX_VALUE = 2.4,
+  DEFAULT_TUBE_ID = 'recTU0X22abcdefgh';
+
+module.exports = function SkillLearningContentDataObjectFixture({
   id = DEFAULT_ID,
   name = DEFAULT_NAME,
   hintEnUs = DEFAULT_HINT_EN_US,
