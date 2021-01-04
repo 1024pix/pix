@@ -8,6 +8,7 @@ const preResponseUtils = require('./lib/application/pre-response-utils');
 
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
+const swaggers = require('./lib/swaggers');
 const config = require('./lib/config');
 const security = require('./lib/infrastructure/security');
 const { handleFailAction } = require('./lib/validate');
@@ -44,6 +45,10 @@ const createServer = async () => {
   const configuration = [].concat(plugins, routes);
 
   await server.register(configuration);
+
+  for (const swaggerRegisterArgs of swaggers) {
+    await server.register(...swaggerRegisterArgs);
+  }
 
   return server;
 };
