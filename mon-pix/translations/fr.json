@@ -638,6 +638,11 @@
         },
         "password-reset-demand": {
             "title": "Mot de passe oublié ?",
+            "fields": {
+                "email": {
+                    "label": "Adresse e-mail"
+                }
+            },
             "actions": {
                 "back-home": "Retour à l'accueil",
                 "back-sign-in": "Retour à la page de connexion",
@@ -695,6 +700,11 @@
         },
         "reset-password": {
             "title": "Changer mon mot de passe",
+            "fields": {
+                "password": {
+                    "label": "Mot de passe"
+                }
+            },
             "actions": {
                 "submit": "Envoyer",
                 "sign-in": "Connectez-vous"
