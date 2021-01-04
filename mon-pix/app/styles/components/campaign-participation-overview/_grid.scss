@@ -1,4 +1,4 @@
-.campaign-participation-grid {
+.campaign-participation-overview-grid {
   display: grid;
   grid-gap: 20px;
   padding-left: 0;
@@ -12,8 +12,8 @@
   @include device-is('desktop') {
     grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
-}
 
-.campaign-participation-grid-item {
-  list-style-type: none;
+  &__item {
+    list-style-type: none;
+  }
 }
