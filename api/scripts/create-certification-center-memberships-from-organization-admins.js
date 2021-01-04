@@ -82,7 +82,7 @@ async function main() {
     console.log('ok');
 
     console.log('Reading and parsing csv data file... ');
-    const csvData = parseCsvWithHeader(filePath);
+    const csvData = await parseCsvWithHeader(filePath);
     console.log('ok');
 
     console.log('Data preparation before insertion into the database...');
