@@ -4,7 +4,7 @@ const skillAdapter = require('./skill-adapter');
 
 module.exports = {
 
-  fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillLearningContentDataObjects: associatedSkillDatasourceObjects }) {
+  fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillDatasourceObjects }) {
 
     const skills = associatedSkillDatasourceObjects.map(skillAdapter.fromDatasourceObject);
     const targetProfileStages = bookshelfTargetProfile.related('stages');

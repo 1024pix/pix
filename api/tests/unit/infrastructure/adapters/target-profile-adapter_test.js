@@ -12,7 +12,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     const organizationWhichShared = new BookshelfTargetProfileShare(databaseBuilder.factory.buildTargetProfileShare());
     bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([ organizationWhichShared ]);
     const skillLearningContentDataObject = domainBuilder.buildSkillLearningContentDataObject();
-    const associatedSkillLearningContentDataObjects = [skillLearningContentDataObject];
+    const associatedSkillDatasourceObjects = [skillLearningContentDataObject];
     const skill = domainBuilder.buildSkill({
       id: skillLearningContentDataObject.id,
       name: skillLearningContentDataObject.name,
@@ -34,7 +34,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     // when
     const targetProfile = targetProfileAdapter.fromDatasourceObjects({
       bookshelfTargetProfile,
-      associatedSkillLearningContentDataObjects,
+      associatedSkillDatasourceObjects,
     });
 
     // then
