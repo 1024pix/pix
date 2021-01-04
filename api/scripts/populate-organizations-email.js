@@ -35,7 +35,7 @@ async function main() {
     }
 
     console.log('Reading and parsing csv file (checking headers)... ');
-    const csvData = parseCsvWithHeader(filePath);
+    const csvData = await parseCsvWithHeader(filePath);
     console.log(`Successfully read ${csvData.length} records.`);
 
     console.log('Populating organizations (existing emails will be updated)... ');
