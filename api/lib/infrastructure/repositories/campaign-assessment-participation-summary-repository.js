@@ -11,7 +11,7 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 const campaignAssessmentParticipationRepository = {
 
-  async findPaginatedByCampaignId({ page = {}, campaignId }) {
+  async findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
     const offset = (pageNumber - 1) * pageSize;
@@ -20,7 +20,7 @@ const campaignAssessmentParticipationRepository = {
     const targetedSkillIds = targetProfile.skills.map(({ id }) => id);
     const results = await knex.with('campaign_participation_summaries',
       (qb) => {
-        _campaignParticipationByParticipantSortedByDate(qb, campaignId);
+        _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters);
       })
       .select('*')
       .select(knex.raw('COUNT(*) OVER() AS ??', ['rowCount']))
@@ -50,7 +50,7 @@ function _getRowCount(results) {
   return firstRow ? firstRow.rowCount : 0;
 }
 
-function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
+function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters) {
   qb.select(knex.raw('"campaign-participations"."id" AS "campaignParticipationId"'), knex.raw('"users"."id" AS "userId"'))
     .select(
       knex.raw('COALESCE (LOWER("schooling-registrations"."firstName"), LOWER("users"."firstName")) AS "lowerFirstName"'),
@@ -70,7 +70,8 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId) {
       this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
         .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
     })
-    .where('campaign-participations.campaignId', '=', campaignId);
+    .where('campaign-participations.campaignId', '=', campaignId)
+    .modify(_filterQuery, filters);
 }
 
 async function _buildCampaignAssessmentParticipationSummaries(results, targetedSkillIds) {
@@ -118,6 +119,13 @@ async function _getValidatedTargetSkillIds(sharedAtDatesByUsers, targetedSkillId
   }
 
   return knowledgeElementsByUser;
+}
+
+function _filterQuery(qb, filters) {
+  if (filters.divisions) {
+    const divisionsLowerCase = filters.divisions.map((division) => `'${division.toLowerCase()}'`);
+    qb.whereRaw(`LOWER("schooling-registrations"."division") in (${divisionsLowerCase.join(',')})`);
+  }
 }
 
 module.exports = campaignAssessmentParticipationRepository;
