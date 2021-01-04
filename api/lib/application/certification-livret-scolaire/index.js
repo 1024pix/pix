@@ -28,7 +28,7 @@ exports.register = async function(server) {
         },
         validate: {
           params: Joi.object({
-            uai: Joi.string().required().description('RNE/UAI (Unité Administrative Immatriculée du Répertoire National des Établissements) '),
+            uai: Joi.string().required().description('UAI/RNE (Unité Administrative Immatriculée anciennement Répertoire National des Établissements) '),
           }),
         },
         tags: ['api', 'organisation', 'livret-scolaire'],
