@@ -20,6 +20,6 @@ describe('Integration | Component | Dashboard | Content', function() {
     await render(hbs`<Dashboard::Content />}`);
 
     // then
-    expect(find('.campaign-participation-grid')).to.exist;
+    expect(find('.campaign-participation-overview-grid')).to.exist;
   });
 });

@@ -103,7 +103,7 @@
                 "legal": "Information about your progress will be sent to the organiser so they can provide support. It will only be sent with your permission."
             }
         },
-        "campaign-participation": {
+        "campaign-participation-overview": {
             "title": "Personalised test",
             "card": {
                 "resume": "Resume",
