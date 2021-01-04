@@ -5,6 +5,7 @@ module.exports = {
     LATE_OR_LEAVING: 'LATE_OR_LEAVING',
     CONNECTION_OR_END_SCREEN: 'CONNECTION_OR_END_SCREEN',
     IN_CHALLENGE: 'IN_CHALLENGE',
+    FRAUD: 'FRAUD',
   },
   CertificationIssueReportSubcategories: {
     NAME_OR_BIRTHDATE: 'NAME_OR_BIRTHDATE',
