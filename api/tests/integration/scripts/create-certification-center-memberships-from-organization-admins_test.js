@@ -16,11 +16,13 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
   const externalId1 = '1234567A';
   const externalId2 = '7654321B';
+  const externalId3 = '1231231C';
 
   let organizationId1;
   let organizationId2;
   let certificationCenterId1;
   let certificationCenterId2;
+  let certificationCenterId3;
 
   let adminUserId1a;
   let adminUserId1b;
@@ -60,6 +62,13 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     certificationCenterId2 = databaseBuilder.factory.buildCertificationCenter({
       externalId: externalId2,
     }).id;
+    certificationCenterId3 = databaseBuilder.factory.buildCertificationCenter({
+      externalId: externalId3,
+    }).id;
+    databaseBuilder.factory.buildCertificationCenterMembership({
+      certificationCenterId: certificationCenterId3,
+      userId: userId1,
+    });
 
     await databaseBuilder.commit();
   });
@@ -72,6 +81,14 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
       // then
       expect(certificationCenter.externalId).to.equal(externalId1);
+    });
+
+    it('should not return certification center with a membership', async () => {
+      // when
+      const result = await getCertificationCenterByExternalId(externalId3);
+
+      // then
+      expect(result).to.be.null;
     });
   });
 
@@ -87,6 +104,19 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       // then
       const userIds = memberships.map((membership) => _.pick(membership, 'userId'));
       expect(userIds).to.deep.have.members(expectedUserIds);
+    });
+
+    it('should return an empty array if organization has no admin membership', async () => {
+      // given
+      const externalId = '1212121A';
+      databaseBuilder.factory.buildOrganization({ externalId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
+
+      // then
+      expect(memberships).to.have.lengthOf(0);
     });
   });
 
@@ -123,6 +153,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       const result = await prepareDataForInsert([
         { externalId: externalId1 },
         { externalId: externalId2 },
+        { externalId: externalId3 },
       ]);
 
       // then

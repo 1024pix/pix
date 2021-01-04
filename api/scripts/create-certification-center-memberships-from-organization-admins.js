@@ -4,45 +4,34 @@ const _ = require('lodash');
 
 const { checkCsvExtensionFile, parseCsvWithHeader } = require('./helpers/csvHelpers');
 
-const { NotFoundError } = require('../lib/domain/errors');
 const Membership = require('../lib/domain/models/Membership');
 
 const Bookshelf = require('../lib/infrastructure/bookshelf');
-const bookshelfToDomainConverter = require('../lib/infrastructure/utils/bookshelf-to-domain-converter');
 const BookshelfCertificationCenter = require('../lib/infrastructure/data/certification-center');
 const BookshelfMembership = require('../lib/infrastructure/data/membership');
 
-function getCertificationCenterByExternalId(externalId) {
-  return BookshelfCertificationCenter
-    .where({ externalId })
-    .fetch({ require: true })
-    .then((certificationCenter) => bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCenter, certificationCenter))
-    .catch((err) => {
-      if (err instanceof BookshelfCertificationCenter.NotFoundError) {
-        throw new NotFoundError(`CertificationCenter not found for External ID ${externalId}`);
-      }
-      throw err;
-    });
+async function getCertificationCenterByExternalId(externalId) {
+  const bookshelfCertificationCenter = await BookshelfCertificationCenter
+    .query((qb) => {
+      qb.leftJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
+      qb.whereNull('certification-center-memberships.id');
+      qb.where('certification-centers.externalId', '=', externalId);
+    })
+    .fetch({ require: false });
+
+  return bookshelfCertificationCenter ? bookshelfCertificationCenter.toJSON() : null;
 }
 
 async function getAdminMembershipsByOrganizationExternalId(externalId) {
-  return BookshelfMembership
+  const bookshelfMemberships = await BookshelfMembership
     .query((qb) => {
       qb.innerJoin('organizations', 'memberships.organizationId', 'organizations.id');
       qb.where('organizationRole', Membership.roles.ADMIN);
       qb.where('organizations.externalId', '=', externalId);
     })
-    .fetchAll({ require: true })
-    .then((memberships) => {
-      const data = memberships.models.map((model) => model.attributes);
-      return data;
-    })
-    .catch((err) => {
-      if (err instanceof BookshelfMembership.NotFoundError) {
-        throw new NotFoundError(`Organization not found for External ID ${externalId}`);
-      }
-      throw err;
-    });
+    .fetchAll({ require: false });
+
+  return bookshelfMemberships ? bookshelfMemberships.toJSON() : null;
 }
 
 function buildCertificationCenterMemberships({ certificationCenterId, memberships }) {
@@ -52,10 +41,11 @@ function buildCertificationCenterMemberships({ certificationCenterId, membership
 }
 
 async function fetchCertificationCenterMembershipsByExternalId(externalId) {
-  const { id: certificationCenterId } = await getCertificationCenterByExternalId(externalId);
-  const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
-
-  return buildCertificationCenterMemberships({ certificationCenterId, memberships });
+  const certificationCenter = await getCertificationCenterByExternalId(externalId);
+  if (certificationCenter) {
+    const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
+    return buildCertificationCenterMemberships({ certificationCenterId: certificationCenter.id, memberships });
+  }
 }
 
 function prepareDataForInsert(rawExternalIds) {
@@ -63,7 +53,11 @@ function prepareDataForInsert(rawExternalIds) {
     return fetchCertificationCenterMembershipsByExternalId(externalId);
   }))
     .then((certificationCenterMemberships) => {
-      return _.union(...certificationCenterMemberships);
+      return _(certificationCenterMemberships)
+        .compact()
+        .flattenDeep()
+        .union()
+        .value();
     });
 }
 
