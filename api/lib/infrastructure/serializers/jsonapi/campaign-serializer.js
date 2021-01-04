@@ -9,7 +9,7 @@ module.exports = {
     return new Serializer('campaign', {
       attributes: ['name', 'code', 'title', 'type', 'createdAt', 'customLandingPageText', 'archivedAt',
         'tokenForCampaignResults', 'idPixLabel', 'externalIdHelpImageUrl', 'alternativeTextToExternalIdHelpImage', 'organizationLogoUrl', 'organizationName', 'organizationType', 'targetProfile',
-        'campaignReport', 'campaignCollectiveResult', 'isRestricted', 'creator', 'campaignAnalysis'],
+        'campaignReport', 'campaignCollectiveResult', 'isRestricted', 'creator', 'campaignAnalysis', 'divisions'],
       typeForAttribute(attribute) {
         if (attribute === 'creator') {
           return 'users';
@@ -58,6 +58,16 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/analyses`;
+          },
+        },
+      },
+      divisions: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/campaigns/${parent.id}/divisions`;
           },
         },
       },

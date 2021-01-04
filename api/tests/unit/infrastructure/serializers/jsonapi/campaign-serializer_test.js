@@ -89,6 +89,11 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                   'related': '/api/campaigns/5/analyses',
                 },
               },
+              'divisions': {
+                'links': {
+                  'related': '/api/campaigns/5/divisions',
+                },
+              },
             },
           },
           included: [
@@ -199,6 +204,11 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               'campaign-analysis': {
                 'links': {
                   'related': '/api/campaigns/5/analyses',
+                },
+              },
+              'divisions': {
+                'links': {
+                  'related': '/api/campaigns/5/divisions',
                 },
               },
             },
