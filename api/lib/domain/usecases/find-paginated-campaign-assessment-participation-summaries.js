@@ -4,19 +4,16 @@ module.exports = async function findPaginatedCampaignAssessmentParticipationSumm
   userId,
   campaignId,
   page,
+  filters,
   campaignRepository,
   campaignAssessmentParticipationSummaryRepository,
   badgeAcquisitionRepository,
 }) {
 
-  if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
-    throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
-  }
+  await _checkUserAccessToCampaign(campaignId, userId, campaignRepository);
 
-  // get campaign assessment participations
-  const paginatedParticipations = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ page, campaignId });
+  const paginatedParticipations = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ page, campaignId, filters });
 
-  // get users badges for campaign
   const userIds = paginatedParticipations.campaignAssessmentParticipationSummaries.map((participation) => participation.userId);
   const acquiredBadgesByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({ campaignId, userIds });
   paginatedParticipations.campaignAssessmentParticipationSummaries.forEach((participation) => {
@@ -26,3 +23,10 @@ module.exports = async function findPaginatedCampaignAssessmentParticipationSumm
 
   return paginatedParticipations;
 };
+
+async function _checkUserAccessToCampaign(campaignId, userId, campaignRepository) {
+  const hasAccess = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
+  if (!hasAccess) {
+    throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
+  }
+}
