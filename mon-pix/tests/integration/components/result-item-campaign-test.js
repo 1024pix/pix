@@ -48,18 +48,6 @@ describe('Integration | Component | result item', function() {
       expect(find('.result-item')).to.exist;
     });
 
-    it('should render an instruction with no empty content', async function() {
-      // given
-      this.set('answer', '');
-
-      // when
-      await render(hbs`{{result-item answer=answer}}`);
-
-      // then
-      expect(find('.result-item__instruction')).to.exist;
-      expect(find('.result-item__instruction').textContent).to.contain('\n');
-    });
-
     it('should render the challenge instruction', async function() {
       // given
       this.set('answer', answer);
