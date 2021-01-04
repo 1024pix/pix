@@ -84,9 +84,8 @@ describe('Acceptance | Giving feedback about a challenge', function() {
 
     it('should be able to give feedback', async () => {
       // given
-      await visit(`/assessments/${assessment.id}/challenges/${firstChallenge.id}`);
-      await click('.challenge-actions__action-skip');
-      await click('.challenge-actions__action-skip');
+      server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
+      await visit(`/assessments/${assessment.id}/checkpoint`);
 
       // when
       await click('.result-item__correction-button');
