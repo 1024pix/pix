@@ -4,6 +4,7 @@ import { render, click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { RadioButtonCategoryWithDescription } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
+import { certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
 
 module('Integration | Component | candidate-information-change-certification-issue-report-fields', function(hooks) {
   setupRenderingTest(hooks);
@@ -72,5 +73,49 @@ module('Integration | Component | candidate-information-change-certification-iss
 
     // then
     assert.dom(CHAR_COUNT_SELECTOR).hasText('6 / 500');
+  });
+
+  test('it should show "Précisez les informations à modifier" if subcategory NAME_OR_BIRTHDATE is selected', async function(assert) {
+    // given
+    const toggleOnCategory = sinon.stub();
+    const candidateInformationChangeCategory = { isChecked: true, subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE };
+    this.set('toggleOnCategory', toggleOnCategory);
+    this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
+
+    // when
+    await render(hbs`
+      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+        @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+        @maxlength={{500}}
+      />`);
+    await click(INPUT_RADIO_SELECTOR);
+
+    // then
+    assert.dom(SUBCATEGORY_SELECTOR).exists();
+    assert.dom(TEXTAREA_SELECTOR).exists();
+    assert.contains('Précisez les informations à modifier');
+  });
+
+  test('it should show "Précisez le temps majoré" if subcategory EXTRA_TIME_PERCENTAGE is selected', async function(assert) {
+    // given
+    const toggleOnCategory = sinon.stub();
+    const candidateInformationChangeCategory = { isChecked: true, subcategory: certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE };
+    this.set('toggleOnCategory', toggleOnCategory);
+    this.set('candidateInformationChangeCategory', candidateInformationChangeCategory);
+
+    // when
+    await render(hbs`
+      <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+        @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+        @maxlength={{500}}
+      />`);
+    await click(INPUT_RADIO_SELECTOR);
+
+    // then
+    assert.dom(SUBCATEGORY_SELECTOR).exists();
+    assert.dom(TEXTAREA_SELECTOR).exists();
+    assert.contains('Précisez le temps majoré');
   });
 });
