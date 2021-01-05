@@ -44,6 +44,6 @@ module('Integration | Component | issue-report-modal/fraud-certification-issue-r
     await click(INPUT_RADIO_SELECTOR);
 
     // then
-    assert.contains('Merci de joindre le procès-verbal de fraude remplit pendant la session de certification en utilisant le formulaire 123formbuilder accessible à l\'étape 2 de cette finalisation de session.');
+    assert.contains('Merci de joindre le procès-verbal de fraude rempli pendant la session de certification en utilisant le formulaire 123formbuilder accessible à l\'étape suivante de cette finalisation de session.');
   });
 });
