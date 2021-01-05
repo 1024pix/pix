@@ -51,58 +51,6 @@ describe('Unit | Service | PickChallengeService', () => {
 
     });
 
-    context('when challenge in selected locale does not exist', () => {
-
-      it('should return challenge in other locale', () => {
-        // given
-        const skills = [{ challenges: [frenchChallenge] }];
-
-        // when
-        const challenge = pickChallengeService.pickChallenge({
-          skills,
-          randomSeed,
-          locale: FRENCH_SPOKEN,
-        });
-
-        // then
-        expect(challenge).to.equal(frenchChallenge);
-      });
-      context('when no challenge in selected non-french locale', () => {
-        it('should return FR challenge', () => {
-          // given
-          const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge] }];
-
-          // when
-          const challenge = pickChallengeService.pickChallenge({
-            skills,
-            randomSeed,
-            locale: ENGLISH_SPOKEN,
-          });
-
-          // then
-          expect(challenge).to.equal(frenchSpokenChallenge);
-        });
-
-        context('and no FR challenge', () => {
-          it('should return FR-FR challenge', () => {
-            // given
-            const skills = [{ challenges: [frenchChallenge] }];
-
-            // when
-            const challenge = pickChallengeService.pickChallenge({
-              skills,
-              randomSeed,
-              locale: ENGLISH_SPOKEN,
-            });
-
-            // then
-            expect(challenge).to.equal(frenchChallenge);
-          });
-        });
-      });
-
-    });
-
     context('when there is no skills', () => {
 
       it('should return null', () => {
@@ -131,7 +79,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: FRENCH_FRANCE,
+          locale: FRENCH_SPOKEN,
         });
 
         // then
@@ -148,7 +96,7 @@ describe('Unit | Service | PickChallengeService', () => {
         const challenge = pickChallengeService.pickChallenge({
           skills,
           randomSeed,
-          locale: FRENCH_FRANCE,
+          locale: FRENCH_SPOKEN,
         });
 
         // then

@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const hashInt = require('hash-int');
-const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../constants').LOCALE;
 const UNEXISTING_ITEM = null;
 const VALIDATED_STATUSES = ['validé', 'validé sans test', 'pré-validé'];
 
@@ -13,9 +12,7 @@ module.exports = {
     const keyForChallenge = Math.abs(hashInt(randomSeed + 1));
     const chosenSkill = skills[keyForSkill % skills.length];
 
-    return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge)
-        || _pickLocaleChallengeAtIndex(chosenSkill.challenges, FRENCH_SPOKEN, keyForChallenge)
-        || _pickLocaleChallengeAtIndex(chosenSkill.challenges, FRENCH_FRANCE, keyForChallenge);
+    return _pickLocaleChallengeAtIndex(chosenSkill.challenges, locale, keyForChallenge);
   },
 };
 
