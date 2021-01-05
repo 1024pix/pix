@@ -113,7 +113,17 @@ export default class AddIssueReportModal extends Component {
     name: certificationIssueReportCategories.IN_CHALLENGE,
     subcategory: certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
   });
-  categories = [ this.otherCategory, this.lateOrLeavingCategory, this.candidateInformationChangeCategory, this.connectionOrEndScreenCategory, this.inChallengeCategory ];
+  @tracked fraudCategory = new RadioButtonCategory({
+    name: certificationIssueReportCategories.FRAUD,
+  });
+  categories = [
+    this.otherCategory,
+    this.lateOrLeavingCategory,
+    this.candidateInformationChangeCategory,
+    this.connectionOrEndScreenCategory,
+    this.inChallengeCategory,
+    this.fraudCategory,
+  ];
 
   @tracked reportLength = 0;
   @tracked showCategoryMissingError = false;
