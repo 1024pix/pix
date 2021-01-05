@@ -638,6 +638,11 @@
         },
         "password-reset-demand": {
             "title": "Forgotten your password?",
+            "fields": {
+                "email": {
+                    "label": "Email address"
+                }
+            },
             "actions": {
                 "back-home": "Return to homepage",
                 "back-sign-in": "Return to log in page",
@@ -695,6 +700,11 @@
         },
         "reset-password": {
             "title": "Change my password",
+            "fields": {
+                "password": {
+                    "label": "Password"
+                }
+            },
             "actions": {
                 "submit": "Send",
                 "sign-in": "Log in"
