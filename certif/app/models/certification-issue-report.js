@@ -7,6 +7,7 @@ export const certificationIssueReportCategories = {
   CONNECTION_OR_END_SCREEN: 'CONNECTION_OR_END_SCREEN',
   IN_CHALLENGE: 'IN_CHALLENGE',
   FRAUD: 'FRAUD',
+  TECHNICAL_PROBLEM: 'TECHNICAL_PROBLEM',
 };
 
 export const certificationIssueReportSubcategories = {
@@ -30,6 +31,7 @@ export const categoryToLabel = {
   [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'Connexion et fin de test : le candidat a passé les dernières questions, faute de temps',
   [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème sur une question',
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
+  [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'Problème technique',
 };
 
 export const subcategoryToLabel = {
@@ -53,6 +55,7 @@ export const categoryToCode = {
   [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'C5',
   [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E7',
   [certificationIssueReportCategories.FRAUD]: 'C6',
+  [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',
 };
 
 export const subcategoryToCode = {

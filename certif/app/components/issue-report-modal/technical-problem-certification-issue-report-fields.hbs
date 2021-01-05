@@ -1,0 +1,25 @@
+<fieldset class="technical-problem-certification-issue-report-fields">
+  <div class="technical-problem-certification-issue-report-fields__radio-button">
+    <input
+      id="input-radio-for-category-technical-problem"
+      type="radio"
+      name="technical-problem"
+      checked={{@technicalProblemCategory.isChecked}}
+      {{on 'click' (fn @toggleOnCategory @technicalProblemCategory)}} />
+    <label for="input-radio-for-category-technical-problem"><span>{{@technicalProblemCategory.categoryCode}}&nbsp;</span>{{@technicalProblemCategory.categoryLabel}}</label>
+  </div>
+  {{#if @technicalProblemCategory.isChecked}}
+    <div class="technical-problem-certification-issue-report-fields__details">
+      <label for="text-area-for-category-technical-problem">Décrivez l'incident rencontré</label>
+      <Textarea
+        id="text-area-for-category-technical-problem"
+        @class="session-finalization-reports-informations-step__textarea"
+        @value={{@technicalProblemCategory.description}}
+        @maxlength={{@maxlength}}
+        @placeholder="L'ordinateur s'est éteint, lenteur significative du réseau et/ou de l'appareil, etc..."
+        required
+      />
+      <p class="technical-problem-certification-issue-report-fields-details__char-count">{{this.reportLength}} / {{@maxlength}}</p>
+    </div>
+  {{/if}}
+</fieldset>
