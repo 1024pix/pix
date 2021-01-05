@@ -28,17 +28,17 @@ export const categoryToLabel = {
   [certificationIssueReportCategories.OTHER]: 'Autre incident',
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'Modification infos candidat',
   [certificationIssueReportCategories.LATE_OR_LEAVING]: 'Retard, absence ou départ',
-  [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'Connexion et fin de test : le candidat a passé les dernières questions, faute de temps',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème sur une question',
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
   [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'Problème technique',
+  [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'Connexion et fin de test : le candidat n’a pas pu terminer, faute de temps',
+  [certificationIssueReportCategories.IN_CHALLENGE]: 'Problème sur une épreuve',
 };
 
 export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Prénom/Nom/Date de naissance',
-  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Temps majoré',
-  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Ecran de fin de test non vu (précisez ici pourquoi)',
-  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Etait présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
+  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Ajout/modification du temps majoré',
+  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Ecran de fin de test non vu',
+  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
   [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'L\'image ne s\'affiche pas',
   [certificationIssueReportSubcategories.LINK_NOT_WORKING]: 'Le lien ne fonctionne pas',
   [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'Le simulateur/l\'application ne s\'affiche pas',
@@ -70,6 +70,13 @@ export const subcategoryToCode = {
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E5',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E6',
   [certificationIssueReportSubcategories.OTHER]: 'E7',
+};
+
+export const subcategoryToTextareaLabel = {
+  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Précisez et indiquez l’heure de sortie',
+  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Précisez',
+  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Précisez les informations à modifier',
+  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Précisez le temps majoré',
 };
 
 export default class CertificationIssueReport extends Model {
