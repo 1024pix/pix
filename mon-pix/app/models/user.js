@@ -1,7 +1,4 @@
-/* eslint ember/no-computed-properties-in-native-classes: 0 */
-
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-import { computed } from '@ember/object';
 
 export default class User extends Model {
 
@@ -27,7 +24,6 @@ export default class User extends Model {
   @hasMany('scorecard') scorecards;
 
   // methods
-  @computed('firstName', 'lastName')
   get fullName() {
     return `${this.firstName} ${ this.lastName}`;
   }
