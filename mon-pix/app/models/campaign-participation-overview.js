@@ -1,4 +1,4 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { attr } from '@ember-data/model';
 
 export default class CampaignParticipationOverviews extends Model {
 
@@ -10,7 +10,4 @@ export default class CampaignParticipationOverviews extends Model {
   @attr('string') assessmentState;
   @attr('string') campaignCode;
   @attr('string') campaignTitle;
-
-  // includes
-  @belongsTo('user') user;
 }

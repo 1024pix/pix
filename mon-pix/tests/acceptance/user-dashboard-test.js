@@ -70,14 +70,12 @@ describe('Acceptance | User dashboard page', function() {
           campaignTitle: uncompletedCampaign.title,
           createdAt: new Date('2020-04-20T04:05:06Z'),
           isShared: false,
-          user,
         });
       });
 
       it('should display a card with a resume button', async function() {
         // when
         await visit('/accueil');
-
         // then
         const resumeButton = find('.campaign-participation-overview-card__action');
         expect(resumeButton).to.exist;
@@ -111,7 +109,6 @@ describe('Acceptance | User dashboard page', function() {
           campaignCode: unsharedCampaign.code,
           createdAt: new Date('2020-04-20T04:05:06Z'),
           isShared: false,
-          user,
         });
       });
 
