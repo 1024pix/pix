@@ -17,7 +17,7 @@
         @selectedOption={{@lateOrLeavingCategory.subcategory}}
         @onChange={{this.onChangeSubcategory}}
       />
-      <label for="text-area-for-category-late-or-leaving">Détaillez l'incident</label>
+      <label for="text-area-for-category-late-or-leaving">{{this.subcategoryTextAreaLabel}}</label>
       <Textarea
         id="text-area-for-category-late-or-leaving"
         @class="session-finalization-reports-informations-step__textarea"

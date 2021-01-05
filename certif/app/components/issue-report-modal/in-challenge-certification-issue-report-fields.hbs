@@ -12,7 +12,7 @@
   </div>
   {{#if @inChallengeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">
-      <label for="input-for-category-in-challenge-question-number">Numéro de question :</label>
+      <label for="input-for-category-in-challenge-question-number">Numéro d'épreuve :</label>
        <Input
               @id="input-for-category-in-challenge-question-number"
               @name="question-number"
@@ -29,7 +29,7 @@
                @onChange={{this.onChangeSubcategory}}
        />
       {{#if this.isOtherSubcategorySelected }}
-        <label for="text-area-for-category-in-challenge-subcategory-other">Détaillez les changements</label>
+        <label for="text-area-for-category-in-challenge-subcategory-other">Précisez</label>
         <Textarea
                 id="text-area-for-category-in-challenge-subcategory-other"
                 @class="session-finalization-reports-informations-step__textarea"

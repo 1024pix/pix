@@ -17,7 +17,7 @@
         @selectedOption={{@candidateInformationChangeCategory.subcategory}}
         @onChange={{this.onChangeSubcategory}}
       />
-      <label for="text-area-for-category-candidate-information-change">Détaillez les changements</label>
+      <label for="text-area-for-category-candidate-information-change">{{this.subcategoryTextAreaLabel}}</label>
       <Textarea
         id="text-area-for-category-candidate-information-change"
         @class="session-finalization-reports-informations-step__textarea"
