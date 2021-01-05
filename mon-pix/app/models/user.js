@@ -19,7 +19,6 @@ export default class User extends Model {
   @belongsTo('is-certifiable') isCertifiable;
   @belongsTo('profile', { async: false }) profile;
   @hasMany('campaign-participation') campaignParticipations;
-  @hasMany('campaign-participation-overview') campaignParticipationOverviews;
   @hasMany('certification') certifications;
   @hasMany('scorecard') scorecards;
 
