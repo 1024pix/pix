@@ -3,11 +3,20 @@
     <div class="session-details-header__title">
       <PixReturnTo @route="authenticated.sessions.list" class="session-details-content__return-button" />
       <h1 class="page-title">Session {{this.session.id}}</h1>
+      {{#if this.isReportsCategorizationFeatureToggleEnabled}}
+        <a class="button button--link" href="{{this.session.urlToDownloadSessionIssueReportSheet}}" target="_blank"
+          aria-label="Télécharger le pv d'incident"
+          rel="noopener noreferrer" download>
+          PV d'incident&nbsp;
+          <FaIcon @icon="file-download" />
+        </a>
+      {{/if}}
       {{#if this.shouldDisplayDownloadButton}}
-      <a class="button button--link" href="{{this.session.urlToDownloadAttendanceSheet}}" target="_blank"
-        rel="noopener noreferrer" download>
-        Télécharger la feuille d'émargement
-      </a>
+        <a class="button button--link" href="{{this.session.urlToDownloadAttendanceSheet}}" target="_blank" aria-label="Télécharger la feuille d'émargement"
+          rel="noopener noreferrer" download>
+          Feuille d'émargement&nbsp;
+          <FaIcon @icon="file-download" />
+        </a>
       {{/if}}
     </div>
 
