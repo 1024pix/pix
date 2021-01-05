@@ -16,6 +16,7 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       const payload = 'somePayload';
       const headers = { a: 'someHeaderInfo' };
       const axiosResponse = {
+        data: Symbol('data'),
         status: 'someStatus',
       };
       sinon.stub(axios, 'post').withArgs(url, payload, { headers }).resolves(axiosResponse);
@@ -27,6 +28,7 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       expect(actualResponse).to.deep.equal({
         isSuccessful: true,
         code: axiosResponse.status,
+        data: axiosResponse.data,
       });
     });
 
@@ -36,7 +38,10 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       const payload = 'somePayload';
       const headers = { a: 'someHeaderInfo' };
       const axiosError = {
-        response: { status: 'someStatus' },
+        response: {
+          data: Symbol('data'),
+          status: 'someStatus',
+        },
       };
       sinon.stub(axios, 'post').withArgs(url, payload, { headers }).rejects(axiosError);
 
@@ -47,6 +52,7 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       expect(actualResponse).to.deep.equal({
         isSuccessful: false,
         code: axiosError.response.status,
+        data: axiosError.response.data,
       });
     });
   });
