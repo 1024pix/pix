@@ -26,16 +26,29 @@ describe('Unit | Router | organization-router', () => {
 
   describe('GET /api/organizations', () => {
 
-    it('should exist', async () => {
+    it('should return OK (200) when request is valid', async () => {
       // given
       const method = 'GET';
-      const url = '/api/organizations?filter[name]=DRA&filter[type]=AZ&filter[type]=SCO&page[number]=3&page[size]=25';
+      const url = '/api/organizations?filter[id]=&filter[name]=DRA&filter[type]=SCO&page[number]=3&page[size]=25';
 
       // when
       const response = await httpTestServer.request(method, url);
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return BadRequest (400) when request is invalid', async () => {
+      // given
+      const method = 'GET';
+      const idNotNumeric = 'foo';
+      const url = `/api/organizations?filter[id]=${idNotNumeric}`;
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
