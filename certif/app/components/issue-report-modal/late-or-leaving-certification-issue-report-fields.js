@@ -1,8 +1,18 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
-import { certificationIssueReportSubcategories, subcategoryToCode, subcategoryToLabel } from 'pix-certif/models/certification-issue-report';
+import { tracked } from '@glimmer/tracking';
+import {
+  certificationIssueReportSubcategories,
+  subcategoryToCode,
+  subcategoryToLabel,
+  subcategoryToTextareaLabel,
+} from 'pix-certif/models/certification-issue-report';
 
 export default class OtherCertificationissueReportFields extends Component {
+
+  @tracked
+  subcategoryTextAreaLabel = subcategoryToTextareaLabel[this.args.lateOrLeavingCategory.subcategory];
+
   get reportLength() {
     return this.args.lateOrLeavingCategory.description
       ? this.args.lateOrLeavingCategory.description.length
@@ -12,6 +22,7 @@ export default class OtherCertificationissueReportFields extends Component {
   @action
   onChangeSubcategory(event) {
     this.args.lateOrLeavingCategory.subcategory = event.target.value;
+    this.subcategoryTextAreaLabel = subcategoryToTextareaLabel[event.target.value];
   }
 
   options = [
