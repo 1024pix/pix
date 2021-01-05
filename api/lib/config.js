@@ -155,6 +155,7 @@ module.exports = (function() {
     },
 
     poleEmploi: {
+      clientId: process.env.POLE_EMPLOI_CLIENT_ID,
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
