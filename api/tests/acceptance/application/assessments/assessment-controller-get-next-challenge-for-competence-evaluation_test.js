@@ -50,6 +50,7 @@ const secondChallenge = airtableBuilder.factory.buildChallenge.untimed({
   statut: 'validé',
   acquix: [skillWeb3Id],
   acquis: [skillWeb3Name],
+  langues: ['Franco Français'],
 });
 const thirdChallengeId = 'recThirdChallenge';
 const thirdChallenge = airtableBuilder.factory.buildChallenge.untimed({
