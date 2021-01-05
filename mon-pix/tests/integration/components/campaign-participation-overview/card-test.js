@@ -8,6 +8,26 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 describe('Integration | Component | CampaignParticipationOverview | Card', function() {
   setupIntlRenderingTest();
 
+  it('should show campaign information', async function() {
+    //given
+    const campaignParticipationOverview = EmberObject.create({
+      isShared: false,
+      createdAt: '2020-12-10T15:16:20.109Z',
+      assessmentState: 'started',
+      campaignTitle: 'My campaign',
+      organizationName: 'My organization',
+    });
+    this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+    //when
+    await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
+
+    //then
+    expect(find('.campaign-participation-overview-card-header__title').textContent).to.equal('My organization');
+    expect(find('.campaign-participation-overview-card-header__subtitle').textContent).to.equal('My campaign');
+    expect(find('.campaign-participation-overview-card-header__date').getAttribute('datetime')).to.equal('2020-12-10T15:16:20.109Z');
+  });
+
   it('should render component with a started state', async function() {
     // given
     const campaignParticipationOverview = EmberObject.create({
@@ -19,13 +39,11 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
     this.set('campaignParticipationOverview', campaignParticipationOverview);
 
     // when
-    await render(hbs`<CampaignParticipationOverview::Card @model={{campaignParticipationOverview}} />}`);
+    await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
 
     // then
-    expect(find('h1').textContent).to.equal('My campaign');
     expect(find('.campaign-participation-overview-card-header__tag')).to.exist;
     expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.started'));
-    expect(find('time').getAttribute('datetime')).to.equal('2020-12-10T15:16:20.109Z');
     expect(find('a').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.resume'));
   });
 
@@ -40,7 +58,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
     this.set('campaignParticipationOverview', campaignParticipationOverview);
 
     // when
-    await render(hbs`<CampaignParticipationOverview::Card @model={{campaignParticipationOverview}} />}`);
+    await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
 
     // then
     expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.completed'));

@@ -37,8 +37,8 @@ describe('Integration | Component | CampaignParticipationOverview | Grid', funct
 
     // then
     expect(findAll('.campaign-participation-overview-grid__item').length).to.equal(2);
-    const participationCardTitles = findAll('.campaign-participation-overview-card-header__title');
-    expect(participationCardTitles[0].textContent).to.equal('My campaign 1');
-    expect(participationCardTitles[1].textContent).to.equal('My campaign 2');
+    const participationCardSubtitles = findAll('.campaign-participation-overview-card-header__subtitle');
+    expect(participationCardSubtitles[0].textContent).to.equal('My campaign 1');
+    expect(participationCardSubtitles[1].textContent).to.equal('My campaign 2');
   });
 });
