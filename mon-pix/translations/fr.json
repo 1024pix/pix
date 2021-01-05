@@ -103,6 +103,9 @@
                 "legal": "Les informations relatives à votre profil PIX seront transmises à l'organisateur pour lui permettre de vous accompagner. Elle ne seront transmises qu'avec votre consentement."
             }
         },
+        "campaign-participation": {
+            "title": "Parcours"
+        },
         "campaign-participation-overview": {
             "title": "Parcours",
             "card": {
