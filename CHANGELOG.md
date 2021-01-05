@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v2.242.0 (05/01/2021)
+
+- [#2332](https://github.com/1024pix/pix/pull/2332) [FEATURE] Suppression du fallback sur le choix de la langue des épreuves (PIX-1778).
+- [#2338](https://github.com/1024pix/pix/pull/2338) [BUGFIX] Permettre aux scripts de pouvoir être lancés (PIX-1941).  
+- [#2331](https://github.com/1024pix/pix/pull/2331) [BUGFIX] Modification du titre du bouton "Continuer" de la version anglaise afin que l'affichage soit sur une seule ligne (PIX-1934).
+- [#2316](https://github.com/1024pix/pix/pull/2316) [TECH] Generer l'API-DOC pour Gravitee (PIX-1822)
+- [#2337](https://github.com/1024pix/pix/pull/2337) [TECH] Supprime les déclarations de dégradé inutiles
+- [#2335](https://github.com/1024pix/pix/pull/2335) [TECH] Corrige les commentaires dans les tests
+- [#2341](https://github.com/1024pix/pix/pull/2341) [CLEANUP] Supprimer le warning d'icône non trouvé sur la page de résultat (PIX-1940).
+- [#2339](https://github.com/1024pix/pix/pull/2339) [CLEANUP] Supprimer la dépréciation fa-icon (PIX-1938).
+
 ## v2.241.0 (30/12/2020)
 
 - [#2329](https://github.com/1024pix/pix/pull/2329) [FEATURE] Traduction du nom de la compétence sur la notification d'augmentation de niveau (PIX-1784)
