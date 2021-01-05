@@ -28,10 +28,10 @@ export default class ResultItemComponent extends Component {
   @service intl;
 
   get resultItem() {
-    if (!this.args.answer.result) {
-      return undefined;
+    if (this.args.answer.result) {
+      return contentReference[this.args.answer.result];
     }
-    return contentReference[this.args.answer.result];
+    return undefined;
   }
 
   get resultTooltip() {
