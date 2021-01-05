@@ -116,6 +116,9 @@ export default class AddIssueReportModal extends Component {
   @tracked fraudCategory = new RadioButtonCategory({
     name: certificationIssueReportCategories.FRAUD,
   });
+  @tracked technicalProblemCategory = new RadioButtonCategoryWithDescription({
+    name: certificationIssueReportCategories.TECHNICAL_PROBLEM,
+  });
   categories = [
     this.otherCategory,
     this.lateOrLeavingCategory,
@@ -123,6 +126,7 @@ export default class AddIssueReportModal extends Component {
     this.connectionOrEndScreenCategory,
     this.inChallengeCategory,
     this.fraudCategory,
+    this.technicalProblemCategory,
   ];
 
   @tracked reportLength = 0;
