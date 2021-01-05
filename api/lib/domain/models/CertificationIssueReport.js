@@ -61,6 +61,12 @@ const categoryFraudJoiSchema = Joi.object({
   category: Joi.string().required().valid(CertificationIssueReportCategories.FRAUD),
 });
 
+const categoryTechnicalProblemJoiSchema = Joi.object({
+  certificationCourseId: Joi.number().required().empty(null),
+  category: Joi.string().required().valid(CertificationIssueReportCategories.TECHNICAL_PROBLEM),
+  description: Joi.string().trim().required(),
+});
+
 const categorySchemas = {
   [CertificationIssueReportCategories.OTHER]: categoryOtherJoiSchema,
   [CertificationIssueReportCategories.LATE_OR_LEAVING]: categoryLateOrLeavingJoiSchema,
@@ -68,6 +74,7 @@ const categorySchemas = {
   [CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: categoryConnectionOrEndScreenJoiSchema,
   [CertificationIssueReportCategories.IN_CHALLENGE]: categoryInChallengeJoiSchema,
   [CertificationIssueReportCategories.FRAUD]: categoryFraudJoiSchema,
+  [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: categoryTechnicalProblemJoiSchema,
 };
 
 class CertificationIssueReport {

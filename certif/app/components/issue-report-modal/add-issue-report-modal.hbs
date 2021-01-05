@@ -14,8 +14,8 @@
 
       <div class="add-issue-report-modal__content">
         <div class="add-issue-report-modal-content">
-          <IssueReportModal::OtherCertificationIssueReportFields
-            @otherCategory={{this.otherCategory}}
+          <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
+            @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
           />
@@ -26,16 +26,15 @@
             @maxlength={{@maxlength}}
           />
 
-          <IssueReportModal::CandidateInformationChangeCertificationIssueReportFields
-            @candidateInformationChangeCategory={{this.candidateInformationChangeCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-            @maxlength={{@maxlength}}
-          />
-
           <IssueReportModal::ConnectionOrEndScreenCertificationIssueReportFields
             @connectionOrEndScreenCategory={{this.connectionOrEndScreenCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
             @maxlength={{@maxlength}}
+          />
+
+          <IssueReportModal::FraudCertificationIssueReportFields
+            @fraudCategory={{this.fraudCategory}}
+            @toggleOnCategory={{this.toggleOnCategory}}
           />
 
           <IssueReportModal::InChallengeCertificationIssueReportFields
@@ -44,9 +43,16 @@
             @maxlength={{@maxlength}}
           />
 
-          <IssueReportModal::FraudCertificationIssueReportFields
-            @fraudCategory={{this.fraudCategory}}
+          <IssueReportModal::TechnicalProblemCertificationIssueReportFields
+            @technicalProblemCategory={{this.technicalProblemCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
+            @maxlength={{@maxlength}}
+          />
+
+          <IssueReportModal::OtherCertificationIssueReportFields
+            @otherCategory={{this.otherCategory}}
+            @toggleOnCategory={{this.toggleOnCategory}}
+            @maxlength={{@maxlength}}
           />
         </div>
 

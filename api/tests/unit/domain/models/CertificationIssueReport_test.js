@@ -271,5 +271,42 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         expect(() => CertificationIssueReport.new(certificationIssueReportDTO)).not.to.throw();
       });
     });
+
+    context('CATEGORY: TECHNICAL_PROBLEM', () => {
+      const certificationIssueReportDTO = {
+        certificationCourseId: 123,
+        category: CertificationIssueReportCategories.TECHNICAL_PROBLEM,
+        description: 'Une description obligatoire',
+      };
+
+      it('should create an TECHNICAL_PROBLEM CertificationIssueReport', () => {
+        expect(CertificationIssueReport.new(certificationIssueReportDTO)).to.be.an.instanceOf(CertificationIssueReport);
+      });
+
+      [
+        MISSING_VALUE,
+        EMPTY_VALUE,
+        UNDEFINED_VALUE,
+        WHITESPACES_VALUE,
+      ].forEach((emptyValue) => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, () => {
+          // when
+          expect(() => CertificationIssueReport.new({ ...certificationIssueReportDTO, description: emptyValue }))
+            .to.throw(InvalidCertificationIssueReportForSaving);
+        });
+      });
+
+      [
+        MISSING_VALUE,
+        EMPTY_VALUE,
+        UNDEFINED_VALUE,
+      ].forEach((emptyValue) => {
+        it(`should create an TECHNICAL_PROBLEM CertificationIssueReport when subcategory is empty with value ${emptyValue}`, () => {
+          // when
+          expect(CertificationIssueReport.new({ ...certificationIssueReportDTO, subcategory: emptyValue }))
+            .to.be.an.instanceOf(CertificationIssueReport);
+        });
+      });
+    });
   });
 });
