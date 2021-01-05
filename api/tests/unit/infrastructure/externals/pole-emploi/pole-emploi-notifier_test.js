@@ -11,26 +11,48 @@ const authenticationMethodRepository = require('../../../../../lib/infrastructur
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', () => {
 
   describe('#notify', () => {
+
+    let clock;
+
     const originPoleEmploiSendingUrl = settings.poleEmploi.sendingUrl;
     const originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
 
+    const userId = 123;
+    const payload = 'somePayload';
+    const code = 'someCode';
+    const data = {
+      'access_token': 'accessToken',
+      'refresh_token': 'refreshToken',
+      'expires_in': 10,
+    };
+
+    const accessToken = 'someAccessToken';
+    const refreshToken = 'someRefreshToken';
+    const expiredDate = new Date('2021-01-01');
+    const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
+
+    const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
+
     beforeEach(() => {
+      clock = sinon.useFakeTimers(Date.now());
       sinon.stub(httpAgent, 'post');
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
       sinon.stub(authenticationMethodRepository, 'updatePoleEmploiAuthenticationComplementByUserId');
+      settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
+      settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
     });
 
     afterEach(() => {
+      clock.restore();
       settings.poleEmploi.sendingUrl = originPoleEmploiSendingUrl;
       settings.poleEmploi.tokenUrl = originPoleEmploiTokenUrl;
       httpAgent.post.restore();
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
+      authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId.restore();
     });
 
     it('should throw an error if the user is not known as PoleEmploi user', async () => {
       // given
-      const userId = 123;
-      const payload = 'somePayload';
       httpAgent.post
         .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
         .resolves(null);
@@ -47,26 +69,18 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       it('should send the notification to Pole Emploi', async () => {
         // given
-        const poleEmploiSendingUrl = 'someUrlToPoleEmploi';
-        settings.poleEmploi.sendingUrl = poleEmploiSendingUrl;
-        const userId = 123;
-        const payload = 'somePayload';
-        const refreshToken = 'someRefreshToken';
         const expiredDate = moment().add(10, 'm').toDate();
-        const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
-        const code = 'someCode';
-        const successState = 'someState';
-        const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
+        const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
           .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
           .resolves(authenticationMethod);
-        httpAgent.post.resolves({ isSuccessful: successState, code });
+        httpAgent.post.resolves({ isSuccessful: true, code });
 
         // when
         await notify(userId, payload, poleEmploiSending);
 
         // then
-        expect(httpAgent.post).to.have.been.calledWithExactly(poleEmploiSendingUrl, payload, {
+        expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.sendingUrl, payload, {
           'Authorization': `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
           'Content-type': 'application/json',
           'Accept': 'application/json',
@@ -79,73 +93,34 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       it('should try to refresh the access token', async () => {
         // given
-        const poleEmploiTokenUrl = 'someUrlToPoleEmploi';
-        settings.poleEmploi.tokenUrl = poleEmploiTokenUrl;
-        const userId = 123;
-        const payload = 'somePayload';
-        const expiredDate = new Date('2021-01-01');
-        const refreshToken = 'someRefreshToken';
-        const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+          .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+          .resolves(authenticationMethod);
         const params = {
           grant_type: 'refresh_token',
           refresh_token: refreshToken,
           client_secret: settings.poleEmploi.clientSecret,
           client_id: settings.poleEmploi.clientId,
         };
-        const code = 'someCode';
-        const successState = 'someState';
-        const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
-        authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-          .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
-          .resolves(authenticationMethod);
-        const data = {
-          'access_token': 'accessToken',
-          'refresh_token': 'refreshToken',
-          'expires_in': 10,
-        };
-        httpAgent.post.resolves({ isSuccessful: successState, code, data });
+        httpAgent.post.resolves({ isSuccessful: true, code, data });
 
         // when
         await notify(userId, payload, poleEmploiSending);
 
         // then
-        expect(httpAgent.post).to.have.been.calledWithExactly(poleEmploiTokenUrl, querystring.stringify(params), {
+        expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.tokenUrl, querystring.stringify(params), {
           headers: { 'content-type': 'application/x-www-form-urlencoded' },
         });
       });
 
       context('when it succeeds', () => {
-        let clock;
-
-        beforeEach(() => {
-          clock = sinon.useFakeTimers(Date.now());
-        });
-
-        afterEach(() => {
-          clock.restore();
-        });
 
         it('should update the authentication method', async () => {
           // given
-          const poleEmploiTokenUrl = 'someUrlToPoleEmploi';
-          settings.poleEmploi.tokenUrl = poleEmploiTokenUrl;
-          const userId = 123;
-          const payload = 'somePayload';
-          const expiredDate = new Date('2021-01-01');
-          const refreshToken = 'someRefreshToken';
-          const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
-          const code = 'someCode';
-          const successState = 'someState';
-          const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
             .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
             .resolves(authenticationMethod);
-          const data = {
-            'access_token': 'accessToken',
-            'refresh_token': 'refreshToken',
-            'expires_in': 10,
-          };
-          httpAgent.post.resolves({ isSuccessful: successState, code, data });
+          httpAgent.post.resolves({ isSuccessful: true, code, data });
           const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
             accessToken: data['access_token'],
             refreshToken: data['refresh_token'],
@@ -161,23 +136,6 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
         it('should send the notification to Pole Emploi', async () => {
           // given
-          const poleEmploiTokenUrl = 'someUrlToPoleEmploi';
-          settings.poleEmploi.tokenUrl = poleEmploiTokenUrl;
-          const userId = 123;
-          const payload = 'somePayload';
-          const expiredDate = new Date('2021-01-01');
-          const refreshToken = 'someRefreshToken';
-          const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
-          const code = 'someCode';
-          const successState = true;
-          const poleEmploiSendingUrl = 'someUrlToPoleEmploi';
-          settings.poleEmploi.sendingUrl = poleEmploiSendingUrl;
-          const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
-          const data = {
-            'access_token': 'accessToken',
-            'refresh_token': 'refreshToken',
-            'expires_in': 10,
-          };
           const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
             accessToken: data['access_token'],
             refreshToken: data['refresh_token'],
@@ -193,14 +151,14 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             .resolves(authenticationMethod);
 
           httpAgent.post
-            .onFirstCall().resolves({ isSuccessful: successState, code, data })
-            .onSecondCall().resolves({ isSuccessful: successState, code });
+            .onFirstCall().resolves({ isSuccessful: true, code, data })
+            .onSecondCall().resolves({ isSuccessful: true, code });
 
           // when
           await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(httpAgent.post).to.have.been.calledWithExactly(poleEmploiSendingUrl, payload, {
+          expect(httpAgent.post).to.have.been.calledWithExactly(settings.poleEmploi.sendingUrl, payload, {
             'Authorization': `Bearer ${authenticationComplement.accessToken}`,
             'Content-type': 'application/json',
             'Accept': 'application/json',
@@ -210,17 +168,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       });
 
       context('when it fails', () => {
+
         it('should not send results', async () => {
           // given
-          const poleEmploiSendingUrl = 'someUrlToPoleEmploi';
-          settings.poleEmploi.sendingUrl = poleEmploiSendingUrl;
-          const userId = 123;
-          const payload = 'somePayload';
-          const expiredDate = new Date('2021-01-01');
-          const refreshToken = 'someRefreshToken';
-          const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
-          const code = '400';
-          const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
             .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
             .resolves(authenticationMethod);
@@ -230,18 +180,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(httpAgent.post).to.not.have.been.calledWith(poleEmploiSendingUrl);
+          expect(httpAgent.post).to.not.have.been.calledWith(settings.poleEmploi.sendingUrl);
         });
 
         it('should return isSuccessful to false', async () => {
-        // given
-          const userId = 123;
-          const payload = 'somePayload';
-          const expiredDate = new Date('2021-01-01');
-          const refreshToken = 'someRefreshToken';
-          const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
-          const code = '400';
-          const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
+          // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
             .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
             .resolves(authenticationMethod);
