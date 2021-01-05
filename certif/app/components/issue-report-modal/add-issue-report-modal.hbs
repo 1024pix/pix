@@ -48,6 +48,12 @@
             @fraudCategory={{this.fraudCategory}}
             @toggleOnCategory={{this.toggleOnCategory}}
           />
+
+          <IssueReportModal::TechnicalProblemCertificationIssueReportFields
+              @technicalProblemCategory={{this.technicalProblemCategory}}
+              @toggleOnCategory={{this.toggleOnCategory}}
+              @maxlength={{@maxlength}}
+          />
         </div>
 
         {{#if this.showCategoryMissingError}}
