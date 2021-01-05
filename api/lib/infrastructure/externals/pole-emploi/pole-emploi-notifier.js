@@ -24,7 +24,7 @@ module.exports = {
         client_id: settings.poleEmploi.clientId,
       };
 
-      await httpAgent.post(
+      const tokenResponse = await httpAgent.post(
         settings.poleEmploi.tokenUrl,
         querystring.stringify(data),
         {
@@ -32,6 +32,12 @@ module.exports = {
         },
       );
 
+      if (!tokenResponse.isSuccessful) {
+        return {
+          isSuccessful: tokenResponse.isSuccessful,
+          code: tokenResponse.code,
+        };
+      }
     }
 
     const url = settings.poleEmploi.sendingUrl;

@@ -11,6 +11,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
   describe('#notify', () => {
     const originPoleEmploiSendingUrl = settings.poleEmploi.sendingUrl;
+    const originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
 
     beforeEach(() => {
       sinon.stub(httpAgent, 'post');
@@ -19,6 +20,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
     afterEach(() => {
       settings.poleEmploi.sendingUrl = originPoleEmploiSendingUrl;
+      settings.poleEmploi.tokenUrl = originPoleEmploiTokenUrl;
       httpAgent.post.restore();
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
     });
@@ -102,7 +104,52 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           headers: { 'content-type': 'application/x-www-form-urlencoded' },
         });
       });
-    });
 
+      context('when it fails', () => {
+        it('should not send results', async () => {
+          // given
+          const poleEmploiSendingUrl = 'someUrlToPoleEmploi';
+          settings.poleEmploi.sendingUrl = poleEmploiSendingUrl;
+          const userId = 123;
+          const payload = 'somePayload';
+          const expiredDate = new Date('2021-01-01');
+          const refreshToken = 'someRefreshToken';
+          const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
+          const code = '400';
+          const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
+          authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .resolves(authenticationMethod);
+          httpAgent.post.resolves({ isSuccessful: false, code });
+
+          // when
+          await notify(userId, payload, poleEmploiSending);
+
+          // then
+          expect(httpAgent.post).to.not.have.been.calledWith(poleEmploiSendingUrl);
+        });
+
+        it('should return isSuccessful to false', async () => {
+        // given
+          const userId = 123;
+          const payload = 'somePayload';
+          const expiredDate = new Date('2021-01-01');
+          const refreshToken = 'someRefreshToken';
+          const authenticationMethod = { authenticationComplement: { accessToken: 'someAccessToken', expiredDate, refreshToken } };
+          const code = '400';
+          const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
+          authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+            .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+            .resolves(authenticationMethod);
+          httpAgent.post.resolves({ isSuccessful: false, code });
+
+          // when
+          const response = await notify(userId, payload, poleEmploiSending);
+
+          // then
+          expect(response).to.deep.equal({ isSuccessful: false, code });
+        });
+      });
+    });
   });
 });
