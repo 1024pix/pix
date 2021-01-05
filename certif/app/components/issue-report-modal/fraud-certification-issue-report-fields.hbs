@@ -1,0 +1,16 @@
+<fieldset class="fraud-certification-issue-report-fields">
+  <div class="fraud-certification-issue-report-fields__radio-button">
+    <input
+      id="input-radio-for-category-fraud"
+      type="radio"
+      name="fraud"
+      checked={{@fraudCategory.isChecked}}
+      {{on 'click' (fn @toggleOnCategory @fraudCategory)}} />
+    <label for="input-radio-for-category-fraud"><span>{{@fraudCategory.categoryCode}}&nbsp;</span>{{@fraudCategory.categoryLabel}}</label>
+  </div>
+  {{#if @fraudCategory.isChecked}}
+    <div class="fraud-certification-issue-report-fields__details">
+      <p>Merci de joindre le procès-verbal de fraude rempli pendant la session de certification en utilisant le formulaire 123formbuilder accessible à l'étape suivante de cette finalisation de session.</p>
+    </div>
+  {{/if}}
+</fieldset>
