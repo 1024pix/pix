@@ -3,6 +3,7 @@ const authenticationMethodRepository = require('../../repositories/authenticatio
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const httpAgent = require('../../http/http-agent');
 const settings = require('../../../config');
+const querystring = require('querystring');
 const { UnexpectedUserAccount } = require('../../../domain/errors');
 
 module.exports = {
@@ -12,6 +13,27 @@ module.exports = {
     if (!accessToken) {
       throw new UnexpectedUserAccount({ message: 'Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi' });
     }
+
+    const expiredDate = _.get(authenticationMethod, 'authenticationComplement.expiredDate');
+    const refreshToken = _.get(authenticationMethod, 'authenticationComplement.refreshToken');
+    if (!refreshToken || expiredDate <= new Date()) {
+      const data = {
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+        client_secret: settings.poleEmploi.clientSecret,
+        client_id: settings.poleEmploi.clientId,
+      };
+
+      await httpAgent.post(
+        settings.poleEmploi.tokenUrl,
+        querystring.stringify(data),
+        {
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        },
+      );
+
+    }
+
     const url = settings.poleEmploi.sendingUrl;
     const headers = {
       'Authorization': `Bearer ${accessToken}`,
