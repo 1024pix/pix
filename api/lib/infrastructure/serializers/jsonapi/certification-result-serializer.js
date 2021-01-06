@@ -32,7 +32,6 @@ module.exports = {
         'externalId',
         'isPublished',
         'isV2Certification',
-        'examinerComment',
         'hasSeenEndTestScreen',
         'cleaCertificationStatus',
         'certificationIssueReports',
