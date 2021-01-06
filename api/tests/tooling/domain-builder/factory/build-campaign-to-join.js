@@ -1,4 +1,4 @@
-const CampaignToJoin = require('../../../../lib/domain/models/CampaignToJoin');
+const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
 const { types } = require('../../../../lib/domain/models/Organization');
 
 module.exports = function buildCampaignToJoin({

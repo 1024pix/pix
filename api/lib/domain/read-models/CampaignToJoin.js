@@ -1,4 +1,4 @@
-const { types } = require('./Campaign');
+const { types } = require('../models/Campaign');
 
 class CampaignToJoin {
   constructor({

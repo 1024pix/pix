@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { types } = require('../../../../lib/domain/models/CampaignToJoin');
+const { types } = require('../../../../lib/domain/read-models/CampaignToJoin');
 const usecases = require('../../../../lib/domain/usecases');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const { AlreadyExistingCampaignParticipationError, ForbiddenAccess } = require('../../../../lib/domain/errors');

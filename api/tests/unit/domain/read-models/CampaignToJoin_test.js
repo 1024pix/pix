@@ -1,5 +1,5 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const { types } = require('../../../../lib/domain/models/CampaignToJoin');
+const { types } = require('../../../../lib/domain/read-models/CampaignToJoin');
 
 describe('Unit | Domain | Models | CampaignToJoin', () => {
 
