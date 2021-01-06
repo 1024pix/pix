@@ -1,6 +1,6 @@
 const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
-const CampaignToJoin = require('../../../../lib/domain/models/CampaignToJoin');
+const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | CampaignToJoin', () => {

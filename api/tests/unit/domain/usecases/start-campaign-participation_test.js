@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { types } = require('../../../../lib/domain/models/CampaignToJoin');
+const Campaign = require('../../../../lib/domain/models/Campaign');
 const usecases = require('../../../../lib/domain/usecases');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const { AlreadyExistingCampaignParticipationError, ForbiddenAccess } = require('../../../../lib/domain/errors');
@@ -112,7 +112,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,
         organizationIsManagingStudents: false,
-        type: types.ASSESSMENT,
+        type: Campaign.types.ASSESSMENT,
       });
       campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
       campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
@@ -138,7 +138,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       const campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,
         organizationIsManagingStudents: false,
-        type: types.PROFILES_COLLECTION,
+        type: Campaign.types.PROFILES_COLLECTION,
       });
       campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId).resolves(campaignToJoin);
       campaignToJoinRepository.isCampaignJoinableByUser.withArgs(campaignToJoin, userId).resolves(true);
