@@ -17,6 +17,7 @@ const dependencies = {
   campaignParticipationResultRepository: require('../../infrastructure/repositories/campaign-participation-result-repository'),
   campaignProfilesCollectionParticipationSummaryRepository: require('../../infrastructure/repositories/campaign-profiles-collection-participation-summary-repository'),
   campaignProfileRepository: require('../../infrastructure/repositories/campaign-profile-repository'),
+  campaignReportRepository: require('../../infrastructure/repositories/campaign-report-repository'),
   campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
   campaignToJoinRepository: require('../../infrastructure/repositories/campaign-to-join-repository'),
   campaignCsvExportService: require('../../domain/services/campaign-csv-export-service'),
