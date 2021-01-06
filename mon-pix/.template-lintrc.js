@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  extends: 'octane',
+  extends: ['octane', 'a11y'],
 
   rules: {
     'link-href-attributes': false,
