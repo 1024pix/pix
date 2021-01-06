@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { UserNotAuthorizedToUpdateResourceError } = require('../errors');
 const campaignValidator = require('../validators/campaign-validator');
 
@@ -26,8 +27,8 @@ module.exports = async function updateCampaign(
   if (title !== undefined) campaign.title = title;
   if (customLandingPageText !== undefined) campaign.customLandingPageText = customLandingPageText;
 
-  campaignValidator.validate(campaign);
-
+  const rawCampaign = { ...campaign, creatorId: campaign.creator.id, organizationId, targetProfileId: _.get(campaign, 'targetProfile.id') };
+  campaignValidator.validate(rawCampaign);
   await campaignRepository.update(campaign);
 
   return campaign;
