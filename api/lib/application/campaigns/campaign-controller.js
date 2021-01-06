@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { PassThrough } = require('stream');
 
 const { MissingQueryParamError } = require('../http-errors');
@@ -18,18 +19,21 @@ const requestResponseUtils = require('../../infrastructure/utils/request-respons
 
 module.exports = {
 
-  save(request, h) {
+  async save(request, h) {
     const { userId } = request.auth.credentials;
+    const {
+      name,
+      type,
+      title,
+      'id-pix-label': idPixLabel,
+      'custom-landing-page-text': customLandingPageText,
+    } = request.payload.data.attributes;
+    const targetProfileId = parseInt(_.get(request, 'payload.data.relationships.target-profile.data.id')) || null;
+    const organizationId = parseInt(_.get(request, 'payload.data.relationships.organization.data.id')) || null;
 
-    return campaignSerializer.deserialize(request.payload)
-      .then((campaign) => {
-        campaign.creatorId = userId;
-        return campaign;
-      })
-      .then((campaign) => usecases.createCampaign({ campaign }))
-      .then((createdCampaign) => {
-        return h.response(campaignSerializer.serialize(createdCampaign)).created();
-      });
+    const campaign = { name, type, title, idPixLabel, customLandingPageText, creatorId: userId, organizationId, targetProfileId };
+    const createdCampaign = await usecases.createCampaign({ campaign });
+    return h.response(campaignSerializer.serialize(createdCampaign)).created();
   },
 
   async getByCode(request) {

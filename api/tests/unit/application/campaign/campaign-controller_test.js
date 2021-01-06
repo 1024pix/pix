@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
@@ -18,51 +16,53 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   describe('#save', () => {
 
-    const deserializedCampaign = domainBuilder.buildCampaign({ id: NaN, code: '' });
-
     beforeEach(() => {
       sinon.stub(usecases, 'createCampaign');
-      sinon.stub(campaignSerializer, 'deserialize').resolves(deserializedCampaign);
       sinon.stub(campaignSerializer, 'serialize');
-    });
-
-    it('should call the use case to create the new campaign', async () => {
-      // given
-      const connectedUserId = 1;
-      const request = { auth: { credentials: { userId: connectedUserId } } };
-
-      const createdCampaign = domainBuilder.buildCampaign();
-      usecases.createCampaign.resolves(createdCampaign);
-
-      // when
-      await campaignController.save(request, hFake);
-
-      // then
-      expect(usecases.createCampaign).to.have.been.calledOnce;
-      const { campaign } = usecases.createCampaign.firstCall.args[0];
-      expect(campaign).to.include({
-        ..._.pick(deserializedCampaign, ['name', 'type', 'organizationId']),
-        creatorId: connectedUserId,
-      });
     });
 
     it('should return a serialized campaign when the campaign has been successfully created', async () => {
       // given
-      const userId = 1245;
-      const request = { auth: { credentials: { userId } } };
+      const connectedUserId = 1;
+      const request = {
+        auth: { credentials: { userId: connectedUserId } },
+        payload: {
+          data: {
+            attributes: {
+              name: 'name',
+              type: 'ASSESSMENT',
+              title: 'title',
+              'id-pix-label': 'idPixLabel',
+              'custom-landing-page-text': 'customLandingPageText',
+            },
+            relationships: {
+              'target-profile': { data: { id: '123' } },
+              'organization': { data: { id: '456' } },
+            },
+          },
+        },
+      };
+      const campaign = {
+        name: 'name',
+        type: 'ASSESSMENT',
+        title: 'title',
+        idPixLabel: 'idPixLabel',
+        customLandingPageText: 'customLandingPageText',
+        organizationId: 456,
+        targetProfileId: 123,
+        creatorId: 1,
+      };
 
-      const createdCampaign = domainBuilder.buildCampaign();
-      usecases.createCampaign.resolves(createdCampaign);
-
-      const serializedCampaign = { name: createdCampaign.name };
-      campaignSerializer.serialize.returns(serializedCampaign);
+      const expectedResult = Symbol('result');
+      const createdCampaign = Symbol('created campaign');
+      usecases.createCampaign.withArgs({ campaign }).resolves(createdCampaign);
+      campaignSerializer.serialize.withArgs(createdCampaign).returns(expectedResult);
 
       // when
       const response = await campaignController.save(request, hFake);
 
       // then
-      expect(campaignSerializer.serialize).to.have.been.calledWith(createdCampaign);
-      expect(response.source).to.deep.equal(serializedCampaign);
+      expect(response.source).to.equal(expectedResult);
       expect(response.statusCode).to.equal(201);
     });
   });
@@ -311,29 +311,6 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response).to.deep.equal(updatedCampaign);
     });
-  });
-
-  describe('#getReport', () => {
-
-    const campaignId = 1;
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'getCampaignReport');
-      sinon.stub(campaignReportSerializer, 'serialize');
-    });
-
-    it('should return ok', async () => {
-      // given
-      usecases.getCampaignReport.withArgs({ campaignId }).resolves({});
-      campaignReportSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await campaignController.getReport({ params: { id: campaignId } });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-
   });
 
   describe('#getCollectiveResult', () => {
