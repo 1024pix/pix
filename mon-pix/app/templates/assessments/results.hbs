@@ -13,7 +13,7 @@
 
     <div class="assessment-results__list">
       {{#each @model.answers as |answer|}}
-        <ResultItem @answer={{answer}} @correction={{answer.correction}} @openAnswerDetails={{this.openComparisonWindow}} />
+        <ResultItem @answer={{answer}} @openAnswerDetails={{this.openComparisonWindow}} />
       {{/each}}
     </div>
 
