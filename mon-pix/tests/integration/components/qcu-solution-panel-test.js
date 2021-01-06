@@ -38,9 +38,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
     });
 
     it('Should render', async function() {
-      await render(hbs`{{qcu-solution-panel}}`);
+      await render(hbs`<QcuSolutionPanel/>`);
       expect(find('.qcu-solution-panel')).to.exist;
-      expect(findAll('.qcu-proposal-label__oracle')).to.have.lengthOf(0);
     });
 
     describe('Radio state', function() {
@@ -68,7 +67,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         this.set('solution', solution);
         this.set('challenge', challenge);
         // When
-        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+
         // Then
         expect(findAll('.radio-on').length).to.equal(1);
       });
@@ -80,7 +80,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
@@ -108,7 +108,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         expect(find('.answer-feedback__correct-answer')).to.exist;
@@ -134,7 +134,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         expect(find('.answer-feedback__wrong-answer')).to.exist;
@@ -147,7 +147,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         const correctAnswer = find('.wrong-answer__expected-answer');
@@ -172,7 +172,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       });
 
       it('Should render', async function() {
-        await render(hbs`{{qcu-solution-panel}}`);
+        await render(hbs`<QcuSolutionPanel/>`);
         expect(find('.qcu-solution-panel')).to.exist;
         expect(findAll('.qcu-proposal-label__oracle')).to.have.lengthOf(0);
       });
@@ -197,7 +197,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           this.set('solution', solution);
           this.set('challenge', challenge);
           // When
-          await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
           expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('yes');
@@ -214,7 +214,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           this.set('challenge', challenge);
 
           // When
-          await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
           expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('no');
@@ -229,7 +229,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           this.set('challenge', challenge);
 
           // When
-          await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
           expect(findAll('.qcu-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('no');
@@ -246,7 +246,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           this.set('challenge', challenge);
 
           // When
-          await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
           expect(findAll('.qcu-proposal-label__oracle')[2].getAttribute('data-checked')).to.equal('yes');
@@ -261,7 +261,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           this.set('challenge', challenge);
 
           // When
-          await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
           times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
