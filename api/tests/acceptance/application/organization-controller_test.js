@@ -367,7 +367,6 @@ describe('Acceptance | Application | organization-controller', () => {
       ], (camp) => {
         const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
         return { name: camp.name, code: camp.code, id: builtCampaign.id };
-
       });
       databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[4].id, isShared: true });
       await databaseBuilder.commit();
@@ -397,7 +396,7 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
 
-    context('Retrieve campaigns with campaignReports', () => {
+    context('Retrieve campaigns', () => {
 
       it('should return 200 status code the organization campaigns', async () => {
         // when
@@ -424,8 +423,8 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.included[1].attributes['first-name']).to.equal('Daenerys');
-        expect(response.result.included[1].attributes['last-name']).to.equal('Targaryen');
+        expect(response.result.data[0].attributes['creator-first-name']).to.equal('Daenerys');
+        expect(response.result.data[0].attributes['creator-last-name']).to.equal('Targaryen');
       });
 
       it('should return archived campaigns', async () => {
@@ -443,7 +442,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.result.data[0].type).to.equal('campaigns');
       });
 
-      it('should return 200 status code with the campaignReports with the campaigns', async () => {
+      it('should return report with the campaigns', async () => {
         // given
         options.url = `/api/organizations/${otherOrganizationId}/campaigns`;
 
@@ -454,9 +453,8 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(200);
         const campaigns = response.result.data;
         expect(campaigns).to.have.lengthOf(1);
-        const campaignReport = response.result.included[0].attributes;
-        expect(campaignReport['participations-count']).to.equal(1);
-        expect(campaignReport['shared-participations-count']).to.equal(1);
+        expect(response.result.data[0].attributes['participations-count']).to.equal(1);
+        expect(response.result.data[0].attributes['shared-participations-count']).to.equal(1);
       });
 
       it('should return default pagination meta data', async () => {
