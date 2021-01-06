@@ -4,16 +4,21 @@ import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import ENV from 'mon-pix/config/environment';
 
 describe('Acceptance | Displaying a QCU challenge', () => {
   setupApplicationTest();
   setupMirage();
   let assessment;
   let qcuChallenge;
+  const CURRENT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = ENV.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU;
 
   beforeEach(async () => {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     qcuChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
+  });
+  afterEach(() => {
+    ENV.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = CURRENT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU;
   });
 
   describe('When challenge is not already answered', () => {
@@ -98,63 +103,139 @@ describe('Acceptance | Displaying a QCU challenge', () => {
     });
   });
 
-  describe('When challenge is already answered and user wants to see answers', () => {
-    let correction, tutorial, learningMoreTutorial;
-    beforeEach(async () => {
-      // given
-      tutorial = server.create('tutorial');
-      learningMoreTutorial = server.create('tutorial');
-      correction = server.create('correction', {
-        solution: '1',
-        hint: 'Cliquer sur 1',
-        tutorials: [tutorial],
-        learningMoreTutorials: [learningMoreTutorial],
-      });
-      server.create('answer', {
-        value: '2',
-        result: 'ko',
-        assessmentId: assessment.id,
-        challengeId: qcuChallenge.id,
-        correction,
-      });
-
-      // when
-      await visit(`/assessments/${assessment.id}/checkpoint`);
+  describe('When the feature toggle for improving display of answer is on ', () => {
+    beforeEach(() => {
+      ENV.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = true;
     });
 
-    it('should show the result of previous challenge in checkpoint', async () => {
-      // then
-      expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
-      expect(find('.result-item__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
-      expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
-    });
+    describe('When challenge is already answered and user wants to see answers', () => {
+      let correction, tutorial, learningMoreTutorial;
+      beforeEach(async () => {
+        // given
+        tutorial = server.create('tutorial');
+        learningMoreTutorial = server.create('tutorial');
+        correction = server.create('correction', {
+          solution: '1',
+          hint: 'Cliquer sur 1',
+          tutorials: [tutorial],
+          learningMoreTutorials: [learningMoreTutorial],
+        });
+        server.create('answer', {
+          value: '2',
+          result: 'ko',
+          assessmentId: assessment.id,
+          challengeId: qcuChallenge.id,
+          correction,
+        });
 
-    it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
-      // when
-      await click('.result-item__correction-button');
+        // when
+        await visit(`/assessments/${assessment.id}/checkpoint`);
+      });
 
-      // then
-      expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
-      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
+      it('should show the result of previous challenge in checkpoint', async () => {
+        // then
+        expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
+        expect(find('.result-item__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
+        expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
+      });
 
-      const goodAnswer = findAll('.qcu-proposal-label__oracle')[0];
-      const badAnswerFromUserResult = findAll('.qcu-proposal-label__oracle')[1];
-      expect(goodAnswer.getAttribute('data-goodness')).to.equal('good');
-      expect(goodAnswer.getAttribute('data-checked')).to.equal('no');
-      expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
-      expect(badAnswerFromUserResult.getAttribute('data-checked')).to.equal('yes');
+      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
+        // when
+        await click('.result-item__correction-button');
 
-      expect(find('.tutorial-panel__hint-container').textContent).to.contains(correction.hint);
+        // then
+        expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
+        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
 
-      const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
-      const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
+        const goodAnswer = findAll('.qcu-proposal-label__oracle')[0];
+        const badAnswerFromUserResult = findAll('.qcu-proposal-label__oracle')[1];
+        expect(goodAnswer.getAttribute('data-goodness')).to.equal('good');
+        expect(goodAnswer.getAttribute('data-checked')).to.equal('no');
+        expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
+        expect(badAnswerFromUserResult.getAttribute('data-checked')).to.equal('yes');
 
-      expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
-      expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
+        expect(find('.wrong-answer__expected-answer').textContent).to.contains(1);
 
-      expect(find('.feedback-panel')).to.exist;
+        expect(find('.tutorial-panel__hint-container').textContent).to.contains(correction.hint);
 
+        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
+        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
+
+        expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
+        expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
+
+        expect(find('.feedback-panel')).to.exist;
+
+      });
     });
   });
+
+  describe('When the feature toggle for improving display of answer is off ', () => {
+    beforeEach(() => {
+      ENV.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = false;
+    });
+
+    describe('When challenge is already answered and user wants to see answers', () => {
+      let correction, tutorial, learningMoreTutorial;
+      beforeEach(async () => {
+        // given
+        tutorial = server.create('tutorial');
+        learningMoreTutorial = server.create('tutorial');
+        correction = server.create('correction', {
+          solution: '1',
+          hint: 'Cliquer sur 1',
+          tutorials: [tutorial],
+          learningMoreTutorials: [learningMoreTutorial],
+        });
+        server.create('answer', {
+          value: '2',
+          result: 'ko',
+          assessmentId: assessment.id,
+          challengeId: qcuChallenge.id,
+          correction,
+        });
+
+        // when
+        await visit(`/assessments/${assessment.id}/checkpoint`);
+      });
+
+      it('should show the result of previous challenge in checkpoint', async () => {
+        // then
+        expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
+        expect(find('.result-item__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
+        expect(find('.result-item__correction-button').textContent.trim()).to.equal('Réponses et tutos');
+      });
+
+      it('should show details of challenge result in pop-in, with tutorials and feedbacks', async () => {
+        // when
+        await click('.result-item__correction-button');
+
+        // then
+        expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
+        expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
+
+        const goodAnswer = findAll('.qcu-proposal-label__oracle')[0];
+        const badAnswerFromUserResult = findAll('.qcu-proposal-label__oracle')[1];
+        expect(goodAnswer.getAttribute('data-goodness')).to.equal('good');
+        expect(goodAnswer.getAttribute('data-checked')).to.equal('no');
+        expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
+        expect(badAnswerFromUserResult.getAttribute('data-checked')).to.equal('yes');
+
+        expect(find('.wrong-answer__expected-answer')).to.not.exist;
+
+        expect(find('.tutorial-panel__hint-container').textContent).to.contains(correction.hint);
+
+        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
+        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
+
+        expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
+        expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
+
+        expect(find('.feedback-panel')).to.exist;
+
+      });
+    });
+  });
+
 });
 
