@@ -5,39 +5,45 @@ const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 describe('Unit | UseCase | get-campaign', () => {
 
   let campaign;
-  let campaignRepository;
+  let campaignReportRepository;
+  let stageRepository;
 
   beforeEach(() => {
     campaign = {
       id: '1',
       name: 'My campaign',
     };
-    campaignRepository = {
+    campaignReportRepository = {
       get: sinon.stub(),
+    };
+    stageRepository = {
+      findByCampaignId: sinon.stub(),
     };
   });
 
   it('should get the campaign', async () => {
     // given
-    const options = {};
-    campaignRepository.get.withArgs(parseInt(campaign.id), options).resolves(campaign);
+    campaignReportRepository.get.withArgs(parseInt(campaign.id)).resolves(campaign);
+    stageRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves();
 
     // when
-    const resultCampaign = await getCampaign({ campaignId: campaign.id, options, campaignRepository });
+    const resultCampaign = await getCampaign({ campaignId: campaign.id, campaignReportRepository, stageRepository });
 
     // then
     expect(resultCampaign.name).to.equal(campaign.name);
   });
 
-  it('should throw an error when the campaign could not be retrieved', () => {
+  it('should get campaign stages', async () => {
     // given
-    campaignRepository.get.withArgs(parseInt(campaign.id)).rejects();
+    const stages = Symbol('stages');
+    campaignReportRepository.get.withArgs(parseInt(campaign.id)).resolves(campaign);
+    stageRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves(stages);
 
     // when
-    const promise = getCampaign({ campaignId: campaign.id, campaignRepository });
+    const resultCampaign = await getCampaign({ campaignId: campaign.id, campaignReportRepository, stageRepository });
 
     // then
-    return expect(promise).to.be.rejected;
+    expect(resultCampaign.stages).to.equal(stages);
   });
 
   it('should throw a Not found error when the campaign is searched with a not valid ID', async () => {
@@ -45,7 +51,7 @@ describe('Unit | UseCase | get-campaign', () => {
     const invalidCampaignId = 'abc';
 
     // when
-    const error = await catchErr(getCampaign)({ campaignId: invalidCampaignId, campaignRepository });
+    const error = await catchErr(getCampaign)({ campaignId: invalidCampaignId, campaignReportRepository });
 
     // then
     return expect(error).to.be.instanceOf(NotFoundError);
