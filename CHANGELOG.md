@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.243.0 (06/01/2021)
+
+- [#2347](https://github.com/1024pix/pix/pull/2347) [FEATURE]  Télécharger un PV d'incident pour une session de certification (PIX-1535)
+- [#2340](https://github.com/1024pix/pix/pull/2340) [FEATURE] Rejeter une recherche sur une organisation si l'identifiant est non numérique (PIX-1936).
+- [#2348](https://github.com/1024pix/pix/pull/2348) [FEATURE] Ajout de la catégorie de signalement "Problème technique" (PIX-1943)
+- [#2345](https://github.com/1024pix/pix/pull/2345) [FEATURE] Ajout de la catégorie fraude (PIX-1933)
+- [#2343](https://github.com/1024pix/pix/pull/2343) [BUGFIX] Ajout de la traduction en EN pour deux labels sur Pix App (PIX-1792).
+- [#2321](https://github.com/1024pix/pix/pull/2321) [TECH] Utilisation du nouveau modèle CampaignToJoin côté APP pour modéliser la campagne en cours de participation (PIX-1826)
+- [#2346](https://github.com/1024pix/pix/pull/2346) [CLEANUP] Modifications mineures de la catégorisation des signalements (PIX-1829)
+
 ## v2.242.0 (05/01/2021)
 
 - [#2332](https://github.com/1024pix/pix/pull/2332) [FEATURE] Suppression du fallback sur le choix de la langue des épreuves (PIX-1778).
