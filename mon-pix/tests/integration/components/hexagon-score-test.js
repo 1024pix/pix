@@ -11,7 +11,7 @@ describe('Integration | Component | hexagon-score', function() {
 
     it('should render component', async function() {
       // when
-      await render(hbs`{{hexagon-score}}`);
+      await render(hbs`<HexagonScore />`);
       // then
 
       expect(this.element.querySelector('.hexagon-score')).to.exist;
@@ -19,7 +19,7 @@ describe('Integration | Component | hexagon-score', function() {
 
     it('should display two dashes, when no pixScore provided', async function() {
       // when
-      await render(hbs`{{hexagon-score}}`);
+      await render(hbs`<HexagonScore />`);
 
       // then
       expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal('–');
@@ -30,7 +30,7 @@ describe('Integration | Component | hexagon-score', function() {
       const pixScore = '777';
       this.set('pixScore', pixScore);
       // when
-      await render(hbs`{{hexagon-score pixScore=pixScore}}`);
+      await render(hbs`<HexagonScore @pixScore={{this.pixScore}} />`);
       // then
       expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal(pixScore);
     });
