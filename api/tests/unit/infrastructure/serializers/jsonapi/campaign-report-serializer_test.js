@@ -25,31 +25,61 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
       // then
       expect(json).to.deep.equal({
         data: {
-          type: 'campaign-reports',
-          id: report.id,
+          type: 'campaigns',
+          id: report.id.toString(),
           relationships: {
             stages: {
               data: [
                 {
-                  id: '1',
+                  id: report.stages[0].id.toString(),
                   type: 'stages',
                 },
               ],
             },
+            'campaign-analysis': {
+              links: {
+                related: '/api/campaigns/campaign_report_id/analyses',
+              },
+            },
+            'campaign-collective-result': {
+              links: {
+                related: '/api/campaigns/campaign_report_id/collective-results',
+              },
+            },
+            divisions: {
+              links: {
+                related: '/api/campaigns/campaign_report_id/divisions',
+              },
+            },
           },
           attributes: {
-            'participations-count': 4,
-            'shared-participations-count': 2,
+            code: report.code,
+            name: report.name,
+            type: report.type,
+            title: report.title,
+            'created-at': report.createdAt,
+            'creator-id': report.creatorId,
+            'creator-first-name': report.creatorFirstName,
+            'creator-last-name': report.creatorLastName,
+            'custom-landing-page-text': report.customLandingPageText,
+            'id-pix-label': report.idPixLabel,
+            'is-archived': report.isArchived,
+            'target-profile-id': report.targetProfileId,
+            'target-profile-name': report.targetProfileName,
+            'target-profile-image-url': report.targetProfileImageUrl,
+            'token-for-campaign-results': report.tokenForCampaignResults,
+            'participations-count': report.participationsCount,
+            'shared-participations-count': report.sharedParticipationsCount,
           },
         },
         included: [
           {
             attributes: {
-              message: 'stageMessage',
-              threshold: 30,
-              title: 'stage1',
+              message: report.stages[0].message,
+              threshold: report.stages[0].threshold,
+              title: report.stages[0].title,
             },
-            id: '1',
+            id: report.stages[0].id.toString(),
             type: 'stages',
           },
         ],
