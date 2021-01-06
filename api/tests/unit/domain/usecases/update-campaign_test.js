@@ -1,4 +1,4 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const updateCampaign = require('../../../../lib/domain/usecases/update-campaign');
 const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
@@ -10,19 +10,20 @@ describe('Unit | UseCase | update-campaign', () => {
   let userRepository;
 
   const organizationId = 1;
+  const creatorId = 1;
 
   beforeEach(() => {
 
-    originalCampaign = {
+    originalCampaign = domainBuilder.buildCampaign({
       id: 1,
       name: 'Old name',
       title: 'Old title',
       type: 'ASSESSMENT',
       customLandingPageText: 'Old text',
-      targetProfileId: 1,
-      creatorId: 1,
-      organizationId,
-    };
+      targetProfile: { id: 1 },
+      creator: { id: creatorId },
+      organization: { id: organizationId },
+    });
     userWithMembership = {
       id: 1,
       memberships: [{ organization: { id: organizationId } }],
@@ -44,10 +45,10 @@ describe('Unit | UseCase | update-campaign', () => {
   context('when campaign exists', () => {
     it('should update the campaign title only', () => {
       // given
-      const updatedCampaign = {
+      const updatedCampaign = domainBuilder.buildCampaign.ofTypeAssessment({
         ...originalCampaign,
         title: 'New title',
-      };
+      });
 
       // when
       const promise = updateCampaign({
@@ -68,10 +69,10 @@ describe('Unit | UseCase | update-campaign', () => {
 
     it('should update the campaign page text only', () => {
       // given
-      const updatedCampaign = {
+      const updatedCampaign = domainBuilder.buildCampaign({
         ...originalCampaign,
         customLandingPageText: 'New text',
-      };
+      });
 
       // when
       const promise = updateCampaign({
@@ -92,7 +93,7 @@ describe('Unit | UseCase | update-campaign', () => {
 
     it('should update the campaign archive date only', () => {
       // given
-      const updatedCampaign = { ...originalCampaign };
+      const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
 
       // when
       const promise = updateCampaign({
@@ -112,10 +113,10 @@ describe('Unit | UseCase | update-campaign', () => {
 
     it('should update the campaign name only', () => {
       // given
-      const updatedCampaign = {
+      const updatedCampaign = domainBuilder.buildCampaign({
         ...originalCampaign,
         name: 'New Name',
-      };
+      });
 
       // when
       const promise = updateCampaign({
@@ -135,9 +136,9 @@ describe('Unit | UseCase | update-campaign', () => {
       });
     });
 
-    it('should not update the campaign name if campaign name is undefine', () => {
+    it('should not update the campaign name if campaign name is undefined', () => {
       // given
-      const updatedCampaign = { ...originalCampaign };
+      const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
 
       // when
       const promise = updateCampaign({
@@ -224,13 +225,13 @@ describe('Unit | UseCase | update-campaign', () => {
     });
 
     it('should throw an error when the campaign is not valid', async () => {
-      originalCampaign = {
+      originalCampaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({
         id: 1,
         name: 'I cannot have title',
         customLandingPageText: 'All our hopes now lie with one little test',
-        type: 'PROFILES_COLLECTION',
-        organizationId,
-      };
+        organization: { id: organizationId },
+        creator: { id: creatorId },
+      });
 
       campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
 

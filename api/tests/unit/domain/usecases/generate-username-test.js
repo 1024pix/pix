@@ -40,7 +40,7 @@ describe('Unit | UseCase | generate-username', () => {
 
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
       .withArgs(campaignCode)
-      .resolves({ organizationId });
+      .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
     getForObfuscationStub = sinon.stub(userRepository, 'getForObfuscation');
     findByOrganizationIdAndBirthdateStub = sinon.stub(schoolingRegistrationRepository, 'findByOrganizationIdAndBirthdate');
     getReconciledStudentByNationalStudentdStub = sinon.stub(studentRepository, 'getReconciledStudentByNationalStudentId');
