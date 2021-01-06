@@ -8,9 +8,6 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession } from 'ember-simple-auth/test-support';
 
-const ASSESSMENT = 'ASSESSMENT';
-const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
-
 describe('Acceptance | User dashboard page', function() {
   setupApplicationTest();
   setupMirage();
@@ -59,7 +56,7 @@ describe('Acceptance | User dashboard page', function() {
       beforeEach(async function() {
         uncompletedCampaign = server.create('campaign', {
           idPixLabel: 'email',
-          type: ASSESSMENT,
+          isAssessment: true,
           isArchived: false,
         }, 'withThreeChallenges');
 
@@ -99,9 +96,8 @@ describe('Acceptance | User dashboard page', function() {
       beforeEach(async function() {
         unsharedCampaign = server.create('campaign', {
           idPixLabel: 'email',
-          type: ASSESSMENT,
           isArchived: false,
-        }, 'withThreeChallenges');
+        }, 'withThreeChallenges', 'ofTypeAssessment');
 
         unsharedCampaignParticipation = server.create('campaign-participation', {
           campaign: unsharedCampaign,
@@ -141,7 +137,7 @@ describe('Acceptance | User dashboard page', function() {
 
     context('when user has completed the campaign and shared his/her results', () => {
       beforeEach(async function() {
-        const sharedCampaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
+        const sharedCampaign = server.create('campaign', { isArchived: false }, 'ofTypeAssessment');
         const sharedCampaignParticipation = server.create('campaign-participation', {
           campaign: sharedCampaign,
           user,
@@ -161,15 +157,14 @@ describe('Acceptance | User dashboard page', function() {
     });
   });
 
-  describe('when user is doing a campaign of type collect profile', function() {
+  describe('when user is doing a campaign of type profiles collection', function() {
 
     beforeEach(async function() {
       await authenticateByEmail(user);
       const collectProfileCampaign = server.create('campaign', {
         idPixLabel: 'email',
         isArchived: false,
-        type: PROFILES_COLLECTION,
-      }, 'withThreeChallenges');
+      }, 'withThreeChallenges', 'ofTypeProfilesCollection');
       server.create('campaign-participation', {
         campaign: collectProfileCampaign,
         user,

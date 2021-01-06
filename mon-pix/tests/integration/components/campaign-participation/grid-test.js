@@ -22,12 +22,12 @@ describe('Integration | Component | CampaignParticipation | Grid', function() {
       EmberObject.create({
         createdAt: '2020-12-10T15:16:20.109Z',
         assessment: EmberObject.create({ isCompleted: false, state: 'started' }),
-        campaign: { title: 'My campaign 1', isTypeAssessment: true },
+        campaign: { title: 'My campaign 1', isAssessment: true },
       }),
       EmberObject.create({
         createdAt: '2020-12-10T15:16:20.109Z',
         assessment: EmberObject.create({ isCompleted: false, state: 'started' }),
-        campaign: { title: 'My campaign 2', isTypeAssessment: true },
+        campaign: { title: 'My campaign 2', isAssessment: true },
       }),
     ];
     this.set('campaignParticipations', campaignParticipations);

@@ -16,6 +16,8 @@ module.exports = function buildCampaignToJoin({
   organizationType = types.PRO,
   organizationLogoUrl = 'baseCodeOrgaLogoImage',
   organizationIsManagingStudents = false,
+  targetProfileName = 'Le profil cible',
+  targetProfileImageUrl = 'targetProfileImageUrl',
 } = {}) {
   return new CampaignToJoin({
     id,
@@ -32,5 +34,7 @@ module.exports = function buildCampaignToJoin({
     organizationType,
     organizationLogoUrl,
     organizationIsManagingStudents,
+    targetProfileName,
+    targetProfileImageUrl,
   });
 };

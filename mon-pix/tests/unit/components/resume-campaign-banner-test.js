@@ -16,7 +16,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2018-01-01',
     campaign: EmberObject.create({
       code: 'AZERTY0',
-      isTypeAssessment: true,
+      isAssessment: true,
     }),
   });
   const oldCampaignNotFinished = EmberObject.create({
@@ -24,7 +24,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2017-01-01',
     campaign: EmberObject.create({
       code: 'AZERTY1',
-      isTypeAssessment: true,
+      isAssessment: true,
     }),
   });
   const campaignFinished = EmberObject.create({
@@ -32,7 +32,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2018-12-12',
     campaign: EmberObject.create({
       code: 'AZERTY2',
-      isTypeAssessment: true,
+      isAssessment: true,
     }),
     assessment: EmberObject.create({
       isCompleted: true,
@@ -43,7 +43,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     createdAt: '2017-12-12',
     campaign: EmberObject.create({
       code: 'AZERTY3',
-      isTypeAssessment: true,
+      isAssessment: true,
     }),
     assessment: EmberObject.create({
       isCompleted: true,

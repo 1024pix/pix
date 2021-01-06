@@ -45,10 +45,9 @@ export default class FillInCampaignCodeController extends Controller {
 
     const campaignCode = this.campaignCode.toUpperCase();
     try {
-      const campaigns = await this.store.query('campaign', {
+      const campaign = await this.store.queryRecord('campaign', {
         filter: { code: campaignCode },
       });
-      const campaign = campaigns.get('firstObject');
       return this.transitionToRoute('campaigns.start-or-resume', campaign);
     } catch (error) {
       this.onStartCampaignError(error);

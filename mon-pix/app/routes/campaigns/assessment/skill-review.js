@@ -17,7 +17,6 @@ export default class SkillReviewRoute extends Route.extend(SecuredRouteMixin) {
 
   async afterModel(model) {
     await model.campaignParticipation.belongsTo('campaignParticipationResult').reload();
-    await model.campaignParticipation.belongsTo('campaign').reload({ include: 'targetProfile' });
     const improvableNextChallenge = await this.store.queryRecord('challenge', { assessmentId: model.assessment.id, tryImproving: true });
     model.displayImprovementButton = !!improvableNextChallenge;
   }

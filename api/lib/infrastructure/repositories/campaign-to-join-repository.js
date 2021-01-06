@@ -13,8 +13,11 @@ module.exports = {
         'organizationType': 'organizations.type',
         'organizationLogoUrl': 'organizations.logoUrl',
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
+        'targetProfileName': 'target-profiles.name',
+        'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
+      .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .where('campaigns.id', id)
       .first();
 
@@ -25,8 +28,32 @@ module.exports = {
     return new CampaignToJoin(result);
   },
 
+  async getByCode(code) {
+    const result = await knex('campaigns')
+      .select('campaigns.*')
+      .select({
+        'organizationId': 'organizations.id',
+        'organizationName': 'organizations.name',
+        'organizationType': 'organizations.type',
+        'organizationLogoUrl': 'organizations.logoUrl',
+        'organizationIsManagingStudents': 'organizations.isManagingStudents',
+        'targetProfileName': 'target-profiles.name',
+        'targetProfileImageUrl': 'target-profiles.imageUrl',
+      })
+      .join('organizations', 'organizations.id', 'campaigns.organizationId')
+      .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
+      .where('campaigns.code', code)
+      .first();
+
+    if (!result) {
+      throw new NotFoundError(`La campagne au code ${code} n'existe pas ou son accès est restreint`);
+    }
+
+    return new CampaignToJoin(result);
+  },
+
   async isCampaignJoinableByUser(campaign, userId) {
-    if (campaign.isArchived()) {
+    if (campaign.isArchived) {
       return false;
     }
 
