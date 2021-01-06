@@ -58,5 +58,29 @@
     "competenceId": "recoVElv3xmVppK5a",
     "createdAt": "2019-04-21T06:00:00Z",
     "earnedPix": 0.65
+  },
+  {
+    "id": 6,
+    "userId": 5,
+    "assessmentId": 4,
+    "source": "direct",
+    "answerId": 6,
+    "status": "validated",
+    "skillId": "recdFsWU9ij5bXZhD",
+    "competenceId": "recoVElv3xmVppK5a",
+    "createdAt": "2019-04-21T06:00:00Z",
+    "earnedPix": 0.65
+  },
+  {
+    "id": 7,
+    "userId": 5,
+    "assessmentId": 4,
+    "source": "direct",
+    "answerId": 7,
+    "status": "validated",
+    "skillId": "recJieHaORILprKhL",
+    "competenceId": "recxlJqKdbWHHFZMQ",
+    "createdAt": "2019-04-21T06:00:00Z",
+    "earnedPix": 0.35
   }
 ]
