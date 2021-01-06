@@ -82,18 +82,6 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/campaigns/{id}/campaign-report',
-      config: {
-        handler: campaignController.getReport,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du rapport d\'une campagne',
-        ],
-        tags: ['api', 'campaign'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/campaigns/{id}/collective-results',
       config: {
         handler: campaignController.getCollectiveResult,
