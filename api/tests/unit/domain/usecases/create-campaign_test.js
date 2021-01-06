@@ -3,12 +3,15 @@ const createCampaign = require('../../../../lib/domain/usecases/create-campaign'
 const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
+const Campaign = require('../../../../lib/domain/models/Campaign');
 const _ = require('lodash');
 
 describe('Unit | UseCase | create-campaign', () => {
 
   const availableCampaignCode = 'ABCDEF123';
   const targetProfileId = 12;
+  const creatorId = 13;
+  const organizationId = 14;
   let campaignToCreate;
   const savedCampaign = domainBuilder.buildCampaign({ code: availableCampaignCode });
   const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId, isPublic: true });
@@ -18,14 +21,14 @@ describe('Unit | UseCase | create-campaign', () => {
   const organizationService = { findAllTargetProfilesAvailableForOrganization: () => undefined };
 
   function _stubGetUserWithOrganizationsAccesses(organizationIdUserHasAccessTo) {
-    const userWithMembership = domainBuilder.buildUser();
+    const userWithMembership = domainBuilder.buildUser({ id: creatorId });
     userWithMembership.memberships[0].organization.id = organizationIdUserHasAccessTo;
-    userRepository.getWithMemberships.resolves(userWithMembership);
-    organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
+    userRepository.getWithMemberships.withArgs(creatorId).resolves(userWithMembership);
+    organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(organizationId).resolves([targetProfile]);
   }
 
   beforeEach(() => {
-    campaignToCreate = domainBuilder.buildCampaign.ofTypeAssessment({ id: '', code: '', targetProfileId });
+    campaignToCreate = { creatorId, targetProfileId, organizationId };
     sinon.stub(campaignCodeGenerator, 'generate');
     sinon.stub(campaignRepository, 'create');
     sinon.stub(campaignValidator, 'validate');
@@ -66,7 +69,7 @@ describe('Unit | UseCase | create-campaign', () => {
     _stubGetUserWithOrganizationsAccesses(organization.id);
     campaignValidator.validate.returns();
 
-    campaignToCreate = domainBuilder.buildCampaign.ofTypeProfilesCollection({ id: '', code: '', organizationId: organization.id });
+    campaignToCreate = { name: 'Nom', type: Campaign.types.PROFILES_COLLECTION, organizationId: organization.id, creatorId, targetProfileId };
 
     // when
     const error = await catchErr(createCampaign)({ campaign: campaignToCreate, campaignRepository, userRepository, organizationRepository, organizationService });

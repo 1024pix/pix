@@ -1,5 +1,6 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
+const Campaign = require('../../../../lib/domain/models/Campaign');
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
@@ -12,21 +13,23 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
 
 describe('Unit | Domain | Validators | campaign-validator', function() {
 
-  const campaignOfTypeProfilesCollection = domainBuilder.buildCampaign.ofTypeProfilesCollection({
+  const campaignOfTypeProfilesCollection = {
     name: 'campagne de collecte de profils',
+    type: Campaign.types.PROFILES_COLLECTION,
     creatorId: 4,
     organizationId: 12,
     idPixLabel: 'Mail Pro',
-  });
+  };
 
-  const campaignOfTypeAssessment = domainBuilder.buildCampaign.ofTypeAssessment({
+  const campaignOfTypeAssessment = {
     name: 'campagne d\'évaluation',
+    type: Campaign.types.ASSESSMENT,
     title: 'Campagne d\'évaluation',
     creatorId: 4,
     organizationId: 12,
     idPixLabel: 'Mail Pro',
     targetProfileId: 44,
-  });
+  };
 
   describe('#validate', () => {
 

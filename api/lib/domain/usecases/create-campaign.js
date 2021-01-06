@@ -10,9 +10,7 @@ module.exports = async function createCampaign({ campaign, campaignRepository, u
   await _checkIfUserCanCreateCampaign(campaign, userRepository, organizationRepository, organizationService);
 
   const generatedCampaignCode = await campaignCodeGenerator.generate(campaignRepository);
-  const campaignWithCode = new Campaign(campaign);
-  campaignWithCode.code = generatedCampaignCode;
-  return campaignRepository.create(campaignWithCode);
+  return campaignRepository.create({ ...campaign, code: generatedCampaignCode });
 };
 
 async function _checkIfUserCanCreateCampaign(campaign, userRepository, organizationRepository, organizationService) {
@@ -20,10 +18,10 @@ async function _checkIfUserCanCreateCampaign(campaign, userRepository, organizat
     throw new UserNotAuthorizedToCreateCampaignError(`User does not have an access to the organization ${campaign.organizationId}`);
   }
 
-  if (campaign.isProfilesCollection() && !await _canOrganizationCollectProfiles(campaign.organizationId, organizationRepository)) {
+  if (campaign.type === Campaign.types.PROFILES_COLLECTION && !await _canOrganizationCollectProfiles(campaign.organizationId, organizationRepository)) {
     throw new UserNotAuthorizedToCreateCampaignError('Organization can not create campaign with type PROFILES_COLLECTION');
   }
-  if (campaign.isAssessment() && !await _hasOrganizationAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService)) {
+  if (campaign.type === Campaign.types.ASSESSMENT && !await _hasOrganizationAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService)) {
     throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${campaign.targetProfileId}`);
   }
 }

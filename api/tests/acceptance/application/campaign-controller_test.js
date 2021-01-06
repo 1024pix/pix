@@ -472,13 +472,18 @@ describe('Acceptance | API | Campaign Controller', () => {
           attributes: {
             'name': 'Campagne collège',
             'type': 'ASSESSMENT',
-            'organization-id': `${organization.id}`,
           },
           relationships: {
             'target-profile': {
               data: {
                 type: 'target-profiles',
                 id: `${targetProfile.id}`,
+              },
+            },
+            organization: {
+              data: {
+                type: 'organizations',
+                id: `${organization.id}`,
               },
             },
           },
@@ -514,13 +519,18 @@ describe('Acceptance | API | Campaign Controller', () => {
           attributes: {
             'name': 'Campagne lycée',
             'type': 'PROFILES_COLLECTION',
-            'organization-id': `${organization.id}`,
           },
           relationships: {
             'target-profile': {
               data: {
                 type: 'target-profiles',
                 id: undefined,
+              },
+            },
+            organization: {
+              data: {
+                type: 'organizations',
+                id: `${organization.id}`,
               },
             },
           },
