@@ -90,6 +90,22 @@ module('Acceptance | Session Details', function(hooks) {
         assert.dom('.session-details-header-datetime__time .content-text').hasText('14:00');
       });
 
+      module('when FT_REPORTS_CATEGORISATION is on', function() {
+
+        test('it should show issue report sheet download button', async function(assert) {
+        // given
+          const sessionWithCandidates = server.create('session');
+          server.createList('certification-candidate', 3, { isLinked: true, sessionId: 1234321 });
+          server.create('feature-toggle', { id: 0, reportsCategorization: true });
+
+          // when
+          await visit(`/sessions/${sessionWithCandidates.id}`);
+
+          // then
+          assert.dom('[aria-label="Télécharger le pv d\'incident"]').hasText('PV d\'incident\u00a0');
+        });
+      });
+
       module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is on', function(hooks) {
 
         const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
@@ -102,7 +118,7 @@ module('Acceptance | Session Details', function(hooks) {
           config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
         });
 
-        test('it should show download button when there is one or more candidate', async function(assert) {
+        test('it should show attendance sheet download button when there is one or more candidate', async function(assert) {
           // given
           const sessionWithCandidates = server.create('session');
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionWithCandidates.id });
@@ -111,10 +127,10 @@ module('Acceptance | Session Details', function(hooks) {
           await visit(`/sessions/${sessionWithCandidates.id}`);
 
           // then
-          assert.dom('.session-details-header__title .button').hasText('Télécharger la feuille d\'émargement');
+          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').hasText('Feuille d\'émargement\u00a0');
         });
 
-        test('it should not show download button where there is no candidate', async function(assert) {
+        test('it should not show download attendance sheet button where there is no candidate', async function(assert) {
           // given
           const sessionWithoutCandidate = server.create('session');
 
@@ -122,7 +138,7 @@ module('Acceptance | Session Details', function(hooks) {
           await visit(`/sessions/${sessionWithoutCandidate.id}`);
 
           // then
-          assert.dom('.session-details-header__title .button').doesNotExist();
+          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').doesNotExist();
         });
       });
 
@@ -138,7 +154,7 @@ module('Acceptance | Session Details', function(hooks) {
           config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
         });
 
-        test('it should not show download button', async function(assert) {
+        test('it should not show download attendance sheet button', async function(assert) {
           // given
           const sessionWithCandidates = server.create('session');
           server.createList('certification-candidate', 3, { isLinked: true });
@@ -147,7 +163,7 @@ module('Acceptance | Session Details', function(hooks) {
           await visit(`/sessions/${sessionWithCandidates.id}`);
 
           // then
-          assert.dom('.session-details-header__title .button').doesNotExist();
+          assert.dom('[aria-label="Télécharger la feuille d\'émargement"]').doesNotExist();
         });
       });
     });

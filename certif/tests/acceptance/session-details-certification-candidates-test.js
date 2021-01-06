@@ -265,7 +265,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
             // when
             await visit(`/sessions/${session.id}/candidats`);
-            await click('.button.button--link');
+            await click('[aria-label="Ajouter des candidats"]');
 
             // then
             assert.equal(currentURL(), `/sessions/${session.id}/ajout-eleves`);
