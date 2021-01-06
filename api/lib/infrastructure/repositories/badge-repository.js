@@ -10,9 +10,21 @@ module.exports = {
         require: false,
         withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
       })
-      .then((results) =>
-        results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, result)),
-      );
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
+  },
+
+  findByCampaignId(campaignId) {
+    return BookshelfBadge
+      .query((qb) => {
+        qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
+        qb.join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
+      })
+      .where('campaigns.id', campaignId)
+      .fetchAll({
+        require: false,
+        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+      })
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
   findByCampaignParticipationId(campaignParticipationId) {
@@ -27,9 +39,7 @@ module.exports = {
         require: false,
         withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
       })
-      .then((results) =>
-        results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, result)),
-      );
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfBadge, results));
   },
 
 };

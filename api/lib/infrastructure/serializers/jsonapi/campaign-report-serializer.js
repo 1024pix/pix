@@ -12,11 +12,16 @@ module.exports = {
       attributes: ['name', 'code', 'title', 'type', 'createdAt', 'customLandingPageText', 'isArchived',
         'tokenForCampaignResults', 'idPixLabel', 'targetProfileId', 'targetProfileName', 'targetProfileImageUrl',
         'creatorId', 'creatorLastName', 'creatorFirstName', 'participationsCount', 'sharedParticipationsCount',
-        'campaignCollectiveResult', 'campaignAnalysis', 'divisions', 'stages'],
+        'campaignCollectiveResult', 'campaignAnalysis', 'divisions', 'stages', 'badges'],
       stages: {
         ref: 'id',
         included: true,
         attributes: ['title', 'message', 'threshold'],
+      },
+      badges: {
+        ref: 'id',
+        included: true,
+        attributes: ['title'],
       },
       campaignCollectiveResult: {
         ref: 'id',

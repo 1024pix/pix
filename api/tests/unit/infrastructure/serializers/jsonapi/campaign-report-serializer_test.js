@@ -17,6 +17,10 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
           message: 'stageMessage',
           threshold: 30,
         }],
+        badges: [{
+          id: 123,
+          title: 'badge123',
+        }],
       });
 
       // when
@@ -33,6 +37,14 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
                 {
                   id: report.stages[0].id.toString(),
                   type: 'stages',
+                },
+              ],
+            },
+            badges: {
+              data: [
+                {
+                  id: report.badges[0].id.toString(),
+                  type: 'badges',
                 },
               ],
             },
@@ -81,6 +93,13 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
             },
             id: report.stages[0].id.toString(),
             type: 'stages',
+          },
+          {
+            attributes: {
+              title: report.badges[0].title,
+            },
+            id: report.badges[0].id.toString(),
+            type: 'badges',
           },
         ],
       });
