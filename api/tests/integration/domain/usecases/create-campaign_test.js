@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, mockLearningContent, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const _ = require('lodash');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
@@ -41,11 +41,10 @@ describe('Integration | UseCases | create-campaign', () => {
 
   it('should save a new campaign of type ASSESSMENT', async () => {
     // given
-    const campaign = domainBuilder.buildCampaign.ofTypeAssessment({ creatorId: userId, organizationId, targetProfileId });
+    const campaign = { name: 'a name', type: Campaign.types.ASSESSMENT, title: 'a title', idPixLabel: 'id Pix label',
+      customLandingPageText: 'Hello', creatorId: userId, organizationId, targetProfileId };
 
-    const expectedAttributes = ['type', 'title', 'idPixLabel', 'name', 'organizationId',
-      'creatorId', 'isRestricted', 'customLandingPageText', 'archivedAt', 'campaignCollectiveResult', 'campaignReport',
-      'organizationLogoUrl', 'organizationName', 'targetProfileId' ];
+    const expectedAttributes = ['type', 'title', 'idPixLabel', 'name', 'customLandingPageText'];
 
     // when
     const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService });
@@ -61,11 +60,10 @@ describe('Integration | UseCases | create-campaign', () => {
 
   it('should save a new campaign of type PROFILES_COLLECTION', async () => {
     // given
-    const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({ creatorId: userId, organizationId });
+    const campaign = { name: 'a name', type: Campaign.types.PROFILES_COLLECTION, idPixLabel: 'id Pix label',
+      customLandingPageText: 'Hello', creatorId: userId, organizationId };
 
-    const expectedAttributes = ['type', 'title', 'idPixLabel', 'name', 'organizationId',
-      'creatorId', 'isRestricted', 'customLandingPageText', 'archivedAt', 'campaignCollectiveResult', 'campaignReport',
-      'organizationLogoUrl', 'organizationName', 'targetProfile', 'targetProfileId' ];
+    const expectedAttributes = ['type', 'idPixLabel', 'name', 'customLandingPageText'];
 
     // when
     const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService });
@@ -77,6 +75,5 @@ describe('Integration | UseCases | create-campaign', () => {
 
     expect('code').to.be.ok;
     expect('id').to.be.ok;
-
   });
 });
