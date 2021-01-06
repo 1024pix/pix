@@ -18,7 +18,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
   describe('#Component should renders: ', function() {
 
     it('Should renders', async function() {
-      await render(hbs`{{qcm-solution-panel}}`);
+      await render(hbs`<QcmSolutionPanel />`);
 
       expect(find('.qcm-solution-panel')).to.exist;
       expect(findAll('.qcm-proposal-label__oracle')).to.have.lengthOf(0);
@@ -52,7 +52,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         expect(findAll('.qcm-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('yes');
@@ -67,7 +67,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('no');
@@ -83,7 +83,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         expect(findAll('.qcm-proposal-label__oracle')[2].getAttribute('data-checked')).to.equal('no');
@@ -99,7 +99,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('yes');
@@ -113,7 +113,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
         const size = findAll('.comparison-window .qcm-proposal-label__checkbox-picture').length;
