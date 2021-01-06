@@ -2,7 +2,7 @@ const organizationService = require('../../domain/services/organization-service'
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
-const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
@@ -69,7 +69,7 @@ module.exports = {
       delete options.filter.status;
     }
     const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
-    return campaignSerializer.serialize(campaigns, meta, { ignoreCampaignReportRelationshipData: false });
+    return campaignReportSerializer.serialize(campaigns, meta);
   },
 
   async findPaginatedFilteredMemberships(request) {
