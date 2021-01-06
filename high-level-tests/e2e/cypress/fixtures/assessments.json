@@ -19,5 +19,12 @@
     "state": "aborted",
     "type": "CAMPAIGN",
     "userId": 6
+  },
+  {
+    "id": 4,
+    "campaignParticipationId": 6,
+    "state": "completed",
+    "type": "CAMPAIGN",
+    "userId": 5
   }
 ]
