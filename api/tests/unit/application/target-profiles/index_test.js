@@ -4,8 +4,6 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-
 describe('Integration | Application | Target Profiles | Routes', () => {
 
   let httpTestServer;
