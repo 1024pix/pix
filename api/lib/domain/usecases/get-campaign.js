@@ -1,10 +1,16 @@
 const { NotFoundError } = require('../../domain/errors');
 
-module.exports = function getCampaign({ campaignId, options, campaignRepository }) {
+module.exports = async function getCampaign({ campaignId, campaignReportRepository, stageRepository }) {
   const integerCampaignId = parseInt(campaignId);
   if (!Number.isFinite(integerCampaignId)) {
     throw new NotFoundError(`Campaign not found for ID ${campaignId}`);
   }
 
-  return campaignRepository.get(integerCampaignId, options);
+  const [campaignReport, stages] = await Promise.all([
+    campaignReportRepository.get(integerCampaignId),
+    stageRepository.findByCampaignId(integerCampaignId),
+  ]);
+
+  campaignReport.stages = stages;
+  return campaignReport;
 };
