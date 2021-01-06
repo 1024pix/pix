@@ -77,7 +77,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
 
     campaignRepository.getByCode
       .withArgs(campaignCode)
-      .resolves({ organizationId });
+      .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
     userRepository.isUsernameAvailable.resolves();
     userRepository.isEmailAvailable.resolves();
 

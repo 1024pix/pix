@@ -2,6 +2,54 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Campaign', () => {
 
+  describe('#organizationId', () => {
+    it('should return id of the organization', () => {
+      // given
+      const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
+
+      // when
+      const organizationId = campaign.organizationId;
+
+      // then
+      expect(organizationId).to.equal(campaign.organization.id);
+    });
+
+    it('should return null if campaign has no organization', () => {
+      // given
+      const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({ organization: null });
+
+      // when
+      const organizationId = campaign.organizationId;
+
+      // then
+      expect(organizationId).to.equal(null);
+    });
+  });
+
+  describe('#targetProfileId', () => {
+    it('should return id of the targetProfile', () => {
+      // given
+      const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
+
+      // when
+      const targetProfileId = campaign.targetProfileId;
+
+      // then
+      expect(targetProfileId).to.equal(campaign.targetProfile.id);
+    });
+
+    it('should return null if campaign has no targetProfile', () => {
+      // given
+      const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
+
+      // when
+      const targetProfileId = campaign.targetProfileId;
+
+      // then
+      expect(targetProfileId).to.equal(null);
+    });
+  });
+
   describe('isAssessment', () => {
 
     it('should return true when campaign is of type assessment', () => {

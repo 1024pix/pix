@@ -18,7 +18,6 @@ module.exports = async function updateCampaign(
   ]);
 
   const organizationId = campaign.organizationId;
-
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToUpdateResourceError(`User does not have an access to the organization ${organizationId}`);
   }
