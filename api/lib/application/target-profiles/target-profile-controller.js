@@ -34,7 +34,7 @@ module.exports = {
   },
 
   updateTargetProfile: async (request, h) => {
-    const id = parseInt(request.params.id);
+    const id = request.params.id;
     const { name } = request.payload.data.attributes;
     await usecases.updateTargetProfileName({ id, name });
     return h.response({}).code(204);

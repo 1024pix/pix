@@ -119,6 +119,9 @@ exports.register = async (server) => {
           assign: 'hasRolePixMaster',
         }],
         validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
           payload: Joi.object({
             data: {
               attributes: {

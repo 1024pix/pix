@@ -4,6 +4,8 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
+const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
+
 describe('Integration | Application | Target Profiles | Routes', () => {
 
   let httpTestServer;
@@ -188,6 +190,7 @@ describe('Integration | Application | Target Profiles | Routes', () => {
       // then
       expect(response.statusCode).to.equal(204);
     });
+
     it('should return a 400 error when payload does not exist', async () => {
       // given
       const method = 'PATCH';
@@ -204,6 +207,32 @@ describe('Integration | Application | Target Profiles | Routes', () => {
       // then
       expect(response.statusCode).to.equal(400);
     });
+
+    describe('when user does not have a Pix Master role', () => {
+
+      const method = 'PATCH';
+      const payload = { data: {
+        attributes: {
+          name: 'Not Pix Admin',
+        },
+      } };
+      const url = '/api/admin/target-profiles/9999999';
+
+      it('should resolve a 403 HTTP response', async () => {
+        //Given
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+    });
+
   });
 
 });

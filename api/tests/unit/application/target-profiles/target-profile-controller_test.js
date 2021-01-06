@@ -42,7 +42,7 @@ describe('Unit | Controller | target-profile-controller', () => {
 
         // then
         expect(usecases.updateTargetProfileName).to.have.been.calledOnce;
-        expect(usecases.updateTargetProfileName).to.have.been.calledWithMatch({ id: 123, name: 'Pixer123' });
+        expect(usecases.updateTargetProfileName).to.have.been.calledWithMatch({ id: '123', name: 'Pixer123' });
       });
 
     });
