@@ -1,4 +1,4 @@
-const { types } = require('./Campaign');
+const { types } = require('../models/Campaign');
 
 class CampaignToJoin {
   constructor({
@@ -51,7 +51,5 @@ class CampaignToJoin {
     return Boolean(this.archivedAt);
   }
 }
-
-CampaignToJoin.types = types;
 
 module.exports = CampaignToJoin;
