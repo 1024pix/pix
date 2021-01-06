@@ -2,7 +2,6 @@ const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
-const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
@@ -18,7 +17,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'createCampaign');
-      sinon.stub(campaignSerializer, 'serialize');
+      sinon.stub(campaignReportSerializer, 'serialize');
     });
 
     it('should return a serialized campaign when the campaign has been successfully created', async () => {
@@ -56,7 +55,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const expectedResult = Symbol('result');
       const createdCampaign = Symbol('created campaign');
       usecases.createCampaign.withArgs({ campaign }).resolves(createdCampaign);
-      campaignSerializer.serialize.withArgs(createdCampaign).returns(expectedResult);
+      campaignReportSerializer.serialize.withArgs(createdCampaign).returns(expectedResult);
 
       // when
       const response = await campaignController.save(request, hFake);
@@ -297,13 +296,13 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       sinon.stub(usecases, 'updateCampaign');
-      sinon.stub(campaignSerializer, 'serialize');
+      sinon.stub(campaignReportSerializer, 'serialize');
     });
 
     it('should return the updated campaign', async () => {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
-      campaignSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
 
       // when
       const response = await campaignController.update(request, hFake);
@@ -398,7 +397,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'archiveCampaign');
-      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
@@ -406,7 +405,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     it('should return the updated campaign properly serialized', async () => {
       // given
       usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
-      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
 
       // when
       const response = await campaignController.archiveCampaign({
@@ -431,7 +430,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'unarchiveCampaign');
-      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
@@ -439,7 +438,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     it('should return the updated campaign properly serialized', async () => {
       // given
       usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
-      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
 
       // when
       const response = await campaignController.unarchiveCampaign({
