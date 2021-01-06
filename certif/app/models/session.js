@@ -54,4 +54,8 @@ export default class Session extends Model {
   get displayStatus() {
     return statusToDisplayName[this.status];
   }
+
+  get urlToDownloadSessionIssueReportSheet() {
+    return ENV.urlToDownloadSessionIssueReportSheet;
+  }
 }

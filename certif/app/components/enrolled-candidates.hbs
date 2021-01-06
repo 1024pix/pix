@@ -7,7 +7,7 @@
       {{/if}}
     </div>
     {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-      <LinkTo @route="authenticated.sessions.add-student" @model={{@sessionId}} class="button button--link enrolled-candidate__add-students">
+      <LinkTo @route="authenticated.sessions.add-student" @model={{@sessionId}} class="button button--link enrolled-candidate__add-students" aria-label="Ajouter des candidats">
         Ajouter des candidats
       </LinkTo>
     {{else}}
