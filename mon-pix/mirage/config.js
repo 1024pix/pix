@@ -44,9 +44,6 @@ export default function() {
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 
   this.get('/campaigns', getCampaigns);
-  this.get('/campaigns/:id?include=targetProfile', (schema, request) => {
-    return schema.campaigns.find(request.params['id?include=targetProfile']);
-  });
 
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
 

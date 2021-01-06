@@ -16,32 +16,36 @@ class CampaignToJoin {
     organizationType,
     organizationLogoUrl,
     organizationIsManagingStudents,
+    targetProfileName,
+    targetProfileImageUrl,
   } = {}) {
     this.id = id;
     this.code = code;
     this.title = title;
+    this.type = type;
     this.idPixLabel = idPixLabel;
     this.customLandingPageText = customLandingPageText;
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.archivedAt = archivedAt;
-    this.type = type;
+    this.isRestricted = organizationIsManagingStudents;
     this.organizationId = organizationId;
     this.organizationName = organizationName;
     this.organizationType = organizationType;
     this.organizationLogoUrl = organizationLogoUrl;
-    this.isRestricted = organizationIsManagingStudents;
+    this.targetProfileName = targetProfileName;
+    this.targetProfileImageUrl = targetProfileImageUrl;
   }
 
-  isAssessment() {
+  get isAssessment() {
     return this.type === types.ASSESSMENT;
   }
 
-  isProfilesCollection() {
+  get isProfilesCollection() {
     return this.type === types.PROFILES_COLLECTION;
   }
 
-  isArchived() {
+  get isArchived() {
     return Boolean(this.archivedAt);
   }
 }
