@@ -26,7 +26,6 @@ module('Acceptance | Certification-center Form', function(hooks) {
     await fillIn('#certificationCenterName', name);
     await selectChoose('#certificationCenterTypeSelector', type.label);
     await fillIn('#certificationCenterExternalId', externalId);
-
     await click('button[type=submit]');
 
     // then

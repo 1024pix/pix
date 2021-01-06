@@ -1,0 +1,28 @@
+<section class="page-section mb_10">
+  <div class="organization__edit-form">
+    <form class="form" {{on "submit" this.updateProfileName}}>
+
+      <span class="form__instructions">
+        Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont
+        obligatoires.
+      </span>
+
+      <div class="form-field">
+        <label for="targetProfileName" class="form-field__label">
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom
+        </label>
+        {{#if (v-get this.form 'name' 'isInvalid')}}
+        <div class="form-field__error">
+          {{v-get this.form 'name' 'message'}}
+        </div>
+        {{/if}}
+        <Input id="targetProfileName" @type="text" class={{if (v-get this.form 'name' 'isInvalid'
+          ) "form-control is-invalid" "form-control" }} @value={{this.form.name}} required={{true}} />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-outline-default" type="button" {{on "click" @toggleEditMode}}>Annuler</button>
+        <button class="btn btn-success" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</section>

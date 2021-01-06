@@ -8,35 +8,8 @@
 
 <main class="page-body">
   {{#if this.isEditMode}}
-  <section class="page-section mb_10">
-    <div class="organization__edit-form">
-      <form class="form" {{on "submit" this.updateProfileName}}>
 
-        <span class="form__instructions">
-          Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont
-          obligatoires.
-        </span>
-
-        <div class="form-field">
-          <label for="targetProfileName" class="form-field__label">
-            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom
-          </label>
-          {{#if (v-get this.form 'name' 'isInvalid')}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ nom">
-            {{v-get this.form 'name' 'message'}}
-          </div>
-          {{/if}}
-          <Input id="targetProfileName" @type="text" class={{if (v-get this.form 'name' 'isInvalid'
-            ) "form-control is-invalid" "form-control" }} @value={{this.form.name}} required={{true}} />
-        </div>
-        <div class="form-actions">
-          <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click"
-            this.cancel}}>Annuler</button>
-          <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>
-        </div>
-      </form>
-    </div>
-  </section>
+  <TargetProfiles::update-target-profile-name @model={{@model}} @toggleEditMode={{this.toggleEditMode}} />
 
   {{else}}
   <section class="page-section mb_10">
@@ -51,9 +24,7 @@
         {{@model.organizationId}} </LinkTo><br>
     </div>
     <br>
-    <button type="button" class="btn btn-outline-default" aria-label="Editer" {{on "click"
-      this.toggleEditMode}}>Editer</button>
-
+    <button type="button" class="btn btn-outline-default" {{on "click" this.toggleEditMode}}>Editer</button>
   </section>
 
   {{/if}}
