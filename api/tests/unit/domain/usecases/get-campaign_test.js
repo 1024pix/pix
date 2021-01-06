@@ -7,6 +7,7 @@ describe('Unit | UseCase | get-campaign', () => {
   let campaign;
   let campaignReportRepository;
   let stageRepository;
+  let badgeRepository;
 
   beforeEach(() => {
     campaign = {
@@ -19,6 +20,9 @@ describe('Unit | UseCase | get-campaign', () => {
     stageRepository = {
       findByCampaignId: sinon.stub(),
     };
+    badgeRepository = {
+      findByCampaignId: sinon.stub(),
+    };
   });
 
   it('should get the campaign', async () => {
@@ -27,7 +31,7 @@ describe('Unit | UseCase | get-campaign', () => {
     stageRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves();
 
     // when
-    const resultCampaign = await getCampaign({ campaignId: campaign.id, campaignReportRepository, stageRepository });
+    const resultCampaign = await getCampaign({ campaignId: campaign.id, badgeRepository, campaignReportRepository, stageRepository });
 
     // then
     expect(resultCampaign.name).to.equal(campaign.name);
@@ -40,10 +44,23 @@ describe('Unit | UseCase | get-campaign', () => {
     stageRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves(stages);
 
     // when
-    const resultCampaign = await getCampaign({ campaignId: campaign.id, campaignReportRepository, stageRepository });
+    const resultCampaign = await getCampaign({ campaignId: campaign.id, badgeRepository, campaignReportRepository, stageRepository });
 
     // then
     expect(resultCampaign.stages).to.equal(stages);
+  });
+
+  it('should get campaign badges', async () => {
+    // given
+    const badges = Symbol('badges');
+    campaignReportRepository.get.withArgs(parseInt(campaign.id)).resolves(campaign);
+    badgeRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves(badges);
+
+    // when
+    const resultCampaign = await getCampaign({ campaignId: campaign.id, badgeRepository, campaignReportRepository, stageRepository });
+
+    // then
+    expect(resultCampaign.badges).to.equal(badges);
   });
 
   it('should throw a Not found error when the campaign is searched with a not valid ID', async () => {
