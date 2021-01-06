@@ -40,12 +40,11 @@ module.exports = {
     return campaignToJoinSerializer.serialize(campaignToJoin);
   },
 
-  getById(request) {
+  async getById(request) {
     const campaignId = request.params.id;
-    const options = queryParamsUtils.extractParameters(request.query);
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
-    return usecases.getCampaign({ campaignId, options })
-      .then((campaign) => campaignSerializer.serialize(campaign, {}, { tokenForCampaignResults }));
+    const campaign = await usecases.getCampaign({ campaignId });
+    return campaignReportSerializer.serialize(campaign, {}, { tokenForCampaignResults });
   },
 
   async getCsvAssessmentResults(request) {
