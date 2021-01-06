@@ -119,14 +119,6 @@ module.exports = {
       .then(campaignReportSerializer.serialize);
   },
 
-  async getReport(request) {
-    const campaignId = parseInt(request.params.id);
-
-    const report = await usecases.getCampaignReport({ campaignId });
-
-    return campaignReportSerializer.serialize(report);
-  },
-
   async getCollectiveResult(request) {
     const { userId } = request.auth.credentials;
     const campaignId = parseInt(request.params.id);
