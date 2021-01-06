@@ -5,7 +5,7 @@ const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { NotFoundError, AlreadyExistingEntityError } = require('../../domain/errors');
+const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -131,7 +131,7 @@ module.exports = {
       if (error instanceof BookshelfTargetProfile.NoRowsUpdatedError) {
         throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
       }
-      throw error;
+      throw new ObjectValidationError;
     }
   },
 };
