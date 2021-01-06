@@ -37,9 +37,11 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    line-height: normal;
   }
 
   &__subtitle {
+    display: block;
     margin-top: 8px;
     color: $grey-50;
     font-size: 0.875rem;

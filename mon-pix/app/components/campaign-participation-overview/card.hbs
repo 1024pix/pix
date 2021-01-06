@@ -5,8 +5,8 @@
             @color={{this.status.tagColor}}>
       {{t this.status.tagText}}
     </PixTag>
-    <h1 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h1>
-    <h2 class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</h2>
+    <h3 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h3>
+    <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
     <time class="campaign-participation-overview-card-header__date"
           datetime="{{@model.createdAt}}">
       {{t 'pages.campaign-participation-overview.card.created-at' createddate=(format-date @model.createdAt)}}
