@@ -58,7 +58,7 @@
         @model={{@campaign}}
         class="navbar-item"
       >
-        Participants ({{@campaign.campaignReport.participationsCount}})
+        Participants ({{@campaign.participationsCount}})
       </LinkTo>
       {{#if @campaign.isTypeAssessment}}
         <LinkTo @route="authenticated.campaigns.campaign.collective-results" @model={{@campaign}} class="navbar-item">
