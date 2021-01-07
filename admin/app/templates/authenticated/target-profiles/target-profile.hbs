@@ -7,7 +7,11 @@
 </header>
 
 <main class="page-body">
+  {{#if this.isEditMode}}
 
+  <TargetProfiles::update-target-profile-name @model={{@model}} @toggleEditMode={{this.toggleEditMode}} />
+
+  {{else}}
   <section class="page-section mb_10">
     <div class="page-section__header">
       <h1 class="page-section__title">{{@model.name}}</h1>
@@ -16,9 +20,14 @@
       ID : {{@model.id}}<br>
       Public : {{this.isPublic}}<br>
       Archivé : {{this.isOutdated}}<br>
-      Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}> {{@model.organizationId}} </LinkTo><br>
+      Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}>
+        {{@model.organizationId}} </LinkTo><br>
     </div>
+    <br>
+    <button type="button" class="btn btn-outline-default" {{on "click" this.toggleEditMode}}>Editer</button>
   </section>
+
+  {{/if}}
 
   <nav class="navbar">
     <LinkTo @route="authenticated.target-profiles.target-profile.details" @model={{@model}} class="navbar-item">

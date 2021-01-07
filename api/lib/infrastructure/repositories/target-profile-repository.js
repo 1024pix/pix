@@ -5,7 +5,7 @@ const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { NotFoundError, AlreadyExistingEntityError } = require('../../domain/errors');
+const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -28,12 +28,13 @@ module.exports = {
         qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
       })
       .where({ 'campaigns.id': campaignId })
-      .fetch({ require: true, withRelated: [
-        'skillIds', {
-          stages: function(query) {
-            query.orderBy('threshold', 'ASC');
-          },
-        }],
+      .fetch({
+        require: true, withRelated: [
+          'skillIds', {
+            stages: function(query) {
+              query.orderBy('threshold', 'ASC');
+            },
+          }],
       });
 
     return _getWithLearningContentSkills(targetProfileBookshelf);
@@ -47,12 +48,13 @@ module.exports = {
         qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
       })
       .where({ 'campaign-participations.id': campaignParticipationId })
-      .fetch({ require: true, withRelated: [
-        'skillIds', {
-          stages: function(query) {
-            query.orderBy('threshold', 'ASC');
-          },
-        }],
+      .fetch({
+        require: true, withRelated: [
+          'skillIds', {
+            stages: function(query) {
+              query.orderBy('threshold', 'ASC');
+            },
+          }],
       });
 
     return _getWithLearningContentSkills(targetProfileBookshelf);
@@ -119,6 +121,18 @@ module.exports = {
       .whereIn('organizationId', targetProfile.organizations);
 
     return attachedOrganizations.some((e) => e);
+  },
+
+  async updateName(targetProfile) {
+    try {
+      await new BookshelfTargetProfile({ id: targetProfile.id })
+        .save({ name: targetProfile.name }, { patch: true });
+    } catch (error) {
+      if (error instanceof BookshelfTargetProfile.NoRowsUpdatedError) {
+        throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
+      }
+      throw new ObjectValidationError;
+    }
   },
 };
 
