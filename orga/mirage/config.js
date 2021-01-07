@@ -245,14 +245,6 @@ export default function() {
     return new Response(422);
   });
 
-  this.get('/campaigns/:id/campaign-report', (schema, request) => {
-    const campaignId = request.params.id;
-    const campaign = schema.campaigns.find(campaignId);
-    const foundCampaignReport = campaign.campaignReport;
-    const emptyCampaignReport = schema.campaignReports.create({ participationsCount: 0, sharedParticipationsCount: 0 });
-    return foundCampaignReport ? foundCampaignReport : emptyCampaignReport;
-  });
-
   this.get('/campaigns/:id/collective-results', (schema, request) => {
     const campaignId = request.params.id;
     const campaign = schema.campaigns.find(campaignId);
