@@ -9,8 +9,4 @@ export default class User extends Model {
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @hasMany('membership') memberships;
   @belongsTo('user-orga-setting') userOrgaSettings;
-
-  get fullName() {
-    return `${this.firstName} ${this.lastName}`;
-  }
 }
