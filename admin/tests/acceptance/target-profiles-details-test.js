@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, click, visit } from '@ember/test-helpers';
+import { currentURL, click, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -95,5 +95,35 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.dom('[aria-label="Organisation"]').containsText('PRO');
       assert.dom('[aria-label="Organisation"]').containsText('123');
     });
+
+    test('it should switch to edition mode', async function(assert) {
+      // given
+      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, organizationId: 456 });
+
+      // when
+      await visit('/target-profiles/1');
+      await click('button[type=button]');
+
+      // then
+      assert.dom('Editer').doesNotExist();
+
+    });
+
+    test('it should edit target profile name', async function(assert) {
+
+      // given
+      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, organizationId: 456 });
+
+      // when
+      await visit('/target-profiles/1');
+      await click('button[type=button]');
+      await fillIn('#targetProfileName', 'Profil Cible Fantastix Edited');
+      await click('button[type=submit]');
+
+      // then
+      assert.contains('Profil Cible Fantastix Edited');
+      assert.dom('Enregistrer').doesNotExist();
+    });
+
   });
 });

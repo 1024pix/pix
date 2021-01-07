@@ -32,4 +32,12 @@ module.exports = {
     await usecases.attachOrganizationsToTargetProfile({ targetProfileId, organizationIds });
     return h.response({}).code(204);
   },
+
+  updateTargetProfile: async (request, h) => {
+    const id = parseInt(request.params.id);
+    const { name } = request.payload.data.attributes;
+    await usecases.updateTargetProfileName({ id, name });
+    return h.response({}).code(204);
+  },
+
 };

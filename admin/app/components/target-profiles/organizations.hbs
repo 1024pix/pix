@@ -4,15 +4,10 @@
   </header>
   <div class="organization__forms-section">
     <form aria-label=">Rattacher une ou plusieurs organisation(s)" class="organization__sub-form form">
-      <Input
-              aria-label="ID de ou des organisation(s)"
-              @value={{@organizationsToAttach}}
-              class="organization-sub-form__input form-field__text form-control"
-              @placeholder="1, 2" />
-      <button
-              type="button"
-        {{on "click" @attachOrganizations}}
-              class="organization-sub-form__validate-button btn btn-outline-default">
+      <Input aria-label="ID de ou des organisation(s)" @value={{@organizationsToAttach}}
+        class="organization-sub-form__input form-field__text form-control" @placeholder="1, 2" />
+      <button type="button" {{on "click" @attachOrganizations}}
+        class="organization-sub-form__validate-button btn btn-outline-default">
         Valider
       </button>
     </form>
@@ -23,13 +18,7 @@
     <h2 class="page-section__title">Organisations</h2>
   </header>
 
-  <Organizations::ListItems
-    @organizations={{@organizations}}
-    @id={{@id}}
-    @name={{@name}}
-    @type={{@type}}
-    @externalId={{@externalId}}
-    @triggerFiltering={{@triggerFiltering}}
+  <Organizations::ListItems @organizations={{@organizations}} @id={{@id}} @name={{@name}} @type={{@type}}
+    @externalId={{@externalId}} @triggerFiltering={{@triggerFiltering}}
     @goToOrganizationPage={{@goToOrganizationPage}} />
 </section>
-

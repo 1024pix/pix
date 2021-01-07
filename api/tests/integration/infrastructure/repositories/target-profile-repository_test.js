@@ -4,7 +4,7 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const { NotFoundError, AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
+const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', () => {
 
@@ -508,4 +508,49 @@ describe('Integration | Repository | Target-profile', () => {
       });
     });
   });
+
+  describe('#updateName', () => {
+
+    it('should update the target profile name', async () => {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.name = 'Karam';
+      await targetProfileRepository.updateName(targetProfile);
+
+      // then
+      const { name } = await knex('target-profiles').select('name').where('id', targetProfile.id).first();
+      expect(name).to.equal(targetProfile.name);
+    });
+
+    it('should not update the target profile name and throw an error', async () => {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.id = 999999;
+      targetProfile.name = 'Karam';
+      const error = await catchErr(targetProfileRepository.updateName)(targetProfile);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
+    });
+
+    it('should not update the target profile name for an unknown error', async () => {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
+      await databaseBuilder.commit();
+
+      // when
+      targetProfile.name = null;
+      const error = await catchErr(targetProfileRepository.updateName)(targetProfile);
+
+      // then
+      expect(error).to.be.instanceOf(ObjectValidationError);
+    });
+  });
+
 });
