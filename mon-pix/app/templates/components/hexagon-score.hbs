@@ -1,5 +1,6 @@
-{{!-- template-lint-disable no-invalid-interactive --}}
-<div class="hexagon-score" {{on 'mouseover' this.showHelp}} {{on 'mouseout' this.hideHelp}}>
+<div class="hexagon-score" {{on 'mouseover' this.showHelp}} {{on 'mouseout' this.hideHelp}}
+     role="tooltip"
+     aria-describedby="hexagon-score-information__text">
   <div class="hexagon-score__content">
     <div class="hexagon-score-content__title">{{t 'common.pix'}}</div>
     <div class="hexagon-score-content__pix-score">{{this.score}}</div>
@@ -8,7 +9,6 @@
 
   <div class="hexagon-score__information hexagon-score-information__text {{this.displayHelp}}">
     <span class="hexagon-score-information__text--strong">{{t 'pages.profile.total-score-helper.title'}}</span>
-    <span class="hexagon-score-information__close" {{on 'click' this.hideHelp}}><FaIcon @icon="times"/></span>
     <br><br>
     {{t 'pages.profile.total-score-helper.explanation' maxReachablePixCount=this.maxReachablePixCount maxReachableLevel=this.maxReachableLevel htmlSafe=true}}
   </div>
