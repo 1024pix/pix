@@ -82,7 +82,7 @@ jobs:
   api_build_and_test:
     docker:
       - image: circleci/node:14.15.0
-      - image: postgres:12.4-alpine
+      - image: postgres:12.5-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
@@ -214,7 +214,7 @@ jobs:
   e2e_test:
     docker:
       - image: cypress/browsers:node14.15.0-chrome86-ff82
-      - image: postgres:12.4-alpine
+      - image: postgres:12.5-alpine
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
