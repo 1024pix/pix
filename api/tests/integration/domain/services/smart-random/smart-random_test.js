@@ -620,7 +620,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
-    context('when one challenge has already been answered but its learning content has been updated', function() {
+    context('when one challenge has already been answered but its learning content has been updated', () => {
       it('should not be asked again and ask another challenge from same skill', function() {
         // given
         targetSkills = [web2];
@@ -668,6 +668,103 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
       });
+    });
+
+    context('when users has answered a lot of challenges', () => {
+      it('should has an adapted estimated level', () => {
+        // given
+        targetSkills = [web1, web2, web3, web4, web5, url2, url3, url4, rechInfo5, rechInfo7, cnil1, cnil2, info2];
+        challenges = [];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeWeb_2_3.id, result: AnswerStatus.KO });
+        allAnswers = [lastAnswer];
+        knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({
+            skillId: web1.id,
+            createdAt: '2020-01-01',
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: web2.id,
+            createdAt: '2020-01-02',
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: web3.id,
+            createdAt: '2020-01-03',
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: web4.id,
+            createdAt: '2020-01-04',
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: url2.id,
+            createdAt: '2020-01-05',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: url3.id,
+            createdAt: '2020-01-06',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: url4.id,
+            createdAt: '2020-01-07',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: rechInfo5.id,
+            createdAt: '2020-01-08',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: rechInfo7.id,
+            createdAt: '2020-01-09',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: cnil1.id,
+            createdAt: '2020-01-10',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: cnil2.id,
+            createdAt: '2020-01-11',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: info2.id,
+            createdAt: '2020-01-12',
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct',
+          }),
+        ];
+
+        // when
+        const { levelEstimated } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          allAnswers,
+          lastAnswer,
+        });
+
+        // then
+        expect(levelEstimated).to.be.equal(5);
+      });
+
     });
   });
 });
