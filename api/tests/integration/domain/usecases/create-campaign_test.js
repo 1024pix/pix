@@ -1,6 +1,5 @@
-const { expect, databaseBuilder, domainBuilder, airtableBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const _ = require('lodash');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -29,18 +28,15 @@ describe('Integration | UseCases | create-campaign', () => {
 
     await databaseBuilder.commit();
 
-    const skill = airtableBuilder.factory.buildSkill({ id: 'recSkill1' });
+    const learningContent = {
+      skills: [{ id: 'recSkill1' }],
+    };
 
-    airtableBuilder
-      .mockList({ tableName: 'Acquis' })
-      .returns([skill])
-      .activate();
+    mockLearningContent(learningContent);
   });
 
-  afterEach(async () => {
-    await knex('campaigns').delete();
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
+  afterEach(() => {
+    return knex('campaigns').delete();
   });
 
   it('should save a new campaign of type ASSESSMENT', async () => {

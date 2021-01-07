@@ -2,11 +2,11 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const Challenge = require('../../domain/models/Challenge');
 
-const challengeDatasource = require('../datasources/airtable/challenge-datasource');
-const skillDatasource = require('../datasources/airtable/skill-datasource');
+const challengeDatasource = require('../datasources/learning-content/challenge-datasource');
+const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const skillAdapter = require('../adapters/skill-adapter');
 const solutionAdapter = require('../adapters/solution-adapter');
-const AirtableResourceNotFound = require('../datasources/airtable/AirtableResourceNotFound');
+const LearningContentResourceNotFound = require('../datasources/learning-content/LearningContentResourceNotFound');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
       });
       return _toDomain({ challengeDataObject: challenge, skillDataObjects });
     } catch (error) {
-      if (error instanceof AirtableResourceNotFound) {
+      if (error instanceof LearningContentResourceNotFound) {
         throw new NotFoundError();
       }
       throw error;
@@ -74,9 +74,9 @@ function _toDomainCollection({ challengeDataObjects, skills }) {
 }
 
 function _toDomain({ challengeDataObject, skillDataObjects }) {
-  const skills = skillDataObjects.map((skillDataObject) => skillAdapter.fromAirtableDataObject(skillDataObject));
+  const skills = skillDataObjects.map((skillDataObject) => skillAdapter.fromDatasourceObject(skillDataObject));
 
-  const solution = solutionAdapter.fromChallengeAirtableDataObject(challengeDataObject);
+  const solution = solutionAdapter.fromDatasourceObject(challengeDataObject);
 
   const validator = Challenge.createValidatorForChallengeType({
     challengeType: challengeDataObject.type,

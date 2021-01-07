@@ -1,12 +1,12 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
-const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
-const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
+const challengeDatasource = require('../../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
+const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const Correction = require('../../../../lib/domain/models/Correction');
 const Hint = require('../../../../lib/domain/models/Hint');
-const ChallengeAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
-const SkillAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
+const ChallengeLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture');
+const SkillLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture');
 
 describe('Unit | Repository | correction-repository', function() {
 
@@ -59,21 +59,21 @@ describe('Unit | Repository | correction-repository', function() {
 
       beforeEach(() => {
         // given
-        const challengeDataObject = ChallengeAirtableDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
+        const challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
         const skillDatas = [
-          SkillAirtableDataObjectFixture({
+          SkillLearningContentDataObjectFixture({
             name: '@web1',
             hintStatus: 'Proposé',
             tutorialIds: ['recTuto1'],
             learningMoreTutorialIds: ['recTuto3'],
           }),
-          SkillAirtableDataObjectFixture({
+          SkillLearningContentDataObjectFixture({
             name: '@web2',
             hintStatus: 'Validé',
             tutorialIds: ['recTuto2'],
             learningMoreTutorialIds: ['recTuto4'],
           }),
-          SkillAirtableDataObjectFixture({
+          SkillLearningContentDataObjectFixture({
             name: '@web3',
             hintStatus: 'pré-validé',
             tutorialIds: [],
@@ -122,21 +122,21 @@ describe('Unit | Repository | correction-repository', function() {
 
       beforeEach(() => {
         // given
-        const challengeDataObject = ChallengeAirtableDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
+        const challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
         const skillDatas = [
-          SkillAirtableDataObjectFixture({
+          SkillLearningContentDataObjectFixture({
             name: '@web1',
             hintStatus: 'Proposé',
             tutorialIds: ['recTuto1'],
             learningMoreTutorialIds: [],
           }),
-          SkillAirtableDataObjectFixture({
+          SkillLearningContentDataObjectFixture({
             name: '@web2',
             hintStatus: 'Validé',
             tutorialIds: ['recTuto1', 'recTuto1'],
             learningMoreTutorialIds: ['recTuto3'],
           }),
-          SkillAirtableDataObjectFixture({
+          SkillLearningContentDataObjectFixture({
             name: '@web3',
             hintStatus: 'pré-validé',
             tutorialIds: [],

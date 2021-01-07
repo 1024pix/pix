@@ -1,6 +1,6 @@
 const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
-const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
+const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
@@ -18,7 +18,7 @@ module.exports = {
       throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
     }
 
-    return _getWithAirtableSkills(targetProfileBookshelf);
+    return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
   async getByCampaignId(campaignId) {
@@ -36,7 +36,7 @@ module.exports = {
         }],
       });
 
-    return _getWithAirtableSkills(targetProfileBookshelf);
+    return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
   async getByCampaignParticipationId(campaignParticipationId) {
@@ -55,7 +55,7 @@ module.exports = {
         }],
       });
 
-    return _getWithAirtableSkills(targetProfileBookshelf);
+    return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
   async findAllTargetProfilesOrganizationCanUse(organizationId) {
@@ -66,7 +66,7 @@ module.exports = {
       })
       .fetchAll({ withRelated: ['skillIds'] });
 
-    return bluebird.mapSeries(targetProfilesBookshelf, _getWithAirtableSkills);
+    return bluebird.mapSeries(targetProfilesBookshelf, _getWithLearningContentSkills);
   },
 
   async findByIds(targetProfileIds) {
@@ -122,15 +122,15 @@ module.exports = {
   },
 };
 
-async function _getWithAirtableSkills(targetProfile) {
-  const associatedSkillAirtableDataObjects = await _getAirtableDataObjectsSkills(targetProfile);
+async function _getWithLearningContentSkills(targetProfile) {
+  const associatedSkillDatasourceObjects = await _getLearningContentDataObjectsSkills(targetProfile);
 
   return targetProfileAdapter.fromDatasourceObjects({
-    bookshelfTargetProfile: targetProfile, associatedSkillAirtableDataObjects,
+    bookshelfTargetProfile: targetProfile, associatedSkillDatasourceObjects,
   });
 }
 
-function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
+function _getLearningContentDataObjectsSkills(bookshelfTargetProfile) {
   const skillRecordIds = bookshelfTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
   return skillDatasource.findOperativeByRecordIds(skillRecordIds);
 }

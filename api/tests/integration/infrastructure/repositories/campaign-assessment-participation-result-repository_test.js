@@ -1,6 +1,5 @@
-const { expect, databaseBuilder, airtableBuilder, domainBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 const campaignAssessmentParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository');
 
 describe('Integration | Repository | Campaign Assessment Participation Result', () => {
@@ -10,33 +9,58 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
     let campaignId, campaignParticipationId, targetProfileId;
 
     beforeEach(() => {
-      const skill1 = domainBuilder.buildTargetedSkill({ id: 'skill1', name: '@acquis1', tubeId: 'recTube1' });
-      const skill2 = domainBuilder.buildTargetedSkill({ id: 'skill2', name: '@acquis2', tubeId: 'recTube2' });
-      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'rec1' });
-      const tube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', skills: [skill2], competenceId: 'rec2' });
-      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'rec1', tubes: [tube1], index: '1.1', name: 'Compétence 1', areaId: 'recArea0' });
-      const competence2 = domainBuilder.buildTargetedCompetence({ id: 'rec2', tubes: [tube2], index: '1.2', name: 'Compétence 2', areaId: 'recArea0' });
-      const area = domainBuilder.buildTargetedArea({ id: 'recArea0', color: 'orange', competences: [competence1, competence2] });
-      const domainTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        skills: [skill1, skill2],
-        tubes: [tube1, tube2],
-        competences: [competence1, competence2],
-        areas: [area],
-      });
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
 
-      const airTableObjects = airtableBuilder.factory.buildLearningContent.fromTargetProfileWithLearningContent({
-        targetProfile: domainTargetProfile,
-      });
-      airtableBuilder.mockLists(airTableObjects);
+      const learningContent = {
+        areas: [{
+          id: 'recArea0',
+          competenceIds: ['rec1', 'rec2'],
+          color: 'orange',
+        }],
+        competences: [{
+          id: 'rec1',
+          index: '1.1',
+          areaId: 'recArea0',
+          skillIds: ['skill1'],
+          origin: 'Pix',
+          nameFrFr: 'Compétence 1',
+        }, {
+          id: 'rec2',
+          index: '1.2',
+          areaId: 'recArea0',
+          skillIds: ['skill2'],
+          origin: 'Pix',
+          nameFrFr: 'Compétence 2',
+        }],
+        tubes: [{
+          id: 'recTube1',
+          competenceId: 'rec1',
+        }, {
+          id: 'recTube2',
+          competenceId: 'rec2',
+        }],
+        skills: [{
+          id: 'skill1',
+          name: '@acquis1',
+          status: 'actif',
+          tubeId: 'recTube1',
+          competenceId: 'rec1',
+        }, {
+          id: 'skill2',
+          name: '@acquis2',
+          status: 'actif',
+          tubeId: 'recTube2',
+          competenceId: 'rec1',
+        }],
+      };
+
+      mockLearningContent(learningContent);
       return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      airtableBuilder.cleanAll();
-      cache.flushAll();
       return knex('knowledge-element-snapshots').delete();
     });
 
@@ -78,24 +102,21 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
       });
 
       it('fills competenceResults', async () => {
-        const expectedResult = [
-          {
-            areaColor: 'orange',
-            id: 'rec1',
-            index: '1.1',
-            name: 'Compétence 1',
-            targetedSkillsCount: 1,
-            validatedSkillsCount: 1,
-          },
-          {
-            areaColor: 'orange',
-            id: 'rec2',
-            index: '1.2',
-            name: 'Compétence 2',
-            targetedSkillsCount: 1,
-            validatedSkillsCount: 0,
-          },
-        ];
+        const expectedResult = [{
+          areaColor: 'orange',
+          id: 'rec1',
+          index: '1.1',
+          name: 'Compétence 1',
+          targetedSkillsCount: 1,
+          validatedSkillsCount: 1,
+        }, {
+          areaColor: 'orange',
+          id: 'rec2',
+          index: '1.2',
+          name: 'Compétence 2',
+          targetedSkillsCount: 1,
+          validatedSkillsCount: 0,
+        }];
 
         const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 

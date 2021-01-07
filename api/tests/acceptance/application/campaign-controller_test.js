@@ -1,10 +1,9 @@
 const faker = require('faker');
 const jwt = require('jsonwebtoken');
 const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const settings = require('../../../lib/config');
 const Membership = require('../../../lib/domain/models/Membership');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | API | Campaign Controller', () => {
 
@@ -102,29 +101,30 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
-      const competence1 = airtableBuilder.factory.buildCompetence({
-        id: 'recCompetence1',
-        titre: 'Fabriquer un meuble',
-        domaineIds: [area.id],
-        acquisViaTubes: ['recSkillId1', 'recSkillId2'],
-      });
-      const tube1 = airtableBuilder.factory.buildTube({
-        id: 'recTube1',
-        competences: [competence1.id],
-      });
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', ['compétenceViaTube']: ['recCompetence1'], tube: ['recTube1'] }),
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId2', ['compétenceViaTube']: ['recCompetence1'], tube: ['recTube1'] }),
-      ]).activate();
-      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube1]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
-    });
-
-    afterEach(async () => {
-      await airtableBuilder.cleanAll();
-      return cache.flushAll();
+      const learningContent = [{
+        id: 'recArea1',
+        titleFrFr: 'area1_Title',
+        color: 'specialColor',
+        competences: [{
+          id: 'recCompetence1',
+          name: 'Fabriquer un meuble',
+          index: '1.1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              id: 'recSkillId1',
+              nom: '@web2',
+              challenges: [],
+            }, {
+              id: 'recSkillId2',
+              nom: '@web3',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     it('should return campaign collective result with status code 200', async () => {
@@ -184,7 +184,6 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     beforeEach(async () => {
       const skillId = 'rec123';
-      const skill = airtableBuilder.factory.buildSkill({ id: skillId });
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -203,15 +202,27 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
-      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([airtableBuilder.factory.buildTube()]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([airtableBuilder.factory.buildCompetence()]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([airtableBuilder.factory.buildArea()]).activate();
-    });
+      const learningContent = [{
+        id: 'recArea1',
+        titleFrFr: 'area1_Title',
+        color: 'specialColor',
+        competences: [{
+          id: 'recCompetence1',
+          name: 'Fabriquer un meuble',
+          index: '1.1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              id: skillId,
+              nom: '@web2',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
 
-    afterEach(async () => {
-      await airtableBuilder.cleanAll();
-      return cache.flushAll();
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     it('should return csv file with statusCode 200', async () => {
@@ -259,14 +270,27 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([airtableBuilder.factory.buildSkill()]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([airtableBuilder.factory.buildCompetence()]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([airtableBuilder.factory.buildArea()]).activate();
-    });
+      const learningContent = [{
+        id: 'recArea1',
+        titleFrFr: 'area1_Title',
+        color: 'specialColor',
+        competences: [{
+          id: 'recCompetence1',
+          name: 'Fabriquer un meuble',
+          index: '1.1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              id: 'recSkill1',
+              nom: '@web2',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
 
-    afterEach(async () => {
-      await airtableBuilder.cleanAll();
-      return cache.flushAll();
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     it('should return csv file with statusCode 200', async () => {
@@ -314,43 +338,39 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       await databaseBuilder.commit();
 
-      const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
-      const competence1 = airtableBuilder.factory.buildCompetence({
-        id: 'recCompetence1',
-        titre: 'Fabriquer un meuble',
-        acquisViaTubes: ['recSkillId1'],
-        domaineIds: [area.id],
-      });
-      const tutorial = airtableBuilder.factory.buildTutorial({
-        id: 'recTutorial1',
-        titre: 'Apprendre à vivre confiné',
-        format: '2 mois',
-        source: 'covid-19',
-        lien: 'www.liberez-moi.fr',
-        createdTime: '2020-03-16T14:38:03.000Z',
-      });
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
-        airtableBuilder.factory.buildSkill({
-          id: 'recSkillId1',
-          'compétenceViaTube': ['recCompetence1'],
-          tube: ['recTube1'],
-          comprendre: [tutorial.id],
-        }),
-      ]).activate();
-      const tube1 = airtableBuilder.factory.buildTube({
-        id: 'recTube1',
-        titrePratiqueFrFr: 'Monter une étagère FR',
-        competences: ['recCompetence1'],
-      });
-      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube1]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
-      airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([tutorial]).activate();
-    });
+      const learningContent = [{
+        id: 'recArea1',
+        color: 'specialColor',
+        competences: [{
+          id: 'recCompetence1',
+          name: 'Fabriquer un meuble',
+          index: '1.1',
+          tubes: [{
+            id: 'recTube1',
+            practicalTitleFr: 'Monter une étagère FR',
+            skills: [{
+              id: 'recSkillId1',
+              nom: '@skill1',
+              challenges: [],
+              tutorials: [{
+                id: 'recTutorial1',
+                title: 'Apprendre à vivre confiné',
+                format: '2 mois',
+                source: 'covid-19',
+                link: 'www.liberez-moi.fr',
+                duration: '00:03:31',
+              }],
+            }, {
+              id: 'recSkillId2',
+              nom: '@skill2',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
 
-    afterEach(async () => {
-      await airtableBuilder.cleanAll();
-      return cache.flushAll();
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     it('should return campaign analysis with status code 200', async () => {
@@ -429,12 +449,22 @@ describe('Acceptance | API | Campaign Controller', () => {
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       await databaseBuilder.commit();
 
-      const skill = airtableBuilder.factory.buildSkill({ id: 'recSkill1' });
+      const learningContent = [{
+        id: 'recArea1',
+        competences: [{
+          id: 'recCompetence1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              id: 'recSkill1',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
 
-      airtableBuilder
-        .mockList({ tableName: 'Acquis' })
-        .returns([skill])
-        .activate();
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
 
       payload = {
         data: {
@@ -464,8 +494,6 @@ describe('Acceptance | API | Campaign Controller', () => {
 
     afterEach(async () => {
       await knex('campaigns').delete();
-      await airtableBuilder.cleanAll();
-      return cache.flushAll();
     });
 
     it('should return 201 status code and the campaign created with type ASSESSMENT', async () => {
@@ -531,14 +559,22 @@ describe('Acceptance | API | Campaign Controller', () => {
 
   describe('GET /api/campaigns/{id}/profiles-collection-participations', () => {
     beforeEach(async () => {
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([airtableBuilder.factory.buildSkill()]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([airtableBuilder.factory.buildCompetence()]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([airtableBuilder.factory.buildArea()]).activate();
-    });
+      const learningContent = [{
+        id: 'recArea1',
+        competences: [{
+          id: 'recCompetence1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              id: 'skill1',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
 
-    afterEach(async () => {
-      await airtableBuilder.cleanAll();
-      return cache.flushAll();
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     it('should returns profiles collection campaign participations', async () => {
@@ -594,8 +630,24 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
 
-      const skill = airtableBuilder.factory.buildSkill({ id: 'skill1' });
-      campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [skill]);
+      const learningContent = [{
+        id: 'recArea1',
+        competences: [{
+          id: 'recCompetence1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              id: 'skill1',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
+
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+
+      campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [learningContent]);
 
       const campaignParticipation = {
         participantExternalId: 'Die Hard',
@@ -604,14 +656,8 @@ describe('Acceptance | API | Campaign Controller', () => {
       };
 
       databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant);
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
 
       return databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
     });
 
     it('should return the campaign participation result summaries as JSONAPI', async () => {

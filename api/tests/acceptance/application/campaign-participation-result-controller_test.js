@@ -1,6 +1,5 @@
 const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const _ = require('lodash');
 
 describe('Acceptance | API | Campaign Participation Result', () => {
@@ -14,10 +13,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     assessment,
     campaignParticipation,
     targetProfile,
-    targetProfileSkills,
-    skills,
-    areas,
-    competences;
+    targetProfileSkills;
 
   let server, badge, badgePartnerCompetence, stage;
 
@@ -46,18 +42,23 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       state: 'completed',
     });
 
-    targetProfileSkills = _.times(8, () => {
+    const skillIds = [
+      'recSkill1',
+      'recSkill2',
+      'recSkill3',
+      'recSkill4',
+      'recSkill5',
+      'recSkill6',
+      'recSkill7',
+      'recSkill8',
+    ];
+
+    targetProfileSkills = _.times(8, (index) => {
       return databaseBuilder.factory.buildTargetProfileSkill({
         targetProfileId: targetProfile.id,
+        skillId: skillIds[index],
       });
     });
-
-    skills = _.map(targetProfileSkills, (targetProfileSkill) => {
-      return airtableBuilder.factory.buildSkill({
-        id: targetProfileSkill.skillId,
-      });
-    });
-    const skillIds = _.map(skills, (skill) => skill.id);
 
     badge = databaseBuilder.factory.buildBadge({
       id: 1,
@@ -110,63 +111,57 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       createdAt: oldDate,
     });
 
-    const jaffaArea = airtableBuilder.factory.buildArea({ id: 1, competenceIds: ['1'], couleur: JAFFA_COLOR });
-    const emeraldArea = airtableBuilder.factory.buildArea({ id: 2, competenceIds: ['2', '3'], couleur: EMERALD_COLOR });
-    const wildStrawberryArea = airtableBuilder.factory.buildArea({ id: 3, competenceIds: ['4'], couleur: WILD_STRAWBERRY_COLOR });
-    areas = [jaffaArea, emeraldArea, wildStrawberryArea];
-
-    competences = [
-      airtableBuilder.factory.buildCompetence({
+    const learningContent = [{
+      id: 'recArea1',
+      color: JAFFA_COLOR,
+      competences: [{
         id: 1,
-        titre: 'Agir collectivement',
-        sousDomaine: '1.2',
-        acquisViaTubes: [skills[0].id],
-        domaineIds: [areas[0].id],
-      }),
-      airtableBuilder.factory.buildCompetence({
+        name: 'Agir collectivement',
+        index: '1.2',
+        tubes: [{ id: 'recTube1', skills: [{ id: 'recSkill1' }] }],
+      }],
+    }, {
+      id: 'recArea2',
+      color: EMERALD_COLOR,
+      competences: [{
         id: 2,
-        titre: 'Nécessité de la pensée radicale',
-        sousDomaine: '2.1',
-        acquisViaTubes: [skills[1].id, skills[2].id, skills[3].id],
-        domaineIds: [areas[1].id],
-      }),
-      airtableBuilder.factory.buildCompetence({
+        name: 'Nécessité de la pensée radicale',
+        index: '2.1',
+        tubes: [{
+          id: 'recTube2',
+          skills: [
+            { id: 'recSkill2' },
+            { id: 'recSkill3' },
+            { id: 'recSkill4' },
+          ],
+        }],
+      }, {
         id: 3,
-        titre: 'Changer efficacement le monde',
-        sousDomaine: '2.2',
-        acquisViaTubes: [skills[4].id, skills[5].id, skills[6].id, skills[7].id],
-        domaineIds: [areas[1].id],
-      }),
-      airtableBuilder.factory.buildCompetence({
+        name: 'Changer efficacement le monde',
+        index: '2.2',
+        tubes: [{
+          id: 'recTube3',
+          skills: [
+            { id: 'recSkill5' },
+            { id: 'recSkill6' },
+            { id: 'recSkill7' },
+            { id: 'recSkill8' },
+          ],
+        }],
+      }],
+    }, {
+      id: 'recArea3',
+      color: WILD_STRAWBERRY_COLOR,
+      competences: [{
         id: 4,
-        titre: 'Oser la paresse',
-        sousDomaine: '4.3',
-        acquisViaTubes: ['notIncludedSkillId'],
-        domaineIds: [areas[2].id],
-      }),
-    ];
-
-    airtableBuilder
-      .mockList({ tableName: 'Acquis' })
-      .returns(skills)
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Competences' })
-      .returns(competences)
-      .activate();
-
-    airtableBuilder
-      .mockList({ tableName: 'Domaines' })
-      .returns(areas)
-      .activate();
-
+        name: 'Oser la paresse',
+        index: '4.3',
+        tubes: [{ id: 'recTube0', skills: [{ id: 'notIncludedSkillId' }] }],
+      }],
+    }];
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
     await databaseBuilder.commit();
-  });
-
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
   });
 
   describe('GET /api/campaign-participations/{id}/campaign-participation-result', () => {
@@ -204,13 +199,13 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             },
             'competence-results': {
               data: [{
-                id: `${competences[0].id}`,
+                id: '1',
                 type: 'competenceResults',
               }, {
-                id: `${competences[1].id}`,
+                id: '2',
                 type: 'competenceResults',
               }, {
-                id: `${competences[2].id}`,
+                id: '3',
                 type: 'competenceResults',
               }],
             },
@@ -257,7 +252,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           },
         }, {
           type: 'competenceResults',
-          id: competences[0].id.toString(),
+          id: '1',
           attributes: {
             name: 'Agir collectivement',
             index: '1.2',
@@ -269,7 +264,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           },
         }, {
           type: 'competenceResults',
-          id: competences[1].id.toString(),
+          id: '2',
           attributes: {
             name: 'Nécessité de la pensée radicale',
             index: '2.1',
@@ -281,7 +276,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           },
         }, {
           type: 'competenceResults',
-          id: competences[2].id.toString(),
+          id: '3',
           attributes: {
             name: 'Changer efficacement le monde',
             index: '2.2',

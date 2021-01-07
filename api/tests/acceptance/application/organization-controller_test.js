@@ -1,12 +1,11 @@
 const _ = require('lodash');
 
 const {
-  expect, knex, nock, databaseBuilder,
+  expect, knex, learningContentBuilder, databaseBuilder, mockLearningContent,
   generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster,
 } = require('../../test-helper');
 
 const createServer = require('../../../server');
-const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
@@ -21,35 +20,20 @@ describe('Acceptance | Application | organization-controller', () => {
   });
 
   before(() => {
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Competences')
-      .query(true)
-      .reply(200, {
-        'records': [{
-          'id': 'recNv8qhaY887jQb2',
-          'fields': {
-            'Sous-domaine': '1.3',
-            'Titre': 'Traiter des données',
-          },
-        }, {
-          'id': 'recofJCxg0NqTqTdP',
-          'fields': {
-            'Sous-domaine': '4.2',
-            'Titre': 'Protéger les données personnelles et la vie privée',
-          },
-        }],
-      });
-
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Domaines')
-      .query(true)
-      .reply(200, [
-        areaRawAirTableFixture(),
-      ]);
-  });
-
-  after(() => {
-    nock.cleanAll();
+    const learningContent = [{
+      id: 'recArea0',
+      competences: [{
+        id: 'recNv8qhaY887jQb2',
+        index: '1.3',
+        name: 'Traiter des données',
+      }, {
+        id: 'recofJCxg0NqTqTdP',
+        index: '4.2',
+        name: 'Protéger les données personnelles et la vie privée',
+      }],
+    }];
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
   });
 
   beforeEach(async () => {
@@ -217,7 +201,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
     describe('Resource access management', () => {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async() => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -228,7 +212,7 @@ describe('Acceptance | Application | organization-controller', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async() => {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
@@ -252,13 +236,21 @@ describe('Acceptance | Application | organization-controller', () => {
 
       const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
-      databaseBuilder.factory.buildOrganization({ name: 'The name of the organization', type: 'SUP', externalId: '1234567A' });
-      databaseBuilder.factory.buildOrganization({ name: 'Organization of the night', type: 'PRO', externalId: '1234568A' });
+      databaseBuilder.factory.buildOrganization({
+        name: 'The name of the organization',
+        type: 'SUP',
+        externalId: '1234567A',
+      });
+      databaseBuilder.factory.buildOrganization({
+        name: 'Organization of the night',
+        type: 'PRO',
+        externalId: '1234568A',
+      });
 
       options = {
         method: 'GET',
         url: '/api/organizations',
-        payload: { },
+        payload: {},
         headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
       };
 
@@ -359,8 +351,18 @@ describe('Acceptance | Application | organization-controller', () => {
       campaignsData = _.map([
         { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId },
         { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId },
-        { name: 'Quand Peigne numba three', code: 'ABC180ELO', organizationId, archivedAt: new Date('2000-01-01T10:00:00Z') },
-        { name: 'Quand Peigne numba four', code: 'ABC180LEO', organizationId, archivedAt: new Date('2000-02-01T10:00:00Z') },
+        {
+          name: 'Quand Peigne numba three',
+          code: 'ABC180ELO',
+          organizationId,
+          archivedAt: new Date('2000-01-01T10:00:00Z'),
+        },
+        {
+          name: 'Quand Peigne numba four',
+          code: 'ABC180LEO',
+          organizationId,
+          archivedAt: new Date('2000-02-01T10:00:00Z'),
+        },
         { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId },
       ], (camp) => {
         const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
@@ -1131,11 +1133,17 @@ describe('Acceptance | Application | organization-controller', () => {
       let linkedOrganization;
 
       beforeEach(async () => {
-        nock.cleanAll();
-        nock('https://api.airtable.com')
-          .get('/v0/test-base/Acquis')
-          .query(true)
-          .reply(200, {});
+        const learningContent = [{
+          id: 'recArea0',
+          competences: [{
+            id: 'recNv8qhaY887jQb2',
+            index: '1.3',
+            name: 'Traiter des données',
+          }],
+        }];
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
+
         user = databaseBuilder.factory.buildUser({});
         linkedOrganization = databaseBuilder.factory.buildOrganization({});
         databaseBuilder.factory.buildMembership({
@@ -1144,10 +1152,6 @@ describe('Acceptance | Application | organization-controller', () => {
         });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        nock.cleanAll();
       });
 
       it('should return 200', async () => {

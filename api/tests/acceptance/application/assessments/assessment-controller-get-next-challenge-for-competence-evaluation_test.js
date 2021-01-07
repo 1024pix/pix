@@ -1,75 +1,44 @@
-const { airtableBuilder, expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
-
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 const competenceId = 'recCompetence';
-
 const skillWeb1Id = 'recAcquisWeb1';
-const skillWeb1Name = '@web1';
-const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ] });
-
 const skillWeb2Id = 'recAcquisWeb2';
-const skillWeb2Name = '@web2';
-const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ] });
-
 const skillWeb3Id = 'recAcquisWeb3';
-const skillWeb3Name = '@web3';
-const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ] });
-
-const competenceReference = '1.1 Mener une recherche et une veille d’information';
-const competence = airtableBuilder.factory.buildCompetence({
-  id: competenceId,
-  epreuves: [],
-  titre: 'Mener une recherche et une veille d’information',
-  tests: [],
-  acquisIdentifiants: [skillWeb1Id],
-  tubes: [],
-  acquisViaTubes: [skillWeb1Id],
-  reference: competenceReference,
-  testsRecordID: [],
-  acquis: [skillWeb1Name],
-});
 
 const firstChallengeId = 'recFirstChallenge';
-const firstChallenge = airtableBuilder.factory.buildChallenge.untimed({
-  id: firstChallengeId,
-  tests: [],
-  competences: [competenceId],
-  statut: 'validé',
-  acquix: [skillWeb2Id],
-  acquis: [skillWeb2Name],
-});
 const secondChallengeId = 'recSecondChallenge';
-const secondChallenge = airtableBuilder.factory.buildChallenge.untimed({
-  id: secondChallengeId,
-  tests: [],
-  competences: [competenceId],
-  statut: 'validé',
-  acquix: [skillWeb3Id],
-  acquis: [skillWeb3Name],
-  langues: ['Franco Français'],
-});
 const thirdChallengeId = 'recThirdChallenge';
-const thirdChallenge = airtableBuilder.factory.buildChallenge.untimed({
-  id: thirdChallengeId,
-  tests: [],
-  competences: [competenceId],
-  statut: 'validé',
-  acquix: [skillWeb1Id],
-  acquis: [skillWeb1Name],
-});
 const otherChallengeId = 'recOtherChallenge';
-const otherChallenge = airtableBuilder.factory.buildChallenge.untimed({
-  id: otherChallengeId,
-  tests: [],
-  competences: ['other-competence'],
-  statut: 'validé',
-  acquix: [skillWeb1Id],
-  acquis: [skillWeb1Name],
-});
+
+const learningContent = [{
+  id: 'recArea1',
+  titleFrFr: 'area1_Title',
+  color: 'someColor',
+  competences: [{
+    id: competenceId,
+    nameFrFr: 'Mener une recherche et une veille d’information',
+    index: '1.1',
+    tubes: [{
+      id: 'recTube0_0',
+      skills: [{
+        id: skillWeb2Id,
+        nom: '@web2',
+        challenges: [{ id: firstChallengeId }],
+      }, {
+        id: skillWeb3Id,
+        nom: '@web3',
+        challenges: [{ id: secondChallengeId, langues: ['Franco Français'] }],
+      }, {
+        id: skillWeb1Id,
+        nom: '@web1',
+        challenges: [{ id: thirdChallengeId }, { id: otherChallengeId }],
+      }],
+    }],
+  }],
+}];
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-competence-evaluation', () => {
 
@@ -77,27 +46,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
   beforeEach(async () => {
     server = await createServer();
-
-    airtableBuilder.mockList({ tableName: 'Domaines' })
-      .returns([airtableBuilder.factory.buildArea()])
-      .activate();
-
-    airtableBuilder.mockList({ tableName: 'Competences' })
-      .returns([competence])
-      .activate();
-
-    airtableBuilder.mockList({ tableName: 'Epreuves' })
-      .returns([firstChallenge, secondChallenge, thirdChallenge, otherChallenge])
-      .activate();
-
-    airtableBuilder.mockList({ tableName: 'Acquis' })
-      .returns([skillWeb1, skillWeb2, skillWeb3])
-      .activate();
-  });
-
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
   });
 
   describe('GET /api/assessments/:assessment_id/next', () => {

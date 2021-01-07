@@ -1,5 +1,4 @@
-const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { knex, databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon, mockLearningContent } = require('../../../test-helper');
 const _ = require('lodash');
 
 const createServer = require('../../../../server');
@@ -113,10 +112,27 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
     describe('Success case', () => {
 
       let response;
-      let competence;
-      let area;
+      const competence = {
+        id: competenceId,
+        nameFrFr: 'Mener une recherche et une veille d’information',
+        descriptionFrFr: 'descriptionCompetence1',
+        index: '1.1',
+        origin: 'Pix',
+        areaId: 'recvoGdo7z2z7pXWa',
+      };
+      const area = {
+        id: 'recvoGdo7z2z7pXWa',
+        titleFrFr: 'Information et données',
+        color: 'jaffa',
+        code: '1',
+        competenceIds: [competenceId],
+      };
       const otherStartedCompetenceId = 'recBejNZgJke422G';
       const createdAt = new Date('2019-01-01');
+      const learningContent = {
+        areas: [area],
+        competences: [competence],
+      };
 
       beforeEach(async () => {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
@@ -126,20 +142,11 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
           toFake: ['Date'],
         });
 
-        competence = airtableBuilder.factory.buildCompetence({ id: competenceId });
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'url1' });
         const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
 
-        area = airtableBuilder.factory.buildArea();
-
-        airtableBuilder.mockList({ tableName: 'Domaines' })
-          .returns([area])
-          .activate();
-
-        airtableBuilder.mockList({ tableName: 'Competences' })
-          .returns([competence])
-          .activate();
+        mockLearningContent(learningContent);
 
         _.each([
           {
@@ -182,11 +189,6 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         await knex('competence-evaluations').delete();
         await knex('assessments').delete();
         await knex('campaign-participations').delete();
-        return airtableBuilder.cleanAll();
-      });
-
-      after(() => {
-        return cache.flushAll();
       });
 
       it('should return 200 and the updated scorecard', async () => {
@@ -196,10 +198,10 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
             type: 'scorecards',
             id: `${userId}_${competenceId}`,
             attributes: {
-              name: competence.fields.Titre,
-              description: competence.fields.Description,
+              name: competence.nameFrFr,
+              description: competence.descriptionFrFr,
               'competence-id': competenceId,
-              index: competence.fields['Sous-domaine'],
+              index: competence.index,
               'earned-pix': 0,
               level: 0,
               'pix-score-ahead-of-next-level': 0,
@@ -224,9 +226,9 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
           included: [
             {
               attributes: {
-                code: area.fields.Code,
-                title: area.fields['Titre fr-fr'],
-                color: area.fields.Couleur,
+                code: area.code,
+                title: area.titleFrFr,
+                color: area.color,
               },
               id: area.id,
               type: 'areas',

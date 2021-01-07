@@ -1,18 +1,43 @@
-const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder, airtableBuilder, knex } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
 
 describe('Acceptance | Controller | target-profile-controller', () => {
 
   let server;
 
+  const skillId = 'recArea1_Competence1_Tube1_Skill1';
+
+  const learningContent = {
+    areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
+    competences: [{
+      id: 'recArea1_Competence1',
+      areaId: 'recArea1',
+      skillIds: [skillId],
+      origin: 'Pix',
+    }],
+    tubes: [{
+      id: 'recArea1_Competence1_Tube1',
+      competenceId: 'recArea1_Competence1',
+    }],
+    skills: [{
+      id: skillId,
+      name: '@recArea1_Competence1_Tube1_Skill1',
+      status: 'actif',
+      tubeId: 'recArea1_Competence1_Tube1',
+      competenceId: 'recArea1_Competence1',
+    }],
+    challenges: [{
+      id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+      skillIds: [skillId],
+      skills: ['@recArea1_Competence1_Tube1_Skill1'],
+      competenceId: 'recArea1_Competence1',
+      status: 'validé',
+      locales: ['fr-fr'],
+    }],
+  };
+
   beforeEach(async () => {
     server = await createServer();
-  });
-
-  afterEach(() => {
-    airtableBuilder.cleanAll();
-    return cache.flushAll();
   });
 
   describe('GET /api/admin/target-profiles/{id}', () => {
@@ -20,18 +45,10 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     let targetProfileId;
 
     beforeEach(async () => {
-      const area = airtableBuilder.factory.buildArea({ id: 'recArea', competenceIds: ['recCompetence'] });
-      const competence = airtableBuilder.factory.buildCompetence({ id: 'recCompetence', tubes: ['recTube'], acquisViaTubes: [ 'recSkill' ], domaineIds: [ area.id ] });
-      const tube = airtableBuilder.factory.buildTube({ id: 'recTube', competences: [ competence.id ] });
-      const skill = airtableBuilder.factory.buildSkill({ id: 'recSkill', tube: [tube.id], compétenceViaTube: [ competence.id ] });
 
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence]).activate();
-      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([tube]).activate();
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([skill]).activate();
-
+      mockLearningContent(learningContent);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skill.id });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillId });
       user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
       await databaseBuilder.commit();
@@ -58,10 +75,16 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     let organizationId;
 
     beforeEach(async () => {
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Acquis')
-        .query(true)
-        .reply(200, {});
+      const learningContent = [{
+        id: 'recArea0',
+        competences: [{
+          id: 'recNv8qhaY887jQb2',
+          index: '1.3',
+          name: 'Traiter des données',
+        }],
+      }];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -89,10 +112,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
   describe('POST /api/admin/target-profiles/{id}/attach-organizations', () => {
 
     beforeEach(async () => {
-      airtableBuilder
-        .mockList({ tableName: 'Acquis' })
-        .returns([])
-        .activate();
+      mockLearningContent(learningContent);
     });
 
     afterEach(() => {
