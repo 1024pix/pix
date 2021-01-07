@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
+import sinon from 'sinon';
+import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign/assessment/list', function(hooks) {
@@ -330,6 +332,124 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       // then
       assert.notContains('60%');
       assert.dom('.pix-stars').exists();
+    });
+  });
+
+  module('when user works for a SCO organization which manages students', function() {
+    class CurrentUserStub extends Service {
+      prescriber = { areNewYearSchoolingRegistrationsImported: false }
+      isSCOManagingStudents = true;
+    }
+
+    test('it displays the division filter', async function(assert) {
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      // given
+      const division = store.createRecord('division', {
+        id: 'd1',
+        name: 'd1',
+      });
+      const campaignReport = store.createRecord('campaign-report', {
+        id: 'c1',
+        stages: [],
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        campaignReport,
+        divisions: [division],
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      participations.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.contains('Classes');
+      assert.contains('d1');
+    });
+
+    test('it filter the participations when a division is selected', async function(assert) {
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      // given
+      const division = store.createRecord('division', {
+        id: 'd1',
+        name: 'd1',
+      });
+      const campaignReport = store.createRecord('campaign-report', {
+        id: 'c1',
+        stages: [],
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        campaignReport,
+        divisions: [division],
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      participations.meta = { rowCount: 1 };
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+      this.set('triggerFiltering', triggerFiltering);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}} @triggerFiltering={{triggerFiltering}}/>`);
+      await click('[for="division-d1"');
+
+      // then
+      assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
+    });
+
+  });
+
+  module('when user does not work for a SCO organization which manages students', function() {
+    class CurrentUserStub extends Service {
+      prescriber = { areNewYearSchoolingRegistrationsImported: false }
+      isSCOManagingStudents = false;
+    }
+
+    test('it does not display the division filter', async function(assert) {
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      // given
+      const division = store.createRecord('division', {
+        id: 'd2',
+        name: 'd2',
+      });
+      const campaignReport = store.createRecord('campaign-report', {
+        id: 'c1',
+        stages: [],
+      });
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        campaignReport,
+        divisions: [division],
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      participations.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.notContains('Classe');
+      assert.notContains('d2');
     });
   });
 });

@@ -172,6 +172,18 @@ exports.register = async function(server) {
         tags: ['api', 'campaign-assessment-participation-summary'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/divisions',
+      config: {
+        handler: campaignController.division,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des classes des participants à la campagne',
+        ],
+        tags: ['api', 'division'],
+      },
+    },
   ]);
 };
 
