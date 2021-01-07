@@ -23,7 +23,7 @@
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
           <th>Résultats</th>
-          {{#if @campaign.targetProfile.hasBadges}}
+          {{#if @campaign.hasBadges}}
             <th>Résultats Thématiques</th>
           {{/if}}
         </tr>
@@ -40,10 +40,10 @@
             {{/if}}
             <td>
               {{#if participation.isShared}}
-                {{#if @campaign.campaignReport.hasStages}}
+                {{#if @campaign.hasStages}}
                   <StageStars
                     @result={{participation.masteryPercentage}}
-                    @stages={{@campaign.campaignReport.stages}}
+                    @stages={{@campaign.stages}}
                   />
                 {{else}}
                   <span class="participant-list__mastery-percentage">
@@ -64,7 +64,7 @@
                 {{/if}}
               {{/if}}
             </td>
-            {{#if @campaign.targetProfile.hasBadges}}
+            {{#if @campaign.hasBadges}}
               <td>
                 {{#if participation.isShared}}
                   {{#each participation.badges as |badge|}}

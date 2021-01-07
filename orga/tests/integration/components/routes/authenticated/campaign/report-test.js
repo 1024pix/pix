@@ -12,69 +12,94 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display campaign details', async function(assert) {
+  test('it should display campaign name', async function(assert) {
     // given
     const campaign = store.createRecord('campaign', {
-      id: 1,
       name: 'campagne 1',
     });
-
     this.set('campaign', campaign);
 
     // when
     await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
 
     // then
-    assert.dom('.campaign-details-header__title').hasText('campagne 1');
+    assert.contains('campagne 1');
   });
 
-  module('Campaign details header', function() {
-    test('it should display the campaign report', async function(assert) {
+  test('it should display campaign code', async function(assert) {
+    // given
+    const campaign = store.createRecord('campaign', {
+      code: '1234PixTest',
+    });
+    this.set('campaign', campaign);
+
+    // when
+    await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+    // then
+    assert.contains('1234PixTest');
+  });
+
+  module('When there is some results', function() {
+    test('it should display campaign participants number', async function(assert) {
       // given
-      const campaignReport = store.createRecord('campaignReport', {
-        id: 1,
-        participationsCount: 10,
-        sharedParticipationsCount: 4,
-      });
       const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        campaignReport,
-        code: '1234PixTest',
-        type: 'ASSESSMENT',
+        participationsCount: 10,
       });
 
       this.set('campaign', campaign);
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
       // then
-      assert.dom('.campaign-details-header-report__info:nth-child(1) .campaign-details-content__text').hasText('1234PixTest');
-      assert.dom('.campaign-details-header-report__info:nth-child(2) .campaign-details-content__text').hasText('10');
-      assert.dom('.campaign-details-header-report__shared .campaign-details-content__text').hasText('4');
+      assert.contains('10');
     });
 
-    test('it should display - instead of 0 for the campaign report', async function(assert) {
+    test('it should display campaign shared participations number', async function(assert) {
       // given
-      const campaignReport = store.createRecord('campaignReport', {
-        id: 1,
-        participationsCount: 0,
-        sharedParticipationsCount: 0,
-      });
       const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        campaignReport,
+        sharedParticipationsCount: 4,
       });
-
       this.set('campaign', campaign);
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
 
       // then
-      assert.dom('.campaign-details-header-report__info:nth-child(2) .campaign-details-content__text').hasText('-');
-      assert.dom('.campaign-details-header-report__shared .campaign-details-content__text').hasText('-');
+      assert.contains('4');
+    });
+  });
+
+  module('When there is no results', function() {
+    test('it should display "-" when no one participated', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        participationsCount: 0,
+        sharedParticipationsCount: 2,
+      });
+      this.set('campaign', campaign);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+      // then
+      assert.contains('-');
+    });
+
+    test('it should display "-" when no one shared his participation', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        participationsCount: 4,
+        sharedParticipationsCount: 0,
+      });
+      this.set('campaign', campaign);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Report @campaign={{campaign}}/>`);
+
+      // then
+      assert.contains('-');
     });
   });
 
@@ -98,12 +123,9 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
 
     module('When campaign type is ASSESSMENT', function(hooks) {
       hooks.beforeEach(async function() {
-        const campaignReport = store.createRecord('campaignReport', {
-          participationsCount: 10,
-        });
         const campaign = store.createRecord('campaign', {
           id: 13,
-          campaignReport,
+          participationsCount: 10,
           type: 'ASSESSMENT',
         });
 
