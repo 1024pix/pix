@@ -6,26 +6,11 @@ const { fetchPage } = require('../utils/knex-utils');
 
 module.exports = {
 
-  async findAllByUserId(userId, page) {
-    const queryBuilder = _findByUserId({ userId });
-    const { results, pagination } = await _paginateQuery(queryBuilder, page);
-    const campaignParticipationOverviews = _toReadModel(results);
-
-    return {
-      campaignParticipationOverviews,
-      pagination,
-    };
-  },
-
   async findByUserIdWithFilters({ userId, states, page }) {
     const queryBuilder = _findByUserId({ userId });
 
-    if (states.includes('ENDED')) {
-      queryBuilder.modify(_filterWhithEndedState, states);
-    } else {
-      queryBuilder.modify(_filterByAssessmentStates, buildAssessementStates(states));
-      queryBuilder.modify(_filterBySharedState, false);
-      queryBuilder.whereNull('campaigns.archivedAt');
+    if (states && states.length > 0) {
+      _filterByStates(queryBuilder, states);
     }
 
     const { results, pagination } = await _paginateQuery(queryBuilder, page);
@@ -74,6 +59,16 @@ function _findByUserId({ userId }) {
       'campaigns.type': Campaign.types.ASSESSMENT,
     })
     .orderBy('campaign-participations.createdAt', 'DESC');
+}
+
+function _filterByStates(queryBuilder, states) {
+  if (states.includes('ENDED')) {
+    queryBuilder.modify(_filterWhithEndedState, states);
+  } else {
+    queryBuilder.modify(_filterByAssessmentStates, buildAssessementStates(states));
+    queryBuilder.modify(_filterBySharedState, false);
+    queryBuilder.whereNull('campaigns.archivedAt');
+  }
 }
 
 function _filterMostRecentAssessments(queryBuilder) {

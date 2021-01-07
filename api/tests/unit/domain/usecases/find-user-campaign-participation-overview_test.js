@@ -8,12 +8,11 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
   beforeEach(() => {
     campaignParticipationOverviewRepository = {
       findByUserIdWithFilters: sinon.stub(),
-      findAllByUserId: sinon.stub(),
     };
   });
 
   context('when states is undefined', () => {
-    it('should calls findAllByUserId', async () => {
+    it('should call findByUserIdWithFilters', async () => {
       // given
       const states = undefined;
       const userId = 1;
@@ -26,12 +25,12 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
       });
 
       // then
-      sinon.assert.calledWith(campaignParticipationOverviewRepository.findAllByUserId, userId);
+      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, { page: undefined, userId, states });
     });
   });
 
   context('when states is ONGOING', () => {
-    it('should calls findByUserIdWithFilters', async () => {
+    it('should call findByUserIdWithFilters', async () => {
       // given
       const states = 'ONGOING';
       const userId = 1;
@@ -51,7 +50,7 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
   });
 
   context('when states is [ONGOING]', () => {
-    it('should calls findByUserIdWithFilters', async () => {
+    it('should call findByUserIdWithFilters', async () => {
       // given
       const states = ['ONGOING'];
       const userId = 1;
