@@ -1,5 +1,4 @@
-const { expect, databaseBuilder, knex, airtableBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
 const createServer = require('../../../server');
 
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
@@ -628,8 +627,8 @@ describe('Acceptance | API | Certification Course', () => {
 
       beforeEach(async () => {
         // given
-        const airTableObjects = airtableBuilder.factory.buildLearningContent(learningContent);
-        airtableBuilder.mockLists(airTableObjects);
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
         certificationCandidate = databaseBuilder.factory.buildCertificationCandidate({ sessionId, userId });
         databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
           learningContent,
@@ -649,8 +648,6 @@ describe('Acceptance | API | Certification Course', () => {
         await knex('assessments').delete();
         await knex('certification-challenges').delete();
         await knex('certification-courses').delete();
-        airtableBuilder.cleanAll();
-        return cache.flushAll();
       });
 
       it('should respond with 201 status code', () => {
@@ -705,4 +702,3 @@ describe('Acceptance | API | Certification Course', () => {
 
   });
 });
-

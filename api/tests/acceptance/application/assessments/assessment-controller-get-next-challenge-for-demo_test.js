@@ -1,5 +1,4 @@
-const { expect, nock, databaseBuilder, airtableBuilder } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function() {
@@ -8,72 +7,34 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
 
   beforeEach(async () => {
     server = await createServer();
-  });
+    const learningContent = [{
+      id: '1. Information et données',
+      competences: [{
+        id: 'competence_id',
+        nameFrFr: 'Mener une recherche et une veille d\'information',
+        index: '1.1',
+        tubes: [{
+          id: 'recTube0_0',
+          skills: [{
+            id: '@web1',
+            nom: '@web1',
+            challenges: [
+              { id: 'first_challenge' },
+              { id: 'second_challenge' },
+              { id: 'third_challenge' },
+            ],
+          }],
+        }],
+      }],
+      courses: [{
+        id: 'course_id',
+        competenceId: 'competence_id',
+        challengeIds: ['first_challenge', 'second_challenge'],
+      }],
+    }];
 
-  before(() => {
-    const course = airtableBuilder.factory.buildCourse({
-      'id': 'course_id',
-      'competence': ['competence_id'],
-      'epreuves': [
-        'second_challenge',
-        'first_challenge',
-      ],
-    });
-    airtableBuilder
-      .mockList({ tableName: 'Tests' })
-      .returns([course])
-      .activate();
-
-    const competence = airtableBuilder.factory.buildCompetence({
-      'id': 'competence_id',
-      'titre': 'Mener une recherche et une veille d\'information',
-      'sousDomaine': '1.1',
-      'reference': '1.1 Mener une recherche et une veille d\'information',
-      'domaineIds': ['1. Information et données'],
-      'acquisViaTubes': ['@web1'],
-    });
-
-    airtableBuilder
-      .mockList({ tableName: 'Compétences' })
-      .returns([competence])
-      .activate();
-
-    const firstChallenge = airtableBuilder.factory.buildChallenge({
-      'id': 'first_challenge',
-      'competences': ['competence_id'],
-      'acquix': ['@web1'],
-    });
-    const secondChallenge = airtableBuilder.factory.buildChallenge({
-      'id': 'second_challenge',
-      'competences': ['competence_id'],
-      'acquix': ['@web1'],
-    });
-    const thirdChallenge = airtableBuilder.factory.buildChallenge({
-      'id': 'third_challenge',
-      'competences': ['competence_id'],
-      'acquix': ['@web1'],
-    });
-
-    airtableBuilder
-      .mockList({ tableName: 'Epreuves' })
-      .returns([firstChallenge, secondChallenge, thirdChallenge])
-      .activate();
-
-    const skill = airtableBuilder.factory.buildSkill({
-      'id': '@web1',
-      'epreuves': ['first_challenge', 'second_challenge', 'third_challenge'],
-      'compétenceViaTube': ['competence_id'],
-    });
-
-    airtableBuilder
-      .mockList({ tableName: 'Acquis' })
-      .returns([skill])
-      .activate();
-  });
-
-  after(() => {
-    nock.cleanAll();
-    return cache.flushAll();
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
   });
 
   describe('(demo) GET /api/assessments/:assessment_id/next', () => {

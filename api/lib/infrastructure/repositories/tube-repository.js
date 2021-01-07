@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const Tube = require('../../domain/models/Tube');
-const tubeDatasource = require('../datasources/airtable/tube-datasource');
+const tubeDatasource = require('../datasources/learning-content/tube-datasource');
 
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
 

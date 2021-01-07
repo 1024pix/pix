@@ -1,6 +1,5 @@
 const { PassThrough } = require('stream');
-const { expect, airtableBuilder, databaseBuilder, streamToPromise } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, mockLearningContent, databaseBuilder, streamToPromise } = require('../../../test-helper');
 
 const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
 
@@ -11,7 +10,7 @@ const organizationRepository = require('../../../../lib/infrastructure/repositor
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 
-describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
+describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', () => {
 
   describe('#startWritingCampaignProfilesCollectionResultsToStream', () => {
 
@@ -28,11 +27,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
-      const skillWeb1 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb1', nom: '@web1', ['compétenceViaTube']: ['recCompetence1'] });
-      const skillWeb2 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb2', nom: '@web2', ['compétenceViaTube']: ['recCompetence1'] });
-      const skillWeb3 = airtableBuilder.factory.buildSkill({ id: 'recSkillWeb3', nom: '@web3', ['compétenceViaTube']: ['recCompetence1'] });
-      const skillUrl1 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl1', nom: '@url1', ['compétenceViaTube']: ['recCompetence2'] });
-      const skillUrl8 = airtableBuilder.factory.buildSkill({ id: 'recSkillUrl8', nom: '@url8', ['compétenceViaTube']: ['recCompetence2'] });
+      const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'] };
+      const skillWeb2 = { id: 'recSkillWeb2', name: '@web2', competenceIds: ['recCompetence1'] };
+      const skillWeb3 = { id: 'recSkillWeb3', name: '@web3', competenceIds: ['recCompetence1'] };
+      const skillUrl1 = { id: 'recSkillUrl1', name: '@url1', competenceIds: ['recCompetence2'] };
+      const skillUrl8 = { id: 'recSkillUrl8', name: '@url8', competenceIds: ['recCompetence2'] };
       const skills = [skillWeb1, skillWeb2, skillWeb3, skillUrl1, skillUrl8];
 
       participant = databaseBuilder.factory.buildUser();
@@ -92,36 +91,28 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-
 
       await databaseBuilder.commit();
 
-      const competence1 = airtableBuilder.factory.buildCompetence({
-        id: 'recCompetence1',
-        titre: 'Competence1',
-        sousDomaine: '1.1',
-        domaineIds: ['recArea1'],
-        acquisViaTubes: [skillWeb1, skillWeb2, skillWeb3].map((skill) => skill.id),
-      });
-
-      const competence2 = airtableBuilder.factory.buildCompetence({
-        id: 'recCompetence2',
-        titre: 'Competence2',
-        sousDomaine: '3.2',
-        domaineIds: ['recArea3'],
-        acquisViaTubes: [skillUrl1.id, skillUrl8.id],
-      });
-
-      const area1 = airtableBuilder.factory.buildArea({ id: 'recArea1', code: '1', titre: 'Domain 1' });
-      const area3 = airtableBuilder.factory.buildArea({ id: 'recArea3', code: '3', title: 'Domain 3' });
-
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([competence1, competence2]).activate();
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([area1, area3]).activate();
+      const learningContent = {
+        areas: [
+          { id: 'recArea1' },
+          { id: 'recArea2' },
+        ],
+        competences: [{
+          id: 'recCompetence1',
+          areaId: 'recArea1',
+          skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
+          origin: 'Pix',
+        }, {
+          id: 'recCompetence2',
+          areaId: 'recArea2',
+          skillIds: [skillUrl1.id, skillUrl8.id],
+          origin: 'Pix',
+        }],
+        skills,
+      };
+      mockLearningContent(learningContent);
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-      return cache.flushAll();
     });
 
     context('When the organization is PRO', () => {

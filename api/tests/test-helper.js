@@ -5,6 +5,7 @@ const sinon = require('sinon');
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
+const cache = require('../lib/infrastructure/caches/learning-content-cache');
 
 const { knex } = require('../db/knex-database-connection');
 
@@ -14,14 +15,15 @@ const databaseBuilder = new DatabaseBuilder({ knex });
 const nock = require('nock');
 nock.disableNetConnect();
 
-const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
-const airtableBuilder = new AirtableBuilder({ nock });
+const learningContentBuilder = require('./tooling/learning-content-builder');
 
 const tokenService = require('../lib/domain/services/token-service');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
 afterEach(function() {
   sinon.restore();
+  cache.flushAll();
+  nock.cleanAll();
   return databaseBuilder.clean();
 });
 
@@ -140,9 +142,15 @@ chai.use(function(chai) {
   });
 });
 
+function mockLearningContent(learningContent) {
+  nock('https://lcms-test.pix.fr/api')
+    .get('/current-content')
+    .matchHeader('Authorization', 'Bearer test-api-key')
+    .reply(200, learningContent);
+}
+
 module.exports = {
   EMPTY_BLANK_AND_NULL,
-  airtableBuilder,
   expect,
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
@@ -158,4 +166,6 @@ module.exports = {
   catchErr,
   testErr: new Error('Fake Error'),
   compareDatabaseObject,
+  mockLearningContent,
+  learningContentBuilder,
 };

@@ -1,22 +1,13 @@
-const { expect, databaseBuilder, airtableBuilder, catchErr } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
+const { expect, databaseBuilder, mockLearningContent, catchErr } = require('../../../test-helper');
 const CampaignProfileRepository = require('../../../../lib/infrastructure/repositories/campaign-profile-repository');
 const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | CampaignProfileRepository', function() {
   describe('#findProfile', () => {
-
     context('campaign participation infos', () => {
       beforeEach(() => {
-        airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
-      });
-
-      afterEach(() => {
-        airtableBuilder.cleanAll();
-        return cache.flushAll();
+        mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
       it('return the creation date, the sharing date and the participantExternalId', async () => {
@@ -72,14 +63,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
     context('user infos', () => {
       beforeEach(() => {
-        airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
-      });
-
-      afterEach(() => {
-        airtableBuilder.cleanAll();
-        return cache.flushAll();
+        mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
       it('return the first name and last name of the participant', async () => {
@@ -99,14 +83,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
     context('schooling registration infos', () => {
       beforeEach(() => {
-        airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
-      });
-
-      afterEach(() => {
-        airtableBuilder.cleanAll();
-        return cache.flushAll();
+        mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
       it('return the first name and last name of the schooling registration', async () => {
@@ -124,26 +101,29 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
     context('certification infos', () => {
       beforeEach(() => {
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+        const learningContent = {
+          areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
+          competences: [
+            { id: 'rec1', origin: 'Pix', areaId: 'recArea1' },
+            { id: 'rec2', origin: 'Pix', areaId: 'recArea1' },
+            { id: 'rec3', origin: 'Other', areaId: 'recArea1' },
+          ],
+          skills: [{
+            id: 'recSkill1',
+            status: 'actif',
+            competenceId: 'rec1',
+          }, {
+            id: 'recSkill2',
+            status: 'actif',
+            competenceId: 'rec2',
+          }, {
+            id: 'recSkill3',
+            status: 'actif',
+            competenceId: 'rec3',
+          }],
+        };
 
-        const competences = [
-          airtableBuilder.factory.buildCompetence({ id: 'rec1', origin: 'Pix' }),
-          airtableBuilder.factory.buildCompetence({ id: 'rec2', origin: 'Pix' }),
-          airtableBuilder.factory.buildCompetence({ id: 'rec3', origin: 'Other' }),
-        ];
-        airtableBuilder.mockList({ tableName: 'Competences' }).returns(competences).activate();
-
-        const skills = [];
-        competences.forEach((competence) => {
-          const skill = airtableBuilder.factory.buildSkill({ compétenceViaTube: [competence.id] });
-          skills.push(skill);
-        });
-        airtableBuilder.mockList({ tableName: 'Acquis' }).returns(skills).activate();
-      });
-
-      afterEach(() => {
-        airtableBuilder.cleanAll();
-        return cache.flushAll();
+        mockLearningContent(learningContent);
       });
 
       it('return the number of competences', async () => {
@@ -240,14 +220,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
     context('when there is no campaign-participation with the given id', () => {
       beforeEach(() => {
-        airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
-      });
-
-      afterEach(() => {
-        airtableBuilder.cleanAll();
-        return cache.flushAll();
+        mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
       it('throws an NotFoundError error', async () => {
@@ -260,14 +233,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
     context('when there is no campaign-participation with the given id for the given campaign', () => {
       beforeEach(() => {
-        airtableBuilder.mockList({ tableName: 'Competences' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
-        airtableBuilder.mockList({ tableName: 'Acquis' }).returns([]).activate();
-      });
-
-      afterEach(() => {
-        airtableBuilder.cleanAll();
-        return cache.flushAll();
+        mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
       it('throws an NotFoundError error', async () => {

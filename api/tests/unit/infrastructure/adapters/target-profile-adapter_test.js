@@ -3,7 +3,6 @@ const BookshelfTargetProfile = require('../../../../lib/infrastructure/data/targ
 const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/data/target-profile-share');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
-const { DEFAULT_TUTORIAL_ID } = require('../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 
 describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
 
@@ -12,15 +11,15 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
     const organizationWhichShared = new BookshelfTargetProfileShare(databaseBuilder.factory.buildTargetProfileShare());
     bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([ organizationWhichShared ]);
-    const skillAirtableDataObject = domainBuilder.buildSkillAirtableDataObject();
-    const associatedSkillAirtableDataObjects = [skillAirtableDataObject];
+    const skillLearningContentDataObject = domainBuilder.buildSkillLearningContentDataObject();
+    const associatedSkillDatasourceObjects = [skillLearningContentDataObject];
     const skill = domainBuilder.buildSkill({
-      id: skillAirtableDataObject.id,
-      name: skillAirtableDataObject.name,
-      pixValue: skillAirtableDataObject.pixValue,
-      competenceId: skillAirtableDataObject.competenceId,
-      tutorialIds: [DEFAULT_TUTORIAL_ID],
-      tubeId: skillAirtableDataObject.tubeId,
+      id: skillLearningContentDataObject.id,
+      name: skillLearningContentDataObject.name,
+      pixValue: skillLearningContentDataObject.pixValue,
+      competenceId: skillLearningContentDataObject.competenceId,
+      tutorialIds: ['recCO0X22abcdefgh'],
+      tubeId: skillLearningContentDataObject.tubeId,
     });
     const expectedTargetProfile = domainBuilder.buildTargetProfile({
       id: bookshelfTargetProfile.get('id'),
@@ -35,7 +34,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     // when
     const targetProfile = targetProfileAdapter.fromDatasourceObjects({
       bookshelfTargetProfile,
-      associatedSkillAirtableDataObjects,
+      associatedSkillDatasourceObjects,
     });
 
     // then

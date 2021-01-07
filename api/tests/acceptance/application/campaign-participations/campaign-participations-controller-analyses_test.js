@@ -1,7 +1,6 @@
 const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
-const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 describe('Acceptance | API | Campaign Participations | Analyses', () => {
 
@@ -41,22 +40,38 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
 
       await databaseBuilder.commit();
 
-      const area = airtableBuilder.factory.buildArea({ competenceIds: ['recCompetence1'], couleur: 'specialColor' });
-      const competence1 = airtableBuilder.factory.buildCompetence({ id: 'recCompetence1', titre: 'Fabriquer un meuble', acquisViaTubes: [ 'recSkillId1' ], domaineIds: [ area.id ] });
-      const tutorial = airtableBuilder.factory.buildTutorial({ id: 'recTutorial1', titre: 'Apprendre à vivre confiné', format: '2 mois', source: 'covid-19', lien: 'www.liberez-moi.fr', createdTime: '2020-03-16T14:38:03.000Z' });
-      airtableBuilder.mockList({ tableName: 'Acquis' }).returns([
-        airtableBuilder.factory.buildSkill({ id: 'recSkillId1', 'compétenceViaTube': ['recCompetence1'], tube: ['recTube1'], comprendre: [tutorial.id] }),
-      ]).activate();
-      const tube1 = airtableBuilder.factory.buildTube({ id: 'recTube1', titrePratiqueFrFr: 'Monter une étagère', competences: [ 'recCompetence1' ] });
-      airtableBuilder.mockList({ tableName: 'Tubes' }).returns([ tube1 ]).activate();
-      airtableBuilder.mockList({ tableName: 'Competences' }).returns([ competence1 ]).activate();
-      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([ area ]).activate();
-      airtableBuilder.mockList({ tableName: 'Tutoriels' }).returns([ tutorial ]).activate();
-    });
-
-    afterEach(async () => {
-      await airtableBuilder.cleanAll();
-      return cache.flushAll();
+      const learningContent = [{
+        id: 'recArea1',
+        color: 'specialColor',
+        competences: [{
+          id: 'recCompetence1',
+          name: 'Fabriquer un meuble',
+          tubes: [{
+            id: 'recTube1',
+            practicalTitleFr: 'Monter une étagère',
+            skills: [{
+              id: 'recSkillId1',
+              nom: '@skill1',
+              challenges: [],
+              tutorials: [{
+                id: 'recTutorial1',
+                title: 'Apprendre à vivre confiné',
+                format: '2 mois',
+                source: 'covid-19',
+                link: 'www.liberez-moi.fr',
+                locale: 'fr-fr',
+                duration: '00:03:31',
+              }],
+            }, {
+              id: 'recSkillId2',
+              nom: '@skill2',
+              challenges: [],
+            }],
+          }],
+        }],
+      }];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
     });
 
     it('should return the campaign participation analyses', async () => {

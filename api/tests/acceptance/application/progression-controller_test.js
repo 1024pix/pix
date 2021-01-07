@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder, airtableBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Progressions', () => {
@@ -16,19 +16,22 @@ describe('Acceptance | API | Progressions', () => {
 
     beforeEach(async () => {
 
-      const challenge = airtableBuilder.factory.buildChallenge({});
+      const learningContent = [{
+        id: 'recArea1',
+        competences: [{
+          id: 'recCompetence1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [{
+              id: 'recSkill1',
+              challenges: ['recChallenge1'],
+            }],
+          }],
+        }],
+      }];
 
-      airtableBuilder
-        .mockList({ tableName: 'Epreuves' })
-        .returns([challenge])
-        .activate();
-
-      const skill = airtableBuilder.factory.buildSkill({});
-
-      airtableBuilder
-        .mockList({ tableName: 'Acquis' })
-        .returns([skill])
-        .activate();
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
 
       userId = databaseBuilder.factory.buildUser({}).id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -47,10 +50,6 @@ describe('Acceptance | API | Progressions', () => {
           campaignParticipationId,
         }).id;
       await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      nock.cleanAll();
     });
 
     context('without authorization token', () => {
