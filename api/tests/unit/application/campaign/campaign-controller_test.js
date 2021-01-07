@@ -207,6 +207,7 @@ describe('Unit | Application | Controller | Campaign', () => {
           'alternative-text-to-external-id-help-image': campaignToJoin.alternativeTextToExternalIdHelpImage,
           'is-archived': campaignToJoin.isArchived,
           'is-restricted': campaignToJoin.isRestricted,
+          'organization-is-pole-emploi': campaignToJoin.organizationIsPoleEmploi,
           'organization-name': campaignToJoin.organizationName,
           'organization-type': campaignToJoin.organizationType,
           'organization-logo-url': campaignToJoin.organizationLogoUrl,
