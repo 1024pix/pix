@@ -130,6 +130,47 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         expect(results.data[0].certifiableCompetencesCount).to.equal(1);
       });
     });
+
+    describe('when there is a filter on division', () => {
+
+      beforeEach(async () => {
+        const participation1 = {
+          participantExternalId: 'Can\'t get Enough Of Your Love, Baby',
+          campaignId,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation1, { id: 1 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 1, division: 'Barry' });
+
+        const participation2 = {
+          participantExternalId: 'You\'re The First, The last, My Everything',
+          campaignId,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation2, { id: 2 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 2, division: 'White' });
+
+        const participation3 = {
+          participantExternalId: 'Ain\'t No Mountain High Enough',
+          campaignId,
+        };
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation3, { id: 3 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 3, division: 'Marvin Gaye' });
+
+        await databaseBuilder.commit();
+      });
+
+      it('returns participations which have the correct division', async () => {
+        // when
+        const divisions = ['Barry', 'White'];
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId, undefined, { divisions });
+        const participantExternalIds = results.data.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['Can\'t get Enough Of Your Love, Baby', 'You\'re The First, The last, My Everything']);
+      });
+    });
   });
 });
 
