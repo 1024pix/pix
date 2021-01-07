@@ -1,8 +1,8 @@
 import { action } from '@ember/object';
 import { isNone } from '@ember/utils';
 import Component from '@glimmer/component';
-import ENV from 'mon-pix/config/environment';
 import { tracked } from '@glimmer/tracking';
+import ENV from 'mon-pix/config/environment';
 
 export default class HexagonScore extends Component {
   @tracked displayHelp = 'hexagon-score__information--hidden';
@@ -22,7 +22,6 @@ export default class HexagonScore extends Component {
 
   @action
   hideHelp() {
-    console.log('plop');
     this.displayHelp = 'hexagon-score__information--hidden';
   }
 
