@@ -41,12 +41,48 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
             category: CertificationIssueReportCategories.OTHER,
             description: 'un commentaire',
           }),
+          new CertificationIssueReport({
+            id: 43,
+            certificationCourseId: certificationCourseId,
+            category: CertificationIssueReportCategories.OTHER,
+            description: 'un autre commentaire',
+          }),
         ],
         hasSeenEndTestScreen: true,
         cleaCertificationStatus: 'acquired',
         sessionId: 22,
         assessmentId: 99,
       });
+      const jsonApiDataRelationship = {
+        data: [{
+          type: 'certificationIssueReports',
+          id: '42',
+        },
+        {
+          type: 'certificationIssueReports',
+          id: '43',
+        }],
+      };
+      const jsonApiDataIncluded = [{
+        type: 'certificationIssueReports',
+        id: '42',
+        attributes: {
+          category: CertificationIssueReportCategories.OTHER,
+          description: 'un commentaire',
+          'question-number': null,
+          subcategory: null,
+        },
+      },
+      {
+        type: 'certificationIssueReports',
+        id: '43',
+        attributes: {
+          category: CertificationIssueReportCategories.OTHER,
+          description: 'un autre commentaire',
+          'question-number': null,
+          subcategory: null,
+        },
+      }];
 
       // when
       const serializedCertificationCourse = serializer.serialize(certificationResult);
@@ -55,20 +91,20 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
       expect(serializedCertificationCourse).to.deep.equal({
         data: {
           id: certificationResult.id.toString(),
-          type: 'results',
+          type: 'certifications',
           attributes: {
             birthdate: certificationResult.birthdate,
             birthplace: certificationResult.birthplace,
             'comment-for-candidate': certificationResult.commentForCandidate,
             'comment-for-jury': certificationResult.commentForJury,
             'comment-for-organization': certificationResult.commentForOrganization,
-            'examiner-comment': 'un commentaire',
             'has-seen-end-test-screen': true,
             'clea-certification-status': certificationResult.cleaCertificationStatus,
             'competences-with-mark': certificationResult.competencesWithMark,
             'completed-at': new Date('2017-02-20T01:02:03Z'),
             'created-at': new Date('2017-02-20T01:02:03Z'),
             emitter: certificationResult.emitter,
+            'examiner-comment': 'un commentaire',
             'external-id': certificationResult.externalId,
             'first-name': certificationResult.firstName,
             'is-published': certificationResult.isPublished,
@@ -81,7 +117,11 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
             'assessment-id': certificationResult.assessmentId,
             status: certificationResult.status,
           },
+          relationships: {
+            'certification-issue-reports': jsonApiDataRelationship,
+          },
         },
+        included: jsonApiDataIncluded,
       });
     });
   });
