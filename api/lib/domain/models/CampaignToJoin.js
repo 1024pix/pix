@@ -16,6 +16,7 @@ class CampaignToJoin {
     organizationType,
     organizationLogoUrl,
     organizationIsManagingStudents,
+    organizationIsPoleEmploi,
     targetProfileName,
     targetProfileImageUrl,
   } = {}) {
@@ -33,6 +34,7 @@ class CampaignToJoin {
     this.organizationName = organizationName;
     this.organizationType = organizationType;
     this.organizationLogoUrl = organizationLogoUrl;
+    this.organizationIsPoleEmploi = organizationIsPoleEmploi;
     this.targetProfileName = targetProfileName;
     this.targetProfileImageUrl = targetProfileImageUrl;
   }

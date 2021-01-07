@@ -40,8 +40,13 @@ module.exports = {
         'targetProfileName': 'target-profiles.name',
         'targetProfileImageUrl': 'target-profiles.imageUrl',
       })
+      .select(knex.raw('EXISTS(SELECT true FROM "organization-tags" ' +
+        'JOIN tags ON "organization-tags"."tagId" = "tags".id ' +
+        'WHERE "tags"."name" = \'POLE EMPLOI\' AND "organization-tags"."organizationId" = "organizations".id) as "organizationIsPoleEmploi"'))
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
+      .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
+      .leftJoin('tags', 'tags.id', 'organization-tags.tagId')
       .where('campaigns.code', code)
       .first();
 
