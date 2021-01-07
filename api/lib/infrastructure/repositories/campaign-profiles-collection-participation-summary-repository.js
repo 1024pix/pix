@@ -10,7 +10,7 @@ const { fetchPage } = require('../utils/knex-utils');
 
 const CampaignProfilesCollectionParticipationSummaryRepository = {
 
-  async findPaginatedByCampaignId(campaignId, page) {
+  async findPaginatedByCampaignId(campaignId, page, filters = {}) {
     const query = knex
       .select(
         'campaign-participations.id AS campaignParticipationId',
@@ -30,7 +30,8 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
           .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
       })
       .where('campaign-participations.campaignId', '=', campaignId)
-      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
+      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName'])
+      .modify(_filterQuery, filters);
 
     const { results, pagination } = await fetchPage(query, page);
 
@@ -77,6 +78,13 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
   const placementProfiles = sharedResultsChunks.flat();
 
   return (userId) => placementProfiles.find((placementProfile) => placementProfile.userId === userId);
+}
+
+function _filterQuery(qb, filters) {
+  if (filters.divisions) {
+    const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
+    qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+  }
 }
 
 module.exports = CampaignProfilesCollectionParticipationSummaryRepository;
