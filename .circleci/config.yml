@@ -62,7 +62,7 @@ workflows:
 jobs:
   checkout:
     docker:
-      - image: circleci/node:14.15.1
+      - image: cimg/node:14.15.4
     resource_class: small
     working_directory: ~/pix
     steps:
@@ -81,7 +81,7 @@ jobs:
 
   api_build_and_test:
     docker:
-      - image: circleci/node:14.15.1
+      - image: cimg/node:14.15.4
       - image: postgres:12.4-alpine
         environment:
           POSTGRES_USER: circleci
@@ -110,7 +110,7 @@ jobs:
 
   mon_pix_build_and_test:
     docker:
-      - image: circleci/node:14.15.1-browsers
+      - image: cimg/node:14.15.4-browsers
         environment:
           # See https://git.io/vdao3 for details.
           JOBS: 2
@@ -138,7 +138,7 @@ jobs:
 
   orga_build_and_test:
     docker:
-      - image: circleci/node:14.15.1-browsers
+      - image: cimg/node:14.15.4-browsers
         environment:
           JOBS: 2
     resource_class: small
@@ -164,7 +164,7 @@ jobs:
 
   certif_build_and_test:
     docker:
-      - image: circleci/node:14.15.1-browsers
+      - image: cimg/node:14.15.4-browsers
         environment:
           JOBS: 2
     resource_class: small
@@ -190,7 +190,7 @@ jobs:
 
   admin_build_and_test:
     docker:
-      - image: circleci/node:14.15.1-browsers
+      - image: cimg/node:14.15.4-browsers
         environment:
           JOBS: 2
     resource_class: small
