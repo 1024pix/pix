@@ -22,15 +22,19 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
     });
 
     it('should retrieve the campaign participations datas', async () => {
+      const page = { number: 1 };
+      const filters = { divisions: ['Barry White Classics'] };
       // given
       campaignProfilesCollectionParticipationSummaryRepository
         .findPaginatedByCampaignId
-        .withArgs(campaignId)
+        .withArgs(campaignId, page, filters)
         .resolves(campaignProfilesCollectionParticipationSummaries);
 
       participationSummaries = await findCampaignProfilesCollectionParticipationSummaries({
         userId,
         campaignId,
+        page,
+        filters,
         campaignRepository,
         campaignProfilesCollectionParticipationSummaryRepository,
       });
