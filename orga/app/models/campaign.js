@@ -5,58 +5,45 @@ const PROFILES_COLLECTION_TEXT = 'Collecte de profils';
 const ASSESSMENT_TEXT = 'Évaluation';
 
 export default class Campaign extends Model {
-  @attr('string')
-  name;
+  @attr('string') name;
+  @attr('string') code;
+  @attr('string') type;
+  @attr('string') title;
+  @attr('boolean') isArchived;
+  @attr('string') idPixLabel;
+  @attr('string') customLandingPageText;
+  @attr('string') tokenForCampaignResults;
+  @attr('string') creatorId;
+  @attr('string') creatorLastName;
+  @attr('string') creatorFirstName;
+  //@attr('date') createdAt;
+  @attr('string') targetProfileId;
+  @attr('string') targetProfileName;
+  @attr('string') targetProfileImageUrl;
+  @attr('number') participationsCount;
+  @attr('number') sharedParticipationsCount;
 
-  @attr('string')
-  code;
+  @belongsTo('user') creator;
+  @belongsTo('organization') organization;
+  @belongsTo('target-profile') targetProfile;
+  @belongsTo('campaign-collective-result') campaignCollectiveResult;
+  @belongsTo('campaign-analysis') campaignAnalysis;
 
-  @attr('string')
-  type;
+  @hasMany('badge') badges;
+  @hasMany('stage') stages;
+  @hasMany('divisions') divisions;
 
-  @attr('string')
-  title;
+  get hasBadges() {
+    return Boolean(this.badges) && this.badges.length > 0;
+  }
 
-  @attr('date')
-  createdAt;
+  get hasStages() {
+    return Boolean(this.stages) && this.stages.length > 0;
+  }
 
-  @belongsTo('user')
-  creator;
-
-  @attr('date')
-  archivedAt;
-
-  @attr('string')
-  idPixLabel;
-
-  @attr('string')
-  customLandingPageText;
-
-  // TODO remove organizationId and work only with the relationship
-
-  @attr('number')
-  organizationId;
-
-  @belongsTo('organization')
-  organization;
-
-  @attr('string')
-  tokenForCampaignResults;
-
-  @belongsTo('target-profile')
-  targetProfile;
-
-  @belongsTo('campaign-report')
-  campaignReport;
-
-  @belongsTo('campaign-collective-result')
-  campaignCollectiveResult;
-
-  @belongsTo('campaign-analysis')
-  campaignAnalysis;
-
-  @hasMany('divisions')
-  divisions;
+  get creatorFullName() {
+    return `${this.creatorFirstName} ${this.creatorLastName}`;
+  }
 
   get isTypeProfilesCollection() {
     return this.type === 'PROFILES_COLLECTION';
@@ -77,17 +64,13 @@ export default class Campaign extends Model {
     return `${ENV.APP.API_HOST}/api/campaigns/${this.id}/csv-profiles-collection-results?accessToken=${this.tokenForCampaignResults}`;
   }
 
-  get isArchived() {
-    return Boolean(this.archivedAt);
-  }
-
   async archive() {
     await this.store.adapterFor('campaign').archive(this);
-    return this.store.findRecord('campaign', this.id, { include: 'targetProfile' });
+    return this.store.findRecord('campaign', this.id);
   }
 
   async unarchive() {
     await this.store.adapterFor('campaign').unarchive(this);
-    return this.store.findRecord('campaign', this.id, { include: 'targetProfile' });
+    return this.store.findRecord('campaign', this.id);
   }
 }

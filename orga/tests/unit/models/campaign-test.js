@@ -1,59 +1,43 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 
 module('Unit | Model | campaign', function(hooks) {
   setupTest(hooks);
 
   test('it should return the right data in the campaign model', function(assert) {
     const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign', {
+    const model = store.createRecord('campaign', {
       name: 'Fake name',
       code: 'ABC123',
-    }));
+    });
     assert.equal(model.name, 'Fake name');
     assert.equal(model.code, 'ABC123');
   });
 
-  test('it should construct the url to result of the campaign with type assessment', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign', {
-      id: 1,
-      name: 'Fake name',
-      code: 'ABC123',
-      tokenForCampaignResults: 'token',
-      type: 'ASSESSMENT',
-    }));
-    assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token');
-  });
+  module('#urlToResult', function() {
+    test('it should construct the url to result of the campaign with type assessment', function(assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', {
+        id: 1,
+        name: 'Fake name',
+        code: 'ABC123',
+        tokenForCampaignResults: 'token',
+        type: 'ASSESSMENT',
+      });
+      assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token');
+    });
 
-  test('it should construct the url to result of the campaign with type profiles collection', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign', {
-      id: 1,
-      name: 'Fake name',
-      code: 'ABC123',
-      tokenForCampaignResults: 'token',
-      type: 'PROFILES_COLLECTION',
-    }));
-    assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token');
-  });
-
-  test('it should compute the isArchived property from the archivation date at creation', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign', {
-      archivedAt: new Date('2010-10-10'),
-    }));
-    assert.equal(model.isArchived, true);
-  });
-
-  test('it should compute the isArchived property from the archivation date when set to null', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign', {
-      archivedAt: new Date('2010-10-10'),
-    }));
-    model.set('archivedAt', null);
-    assert.equal(model.isArchived, false);
+    test('it should construct the url to result of the campaign with type profiles collection', function(assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', {
+        id: 1,
+        name: 'Fake name',
+        code: 'ABC123',
+        tokenForCampaignResults: 'token',
+        type: 'PROFILES_COLLECTION',
+      });
+      assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token');
+    });
   });
 
   module('#readableType', function(hooks) {
@@ -80,30 +64,54 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('isArchived', function() {
-    let store;
+  module('#hasStages', function() {
+    test('returns true while campaign contains stages', function(assert) {
+      const store = this.owner.lookup('service:store');
+      const stage = store.createRecord('stage', { threshold: 45 });
+      const model = store.createRecord('campaign', {
+        stages: [stage],
+      });
 
-    hooks.beforeEach(function() {
-      store = this.owner.lookup('service:store');
+      assert.equal(model.hasStages, true);
     });
 
-    module('when campaign does not have an archived date', function() {
-      test('it should return false', function(assert) {
-        const campaign = store.createRecord('campaign', {
-          archivedAt: null,
-        });
-
-        assert.equal(campaign.isArchived, false);
+    test('returns false while campaign does not contain stages', function(assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', {
+        stages: [],
       });
+
+      assert.equal(model.hasStages, false);
     });
-    module('when campaign has an archived date', function() {
-      test('it should return true', function(assert) {
-        const campaign = store.createRecord('campaign', {
-          archivedAt: new Date('2020-01-01'),
-        });
+  });
 
-        assert.equal(campaign.isArchived, true);
+  module('#hasBadges', function() {
+    test('returns true while campaign contains badges', function(assert) {
+      const store = this.owner.lookup('service:store');
+      const badge = store.createRecord('badge', { threshold: 45 });
+      const model = store.createRecord('campaign', {
+        badges: [badge],
       });
+
+      assert.equal(model.hasBadges, true);
+    });
+
+    test('returns false while campaign does not contain badges', function(assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', {
+        badges: [],
+      });
+
+      assert.equal(model.hasBadges, false);
+    });
+  });
+
+  module('#creatorFullName', function() {
+    test('it should return the fullname, combination of last and first name', function(assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', { creatorFirstName: 'Jean-Baptiste', creatorLastName: 'Poquelin' });
+
+      assert.equal(model.creatorFullName, 'Jean-Baptiste Poquelin');
     });
   });
 });

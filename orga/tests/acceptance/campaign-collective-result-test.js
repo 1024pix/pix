@@ -18,9 +18,8 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
 
-    const campaignReport = server.create('campaign-report', { sharedParticipationCount: 3 });
     const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
-    server.create('campaign', { id: 1, campaignCollectiveResult, campaignReport });
+    server.create('campaign', { campaignCollectiveResult, sharedParticipationsCount: 2 });
 
     await authenticateSession({
       user_id: user.id,
@@ -32,15 +31,10 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
 
   test('it should display campaign collective result', async function(assert) {
     // when
+    server.logging = true;
     await visit('/campagnes/1/resultats-collectifs');
 
     // then
-    assert.dom('.table__empty').doesNotExist();
-
-    assert.dom('table tbody tr:first-child td:first-child span:first-child').hasClass('competences-col__border--jaffa');
-    assert.dom('table tbody tr:first-child td:first-child span:nth-child(2)').hasText('Competence A');
-    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('50%');
-    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('5');
-    assert.dom('table tbody tr:first-child td:nth-child(4)').hasText('10');
+    assert.dom('[aria-label="Résultats collectifs par compétence"]').containsText('Compétences (2)');
   });
 });
