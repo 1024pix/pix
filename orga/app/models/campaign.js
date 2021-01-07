@@ -1,4 +1,4 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import ENV from 'pix-orga/config/environment';
 
 const PROFILES_COLLECTION_TEXT = 'Collecte de profils';
@@ -54,6 +54,9 @@ export default class Campaign extends Model {
 
   @belongsTo('campaign-analysis')
   campaignAnalysis;
+
+  @hasMany('divisions')
+  divisions;
 
   get isTypeProfilesCollection() {
     return this.type === 'PROFILES_COLLECTION';

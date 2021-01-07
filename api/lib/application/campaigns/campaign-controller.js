@@ -11,6 +11,7 @@ const campaignReportSerializer = require('../../infrastructure/serializers/jsona
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 const campaignProfilesCollectionParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer');
 const campaignAssessmentParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-summary-serializer');
+const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
@@ -142,10 +143,12 @@ module.exports = {
 
   async findAssessmentParticipations(request) {
     const campaignId = request.params.id;
-    const { page } = queryParamsUtils.extractParameters(request.query);
-
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+    if (filters.divisions && !Array.isArray(filters.divisions)) {
+      filters.divisions = [filters.divisions];
+    }
     const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
-    const campaignAssessmentParticipationSummariesPaginated = await usecases.findPaginatedCampaignAssessmentParticipationSummaries({ userId: currentUserId, campaignId, page });
+    const campaignAssessmentParticipationSummariesPaginated = await usecases.findPaginatedCampaignAssessmentParticipationSummaries({ userId: currentUserId, campaignId, page, filters });
     return campaignAssessmentParticipationSummarySerializer.serializeForPaginatedList(campaignAssessmentParticipationSummariesPaginated);
   },
 
@@ -156,6 +159,14 @@ module.exports = {
 
     const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page });
     return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
+  },
+
+  async division(request) {
+    const { userId } = request.auth.credentials;
+    const campaignId = request.params.id;
+
+    const divisions = await usecases.getParticipantsDivision({ userId, campaignId });
+    return divisionSerializer.serialize(divisions);
   },
 };
 

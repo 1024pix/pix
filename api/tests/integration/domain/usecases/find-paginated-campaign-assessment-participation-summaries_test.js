@@ -4,6 +4,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 
 describe('Integration | UseCase | find-paginated-campaign-assessment-participation-summaries', () => {
 
+  let filters = {};
   context('when requesting user is not allowed to access campaign informations', () => {
     let campaign;
     let user;
@@ -51,6 +52,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
         userId: user.id,
         campaignId: campaign.id,
+        filters,
       });
 
       expect(campaignAssessmentParticipationSummaries[0].participantExternalId).to.equal('Ashitaka');
@@ -69,10 +71,33 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
         const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
           userId: user.id,
           campaignId: campaign.id,
+          filters,
         });
 
         expect(campaignAssessmentParticipationSummaries[0].badges.length).to.equal(1);
         expect(campaignAssessmentParticipationSummaries[0].badges[0]).to.includes(badge);
+      });
+    });
+
+    context('when there is a filter on division', () => {
+      beforeEach(async () => {
+        filters = { divisions: ['6eme'] };
+        const participation = { participantExternalId: 'Yubaba', campaignId: campaign.id };
+        const participant = { id: 456, firstName: 'Chihiro', lastName: 'Ogino' };
+        databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
+        databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, organizationId: campaign.organizationId, division: '6eme' });
+
+        await databaseBuilder.commit();
+      });
+
+      it('returns the campaignAssessmentParticipationSummaries for the participants with badges', async () => {
+        const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
+          userId: user.id,
+          campaignId: campaign.id,
+          filters,
+        });
+
+        expect(campaignAssessmentParticipationSummaries[0].participantExternalId).to.equal('Yubaba');
       });
     });
   });

@@ -1,3 +1,17 @@
+{{#if this.displayDivisionFilter }}
+  <PixFilterBanner @title="Filtres" class="participant-filter-banner" aria-label="Filtres sur les participations">
+    <PixMultiSelect
+            class="division-filter"
+            @title={{'Classes'}}
+            @id={{'division'}}
+            @isSearchable={{false}}
+            @onSelect={{ this.onSelectDivision }}
+            @selected={{ @selectedDivisions }}
+            @options={{ this.divisionOptions }} as |option|>
+      {{option.value}}
+    </PixMultiSelect>
+  </PixFilterBanner>
+{{/if}}
 <div class="panel">
   <div class="table content-text content-text--small">
     <table>
@@ -28,7 +42,7 @@
               {{#if participation.isShared}}
                 {{#if @campaign.campaignReport.hasStages}}
                   <StageStars
-                    @result={{participation.masteryPercentage}} 
+                    @result={{participation.masteryPercentage}}
                     @stages={{@campaign.campaignReport.stages}}
                   />
                 {{else}}
