@@ -8,7 +8,6 @@ const { checkCsvExtensionFile, parseCsvWithHeader } = require('./helpers/csvHelp
 const Membership = require('../lib/domain/models/Membership');
 
 const { knex } = require('../lib/infrastructure/bookshelf');
-const Bookshelf = require('../lib/infrastructure/bookshelf');
 
 async function getCertificationCenterIdByExternalId(externalId) {
   const certificationCenter = await knex('certification-centers')
@@ -52,7 +51,7 @@ async function prepareDataForInsert(rawExternalIds) {
 }
 
 async function createCertificationCenterMemberships(certificationCenterMemberships) {
-  return Bookshelf.knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
+  return knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
 }
 
 async function main() {
