@@ -71,7 +71,18 @@ export default class Session extends Model {
         ? juryCertificationSummary.numberOfCertificationIssueReports
         : 0;
       return totalOfCertificationIssueReports + numberOfCertificationIssueReports;
-    }
+    };
+    return this.juryCertificationSummaries.reduce(reducer, 0);
+  }
+
+  @computed('juryCertificationSummaries.[]')
+  get countCertificationIssueReportsWithActionRequired() {
+    const reducer = (totalOfCertificationIssueReports, juryCertificationSummary) => {
+      const numberOfCertificationIssueReportsWithActionRequired = juryCertificationSummary.numberOfCertificationIssueReportsWithActionRequired
+        ? juryCertificationSummary.numberOfCertificationIssueReportsWithActionRequired
+        : 0;
+      return totalOfCertificationIssueReports + numberOfCertificationIssueReportsWithActionRequired;
+    };
     return this.juryCertificationSummaries.reduce(reducer, 0);
   }
 
