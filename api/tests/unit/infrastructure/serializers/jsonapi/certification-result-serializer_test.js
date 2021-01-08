@@ -69,6 +69,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
         attributes: {
           category: CertificationIssueReportCategories.OTHER,
           description: 'un commentaire',
+          'is-action-required': true,
           'question-number': null,
           subcategory: null,
         },
@@ -79,6 +80,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-serializer', functi
         attributes: {
           category: CertificationIssueReportCategories.OTHER,
           description: 'un autre commentaire',
+          'is-action-required': true,
           'question-number': null,
           subcategory: null,
         },
