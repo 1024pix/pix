@@ -1,4 +1,5 @@
-{{!-- template-lint-disable no-implicit-this  --}}
-<LinkTo @route="index" class="pix-logo__link" @title={{t 'navigation.homepage'}}>
-  <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt={{t 'common.pix'}}>
-</LinkTo>
+<div class="pix-logo">
+  <LinkTo @route="index" class="pix-logo__link" @title={{t 'navigation.homepage'}}>
+    <img class="pix-logo__image" src="{{this.rootURL}}/images/pix-logo.svg" alt={{t 'common.pix'}}>
+  </LinkTo>
+</div>
