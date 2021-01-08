@@ -31,7 +31,7 @@ module('Acceptance | Session List', function(hooks) {
 
     hooks.beforeEach(async function() {
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      certificationCenterId = certificationPointOfContact.certificationCenterId;
+      certificationCenterId = certificationPointOfContact.currentCertificationCenterId;
 
       await authenticateSession(certificationPointOfContact.id);
     });

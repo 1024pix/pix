@@ -130,7 +130,7 @@ module('Acceptance | authentication', function(hooks) {
     test('it should show the name and externalId of certification center', async function(assert) {
       await visit('/sessions/liste');
 
-      assert.dom('.logged-user-summary__certificationPointOfContact').hasText('Centre de certification du pix (ABC123)');
+      assert.dom('.logged-user-summary__certification-center').hasText('Centre de certification du pix (ABC123)');
     });
 
     test('it should redirect certificationPointOfContact to the session list on root url', async function(assert) {

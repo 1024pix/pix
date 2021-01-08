@@ -11,17 +11,30 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
   let certificationPointOfContact;
   let currentCertificationCenter;
+  let firstCertificationCenter;
+  let secondCertificationCenter;
 
   hooks.beforeEach(async function() {
     // given
     currentCertificationCenter = Object.create({
-      name: 'givenCertificationCenterName',
-      externalId: 'givenCertificationCenterExternalId',
+      name: 'currentCertificationCenterName',
+      externalId: 'currentCertificationCenterExternalId',
+    });
+
+    firstCertificationCenter = Object.create({
+      name: 'firstCertificationCenterName',
+      externalId: 'firstCertificationCenterExternalId',
+    });
+
+    secondCertificationCenter = Object.create({
+      name: 'secondCertificationCenterName',
+      externalId: 'secondCertificationCenterExternalId',
     });
 
     certificationPointOfContact = Object.create({
       firstName: 'givenFirstName',
       lastName: 'givenLastName',
+      certificationCenters: [currentCertificationCenter, firstCertificationCenter, secondCertificationCenter],
     });
 
     this.owner.register('service:current-user', Service.extend({ certificationPointOfContact, currentCertificationCenter }));
@@ -75,7 +88,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when menu is close', function() {
+  module('when menu is open', function() {
 
     test('should display the chevron-up icon', async function(assert) {
       // when
@@ -93,6 +106,18 @@ module('Integration | Component | user-logged-menu', function(hooks) {
       // then
       assert.dom('.logged-user-menu-item__last').exists();
       assert.contains('Se déconnecter');
+    });
+
+    test('should display the certification centers name and externalId', async function(assert) {
+      // when
+      await render(hbs`<UserLoggedMenu />`);
+      await click('.logged-user-summary__link');
+
+      // then
+      assert.contains(firstCertificationCenter.name);
+      assert.contains(`(${firstCertificationCenter.externalId})`);
+      assert.contains(secondCertificationCenter.name);
+      assert.contains(`(${secondCertificationCenter.externalId})`);
     });
   });
 });
