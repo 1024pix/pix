@@ -1,14 +1,13 @@
 const { Serializer } = require('jsonapi-serializer');
-const omit = require('lodash/omit');
 const get = require('lodash/get');
 
 module.exports = {
 
   serialize(certificationResult) {
-    return new Serializer('results', {
+    return new Serializer('certifications', {
       transform(certificationResult) {
         return {
-          ...omit(certificationResult, 'certificationIssueReports'),
+          ...certificationResult,
           examinerComment: get(certificationResult, 'certificationIssueReports[0].description'),
         };
       },
@@ -36,7 +35,17 @@ module.exports = {
         'examinerComment',
         'hasSeenEndTestScreen',
         'cleaCertificationStatus',
+        'certificationIssueReports',
       ],
+      certificationIssueReports: {
+        ref: 'id',
+        attributes: [
+          'category',
+          'description',
+          'subcategory',
+          'questionNumber',
+        ],
+      },
     }).serialize(certificationResult);
   },
 };
