@@ -11,6 +11,7 @@ module.exports = {
         const result = omit(juryCertificationSummary, 'certificationIssueReports');
         result.examinerComment =
           get(juryCertificationSummary, 'certificationIssueReports[0].description');
+        result.numberOfCertificationIssueReports = juryCertificationSummary.certificationIssueReports.length;
         return result;
       },
       attributes: [
@@ -22,6 +23,7 @@ module.exports = {
         'completedAt',
         'isPublished',
         'examinerComment',
+        'numberOfCertificationIssueReports',
         'hasSeenEndTestScreen',
         'cleaCertificationStatus',
       ],
