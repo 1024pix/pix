@@ -167,14 +167,10 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
         id: 'd1',
         name: 'd1',
       });
-      const campaignReport = store.createRecord('campaign-report', {
-        id: 'c1',
-        stages: [],
-      });
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        campaignReport,
+        stages: [],
         divisions: [division],
       });
 
@@ -201,14 +197,10 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
         id: 'd1',
         name: 'd1',
       });
-      const campaignReport = store.createRecord('campaign-report', {
-        id: 'c1',
-        stages: [],
-      });
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        campaignReport,
+        stages: [],
         divisions: [division],
       });
 
@@ -243,14 +235,10 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
         id: 'd2',
         name: 'd2',
       });
-      const campaignReport = store.createRecord('campaign-report', {
-        id: 'c1',
-        stages: [],
-      });
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        campaignReport,
+        stages: [],
         divisions: [division],
       });
 
