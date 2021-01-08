@@ -83,12 +83,12 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       expect(certificationCenter.externalId).to.equal(externalId1);
     });
 
-    it('should not return certification center with a membership', async () => {
+    it('should return empty array when certification center does not have membership', async () => {
       // when
       const result = await getCertificationCenterByExternalId(externalId3);
 
       // then
-      expect(result).to.be.null;
+      expect(result).to.have.lengthOf(0);
     });
   });
 

@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 const { checkCsvExtensionFile, parseCsvWithHeader } = require('./helpers/csvHelpers');
 
@@ -19,7 +20,7 @@ async function getCertificationCenterByExternalId(externalId) {
     })
     .fetch({ require: false });
 
-  return bookshelfCertificationCenter ? bookshelfCertificationCenter.toJSON() : null;
+  return bookshelfCertificationCenter ? bookshelfCertificationCenter.toJSON() : [];
 }
 
 async function getAdminMembershipsByOrganizationExternalId(externalId) {
@@ -48,17 +49,10 @@ async function fetchCertificationCenterMembershipsByExternalId(externalId) {
   }
 }
 
-function prepareDataForInsert(rawExternalIds) {
+async function prepareDataForInsert(rawExternalIds) {
   const externalIds = _.uniq(_.map(rawExternalIds, 'externalId'));
-  return Promise.all(_.map(externalIds, (externalId) => {
-    return fetchCertificationCenterMembershipsByExternalId(externalId);
-  }))
-    .then((certificationCenterMemberships) => {
-      return _(certificationCenterMemberships)
-        .compact()
-        .flattenDeep()
-        .value();
-    });
+  const certificationCenterMembershipsLists = await bluebird.mapSeries(externalIds, fetchCertificationCenterMembershipsByExternalId);
+  return certificationCenterMembershipsLists.flat();
 }
 
 async function createCertificationCenterMemberships(certificationCenterMemberships) {
