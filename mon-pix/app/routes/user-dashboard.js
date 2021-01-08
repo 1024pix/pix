@@ -4,16 +4,17 @@ import Route from '@ember/routing/route';
 
 export default class UserDashboard extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
+  @service store;
 
-  model() {
-    return this.currentUser.user;
-  }
-
-  async afterModel(user) {
-    await user.belongsTo('profile').reload();
-    await user.hasMany('campaignParticipations').reload();
-    return Promise.all(user.campaignParticipations.map((campaignParticipation) => {
-      return campaignParticipation.belongsTo('assessment').reload();
-    }));
+  async model() {
+    const userId = this.currentUser.user.id;
+    const maximumDisplayed = 9;
+    const queryParams = {
+      userId,
+      'page[number]': 1,
+      'page[size]': maximumDisplayed,
+      'filter[states]': ['ONGOING', 'TO_SHARE'],
+    };
+    return await this.store.query('campaign-participation-overview', queryParams);
   }
 }

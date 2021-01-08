@@ -1,4 +1,4 @@
-.campaign-participation-card {
+.campaign-participation-overview-card {
   height: 273px;
   background: $white;
   box-shadow: 0 2px 0 0 rgba(23, 43, 77, 0.06);
@@ -23,7 +23,7 @@
   }
 }
 
-.campaign-participation-card-header {
+.campaign-participation-overview-card-header {
 
   &__tag {
     margin-bottom: 16px;
@@ -37,9 +37,11 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    line-height: normal;
   }
 
   &__subtitle {
+    display: block;
     margin-top: 8px;
     color: $grey-50;
     font-size: 0.875rem;

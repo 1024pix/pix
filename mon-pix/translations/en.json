@@ -104,6 +104,9 @@
             }
         },
         "campaign-participation": {
+            "title": "Personalised test"
+        },
+        "campaign-participation-overview": {
             "title": "Personalised test",
             "card": {
                 "resume": "Resume",

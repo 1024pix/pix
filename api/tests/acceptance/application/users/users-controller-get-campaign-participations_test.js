@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
+describe('Acceptance | Controller | GET /user/id/campaign-participations', () => {
 
   let userId;
   let campaign1;

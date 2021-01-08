@@ -4,6 +4,7 @@ import isCertifiable from './is-certifiable';
 import getScorecards from './get-scorecards';
 import getProfile from './get-profile';
 import getUserCampaignParticipations from './get-user-campaign-participations';
+import getUserCampaignParticipationOverviews from './get-user-campaign-participation-overviews';
 import getUserCampaignParticipationToCampaign from './get-user-campaign-participation-to-campaign';
 import getUserSharedProfileForCampaign from './get-user-shared-profile-for-campaign';
 import resetScorecard from './reset-scorecard';
@@ -20,6 +21,7 @@ export default function index(config) {
   config.get('/users/:id/scorecards', getScorecards);
   config.get('/users/:id/profile', getProfile);
   config.get('/users/:id/campaign-participations', getUserCampaignParticipations);
+  config.get('/users/:id/campaign-participation-overviews', getUserCampaignParticipationOverviews);
 
   config.patch('/users/:id/password-update', (schema, request) => {
     const body = JSON.parse(request.requestBody);

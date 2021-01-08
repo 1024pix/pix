@@ -3,21 +3,28 @@
     "id": 1,
     "campaignParticipationId": 1,
     "state": "completed",
-    "type": "SMART_PLACEMENT",
+    "type": "CAMPAIGN",
     "userId": 4
   },
   {
     "id": 2,
     "campaignParticipationId": 2,
     "state": "started",
-    "type": "SMART_PLACEMENT",
+    "type": "CAMPAIGN",
     "userId": 5
   },
   {
     "id": 3,
     "campaignParticipationId": 3,
     "state": "aborted",
-    "type": "SMART_PLACEMENT",
+    "type": "CAMPAIGN",
     "userId": 6
+  },
+  {
+    "id": 4,
+    "campaignParticipationId": 6,
+    "state": "completed",
+    "type": "CAMPAIGN",
+    "userId": 5
   }
 ]

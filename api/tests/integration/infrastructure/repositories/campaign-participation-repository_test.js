@@ -294,7 +294,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('findLatestOngoingByUserId', () => {
+  describe('#findLatestOngoingByUserId', () => {
 
     let userId;
 

@@ -11,45 +11,39 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
 
   beforeEach(function() {
     // given
-    component = createGlimmerComponent('component:campaign-participation/card');
+    component = createGlimmerComponent('component:campaign-participation-overview/card');
   });
 
   describe('#status', function() {
 
     it('should return the status when the campaign is completed', function() {
       // given
-      const assessment = EmberObject.create({
-        state: 'completed',
-      });
-      component.args.model = EmberObject.create({ assessment });
+      component.args.model = EmberObject.create({ assessmentState: 'completed' });
 
       // when
       const result = component.status;
 
       // then
       expect(result).to.eql({
-        tagText: 'pages.campaign-participation.card.tag.completed',
+        tagText: 'pages.campaign-participation-overview.card.tag.completed',
         tagColor: 'yellow-light',
-        actionText: 'pages.campaign-participation.card.send',
+        actionText: 'pages.campaign-participation-overview.card.send',
         actionClass: 'button--yellow',
       });
     });
 
     it('should return the status when the campaign is not completed', function() {
       // given
-      const assessment = EmberObject.create({
-        state: 'started',
-      });
-      component.args.model = EmberObject.create({ assessment });
+      component.args.model = EmberObject.create({ assessmentState: 'started' });
 
       // when
       const result = component.status;
 
       // then
       expect(result).to.eql({
-        tagText: 'pages.campaign-participation.card.tag.started',
+        tagText: 'pages.campaign-participation-overview.card.tag.started',
         tagColor: 'green-light',
-        actionText: 'pages.campaign-participation.card.resume',
+        actionText: 'pages.campaign-participation-overview.card.resume',
         actionClass: '',
       });
     });
