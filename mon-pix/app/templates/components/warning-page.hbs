@@ -3,22 +3,22 @@
     {{t 'pages.warning.instructions' time=this.allocatedHumanTime htmlSafe=true}}
   </div>
 
-  <div class="challenge-item-warning__intruction-secondary">
+  <div class="challenge-item-warning__instruction-secondary">
     {{t 'pages.warning.further-instructions'}}
   </div>
 
   <div class="challenge-item-warning__allocated-time">
-    <div class="challenge__allocated-time__jauge">
-      <img class="challenge__allocated-time__warning-icon" src="/images/icon-timed-challenge.svg"
+    <div class="challenge-allocated-time__jauge">
+      <img src="/images/icon-timed-challenge.svg"
            alt=""
            role="presentation">
-      <span class="challenge__allocated-time__value">{{this.allocatedTime}}</span>
+      <span class="challenge-allocated-time-jauge__value">{{this.allocatedTime}}</span>
     </div>
   </div>
 
   <div class="challenge-item-warning__action">
     <button {{on "click" @hasUserConfirmedWarning}}
-            class="challenge-item-warning__confirm-btn"
+            class="challenge-item-warning-action__confirmation-button"
             type="button">
       {{t 'pages.warning.action'}}
     </button>
