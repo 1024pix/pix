@@ -44,19 +44,26 @@
 .challenge-allocated-time {
 
   &__jauge {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: 139px;
     height: 50px;
     border-radius: 7px;
     background-color: $grey-20;
     margin: 0 auto;
     line-height: 3.125rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
   }
 }
 
 .challenge-allocated-time-jauge {
+
+  &__icon {
+    width: 42px;
+    padding-right: 6px;
+    padding-bottom: 6px;
+  }
 
   &__value {
     width: 69px;
