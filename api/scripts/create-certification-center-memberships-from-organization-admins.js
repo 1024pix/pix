@@ -49,14 +49,14 @@ async function fetchCertificationCenterMembershipsByExternalId(externalId) {
 }
 
 function prepareDataForInsert(rawExternalIds) {
-  return Promise.all(_.map(rawExternalIds, ({ externalId }) => {
+  const externalIds = _.uniq(_.map(rawExternalIds, 'externalId'));
+  return Promise.all(_.map(externalIds, (externalId) => {
     return fetchCertificationCenterMembershipsByExternalId(externalId);
   }))
     .then((certificationCenterMemberships) => {
       return _(certificationCenterMemberships)
         .compact()
         .flattenDeep()
-        .union()
         .value();
     });
 }
