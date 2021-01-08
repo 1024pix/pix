@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.244.0 (08/01/2021)
+
+- [#2363](https://github.com/1024pix/pix/pull/2363) [FEATURE] Récuperer les signalements côté pix-admin (PIX-1522)
+- [#2349](https://github.com/1024pix/pix/pull/2349) [FEATURE] Permettre le refresh de l'access token avant l'envoi des résultats à Pôle Emploi (PIX-1939).
+- [#2336](https://github.com/1024pix/pix/pull/2336) [FEATURE] Permettre à l'utilisateur de changer de centre de certification sur Pix Certif (PIX-1706).
+- [#2333](https://github.com/1024pix/pix/pull/2333) [FEATURE] Introduire le multi Accès Pix Certif (PIX-136).
+- [#2275](https://github.com/1024pix/pix/pull/2275) [FEATURE] Restreindre l'accès aux parcours Pole Emploi aux utilisateurs possédant un compte Pole Emploi (PIX-1636).
+- [#2302](https://github.com/1024pix/pix/pull/2302) [FEATURE] Modifier le nom d'un profil cible dans Pix Admin (PIX-1496).
+- [#2351](https://github.com/1024pix/pix/pull/2351) [BUGFIX] Problème d'affichage des réponses des QCU (PIX-1949).
+- [#2224](https://github.com/1024pix/pix/pull/2224) [TECH] Utilisation de la route LCMS GET /current-content.
+- [#2350](https://github.com/1024pix/pix/pull/2350) [TECH] Ajouter un linter a11y sur les templates Pix App (PIX-1950).
+- [#2342](https://github.com/1024pix/pix/pull/2342) Pouvoir filtrer les résultats de campagne d'évaluation par classe pour les organisation SCO qui gèrent des étudiants (PIX-1680).
+
 ## v2.243.0 (06/01/2021)
 
 - [#2347](https://github.com/1024pix/pix/pull/2347) [FEATURE]  Télécharger un PV d'incident pour une session de certification (PIX-1535)
