@@ -24,6 +24,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() hasSeenEndTestScreen;
   @attr() cleaCertificationStatus;
   @attr() numberOfCertificationIssueReports;
+  @attr() numberOfCertificationIssueReportsWithActionRequired;
 
   @computed('createdAt')
   get creationDate() {
