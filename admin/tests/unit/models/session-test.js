@@ -172,30 +172,29 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countExaminerComment', function() {
-    let sessionWithOneExaminerComment;
-    let sessionWithNoExaminerComment;
+  module('#countCertificationIssueReports', function() {
+    let sessionWithCertificationIssueReports;
+    let sessionWithoutCertificationIssueReport;
 
     hooks.beforeEach(async function() {
-      sessionWithOneExaminerComment = run(() => {
-        const certif = store.createRecord('jury-certification-summary', { examinerComment: 'Salut' });
-        return store.createRecord('session', { juryCertificationSummaries: [certif] });
+      sessionWithCertificationIssueReports = run(() => {
+        const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReports: 5 });
+        const certif2 = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReports: 1 });
+        return store.createRecord('session', { juryCertificationSummaries: [certif, certif2] });
       });
 
-      sessionWithNoExaminerComment = run(() => {
-        const certif = store.createRecord('jury-certification-summary', { examinerComment: null });
+      sessionWithoutCertificationIssueReport = run(() => {
+        const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReports: undefined });
         return store.createRecord('session', { juryCertificationSummaries: [certif] });
       });
     });
 
-    test('it should count 1 examiner comment', function(assert) {
-      const countWithExaminerComment = sessionWithOneExaminerComment.countExaminerComment;
-      assert.equal(countWithExaminerComment, 1);
+    test('it should count 6 certification issue reports', function(assert) {
+      assert.equal(sessionWithCertificationIssueReports.countCertificationIssueReports, 6);
     });
 
-    test('it should count 0 examiner comment', function(assert) {
-      const countNoExaminerComment = sessionWithNoExaminerComment.countExaminerComment;
-      assert.equal(countNoExaminerComment, 0);
+    test('it should count 0 certification issue report', function(assert) {
+      assert.equal(sessionWithoutCertificationIssueReport.countCertificationIssueReports, 0);
     });
 
   });
