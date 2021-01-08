@@ -7,20 +7,18 @@ const { checkCsvExtensionFile, parseCsvWithHeader } = require('./helpers/csvHelp
 
 const Membership = require('../lib/domain/models/Membership');
 
+const { knex } = require('../lib/infrastructure/bookshelf');
 const Bookshelf = require('../lib/infrastructure/bookshelf');
-const BookshelfCertificationCenter = require('../lib/infrastructure/data/certification-center');
 const BookshelfMembership = require('../lib/infrastructure/data/membership');
 
-async function getCertificationCenterByExternalId(externalId) {
-  const bookshelfCertificationCenter = await BookshelfCertificationCenter
-    .query((qb) => {
-      qb.leftJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
-      qb.whereNull('certification-center-memberships.id');
-      qb.where('certification-centers.externalId', '=', externalId);
-    })
-    .fetch({ require: false });
+async function getCertificationCenterIdByExternalId(externalId) {
+  const certificationCenter = await knex('certification-centers')
+    .first('certification-centers.id')
+    .leftJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
+    .whereNull('certification-center-memberships.id')
+    .where('certification-centers.externalId', '=', externalId);
 
-  return bookshelfCertificationCenter ? bookshelfCertificationCenter.toJSON() : [];
+  return certificationCenter ? certificationCenter.id : null;
 }
 
 async function getAdminMembershipsByOrganizationExternalId(externalId) {
@@ -42,11 +40,12 @@ function buildCertificationCenterMemberships({ certificationCenterId, membership
 }
 
 async function fetchCertificationCenterMembershipsByExternalId(externalId) {
-  const certificationCenter = await getCertificationCenterByExternalId(externalId);
-  if (certificationCenter) {
-    const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
-    return buildCertificationCenterMemberships({ certificationCenterId: certificationCenter.id, memberships });
+  const certificationCenterId = await getCertificationCenterIdByExternalId(externalId);
+  if (!certificationCenterId) {
+    return [];
   }
+  const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
+  return buildCertificationCenterMemberships({ certificationCenterId, memberships });
 }
 
 async function prepareDataForInsert(rawExternalIds) {
@@ -98,7 +97,7 @@ if (require.main === module) {
 }
 
 module.exports = {
-  getCertificationCenterByExternalId,
+  getCertificationCenterIdByExternalId,
   getAdminMembershipsByOrganizationExternalId,
   buildCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
