@@ -6,7 +6,8 @@ const Membership = require('../../../lib/domain/models/Membership');
 const BookshelfCertificationCenterMembership = require('../../../lib/infrastructure/data/certification-center-membership');
 
 const {
-  getCertificationCenterIdByExternalId, getAdminMembershipsByOrganizationExternalId,
+  getCertificationCenterIdByExternalId,
+  getAdminMembershipsUserIdByOrganizationExternalId,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
   createCertificationCenterMemberships,
@@ -92,18 +93,17 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     });
   });
 
-  describe('#getAdminMembershipsByOrganizationExternalId', () => {
+  describe('#getAdminMembershipsUserIdByOrganizationExternalId', () => {
 
     it('should get admin memberships by organization externalId', async () => {
       // given
-      const expectedUserIds = [{ userId: adminUserId1a }, { userId: adminUserId1b }];
+      const expectedUserIds = [adminUserId1a, adminUserId1b];
 
       // when
-      const memberships = await getAdminMembershipsByOrganizationExternalId(externalId1);
+      const userIds = await getAdminMembershipsUserIdByOrganizationExternalId(externalId1);
 
       // then
-      const userIds = memberships.map((membership) => _.pick(membership, 'userId'));
-      expect(userIds).to.deep.have.members(expectedUserIds);
+      expect(userIds).to.deep.equal(expectedUserIds);
     });
 
     it('should return an empty array if organization has no admin membership', async () => {
@@ -113,7 +113,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       await databaseBuilder.commit();
 
       // when
-      const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
+      const memberships = await getAdminMembershipsUserIdByOrganizationExternalId(externalId);
 
       // then
       expect(memberships).to.have.lengthOf(0);
