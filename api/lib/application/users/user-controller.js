@@ -1,4 +1,5 @@
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const campaignParticipationOverviewSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const isCertifiableSerializer = require('../../infrastructure/serializers/jsonapi/is-certifiable-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
@@ -168,6 +169,19 @@ module.exports = {
 
     return usecases.findLatestOngoingUserCampaignParticipations({ userId: authenticatedUserId })
       .then(campaignParticipationSerializer.serialize);
+  },
+
+  async getCampaignParticipationOverviews(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const query = queryParamsUtils.extractParameters(request.query);
+
+    const userCampaignParticipationOverviews = await usecases.findUserCampaignParticipationOverviews({
+      userId: authenticatedUserId,
+      states: query.filter.states,
+      page: query.page,
+    });
+
+    return campaignParticipationOverviewSerializer.serializeForPaginatedList(userCampaignParticipationOverviews);
   },
 
   async isCertifiable(request) {

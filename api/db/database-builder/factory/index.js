@@ -13,6 +13,7 @@ module.exports = {
   buildAssessmentCampaign: require('./build-assessment-campaign'),
   buildAssessmentCampaignForSkills: require('./build-assessment-campaign-for-skills'),
   buildCampaignParticipation: require('./build-campaign-participation'),
+  buildCampaignParticipationElementsForOverview: require('./build-campaign-participation-elements-for-overview'),
   buildCampaignParticipationWithSchoolingRegistration: require('./build-campaign-participation-with-schooling-registration'),
   buildCampaignParticipationWithUser: require('./build-campaign-participation-with-user'),
   buildCertifiableUser: require('./build-certifiable-user'),

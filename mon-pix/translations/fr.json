@@ -104,6 +104,9 @@
             }
         },
         "campaign-participation": {
+            "title": "Parcours"
+        },
+        "campaign-participation-overview": {
             "title": "Parcours",
             "card": {
                 "resume": "Reprendre",

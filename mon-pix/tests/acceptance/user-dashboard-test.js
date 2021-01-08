@@ -8,6 +8,8 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { invalidateSession } from 'ember-simple-auth/test-support';
 
+const ASSESSMENT = 'ASSESSMENT';
+
 describe('Acceptance | User dashboard page', function() {
   setupApplicationTest();
   setupMirage();
@@ -51,30 +53,31 @@ describe('Acceptance | User dashboard page', function() {
 
     context('when user has not completed the campaign', () => {
       let uncompletedCampaign;
-      let uncompletedCampaignParticipation;
+      let uncompletedCampaignParticipationOverview;
 
       beforeEach(async function() {
         uncompletedCampaign = server.create('campaign', {
           idPixLabel: 'email',
-          isAssessment: true,
+          type: ASSESSMENT,
           isArchived: false,
+          title: 'My Campaign',
+          code: '123',
         }, 'withThreeChallenges');
 
-        uncompletedCampaignParticipation = server.create('campaign-participation', {
-          campaign: uncompletedCampaign,
-          user,
+        uncompletedCampaignParticipationOverview = server.create('campaign-participation-overview', {
+          assessmentState: 'started',
+          campaignCode: uncompletedCampaign.code,
+          campaignTitle: uncompletedCampaign.title,
           createdAt: new Date('2020-04-20T04:05:06Z'),
           isShared: false,
         });
-        uncompletedCampaignParticipation.assessment.update({ state: 'started' });
       });
 
       it('should display a card with a resume button', async function() {
         // when
         await visit('/accueil');
-
         // then
-        const resumeButton = find('.campaign-participation-card__action');
+        const resumeButton = find('.campaign-participation-overview-card__action');
         expect(resumeButton).to.exist;
         expect(resumeButton.textContent.trim()).to.equal('Reprendre');
       });
@@ -82,34 +85,31 @@ describe('Acceptance | User dashboard page', function() {
       it('should redirect to the unfinished campaign where it stopped when clicking on resume button ', async function() {
         // when
         await visit('/accueil');
-        await click('.campaign-participation-card__action');
+        await click('.campaign-participation-overview-card__action');
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${uncompletedCampaign.code}/evaluation/didacticiel`);
+        expect(currentURL()).to.equal(`/campagnes/${uncompletedCampaignParticipationOverview.campaignCode}/presentation`);
       });
     });
 
     context('when user has completed the campaign but not shared his/her results', () => {
       let unsharedCampaign;
-      let unsharedCampaignParticipation;
+      let unsharedCampaignParticipationOverview;
 
       beforeEach(async function() {
         unsharedCampaign = server.create('campaign', {
           idPixLabel: 'email',
+          type: ASSESSMENT,
           isArchived: false,
-        }, 'withThreeChallenges', 'ofTypeAssessment');
+          code: '123',
+        }, 'withThreeChallenges');
 
-        unsharedCampaignParticipation = server.create('campaign-participation', {
-          campaign: unsharedCampaign,
-          user,
+        unsharedCampaignParticipationOverview = server.create('campaign-participation-overview', {
+          assessmentState: 'completed',
+          campaignCode: unsharedCampaign.code,
           createdAt: new Date('2020-04-20T04:05:06Z'),
           isShared: false,
         });
-
-        unsharedCampaignParticipation.assessment.update({ state: 'completed' });
-
-        const campaignParticipationResult = server.create('campaign-participation-result', {});
-        unsharedCampaignParticipation.update({ campaignParticipationResult });
       });
 
       it('should display a card with a share button', async function() {
@@ -117,68 +117,19 @@ describe('Acceptance | User dashboard page', function() {
         await visit('/accueil');
 
         // then
-        const shareButton = find('.campaign-participation-card__action');
+        const shareButton = find('.campaign-participation-overview-card__action');
         expect(shareButton).to.exist;
         expect(shareButton.textContent.trim()).to.equal('Envoyer mes résultats');
       });
 
       it('should redirect to the unshared campaign results page when clicking on share button', async function() {
-        // given
-        const currentAssessment = server.schema.campaignParticipations.findBy({ campaignId: unsharedCampaign.id }).assessment;
-
         // when
         await visit('/accueil');
-        await click('.campaign-participation-card__action');
+        await click('.campaign-participation-overview-card__action');
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${unsharedCampaign.code}/evaluation/resultats/${currentAssessment.id}`);
+        expect(currentURL()).to.equal(`/campagnes/${unsharedCampaignParticipationOverview.campaignCode}/presentation`);
       });
-    });
-
-    context('when user has completed the campaign and shared his/her results', () => {
-      beforeEach(async function() {
-        const sharedCampaign = server.create('campaign', { isArchived: false }, 'ofTypeAssessment');
-        const sharedCampaignParticipation = server.create('campaign-participation', {
-          campaign: sharedCampaign,
-          user,
-          createdAt: new Date('2020-04-20T04:05:06Z'),
-          isShared: true,
-        });
-        sharedCampaignParticipation.assessment.update({ state: 'completed' });
-      });
-
-      it('should not display a card', async function() {
-        // when
-        await visit('/accueil');
-
-        // then
-        expect(find('.campaign-participation-card')).to.not.exist;
-      });
-    });
-  });
-
-  describe('when user is doing a campaign of type profiles collection', function() {
-
-    beforeEach(async function() {
-      await authenticateByEmail(user);
-      const collectProfileCampaign = server.create('campaign', {
-        idPixLabel: 'email',
-        isArchived: false,
-      }, 'withThreeChallenges', 'ofTypeProfilesCollection');
-      server.create('campaign-participation', {
-        campaign: collectProfileCampaign,
-        user,
-        createdAt: new Date('2020-04-20T04:05:06Z'),
-        isShared: false,
-      });
-    });
-
-    it('should not display a card', async function() {
-      // when
-      await visit('/accueil');
-
-      // then
-      expect(find('.campaign-participation-card')).to.not.exist;
     });
   });
 });

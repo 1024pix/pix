@@ -28,5 +28,17 @@
     "assessmentId": 3,
     "challengeId": "recQ3kMloM7OaL0wp",
     "result": "ok"
+  },
+  {
+    "id": 6,
+    "assessmentId": 4,
+    "challengeId": "recQ3kMloM7OaL0wp",
+    "result": "ok"
+  },
+  {
+    "id": 7,
+    "assessmentId": 4,
+    "challengeId": "recc3QU4nKAk4byGv",
+    "result": "ok"
   }
 ]

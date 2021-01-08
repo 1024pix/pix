@@ -31,6 +31,9 @@ export default ApplicationSerializer.extend({
       campaignParticipations: {
         related: `${userBaseUrl}/campaign-participations`,
       },
+      campaignParticipationOverviews: {
+        related: `${userBaseUrl}/campaign-participation-overviews`,
+      },
       certificationCenterMemberships: {
         related: `${userBaseUrl}/certification-center-memberships`,
       },

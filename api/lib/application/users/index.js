@@ -163,6 +163,26 @@ exports.register = async function(server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/users/{id}/campaign-participation-overviews',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser',
+        }],
+        handler: userController.getCampaignParticipationOverviews,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des aperçus des participations aux campagnes en fonction de l‘id de l‘utilisateur\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
+          '- Les aperçus des participations aux campagnes sont triés par ordre inverse de création' +
+          '  (les plus récentes en premier)',
+          '- Cette liste est paginée et filtrée selon des **states** qui peuvent avoir comme valeurs: ONGOING, TO_SHARE et ENDED',
+        ],
+        tags: ['api'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/users/{id}/email',
       config: {
