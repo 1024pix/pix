@@ -855,6 +855,11 @@
                 "error-message": "Please agree to the terms and conditions of use."
             }
         },
+        "timed-challenge-instructions": {
+            "action": "Start",
+            "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
+            "secondary": "You can continue answering after this, but the question will not be marked as correct."
+        },
         "time-gauge": {
             "timeout-placeholder": "You've run out of time",
             "remaining-time-placeholder": "There is still more time to complete the test"
@@ -982,11 +987,6 @@
             "go-to-login": "Log in",
             "subtitle": "Choose a new password to continue",
             "validation": "Your password has been updated."
-        },
-        "warning": {
-            "action": "Start",
-            "instructions": "You have '<span class=\"challenge-item-warning__instruction-time\">'{time}'</span>' to complete the next question.",
-            "further-instructions": "You can continue answering after this, but the question will not be marked as correct."
         }
     },
     "navigation": {

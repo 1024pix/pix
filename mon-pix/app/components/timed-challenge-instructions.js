@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
 
-export default class WarningPage extends Component {
+export default class TimedChallengeInstructions extends Component {
   get allocatedHumanTime() {
     return _formatTimeForText(this.args.time);
   }

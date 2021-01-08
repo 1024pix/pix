@@ -1,0 +1,27 @@
+<div class="rounded-panel timed-challenge-instructions">
+  <div class="timed-challenge-instructions__primary">
+    {{t 'pages.timed-challenge-instructions.primary' time=this.allocatedHumanTime htmlSafe=true}}
+  </div>
+
+  <div class="timed-challenge-instructions__secondary">
+    {{t 'pages.timed-challenge-instructions.secondary'}}
+  </div>
+
+  <div class="timed-challenge-instructions__allocated-time">
+    <div class="timed-challenge-instructions-allocated-time__jauge">
+      <img class = "timed-challenge-instructions-jauge__icon"
+           src="/images/icon-timed-challenge.svg"
+           alt=""
+           role="presentation">
+      <span class="timed-challenge-instructions-jauge__value">{{this.allocatedTime}}</span>
+    </div>
+  </div>
+
+  <div class="timed-challenge-instructions__action">
+    <button {{on "click" @hasUserConfirmedWarning}}
+            class="timed-challenge-instructions-action__confirmation-button"
+            type="button">
+      {{t 'pages.timed-challenge-instructions.action'}}
+    </button>
+  </div>
+</div>

@@ -3,17 +3,17 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | warning-page', function() {
+describe('Unit | Component | timed-challenge-instructions', function() {
 
   setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = createGlimmerComponent('component:warning-page');
+    component = createGlimmerComponent('component:timed-challenge-instructions');
   });
 
-  describe('#Test rendering Property', function() {
+  describe('Component rendering', function() {
 
     describe('#allocatedTime', function() {
       [

@@ -1,11 +1,11 @@
-.challenge-item-warning {
+.timed-challenge-instructions {
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
   padding: 20px;
 
-  &__instruction-primary {
+  &__primary {
     font-size: 1.5rem;
     font-weight: $font-bold;
     font-style: normal;
@@ -15,7 +15,7 @@
     color: $grey-80;
   }
 
-  &__instruction-secondary {
+  &__secondary {
     font-size: 1.125rem;
     margin-top: 9px;
     margin-bottom: 50px;
@@ -25,7 +25,7 @@
     color: $grey-80;
   }
 
-  &__instruction-time {
+  &__time {
     color: $blue;
     text-align: center;
   }
@@ -41,7 +41,7 @@
   }
 }
 
-.challenge-allocated-time {
+.timed-challenge-instructions-allocated-time {
 
   &__jauge {
     display: flex;
@@ -57,7 +57,7 @@
   }
 }
 
-.challenge-allocated-time-jauge {
+.timed-challenge-instructions-jauge {
 
   &__icon {
     width: 42px;
@@ -70,7 +70,7 @@
   }
 }
 
-.challenge-item-warning-action {
+.timed-challenge-instructions-action {
 
   &__confirmation-button {
     width: 234px;
