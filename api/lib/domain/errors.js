@@ -6,6 +6,12 @@ class DomainError extends Error {
   }
 }
 
+class TargetProfileCannotBeCreated extends DomainError {
+  constructor(message = 'Erreur lors de la création du profil cible.') {
+    super(message);
+  }
+}
+
 class AlreadyExistingEntityError extends DomainError {
   constructor(message = 'L’entité existe déjà.') {
     super(message);
@@ -742,6 +748,7 @@ module.exports = {
   SchoolingRegistrationsCouldNotBeSavedError,
   SessionAlreadyFinalizedError,
   TargetProfileInvalidError,
+  TargetProfileCannotBeCreated,
   UnexpectedUserAccount,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,

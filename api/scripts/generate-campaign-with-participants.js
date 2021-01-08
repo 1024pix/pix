@@ -304,7 +304,7 @@ async function _do({ organizationId, participantCount, profileType, campaignType
   } else {
     await _createParticipants({ count: participantCount, targetProfile, campaignId, trx });
   }
-  trx.commit();
+  await trx.commit();
   console.log(`Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nTargetProfile: ${targetProfile.id}`);
 }
 
