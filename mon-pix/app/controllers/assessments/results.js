@@ -7,8 +7,9 @@ export default class ResultsController extends Controller {
   @tracked answer = null;
 
   @action
-  openComparisonWindow(answer) {
+  async openComparisonWindow(answer) {
     this.answer = answer;
+    await answer.correction;
     this.isShowingModal = true;
   }
 
