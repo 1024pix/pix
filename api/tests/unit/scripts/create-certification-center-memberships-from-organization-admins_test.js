@@ -8,7 +8,7 @@ describe('Unit | Scripts | create-certification-center-memberships-from-organiza
 
     it('should build the list of certification center memberships', () => {
       // given
-      const memberships = [{ userId: 1 }, { userId: 5 }];
+      const membershipUserIds = [1, 5];
       const certificationCenterId = 100;
 
       const expectedCertificationCenterMemberships = [
@@ -17,7 +17,7 @@ describe('Unit | Scripts | create-certification-center-memberships-from-organiza
       ];
 
       // when
-      const result = buildCertificationCenterMemberships({ certificationCenterId, memberships });
+      const result = buildCertificationCenterMemberships({ certificationCenterId, membershipUserIds });
 
       // then
       expect(result).to.deep.equal(expectedCertificationCenterMemberships);

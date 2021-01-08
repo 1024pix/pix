@@ -9,7 +9,6 @@ const Membership = require('../lib/domain/models/Membership');
 
 const { knex } = require('../lib/infrastructure/bookshelf');
 const Bookshelf = require('../lib/infrastructure/bookshelf');
-const BookshelfMembership = require('../lib/infrastructure/data/membership');
 
 async function getCertificationCenterIdByExternalId(externalId) {
   const certificationCenter = await knex('certification-centers')
@@ -21,21 +20,19 @@ async function getCertificationCenterIdByExternalId(externalId) {
   return certificationCenter ? certificationCenter.id : null;
 }
 
-async function getAdminMembershipsByOrganizationExternalId(externalId) {
-  const bookshelfMemberships = await BookshelfMembership
-    .query((qb) => {
-      qb.innerJoin('organizations', 'memberships.organizationId', 'organizations.id');
-      qb.where('organizationRole', Membership.roles.ADMIN);
-      qb.where('organizations.externalId', '=', externalId);
-    })
-    .fetchAll({ require: false });
+async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
+  const adminMemberships = await knex('memberships')
+    .select('memberships.userId')
+    .innerJoin('organizations', 'memberships.organizationId', 'organizations.id')
+    .where('organizationRole', Membership.roles.ADMIN)
+    .where('organizations.externalId', '=', externalId);
 
-  return bookshelfMemberships ? bookshelfMemberships.toJSON() : null;
+  return adminMemberships.map((adminMembership) => adminMembership.userId);
 }
 
-function buildCertificationCenterMemberships({ certificationCenterId, memberships }) {
-  return memberships.map((membership) => {
-    return { certificationCenterId, userId: membership.userId };
+function buildCertificationCenterMemberships({ certificationCenterId, membershipUserIds }) {
+  return membershipUserIds.map((userId) => {
+    return { certificationCenterId, userId };
   });
 }
 
@@ -44,8 +41,8 @@ async function fetchCertificationCenterMembershipsByExternalId(externalId) {
   if (!certificationCenterId) {
     return [];
   }
-  const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
-  return buildCertificationCenterMemberships({ certificationCenterId, memberships });
+  const membershipUserIds = await getAdminMembershipsUserIdByOrganizationExternalId(externalId);
+  return buildCertificationCenterMemberships({ certificationCenterId, membershipUserIds });
 }
 
 async function prepareDataForInsert(rawExternalIds) {
@@ -98,7 +95,7 @@ if (require.main === module) {
 
 module.exports = {
   getCertificationCenterIdByExternalId,
-  getAdminMembershipsByOrganizationExternalId,
+  getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
