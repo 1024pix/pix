@@ -11,7 +11,7 @@ describe('Integration | Component | circle-chart', function() {
 
     it('should render component', async function() {
       // when
-      await render(hbs`{{circle-chart}}`);
+      await render(hbs`<CircleChart />`);
 
       // then
       expect(this.element.querySelector('.circle-chart')).to.exist;
@@ -23,7 +23,7 @@ describe('Integration | Component | circle-chart', function() {
       this.set('value', value);
 
       // when
-      await render(hbs`{{circle-chart value=value}}`);
+      await render(hbs`<CircleChart @value={{this.value}}/>`);
 
       // then
       expect(this.element.querySelector('.circle--slice').getAttribute('stroke-dasharray')).to.equal(`${value}, 100`);
@@ -31,11 +31,10 @@ describe('Integration | Component | circle-chart', function() {
 
     it('should display the circle with given color', async function() {
       // given
-      const value = '60';
-      this.set('value', value);
+      this.set('value', '60');
 
       // when
-      await render(hbs`{{circle-chart value=value sliceColor='green'}}`);
+      await render(hbs`<CircleChart @value={{this.value}} @sliceColor='green'/>`);
 
       // then
       expect(this.element.querySelector('.circle--slice').getAttribute('class')).to.contains('circle--green');
@@ -43,11 +42,10 @@ describe('Integration | Component | circle-chart', function() {
 
     it('should display the circle with given stroke width', async function() {
       // given
-      const value = '60';
-      this.set('value', value);
+      this.set('value', '60');
 
       // when
-      await render(hbs`{{circle-chart value=value thicknessClass='circle--thick'}}`);
+      await render(hbs`<CircleChart @value={{this.value}} @thicknessClass='circle--thick'/>`);
 
       // then
       expect(this.element.querySelector('.circle').getAttribute('class')).to.contains('circle--thick');
@@ -56,7 +54,7 @@ describe('Integration | Component | circle-chart', function() {
 
     it('should display the chart with given width and height', async function() {
       // when
-      await render(hbs`{{circle-chart chartClass='circle-chart__content--big'}}`);
+      await render(hbs`<CircleChart @chartClass='circle-chart__content--big'/>`);
 
       // then
       expect(this.element.querySelector('.circle-chart__content').getAttribute('class')).to.contains('circle-chart__content--big');

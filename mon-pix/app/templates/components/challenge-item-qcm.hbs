@@ -5,7 +5,7 @@
 
   {{#if this.isTimedChallengeWithoutAnswer}}
     {{#unless this.hasUserConfirmedWarning}}
-      <WarningPage @hasUserConfirmedWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
+      <TimedChallengeInstructions @hasUserConfirmedWarning={{action "setUserConfirmation"}} @time={{@challenge.timer}} />
     {{/unless}}
   {{/if}}
 

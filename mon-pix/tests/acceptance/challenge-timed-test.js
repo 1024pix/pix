@@ -45,11 +45,11 @@ describe('Acceptance | Timed challenge', () => {
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/${timedChallenge.id}`);
-          await click('.challenge-item-warning button');
+          await click('.timed-challenge-instructions button');
         });
 
         it('should hide the warning button', () => {
-          expect(find('.challenge-item-warning button')).to.not.exist;
+          expect(find('.timed-challenge-instructions button')).to.not.exist;
         });
 
         it('should display the challenge statement and the feedback form', () => {
@@ -79,7 +79,7 @@ describe('Acceptance | Timed challenge', () => {
         });
 
         it('should hide the warning button', () => {
-          expect(find('.challenge-item-warning button')).to.not.exist;
+          expect(find('.timed-challenge-instructions button')).to.not.exist;
         });
 
         it('should display the challenge statement and the feedback form', () => {
