@@ -1,5 +1,5 @@
 import { computed } from '@ember/object';
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export const ACQUIRED = 'acquired';
 export const REJECTED = 'rejected';
@@ -33,6 +33,8 @@ export default class Certification extends Model {
   @attr('boolean', { defaultValue: false }) isPublished;
   @attr('boolean', { defaultValue: false }) isV2Certification;
   @attr() cleaCertificationStatus;
+
+  @hasMany('certification-issue-report') certificationIssueReports;
 
   @computed('createdAt')
   get creationDate() {
