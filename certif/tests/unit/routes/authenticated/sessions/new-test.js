@@ -16,7 +16,7 @@ module('Unit | Route | authenticated/sessions/new', function(hooks) {
 
     hooks.beforeEach(function() {
       route.store.createRecord = sinon.stub().resolves(createdSession);
-      route.currentUser = { certificationPointOfContact: { certificationCenterId } };
+      route.currentUser = { certificationPointOfContact: { currentCertificationCenterId: certificationCenterId } };
     });
 
     test('it should return the recently created session', async function(assert) {

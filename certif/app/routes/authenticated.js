@@ -17,6 +17,6 @@ export default class AuthenticatedRoute extends Route.extend(AuthenticatedRouteM
   }
 
   model() {
-    return this.currentUser.certificationPointOfContact;
+    return this.currentUser.currentCertificationCenter;
   }
 }

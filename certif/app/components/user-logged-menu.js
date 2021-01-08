@@ -10,12 +10,12 @@ export default class UserLoggedMenu extends Component {
   @tracked isMenuOpen = false;
 
   get certificationCenterNameAndExternalId() {
-    const certificationPointOfContact = this.currentUser.certificationPointOfContact;
+    const certificationCenter = this.currentUser.currentCertificationCenter;
 
-    if (certificationPointOfContact.certificationCenterExternalId) {
-      return `${certificationPointOfContact.certificationCenterName} (${certificationPointOfContact.certificationCenterExternalId})`;
+    if (certificationCenter.externalId) {
+      return `${certificationCenter.name} (${certificationCenter.externalId})`;
     }
-    return certificationPointOfContact.certificationCenterName;
+    return certificationCenter.name;
   }
 
   get userFullName() {

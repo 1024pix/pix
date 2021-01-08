@@ -33,7 +33,7 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       const findRecordStub = sinon.stub();
       findRecordStub.withArgs('session', session_id).resolves(session);
       route.store.findRecord = findRecordStub;
-      route.modelFor = sinon.stub().returns({ certificationCenterId });
+      route.modelFor = sinon.stub().returns({ id: certificationCenterId });
       route.store.query = sinon.stub();
       route.store.query.onCall(0).resolves([Symbol('a candidate')]);
       route.store.query.onCall(1).resolves(divisions);
