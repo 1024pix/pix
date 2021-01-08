@@ -4,7 +4,13 @@ const buildOrganization = require('./build-organization');
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildCampaign = require('./build-campaign');
 
-module.exports = ({ userId, index, lastAssessmentState, campaignParticipationCreatedAt, campaignArchivedAt, isShared }) => {
+module.exports = function buildCampaignParticipationElementsForOverview({ userId,
+  index,
+  lastAssessmentState,
+  campaignParticipationCreatedAt,
+  campaignArchivedAt,
+  isShared,
+} = {}) {
   const organization = buildOrganization({
     name: `${index} - My organization`,
   });
@@ -37,6 +43,10 @@ module.exports = ({ userId, index, lastAssessmentState, campaignParticipationCre
     createdAt: new Date('2000-07-02T10:00:00Z'),
   });
 
-  return { campaign, campaignParticipation, organization };
+  return {
+    campaign,
+    campaignParticipation,
+    organization,
+  };
 };
 

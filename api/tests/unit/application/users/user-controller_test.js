@@ -609,13 +609,18 @@ describe('Unit | Controller | user-controller', () => {
         },
       };
       usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: undefined, page: {} }).resolves([]);
-      campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({});
+      campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
+        id: 'campaignParticipationOverviews',
+      });
 
       // when
       const response = await userController.getCampaignParticipationOverviews(request, hFake);
 
       // then
-      expect(response).to.deep.equal({});
+      expect(response).to.deep.equal({
+        id: 'campaignParticipationOverviews',
+      });
+      expect(campaignParticipationOverviewSerializer.serializeForPaginatedList).to.have.been.calledOnce;
     });
 
     it('should forward state and page query parameters', async function() {
@@ -632,13 +637,18 @@ describe('Unit | Controller | user-controller', () => {
         query: { 'filter[states][]': 'ONGOING', 'page[number]': 1, 'page[size]': 10 },
       };
       usecases.findUserCampaignParticipationOverviews.withArgs({ userId, states: 'ONGOING', page: { number: 1, size: 10 } }).resolves([]);
-      campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({});
+      campaignParticipationOverviewSerializer.serializeForPaginatedList.withArgs([]).returns({
+        id: 'campaignParticipationOverviews',
+      });
 
       // when
       const response = await userController.getCampaignParticipationOverviews(request, hFake);
 
       // then
-      expect(response).to.deep.equal({});
+      expect(response).to.deep.equal({
+        id: 'campaignParticipationOverviews',
+      });
+      expect(campaignParticipationOverviewSerializer.serializeForPaginatedList).to.have.been.calledOnce;
     });
   });
 

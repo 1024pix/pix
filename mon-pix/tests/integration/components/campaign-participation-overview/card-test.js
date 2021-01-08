@@ -44,7 +44,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
     // then
     expect(find('.campaign-participation-overview-card-header__tag')).to.exist;
     expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.started'));
-    expect(find('a').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.resume'));
+    expect(find('.campaign-participation-overview-card__action').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.resume'));
   });
 
   it('should render component with a completed state but not shared', async function() {
@@ -62,6 +62,6 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
 
     // then
     expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.completed'));
-    expect(find('a').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.send'));
+    expect(find('.campaign-participation-overview-card__action').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.send'));
   });
 });

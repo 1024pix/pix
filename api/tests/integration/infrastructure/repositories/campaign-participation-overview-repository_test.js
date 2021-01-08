@@ -46,7 +46,7 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
         expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
 
-      it('should retrieve no campaign participation overviews for the user when state is TO_SHARE', async () => {
+      it('should retrieve one campaign participation overviews for the user when state is TO_SHARE', async () => {
         const states = ['TO_SHARE'];
         const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
         const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
@@ -88,7 +88,7 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
         expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
 
-      it('should retrieve no campaign participation overviews for the user when state is ENDED', async () => {
+      it('should retrieve one campaign participation overviews for the user when state is ENDED', async () => {
         const states = ['ENDED'];
         const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
         const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
