@@ -127,6 +127,7 @@ module.exports = injectDependencies({
   createOrganizationInvitations: require('./create-organization-invitations'),
   createOrUpdateUserOrgaSettings: require('./create-or-update-user-orga-settings'),
   createSession: require('./create-session'),
+  createTargetProfile: require('./create-target-profile'),
   createUser: require('./create-user'),
   createUserFromPoleEmploi: require('./create-user-from-pole-emploi'),
   deleteCertificationIssueReport: require('./delete-certification-issue-report'),

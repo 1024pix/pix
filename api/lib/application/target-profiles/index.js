@@ -82,6 +82,37 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/target-profiles',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+        }],
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'name': Joi.string().required(),
+                'is-public': Joi.boolean().required(),
+                'organization-id': Joi.string().empty('').allow(null),
+                'image-url': Joi.string().uri().empty('').allow(null),
+                'skills-id': Joi.array().required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: targetProfileController.createTargetProfile,
+        tags: ['api', 'target-profiles', 'create'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de créer un profil cible avec ses acquis',
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/organizations',
       config: {

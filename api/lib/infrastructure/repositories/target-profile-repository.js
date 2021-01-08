@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const bluebird = require('bluebird');
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
@@ -5,9 +7,35 @@ const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
 const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../domain/errors');
+const { TargetProfileCannotBeCreated, NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../domain/errors');
 
 module.exports = {
+
+  async create(targetProfileData) {
+    const targetProfileRawData = _.pick(targetProfileData, ['name', 'isPublic', 'imageUrl', 'ownerOrganizationId']);
+
+    const trx = await knex.transaction();
+
+    try {
+      const [targetProfileId] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
+
+      const skillsIdList = _.uniq(targetProfileData.skillsId);
+
+      const skillToAdd = skillsIdList.map((skillId) => {
+        return { targetProfileId, skillId };
+      });
+
+      await trx.batchInsert('target-profiles_skills', skillToAdd);
+
+      await trx.commit();
+
+      return targetProfileId;
+    } catch (e) {
+      await trx.rollback();
+
+      throw new TargetProfileCannotBeCreated();
+    }
+  },
 
   async get(id) {
     const targetProfileBookshelf = await BookshelfTargetProfile

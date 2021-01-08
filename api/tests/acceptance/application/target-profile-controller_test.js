@@ -40,6 +40,50 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     server = await createServer();
   });
 
+  describe('POST /api/admin/target-profiles', () => {
+    let user;
+
+    beforeEach(async () => {
+      mockLearningContent(learningContent);
+
+      user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('target-profiles_skills').delete();
+      await knex('target-profiles').delete();
+    });
+
+    it('should return 200', async () => {
+      const options = {
+        method: 'POST',
+        url: '/api/admin/target-profiles',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            attributes: {
+              'name': 'targetProfileName',
+              'is-public': false,
+              'owner-organization-id': null,
+              'skills-id': [skillId],
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+
+      expect(response.result.data.relationships.skills.data.length).to.equal(1);
+      expect(response.result.data.relationships.skills.data[0].id).to.equal(skillId);
+    });
+  });
+
   describe('GET /api/admin/target-profiles/{id}', () => {
     let user;
     let targetProfileId;

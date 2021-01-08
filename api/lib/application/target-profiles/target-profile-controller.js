@@ -48,4 +48,11 @@ module.exports = {
     return h.response({}).code(204);
   },
 
+  async createTargetProfile(request) {
+    const targetProfileData = targetProfileSerializer.deserialize(request.payload);
+
+    const targetProfile = await usecases.createTargetProfile({ targetProfileData });
+
+    return targetProfileWithLearningContentSerializer.serialize(targetProfile);
+  },
 };
