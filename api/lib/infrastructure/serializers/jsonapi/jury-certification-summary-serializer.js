@@ -12,6 +12,7 @@ module.exports = {
         result.examinerComment =
           get(juryCertificationSummary, 'certificationIssueReports[0].description');
         result.numberOfCertificationIssueReports = juryCertificationSummary.certificationIssueReports.length;
+        result.numberOfActionRequired = juryCertificationSummary.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired).length;
         return result;
       },
       attributes: [
@@ -24,6 +25,7 @@ module.exports = {
         'isPublished',
         'examinerComment',
         'numberOfCertificationIssueReports',
+        'numberOfActionRequired',
         'hasSeenEndTestScreen',
         'cleaCertificationStatus',
       ],

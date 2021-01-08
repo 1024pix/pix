@@ -11,7 +11,14 @@ const categoryOtherJoiSchema = Joi.object({
 const categoryLateOrLeavingJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.LATE_OR_LEAVING),
-  description: Joi.string().trim().required(),
+  description: Joi.string()
+    .when('subcategory', {
+      switch: [
+        { is: Joi.valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM),
+          then: Joi.string().trim().required() },
+      ],
+      otherwise: Joi.string().trim().optional(),
+    }),
   subcategory: Joi.string().required().valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM, CertificationIssueReportSubcategories.SIGNATURE_ISSUE),
 });
 
@@ -77,6 +84,23 @@ const categorySchemas = {
   [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: categoryTechnicalProblemJoiSchema,
 };
 
+const categoryCodeWithRequiredAction = {
+  [CertificationIssueReportCategories.OTHER]: 'A2',
+  [CertificationIssueReportCategories.FRAUD]: 'C6',
+};
+
+const subcategoryCodeRequiredAction = {
+  [CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'C1',
+  [CertificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'C3',
+  [CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
+  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E2',
+  [CertificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E3',
+  [CertificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E4',
+  [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E5',
+  [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E6',
+  [CertificationIssueReportSubcategories.OTHER]: 'E7',
+};
+
 class CertificationIssueReport {
   constructor(
     {
@@ -93,6 +117,7 @@ class CertificationIssueReport {
     this.subcategory = subcategory;
     this.description = description;
     this.questionNumber = questionNumber;
+    this.isActionRequired = _isActionRequired({ category, subcategory });
 
     if ([CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(this.category)) {
       this.subcategory = null;
@@ -140,3 +165,7 @@ class CertificationIssueReport {
 }
 
 module.exports = CertificationIssueReport;
+
+function _isActionRequired({ category, subcategory }) {
+  return Boolean(subcategoryCodeRequiredAction[subcategory] || categoryCodeWithRequiredAction[category]);
+}
