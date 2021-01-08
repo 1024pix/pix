@@ -35,8 +35,9 @@ export default class CheckpointController extends Controller {
   }
 
   @action
-  openComparisonWindow(answer) {
+  async openComparisonWindow(answer) {
     this.answer = answer;
+    await answer.correction;
     this.isShowingModal = true;
   }
 
