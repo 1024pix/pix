@@ -74,6 +74,140 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  module('#hasIssueReportsWithRequiredAction', () => {
+    test('it should return true when there are some issue reports with required action', async function(assert) {
+      // given
+      const certificationIssueReports = [
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: false }),
+      ];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.hasIssueReportsWithRequiredAction, true);
+    });
+
+    test('it should return false when there are no issue reports with required action', async function(assert) {
+      // given
+      const certificationIssueReports = [
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: false }),
+      ];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.hasIssueReportsWithRequiredAction, false);
+    });
+  });
+
+  module('#hasIssueReportsWithoutRequiredAction', () => {
+    test('it should return true when there are some issue reports without required action', async function(assert) {
+      // given
+      const certificationIssueReports = [
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: true }),
+      ];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.hasIssueReportsWithoutRequiredAction, true);
+    });
+
+    test('it should return false when there are no issue reports without required action', async function(assert) {
+      // given
+      const certificationIssueReports = [
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: true }),
+      ];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.hasIssueReportsWithoutRequiredAction, false);
+    });
+  });
+
+  module('#hasIssueReports', () => {
+    test('it should return true when there are some issue reports', async function(assert) {
+      // given
+      const certificationIssueReports = [
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: false }),
+      ];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.hasIssueReports, true);
+    });
+
+    test('it should return false when there are no issue reports', async function(assert) {
+      // given
+      const certificationIssueReports = [];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.hasIssueReports, false);
+    });
+  });
+
+  module('#certificationIssueReportsWithRequiredAction', () => {
+    test('it should return certification issue reports with action required', async function(assert) {
+      // given
+      const certificationIssueReports = [
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: false }),
+      ];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.certificationIssueReportsWithRequiredAction.length, 2);
+    });
+  });
+
+  module('#certificationIssueReportsWithoutRequiredAction', () => {
+    test('it should return certification issue reports without action required', async function(assert) {
+      // given
+      const certificationIssueReports = [
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: true }),
+        EmberObject.create({ isActionRequired: false }),
+        EmberObject.create({ isActionRequired: false }),
+      ];
+      controller.certification = EmberObject.create({
+        certificationIssueReports,
+      });
+
+      // when/then
+      assert.equal(controller.certificationIssueReportsWithoutRequiredAction.length, 3);
+    });
+  });
+
   module('#onUpdateScore', () => {
 
     module('when there is a given score', function() {

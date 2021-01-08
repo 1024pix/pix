@@ -47,6 +47,31 @@ export default class CertificationInformationsController extends Controller {
     return '';
   }
 
+  @computed('certification.certificationIssueReports.@each.isActionRequired')
+  get certificationIssueReportsWithRequiredAction() {
+    return this.certification.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired);
+  }
+
+  @computed('certification.certificationIssueReports.@each.isActionRequired')
+  get certificationIssueReportsWithoutRequiredAction() {
+    return this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isActionRequired);
+  }
+
+  @computed('certification.certificationIssueReports.@each.isActionRequired')
+  get hasIssueReports() {
+    return Boolean(this.certification.certificationIssueReports.length);
+  }
+
+  @computed('certification.certificationIssueReports.@each.isActionRequired')
+  get hasIssueReportsWithRequiredAction() {
+    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => issueReport.isActionRequired).length);
+  }
+
+  @computed('certification.certificationIssueReports.@each.isActionRequired')
+  get hasIssueReportsWithoutRequiredAction() {
+    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isActionRequired).length);
+  }
+
   @action
   onEdit() {
     this.edition = true;
