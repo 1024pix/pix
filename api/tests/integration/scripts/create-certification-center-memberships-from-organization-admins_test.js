@@ -6,7 +6,7 @@ const Membership = require('../../../lib/domain/models/Membership');
 const BookshelfCertificationCenterMembership = require('../../../lib/infrastructure/data/certification-center-membership');
 
 const {
-  getCertificationCenterByExternalId, getAdminMembershipsByOrganizationExternalId,
+  getCertificationCenterIdByExternalId, getAdminMembershipsByOrganizationExternalId,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
   createCertificationCenterMemberships,
@@ -73,22 +73,22 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     await databaseBuilder.commit();
   });
 
-  describe('#getCertificationCenterByExternalId', () => {
+  describe('#getCertificationCenterIdByExternalId', () => {
 
     it('should get certification center by externalId', async () => {
       // when
-      const certificationCenter = await getCertificationCenterByExternalId(externalId1);
+      const certificationCenterId = await getCertificationCenterIdByExternalId(externalId1);
 
       // then
-      expect(certificationCenter.externalId).to.equal(externalId1);
+      expect(certificationCenterId).to.equal(certificationCenterId1);
     });
 
-    it('should return empty array when certification center does not have membership', async () => {
+    it('should return null when certification center does not have membership', async () => {
       // when
-      const result = await getCertificationCenterByExternalId(externalId3);
+      const result = await getCertificationCenterIdByExternalId(externalId3);
 
       // then
-      expect(result).to.have.lengthOf(0);
+      expect(result).to.be.null;
     });
   });
 
@@ -134,6 +134,14 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
       // then
       expect(result).to.deep.have.members(expectedCertificationCenterMemberships);
+    });
+
+    it('should return empty array when certification center is not found', async () => {
+      // when
+      const result = await fetchCertificationCenterMembershipsByExternalId(externalId3);
+
+      // then
+      expect(result).to.have.lengthOf(0);
     });
   });
 
