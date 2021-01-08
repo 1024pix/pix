@@ -6,7 +6,6 @@ export default class CertificationPointOfContact extends Model {
   @attr() email;
   @attr() pixCertifTermsOfServiceAccepted;
   @attr() currentCertificationCenterId;
-  @hasMany('session') sessions;
   @hasMany('certification-center') certificationCenters;
 
   get fullName() {

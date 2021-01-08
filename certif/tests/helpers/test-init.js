@@ -1,26 +1,32 @@
 import { authenticateSession as emberAuthenticateSession } from 'ember-simple-auth/test-support';
 import QUnit from 'qunit';
 import { contains, notContains } from './contains';
+import times from 'lodash/times';
 
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
-export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false) {
-  const certificationCenter = server.create('certification-center', {
-    id: 1,
-    name: certificationCenterName,
-    type: certificationCenterType,
-    externalId: 'ABC123',
-    isRelatedOrganizationManagingStudents,
+export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false, certificationCenterCount = 1) {
+  const certificationCenters = [];
+
+  times(certificationCenterCount, () => {
+    const certificationCenter = server.create('certification-center', {
+      id: 1,
+      name: certificationCenterName,
+      type: certificationCenterType,
+      externalId: 'ABC123',
+      isRelatedOrganizationManagingStudents,
+    });
+    certificationCenter.save();
+    certificationCenters.push(certificationCenter);
   });
-  certificationCenter.save();
 
   const certificationPointOfContact = server.create('certification-point-of-contact', {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
     pixCertifTermsOfServiceAccepted,
-    certificationCenters: [certificationCenter],
+    certificationCenters,
     currentCertificationCenterId: 1,
   });
   certificationPointOfContact.save();
@@ -38,6 +44,10 @@ export function createCertificationPointOfContactWithTermsOfServiceAccepted(cert
 
 export function createCertificationPointOfContactWithTermsOfServiceNotAccepted() {
   return createCertificationPointOfContact(false);
+}
+
+export function createCertificationPointOfContactWithTermsOfServiceAcceptedWithMultipleCertificationCenters(certificationCenterCount) {
+  return createCertificationPointOfContact(true, 'SUP', 'Centre de certification SUP du pix', false, certificationCenterCount);
 }
 
 export function authenticateSession(userId) {
