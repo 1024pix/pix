@@ -4,7 +4,7 @@ Fonctionnalité: Dashboard utilisateur (page /accueil)
   Contexte:
     Étant donné que les données de test sont chargées
 
-  Scénario: Je souhaite voir mes parcours non finis et non partagés et reprendre mon parcours
+  Scénario: Je souhaite voir mes parcours non finis et non partagés
     Étant donné que je vais sur Pix
     Et je suis connecté à Pix en tant que "Jaime Lannister"
     Lorsque je vais sur mon dashboard

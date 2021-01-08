@@ -16,7 +16,7 @@ describe('Integration | Component | CampaignParticipationOverview | Grid', funct
     expect(find('.campaign-participation-overview-grid')).to.exist;
   });
 
-  it('should display campaign participation overview items', async function() {
+  it('should render campaign participation overview items', async function() {
     // given
     const campaignParticipationOverviews = [
       EmberObject.create({
@@ -33,7 +33,7 @@ describe('Integration | Component | CampaignParticipationOverview | Grid', funct
     this.set('campaignParticipationOverviews', campaignParticipationOverviews);
 
     // when
-    await render(hbs`<CampaignParticipationOverview::Grid @model={{campaignParticipationOverviews}} />}`);
+    await render(hbs`<CampaignParticipationOverview::Grid @model={{this.campaignParticipationOverviews}} />}`);
 
     // then
     expect(findAll('.campaign-participation-overview-grid__item').length).to.equal(2);

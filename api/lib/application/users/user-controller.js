@@ -173,12 +173,12 @@ module.exports = {
 
   async getCampaignParticipationOverviews(request) {
     const authenticatedUserId = request.auth.credentials.userId;
-    const { filter: { states }, page } = queryParamsUtils.extractParameters(request.query);
+    const query = queryParamsUtils.extractParameters(request.query);
 
     const userCampaignParticipationOverviews = await usecases.findUserCampaignParticipationOverviews({
       userId: authenticatedUserId,
-      states,
-      page,
+      states: query.filter.states,
+      page: query.page,
     });
 
     return campaignParticipationOverviewSerializer.serializeForPaginatedList(userCampaignParticipationOverviews);

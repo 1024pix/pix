@@ -1,7 +1,7 @@
 const { sinon } = require('../../../test-helper');
 const findUserCampaignParticipationOverviews = require('../../../../lib/domain/usecases/find-user-campaign-participation-overviews');
 
-describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
+describe('Unit | UseCase | find-user-campaign-participation-overviews', () => {
 
   let campaignParticipationOverviewRepository;
 
@@ -18,7 +18,7 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
       const userId = 1;
 
       // when
-      findUserCampaignParticipationOverviews({
+      await findUserCampaignParticipationOverviews({
         userId,
         states,
         campaignParticipationOverviewRepository,
@@ -29,15 +29,15 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
     });
   });
 
-  context('when states is ONGOING', () => {
-    it('should call findByUserIdWithFilters', async () => {
+  context('when states is a string', () => {
+    it('should call findByUserIdWithFilters with an array of states', async () => {
       // given
       const states = 'ONGOING';
       const userId = 1;
       const page = {};
 
       // when
-      findUserCampaignParticipationOverviews({
+      await findUserCampaignParticipationOverviews({
         userId,
         states,
         campaignParticipationOverviewRepository,
@@ -45,19 +45,23 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
       });
 
       // then
-      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, { page, userId, states: ['ONGOING'] });
+      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, {
+        page,
+        userId,
+        states: ['ONGOING'],
+      });
     });
   });
 
-  context('when states is [ONGOING]', () => {
-    it('should call findByUserIdWithFilters', async () => {
+  context('when states is an array', () => {
+    it('should call findByUserIdWithFilters with an array of states', async () => {
       // given
       const states = ['ONGOING'];
       const userId = 1;
       const page = {};
 
       // when
-      findUserCampaignParticipationOverviews({
+      await findUserCampaignParticipationOverviews({
         userId,
         states,
         campaignParticipationOverviewRepository,
@@ -65,7 +69,11 @@ describe('Unit | UseCase | find-user--campaign-participation-overviews', () => {
       });
 
       // then
-      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, { page, userId, states: ['ONGOING'] });
+      sinon.assert.calledWith(campaignParticipationOverviewRepository.findByUserIdWithFilters, {
+        page,
+        userId,
+        states: ['ONGOING'],
+      });
     });
   });
 });

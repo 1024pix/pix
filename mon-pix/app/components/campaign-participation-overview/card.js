@@ -20,8 +20,4 @@ export default class Card extends Component {
     const currentState = this.args.model.get('assessmentState');
     return STATUSES[currentState];
   }
-
-  get campaignCode() {
-    return this.args.model.get('campaignCode');
-  }
 }
