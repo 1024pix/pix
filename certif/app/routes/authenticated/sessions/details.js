@@ -11,7 +11,7 @@ export default class SessionsDetailsRoute extends Route {
       sessionId: params.session_id,
     });
     const certificationCandidates = await loadCertificationCandidates();
-    const isScoManagingStudents = this.currentUser.certificationPointOfContact.isScoManagingStudents;
+    const isScoManagingStudents = this.currentUser.currentCertificationCenter.isScoManagingStudents;
     const featureToggles = this.store.peekRecord('feature-toggle', 0);
     const isCertifPrescriptionScoEnabled = featureToggles.certifPrescriptionSco;
     const isReportsCategorizationFeatureToggleEnabled = featureToggles.reportsCategorization;

@@ -11,17 +11,20 @@ module.exports = {
         lastName: 'users.lastName',
         email: 'users.email',
         pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
-        certificationCenterId: 'certification-centers.id',
-        certificationCenterName: 'certification-centers.name',
-        certificationCenterType: 'certification-centers.type',
-        certificationCenterExternalId: 'certification-centers.externalId',
-        isRelatedOrganizationManagingStudents: 'organizations.isManagingStudents',
+        certificationCenters: knex.raw('JSON_AGG(JSON_BUILD_OBJECT(' +
+          '\'id\', "certification-centers"."id",' +
+          '\'name\', "certification-centers"."name",' +
+          '\'type\', "certification-centers"."type",' +
+          '\'externalId\', "certification-centers"."externalId",' +
+          '\'isRelatedOrganizationManagingStudents\', "organizations"."isManagingStudents"' +
+        ') ORDER BY "certification-center-memberships"."createdAt" DESC)'),
       })
       .from('users')
       .join('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
       .join('certification-centers', 'certification-centers.id', 'certification-center-memberships.certificationCenterId')
       .leftJoin('organizations', 'organizations.externalId', 'certification-centers.externalId')
       .where('users.id', userId)
+      .groupBy('users.id')
       .first();
 
     if (!result) {

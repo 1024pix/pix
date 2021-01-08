@@ -10,17 +10,21 @@ module('Integration | Component | user-logged-menu', function(hooks) {
   setupRenderingTest(hooks);
 
   let certificationPointOfContact;
+  let currentCertificationCenter;
 
   hooks.beforeEach(async function() {
     // given
+    currentCertificationCenter = Object.create({
+      name: 'givenCertificationCenterName',
+      externalId: 'givenCertificationCenterExternalId',
+    });
+
     certificationPointOfContact = Object.create({
       firstName: 'givenFirstName',
       lastName: 'givenLastName',
-      certificationCenterName: 'givenCertificationCenterName',
-      certificationCenterExternalId: 'givenCertificationCenterExternalId',
     });
 
-    this.owner.register('service:current-user', Service.extend({ certificationPointOfContact }));
+    this.owner.register('service:current-user', Service.extend({ certificationPointOfContact, currentCertificationCenter }));
 
     // when
     await render(hbs`<UserLoggedMenu/>`);
@@ -35,13 +39,13 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
     test('should display the user certification center name only', async function(assert) {
       // given
-      delete certificationPointOfContact.certificationCenterExternalId;
+      delete currentCertificationCenter.externalId;
 
       // when
       await render(hbs`<UserLoggedMenu/>`);
 
       // then
-      assert.contains(certificationPointOfContact.certificationCenterName);
+      assert.contains(currentCertificationCenter.name);
     });
   });
 
@@ -49,7 +53,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
 
     test('should display the user certification center name and certification center externalId', function(assert) {
       // then
-      assert.contains(`${certificationPointOfContact.certificationCenterName} (${certificationPointOfContact.certificationCenterExternalId})`);
+      assert.contains(`${currentCertificationCenter.name} (${currentCertificationCenter.externalId})`);
     });
   });
 
