@@ -87,7 +87,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         name: targetProfileDB.name,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
-        organizationId: targetProfileDB.organizationId,
+        ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
         competences: [competence1_1, competence1_2],
@@ -256,7 +256,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         name: targetProfileDB.name,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
-        organizationId: targetProfileDB.organizationId,
+        ownerOrganizationId: targetProfileDB.ownerOrganizationId,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
 
@@ -406,7 +406,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         name: targetProfileDB.name,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
-        organizationId: targetProfileDB.organizationId,
+        ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
         competences: [competence1_1, competence1_2],
@@ -576,7 +576,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         name: targetProfileDB.name,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
-        organizationId: targetProfileDB.organizationId,
+        ownerOrganizationId: targetProfileDB.ownerOrganizationId,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;

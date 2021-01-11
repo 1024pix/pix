@@ -445,7 +445,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
-      targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id });
+      targetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organization.id });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       await databaseBuilder.commit();
 
@@ -588,7 +588,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         organizationRole: Membership.roles.MEMBER,
       });
       const targetProfile = databaseBuilder.factory.buildTargetProfile({
-        organizationId: organization.id,
+        ownerOrganizationId: organization.id,
         name: 'Profile 3',
       });
       const campaign = databaseBuilder.factory.buildCampaign({

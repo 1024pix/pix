@@ -5,7 +5,7 @@ export default class TargetProfile extends Model {
   @attr('string') name;
   @attr('boolean') isPublic;
   @attr('boolean') outdated;
-  @attr('string') organizationId;
+  @attr('string') ownerOrganizationId;
 
   @hasMany('badge') badges;
   @hasMany('skill') skills;

@@ -3,6 +3,6 @@
     "id": 1,
     "name": "Compétences pour un Mestre",
     "isPublic": true,
-    "organizationId": 1
+    "ownerOrganizationId": 1
   }
 ]
