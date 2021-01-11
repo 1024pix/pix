@@ -13,15 +13,20 @@ export default class TargetProfileOrganizationsRoute extends Route {
 
   async model(params) {
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
-    await targetProfile.hasMany('organizations').reload({ adapterOptions: {
-      'page[size]': params.pageSize,
-      'page[number]': params.pageNumber,
-      'filter[id]': params.id,
-      'filter[name]': params.name,
-      'filter[type]': params.type,
-      'filter[externalId]': params.externalId,
-    } });
-    return targetProfile;
+    const queryParams  = {
+      targetProfileId: targetProfile.id,
+      page: {
+        size: params.pageSize,
+        number: params.pageNumber,
+      },
+      filter: {
+        id: params.id,
+        name: params.name,
+        type: params.type,
+        externalId: params.externalId,
+      },
+    };
+    return await this.store.query('organization', queryParams);
   }
 
   resetController(controller, isExiting) {

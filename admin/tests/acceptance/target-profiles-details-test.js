@@ -84,8 +84,8 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
     test('it should display target profile organizations', async function(assert) {
       // given
-      const organization = server.create('organization', { id: 1, name: 'Fantastix', type: 'PRO', externalId: '123' });
-      server.create('target-profile', { id: 1, name: 'Profil Cible', organizations: [organization] });
+      server.create('organization', { id: 1, name: 'Fantastix', type: 'PRO', externalId: '123' });
+      server.create('target-profile', { id: 1, name: 'Profil Cible' });
 
       // when
       await visit('/target-profiles/1/organizations');
