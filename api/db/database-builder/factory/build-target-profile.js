@@ -8,19 +8,19 @@ module.exports = function buildTargetProfile({
   name = faker.name.jobTitle(),
   imageUrl = null,
   isPublic = faker.random.boolean(),
-  organizationId,
+  ownerOrganizationId,
   createdAt = faker.date.recent(),
   outdated = false,
 } = {}) {
 
-  organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
+  ownerOrganizationId = _.isUndefined(ownerOrganizationId) ? buildOrganization().id : ownerOrganizationId;
 
   const values = {
     id,
     name,
     imageUrl,
     isPublic,
-    organizationId,
+    ownerOrganizationId,
     createdAt,
     outdated,
   };

@@ -60,10 +60,10 @@ module.exports = {
     return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
-  async findAllTargetProfilesOrganizationCanUse(organizationId) {
+  async findAllTargetProfilesOrganizationCanUse(ownerOrganizationId) {
     const targetProfilesBookshelf = await BookshelfTargetProfile
       .query((qb) => {
-        qb.where({ 'organizationId': organizationId, 'outdated': false });
+        qb.where({ ownerOrganizationId, 'outdated': false });
         qb.orWhere({ 'isPublic': true, 'outdated': false });
       })
       .fetchAll({ withRelated: ['skillIds'] });

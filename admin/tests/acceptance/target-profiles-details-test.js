@@ -43,7 +43,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
     test('it should display target profile details', async function(assert) {
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, organizationId: 456 });
+      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
 
       // when
       await visit('/target-profiles/1');
@@ -72,7 +72,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
     test('it should redirect to organization details on click', async function(assert) {
       // given
       server.create('organization', { id: 456 });
-      server.create('target-profile', { id: 1, organizationId: 456 });
+      server.create('target-profile', { id: 1, ownerOrganizationId: 456 });
       await visit('/target-profiles/1');
 
       // when
@@ -98,7 +98,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
     test('it should switch to edition mode', async function(assert) {
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, organizationId: 456 });
+      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
 
       // when
       await visit('/target-profiles/1');
@@ -112,7 +112,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
     test('it should edit target profile name', async function(assert) {
 
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, organizationId: 456 });
+      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
 
       // when
       await visit('/target-profiles/1');
