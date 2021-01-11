@@ -13,6 +13,10 @@ export default class SidebarMenu extends Component {
       return 'https://view.genial.ly/5f3e7a5ba8ffb90d11ac034f';
     }
 
+    if (this.currentUser.isAEFE) {
+      return 'https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8';
+    }
+
     if (this.currentUser.organization.isPro) {
       return 'https://cloud.pix.fr/s/cwZN2GAbqSPGnw4';
     }
