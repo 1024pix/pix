@@ -770,10 +770,12 @@
                 "text": "Don’t have a Pix account yet?",
                 "link": "Create an account"
             },
+            "or":"OR",
             "pole-emploi": {
+                "title": "",
                 "link": {
-                    "title": "Pôle emploi",
-                    "img": "picture Pôle emploi"
+                    "title": "Pôle Emploi",
+                    "img": "picture Pôle Emploi"
                 }
             }
         },
