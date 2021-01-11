@@ -509,8 +509,12 @@
         "dashboard": {
             "title": "",
             "campaigns": {
-                "title": "",
-                "subtitle": ""
+                "subtitle": "",
+                "title": ""
+            },
+            "recommended-competences": {
+                "subtitle": "",
+                "title": ""
             }
         },
         "error": {
