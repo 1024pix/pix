@@ -1,0 +1,37 @@
+{{!-- template-lint-disable no-implicit-this  --}}
+{{page-title (t 'pages.terms-of-service-pe.title')}}
+<div class="terms-of-service-page">
+  <div class="terms-of-service-form">
+
+    <div class="terms-of-service-form__logo">
+      <a href={{homeUrl}} title={{t 'navigation.homepage'}}>
+        <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+      </a>
+    </div>
+
+    <h2 class="terms-of-service-form__title">{{t 'pages.terms-of-service-pe.title'}}</h2>
+
+    <div class="terms-of-service-form__description">
+      {{t 'pages.terms-of-service-pe.message'}}
+    </div>
+
+    <div class="terms-of-service-form__conditions">
+      <label for="pix-cgu">
+        <Input @type="checkbox" @id="pix-cgu" class="terms-of-service-form-conditions__check" @checked={{this.isTermsOfServiceValidated}}/>
+        {{t 'pages.terms-of-service-pe.cgu' htmlSafe=true}}
+
+      </label>
+      {{#if this.showErrorTermsOfServiceNotSelected }}
+        <div class="terms-of-service-form-conditions__validation-error">
+          {{t 'pages.terms-of-service-pe.form.error-message'}}
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="terms-of-service-form__actions">
+      <LinkTo @route="logout" class="button button--white">{{t 'common.actions.back'}}</LinkTo>
+      <button type="submit" class="button terms-of-service-form-actions__submit" {{on 'click' this.submit}}>{{t 'pages.terms-of-service-pe.form.button'}}</button>
+    </div>
+
+  </div>
+</div>
