@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.246.0 (11/01/2021)
+
+- [#2368](https://github.com/1024pix/pix/pull/2368) [FEATURE] Afficher une documentation spécifique pour les établissements français à l'étranger (ou AEFE) (PIX-1970).
+
 ## v2.245.0 (11/01/2021)
 
 - [#2364](https://github.com/1024pix/pix/pull/2364) [FEATURE] voir le nombre de "signalements impactants" sur la page de détails d'une session dans Pix Admin (PIX-1489)
