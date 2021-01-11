@@ -16,6 +16,7 @@ module.exports = {
             ...recordWithoutClass.userOrgaSettings.currentOrganization,
             isAgriculture: recordWithoutClass.userOrgaSettings.currentOrganization.isAgriculture,
             isCFA: recordWithoutClass.userOrgaSettings.currentOrganization.isCFA,
+            isAEFE: recordWithoutClass.userOrgaSettings.currentOrganization.isAEFE,
           },
         };
         delete recordWithoutClass.userOrgaSettings.currentOrganization;
@@ -40,7 +41,7 @@ module.exports = {
         attributes: ['organization', 'user'],
         organization: {
           ref: 'id',
-          attributes: ['name', 'type', 'credit', 'isManagingStudents', 'canCollectProfiles', 'isAgriculture', 'isCFA', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
+          attributes: ['name', 'type', 'credit', 'isManagingStudents', 'canCollectProfiles', 'isAgriculture', 'isCFA', 'isAEFE', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,
