@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.245.0 (11/01/2021)
+
+- [#2364](https://github.com/1024pix/pix/pull/2364) [FEATURE] voir le nombre de "signalements impactants" sur la page de détails d'une session dans Pix Admin (PIX-1489)
+- [#2307](https://github.com/1024pix/pix/pull/2307) [FEATURE] Interroger l'API pour les campaign participation du dashboard (PIX-1816).
+- [#2266](https://github.com/1024pix/pix/pull/2266) [CLEANUP] Retirer les "classic" des components sur Mon-Pix.
+
 ## v2.244.0 (08/01/2021)
 
 - [#2363](https://github.com/1024pix/pix/pull/2363) [FEATURE] Récuperer les signalements côté pix-admin (PIX-1522)
