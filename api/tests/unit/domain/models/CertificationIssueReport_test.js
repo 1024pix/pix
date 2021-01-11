@@ -308,5 +308,36 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         });
       });
     });
+
+    context('Adds isActionRequired boolean to certif issue report when an action is needed', function() {
+      [
+        { certificationCourseId: 42, category: 'OTHER', subcategory: undefined, description: 'toto' },
+        { certificationCourseId: 42, category: 'CANDIDATE_INFORMATIONS_CHANGES', subcategory: 'NAME_OR_BIRTHDATE', description: 'toto' },
+        { certificationCourseId: 42, category: 'LATE_OR_LEAVING', subcategory: 'LEFT_EXAM_ROOM', description: 'toto' },
+        { certificationCourseId: 42, category: 'FRAUD' },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_BLOCKED', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'WEBSITE_UNAVAILABLE', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'FILE_NOT_OPENING', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'OTHER', description: 'toto', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'LINK_NOT_WORKING', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
+      ].forEach((certificationIssueReportDTO) => {
+        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isActionRequired to true`, () => {
+          expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isActionRequired).to.be.true;
+        });
+      });
+
+      [
+        { certificationCourseId: 42, category: 'CANDIDATE_INFORMATIONS_CHANGES', subcategory: 'EXTRA_TIME_PERCENTAGE', description: 'toto' },
+        { certificationCourseId: 42, category: 'LATE_OR_LEAVING', subcategory: 'SIGNATURE_ISSUE' },
+        { certificationCourseId: 42, category: 'CONNECTION_OR_END_SCREEN' },
+        { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
+      ].forEach((certificationIssueReportDTO) => {
+        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isActionRequired to false`, () => {
+          expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isActionRequired).to.be.false;
+        });
+      });
+    });
   });
 });

@@ -69,7 +69,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         resultsSentToPrescriberAt: new Date(),
       };
       session = this.server.create('session', sessionData);
-      const juryCertifSummary1 = this.server.create('jury-certification-summary', { examinerComment: 'ok', status: 'validated', hasSeenEndTestScreen: false });
+      const juryCertifSummary1 = this.server.create('jury-certification-summary', { numberOfCertificationIssueReports: 1, status: 'validated', hasSeenEndTestScreen: false });
       const juryCertifSummary2 = this.server.create('jury-certification-summary', { status: 'validated', hasSeenEndTestScreen: true });
       session.update({ juryCertificationSummaries: [juryCertifSummary1, juryCertifSummary2] });
     });
