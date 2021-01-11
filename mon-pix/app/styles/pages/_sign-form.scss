@@ -145,6 +145,44 @@
     }
   }
 
+  &__bottom-decoration {
+    display: flex;
+    width: 609px;
+    padding: 12px 0 32px 0;
+
+    hr {
+      width: 239px;
+      height: 1px;
+      border: 1px solid $grey-20;
+    }
+
+    span {
+      font-size: 16px;
+      color: $grey-80;
+    }
+  }
+
+  &__pe-connect-link {
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    border: 2px solid $pole-emploi;
+    text-decoration: none;
+    background-color: $pole-emploi;
+    color: $white;
+    padding: 7px 10px 7px 13px;
+    font-size: 14px;
+    font-weight: bold;
+
+    img {
+      width: 30px;
+    }
+
+    span {
+      padding: 0 3px 0 10px;
+    }
+  }
+
   &__forgotten-password-link {
     align-self: flex-end;
     margin: 5px 0 20px 0;
