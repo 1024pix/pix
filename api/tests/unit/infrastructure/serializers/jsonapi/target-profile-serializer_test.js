@@ -14,10 +14,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
         name: 'Les compétences de BRO 2.0',
         outdated: true,
         ispublic: false,
-        organizations: [
-          { id: 1, name: 'Name1' },
-          { id: 2, name: 'Name2' },
-        ],
       });
 
       const meta = { some: 'meta' };

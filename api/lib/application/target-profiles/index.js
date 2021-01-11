@@ -138,6 +138,27 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/target-profiles/{id}/badges',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
+        handler: targetProfileController.findTargetProfileBadges,
+        tags: ['api', 'target-profiles', 'badges'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer les badges attachés au profil cible',
+        ],
+      },
+    },
   ]);
 };
 
