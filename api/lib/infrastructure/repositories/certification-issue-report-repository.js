@@ -1,10 +1,13 @@
 const { NotFoundError } = require('../../domain/errors');
 const CertificationIssueReportBookshelf = require('../data/certification-issue-report');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const omit = require('lodash/omit');
 
 module.exports = {
   async save(certificationIssueReport) {
-    const newCertificationIssueReport = await new CertificationIssueReportBookshelf(certificationIssueReport).save();
+    const newCertificationIssueReport = await new CertificationIssueReportBookshelf(
+      omit(certificationIssueReport, ['isActionRequired']),
+    ).save();
     return bookshelfToDomainConverter.buildDomainObject(CertificationIssueReportBookshelf, newCertificationIssueReport);
   },
 

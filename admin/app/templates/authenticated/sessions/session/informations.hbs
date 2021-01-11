@@ -66,8 +66,12 @@
   {{#if this.sessionModel.finalizedAt}}
   <div class="session-info__stats">
     <div class="row">
+      <div class="col">Nombre de signalements impactants :</div>
+      <div class="col" data-test-id="session-info__number-of-blocking-report">{{this.sessionModel.countCertificationIssueReportsWithActionRequired}}</div>
+    </div>
+    <div class="row">
       <div class="col">Nombre de signalements :</div>
-      <div class="col" data-test-id="session-info__number-of-report">{{this.sessionModel.countExaminerComment}}</div>
+      <div class="col" data-test-id="session-info__number-of-report">{{this.sessionModel.countCertificationIssueReports}}</div>
     </div>
     <div class="row">
       <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
