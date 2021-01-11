@@ -4,9 +4,6 @@
   @include device-is('desktop') {
     padding: 40px 0;
   }
-}
-
-.dashboard-content-campaign-participation-overviews {
 
   &__title {
     color: $grey-80;
@@ -17,7 +14,7 @@
     line-height: 1.562rem;
   }
 
-  &__info {
+  &__subtitle {
     color: $grey-50;
     font-size: 0.8125rem;
     font-family: $font-roboto;

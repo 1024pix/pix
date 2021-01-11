@@ -2,13 +2,24 @@
   <h1 class="sr-only">{{t 'pages.dashboard.title'}}</h1>
 
   {{#if this.hasCampaignParticipationOverviews}}
-    <section class="dashboard-content__campaign-participation-overviews">
+    <section data-test-campaign-participation-overviews>
       <header>
-        <h2 class="dashboard-content-campaign-participation-overviews__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
-        <p class="dashboard-content-campaign-participation-overviews__info">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
+        <h2 class="dashboard-content__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
+        <p class="dashboard-content__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
       </header>
 
-      <CampaignParticipationOverview::Grid @model={{@model}}/>
+      <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}}/>
+    </section>
+  {{/if}}
+
+  {{#if this.hasRecommendedCompetences}}
+    <section data-test-recommended-competences>
+      <header>
+        <h2 class="dashboard-content__title">{{t 'pages.dashboard.recommended-competences.title'}}</h2>
+        <p class="dashboard-content__subtitle">{{t 'pages.dashboard.recommended-competences.subtitle'}}</p>
+      </header>
+
+      <CompetenceCard::List></CompetenceCard::List>
     </section>
   {{/if}}
 </section>
