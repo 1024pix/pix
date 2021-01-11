@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.0.0 (11/01/2021)
+
+- [TECH] Montée de version majeure des applications métier motivée par le remplacement d'Airtable par Pix LCMS API
+
 ## v2.246.0 (11/01/2021)
 
 - [#2368](https://github.com/1024pix/pix/pull/2368) [FEATURE] Afficher une documentation spécifique pour les établissements français à l'étranger (ou AEFE) (PIX-1970).
