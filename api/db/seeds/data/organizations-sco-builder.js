@@ -219,21 +219,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     provinceCode: '12',
   });
 
-  const agricultureCFA = databaseBuilder.factory.buildOrganization({
-    id: 8,
-    type: 'SCO',
-    name: 'CFA Agricole',
-    isManagingStudents: true,
-    canCollectProfiles: true,
-    email: 'sco4.generic.account@example.net',
-    externalId: '1237457D',
-    provinceCode: '12',
-  });
-
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: 7, tagId: 1 });
-
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: 8, tagId: 1 });
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: 8, tagId: 5 });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: agriculture.id, tagId: 1 });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
@@ -247,6 +233,21 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
+  /* CFA AGRICULTURE */
+  const agricultureCFA = databaseBuilder.factory.buildOrganization({
+    id: 8,
+    type: 'SCO',
+    name: 'CFA Agricole',
+    isManagingStudents: true,
+    canCollectProfiles: true,
+    email: 'sco4.generic.account@example.net',
+    externalId: '1237457D',
+    provinceCode: '12',
+  });
+
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: agricultureCFA.id, tagId: 1 });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: agricultureCFA.id, tagId: 5 });
+
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
     organizationId: agricultureCFA.id,
@@ -256,6 +257,31 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: scoUser2.id,
     organizationId: agricultureCFA.id,
+    organizationRole: Membership.roles.MEMBER,
+  });
+
+  /* AEFE */
+  const AEFE = databaseBuilder.factory.buildOrganization({
+    id: 9,
+    type: 'SCO',
+    name: 'AEFE',
+    canCollectProfiles: true,
+    email: 'sco5.generic.account@example.net',
+    externalId: '1237457E',
+    provinceCode: '12',
+  });
+
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: AEFE.id, tagId: 6 });
+
+  databaseBuilder.factory.buildMembership({
+    userId: scoUser1.id,
+    organizationId: AEFE.id,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: scoUser2.id,
+    organizationId: AEFE.id,
     organizationRole: Membership.roles.MEMBER,
   });
 };
