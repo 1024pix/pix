@@ -13,6 +13,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
         imageUrl: '/img/banana.svg',
         message: 'Congrats, you won a banana badge',
         key: 'BANANA',
+        title: 'Banana',
         targetProfileId: '1',
       });
 
@@ -22,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
             'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
             message: 'Congrats, you won a banana badge',
+            title: 'Banana',
             key: 'BANANA',
           },
           id: '1',

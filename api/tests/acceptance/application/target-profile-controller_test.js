@@ -119,7 +119,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       return knex('target-profile-shares').delete();
     });
 
-    it('should return 200', async () => {
+    it('should return 204', async () => {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const organization1 = databaseBuilder.factory.buildOrganization();
@@ -173,6 +173,64 @@ describe('Acceptance | Controller | target-profile-controller', () => {
 
       // then
       expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('GET /api/admin/target-profiles/{id}/badges', () => {
+    let user;
+    let targetProfileId;
+    let badge;
+
+    beforeEach(async () => {
+      const learningContent = [{
+        id: 'recArea',
+        competences: [{
+          id: 'recCompetence',
+          tubes: [{
+            id: 'recTube',
+            skills: [{
+              id: 'recSkill',
+              nom: '@recSkill',
+            }],
+          }],
+        }],
+      }];
+
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill' });
+      badge = databaseBuilder.factory.buildBadge({ targetProfileId });
+      user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return 200', async () => {
+      const options = {
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfileId}/badges`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      const expectedData = [{
+        type: 'badges',
+        id: badge.id.toString(),
+        attributes: {
+          'alt-message': badge.altMessage,
+          'image-url': badge.imageUrl,
+          'key': badge.key,
+          'message': badge.message,
+          'title': badge.title,
+        },
+      }];
+      expect(response.result.data).to.deep.equal(expectedData);
     });
   });
 });
