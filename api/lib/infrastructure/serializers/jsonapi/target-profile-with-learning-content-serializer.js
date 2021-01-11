@@ -15,7 +15,7 @@ module.exports = {
         nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/api/target-profiles/${parent.id}/organizations`;
+            return `/api/admin/target-profiles/${parent.id}/organizations`;
           },
         },
       },

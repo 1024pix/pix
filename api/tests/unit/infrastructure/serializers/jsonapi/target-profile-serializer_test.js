@@ -35,7 +35,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
           relationships: {
             organizations: {
               links: {
-                related: `/api/target-profiles/${targetProfile.id}/organizations`,
+                related: `/api/admin/target-profiles/${targetProfile.id}/organizations`,
               },
             },
           },

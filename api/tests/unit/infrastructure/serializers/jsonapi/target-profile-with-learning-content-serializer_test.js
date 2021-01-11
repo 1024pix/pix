@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
           relationships: {
             organizations: {
               links: {
-                related: `/api/target-profiles/${targetProfileWithLearningContent.id}/organizations`,
+                related: `/api/admin/target-profiles/${targetProfileWithLearningContent.id}/organizations`,
               },
             },
             skills: {
