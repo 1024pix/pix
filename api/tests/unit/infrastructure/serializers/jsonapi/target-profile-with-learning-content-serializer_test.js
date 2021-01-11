@@ -32,11 +32,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             'organization-id': targetProfileWithLearningContent.organizationId,
           },
           relationships: {
-            organizations: {
-              links: {
-                related: `/api/admin/target-profiles/${targetProfileWithLearningContent.id}/organizations`,
-              },
-            },
             skills: {
               data: [{
                 id: targetProfileWithLearningContent.skills[0].id.toString(),
