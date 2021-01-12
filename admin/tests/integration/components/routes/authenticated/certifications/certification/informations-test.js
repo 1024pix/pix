@@ -141,6 +141,46 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         });
       });
 
+      test('it renders a "in challenge" issue report with its challenge number', async function(assert) {
+        // given
+        const certificationIssueReport = this.server.create('certification-issue-report', {
+          category: 'IN_CHALLENGE',
+          subcategory: 'IMAGE_NOT_DISPLAYING',
+          description: 'image disparue',
+          questionNumber: 666,
+          isActionRequired: true,
+        });
+        const certification = this.server.create('certification', {
+          competencesWithMark: [
+            {
+              'id': 104637,
+              'area_code': '5',
+              'competence_code': '5.1',
+              'competenceId': 'recIhdrmCuEmCDAzj',
+              'level': -1,
+              'score': 0,
+              'assessmentResultId': 104635,
+            },
+            {
+              'id': 104650,
+              'area_code': '1',
+              'competence_code': '1.3',
+              'competenceId': 'recIkYm646lrGvLNT',
+              'level': -1,
+              'score': 0,
+              'assessmentResultId': 104635,
+            },
+          ],
+        });
+        certification.update({ certificationIssueReports: [certificationIssueReport] });
+
+        // when
+        await visit(`/certifications/${certification.id}`);
+
+        // then
+        assert.dom('.card-text ul li').hasText('Problème sur une épreuve : L\'image ne s\'affiche pas - image disparue - Épreuve 666');
+      });
+
     });
 
   });
