@@ -1,10 +1,7 @@
-const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
-
-const { BadRequestError } = require('../../../../lib/application/http-errors');
+const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 const competenceEvaluationController = require('../../../../lib/application/competence-evaluations/competence-evaluation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const usecases = require('../../../../lib/domain/usecases');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Application | Controller | Competence-Evaluation', () => {
 
@@ -61,57 +58,4 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       expect(response.source).to.deep.equal(serializedCompetenceEvaluation);
     });
   });
-
-  describe('#find ', () => {
-    const userId = 1;
-    const assessmentId = 2;
-    let query, request, result, options, serialized;
-
-    beforeEach(() => {
-      query = {
-        'filter[assessmentId]': assessmentId,
-      };
-      request = {
-        query,
-        auth: { credentials: { userId } },
-      };
-      options = { filter: { assessmentId } };
-      result = {
-        models: [{ id: 1 }, { id: 2 }],
-      };
-      serialized = {
-        competenceEvaluations: [{ id: 1 }, { id: 2 }],
-      };
-
-      sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(usecases, 'findCompetenceEvaluations');
-      sinon.stub(serializer, 'serialize');
-    });
-
-    it('should return the competenceEvaluations', async () => {
-      // given
-      queryParamsUtils.extractParameters.withArgs(query).returns(options);
-      usecases.findCompetenceEvaluations.withArgs({ userId, options }).resolves(result);
-      serializer.serialize.withArgs(result.models).returns(serialized);
-
-      // when
-      const response = await competenceEvaluationController.find(request);
-
-      // then
-      expect(response).to.deep.equal(serialized);
-    });
-
-    it('should throw a BadRequestError', async () => {
-      // given
-      queryParamsUtils.extractParameters.withArgs(query).returns({ filter: {} });
-
-      // when
-      const error = await catchErr(competenceEvaluationController.find)(request);
-
-      // then
-      expect(error).to.be.instanceof(BadRequestError);
-    });
-
-  });
-
 });
