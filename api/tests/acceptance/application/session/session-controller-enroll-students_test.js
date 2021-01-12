@@ -73,13 +73,11 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       let student;
 
       afterEach(() => {
-        config.featureToggles.certifPrescriptionSco = false;
         return knex('certification-candidates').delete();
       });
 
       beforeEach(async () => {
-        config.featureToggles.certifPrescriptionSco = true;
-
+        sinon.stub(config.featureToggles, 'certifPrescriptionSco').value(true);
         const { id: certificationCenterId, externalId } = databaseBuilder.factory.buildCertificationCenter();
 
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
