@@ -23,15 +23,15 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
 
     it('should generate a code for the campaign model', async () => {
       // given
-      const creatorId = '789';
       const campaignData = {
         customLandingPageText: 'customLandingPageText',
         name: 'CampaignName',
         organizationId: organizationId1,
+        creatorId: '789',
       };
 
       // when
-      const campaigns = await prepareCampaigns([campaignData], creatorId);
+      const campaigns = await prepareCampaigns([campaignData]);
 
       // then
       expect(typeof campaigns[0].code === 'string').to.be.true;
@@ -40,15 +40,15 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
 
     it('should be a profile collection type for the campaign model', async () => {
       // given
-      const creatorId = '789';
       const campaignData = {
         customLandingPageText: 'customLandingPageText',
         name: 'CampaignName',
         organizationId: organizationId1,
+        creatorId: '789',
       };
 
       // when
-      const campaigns = await prepareCampaigns([campaignData], creatorId);
+      const campaigns = await prepareCampaigns([campaignData]);
 
       // then
       expect(campaigns[0].type).to.equal(Campaign.types.PROFILES_COLLECTION);
@@ -62,15 +62,17 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
         name: 'Name1',
         organizationId: organizationId1,
         customLandingPageText: 'customLandingPageText1',
+        creatorId,
       };
       const campaignData2 = {
         name: 'Name2',
         organizationId: organizationId2,
         customLandingPageText: undefined,
+        creatorId,
       };
 
       // when
-      const campaigns = await prepareCampaigns([campaignData1, campaignData2], creatorId);
+      const campaigns = await prepareCampaigns([campaignData1, campaignData2]);
 
       // then
       expect(campaigns).to.have.length(2);
@@ -81,7 +83,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
 
       expect(campaigns[1].organizationId).to.equal(organizationId2);
       expect(campaigns[1].name).to.equal(campaignData2.name);
-      expect(campaigns[1].customLandingPageText).to.equal('');
+      expect(campaigns[1].customLandingPageText).to.equal(undefined);
       expect(campaigns[1].creatorId).to.equal(creatorId);
     });
 
@@ -107,7 +109,8 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
       const name = 'SomeName';
       const organizationId = 3;
       const customLandingPageText = 'SomeLandingPageText';
-      const csvData = [{ name, organizationId, customLandingPageText }];
+      const creatorId = 123;
+      const csvData = [{ name, organizationId, customLandingPageText, creatorId }];
 
       // when
       const checkedData = checkData(csvData);
@@ -117,6 +120,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
         organizationId,
         name,
         customLandingPageText,
+        creatorId,
       });
     });
 
@@ -125,7 +129,8 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
       const name = 'SomeName';
       const customLandingPageText = undefined;
       const organizationId = '123';
-      const csvData = [{ name, organizationId, customLandingPageText }];
+      const creatorId = '789';
+      const csvData = [{ name, organizationId, customLandingPageText, creatorId }];
 
       // when
       const checkedData = checkData(csvData);
@@ -135,6 +140,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
         organizationId,
         name,
         customLandingPageText,
+        creatorId,
       });
     });
 
@@ -142,28 +148,45 @@ describe('Integration | Scripts | create-profile-collection-campaigns', () => {
       // given
       const name = 'SomeName';
       const organizationId = '';
-      const csvData = [{ name, organizationId }];
+      const creatorId = '123';
+      const csvData = [{ name, organizationId, creatorId }];
 
       // when
       const error = await catchErr(checkData)(csvData);
 
       // then
       expect(error).to.be.instanceOf(Error);
-      expect(error.message).to.equal('Ligne 1: Une organizationId est obligatoire pour la campagne de collecte de profile.');
+      expect(error.message).to.equal('Ligne 1: L\'organizationId est obligatoire pour la campagne de collecte de profils.');
+    });
+
+    it('should throw an error if campaign creatorId is missing', async () => {
+      // given
+      const name = 'SomeName';
+      const organizationId = '123';
+      const creatorId = '';
+      const csvData = [{ name, organizationId, creatorId }];
+
+      // when
+      const error = await catchErr(checkData)(csvData);
+
+      // then
+      expect(error).to.be.instanceOf(Error);
+      expect(error.message).to.equal('Ligne 1: Le creatorId est obligatoire pour la campagne de collecte de profils.');
     });
 
     it('should throw an error if campaign name is missing', async () => {
       // given
       const name = undefined;
       const organizationId = '123';
-      const csvData = [{ name, organizationId }];
+      const creatorId = '789';
+      const csvData = [{ name, organizationId, creatorId }];
 
       // when
       const error = await catchErr(checkData)(csvData);
 
       // then
       expect(error).to.be.instanceOf(Error);
-      expect(error.message).to.equal('Ligne 1: Un nom de campagne est obligatoire pour la campagne de collecte de profile.');
+      expect(error.message).to.equal('Ligne 1: Le nom de campagne est obligatoire pour la campagne de collecte de profils.');
     });
   });
 });
