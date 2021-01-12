@@ -1,6 +1,15 @@
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('../package');
 
+const swaggerOptionsAuthorizationServer = {
+  routeTag: 'authorization-server',
+  info: {
+    'title': 'Welcome to the Pix Authorization server',
+    'version': Pack.version,
+  },
+  jsonPath: '/swagger.json',
+};
+
 const swaggerOptionsLivretScolaire = {
   routeTag: 'livret-scolaire',
   info: {
@@ -22,7 +31,7 @@ const swaggerOptionsIn = {
   jsonPath: '/swagger.json',
 };
 
-const swaggers = [ swaggerOptionsLivretScolaire, swaggerOptionsIn ].map(_buildSwaggerArgs);
+const swaggers = [ swaggerOptionsAuthorizationServer, swaggerOptionsLivretScolaire, swaggerOptionsIn ].map(_buildSwaggerArgs);
 module.exports = swaggers;
 
 function _buildSwaggerArgs(swaggerOptions)
