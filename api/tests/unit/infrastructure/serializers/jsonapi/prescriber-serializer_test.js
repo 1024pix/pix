@@ -422,6 +422,52 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
+    context('when isMLF is true', () => {
+      it('should serialize prescriber with isMLF', () => {
+        // given
+        const user = domainBuilder.buildUser({
+          pixOrgaTermsOfServiceAccepted: true,
+          memberships: [],
+          certificationCenterMemberships: [],
+        });
+
+        const tags = [domainBuilder.buildTag({ name: 'MLF' })];
+        const organization = domainBuilder.buildOrganization({ tags });
+
+        const membership = domainBuilder.buildMembership({
+          organization,
+          organizationRole: Membership.roles.MEMBER,
+          user,
+        });
+
+        user.memberships.push(membership);
+
+        organization.memberships.push(membership);
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
+          currentOrganization: organization,
+        });
+        userOrgaSettings.user = null;
+
+        const prescriber = domainBuilder.buildPrescriber({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          areNewYearSchoolingRegistrationsImported: false,
+          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-mlf', field: 'isMLF' });
+
+        // when
+        const result = serializer.serialize(prescriber);
+
+        // then
+        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
     context('when all booleans are false', () => {
       it('should serialize prescriber without these booleans', () => {
         // given
