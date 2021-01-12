@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { find, render } from '@ember/test-helpers';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -76,6 +76,25 @@ describe('Integration | Component | Dashboard | Content', function() {
 
       // then
       expect(find('section[data-test-recommended-competences]')).to.not.exist;
+    });
+
+    it('should render the four first non started competence cards from the received arguments', async function() {
+      // given
+      const scorecards = [
+        { id: 1, index: '1.1', isNotStarted: true },
+        { id: 2, index: '1.2', isNotStarted: true },
+        { id: 3, index: '3.1', isNotStarted: true },
+        { id: 5, index: '1.3', isNotStarted: false },
+        { id: 4, index: '2.4', isNotStarted: true },
+        { id: 4, index: '1.4', isNotStarted: true },
+      ];
+      this.set('model', { scorecards });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+
+      // then
+      expect(findAll('.competence-card')).to.have.length(4);
     });
   });
 });

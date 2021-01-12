@@ -19,7 +19,7 @@
         <p class="dashboard-content__subtitle">{{t 'pages.dashboard.recommended-competences.subtitle'}}</p>
       </header>
 
-      <CompetenceCard::List></CompetenceCard::List>
+      <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
     </section>
   {{/if}}
 </section>
