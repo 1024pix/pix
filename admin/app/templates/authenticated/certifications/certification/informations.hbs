@@ -39,6 +39,51 @@
       </div>
     </div>
   </div>
+
+  {{#if this.hasIssueReports}}
+    <div class="row">
+      <div class="col">
+        <div class="card {{if this.edition 'border-primary'}}">
+          <div class="card-body">
+            <h5 class="card-title">Signalements</h5>
+
+            {{#if this.hasIssueReportsWithRequiredAction}}
+              <div class="card-text">
+                <h6 class="certification-informations__certification-issue-report-title--with-required-action">Signalement(s) impactant(s)</h6>
+                <ul>
+                  {{#each this.certificationIssueReportsWithRequiredAction as |issueReport| }}
+                    <li>
+                      {{issueReport.categoryLabel}}
+                      {{#if issueReport.subcategoryLabel}}: {{issueReport.subcategoryLabel}}{{/if}}
+                      {{#if issueReport.description}}- {{issueReport.description}}{{/if}}
+                      {{#if issueReport.questionNumber}}- Épreuve {{issueReport.questionNumber}}{{/if}}
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+            {{/if}}
+
+            {{#if this.hasIssueReportsWithoutRequiredAction}}
+              <div class="card-text">
+                <h6>Signalement(s) non impactant(s)</h6>
+                <ul>
+                  {{#each this.certificationIssueReportsWithoutRequiredAction as |issueReport| }}
+                    <li>
+                      {{issueReport.categoryLabel}}
+                      {{#if issueReport.subcategoryLabel}}: {{issueReport.subcategoryLabel}}{{/if}}
+                      {{#if issueReport.description}}- {{issueReport.description}}{{/if}}
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+            {{/if}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+
   <div class="row">
     <div class="col">
       <div class="card {{if this.edition 'border-primary'}}">

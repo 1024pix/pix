@@ -44,6 +44,7 @@ module.exports = {
           'description',
           'subcategory',
           'questionNumber',
+          'isActionRequired',
         ],
       },
     }).serialize(certificationResult);
