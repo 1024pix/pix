@@ -74,120 +74,163 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
   describe('#getPossibleSkillsForNextChallenge', function() {
     context('when it is the first question only', () => {
 
-      it('should ideally start with an untimed, default starting level skill', function() {
-        // given
-        targetSkills = [web1, url3, cnil1, cnil2];
-        challenges = [challengeWeb_1, challengeWeb_3, challengeCnil_1, challengeCnil_2];
+      context('when users has no knowledge-elements', () => {
+        it('should ideally start with an untimed, default starting level skill', function() {
+          // given
+          targetSkills = [web1, url3, cnil1, cnil2];
+          challenges = [challengeWeb_1, challengeWeb_3, challengeCnil_1, challengeCnil_2];
 
-        // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements: [],
-          lastAnswer,
-          allAnswers,
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+          });
+
+          // then
+          expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].id).to.be.equal(cnil2.id);
+          expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeCnil_2.id);
+          expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
         });
 
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(cnil2.id);
-        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeCnil_2.id);
-        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
-      });
+        it('should prioritize and find an untimed skill if the last challenge is timed, to avoid starting with a timed one', function() {
+          // given
+          lastAnswer = domainBuilder.buildAnswer({ timeout: 50 });
+          targetSkills = [url2, web1];
+          const challenge_defaultLevel_Timed = turnIntoTimedChallenge(challengeUrl_2);
+          const challenge_notDefaultLevel_Untimed = _.assign(_.cloneDeep(challengeWeb_1));
+          challenges = [challenge_defaultLevel_Timed, challenge_notDefaultLevel_Untimed];
 
-      it('should prioritize and find an untimed skill if the last challenge is timed, to avoid starting with a timed one', function() {
-        // given
-        lastAnswer = domainBuilder.buildAnswer({ timeout: 50 });
-        targetSkills = [url2, web1];
-        const challenge_defaultLevel_Timed = turnIntoTimedChallenge(challengeUrl_2);
-        const challenge_notDefaultLevel_Untimed = _.assign(_.cloneDeep(challengeWeb_1));
-        challenges = [challenge_defaultLevel_Timed, challenge_notDefaultLevel_Untimed];
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+          });
 
-        // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements: [],
-          lastAnswer,
-          allAnswers,
+          // then
+          expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
+          expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
+          expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
         });
 
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
-        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
-        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
-      });
+        it('should start with an untimed skill 1 challenge when no default level challenge exists', function() {
+          // given
+          targetSkills = [web1, url3];
+          challenges = [challengeWeb_1, challengeUrl_3];
 
-      it('should start with an untimed skill 1 challenge when no default level challenge exists', function() {
-        // given
-        targetSkills = [web1, url3];
-        challenges = [challengeWeb_1, challengeUrl_3];
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+          });
 
-        // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements: [],
-          lastAnswer,
-          allAnswers,
+          // then
+          expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
+          expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
+          expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
         });
 
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
-        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
-        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
-      });
+        it('should start with a not timed level 4 challenge when level 1, 2 and 3 dont exist', function() {
+          // given
+          targetSkills = [web4, url5];
+          challenges = [challengeWeb_4, challengeUrl_5];
 
-      it('should start with a not timed level 4 challenge when level 1, 2 and 3 dont exist', function() {
-        // given
-        targetSkills = [web4, url5];
-        challenges = [challengeWeb_4, challengeUrl_5];
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+          });
 
-        // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements: [],
-          lastAnswer,
-          allAnswers,
+          // then
+          expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web4.id);
+          expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_4.id);
+          expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
         });
 
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web4.id);
-        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_4.id);
-        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
+        it('should start with a timed challenge anyway when no untimed challenges were found', function() {
+          // given
+          targetSkills = [web3];
+          const challenge_AnyLevel_Timed = turnIntoTimedChallenge(challengeWeb_3);
+          challenges = [challenge_AnyLevel_Timed];
+
+          // when
+          const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements: [],
+            lastAnswer,
+            allAnswers,
+          });
+
+          // then
+          expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
+          expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
+          expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(true);
+        });
       });
 
-      it('should start with a timed challenge anyway when no untimed challenges were found', function() {
-        // given
-        targetSkills = [web3];
-        const challenge_AnyLevel_Timed = turnIntoTimedChallenge(challengeWeb_3);
-        challenges = [challenge_AnyLevel_Timed];
+      context('when users has already some knowledge-elements', () => {
+        it('should start with a challenge not timed but with a coherent level', function() {
+          // given
+          targetSkills = [web2, web3, web4, url2, url3, url4, rechInfo5, rechInfo7];
+          const timedChallengeWeb4 = turnIntoTimedChallenge(challengeWeb_4);
+          challenges = [challengeWeb_2, challengeWeb_3, timedChallengeWeb4, challengeUrl_2, challengeUrl_3,
+            challengeUrl_4, challengeRechInfo_5, challengeRechInfo_7];
+          lastAnswer = null;
+          allAnswers = [];
+          knowledgeElements = [
+            domainBuilder.buildKnowledgeElement({
+              skillId: rechInfo5.id,
+              status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+              source: 'direct',
+            }),
+            domainBuilder.buildKnowledgeElement({
+              skillId: rechInfo7.id,
+              status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+              source: 'direct',
+            }),
+          ];
 
-        // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements: [],
-          lastAnswer,
-          allAnswers,
+          // when
+          const { possibleSkillsForNextChallenge, levelEstimated } = SmartRandom.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements,
+            allAnswers,
+            lastAnswer,
+          });
+
+          // then
+          expect(levelEstimated).to.not.be.equal(2);
+          expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
+          expect(possibleSkillsForNextChallenge[0].id).to.be.equal(url4.id);
+          expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeUrl_4.id);
+          expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
         });
 
-        // then
-        expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web3.id);
-        expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
-        expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(true);
       });
-
     });
 
     context('when the difficulty must be adapted based on the answer to the previous question', () => {

@@ -7,12 +7,13 @@ module.exports = { getPossibleSkillsForNextChallenge };
 
 function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers } = {}) {
 
-  const isUserStartingTheTest = !lastAnswer;
-  const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
+  const isLastChallengeTimed = lastAnswer ? _wasLastChallengeTimed(lastAnswer) : true;
   const tubes = _findTubes(targetSkills, challenges);
   const knowledgeElementsOfTargetSkills = knowledgeElements.filter((ke) => {
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
+  const isUserStartingTheTest = !lastAnswer && knowledgeElementsOfTargetSkills.length === 0;
+
   const filteredChallenges = _removeChallengesWithAnswer({ challenges, allAnswers });
   targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
 
