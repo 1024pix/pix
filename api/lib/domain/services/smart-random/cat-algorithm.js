@@ -12,8 +12,9 @@ module.exports = {
 };
 
 function getPredictedLevel(knowledgeElements, skills) {
+  const recentKnowledgeElements = _.orderBy(knowledgeElements, 'createdAt', 'desc').slice(0, 10);
   return _.maxBy(_enumerateCatLevels(),
-    (level) => _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills),
+    (level) => _probabilityThatUserHasSpecificLevel(level, recentKnowledgeElements, skills),
   );
 }
 
