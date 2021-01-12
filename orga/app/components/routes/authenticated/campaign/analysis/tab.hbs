@@ -17,9 +17,11 @@
         <Table::Header @size="wide">
           Sujets ({{if @displayAnalysis this.sortedRecommendations.length '-' }})
         </Table::Header>
-        <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}} @isDisabled={{not @displayAnalysis}}>
+        <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}} @isDisabled={{not
+          @displayAnalysis}}>
           Pertinence
         </Table::HeaderSort>
+        <Table::Header @size="small" @align="center" />
         <Table::Header @size="small" />
       </tr>
     </thead>
@@ -27,8 +29,7 @@
     {{#if @displayAnalysis }}
     <tbody>
       {{#each this.sortedRecommendations as |tubeRecommendation|}}
-      <Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
-        @tubeRecommendation={{tubeRecommendation}} />
+      <Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{tubeRecommendation}} />
       {{/each}}
     </tbody>
     {{/if}}

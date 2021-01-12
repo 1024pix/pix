@@ -117,4 +117,47 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     // then
     assert.dom('[aria-hidden="false"]').containsText('Aucun tuto recommandé pour ce sujet.');
   });
+
+  module('Testing the number of tutorials per subject coloumn', () => {
+
+    test('it should display "Pas de tutos disponible" when there are no tutorials to count', async function(assert) {
+      // given
+      tubeRecommendation.tutorials = [];
+
+      //when
+      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+        @tubeRecommendation={{tubeRecommendation}}
+      />`);
+
+      // then
+      assert.dom('[aria-label="Sujet"]').containsText('Pas de tutos disponible');
+    });
+
+    test('it should display "1 tuto" without un "s" when there is only one tutorial to count', async function(assert) {
+      // given
+      tubeRecommendation.tutorials = [tutorial1];
+
+      //when
+      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+        @tubeRecommendation={{tubeRecommendation}}
+      />`);
+
+      // then
+      assert.dom('[aria-label="Sujet"]').containsText('1 tuto');
+    });
+
+    test('it should display No of tutorials then "tutos" when there are many tutorial to count', async function(assert) {
+      // given
+      tubeRecommendation.tutorials = [tutorial1, tutorial2];
+
+      //when
+      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+        @tubeRecommendation={{tubeRecommendation}}
+      />`);
+
+      // then
+      assert.dom('[aria-label="Sujet"]').containsText('2 tutos');
+    });
+
+  });
 });
