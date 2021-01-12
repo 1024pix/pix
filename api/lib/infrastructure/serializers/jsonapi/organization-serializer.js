@@ -8,6 +8,7 @@ module.exports = {
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
+        nullIfMissing: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/organizations/${parent.id}/memberships`;

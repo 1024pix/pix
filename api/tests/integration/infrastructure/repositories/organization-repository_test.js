@@ -143,8 +143,6 @@ describe('Integration | Repository | Organization', function() {
           isManagingStudents: true,
           canCollectProfiles: true,
           email: 'sco.generic.account@example.net',
-          members: [],
-          memberships: [],
           students: [],
           targetProfileShares: [],
           organizationInvitations: [],
@@ -205,35 +203,6 @@ describe('Integration | Repository | Organization', function() {
         expect(firstTargetProfileShare.organizationId).to.deep.equal(insertedOrganization.id);
 
         expect(firstTargetProfileShare.targetProfile).to.deep.equal(sharedProfile);
-      });
-    });
-
-    context('when organization has memberships', () => {
-
-      it('should return a list of active members', async () => {
-        // given
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-
-        const membershipActive = {
-          organizationId,
-          userId: databaseBuilder.factory.buildUser().id,
-        };
-        const membershipDisabled = {
-          organizationId,
-          userId: databaseBuilder.factory.buildUser().id,
-          disabledAt: new Date(),
-        };
-        databaseBuilder.factory.buildMembership(membershipActive);
-        databaseBuilder.factory.buildMembership(membershipDisabled);
-
-        await databaseBuilder.commit();
-
-        // when
-        const foundOrganization = await organizationRepository.get(organizationId);
-
-        // then
-        expect(foundOrganization.members).to.have.lengthOf(1);
-        expect(foundOrganization.members[0].id).to.deep.equal(membershipActive.userId);
       });
     });
   });
