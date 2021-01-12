@@ -570,4 +570,110 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
   });
+
+  describe('POST /api/application/token', () => {
+
+    let options;
+    const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
+    const OSMOSE_CLIENT_SECRET = 'graviteeOsmoseClientSecret';
+    const SCOPE = 'organizations-certifications-result';
+
+    beforeEach(async () => {
+      options = {
+        method: 'POST',
+        url: '/api/application/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+      };
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return an 200 with accessToken when clientId, client secret and scope are registred', async () => {
+      // when
+
+      options.payload = querystring.stringify({
+        grant_type: 'client_credentials',
+        client_id: OSMOSE_CLIENT_ID,
+        client_secret: OSMOSE_CLIENT_SECRET,
+        scope: SCOPE,
+      });
+
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+
+      const result = response.result;
+      expect(result.token_type).to.equal('bearer');
+      expect(result.access_token).to.exist;
+      expect(result.client_id).to.equal(OSMOSE_CLIENT_ID);
+    });
+
+    it('should return an 401 when clientId is not registred', async () => {
+      // when
+
+      options.payload = querystring.stringify({
+        grant_type: 'client_credentials',
+        client_id: 'NOT REGISTRED',
+        client_secret: OSMOSE_CLIENT_SECRET,
+        scope: SCOPE,
+      });
+
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.errors[0]).to.deep.equal({
+        'title': 'Unauthorized',
+        'detail': 'The client ID is invalid.',
+        'status': '401',
+      });
+
+    });
+
+    it('should return an 401 when client secret is not valid', async () => {
+      // when
+
+      options.payload = querystring.stringify({
+        grant_type: 'client_credentials',
+        client_id: OSMOSE_CLIENT_ID,
+        client_secret: 'invalid secret',
+        scope: SCOPE,
+      });
+
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.errors[0]).to.deep.equal({
+        'title': 'Unauthorized',
+        'detail': 'The client secret is invalid.',
+        'status': '401',
+      });
+
+    });
+
+    it('should return an 403 when scope is not allowed', async () => {
+      // when
+
+      options.payload = querystring.stringify({
+        grant_type: 'client_credentials',
+        client_id: OSMOSE_CLIENT_ID,
+        client_secret: OSMOSE_CLIENT_SECRET,
+        scope: 'invalid scope',
+      });
+
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.errors[0]).to.deep.equal({
+        'title': 'Forbidden',
+        'detail': 'The scope is not allowed.',
+        'status': '403',
+      });
+
+    });
+
+  });
+
 });
