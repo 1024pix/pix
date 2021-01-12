@@ -1,5 +1,4 @@
 const certificationController = require('./certification-controller');
-const { featureToggles } = require('../../config');
 const Joi = require('joi');
 
 const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc');
@@ -12,7 +11,7 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/organizations/{uai}/certifications',
       config: {
-        auth: (featureToggles.isLivretScolaireSandboxApiEnabled) ? false : undefined,
+        auth: 'jwt',
         handler: certificationController.getCertificationsByOrganizationUAI,
         notes: [
           '- **API for LSU/LSL qui nécessite une authentification de type client credentiel grant**\n' +
