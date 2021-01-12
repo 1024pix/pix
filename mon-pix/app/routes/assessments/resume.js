@@ -1,9 +1,7 @@
-import classic from 'ember-classic-decorator';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import ENV from 'mon-pix/config/environment';
 
-@classic
 export default class ResumeRoute extends Route {
   hasSeenCheckpoint = false;
   campaignCode = null;
@@ -11,10 +9,10 @@ export default class ResumeRoute extends Route {
   competenceLeveled = null;
 
   beforeModel(transition) {
-    this.set('hasSeenCheckpoint', transition.to.queryParams.hasSeenCheckpoint);
-    this.set('campaignCode', transition.to.queryParams.campaignCode);
-    this.set('newLevel', transition.to.queryParams.newLevel || null);
-    this.set('competenceLeveled', transition.to.queryParams.competenceLeveled || null);
+    this.hasSeenCheckpoint = transition.to.queryParams.hasSeenCheckpoint;
+    this.campaignCode = transition.to.queryParams.campaignCode;
+    this.newLevel = transition.to.queryParams.newLevel || null;
+    this.competenceLeveled = transition.to.queryParams.competenceLeveled || null;
   }
 
   async redirect(assessment) {
@@ -79,9 +77,12 @@ export default class ResumeRoute extends Route {
   _parseState(assessment, nextChallenge) {
     const assessmentHasNoMoreQuestions = !nextChallenge;
     const userHasSeenCheckpoint = this.hasSeenCheckpoint;
-    const userHasReachedCheckpoint = assessment.get('answers.length') > 0 && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
-    const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.get('id');
-    const assessmentIsCompleted = assessment.get('isCompleted');
+
+    const quantityOfAnswersInAssessment = assessment.get('answers.length');
+    const userHasReachedCheckpoint = quantityOfAnswersInAssessment > 0 && quantityOfAnswersInAssessment % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
+
+    const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.id;
+    const assessmentIsCompleted = assessment.isCompleted;
 
     return {
       assessmentHasNoMoreQuestions,
