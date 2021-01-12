@@ -1,5 +1,5 @@
-// Usage: node create-profile-collection-campaigns-for-sco.js path/file.csv <creatorId>
-// To use on file with columns |name, customLandingPageText, organizationsId|, those headers included
+// Usage: node create-profile-collection-campaigns.js path/file.csv <creatorId>
+// To use on file with columns |name, organizationId, customLandingPageText, creatorId|, those headers included
 const bluebird = require('bluebird');
 const { knex } = require('../../db/knex-database-connection');
 const Campaign = require('../../lib/domain/models/Campaign');
@@ -9,38 +9,38 @@ const campaignRepository = require('../../lib/infrastructure/repositories/campai
 const { parseCsvWithHeader } = require('../helpers/csvHelpers');
 
 function checkData(campaignData) {
-  return campaignData.map(({ name, organizationId, customLandingPageText }, index) => {
+  return campaignData.map(({ name, organizationId, customLandingPageText, creatorId }, index) => {
     if (!organizationId) {
-      throw new Error(`Ligne ${index + 1}: Une organizationId est obligatoire pour la campagne de collecte de profile.`);
+      throw new Error(`Ligne ${index + 1}: L'organizationId est obligatoire pour la campagne de collecte de profils.`);
     }
-
     if (!name) {
-      throw new Error(`Ligne ${index + 1}: Un nom de campagne est obligatoire pour la campagne de collecte de profile.`);
+      throw new Error(`Ligne ${index + 1}: Le nom de campagne est obligatoire pour la campagne de collecte de profils.`);
+    }
+    if (!creatorId) {
+      throw new Error(`Ligne ${index + 1}: Le creatorId est obligatoire pour la campagne de collecte de profils.`);
     }
 
-    return { name, organizationId, customLandingPageText };
+    return { name, organizationId, customLandingPageText, creatorId };
   });
 }
 
-async function prepareCampaigns(campaignsData, creatorId) {
+async function prepareCampaigns(campaignsData) {
   const generatedList = [];
   const campaigns = await bluebird.map(campaignsData, async (campaignData) => {
 
     const campaign = {
-      creatorId,
-      type: Campaign.types.PROFILES_COLLECTION,
-
-      name: campaignData.name,
-      customLandingPageText: campaignData.customLandingPageText || '',
+      creatorId: campaignData.creatorId,
       organizationId: campaignData.organizationId,
+      type: Campaign.types.PROFILES_COLLECTION,
+      name: campaignData.name,
+      customLandingPageText: campaignData.customLandingPageText,
     };
 
     campaignValidator.validate(campaign);
     campaign.code = await campaignCodeGenerator.generate(campaignRepository, generatedList);
-
     generatedList.push(campaign.code);
 
-    if (require.main === module) process.stdout.write(`Collecte de Profile ${ campaign.name } pour l'organisation ${ campaign.organizationId } ===> ✔\n`);
+    if (require.main === module) process.stdout.write(`Campagne de collecte de profils ${ campaign.name } pour l'organisation ${ campaign.organizationId } ===> ✔\n`);
     return campaign;
   }, { concurrency: 5 });
 
@@ -54,11 +54,6 @@ function createProfilesCollectionCampaigns(campaigns) {
 async function main() {
   try {
     const filePath = process.argv[2];
-    const creatorId = process.argv[3];
-
-    if (!creatorId) {
-      throw new Error('le creatorId est obligatoire.');
-    }
 
     console.log('Lecture et parsing du fichier csv... ');
     const csvData = await parseCsvWithHeader(filePath);
@@ -67,7 +62,7 @@ async function main() {
     const checkedData = checkData(csvData);
 
     console.log('Création des modèles campagne...');
-    const campaigns = await prepareCampaigns(checkedData, creatorId);
+    const campaigns = await prepareCampaigns(checkedData);
 
     console.log('Création des campagnes...');
     await createProfilesCollectionCampaigns(campaigns);
