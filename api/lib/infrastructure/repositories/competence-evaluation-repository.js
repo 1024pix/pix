@@ -2,7 +2,6 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const BookshelfCompetenceEvaluation = require('../data/competence-evaluation');
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
-const queryBuilder = require('../utils/query-builder');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
@@ -66,10 +65,6 @@ module.exports = {
       .orderBy('createdAt', 'desc')
       .fetchAll({ withRelated: ['assessment'] })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
-  },
-
-  find(options) {
-    return queryBuilder.find(BookshelfCompetenceEvaluation, options);
   },
 
   findByAssessmentId(assessmentId) {
