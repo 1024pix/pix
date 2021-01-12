@@ -1,3 +1,5 @@
 <section>
-
+  {{#each @scorecards as |scorecard|}}
+    <CompetenceCard @scorecard={{scorecard}} @interactive={{true}}/>
+  {{/each}}
 </section>
