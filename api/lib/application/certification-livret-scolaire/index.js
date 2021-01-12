@@ -30,6 +30,9 @@ exports.register = async function(server) {
           params: Joi.object({
             uai: Joi.string().required().description('UAI/RNE (Unité Administrative Immatriculée anciennement Répertoire National des Établissements) '),
           }),
+          headers: Joi.object({
+            'authorization': Joi.string().description('Bearer Access token to access to API '),
+          }).unknown(),
         },
         tags: ['api', 'organisation', 'livret-scolaire'],
       },
