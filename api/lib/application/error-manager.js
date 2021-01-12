@@ -193,6 +193,15 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.MissingOrInvalidCredentialsError) {
     return new HttpErrors.UnauthorizedError('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
   }
+  if (error instanceof DomainErrors.ApplicationWithInvalidClientIdError) {
+    return new HttpErrors.UnauthorizedError('The client ID is invalid.');
+  }
+  if (error instanceof DomainErrors.ApplicationWithInvalidClientSecretError) {
+    return new HttpErrors.UnauthorizedError('The client secret is invalid.');
+  }
+  if (error instanceof DomainErrors.ApplicationScopeNotAllowedError) {
+    return new HttpErrors.ForbiddenError('The scope is not allowed.');
+  }
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
