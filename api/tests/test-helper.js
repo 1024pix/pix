@@ -6,6 +6,7 @@ chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
 const cache = require('../lib/infrastructure/caches/learning-content-cache');
+const { livretScolaireAuthentication } = require('../lib/config');
 
 const { knex } = require('../db/knex-database-connection');
 
@@ -27,8 +28,13 @@ afterEach(function() {
   return databaseBuilder.clean();
 });
 
-function generateValidRequestAuthorizationHeader(userId = 1234) {
-  const accessToken = tokenService.createAccessTokenFromUser(userId, 'pix');
+function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') {
+  const accessToken = tokenService.createAccessTokenFromUser(userId, source);
+  return `Bearer ${accessToken}`;
+}
+
+function generateValidRequestAuthorizationHeaderForApplication(clientId = 'client-id-name', source = 'osmose', scope = 'scope') {
+  const accessToken = tokenService.createAccessTokenFromApplication(clientId, source, scope, livretScolaireAuthentication.secret);
   return `Bearer ${accessToken}`;
 }
 
@@ -155,6 +161,7 @@ module.exports = {
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
+  generateValidRequestAuthorizationHeaderForApplication,
   generateIdTokenForExternalUser,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),

@@ -1,7 +1,6 @@
 const tokenService = require('../domain/services/token-service');
 const boom = require('boom');
-const app = require('../config').credentialLivretScolaireGraviteeApplication;
-const auth = require('../config').livretScolaireAuthentication;
+const { credentialLivretScolaireGraviteeApplication, livretScolaireAuthentication } = require('../config');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 
@@ -48,16 +47,16 @@ async function checkApplicationIsAuthenticated(request, h) {
     return _replyWithAuthenticationError(h);
   }
 
-  const decodedAccessToken = tokenService.getDecodedToken(accessToken, auth.secret);
+  const decodedAccessToken = tokenService.getDecodedToken(accessToken, livretScolaireAuthentication.secret);
 
-  if (decodedAccessToken && decodedAccessToken.client_id !== app.clientId) {
+  if (decodedAccessToken && decodedAccessToken.client_id !== credentialLivretScolaireGraviteeApplication.clientId) {
     return _replyWithAuthenticationError(h);
   }
 
-  if (decodedAccessToken && decodedAccessToken.scope !== app.scope) {
+  if (decodedAccessToken && decodedAccessToken.scope !== credentialLivretScolaireGraviteeApplication.scope) {
     return _replyWithAuthorizationError(h);
   }
-  if (decodedAccessToken && decodedAccessToken.scope === app.scope) {
+  if (decodedAccessToken && decodedAccessToken.scope === credentialLivretScolaireGraviteeApplication.scope) {
     return h.authenticated({ credentials: { accessToken, client_id: decodedAccessToken.clientId, source: decodedAccessToken.source } });
   }
   return _replyWithAuthenticationError(h);
