@@ -97,6 +97,11 @@ module.exports = (function() {
       tokenForStudentReconciliationLifespan: '1h',
     },
 
+    livretScolaireAuthentication: {
+      secret: process.env.LIVRET_SCOLAIRE_AUTH_SECRET,
+      tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '1h'),
+    },
+
     saml: {
       spConfig: parseJSONEnv('SAML_SP_CONFIG'),
       idpConfig: parseJSONEnv('SAML_IDP_CONFIG'),
@@ -134,7 +139,6 @@ module.exports = (function() {
     featureToggles: {
       certifPrescriptionSco: isFeatureEnabled(process.env.FT_CERTIF_PRESCRIPTION_SCO),
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
-      isLivretScolaireSandboxApiEnabled: isFeatureEnabled(process.env.FT_IS_LIVRET_SCOLAIRE_SANDBOX_API_ENABLED),
       reportsCategorization: isFeatureEnabled(process.env.FT_REPORTS_CATEGORISATION),
       myAccount: isFeatureEnabled(process.env.FT_MY_ACCOUNT),
       isCertificationResultsInOrgaEnabled: isFeatureEnabled(process.env.FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED),
@@ -162,6 +166,13 @@ module.exports = (function() {
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
     },
+
+    credentialLivretScolaireGraviteeApplication: {
+      clientId: process.env.LIVRET_SCOLAIRE_CLIENT_ID,
+      clientSecret: process.env.LIVRET_SCOLAIRE_CLIENT_SECRET,
+      scope: 'organizations-certifications-result',
+      source: 'lsu',
+    },
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -181,7 +192,6 @@ module.exports = (function() {
 
     config.featureToggles.certifPrescriptionSco = false;
     config.featureToggles.reportsCategorization = false;
-    config.featureToggles.isLivretScolaireSandboxApiEnabled = false;
     config.featureToggles.isCertificationResultsInOrgaEnabled = false;
 
     config.mailing.enabled = false;
@@ -204,6 +214,7 @@ module.exports = (function() {
     config.captcha.googleRecaptchaSecret = 'test-recaptcha-key';
 
     config.authentication.secret = 'test-jwt-key';
+    config.livretScolaireAuthentication.secret = 'test-livret-scolaire-secret';
     config.authentication.tokenLifespan = '1d';
 
     config.temporaryKey.secret = 'test-jwt-key';
@@ -212,6 +223,9 @@ module.exports = (function() {
     config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
+
+    config.credentialLivretScolaireGraviteeApplication.clientId = 'clientId';
+    config.credentialLivretScolaireGraviteeApplication.clientSecret = 'clientSecret';
 
     config.logging.enabled = false;
 
