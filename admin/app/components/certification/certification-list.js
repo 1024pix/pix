@@ -22,6 +22,10 @@ export default class CertificationList extends Component {
       title: 'Statut',
     },
     {
+      propertyName: 'numberOfCertificationIssueReportsWithActionRequired',
+      title: 'Signalements impactants',
+    },
+    {
       propertyName: 'cleaStatus',
       title: 'Certification CléA numérique',
     },
