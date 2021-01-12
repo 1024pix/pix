@@ -87,7 +87,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       await visit(`/sessions/${session.id}`);
 
       // when
-      assert.dom('[data-test-id="session-info__number-of-report"]').hasText('1');
+      assert.dom('[data-test-id="session-info__number-of-issue-report"]').hasText('1');
       assert.dom('[data-test-id="session-info__number-of-not-checked-end-screen"]').hasText('1');
       assert.dom('[data-test-id="session-info__number-of-not-ended-certifications"]').hasText('0');
     });
