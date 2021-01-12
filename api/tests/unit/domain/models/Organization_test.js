@@ -230,4 +230,39 @@ describe('Unit | Domain | Models | Organization', () => {
       });
     });
   });
+
+  describe('get#isMLF', () => {
+    context('when organization is not SCO', () => {
+      it('should return false when the organization has the "MLF" tag', () => {
+        // given
+        const tag = domainBuilder.buildTag({ name: Tag.MLF });
+        const organization = domainBuilder.buildOrganization({ type: 'SUP', tags: [tag] });
+
+        // when / then
+        expect(organization.isMLF).is.false;
+      });
+    });
+
+    context('when organization is SCO', () => {
+      it('should return true when organization is of type SCO and has the "MLF" tag', () => {
+        // given
+        const tag1 = domainBuilder.buildTag({ name: Tag.MLF });
+        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
+        const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag1, tag2] });
+
+        // when / then
+        expect(organization.isMLF).is.true;
+      });
+
+      it('should return false when when organization is of type SCO and has not the "MLF" tag', () => {
+        // given
+        const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
+        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
+        const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag1, tag2] });
+
+        // when / then
+        expect(organization.isMLF).is.false;
+      });
+    });
+  });
 });
