@@ -15,6 +15,7 @@ export default class CurrentUserService extends Service {
   @tracked isAgriculture;
   @tracked isCFA;
   @tracked isAEFE;
+  @tracked isMLF;
 
   async load() {
     if (this.session.isAuthenticated) {
@@ -60,6 +61,7 @@ export default class CurrentUserService extends Service {
     this.isAgriculture = organization.isAgriculture;
     this.isCFA = organization.isCFA;
     this.isAEFE = organization.isAEFE;
+    this.isMLF = organization.isMLF;
 
     this.organization = organization;
   }
