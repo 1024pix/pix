@@ -32,4 +32,9 @@
   .certification-info-label {
     margin-right: 5px;
   }
+
+  &__certification-issue-report-title--with-required-action {
+    font-weight: bold;
+    color: $information-dark;
+  }
 }
