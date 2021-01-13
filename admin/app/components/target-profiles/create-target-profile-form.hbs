@@ -1,0 +1,59 @@
+<form class="form create-target-profile" {{on "submit" @onSubmit}}>
+  
+  <section class="form-section">
+      <span class="form__instructions">
+        Les champs marqués de <abbr title="obligatoire" class="mandatory-mark">*</abbr> sont
+        obligatoires.
+      </span>
+
+    <div class="form-field form-group">
+      <label class="form-field__label" for="targetProfileName">Nom <abbr title="obligatoire" class="mandatory-mark">*</abbr> : </label>
+      <Input class="form-control"
+             @required="true"
+             @id="targetProfileName"
+             @value={{@targetProfile.name}} />
+    </div>
+
+    <div class="form-field form-group create-target-profile__checkbox">
+      <label class="form-field__label" for="isPublic">Public : </label>
+      <Input class="form-control"
+              @type="checkbox"
+              @checked={{@targetProfile.isPublic}}
+              @id="isPublic" />
+      <p class="form__instructions create-target-profile__instructions">Un profil cible marqué comme public sera affecté à toutes les organisations.</p>
+    </div>
+
+    <div class="form-field form-group">
+      <label class="form-field__label" for="skillsList">Fichier JSON Pix Editor <abbr title="obligatoire" class="mandatory-mark">*</abbr> : </label>
+      <Input class={{if @isFileInvalid "form-control is-invalid" "form-control"}}
+              @required="true"
+              {{on "change" @onLoadFile}}
+              @type="file"
+              @id="skillsList" />
+      {{#if @isFileInvalid}}
+        <p class="form-field__error">Le fichier Pix Editor n'est pas au bon format.</p>
+      {{/if}}
+    </div>
+
+    <div class="form-field form-group">
+      <label class="form-field__label" for="organizationId">Identifiant de l'organisation de référence : </label>
+      <Input class="form-control"
+              @id="organizationId"
+              @placeholder="7777"
+              @value={{@targetProfile.ownerOrganizationId}} />
+    </div>
+
+    <div class="form-field form-group">
+      <label class="form-field__label" for="imageUrl">Lien de l'image du profil cible :</label>
+      <Input class="form-control"
+              @id="imageUrl"
+              @value={{@targetProfile.imageUrl}} />
+      <p class="form__instructions create-target-profile__instructions">L'url à saisir doit être celle d'OVH. Veuillez vous rapprocher des équipes tech et produit pour la réalisation de celle-ci.</p>
+    </div>
+  </section>
+
+  <section class="form-section form-section--actions">
+    <button class="form-action form-action--cancel btn btn-outline-default btn-thin" type="button" {{on "click" @onCancel}}>Annuler</button>
+    <button class="form-action form-action--submit btn btn-success btn-thin" type="submit" disabled={{@isDisabled}}>Enregistrer</button>
+  </section>
+</form>
