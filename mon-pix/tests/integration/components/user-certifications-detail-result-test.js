@@ -11,7 +11,7 @@ describe('Integration | Component | user certifications detail result', function
   let certification;
 
   it('renders', async function() {
-    await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+    await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     expect(find('.user-certifications-detail-result')).to.exist;
   });
 
@@ -34,7 +34,7 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     });
 
     it('should show the comment for candidate', function() {
@@ -62,7 +62,7 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     });
 
     it('should not show the comment for candidate', function() {
@@ -90,7 +90,7 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     });
 
     // then
@@ -119,7 +119,7 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
     });
 
     // then

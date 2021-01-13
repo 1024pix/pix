@@ -1,23 +1,23 @@
-{{!-- template-lint-disable no-implicit-this no-curly-component-invocation --}}
-{{#if certification.commentForCandidate}}
-  <h2>{{t "pages.certificate.jury-title"}}</h2>
-  <PixBlock class="user-certifications-detail-result__jury">
-    <p class="user-certifications-detail-result__jury__comment">
-      {{certification.commentForCandidate}}
-    </p>
-    <p class="user-certifications-detail-result__jury__info">
-      <FaIcon @icon="info-circle"></FaIcon> {{t "pages.certificate.jury-info"}}
-    </p>
-  </PixBlock>
-{{/if}}
+<div class="user-certifications-detail-result">
+  {{#if @certification.commentForCandidate}}
+    <h2>{{t "pages.certificate.jury-title"}}</h2>
+    <PixBlock class="user-certifications-detail-result__jury">
+      <p class="user-certifications-detail-result__jury__comment">
+        {{@certification.commentForCandidate}}
+      </p>
+      <p class="user-certifications-detail-result__jury__info">
+        <FaIcon @icon="info-circle"></FaIcon> {{t "pages.certificate.jury-info"}}
+      </p>
+    </PixBlock>
+  {{/if}}
 
-{{#if certification.hasCleaCertif}}
-  <h2>{{t "pages.certificate.clea.title"}}</h2>
-  <PixBlock>
-    <div class="user-certifications-detail-result__badge-clea">
-      <img
-        src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg"
-        alt="{{t "pages.certificate.clea.alternative"}}" />
-    </div>
-  </PixBlock>
-{{/if}}
+  {{#if @certification.hasCleaCertif}}
+    <h2>{{t "pages.certificate.clea.title"}}</h2>
+    <PixBlock>
+      <div class="user-certifications-detail-result__badge-clea">
+        <img src="https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/CleA_Num_certif.svg"
+             alt="{{t "pages.certificate.clea.alternative"}}" />
+      </div>
+    </PixBlock>
+  {{/if}}
+</div>
