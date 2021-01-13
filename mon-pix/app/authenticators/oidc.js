@@ -9,8 +9,6 @@ import { decodeToken } from 'mon-pix/helpers/jwt';
 import config from 'ember-simple-auth-oidc/config';
 import ENV from 'mon-pix/config/environment';
 
-const serverTokenEndpoint = `${ENV.APP.API_HOST}/api/pole-emploi/token`;
-
 const {
   host,
   clientId,
@@ -22,34 +20,48 @@ export default OIDCAuthenticator.extend({
 
   session: service(),
 
-  async authenticate({ code, redirectUri }) {
-    const bodyObject = {
-      code,
-      client_id: clientId,
-      redirect_uri: redirectUri,
-    };
+  async authenticate({ code, redirectUri, authenticationKey }) {
+    let request;
+    let serverTokenEndpoint;
 
-    const body = Object.keys(bodyObject)
-      .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
-      .join('&');
+    if (authenticationKey) {
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/pole-emplois/users?authentication-key=${authenticationKey}`;
+      request = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+      };
+    } else {
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/pole-emploi/token`;
+      const bodyObject = {
+        code,
+        client_id: clientId,
+        redirect_uri: redirectUri,
+      };
 
-    const request = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body,
-    };
+      const body = Object.keys(bodyObject)
+        .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
+        .join('&');
 
-    // We want to authorize users connected to Pix to connect to Pole Emploi as well
-    // in order to link their Pole Emploi account to the Pix one.
-    if (this.session.isAuthenticated) {
-      request.headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
-      // We must ensure to disconnect the Pix user in order for the session service to fire
-      // the authenticationSucceeded event (and thus execute the ApplicationRouteMixin sessionAuthenticated() method).
-      // see: https://github.com/simplabs/ember-simple-auth/blob/92268fdcb9ac3d1c9f7b0abde4923dade7a0cd62/packages/ember-simple-auth/addon/internal-session.js#L95L106
-      this.session.invalidate();
+      request = {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body,
+      };
+
+      // We want to authorize users connected to Pix to connect to Pole Emploi as well
+      // in order to link their Pole Emploi account to the Pix one.
+      if (this.session.isAuthenticated) {
+        request.headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
+        // We must ensure to disconnect the Pix user in order for the session service to fire
+        // the authenticationSucceeded event (and thus execute the ApplicationRouteMixin sessionAuthenticated() method).
+        // see: https://github.com/simplabs/ember-simple-auth/blob/92268fdcb9ac3d1c9f7b0abde4923dade7a0cd62/packages/ember-simple-auth/addon/internal-session.js#L95L106
+        this.session.invalidate();
+      }
     }
 
     const response = await fetch(serverTokenEndpoint, request);
