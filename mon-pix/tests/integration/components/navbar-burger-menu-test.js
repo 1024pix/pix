@@ -1,6 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
@@ -14,12 +11,12 @@ describe('Integration | Component | navbar-burger-menu', function() {
   setupIntlRenderingTest();
 
   beforeEach(async function() {
-    this.owner.register('service:currentUser', Service.extend({
-      user: {
-        email: 'bobby.carotte@example.net',
-        fullName: 'Bobby Carotte',
-      },
-    }));
+    class currentUser extends Service { user = {
+      email: 'bobby.carotte@example.net',
+      fullName: 'Bobby Carotte',
+    }}
+    this.owner.register('service:currentUser', currentUser);
+
   });
 
   context('when dashboard feature toggle is disabled', async function() {
@@ -29,7 +26,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
     });
 
     it('should display logged user details informations', function() {
-      const MENU_ITEMS_COUNT = 3;
+      const MENU_ITEMS_COUNT = 4;
 
       // then
       expect(find('.navbar-burger-menu__user-info')).to.exist;
@@ -38,19 +35,19 @@ describe('Integration | Component | navbar-burger-menu', function() {
       expect(find('.navbar-burger-menu-user-info-item__name').textContent.trim()).to.equal('Bobby Carotte');
       expect(find('.navbar-burger-menu-user-info-item__email').textContent.trim()).to.equal('bobby.carotte@example.net');
       expect(findAll('.navbar-burger-menu-user-info__item')[1].textContent.trim()).to.equal('Mes certifications');
-      expect(findAll('.navbar-burger-menu-user-info__item')[2].textContent.trim()).to.equal('Se déconnecter');
+      expect(findAll('.navbar-burger-menu-user-info__item')[2].textContent.trim()).to.equal('Aide');
+      expect(findAll('.navbar-burger-menu-user-info__item')[3].textContent.trim()).to.equal('Se déconnecter');
     });
 
     it('should display the navigation menu with expected elements outside of campaign results', function() {
       // then
       expect(find('.navbar-burger-menu__navigation')).to.exist;
 
-      expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(5);
+      expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(4);
       expect(findAll('.navbar-burger-menu-navigation__item')[0].textContent.trim()).to.equal('Profil');
       expect(findAll('.navbar-burger-menu-navigation__item')[1].textContent.trim()).to.equal('Certification');
       expect(findAll('.navbar-burger-menu-navigation__item')[2].textContent.trim()).to.equal('Mes tutos');
-      expect(findAll('.navbar-burger-menu-navigation__item')[3].textContent.trim()).to.equal('Aide');
-      expect(findAll('.navbar-burger-menu-navigation__item')[4].textContent.trim()).to.equal('J\'ai un code');
+      expect(findAll('.navbar-burger-menu-navigation__item')[3].textContent.trim()).to.equal('J\'ai un code');
     });
   });
 
@@ -68,13 +65,12 @@ describe('Integration | Component | navbar-burger-menu', function() {
       // then
       expect(find('.navbar-burger-menu__navigation')).to.exist;
 
-      expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(6);
+      expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(5);
       expect(findAll('.navbar-burger-menu-navigation__item')[0].textContent.trim()).to.equal('Accueil');
       expect(findAll('.navbar-burger-menu-navigation__item')[1].textContent.trim()).to.equal('Profil');
       expect(findAll('.navbar-burger-menu-navigation__item')[2].textContent.trim()).to.equal('Certification');
       expect(findAll('.navbar-burger-menu-navigation__item')[3].textContent.trim()).to.equal('Mes tutos');
-      expect(findAll('.navbar-burger-menu-navigation__item')[4].textContent.trim()).to.equal('Aide');
-      expect(findAll('.navbar-burger-menu-navigation__item')[5].textContent.trim()).to.equal('J\'ai un code');
+      expect(findAll('.navbar-burger-menu-navigation__item')[4].textContent.trim()).to.equal('J\'ai un code');
     });
   });
 });

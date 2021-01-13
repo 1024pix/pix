@@ -58,16 +58,5 @@ describe('Acceptance | Navbar', function() {
       expect(find('.navbar-desktop-header')).to.not.exist;
       expect(find('.navbar-mobile-header')).to.not.exist;
     });
-
-    it('should contain link to pix.fr/aide', async function() {
-      // given
-      const helpItem = find('.navbar-desktop-header-container__menu').children[3];
-      const helpLink = helpItem.children[0].getAttribute('href');
-      // when
-      await visit('/profil');
-
-      // then
-      expect(helpLink).to.equal('https://pix.fr/aide');
-    });
   });
 });

@@ -29,6 +29,11 @@
             </LinkTo>
           </li>
           <li>
+            <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="logged-user-menu__link">
+              {{t 'navigation.main.help'}}
+            </a>
+          </li>
+          <li>
             <LinkTo @route="logout" class="logged-user-menu__link">
               <FaIcon @icon="power-off" class="logged-user-menu__icon"/>
               {{t 'navigation.user.sign-out'}}
