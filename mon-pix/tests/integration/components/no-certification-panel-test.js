@@ -8,7 +8,7 @@ describe('Integration | Component | no certification panel', function() {
   setupIntlRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{no-certification-panel}}`);
+    await render(hbs`<NoCertificationPanel/>`);
     expect(find('.no-certification-panel')).to.exist;
   });
 });
