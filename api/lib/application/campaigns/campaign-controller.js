@@ -1,10 +1,10 @@
+const _ = require('lodash');
 const { PassThrough } = require('stream');
 
 const { MissingQueryParamError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
-const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const campaignToJoinSerializer = require('../../infrastructure/serializers/jsonapi/campaign-to-join-serializer');
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
@@ -18,18 +18,21 @@ const requestResponseUtils = require('../../infrastructure/utils/request-respons
 
 module.exports = {
 
-  save(request, h) {
+  async save(request, h) {
     const { userId } = request.auth.credentials;
+    const {
+      name,
+      type,
+      title,
+      'id-pix-label': idPixLabel,
+      'custom-landing-page-text': customLandingPageText,
+    } = request.payload.data.attributes;
+    const targetProfileId = parseInt(_.get(request, 'payload.data.relationships.target-profile.data.id')) || null;
+    const organizationId = parseInt(_.get(request, 'payload.data.relationships.organization.data.id')) || null;
 
-    return campaignSerializer.deserialize(request.payload)
-      .then((campaign) => {
-        campaign.creatorId = userId;
-        return campaign;
-      })
-      .then((campaign) => usecases.createCampaign({ campaign }))
-      .then((createdCampaign) => {
-        return h.response(campaignSerializer.serialize(createdCampaign)).created();
-      });
+    const campaign = { name, type, title, idPixLabel, customLandingPageText, creatorId: userId, organizationId, targetProfileId };
+    const createdCampaign = await usecases.createCampaign({ campaign });
+    return h.response(campaignReportSerializer.serialize(createdCampaign)).created();
   },
 
   async getByCode(request) {
@@ -97,7 +100,7 @@ module.exports = {
     const { name, title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ userId, campaignId, name, title, customLandingPageText })
-      .then(campaignSerializer.serialize);
+      .then(campaignReportSerializer.serialize);
   },
 
   archiveCampaign(request) {
@@ -105,7 +108,7 @@ module.exports = {
     const campaignId = parseInt(request.params.id);
 
     return usecases.archiveCampaign({ userId, campaignId })
-      .then(campaignSerializer.serialize);
+      .then(campaignReportSerializer.serialize);
   },
 
   unarchiveCampaign(request) {
@@ -113,7 +116,7 @@ module.exports = {
     const campaignId = parseInt(request.params.id);
 
     return usecases.unarchiveCampaign({ userId, campaignId })
-      .then(campaignSerializer.serialize);
+      .then(campaignReportSerializer.serialize);
   },
 
   async getReport(request) {

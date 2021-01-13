@@ -1,5 +1,6 @@
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const faker = require('faker');
+const buildOrganization = require('./build-organization');
 const buildTargetProfile = require('./build-target-profile');
 const buildUser = require('./build-user');
 
@@ -15,13 +16,9 @@ function buildCampaign({
   archivedAt = null,
   type = Campaign.types.ASSESSMENT,
   createdAt = faker.date.recent(),
-  creatorId = faker.random.number(2),
-  creator = buildUser({ id: creatorId }),
-  organizationId = faker.random.number(2),
-  targetProfileId = faker.random.number(2),
-  targetProfile = buildTargetProfile({ id: targetProfileId }),
-  isRestricted = false,
-  organizationLogoUrl,
+  creator = buildUser(),
+  organization = buildOrganization(),
+  targetProfile = buildTargetProfile(),
 } = {}) {
   return new Campaign({
     id,
@@ -35,13 +32,9 @@ function buildCampaign({
     archivedAt,
     type,
     createdAt,
-    creatorId,
     creator,
-    organizationId,
-    targetProfileId,
+    organization,
     targetProfile,
-    isRestricted,
-    organizationLogoUrl,
   });
 }
 
@@ -57,13 +50,9 @@ buildCampaign.ofTypeAssessment = function({
   archivedAt = null,
   type = Campaign.types.ASSESSMENT,
   createdAt = faker.date.recent(),
-  creatorId = faker.random.number(2),
-  creator = buildUser({ id: creatorId }),
-  organizationId = faker.random.number(2),
-  targetProfileId = faker.random.number(2),
-  targetProfile = buildTargetProfile({ id: targetProfileId }),
-  isRestricted = false,
-  organizationLogoUrl,
+  creator = buildUser(),
+  organization = buildOrganization(),
+  targetProfile = buildTargetProfile(),
 } = {}) {
   return new Campaign({
     id,
@@ -77,13 +66,9 @@ buildCampaign.ofTypeAssessment = function({
     archivedAt,
     type,
     createdAt,
-    creatorId,
     creator,
-    organizationId,
-    targetProfileId,
+    organization,
     targetProfile,
-    isRestricted,
-    organizationLogoUrl,
   });
 };
 
@@ -98,11 +83,8 @@ buildCampaign.ofTypeProfilesCollection = function({
   archivedAt = null,
   type = Campaign.types.PROFILES_COLLECTION,
   createdAt = faker.date.recent(),
-  creatorId = faker.random.number(2),
-  creator = buildUser({ id: creatorId }),
-  organizationId = faker.random.number(2),
-  isRestricted = false,
-  organizationLogoUrl,
+  creator = buildUser(),
+  organization = buildOrganization(),
 } = {}) {
   return new Campaign({
     id,
@@ -116,12 +98,9 @@ buildCampaign.ofTypeProfilesCollection = function({
     type,
     title: null,
     createdAt,
-    creatorId,
     creator,
-    organizationId,
-    isRestricted,
-    organizationLogoUrl,
-    targetProfileId: null,
+    organization,
+    targetProfile: null,
   });
 };
 
