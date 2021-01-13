@@ -7,13 +7,24 @@
         </LinkTo>
     </header>
 
-    <div class="sidebar__documentation">
-      <a class="sidebar-documentation__button" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
-      <div class="sidebar-documentation__bar"></div>
-        <FaIcon @icon='book' @class="sidebar-documentation__icon"></FaIcon>
-                Documentation
-      </a>
-    </div>
+    <nav class="sidebar-menu">
+      <ul>
+        <li>
+          <LinkTo @route="authenticated.sessions.list" class="sidebar-menu__item" type="button">
+            <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="Liste des sessions" class="sidebar-menu__item-icon">
+            Sessions
+          </LinkTo>
+        </li>
+        <li>
+          <a class="sidebar-menu__item" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
+            <FaIcon @icon='book' @class="sidebar-menu__item-icon" />
+            Documentation
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    
   </aside>
 
   <div class="app__main-content main-content">
