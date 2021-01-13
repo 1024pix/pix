@@ -2,7 +2,9 @@
 
   <aside class="app__sidebar sidebar">
     <header class="sidebar__logo">
-      <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="PixCertif">
+        <LinkTo @route="authenticated.sessions.list" type="button">
+          <img class="sidebar__logo-image" src="{{this.rootUrl}}/pix-certif-logo.svg" alt="PixCertif">
+        </LinkTo>
     </header>
 
     <div class="sidebar__documentation">
