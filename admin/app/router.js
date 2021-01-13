@@ -64,6 +64,7 @@ Router.map(function() {
       this.route('target-profile', { path: '/:target_profile_id' }, function() {
         this.route('details', { path: '/' });
         this.route('organizations');
+        this.route('badges');
       });
     });
 
