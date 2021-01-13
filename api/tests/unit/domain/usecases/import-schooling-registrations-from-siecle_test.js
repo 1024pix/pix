@@ -1,10 +1,10 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const importSchoolingRegistrationsFromSIECLEFormat = require('../../../../lib/domain/usecases/import-schooling-registrations-from-siecle');
-const { FileValidationError, SchoolingRegistrationsCouldNotBeSavedError, SameNationalStudentIdInFileError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
-const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+const { FileValidationError, SameNationalStudentIdInFileError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
 
-const schoolingRegistrationCsvColumns = COLUMNS.map((column) => column.label).join(';');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const SchoolingRegistrationParser = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+
 const fs = require('fs').promises;
 
 describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
@@ -18,6 +18,9 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   let payload = null;
 
   beforeEach(() => {
+    sinon.stub(fs, 'unlink');
+    sinon.stub(fs, 'readFile');
+    sinon.stub(SchoolingRegistrationParser, 'buildParser');
     format = 'xml';
     schoolingRegistrationsXmlServiceStub = { extractSchoolingRegistrationsInformationFromSIECLE: sinon.stub() };
     schoolingRegistrationRepositoryStub = {
@@ -27,21 +30,27 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
     };
     organizationRepositoryStub = { get: sinon.stub() };
   });
+  afterEach(() => {
+    sinon.restore();
+  });
 
   context('when extracted schoolingRegistrations informations can be imported', () => {
+    let parser;
+    payload = { path: 'file.csv' };
+    const buffer = 'data';
 
+    beforeEach(() => {
+      format = 'csv';
+      parser = { parse: sinon.stub() };
+      fs.readFile.withArgs(payload.path).resolves(buffer);
+
+    });
     context('when the format is CSV', () => {
       it('should save these informations for SCO', async () => {
-        format = 'csv';
-        const input = `${schoolingRegistrationCsvColumns}
-        123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
-        456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
-        `;
-        const path = __dirname + '/siecle.csv';
-        payload = { path };
-        await fs.writeFile(path, input);
+        const organization = { isAgriculture: false, externalId: organizationUAI };
+        organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
+        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, organization.isAgriculture).returns(parser);
 
-        // given
         const schoolingRegistration1 = new SchoolingRegistration({
           id: undefined,
           nationalStudentId: '123F',
@@ -75,23 +84,17 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
           organizationId,
         });
 
-        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
+        parser.parse.returns({ registrations: [schoolingRegistration1, schoolingRegistration2] });
 
-        // when
         await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
-        expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.calledWith([schoolingRegistration1, schoolingRegistration2], organizationId);
+        expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.called;
       });
 
       it('should save these informations for SCO Agri', async () => {
-        format = 'csv';
-        const input = `${schoolingRegistrationCsvColumns}
-        123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
-        0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
-        `;
-        const path = __dirname + '/siecle.csv';
-        payload = { path };
-        await fs.writeFile(path, input);
+        const organization = { isAgriculture: true, externalId: organizationUAI };
+        organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
+        SchoolingRegistrationParser.buildParser.withArgs(buffer, organizationId, organization.isAgriculture).returns(parser);
 
         // given
         const schoolingRegistration1 = new SchoolingRegistration({
@@ -127,7 +130,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
           organizationId,
         });
 
-        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI, isAgriculture: true });
+        parser.parse.returns({ registrations: [schoolingRegistration1, schoolingRegistration2] });
 
         // when
         await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
@@ -136,13 +139,13 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
     });
     context('when the format is XML', async () => {
+      beforeEach(() => {
+        format = 'xml';
+      });
 
       it('should save these informations', async () => {
         // given
-        const filePath = __dirname + '/siecle-with-one-valid-student.xml';
-        payload = { path: filePath } ;
-
-        await fs.writeFile(filePath, '');
+        payload = { path: 'file.xml' } ;
 
         const extractedSchoolingRegistrationsInformations = [
           { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
@@ -180,7 +183,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
     let result;
 
-    context('because the file content is invalid', () => {
+    context('because there is no schooling registrations imported', () => {
       beforeEach(() => {
         // given
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
@@ -188,11 +191,6 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
 
       it('should throw a FileValidationError', async () => {
-        // when
-        const filePath = __dirname + '/not-valid.xml';
-        payload = { path: filePath } ;
-
-        await fs.writeFile(filePath, '');
 
         const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
@@ -210,46 +208,12 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
 
       it('should throw a FileValidationError', async () => {
-        // given
-        const filePath = __dirname + '/wrong-file.txt';
-        payload = { path: filePath } ;
-
-        await fs.writeFile(filePath, '');
         // when
         const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, organizationRepository: organizationRepositoryStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
         expect(result).to.be.instanceOf(FileValidationError);
         expect(result.message).to.equal('Format de fichier non valide.');
-      });
-    });
-
-    context('because informations cannot be saved', () => {
-      beforeEach(async () => {
-        // given
-        const extractedSchoolingRegistrationInformations = [
-          { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1', organizationId },
-        ];
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
-          .returns(extractedSchoolingRegistrationInformations);
-        schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
-        schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations.throws(new SchoolingRegistrationsCouldNotBeSavedError());
-        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
-
-      });
-
-      it('should throw a SchoolingRegistrationsCouldNotBeSavedError', async () => {
-        // given
-        const filePath = __dirname + '/siecle.xml';
-        payload = { path: filePath } ;
-
-        await fs.writeFile(filePath, '');
-        // when
-        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-        // then
-        expect(result).to.be.instanceOf(SchoolingRegistrationsCouldNotBeSavedError);
-        expect(result.message).to.equal('Une erreur est survenue durant le traitement.');
       });
     });
 
@@ -270,10 +234,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
       it('should throw a SameNationalStudentIdInOrganizationError', async () => {
         // given
-        const filePath = __dirname + '/siecle.xml';
-        payload = { path: filePath } ;
-
-        await fs.writeFile(filePath, '');
+        payload = { path: 'file.xml' } ;
 
         // when
         result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
