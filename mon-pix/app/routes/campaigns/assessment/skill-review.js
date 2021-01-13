@@ -1,9 +1,7 @@
-import classic from 'ember-classic-decorator';
 import RSVP from 'rsvp';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 
-@classic
 export default class SkillReviewRoute extends Route.extend(SecuredRouteMixin) {
   model(params) {
     const store = this.store;
