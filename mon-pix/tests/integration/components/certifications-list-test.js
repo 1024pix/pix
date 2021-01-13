@@ -9,7 +9,7 @@ describe('Integration | Component | certifications list', function() {
   setupIntlRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{certifications-list}}`);
+    await render(hbs`<CertificationsList />`);
     expect(find('.certifications-list__table')).to.exist;
   });
 
@@ -37,7 +37,7 @@ describe('Integration | Component | certifications list', function() {
       this.set('certifications', completedCertifications);
 
       // when
-      await render(hbs`{{certifications-list certifications=certifications}}`);
+      await render(hbs`<CertificationsList @certifications={{this.certifications}}/>`);
 
       // then
       expect(findAll('.certifications-list__table-body .certifications-list-item').length).to.equal(2);
