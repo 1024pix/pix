@@ -10,7 +10,7 @@ export default class List extends Component {
   }
 
   get divisionOptions() {
-    return this.args.campaign.divisions.map(({ name }) => ({ value: name }));
+    return this.args.campaign.divisions.map(({ name }) => ({ value: name, label: name }));
   }
 
   @action
