@@ -14,38 +14,36 @@
     {{t 'navigation.user.certifications'}}
   </LinkTo>
 
+  <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-burger-menu-user-info__item">
+    {{t 'navigation.main.help'}}
+  </a>
+
   <LinkTo @route="logout" class="navbar-burger-menu-user-info__item navbar-burger-menu-user-info-item__logout">
     {{t 'navigation.user.sign-out'}}
   </LinkTo>
 </div>
 
-{{#unless this.isInRouteWithoutLinksInHeader}}
-  <div class="navbar-burger-menu navbar-burger-menu__navigation">
-    {{#if this.showDashboard}}
-      <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
-        {{t 'navigation.main.dashboard'}}
-      </LinkTo>
-    {{/if}}
-    <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
-       {{t 'navigation.main.profile'}}
+<div class="navbar-burger-menu navbar-burger-menu__navigation">
+  {{#if this.showDashboard}}
+    <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
+      {{t 'navigation.main.dashboard'}}
     </LinkTo>
+  {{/if}}
+  <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.profile'}}
+  </LinkTo>
 
-    <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
-       {{t 'navigation.main.start-certification'}}
-    </LinkTo>
+  <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.start-certification'}}
+  </LinkTo>
 
-    <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation__item">
-      {{t 'navigation.main.tutorials'}}
-    </LinkTo>
+  <LinkTo @route="user-tutorials" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.tutorials'}}
+  </LinkTo>
 
-    <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-burger-menu-navigation__item">
-       {{t 'navigation.main.help'}}
-    </a>
-
-  </div>
-  <div class="navbar-burger-menu-navigation__item  navbar-burger-menu-navigation__bottom-item">
-   <LinkTo @route="fill-in-campaign-code" class="button button--thin">
-       {{t 'navigation.main.code'}}
-   </LinkTo>
-  </div>
-{{/unless}}
+</div>
+<div class="navbar-burger-menu-navigation__item  navbar-burger-menu-navigation__bottom-item">
+  <LinkTo @route="fill-in-campaign-code" class="button button--thin">
+    {{t 'navigation.main.code'}}
+  </LinkTo>
+</div>

@@ -1,6 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
@@ -18,7 +15,8 @@ describe('Integration | Component | navbar-desktop-header', function() {
 
   context('when user is not logged', function() {
     beforeEach(async function() {
-      this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
+      class sessionService extends Service { isAuthenticated = false }
+      this.owner.register('service:session', sessionService);
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>`);
     });
@@ -57,16 +55,17 @@ describe('Integration | Component | navbar-desktop-header', function() {
   context('When user is logged', function() {
 
     beforeEach(async function() {
-      this.owner.register('service:session', Service.extend({
-        isAuthenticated: true,
-        data: {
+      class sessionService extends Service {
+        isAuthenticated = true
+        data = {
           authenticated: {
             token: 'access_token',
             userId: 1,
             source: 'pix',
           },
-        },
-      }));
+        }
+      }
+      this.owner.register('service:session', sessionService);
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>}`);
     });
@@ -103,11 +102,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
     it('should display the navigation menu with expected elements', function() {
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
+      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(3);
       expect(contains('Profil')).to.exist;
       expect(contains('Certification')).to.exist;
       expect(contains('Mes tutos')).to.exist;
-      expect(contains('Aide')).to.exist;
     });
   });
 
@@ -116,16 +114,17 @@ describe('Integration | Component | navbar-desktop-header', function() {
 
     beforeEach(async function() {
       ENV.APP.FT_DASHBOARD = true;
-      this.owner.register('service:session', Service.extend({
-        isAuthenticated: true,
-        data: {
+      class sessionService extends Service {
+        isAuthenticated = true
+        data = {
           authenticated: {
             token: 'access_token',
             userId: 1,
             source: 'pix',
           },
-        },
-      }));
+        }
+      }
+      this.owner.register('service:session', sessionService);
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>}`);
     });
@@ -138,23 +137,24 @@ describe('Integration | Component | navbar-desktop-header', function() {
 
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(5);
+      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
       expect(contains('Accueil')).to.exist;
       expect(contains('Profil')).to.exist;
       expect(contains('Mes tutos')).to.exist;
       expect(contains('Certification')).to.exist;
-      expect(contains('Aide')).to.exist;
     });
   });
 
   context('when user comes from external platform', function() {
     beforeEach(async function() {
-      this.owner.register('service:session', Service.extend({
-        isAuthenticated: false,
-        data: {
+      class sessionService extends Service {
+        isAuthenticated = false
+        data = {
           externalUser: 'externalUserToken',
-        },
-      }));
+        }
+      }
+      this.owner.register('service:session', sessionService);
+
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>`);
     });
