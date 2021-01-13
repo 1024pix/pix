@@ -44,6 +44,7 @@ export default function() {
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
   this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
   this.post('/organizations/:id/target-profiles', attachTargetProfiles);
+  this.post('/admin/target-profiles');
   this.get('/admin/target-profiles');
   this.get('/admin/target-profiles/:id');
   this.patch('/admin/target-profiles/:id');
