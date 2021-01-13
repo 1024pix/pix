@@ -1,9 +1,7 @@
-import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import get from 'lodash/get';
 
-@classic
 export default class ResetPasswordRoute extends Route {
   @service errors;
   @service intl;

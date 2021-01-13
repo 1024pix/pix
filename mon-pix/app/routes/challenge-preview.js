@@ -1,7 +1,5 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 
-@classic
 export default class ChallengePreviewRoute extends Route {
   model(params) {
     const store = this.store;

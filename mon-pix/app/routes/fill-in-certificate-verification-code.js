@@ -1,8 +1,6 @@
-import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
-@classic
 export default class FillInCertificateVerificationCodeRoute extends Route {
 
   @service intl;
@@ -16,6 +14,6 @@ export default class FillInCertificateVerificationCodeRoute extends Route {
   }
 
   setupController(controller) {
-    controller.set('errorMessage', this.message);
+    controller.errorMessage = this.message;
   }
 }
