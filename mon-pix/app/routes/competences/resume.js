@@ -1,9 +1,7 @@
-import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 
-@classic
 export default class ResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
   @service router;
