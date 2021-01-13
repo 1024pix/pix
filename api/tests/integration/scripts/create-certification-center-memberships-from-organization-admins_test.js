@@ -6,7 +6,7 @@ const Membership = require('../../../lib/domain/models/Membership');
 const BookshelfCertificationCenterMembership = require('../../../lib/infrastructure/data/certification-center-membership');
 
 const {
-  getCertificationCenterIdByExternalId,
+  getCertificationCenterWithoutMembershipIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
@@ -17,13 +17,13 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
   const externalId1 = '1234567A';
   const externalId2 = '7654321B';
-  const externalId3 = '1231231C';
+  const externalIdForCertificationCenterWithMembership = '1231231C';
 
   let organizationId1;
   let organizationId2;
   let certificationCenterId1;
   let certificationCenterId2;
-  let certificationCenterId3;
+  let certificationCenterWithMembershipId;
 
   let adminUserId1a;
   let adminUserId1b;
@@ -63,11 +63,11 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     certificationCenterId2 = databaseBuilder.factory.buildCertificationCenter({
       externalId: externalId2,
     }).id;
-    certificationCenterId3 = databaseBuilder.factory.buildCertificationCenter({
-      externalId: externalId3,
+    certificationCenterWithMembershipId = databaseBuilder.factory.buildCertificationCenter({
+      externalId: externalIdForCertificationCenterWithMembership,
     }).id;
     databaseBuilder.factory.buildCertificationCenterMembership({
-      certificationCenterId: certificationCenterId3,
+      certificationCenterId: certificationCenterWithMembershipId,
       userId: userId1,
     });
 
@@ -78,15 +78,15 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
     it('should get certification center by externalId', async () => {
       // when
-      const certificationCenterId = await getCertificationCenterIdByExternalId(externalId1);
+      const certificationCenterId = await getCertificationCenterWithoutMembershipIdByExternalId(externalId1);
 
       // then
       expect(certificationCenterId).to.equal(certificationCenterId1);
     });
 
-    it('should return null when certification center does not have membership', async () => {
+    it('should return null when certification center has a membership', async () => {
       // when
-      const result = await getCertificationCenterIdByExternalId(externalId3);
+      const result = await getCertificationCenterWithoutMembershipIdByExternalId(externalIdForCertificationCenterWithMembership);
 
       // then
       expect(result).to.be.null;
@@ -136,9 +136,9 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       expect(result).to.deep.have.members(expectedCertificationCenterMemberships);
     });
 
-    it('should return empty array when certification center is not found', async () => {
+    it('should return empty array when certification center has membership', async () => {
       // when
-      const result = await fetchCertificationCenterMembershipsByExternalId(externalId3);
+      const result = await fetchCertificationCenterMembershipsByExternalId(externalIdForCertificationCenterWithMembership);
 
       // then
       expect(result).to.have.lengthOf(0);
@@ -161,7 +161,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       const result = await prepareDataForInsert([
         { externalId: externalId1 },
         { externalId: externalId2 },
-        { externalId: externalId3 },
+        { externalId: externalIdForCertificationCenterWithMembership },
       ]);
 
       // then

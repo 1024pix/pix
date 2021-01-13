@@ -9,7 +9,7 @@ const Membership = require('../lib/domain/models/Membership');
 
 const { knex } = require('../lib/infrastructure/bookshelf');
 
-async function getCertificationCenterIdByExternalId(externalId) {
+async function getCertificationCenterWithoutMembershipIdByExternalId(externalId) {
   const certificationCenter = await knex('certification-centers')
     .first('certification-centers.id')
     .leftJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
@@ -36,7 +36,7 @@ function buildCertificationCenterMemberships({ certificationCenterId, membership
 }
 
 async function fetchCertificationCenterMembershipsByExternalId(externalId) {
-  const certificationCenterId = await getCertificationCenterIdByExternalId(externalId);
+  const certificationCenterId = await getCertificationCenterWithoutMembershipIdByExternalId(externalId);
   if (!certificationCenterId) {
     return [];
   }
@@ -93,7 +93,7 @@ if (require.main === module) {
 }
 
 module.exports = {
-  getCertificationCenterIdByExternalId,
+  getCertificationCenterWithoutMembershipIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
