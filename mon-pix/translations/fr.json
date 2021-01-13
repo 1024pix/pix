@@ -770,10 +770,12 @@
                 "text": "Vous n'avez pas encore de compte Pix ?",
                 "link": "Créez un compte"
             },
+            "or":"OU",
             "pole-emploi": {
+                "title": "Se connecter avec pôle emploi",
                 "link": {
-                    "title": "Pôle emploi",
-                    "img": "image Pôle emploi"
+                    "title": "Pôle Emploi",
+                    "img": "image Pôle Emploi"
                 }
             }
         },

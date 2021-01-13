@@ -7,15 +7,6 @@
   <div class="sign-form__header">
     <h1 class="sign-form-title">{{t 'pages.sign-in.first-title'}}</h1>
 
-    {{#if this.isPoleEmploiEnabled}}
-      <LinkTo @route="login-pe" aria-label="{{t 'pages.sign-in.pole-emploi.link.title'}}">
-        <img class="icon-pe-connect-hover" src="{{this.rootURL}}/images/pe-connect-barre-nav-w.svg"
-             alt="{{t 'pages.sign-in.pole-emploi.link.img'}}"
-             width="200"
-        />
-      </LinkTo>
-    {{/if}}
-
     <div class="sign-form-header__subtitle">
       <span class="sign-form-header-subtitle sign-form-instruction">{{t 'pages.sign-in.subtitle.text'}}</span>
       <LinkTo @route="inscription" class="link sign-form-link"> {{t 'pages.sign-in.subtitle.link'}}</LinkTo>
@@ -56,5 +47,21 @@
         {{t 'pages.sign-in.actions.submit'}}
       </button>
     </div>
+
+    {{#if this.isPoleEmploiEnabled}}
+    <div class="sign-form-body__bottom-decoration">
+      <hr>
+      <span>{{t 'pages.sign-in.or'}}</span>
+      <hr>
+    </div>
+
+      <LinkTo @route="login-pe"class="sign-form-body__pe-connect-link"  aria-label="{{t 'pages.sign-in.pole-emploi.link.title'}}">
+        <img class="icon-pe-connect-hover" src="{{this.rootURL}}/images/pe-connect-logo.svg"
+           alt="{{t 'pages.sign-in.pole-emploi.link.img'}}"
+        />
+        <span>{{t 'pages.sign-in.pole-emploi.title'}}</span>
+      </LinkTo>
+    {{/if}}
+
   </form>
 </main>
