@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.1.0 (13/01/2021)
+
+- [#2366](https://github.com/1024pix/pix/pull/2366) [FEATURE] Conditionner la création d'un compte PE à la validation des CGU (PIX-1956)
+- [#2376](https://github.com/1024pix/pix/pull/2376) [FEATURE] Afficher une documentation spécifique pour les missions laïques françaises (ou MLF) (PIX-1976).
+- [#2378](https://github.com/1024pix/pix/pull/2378) [FEATURE] Voir le nombre de "signalements impactants" dans la liste des certification dans Pix Admin (PIX-1519)
+- [#2369](https://github.com/1024pix/pix/pull/2369) [FEATURE] Modifier le niveau max atteignable et le nombre de pix max atteignable sur pix-admin (PIX-1810).
+- [#2365](https://github.com/1024pix/pix/pull/2365) [FEATURE] Afficher le détail des signalements dans Pix Admin (PIX-1522)
+- [#2381](https://github.com/1024pix/pix/pull/2381) [TECH] Mise à jour du script de création des campagnes de collecte de profils (PIX-1978).
+- [#2370](https://github.com/1024pix/pix/pull/2370) [TECH] Supprime la relation hasMany organization sur les target profile
+
 ## v3.0.0 (11/01/2021)
 
 - [TECH] Montée de version majeure des applications métier motivée par le remplacement d'Airtable par Pix LCMS API
