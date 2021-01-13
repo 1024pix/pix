@@ -1,9 +1,7 @@
-import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import get from 'lodash/get';
 
-@classic
 export default class ErrorRoute extends Route {
   @service session;
 
@@ -14,17 +12,17 @@ export default class ErrorRoute extends Route {
 
   setupController(controller, error) {
     super.setupController(...arguments);
-    controller.set('errorMessage', error);
+    controller.errorMessage = error;
 
     if (error.errors && error.errors[0]) {
       const apiError = error.errors[0];
-      controller.setProperties({
-        'errorDetail': apiError.detail,
-        'errorStatus': apiError.status,
-        'errorTitle': apiError.title,
-      });
+      controller.errorDetail = apiError.detail;
+      controller.errorStatus = apiError.status;
+      controller.errorTitle = apiError.title;
     } else {
-      controller.setProperties({ 'errorDetail': null, 'errorStatus': null, 'errorTitle': null });
+      controller.errorDetail = null;
+      controller.errorStatus = null;
+      controller.errorTitle = null;
     }
 
     if (this.hasUnauthorizedError(error)) {
