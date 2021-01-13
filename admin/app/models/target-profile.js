@@ -7,6 +7,7 @@ export default class TargetProfile extends Model {
   @attr('boolean') outdated;
   @attr('string') organizationId;
 
+  @hasMany('badge') badges;
   @hasMany('skill') skills;
 
   attachOrganizations = memberAction({

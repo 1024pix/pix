@@ -1,8 +1,8 @@
 import { getRootElement } from '@ember/test-helpers';
 
-function getChildrenThatContainsText(element, text) {
+function getChildrenThatContainsText(element, text, isChild) {
   if (element.textContent.trim() === text) {
-    return element;
+    return isChild ? element : [element];
   }
 
   if (element.children.length === 0) {
@@ -11,7 +11,7 @@ function getChildrenThatContainsText(element, text) {
 
   return [...element.children]
     .map((child) => {
-      return getChildrenThatContainsText(child, text);
+      return getChildrenThatContainsText(child, text, true);
     })
     .filter(Boolean)
     .flatMap((v) => v);
