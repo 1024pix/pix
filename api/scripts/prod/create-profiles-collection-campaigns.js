@@ -42,7 +42,7 @@ async function prepareCampaigns(campaignsData) {
 
     if (require.main === module) process.stdout.write(`Campagne de collecte de profils ${ campaign.name } pour l'organisation ${ campaign.organizationId } ===> ✔\n`);
     return campaign;
-  }, { concurrency: 5 });
+  }, { concurrency: 10 });
 
   return campaigns.flat();
 }
