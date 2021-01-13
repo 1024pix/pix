@@ -858,6 +858,15 @@
                 "error-message": "Vous devez accepter les conditions d’utilisation de Pix."
             }
         },
+        "terms-of-service-pe": {
+            "title": "Conditions d'utilisation",
+            "cgu": "J'accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'conditions d'utilisation de Pix'</a>'",
+            "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par Pôle Emploi.",
+            "form": {
+                "button": "Je continue",
+                "error-message": "Vous devez accepter les conditions d’utilisation de Pix."
+            }
+        },
         "timed-challenge-instructions": {
             "action": "Commencer",
             "primary": "Vous disposerez de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' pour réussir la question suivante.",

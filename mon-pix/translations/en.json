@@ -858,6 +858,15 @@
                 "error-message": "Please agree to the terms and conditions of use."
             }
         },
+        "terms-of-service-pe": {
+            "title": "Terms and conditions of use",
+            "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
+            "message": "",
+            "form": {
+                "button": "Continue",
+                "error-message": "Please agree to the terms and conditions of use."
+            }
+        },
         "timed-challenge-instructions": {
             "action": "Start",
             "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
