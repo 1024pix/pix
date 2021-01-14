@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/analysis/tube-recommendation-row', function(hooks) {
+module.only('Integration | Component | routes/authenticated/campaign/analysis/tube-recommendation-row', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
@@ -118,22 +118,8 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     assert.dom('[aria-hidden="false"]').containsText('Aucun tuto recommandé pour ce sujet.');
   });
 
-  module('Testing the number of tutorials per subject coloumn', () => {
-
-    test('it should display "Pas de tutos disponible" when there are no tutorials to count', async function(assert) {
-      // given
-      tubeRecommendation.tutorials = [];
-
-      //when
-      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
-        @tubeRecommendation={{tubeRecommendation}}
-      />`);
-
-      // then
-      assert.dom('[aria-label="Sujet"]').containsText('Pas de tutos disponible');
-    });
-
-    test('it should display "1 tuto" without un "s" when there is only one tutorial to count', async function(assert) {
+  module('Testing the number of tutorials', () => {
+    test('it should display "1 tuto" when there is only one tutorial', async function(assert) {
       // given
       tubeRecommendation.tutorials = [tutorial1];
 
@@ -146,7 +132,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
       assert.dom('[aria-label="Sujet"]').containsText('1 tuto');
     });
 
-    test('it should display No of tutorials then "tutos" when there are many tutorial to count', async function(assert) {
+    test('it should display "2 tutos" when there are two tutorials', async function(assert) {
       // given
       tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
