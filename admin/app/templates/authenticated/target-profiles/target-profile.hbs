@@ -20,8 +20,8 @@
       ID : {{@model.id}}<br>
       Public : {{this.isPublic}}<br>
       Archivé : {{this.isOutdated}}<br>
-      Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}>
-        {{@model.organizationId}} </LinkTo><br>
+      Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
+        {{@model.ownerOrganizationId}} </LinkTo><br>
     </div>
     <br>
     <button type="button" class="btn btn-outline-default" {{on "click" this.toggleEditMode}}>Editer</button>

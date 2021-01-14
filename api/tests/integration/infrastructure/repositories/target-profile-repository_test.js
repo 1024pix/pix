@@ -56,8 +56,8 @@ describe('Integration | Repository | Target-profile', () => {
 
   describe('#findAllTargetProfilesOrganizationCanUse', () => {
 
-    let organizationId;
-    let otherOrganizationId;
+    let ownerOrganizationId;
+    let ownerOtherOrganizationId;
     let targetProfileSkill;
 
     let organizationTargetProfile;
@@ -65,15 +65,15 @@ describe('Integration | Repository | Target-profile', () => {
     let publicTargetProfile;
 
     beforeEach(async () => {
-      organizationId = databaseBuilder.factory.buildOrganization().id;
-      otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      ownerOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      ownerOtherOrganizationId = databaseBuilder.factory.buildOrganization().id;
 
-      organizationTargetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId, isPublic: false });
-      organizationTargetProfilePublic = databaseBuilder.factory.buildTargetProfile({ organizationId, isPublic: true });
-      publicTargetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: null, isPublic: true });
-      databaseBuilder.factory.buildTargetProfile({ organizationId: otherOrganizationId, isPublic: false });
-      databaseBuilder.factory.buildTargetProfile({ organizationId: null, isPublic: true, outdated: true });
-      databaseBuilder.factory.buildTargetProfile({ organizationId, isPublic: false, outdated: true });
+      organizationTargetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: false });
+      organizationTargetProfilePublic = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: true });
+      publicTargetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: null, isPublic: true });
+      databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: ownerOtherOrganizationId, isPublic: false });
+      databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: null, isPublic: true, outdated: true });
+      databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: false, outdated: true });
 
       const targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: organizationTargetProfile.id });
       await databaseBuilder.commit();
@@ -84,7 +84,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return an Array', async () => {
       // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(ownerOrganizationId);
 
       // then
       expect(foundTargetProfiles).to.be.an('array');
@@ -92,7 +92,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return all the target profile the organization can access but not outdated', async () => {
       // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(ownerOrganizationId);
 
       // then
       expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
@@ -104,7 +104,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should contain skills linked to every target profiles', () => {
       // when
-      const promise = targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
+      const promise = targetProfileRepository.findAllTargetProfilesOrganizationCanUse(ownerOrganizationId);
 
       // then
       return promise.then((targetProfiles) => {
