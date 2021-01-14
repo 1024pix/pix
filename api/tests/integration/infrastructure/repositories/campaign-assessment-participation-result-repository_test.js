@@ -104,14 +104,14 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
       it('fills competenceResults', async () => {
         const expectedResult = [{
           areaColor: 'orange',
-          id: 'rec1',
+          id: `${campaignParticipationId}-rec1`,
           index: '1.1',
           name: 'Compétence 1',
           targetedSkillsCount: 1,
           validatedSkillsCount: 1,
         }, {
           areaColor: 'orange',
-          id: 'rec2',
+          id: `${campaignParticipationId}-rec2`,
           index: '1.2',
           name: 'Compétence 2',
           targetedSkillsCount: 1,
