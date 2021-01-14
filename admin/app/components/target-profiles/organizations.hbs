@@ -3,7 +3,7 @@
     <h2 class="page-section__title">Rattacher une ou plusieurs organisation(s)</h2>
   </header>
   <div class="organization__forms-section">
-    <form aria-label=">Rattacher une ou plusieurs organisation(s)" class="organization__sub-form form">
+    <form aria-label="Rattacher une ou plusieurs organisation(s)" class="organization__sub-form form">
       <Input aria-label="ID de ou des organisation(s)" @value={{@organizationsToAttach}}
         class="organization-sub-form__input form-field__text form-control" @placeholder="1, 2" />
       <button type="button" {{on "click" @attachOrganizations}}
