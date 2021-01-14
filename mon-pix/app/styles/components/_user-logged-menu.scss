@@ -1,8 +1,7 @@
 /* stylelint-disable no-descending-specificity */
 
 .logged-user-details {
-  position: absolute;
-  right: 0;
+  margin: auto 0;
 }
 
 .logged-user-name__link {
@@ -62,7 +61,7 @@
 .logged-user-menu {
   position: absolute;
   right: 0;
-  top: 30px;
+  top: 80px;
   z-index: 999;
   background-color: $white;
   max-width: 380px;
