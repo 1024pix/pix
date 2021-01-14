@@ -1,74 +1,57 @@
 'use strict';
 
 const _ = require('lodash');
+const bluebird = require('bluebird');
 
 const { checkCsvExtensionFile, parseCsvWithHeader } = require('./helpers/csvHelpers');
 
-const { NotFoundError } = require('../lib/domain/errors');
 const Membership = require('../lib/domain/models/Membership');
 
-const Bookshelf = require('../lib/infrastructure/bookshelf');
-const bookshelfToDomainConverter = require('../lib/infrastructure/utils/bookshelf-to-domain-converter');
-const BookshelfCertificationCenter = require('../lib/infrastructure/data/certification-center');
-const BookshelfMembership = require('../lib/infrastructure/data/membership');
+const { knex } = require('../lib/infrastructure/bookshelf');
 
-function getCertificationCenterByExternalId(externalId) {
-  return BookshelfCertificationCenter
-    .where({ externalId })
-    .fetch({ require: true })
-    .then((certificationCenter) => bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCenter, certificationCenter))
-    .catch((err) => {
-      if (err instanceof BookshelfCertificationCenter.NotFoundError) {
-        throw new NotFoundError(`CertificationCenter not found for External ID ${externalId}`);
-      }
-      throw err;
-    });
+async function getCertificationCenterWithoutMembershipIdByExternalId(externalId) {
+  const certificationCenter = await knex('certification-centers')
+    .first('certification-centers.id')
+    .leftJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
+    .whereNull('certification-center-memberships.id')
+    .where('certification-centers.externalId', '=', externalId);
+
+  return certificationCenter ? certificationCenter.id : null;
 }
 
-async function getAdminMembershipsByOrganizationExternalId(externalId) {
-  return BookshelfMembership
-    .query((qb) => {
-      qb.innerJoin('organizations', 'memberships.organizationId', 'organizations.id');
-      qb.where('organizationRole', Membership.roles.ADMIN);
-      qb.where('organizations.externalId', '=', externalId);
-    })
-    .fetchAll({ require: true })
-    .then((memberships) => {
-      const data = memberships.models.map((model) => model.attributes);
-      return data;
-    })
-    .catch((err) => {
-      if (err instanceof BookshelfMembership.NotFoundError) {
-        throw new NotFoundError(`Organization not found for External ID ${externalId}`);
-      }
-      throw err;
-    });
+async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
+  const adminMemberships = await knex('memberships')
+    .select('memberships.userId')
+    .innerJoin('organizations', 'memberships.organizationId', 'organizations.id')
+    .where('organizationRole', Membership.roles.ADMIN)
+    .where('organizations.externalId', '=', externalId);
+
+  return adminMemberships.map((adminMembership) => adminMembership.userId);
 }
 
-function buildCertificationCenterMemberships({ certificationCenterId, memberships }) {
-  return memberships.map((membership) => {
-    return { certificationCenterId, userId: membership.userId };
+function buildCertificationCenterMemberships({ certificationCenterId, membershipUserIds }) {
+  return membershipUserIds.map((userId) => {
+    return { certificationCenterId, userId };
   });
 }
 
 async function fetchCertificationCenterMembershipsByExternalId(externalId) {
-  const { id: certificationCenterId } = await getCertificationCenterByExternalId(externalId);
-  const memberships = await getAdminMembershipsByOrganizationExternalId(externalId);
-
-  return buildCertificationCenterMemberships({ certificationCenterId, memberships });
+  const certificationCenterId = await getCertificationCenterWithoutMembershipIdByExternalId(externalId);
+  if (!certificationCenterId) {
+    return [];
+  }
+  const membershipUserIds = await getAdminMembershipsUserIdByOrganizationExternalId(externalId);
+  return buildCertificationCenterMemberships({ certificationCenterId, membershipUserIds });
 }
 
-function prepareDataForInsert(rawExternalIds) {
-  return Promise.all(_.map(rawExternalIds, ({ externalId }) => {
-    return fetchCertificationCenterMembershipsByExternalId(externalId);
-  }))
-    .then((certificationCenterMemberships) => {
-      return _.union(...certificationCenterMemberships);
-    });
+async function prepareDataForInsert(rawExternalIds) {
+  const externalIds = _.uniq(_.map(rawExternalIds, 'externalId'));
+  const certificationCenterMembershipsLists = await bluebird.mapSeries(externalIds, fetchCertificationCenterMembershipsByExternalId);
+  return certificationCenterMembershipsLists.flat();
 }
 
 async function createCertificationCenterMemberships(certificationCenterMemberships) {
-  return Bookshelf.knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
+  return knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
 }
 
 async function main() {
@@ -110,8 +93,8 @@ if (require.main === module) {
 }
 
 module.exports = {
-  getCertificationCenterByExternalId,
-  getAdminMembershipsByOrganizationExternalId,
+  getCertificationCenterWithoutMembershipIdByExternalId,
+  getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
