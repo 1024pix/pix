@@ -19,6 +19,7 @@ class CampaignAssessmentParticipationResult {
         .map((targetedCompetence) => {
           const targetedArea = targetProfile.getAreaOfCompetence(targetedCompetence.id);
           return new CampaignAssessmentParticipationCompetenceResult({
+            campaignParticipationId,
             targetedArea,
             targetedCompetence,
             targetedSkillsCount: targetedCompetence.skillCount,

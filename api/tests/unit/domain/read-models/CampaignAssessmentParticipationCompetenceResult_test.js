@@ -14,11 +14,12 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationCompetenceResu
       const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1' });
 
       const campaignAssessmentParticipationCompetenceResult = new CampaignAssessmentParticipationCompetenceResult({
+        campaignParticipationId: '1',
         targetedArea,
         targetedCompetence,
       });
 
-      expect(campaignAssessmentParticipationCompetenceResult.id).equal('rec123');
+      expect(campaignAssessmentParticipationCompetenceResult.id).equal('1-rec123');
       expect(campaignAssessmentParticipationCompetenceResult.name).equal('competence1');
       expect(campaignAssessmentParticipationCompetenceResult.index).equal('1.1');
     });

@@ -53,7 +53,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', () =>
 
         expect(campaignAssessmentParticipationResult.isShared).equal(true);
         expect(campaignAssessmentParticipationResult.competenceResults.length).equal(1);
-        expect(campaignAssessmentParticipationResult.competenceResults[0].id).equal('competence1');
+        expect(campaignAssessmentParticipationResult.competenceResults[0].id).equal('1-competence1');
       });
     });
   });
