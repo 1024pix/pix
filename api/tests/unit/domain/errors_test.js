@@ -525,4 +525,8 @@ describe('Unit | Domain | Errors', () => {
       });
     });
   });
+
+  it('should export a UserAccountNotFoundForPoleEmploiError', () => {
+    expect(errors.UserAccountNotFoundForPoleEmploiError).to.exist;
+  });
 });
