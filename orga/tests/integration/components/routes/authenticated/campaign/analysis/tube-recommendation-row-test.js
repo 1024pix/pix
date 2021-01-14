@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module.only('Integration | Component | routes/authenticated/campaign/analysis/tube-recommendation-row', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/analysis/tube-recommendation-row', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
