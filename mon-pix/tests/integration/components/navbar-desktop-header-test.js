@@ -102,10 +102,11 @@ describe('Integration | Component | navbar-desktop-header', function() {
     it('should display the navigation menu with expected elements', function() {
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(3);
+      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
       expect(contains('Profil')).to.exist;
       expect(contains('Certification')).to.exist;
       expect(contains('Mes tutos')).to.exist;
+      expect(contains('J\'ai un code')).to.exist;
     });
   });
 
@@ -137,11 +138,12 @@ describe('Integration | Component | navbar-desktop-header', function() {
 
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
+      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(5);
       expect(contains('Accueil')).to.exist;
       expect(contains('Profil')).to.exist;
       expect(contains('Mes tutos')).to.exist;
       expect(contains('Certification')).to.exist;
+      expect(contains('J\'ai un code')).to.exist;
     });
   });
 

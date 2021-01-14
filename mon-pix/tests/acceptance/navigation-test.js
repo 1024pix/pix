@@ -34,15 +34,16 @@ describe('Acceptance | Navbar', function() {
       it(`should redirect from "${userNavigation.initialRoute}" to "${userNavigation.expectedRoute}"`, async function() {
         // given
         await visit(userNavigation.initialRoute);
-        expect(find('.navbar-desktop-header-container__menu').children[userNavigation.initialNavigationItem].children[0]
+
+        expect(find('.navbar-desktop-header-container__menu').children[0].children[userNavigation.initialNavigationItem].children[0]
           .getAttribute('class')).to.contain('active');
 
         // when
-        await click(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]);
+        await click(find('.navbar-desktop-header-container__menu').children[0].children[userNavigation.targetedNavigationItem].children[0]);
 
         // then
         expect(currentURL()).to.equal(userNavigation.expectedRoute);
-        expect(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]
+        expect(find('.navbar-desktop-header-container__menu').children[0].children[userNavigation.targetedNavigationItem].children[0]
           .getAttribute('class')).to.contain('active');
       });
     });
