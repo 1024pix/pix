@@ -1,5 +1,7 @@
 const { unlink, writeFile } = require('fs').promises;
 
+const _ = require('lodash');
+
 const { expect, databaseBuilder } = require('../../../../test-helper');
 
 const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
@@ -34,6 +36,15 @@ describe('Integration | UseCases | getCandidatesImportSheet', () => {
       time: '14:30',
       description: 'La super description',
     }).id;
+
+    _.each([
+      { lastName: 'Jackson', firstName: 'Michael', birthCity: 'Paris', birthProvinceCode: '75', birthCountry: 'France', email: 'jackson@gmail.com', resultRecipientEmail: 'destinataire@gmail.com', birthdate: '2004-04-04', sessionId, externalId: 'ABC123', extraTimePercentage: 0.6 },
+      { lastName: 'Jackson', firstName: 'Janet', birthCity: 'Ajaccio', birthProvinceCode: '2A', birthCountry: 'France', email: 'jaja@hotmail.fr', resultRecipientEmail: 'destinataire@gmail.com', birthdate: '2005-12-05', sessionId, externalId: 'DEF456', extraTimePercentage: null },
+      { lastName: 'Mercury', firstName: 'Freddy', birthCity: 'Sainte-Anne', birthProvinceCode: '971', birthCountry: 'France', email: null, resultRecipientEmail: null, birthdate: '1925-06-28', sessionId, externalId: 'GHI789', extraTimePercentage: 1.5 },
+      { lastName: 'Gallagher', firstName: 'Jack', birthCity: 'Londres', birthProvinceCode: '99', birthCountry: 'Angleterre', email: 'jack@d.it', resultRecipientEmail: 'destinataire@gmail.com', birthdate: '1980-08-10', sessionId, externalId: null, extraTimePercentage: 0.15 },
+    ], (candidate) => {
+      databaseBuilder.factory.buildCertificationCandidate(candidate);
+    });
 
     await databaseBuilder.commit();
   });
