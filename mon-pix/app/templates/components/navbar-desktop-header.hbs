@@ -13,36 +13,34 @@
       {{/if}}
     </div>
 
-    {{#unless this.isInRouteWithoutLinksInHeader}}
-      {{#if this.isUserLogged}}
-        <ul class="navbar-desktop-header-container__menu">
-          {{#if this.showDashboard}}
-            <li class="navbar-desktop-header-menu__item">
-              <LinkTo @route="user-dashboard" class="navbar-desktop-header-menu__link">
-                {{t 'navigation.main.dashboard'}}
-              </LinkTo>
-            </li>
-          {{/if}}
-          <li class="navbar-desktop-header-menu__item">
-            <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
-              {{t 'navigation.main.profile'}}
-            </LinkTo>
-          </li>
-          <li class="navbar-desktop-header-menu__item">
-            <LinkTo @route="certifications" class="navbar-desktop-header-menu__link">
-              {{t 'navigation.main.start-certification'}}
-            </LinkTo>
-          </li>
-          <li class="navbar-desktop-header-menu__item">
-            <LinkTo @route="user-tutorials" class="navbar-desktop-header-menu__link">
-              {{t 'navigation.main.tutorials'}}
-            </LinkTo>
-          </li>
-        </ul>
-      {{/if}}
-    {{/unless}}
-
     {{#if this.isUserLogged}}
+      <!-- Center -->
+
+      <ul class="navbar-desktop-header-container__menu">
+        {{#if this.showDashboard}}
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="user-dashboard" class="navbar-desktop-header-menu__link">
+              {{t 'navigation.main.dashboard'}}
+            </LinkTo>
+          </li>
+        {{/if}}
+        <li class="navbar-desktop-header-menu__item">
+          <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
+            {{t 'navigation.main.profile'}}
+          </LinkTo>
+        </li>
+        <li class="navbar-desktop-header-menu__item">
+          <LinkTo @route="certifications" class="navbar-desktop-header-menu__link">
+            {{t 'navigation.main.start-certification'}}
+          </LinkTo>
+        </li>
+        <li class="navbar-desktop-header-menu__item">
+          <LinkTo @route="user-tutorials" class="navbar-desktop-header-menu__link">
+            {{t 'navigation.main.tutorials'}}
+          </LinkTo>
+        </li>
+      </ul>
+
       <ul class="navbar-desktop-header-container__campaign-menu">
         <li class="navbar-desktop-header-campaign-menu__item">
           <LinkTo @route="fill-in-campaign-code"
@@ -52,15 +50,16 @@
         </li>
       </ul>
 
-    {{/if}}
-
-    <!-- Links (right) -->
-    <div class="navbar-desktop-header-right">
-      <NavbarDesktopMenu @menu={{this.menu}} />
-
-      {{#if this.isUserLogged}}
+      <!-- Right -->
+      <div class="navbar-desktop-header-right">
         <UserLoggedMenu />
-      {{/if}}
-    </div>
+      </div>
+
+    {{else}}
+      <!-- Right -->
+      <div class="navbar-desktop-header-right">
+        <NavbarDesktopMenu @menu={{this.menu}} />
+      </div>
+    {{/if}}
   </div>
 </div>
