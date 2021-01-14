@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
-import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 
 export default class CompetenceCardDefault extends Component {
   @service currentUser;
@@ -18,10 +17,6 @@ export default class CompetenceCardDefault extends Component {
 
   get shouldWaitBeforeImproving() {
     return this.args.scorecard.remainingDaysBeforeImproving > 0;
-  }
-
-  get isImprovingButtonDisabled() {
-    return this.improveButtonStatus === buttonStatusTypes.pending;
   }
 
   @action

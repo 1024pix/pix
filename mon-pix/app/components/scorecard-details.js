@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import EmberObject, { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { A as EmberArray } from '@ember/array';
-import buttonStatusTypes from 'mon-pix/utils/button-status-types';
 
 export default class ScorecardDetails extends Component {
   @service currentUser;
@@ -35,10 +34,6 @@ export default class ScorecardDetails extends Component {
 
   get shouldWaitBeforeImproving() {
     return this.args.scorecard.remainingDaysBeforeImproving > 0;
-  }
-
-  get isImprovingButtonDisabled() {
-    return this.improveButtonStatus === buttonStatusTypes.pending;
   }
 
   get tutorialsGroupedByTubeName() {
