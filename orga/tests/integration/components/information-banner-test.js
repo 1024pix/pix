@@ -101,62 +101,20 @@ module('Integration | Component | information-banner', function(hooks) {
 
   module('Campaign Banner', () => {
     module('when prescriber’s organization is of type SCO that manages students', function() {
-      module('when banner dead line has passed', function(hooks) {
-        const now = new Date('2020-11-03T00:00:00Z');
-        let clock;
+      test('should render the campaign banner', async function(assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: true }
+          isSCOManagingStudents = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
 
-        hooks.beforeEach(() => {
-          clock = sinon.useFakeTimers(now);
-        });
+        // when
+        await render(hbs`<InformationBanner/>`);
 
-        hooks.afterEach(() => {
-          clock.restore();
-        });
-
-        test('should not render the campaign banner', async function(assert) {
-          // given
-          class CurrentUserStub extends Service {
-            prescriber = { areNewYearSchoolingRegistrationsImported: true }
-            isSCOManagingStudents = true;
-          }
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          await render(hbs`<InformationBanner/>`);
-
-          // then
-          assert.dom('.pix-banner').doesNotExist();
-        });
-      });
-
-      module('when banner dead line has not passed', function(hooks) {
-        const now = new Date('2019-01-01T05:06:07Z');
-        let clock;
-
-        hooks.beforeEach(() => {
-          clock = sinon.useFakeTimers(now);
-        });
-
-        hooks.afterEach(() => {
-          clock.restore();
-        });
-
-        test('should render the campaign banner', async function(assert) {
-          // given
-          class CurrentUserStub extends Service {
-            prescriber = { areNewYearSchoolingRegistrationsImported: true }
-            isSCOManagingStudents = true;
-          }
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          await render(hbs`<InformationBanner/>`);
-
-          // then
-          assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"]').exists();
-          assert.dom('a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"]').exists();
-          assert.dom('.pix-banner').includesText('Parcours de rentrée 2020 : les codes sont disponibles dans l’onglet Campagnes. N’oubliez pas de les diffuser aux élèves avant les vacances de Noël. Plus d’info collège et lycée (GT et Pro)');
-        });
+        // then
+        assert.dom('a[href="https://view.genial.ly/5fda0b5aebe82c0d17f177ea"]').exists();
+        assert.dom('.pix-banner').includesText('Il est important de vérifier que les élèves soient certifiables avant de les inscrire en session de certification. Vous pouvez faire une campagne de collecte de profils pour vous en assurer.');
       });
     });
 
