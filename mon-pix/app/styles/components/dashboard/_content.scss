@@ -1,6 +1,16 @@
 .dashboard-content {
   padding: 40px 20px;
 
+  & > section {
+    border-bottom: 1px solid $grey-20;
+    padding-top: 40px;
+    padding-bottom: 24px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
   &__title {
     color: $grey-80;
     font-size: 1.125rem;
