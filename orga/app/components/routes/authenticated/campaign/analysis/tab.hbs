@@ -14,12 +14,10 @@
   <table aria-label="Analyse par sujet">
     <thead>
       <tr>
-        <Table::Header @size="wide">
-          Sujets ({{if @displayAnalysis this.sortedRecommendations.length '-' }})
-        </Table::Header>
-        <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}} @isDisabled={{not @displayAnalysis}}>
-          Pertinence
-        </Table::HeaderSort>
+        <Table::Header @size="wide"> Sujets ({{if @displayAnalysis this.sortedRecommendations.length '-' }})</Table::Header>
+        <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}} @isDisabled={{not
+          @displayAnalysis}}>Pertinence </Table::HeaderSort>
+        <Table::Header @size="small" @align="center" />
         <Table::Header @size="small" />
       </tr>
     </thead>
@@ -27,8 +25,7 @@
     {{#if @displayAnalysis }}
     <tbody>
       {{#each this.sortedRecommendations as |tubeRecommendation|}}
-      <Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
-        @tubeRecommendation={{tubeRecommendation}} />
+        <Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{tubeRecommendation}} />
       {{/each}}
     </tbody>
     {{/if}}
@@ -36,6 +33,6 @@
   </table>
 
   {{#unless @displayAnalysis }}
-  <div class="table__empty content-text">En attente de résultats</div>
+    <div class="table__empty content-text">En attente de résultats</div>
   {{/unless}}
 </div>

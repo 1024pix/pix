@@ -117,4 +117,33 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     // then
     assert.dom('[aria-hidden="false"]').containsText('Aucun tuto recommandé pour ce sujet.');
   });
+
+  module('Testing the number of tutorials', () => {
+    test('it should display "1 tuto" when there is only one tutorial', async function(assert) {
+      // given
+      tubeRecommendation.tutorials = [tutorial1];
+
+      //when
+      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+        @tubeRecommendation={{tubeRecommendation}}
+      />`);
+
+      // then
+      assert.dom('[aria-label="Sujet"]').containsText('1 tuto');
+    });
+
+    test('it should display "2 tutos" when there are two tutorials', async function(assert) {
+      // given
+      tubeRecommendation.tutorials = [tutorial1, tutorial2];
+
+      //when
+      await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
+        @tubeRecommendation={{tubeRecommendation}}
+      />`);
+
+      // then
+      assert.dom('[aria-label="Sujet"]').containsText('2 tutos');
+    });
+
+  });
 });

@@ -1,0 +1,9 @@
+<div class="table__column--left">
+    <span class="tutorial-count">
+        {{#if (eq @tutorials.length 1)}}
+            1 tuto
+        {{else if (gt @tutorials.length 1)}}
+            {{@tutorials.length }} tutos
+        {{/if}}
+    </span>
+</div>
