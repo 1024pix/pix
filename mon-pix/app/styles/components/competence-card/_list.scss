@@ -2,19 +2,16 @@
   display: flex;
   flex-direction: column;
 
-  .competence-card {
-    margin: 16px 18px;
+  &__competence-card {
+    margin: 12px 0;
   }
 }
 
 @include device-is('tablet') {
 
   .competence-card-list {
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-
-    .competence-card {
-      margin: 0 0 0 0;
-    }
   }
 }
