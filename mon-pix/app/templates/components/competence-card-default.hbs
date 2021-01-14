@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-action --}}
 <article class="competence-card {{if @interactive "competence-card--interactive"}}">
   <LinkTo @route="competences.details" @model={{@scorecard.competenceId}}>
     <div class="competence-card__title">
@@ -18,7 +17,10 @@
         </div>
       {{else}}
         <div class="competence-card__link">
-          <CircleChart @value={{@scorecard.percentageAheadOfNextLevel}} @sliceColor={{@scorecard.area.color}} @chartClass="circle-chart__content--big" @thicknessClass="circle--thick">
+          <CircleChart @value={{@scorecard.percentageAheadOfNextLevel}}
+                       @sliceColor={{@scorecard.area.color}}
+                       @chartClass="circle-chart__content--big"
+                       @thicknessClass="circle--thick">
             <div class="competence-card__level">
               <span class="score-label">{{t 'common.level'}}</span>
               <span class="score-value competence-card__score-value">{{replace-zero-by-dash this.displayedLevel}}</span>
@@ -44,14 +46,17 @@
           </div>
         {{else}}
           <PixButton class="button button--extra-thin button--round button--link button--green competence-card__button"
-            @triggerAction={{action "improveCompetenceEvaluation"}} @loading-color="white">
+                     @triggerAction={{this.improveCompetenceEvaluation}}
+                     @loading-color="white">
             <span class="competence-card-button__label">{{t 'pages.competence-details.actions.improve.label'}}<span class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</span>
             </span>
             <span class="competence-card-button__arrow"><FaIcon @icon='long-arrow-alt-right'></FaIcon></span>
           </PixButton>
         {{/if}}
       {{else}}
-        <LinkTo @route="competences.resume" @model={{@scorecard.competenceId}} class="button button--extra-thin button--round button--link button--green competence-card__button">
+        <LinkTo class="button button--extra-thin button--round button--link button--green competence-card__button"
+                @model={{@scorecard.competenceId}}
+                @route="competences.resume">
           <span class="competence-card-button__label">
             {{#if @scorecard.isStarted}}
               {{t 'pages.competence-details.actions.continue.label'}}
