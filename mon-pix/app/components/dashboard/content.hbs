@@ -19,6 +19,7 @@
           <h2 class="dashboard-content-header__title">{{t 'pages.dashboard.recommended-competences.title'}}</h2>
           <p class="dashboard-content-header__subtitle">{{t 'pages.dashboard.recommended-competences.subtitle'}}</p>
         </div>
+        <LinkTo @route="profile" class="dashboard-content__button">{{t 'pages.dashboard.recommended-competences.profile-link'}}</LinkTo>
       </header>
 
       <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
