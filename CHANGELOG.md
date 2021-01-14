@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.2.0 (14/01/2021)
+
+- [#2391](https://github.com/1024pix/pix/pull/2391) [FEATURE] Mise à jour de la bannière de campagnes dans Pix Orga (PIX-1776).
+- [#2383](https://github.com/1024pix/pix/pull/2383) [FEATURE] Créer un menu de navigation pour Pix Certif (PIX-1979)
+- [#2344](https://github.com/1024pix/pix/pull/2344) [FEATURE] Amélioration du script de création des memberships des centres de certification (PIX-1942).
+- [#2367](https://github.com/1024pix/pix/pull/2367) [FEATURE] Affiche les clés de lecture associées aux profils cible dans l'admin (PIX-1966).
+- [#2371](https://github.com/1024pix/pix/pull/2371) [FEATURE] Déplacer le bouton Pôle Emploi dans la page de connexion Pix App (PIX-1946).
+- [#2387](https://github.com/1024pix/pix/pull/2387) [BUGFIX] Les résultats d'une campagne participation s'affichent pas de temps en temps (PIX-1984).
+- [#2372](https://github.com/1024pix/pix/pull/2372) [TECH] Renomme le champ organizationId en ownerOrganizationId dans la table target profiles
+- [#2296](https://github.com/1024pix/pix/pull/2296) [TECH] Mise à jour de samlify 2.4.0 à 2.7.6.
+- [#2382](https://github.com/1024pix/pix/pull/2382) [CLEANUP] Enlever les décorateurs @classic des routes de Pix App (PIX-1983).
+- [#2375](https://github.com/1024pix/pix/pull/2375) [DOC] Documentation de l'usage des `hasMany` dans Ember.
+
 ## v3.1.0 (13/01/2021)
 
 - [#2366](https://github.com/1024pix/pix/pull/2366) [FEATURE] Conditionner la création d'un compte PE à la validation des CGU (PIX-1956)
