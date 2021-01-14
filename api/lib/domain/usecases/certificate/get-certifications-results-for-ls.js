@@ -6,8 +6,12 @@ module.exports = async function getCertificationsResultsForLS({
   certificationLsRepository,
   competenceTreeRepository,
 }) {
-  //FIXME make this two calls in parallel to optimize response time
-  const referential = await competenceTreeRepository.get();
+
+  const [referential, certifications] = await Promise.all([
+    competenceTreeRepository.get(),
+    certificationLsRepository.getCertificatesByOrganizationUAI(uai),
+  ]);
+
   const areas = referential.areas;
   const competences = areas.flatMap((area) => area.competences).map((competence) => {
     const { code: id, title: name } = competence.area;
@@ -15,6 +19,5 @@ module.exports = async function getCertificationsResultsForLS({
     return new Competence({ area, id: competence.index, name: competence.name });
   });
 
-  const certifications = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
   return new CertificationsResults({ certifications, competences });
 };
