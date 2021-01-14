@@ -1,9 +1,36 @@
 .dashboard-content {
   padding: 40px 20px;
 
+  &__title {
+    color: $grey-80;
+    font-size: 1.125rem;
+    font-family: $font-open-sans;
+    font-weight: $font-semi-bold;
+    letter-spacing: 0.009rem;
+    line-height: 1.562rem;
+  }
+
+  &__subtitle {
+    color: $grey-50;
+    font-size: 0.8125rem;
+    font-family: $font-roboto;
+    letter-spacing: 0.009rem;
+    margin: 4px 0 24px;
+  }
+
   @include device-is('desktop') {
     padding: 40px 0;
   }
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}
+
+.dashboard-content-header {
 
   &__title {
     color: $grey-80;
