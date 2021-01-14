@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
           relationships: {
             'competence-results': {
               data: [{
-                id: targetedCompetence.id,
+                id: `1-${targetedCompetence.id}`,
                 type: 'campaign-assessment-participation-competence-results',
               }],
             },
@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
         },
         included: [{
           type: 'campaign-assessment-participation-competence-results',
-          id: targetedCompetence.id,
+          id: `1-${targetedCompetence.id}`,
           attributes: {
             name: targetedCompetence.name,
             'index': targetedCompetence.index,

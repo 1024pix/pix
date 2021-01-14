@@ -1,11 +1,12 @@
 class CampaignAssessmentParticipationCompetenceResult {
   constructor({
+    campaignParticipationId,
     targetedArea,
     targetedCompetence,
     targetedSkillsCount,
     validatedTargetedKnowledgeElementsCount,
   } = {}) {
-    this.id = targetedCompetence.id;
+    this.id = `${campaignParticipationId}-${targetedCompetence.id}`;
     this.name = targetedCompetence.name;
     this.index = targetedCompetence.index;
     this.areaColor = targetedArea.color;
