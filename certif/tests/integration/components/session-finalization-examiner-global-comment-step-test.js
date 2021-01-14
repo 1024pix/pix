@@ -90,7 +90,7 @@ module('Integration | Component | session-finalization-examiner-global-comment-s
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}  />`);
 
       // then
-      assert.contains('Aucun problème particulier à signaler, dans l’ensemble tout s’est bien déroulé');
+      assert.contains('Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l\'étape 1.');
       assert.contains('Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble');
     });
 
