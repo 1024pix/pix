@@ -10,7 +10,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-two-valid-students.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-two-valid-students.xml`;
       const expectedSchoolingRegistrations = [{
         lastName: 'HANDMADE',
         preferredLastName: '',
@@ -54,7 +54,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-bom.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-bom.xml`;
       const expectedSchoolingRegistrations = [{
         lastName: 'COVERT',
         preferredLastName: 'COJAUNE',
@@ -84,7 +84,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-unknown-encoding.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-unknown-encoding.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -97,7 +97,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-registrations-no-longer-in-school.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-registrations-no-longer-in-school.xml`;
       const expectedSchoolingRegistrations = [];
 
       // when
@@ -112,7 +112,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-wrong-uai.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-wrong-uai.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -126,7 +126,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const wrongUAIFromSIECLE = '123ABC';
       const organization = { externalId: wrongUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-no-uai.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-no-uai.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -140,7 +140,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-broken.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-broken.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -154,7 +154,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-broken-after-uai.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-broken-after-uai.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -168,7 +168,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-duplicate-national-student-id.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -182,7 +182,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-duplicate-national-student-id.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -196,7 +196,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
-      const path = __dirname + '/siecle-file/siecle-with-no-national-student-id.xml';
+      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-no-national-student-id.xml`;
       // when
       const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
 
@@ -209,7 +209,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
       it('unzip the file', async function() {
         // given
         const organization = { externalId: '1237457A' };
-        const path = __dirname + '/siecle-file/siecle-zipped-file.xml.zip';
+        const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-zipped-file.xml.zip`;
         const expectedSchoolingRegistrations = [{
           lastName: 'Grubber',
           preferredLastName: null,
@@ -238,7 +238,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
         it('throws an error', async function() {
           // given
           const organization = { externalId: '1237457A' };
-          const path = __dirname + '/siecle-file/corrupt_entry.zip';
+          const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/corrupt_entry.zip`;
 
           // when
           const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);

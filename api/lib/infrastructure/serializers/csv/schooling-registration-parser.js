@@ -87,6 +87,10 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
 
     super._handleError(...arguments);
   }
+
+  static buildParser() {
+    return new SchoolingRegistrationParser(...arguments);
+  }
 }
 
 SchoolingRegistrationParser.COLUMNS = COLUMNS;

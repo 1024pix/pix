@@ -19,7 +19,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
   } else if (format === 'csv') {
     const buffer = await fs.readFile(path);
 
-    const csvSiecleParser = new SchoolingRegistrationParser(buffer, organizationId, organization.isAgriculture);
+    const csvSiecleParser = SchoolingRegistrationParser.buildParser(buffer, organizationId, organization.isAgriculture);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
     throw new FileValidationError(INVALID_FILE_FORMAT);
