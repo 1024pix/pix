@@ -1,0 +1,20 @@
+.competence-card-list {
+  display: flex;
+  flex-direction: column;
+
+  .competence-card {
+    margin: 16px 18px;
+  }
+}
+
+@include device-is('tablet') {
+
+  .competence-card-list {
+    flex-direction: row;
+    justify-content: space-between;
+
+    .competence-card {
+      margin: 0 0 0 0;
+    }
+  }
+}
