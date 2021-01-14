@@ -3,10 +3,8 @@
 
   {{#if this.hasCampaignParticipationOverviews}}
     <section data-test-campaign-participation-overviews>
-      <header>
-        <h2 class="dashboard-content__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
-        <p class="dashboard-content__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
-      </header>
+      <h2 class="dashboard-content__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
+      <p class="dashboard-content__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
 
       <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}}/>
     </section>
@@ -14,13 +12,13 @@
 
   {{#if this.hasRecommendedCompetences}}
     <section data-test-recommended-competences>
-      <header class="dashboard-content__header">
+      <div class="dashboard-content__header">
         <div>
           <h2 class="dashboard-content-header__title">{{t 'pages.dashboard.recommended-competences.title'}}</h2>
           <p class="dashboard-content-header__subtitle">{{t 'pages.dashboard.recommended-competences.subtitle'}}</p>
         </div>
         <LinkTo @route="profile" class="dashboard-content__button">{{t 'pages.dashboard.recommended-competences.profile-link'}}</LinkTo>
-      </header>
+      </div>
 
       <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
     </section>
