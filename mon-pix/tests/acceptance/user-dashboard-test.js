@@ -137,5 +137,18 @@ describe('Acceptance | User dashboard page', function() {
 
   describe('recommended-competences', function() {
 
+    beforeEach(async function() {
+      await authenticateByEmail(user);
+      await visit('/accueil');
+    });
+
+    it('should display recommended-competences section', function() {
+      expect(find('section[data-test-recommended-competences]')).to.exist;
+    });
+
+    it('should display the link to profile', function() {
+      expect(find('.dashboard-content__button')).to.exist;
+    });
+
   });
 });
