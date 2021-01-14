@@ -28,6 +28,18 @@
     justify-content: space-between;
     align-items: baseline;
   }
+
+  &__button {
+    color: #172B4D;
+    border: 1px solid #5E6C84;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+
+    &:hover {
+      background-color: darken($grey-10, 5%);
+    }
+  }
 }
 
 .dashboard-content-header {
@@ -47,5 +59,15 @@
     font-family: $font-roboto;
     letter-spacing: 0.009rem;
     margin: 4px 0 24px;
+  }
+}
+
+@include device-is('mobile') {
+
+  .dashboard-content {
+
+    &__button {
+      display: none;
+    }
   }
 }
