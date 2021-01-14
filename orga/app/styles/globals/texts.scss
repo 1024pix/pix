@@ -87,13 +87,26 @@
     color: $blue-hover;
   }
 
-  &-dark {
-    color: darken($blue, 20%);
+  &--bold {
+    font-weight: 600;
+  }
 
-    &:hover,
+  &--underlined {
+    text-decoration: underline;
+  }
+
+  &--white {
+    color: $white;
+
+    &:hover {
+      color: $white;
+      opacity: 0.85;
+    }
+
     &:focus,
-    &:active {
-      color:  darken($blue-hover, 10%);
+    &:active{
+      color: $black;
+      background-color: $yellow;
     }
   }
 }
