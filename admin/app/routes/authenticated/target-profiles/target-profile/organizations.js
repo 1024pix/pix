@@ -26,7 +26,11 @@ export default class TargetProfileOrganizationsRoute extends Route {
         externalId: params.externalId,
       },
     };
-    return await this.store.query('organization', queryParams);
+    const organizations = await this.store.query('organization', queryParams);
+    return {
+      organizations,
+      targetProfile
+    };
   }
 
   resetController(controller, isExiting) {
