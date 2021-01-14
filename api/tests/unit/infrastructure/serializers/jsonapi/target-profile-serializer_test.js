@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
       // given
       const targetProfile = new TargetProfile({
         id: 132,
-        organizationId: 12,
+        ownerOrganizationId: 12,
         name: 'Les compétences de BRO 2.0',
         outdated: true,
         ispublic: false,
@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
             name: targetProfile.name,
             outdated: targetProfile.outdated,
             'is-public': targetProfile.isPublic,
-            'organization-id': targetProfile.organizationId,
+            'owner-organization-id': targetProfile.ownerOrganizationId,
           },
         },
         meta,

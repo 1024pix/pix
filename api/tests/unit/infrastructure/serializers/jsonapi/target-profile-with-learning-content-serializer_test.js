@@ -13,7 +13,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         name: 'Les compétences de BRO 2.0',
         outdated: true,
         isPublic: false,
-        organizationId: 12,
+        ownerOrganizationId: 12,
         skills: [{ id: 'rec1', name: '@url4' }],
         tubes: [{ id: 'rec2', name: 'Url' }],
         competences: [{ id: 'rec3', name: 'Comprendre' }],
@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             name: targetProfileWithLearningContent.name,
             outdated: targetProfileWithLearningContent.outdated,
             'is-public': targetProfileWithLearningContent.isPublic,
-            'organization-id': targetProfileWithLearningContent.organizationId,
+            'owner-organization-id': targetProfileWithLearningContent.ownerOrganizationId,
           },
           relationships: {
             skills: {

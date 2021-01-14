@@ -20,7 +20,7 @@ describe('Integration | UseCases | create-campaign', () => {
     organizationId = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true }).id;
     userId = databaseBuilder.factory.buildUser().id;
 
-    targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
+    targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
 
     databaseBuilder.factory.buildMembership({
       organizationId, userId,
