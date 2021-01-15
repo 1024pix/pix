@@ -58,15 +58,27 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
     test('it should display target profile skills', async function(assert) {
       // given
-      const skill = server.create('skill', { id: 'rec1', name: '@web3' });
-      server.create('target-profile', { id: 1, name: 'Profil Cible', skills: [skill] });
+      const area = server.create('area', { id: 'area1', title: 'Area 1' });
+      const competence = server.create('competence', { id: 'competence1', name: 'Competence 1', areaId: 'area1' });
+      const tube = server.create('tube', { id: 'tube1', practicalTitle: 'Tube 1', competenceId: 'competence1' });
+      const skill = server.create('skill', { id: 'skill1', name: '@web3', difficulty: 1, tubeId: 'tube1' });
+
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible',
+        areas: [area],
+        competences: [competence],
+        tubes: [tube],
+        skills: [skill],
+      });
 
       // when
       await visit('/target-profiles/1');
 
       // then
-      assert.dom('[aria-label="Acquis"]').containsText('rec1');
-      assert.dom('[aria-label="Acquis"]').containsText('@web3');
+      assert.contains('Competence 1');
+      assert.contains('Area 1');
+      assert.contains('Tube 1');
     });
 
     test('it should redirect to organization details on click', async function(assert) {
