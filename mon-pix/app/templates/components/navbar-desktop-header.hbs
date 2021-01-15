@@ -1,14 +1,14 @@
 <div class="navbar-desktop-header">
   <div class="navbar-desktop-header__container">
     <div class="navbar-desktop-header-logo">
-      <div class="navbar-desktop-header-logo__pix">
-        <PixLogo />
-      </div>
       {{#if @shouldShowTheMarianneLogo}}
         <div class="navbar-desktop-header-logo__marianne">
           <img src="{{this.rootURL}}/images/logo-de-la-republique-francaise.svg" alt="{{t 'common.french-republic'}}">
         </div>
       {{/if}}
+      <div class="navbar-desktop-header-logo__pix">
+        <PixLogo />
+      </div>
     </div>
 
     {{#if this.isUserLogged}}
