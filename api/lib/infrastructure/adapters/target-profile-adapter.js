@@ -16,6 +16,7 @@ module.exports = {
       name: bookshelfTargetProfile.get('name'),
       imageUrl: bookshelfTargetProfile.get('imageUrl'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
+      isSimplifiedAccess: Boolean(bookshelfTargetProfile.get('isSimplifiedAccess')),
       ownerOrganizationId: bookshelfTargetProfile.get('ownerOrganizationId'),
       outdated: bookshelfTargetProfile.get('outdated'),
       skills,
