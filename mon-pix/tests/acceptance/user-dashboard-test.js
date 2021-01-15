@@ -151,4 +151,25 @@ describe('Acceptance | User dashboard page', function() {
     });
 
   });
+
+  describe('started-competences', function() {
+
+    beforeEach(async function() {
+      await authenticateByEmail(user);
+      await visit('/accueil');
+    });
+
+    it('should display started-competences section', function() {
+      expect(find('section[data-test-started-competences]')).to.exist;
+    });
+
+    it('should link to competence-details page on click on level circle', async function() {
+      // when
+      await click('.competence-card__link');
+
+      // then
+      const scorecard = user.scorecards.models[0];
+      expect(currentURL()).to.equal(`/competences/${scorecard.competenceId}/details`);
+    });
+  });
 });

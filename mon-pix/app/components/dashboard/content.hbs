@@ -10,6 +10,19 @@
     </section>
   {{/if}}
 
+  {{#if this.hasStartedCompetences}}
+    <section data-test-started-competences>
+      <div class="dashboard-content__header">
+        <div>
+            <h2 class="dashboard-content-header__title">{{t 'pages.dashboard.started-competences.title'}}</h2>
+          <p class="dashboard-content-header__subtitle">{{t 'pages.dashboard.started-competences.subtitle'}}</p>
+        </div>
+      </div>
+
+      <CompetenceCard::List @scorecards={{this.startedScorecards}} />
+    </section>
+  {{/if}}
+
   {{#if this.hasRecommendedCompetences}}
     <section data-test-recommended-competences>
       <div class="dashboard-content__header">
