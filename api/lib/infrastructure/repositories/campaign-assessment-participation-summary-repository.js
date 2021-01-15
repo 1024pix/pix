@@ -123,8 +123,8 @@ async function _getValidatedTargetSkillIds(sharedAtDatesByUsers, targetedSkillId
 
 function _filterQuery(qb, filters) {
   if (filters.divisions) {
-    const divisionsLowerCase = filters.divisions.map((division) => `'${division.toLowerCase()}'`);
-    qb.whereRaw(`LOWER("schooling-registrations"."division") in (${divisionsLowerCase.join(',')})`);
+    const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
+    qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
 }
 

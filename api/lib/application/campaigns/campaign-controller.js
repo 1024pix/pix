@@ -155,9 +155,11 @@ module.exports = {
   async findProfilesCollectionParticipations(request) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
-    const { page } = queryParamsUtils.extractParameters(request.query);
-
-    const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page });
+    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
+    if (filters.divisions && !Array.isArray(filters.divisions)) {
+      filters.divisions = [filters.divisions];
+    }
+    const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page, filters });
     return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
   },
 
