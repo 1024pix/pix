@@ -1,7 +1,11 @@
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
+
+  @service currentUser;
+
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
@@ -10,8 +14,7 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
 
   async model(params) {
     const session = await this.store.findRecord('session', params.session_id);
-    const { id: certificationCenterId } = this.modelFor('authenticated');
-
+    const certificationCenterId = this.currentUser.currentCertificationCenter.id;
     const certificationCandidates = await this.store.query('certification-candidate', { sessionId: params.session_id });
     const divisions = await this.store.query('division', { certificationCenterId });
 
