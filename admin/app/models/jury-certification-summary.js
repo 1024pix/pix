@@ -1,5 +1,8 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
+import includes from 'lodash/includes';
+import find from 'lodash/find';
+import { certificationStatuses } from 'pix-admin/models/certification';
 
 const ACQUIRED = 'acquired';
 const REJECTED = 'rejected';
@@ -51,4 +54,9 @@ export default class JuryCertificationSummary extends Model {
     return this.hasSeenEndTestScreen ? '' : 'non';
   }
 
+  @computed('status')
+  get statusLabel() {
+    const statusWithLabel = find(certificationStatuses, (certificationStatus) => certificationStatus.value === this.status);
+    return statusWithLabel?.label;
+  }
 }
