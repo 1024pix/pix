@@ -27,6 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', () => {
             'alternative-text-to-external-id-help-image': campaignToJoin.alternativeTextToExternalIdHelpImage,
             'is-archived': campaignToJoin.isArchived,
             'is-restricted': campaignToJoin.isRestricted,
+            'is-simplified-access': campaignToJoin.isSimplifiedAccess,
             'organization-is-pole-emploi': campaignToJoin.organizationIsPoleEmploi,
             'organization-name': campaignToJoin.organizationName,
             'organization-type': campaignToJoin.organizationType,

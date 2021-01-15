@@ -6,7 +6,7 @@ module.exports = {
     return new Serializer('campaign', {
       attributes: ['code', 'title', 'type', 'idPixLabel', 'customLandingPageText',
         'externalIdHelpImageUrl', 'alternativeTextToExternalIdHelpImage', 'isArchived',
-        'isRestricted', 'organizationName', 'organizationType', 'organizationLogoUrl',
+        'isRestricted', 'isSimplifiedAccess', 'organizationName', 'organizationType', 'organizationLogoUrl',
         'organizationIsPoleEmploi', 'targetProfileName', 'targetProfileImageUrl'],
     }).serialize(campaignsToJoin);
   },
