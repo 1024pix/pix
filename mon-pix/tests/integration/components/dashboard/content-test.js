@@ -53,9 +53,9 @@ describe('Integration | Component | Dashboard | Content', function() {
   });
 
   describe('recommended competence-card rendering', function() {
-    it('should render competence-card when there is at least one competence-card', async function() {
+    it('should render competence-card when there is at least one competence-card not started', async function() {
       // given
-      const scorecard = EmberObject.create();
+      const scorecard = { isNotStarted: true };
       this.set('model', {
         scorecards: [scorecard],
       });
