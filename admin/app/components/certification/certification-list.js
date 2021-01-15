@@ -22,8 +22,9 @@ export default class CertificationList extends Component {
       title: 'Statut',
     },
     {
-      propertyName: 'numberOfCertificationIssueReportsWithActionRequired',
+      propertyName: 'numberOfCertificationIssueReportsWithActionRequiredLabel',
       title: 'Signalements impactants',
+      className: 'certification-list-page__cell--important',
     },
     {
       propertyName: 'cleaStatus',
