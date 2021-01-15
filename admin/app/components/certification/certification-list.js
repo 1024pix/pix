@@ -27,6 +27,11 @@ export default class CertificationList extends Component {
       className: 'certification-list-page__cell--important',
     },
     {
+      propertyName: 'hasSeenEndTestScreenLabel',
+      title: 'Ecran de fin de test vu',
+      className: 'certification-list-page__cell--important',
+    },
+    {
       propertyName: 'cleaStatus',
       title: 'Certification CléA numérique',
     },
