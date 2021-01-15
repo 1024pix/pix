@@ -39,6 +39,7 @@ module.exports = {
         'organizationIsManagingStudents': 'organizations.isManagingStudents',
         'targetProfileName': 'target-profiles.name',
         'targetProfileImageUrl': 'target-profiles.imageUrl',
+        'targetProfileIsSimplifiedAccess': 'target-profiles.isSimplifiedAccess',
       })
       .select(knex.raw('EXISTS(SELECT true FROM "organization-tags" ' +
         'JOIN tags ON "organization-tags"."tagId" = "tags".id ' +
