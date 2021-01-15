@@ -10,9 +10,11 @@ module('Unit | Controller | authenticated', function(hooks) {
       const controller = this.owner.lookup('controller:authenticated');
 
       // when
-      controller.model = { isScoManagingStudents: true };
+      controller.currentUser = {
+        currentCertificationCenter: { isScoManagingStudents: true },
+      };
       const actualScoLink = controller.documentationLink;
-      controller.model = { isScoManagingStudents: false };
+      controller.currentUser.currentCertificationCenter.isScoManagingStudents = false;
       const actualOtherLink = controller.documentationLink;
 
       // then
