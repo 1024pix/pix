@@ -1,29 +1,33 @@
 {{#if @edition}}
   <div class="row form-group certification-info-field edited">
-    <label class="col-form-label" for={{@id}}>{{@label}}</label>
-    <div>
-      {{#if @isDate}}
-        <EmberFlatpickr
-          @id={{@fieldId}}
-          @altFormat="d/m/Y"
-          @altInput={{true}}
-          @onChange={{@onUpdateCertificationBirthdate}}
-          @dateFormat="Y-m-d"
-          @locale="fr"
-          @date={{@value}}
-          @name={{@fieldId}}
-          @class="form-control" />
+    <label for={{@id}} class="col-form-label certification-info-field__label--editing {{if @isTextarea "certification-info-field__label--large"}} {{if @suffix "certification-info-field__label--small"}}">
+        {{@label}}
+    </label>
+    {{#if @isDate}}
+      <EmberFlatpickr
+        @id={{@fieldId}}
+        @altFormat="d/m/Y"
+        @altInput={{true}}
+        @onChange={{@onUpdateCertificationBirthdate}}
+        @dateFormat="Y-m-d"
+        @locale="fr"
+        @date={{@value}}
+        @name={{@fieldId}}
+        @class="form-control" />
+    {{else}}
+      {{#if @isTextarea}}
+        <Textarea id={{@fieldId}} @value={{@value}} class="form-control" />
       {{else}}
         <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" />
-        {{#if @suffix}}
-          <span class="certification-info-suffix">{{@suffix}}</span>
-        {{/if}}
       {{/if}}
-    </div>
+      {{#if @suffix}}
+        <span class="certification-info-field__suffix">{{@suffix}}</span>
+      {{/if}}
+    {{/if}}
   </div>
 {{else}}
   <div class="row certification-info-field">
-    <div class="certification-info-label">{{@label}}</div>
+    <div class="certification-info-field__label">{{@label}}</div>
     <div class="certification-info-value">
       {{#if @linkRoute}}
         <LinkTo @route={{@linkRoute}} @model={{@value}}>

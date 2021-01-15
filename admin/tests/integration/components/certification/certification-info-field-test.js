@@ -24,7 +24,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
       await render(hbs`<Certification::CertificationInfoField @label='Field label:' @value='field_value' />`);
 
       // Then
-      assert.dom('.certification-info-field .certification-info-label').hasText('Field label:');
+      assert.dom('.certification-info-field .certification-info-field__label').hasText('Field label:');
       assert.dom('.certification-info-field .certification-info-value').hasText('field_value');
     });
 
@@ -80,7 +80,7 @@ module('Integration | Component | <Certification::CertificationInfoField/>', fun
       await render(hbs`<Certification::CertificationInfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition=true />`);
 
       // Then
-      assert.dom('.certification-info-suffix').hasText('unit(s)');
+      assert.dom('.certification-info-field__suffix').hasText('unit(s)');
     });
 
     test('it should render a flatpickr when @isDate (optional) argument is set to "true"', async function(assert) {
