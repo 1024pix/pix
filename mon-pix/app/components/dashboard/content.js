@@ -10,8 +10,7 @@ export default class Content extends Component {
   }
 
   get hasRecommendedCompetences() {
-    const scorecards = this.args.model.scorecards;
-    return scorecards && scorecards.length > 0;
+    return this.recommendedScorecards.length > 0;
   }
 
   get recommendedScorecards() {
