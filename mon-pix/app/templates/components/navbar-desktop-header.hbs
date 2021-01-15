@@ -1,20 +1,17 @@
-{{!-- template-lint-disable no-implicit-this  --}}
 <div class="navbar-desktop-header">
   <div class="navbar-desktop-header__container">
-    <!-- Logo (left) -->
     <div class="navbar-desktop-header-logo">
       <div class="navbar-desktop-header-logo__pix">
         <PixLogo />
       </div>
       {{#if @shouldShowTheMarianneLogo}}
         <div class="navbar-desktop-header-logo__marianne">
-          <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="{{t 'common.french-republic'}}">
+          <img src="{{this.rootURL}}/images/logo-de-la-republique-francaise.svg" alt="{{t 'common.french-republic'}}">
         </div>
       {{/if}}
     </div>
 
     {{#if this.isUserLogged}}
-      <!-- Center -->
       <nav class="navbar-desktop-header-container__menu">
         <ul class="navbar-desktop-header-menu__list">
           {{#if this.showDashboard}}
@@ -56,7 +53,6 @@
       </nav>
 
     {{else}}
-      <!-- Right -->
       <div class="navbar-desktop-header-right">
         <NavbarDesktopMenu @menu={{this.menu}} />
       </div>
