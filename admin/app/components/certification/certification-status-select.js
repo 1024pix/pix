@@ -2,6 +2,7 @@ import CertificationInfoField from './certification-info-field';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import find from 'lodash/find';
+import { certificationStatuses } from 'pix-admin/models/certification';
 
 export default class CertificationStatusSelect extends CertificationInfoField {
 
@@ -9,12 +10,7 @@ export default class CertificationStatusSelect extends CertificationInfoField {
 
   constructor() {
     super(...arguments);
-    this.options = [
-      { value: 'started', label: 'Démarrée' },
-      { value: 'error', label: 'En erreur' },
-      { value: 'validated', label: 'Validée' },
-      { value: 'rejected', label: 'Rejetée' },
-    ];
+    this.options = certificationStatuses;
     this.selectedOption = this.getOptionByValue(this.args.certification.status);
   }
 

@@ -18,7 +18,7 @@ export default class CertificationList extends Component {
       title: 'Nom',
     },
     {
-      propertyName: 'status',
+      propertyName: 'statusLabel',
       title: 'Statut',
     },
     {
