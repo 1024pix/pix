@@ -1,33 +1,48 @@
-<section class="page-section mb_10">
-  <header class="page-section__header">
-    <h2 class="page-section__title">Acquis</h2>
-  </header>
-
-  <div class="content-text content-text--small">
-    <div class="table-admin">
-      <table>
+{{#each this.competenceList as |competence|}}
+  <section class="page-section mb_10 competence">
+    <span class="competence__border competence__border--{{competence.area.color}}"></span>
+    <div>
+      <header class="competence__header">
+        <h2 class="competence__title">{{competence.name}}</h2>
+        <sub class="competence__subtitle">{{competence.area.title}}</sub>
+      </header>
+      <table class="table-admin">
         <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nom</th>
-        </tr>
+          <tr>
+            <th class="table__column table__column--wide">Sujet</th>
+            <th class="table__column table__column--small table__column--center">Niveau 1</th>
+            <th class="table__column table__column--small table__column--center">Niveau 2</th>
+            <th class="table__column table__column--small table__column--center">Niveau 3</th>
+            <th class="table__column table__column--small table__column--center">Niveau 4</th>
+            <th class="table__column table__column--small table__column--center">Niveau 5</th>
+            <th class="table__column table__column--small table__column--center">Niveau 6</th>
+            <th class="table__column table__column--small table__column--center">Niveau 7</th>
+            <th class="table__column table__column--small table__column--center">Niveau 8</th>
+          </tr>
         </thead>
-
-        {{#if @skills}}
-          <tbody>
-          {{#each @skills as |skill|}}
-            <tr aria-label="Acquis">
-              <td>{{skill.id}}</td>
-              <td>{{skill.name}}</td>
+        <tbody>
+          {{#each competence.tubes as |tube|}}
+            <tr>
+              <td>{{tube.practicalTitle}}</td>
+              {{#each tube.skills as |skill|}}
+                <td class="table__column--center skill-column">
+                  {{#if skill}}
+                    <PixTooltip @text={{concat skill.id ' ' skill.name}} @position='bottom'>
+                      <FaIcon @icon="check" class="skill-column--check" aria-label={{skill.name}} />
+                    </PixTooltip>
+                  {{else}}
+                    <FaIcon @icon="times" class="skill-column--uncheck" />
+                  {{/if}}
+                </td>
+              {{/each}} 
             </tr>
           {{/each}}
-          </tbody>
-        {{/if}}
+        </tbody>
       </table>
-
-      {{#unless @skills}}
-        <div class="table__empty content-text">Aucun résultat</div>
-      {{/unless}}
     </div>
-  </div>
-</section>
+  </section>
+{{else}}
+  <section class="page-section mb_10">
+    <div class="table__empty content-text">Profil cible vide.</div>
+  </section>
+{{/each}}
