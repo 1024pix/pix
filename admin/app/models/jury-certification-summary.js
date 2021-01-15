@@ -40,4 +40,9 @@ export default class JuryCertificationSummary extends Model {
   get cleaStatus() {
     return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
   }
+
+  @computed('numberOfCertificationIssueReportsWithActionRequired')
+  get numberOfCertificationIssueReportsWithActionRequiredLabel() {
+    return this.numberOfCertificationIssueReportsWithActionRequired > 0 ? this.numberOfCertificationIssueReportsWithActionRequired : '';
+  }
 }
