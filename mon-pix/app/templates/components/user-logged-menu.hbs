@@ -1,16 +1,16 @@
-{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation --}}
+{{!-- template-lint-disable no-action--}}
 {{#if this.currentUser.user}}
   <button class="logged-user-name logged-user-name__link"
           type="button"
           aria-haspopup="true"
           aria-expanded="{{this._canDisplayMenu}}"
-          {{action 'toggleUserMenu'}}>
+          {{on 'click' this.toggleUserMenu}}>
       {{this.currentUser.user.firstName}}
       <span class="sr-only">{{t 'navigation.user-logged-menu.details'}}</span>
       <span class="caret"></span>
   </button>
 
-  {{#if _canDisplayMenu}}
+  {{#if this._canDisplayMenu}}
     <ClickOutside @action={{action "closeMenu"}}>
       <div class="logged-user-menu">
         <div class="logged-user-menu__details">

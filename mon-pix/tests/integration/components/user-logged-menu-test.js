@@ -28,22 +28,25 @@ describe('Integration | Component | user logged menu', function() {
       }
 
       this.owner.register('service:currentUser', currentUserService);
-
-      // when
-      await render(hbs`<UserLoggedMenu/>`);
     });
 
-    it('should render component', function() {
+    it('should render component', async function() {
+      // when
+      await render(hbs`<UserLoggedMenu/>`);
+
       // then
       expect(find('.logged-user-details')).to.exist;
     });
 
-    it('should display logged user name with a11y guidance', function() {
+    it('should display logged user name with a11y guidance', async function() {
+      // when
+      await render(hbs`<UserLoggedMenu/>`);
+
+      // then
       const nodes = find('.logged-user-name__link').childNodes;
       const buttonTextContent = nodes[1].textContent;
       const a11yText = nodes[3].textContent;
 
-      // then
       expect(find('.logged-user-name')).to.exist;
       expect(find('.logged-user-name__link')).to.exist;
       expect(a11yText).to.equal(this.intl.t('navigation.user-logged-menu.details'));
@@ -61,9 +64,9 @@ describe('Integration | Component | user logged menu', function() {
     it('should display a user menu, when user-name is clicked', async function() {
       // given
       const MENU_ITEMS_COUNT = 4;
-      await render(hbs`<UserLoggedMenu/>`);
 
       // when
+      await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name__link');
 
       // then
@@ -97,11 +100,13 @@ describe('Integration | Component | user logged menu', function() {
       await click('.logged-user-name');
       await click('.logged-user-name');
 
+      // then
       expect(find('.logged-user-menu')).to.not.exist;
     });
 
     it('should hide user menu, when it was previously open and user press key escape', async function() {
       // when
+      await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name');
       await triggerKeyEvent('.logged-user-name', 'keydown', 27);
 
@@ -111,6 +116,7 @@ describe('Integration | Component | user logged menu', function() {
 
     it('should hide user menu, when the menu is opened then closed', async function() {
       // when
+      await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name');
       await click('.logged-user-name');
 
