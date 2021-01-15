@@ -9,6 +9,7 @@ export default class Campaign extends Model {
   @attr('string') externalIdHelpImageUrl;
   @attr('string') alternativeTextToExternalIdHelpImage;
   @attr('boolean') isRestricted;
+  @attr('boolean') isSimplifiedAccess;
   @attr('boolean') isArchived;
   @attr('string') organizationName;
   @attr('string') organizationType;
