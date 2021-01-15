@@ -1,12 +1,14 @@
 const { databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const { status } = require('../../../../lib/domain/models/AssessmentResult');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+
+const createdDate = new Date('2020-04-19');
+const beforeCreatedDate = new Date('2020-04-18');
+const beforeBeforeCreatedDate = new Date('2020-04-17');
+const type = Assessment.types.CERTIFICATION;
 
 function _createUser() {
   return databaseBuilder.factory.buildUser();
-}
-
-function _createOrganization(uai) {
-  return databaseBuilder.factory.buildOrganization({ externalId: uai });
 }
 
 function _createSchoolingRegistration(userId, organizationId) {
@@ -23,9 +25,8 @@ function _createCertificationCenter() {
   return { certificationCenterId: id, certificationCenter: name };
 }
 
-function _buildCertificationData({ uai, isPublished, status, verificationCode, type, pixScore, competenceMarks = [] }) {
+function _buildCertificationData({ organizationId, isPublished, verificationCode }) {
   const userId = _createUser().id;
-  const organizationId = _createOrganization(uai).id;
   const schoolingRegistration = _createSchoolingRegistration(userId, organizationId);
   const {
     id: certificationCenterId,
@@ -56,48 +57,20 @@ function _buildCertificationData({ uai, isPublished, status, verificationCode, t
     type,
   });
 
-  const createdDate = new Date('2020-04-19');
-  const beforeCreatedDate = new Date('2020-04-18');
-  const beforeBeforeCreatedDate = new Date('2020-04-17');
-
-  const assessmentResult = _createAssessmentResultWithCompetenceMarks({
-    assessmentId: assessment.id,
-    pixScore,
-    status,
-    createdAt: createdDate,
-    competenceMarks,
-  });
-
-  _createAssessmentResultWithCompetenceMarks({
-    assessmentId: assessment.id,
-    pixScore,
-    status,
-    createdAt: beforeCreatedDate,
-    competenceMarks: [{}, {}],
-  });
-
-  databaseBuilder.factory.buildAssessmentResult({
-    assessmentId: assessment.id,
-    pixScore,
-    status,
-    createdAt: beforeBeforeCreatedDate,
-  });
-
   return {
     schoolingRegistration,
     session,
     certificationCourse,
-    assessmentResult,
-    competenceMarks: assessmentResult.competenceMarks,
+    assessmentId: assessment.id,
   };
 }
 
 function _createAssessmentResultWithCompetenceMarks({
   assessmentId,
-  pixScore,
+  pixScore = 500,
   status,
   createdAt,
-  competenceMarks,
+  competenceMarks = [{}, {}],
 }) {
   const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
@@ -106,35 +79,105 @@ function _createAssessmentResultWithCompetenceMarks({
     createdAt,
   });
 
-  const createdCompetenceMarks = competenceMarks.forEach((cm) => {
-    return databaseBuilder.factory.buildCompetenceMark({
+  competenceMarks.forEach((cm) => {
+    databaseBuilder.factory.buildCompetenceMark({
       assessmentResultId: assessmentResult.id,
       competence_code: cm.code,
       level: cm.level,
     });
   });
-
-  return { assessmentResult, competenceMarks: createdCompetenceMarks };
 }
 
-const buildValidatedPublishedCertificationData = function({ uai, verificationCode, type, pixScore, competenceMarks }) {
-  return _buildCertificationData({
-    uai,
+function buildOrganization(uai) {
+  return databaseBuilder.factory.buildOrganization({ externalId: uai });
+}
+
+const buildValidatedPublishedCertificationData = function({ organizationId, verificationCode, pixScore, competenceMarks }) {
+  const certificationStatus = status.VALIDATED;
+  const {
+    schoolingRegistration,
+    session,
+    certificationCourse,
+    assessmentId,
+  } = _buildCertificationData({
+    organizationId,
     verificationCode,
     type,
     pixScore,
     isPublished: true,
-    status: status.VALIDATED,
+  });
+
+  _createAssessmentResultWithCompetenceMarks({
+    assessmentId,
+    pixScore,
+    status: certificationStatus,
+    createdAt: createdDate,
     competenceMarks,
   });
+
+  _createAssessmentResultWithCompetenceMarks({
+    assessmentId,
+    pixScore,
+    status: certificationStatus,
+    createdAt: beforeCreatedDate,
+  });
+
+  databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    pixScore,
+    status: certificationStatus,
+    createdAt: beforeBeforeCreatedDate,
+  });
+
+  return {
+    schoolingRegistration,
+    session,
+    certificationCourse,
+  };
 };
 
-const buildRejectedPublishedCertificationData = function({ uai, verificationCode, type, pixScore }) {
-  return _buildCertificationData({ uai, verificationCode, type, pixScore, isPublished: true, status: status.REJECTED });
+const buildRejectedPublishedCertificationData = function({ organizationId }) {
+  const certificationStatus = status.REJECTED;
+  const { assessmentId } = _buildCertificationData({
+    organizationId,
+    isPublished: true,
+  });
+
+  _createAssessmentResultWithCompetenceMarks({
+    assessmentId,
+    status: certificationStatus,
+    createdAt: createdDate,
+  });
+
 };
 
-const buildErrorUnpublishedCertificationData = function({ uai, verificationCode, type, pixScore }) {
-  return _buildCertificationData({ uai, verificationCode, type, pixScore, isPublished: false, status: status.ERROR });
+const buildErrorUnpublishedCertificationData = function({ organizationId }) {
+  const certificationStatus = status.REJECTED;
+  const { assessmentId } = _buildCertificationData({
+    organizationId,
+    isPublished: false,
+  });
+
+  _createAssessmentResultWithCompetenceMarks({
+    assessmentId,
+    status: certificationStatus,
+    createdAt: createdDate,
+  });
+
+};
+
+const buildCertificationDataWithNoCompetenceMarks = function({ organizationId }) {
+  const certificationStatus = status.REJECTED;
+  const { assessmentId } = _buildCertificationData({
+    organizationId,
+    isPublished: false,
+  });
+
+  databaseBuilder.factory.buildAssessmentResult({
+    assessmentId,
+    status: certificationStatus,
+    createdAt: beforeBeforeCreatedDate,
+  });
 };
 
 function mockLearningContentCompetences() {
@@ -207,5 +250,7 @@ module.exports = {
   buildValidatedPublishedCertificationData,
   buildRejectedPublishedCertificationData,
   buildErrorUnpublishedCertificationData,
+  buildCertificationDataWithNoCompetenceMarks,
   mockLearningContentCompetences,
+  buildOrganization,
 };
