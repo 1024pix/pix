@@ -4,11 +4,12 @@ module.exports = async function findCampaignProfilesCollectionParticipationSumma
   userId,
   campaignId,
   page,
+  filters,
   campaignRepository,
   campaignProfilesCollectionParticipationSummaryRepository,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
     throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
   }
-  return campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId, page);
+  return campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId, page, filters);
 };

@@ -1,3 +1,18 @@
+{{#if this.displayDivisionFilter }}
+  <PixFilterBanner @title="Filtres" class="participant-filter-banner" aria-label="Filtres sur les profiles">
+    <PixMultiSelect
+            class="division-filter"
+            @emptyMessage={{"Pas de classes"}}
+            @title={{"Classes"}}
+            @id={{"division"}}
+            @isSearchable={{false}}
+            @onSelect={{ @selectDivisions }}
+            @selected={{ @selectedDivisions }}
+            @options={{ this.divisionOptions }} as |option|>
+      {{option.value}}
+    </PixMultiSelect>
+  </PixFilterBanner>
+{{/if}}
 <div class="panel">
   <div class="table content-text content-text--small">
     <table>
@@ -53,7 +68,7 @@
     </table>
 
     {{#unless @profiles}}
-      <div class="table__empty content-text">En attente de profiles</div>
+      <div class="table__empty content-text">En attente de profils</div>
     {{/unless}}
   </div>
 </div>

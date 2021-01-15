@@ -448,7 +448,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
 
       // then
-      assert.notContains('Classe');
+      assert.notContains('Classes');
       assert.notContains('d2');
     });
   });
