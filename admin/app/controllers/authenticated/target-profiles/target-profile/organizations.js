@@ -40,8 +40,9 @@ export default class TargetProfileOrganizationsController extends Controller {
   }
 
   @action
-  async attachOrganizations() {
-    const targetProfile = this.model;
+  async attachOrganizations(e) {
+    e.preventDefault();
+    const targetProfile = this.model.targetProfile;
     try {
       await targetProfile.attachOrganizations({ 'organization-ids': this._getUniqueOrganizations() });
       this.organizationsToAttach = null;

@@ -11,6 +11,15 @@ function attachTargetProfiles(schema, request) {
   return new Response(204);
 }
 
+function attachTargetProfileToOrganizations(schema, request) {
+  const targetProfileId = request.params.id;
+  const params = JSON.parse(request.requestBody);
+  const organizationsToAttach = params['organization-ids'];
+  organizationsToAttach.forEach((organizationId) =>
+    schema.organizations.create({ id: organizationId, name: `Organization ${organizationId}` }));
+  return new Response(204);
+}
+
 async function getOrganizationTargetProfiles(schema, request) {
   const ownerOrganizationId = request.params.id;
   return schema.targetProfiles.where({ ownerOrganizationId });
@@ -61,6 +70,7 @@ function updateTargetProfileName(schema, request) {
 
 export {
   attachTargetProfiles,
+  attachTargetProfileToOrganizations,
   getOrganizationTargetProfiles,
   findPaginatedTargetProfileOrganizations,
   updateTargetProfileName,
