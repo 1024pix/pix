@@ -516,6 +516,10 @@
                 "profile-link": "See all skills",
                 "subtitle": "Discover the skills recommended for you.",
                 "title": "Recommended skills"
+            },
+            "started-competences": {
+                "subtitle": "",
+                "title": ""
             }
         },
         "error": {
