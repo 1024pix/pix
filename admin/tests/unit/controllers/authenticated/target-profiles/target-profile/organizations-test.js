@@ -55,7 +55,13 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
     });
   });
 
-  module('#attachOrganizations', function() {
+  module('#attachOrganizations', function(hooks) {
+
+    let event;
+
+    hooks.beforeEach(function() {
+      event = { preventDefault() {} };
+    });
 
     module('when attaching organization works correctly', () => {
       test('it displays a success notifications', async (assert) => {
@@ -64,7 +70,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
         controller.organizationsToAttach = '1,2';
         controller.send = sinon.stub();
 
-        await controller.attachOrganizations();
+        await controller.attachOrganizations(event);
 
         assert.ok(controller.model.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
         assert.equal(controller.organizationsToAttach, null);
@@ -80,7 +86,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
         controller.organizationsToAttach = '1,1,2,3,3';
         controller.send = sinon.stub();
 
-        await controller.attachOrganizations();
+        await controller.attachOrganizations(event);
 
         assert.ok(controller.model.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2, 3] }));
         assert.equal(controller.organizationsToAttach, null);
@@ -102,7 +108,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           controller.model = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           controller.organizationsToAttach = '1,1,2,3,3';
 
-          await controller.attachOrganizations();
+          await controller.attachOrganizations(event);
 
           assert.equal(controller.organizationsToAttach, '1,1,2,3,3');
           assert.ok(controller.notifications.error.calledWith('I am displayed 1'));
@@ -121,7 +127,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           controller.model = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           controller.organizationsToAttach = '1,1,5,3,3';
 
-          await controller.attachOrganizations();
+          await controller.attachOrganizations(event);
 
           assert.equal(controller.organizationsToAttach, '1,1,5,3,3');
           assert.ok(controller.notifications.error.calledWith('I am displayed too 1'));
@@ -140,7 +146,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           controller.model = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           controller.organizationsToAttach = '1,1,2,3,3';
 
-          await controller.attachOrganizations();
+          await controller.attachOrganizations(event);
 
           assert.equal(controller.organizationsToAttach, '1,1,2,3,3');
           assert.equal(controller.notifications.error.withArgs('Une erreur est survenue.').callCount, 2);
@@ -156,7 +162,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           controller.model = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           controller.organizationsToAttach = '1,1,2,3,3';
 
-          await controller.attachOrganizations();
+          await controller.attachOrganizations(event);
 
           assert.equal(controller.organizationsToAttach, '1,1,2,3,3');
           assert.notOk(controller.notifications.error.called);
@@ -170,7 +176,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
           controller.model = { targetProfile: { attachOrganizations: sinon.stub().rejects(errors) } };
           controller.organizationsToAttach = '1,1,2,3,3';
 
-          await controller.attachOrganizations();
+          await controller.attachOrganizations(event);
 
           assert.equal(controller.organizationsToAttach, '1,1,2,3,3');
           assert.ok(controller.notifications.error.calledWith('Une erreur est survenue.'));
