@@ -10,14 +10,15 @@ export default class AuthenticatedController extends Controller {
 
   @tracked isBannerVisible = true;
   @service router;
+  @service currentUser;
 
   get showBanner() {
     const isOnFinalizationPage = this.router.currentRouteName === 'authenticated.sessions.finalize';
-    return this.model.isScoManagingStudents && this.isBannerVisible && !isOnFinalizationPage;
+    return this.currentUser.currentCertificationCenter.isScoManagingStudents && this.isBannerVisible && !isOnFinalizationPage;
   }
 
   get documentationLink() {
-    if (this.model.isScoManagingStudents) {
+    if (this.currentUser.currentCertificationCenter.isScoManagingStudents) {
       return LINK_SCO;
     }
     return LINK_OTHER;

@@ -33,11 +33,13 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       const findRecordStub = sinon.stub();
       findRecordStub.withArgs('session', session_id).resolves(session);
       route.store.findRecord = findRecordStub;
-      route.modelFor = sinon.stub().returns({ id: certificationCenterId });
       route.store.query = sinon.stub();
       route.store.query.onCall(0).resolves([Symbol('a candidate')]);
       route.store.query.onCall(1).resolves(divisions);
       route.store.query.onCall(2).resolves(paginatedStudents);
+      route.currentUser = {
+        currentCertificationCenter: { id: certificationCenterId },
+      };
 
       const expectedModel = {
         certificationCenterDivisions: [
@@ -60,7 +62,6 @@ module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
       const actualModel = await route.model({ session_id, pageNumber: 1, pageSize: 1 });
 
       // then
-      sinon.assert.calledWith(route.modelFor, 'authenticated');
       sinon.assert.calledWith(route.store.query, 'student', {
         filter: {
           certificationCenterId,
