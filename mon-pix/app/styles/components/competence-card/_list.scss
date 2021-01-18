@@ -1,6 +1,5 @@
 .competence-card-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
 
   &__competence-card {
     margin: 12px 0;
@@ -10,8 +9,18 @@
 @include device-is('tablet') {
 
   .competence-card-list {
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-between;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 37px;
+
+    &__competence-card {
+      margin: 0;
+    }
+  }
+}
+
+@include device-is('desktop') {
+
+  .competence-card-list {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
