@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import orderBy from 'lodash/orderBy';
@@ -39,5 +40,15 @@ export default class Content extends Component {
 
   get userFirstname() {
     return this.currentUser.user.firstName;
+  }
+
+  get hasUserSeenNewDashboardInfo() {
+    return this.currentUser.user.hasSeenNewDashboardInfo;
+  }
+
+  @action
+  async closeInformationAboutNewDashboard() {
+    console.log("clicked");
+    await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewDashboardInfo: true } });
   }
 }

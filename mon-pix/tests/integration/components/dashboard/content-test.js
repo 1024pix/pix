@@ -9,19 +9,26 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 describe('Integration | Component | Dashboard | Content', function() {
   setupIntlRenderingTest();
 
-  beforeEach(function() {
-    class CurrentUserStub extends Service {
-      user = {
-        firstName: 'Banana',
-        email: 'banana.split@example.net',
-        fullName: 'Banana Split',
-      }
+  class CurrentUserStub extends Service {
+    user = {
+      firstName: 'Banana',
+      email: 'banana.split@example.net',
+      fullName: 'Banana Split',
     }
-    this.owner.register('service:currentUser', CurrentUserStub);
-  });
+  }
+
+  class HasSeenNewDashboardInformationCurrentUserStub extends Service {
+    user = {
+      firstName: 'Banana',
+      email: 'banana.split@example.net',
+      fullName: 'Banana Split',
+      hasSeenNewDashboardInfo: true,
+    }
+  }
 
   it('should render component', async function() {
     // given
+    this.owner.register('service:currentUser', CurrentUserStub);
     this.set('model', {
       campaignParticipationOverviews: [],
       scorecards: [],
@@ -35,6 +42,10 @@ describe('Integration | Component | Dashboard | Content', function() {
   });
 
   describe('campaign-participation-overview rendering', function() {
+    beforeEach(function() {
+      this.owner.register('service:currentUser', CurrentUserStub);
+    });
+
     it('should render campaign participation when there is at least one campaign participation overviews', async function() {
       // given
       const campaignParticipationOverview = EmberObject.create({
@@ -72,6 +83,10 @@ describe('Integration | Component | Dashboard | Content', function() {
   });
 
   describe('recommended competence-card rendering', function() {
+    beforeEach(function() {
+      this.owner.register('service:currentUser', CurrentUserStub);
+    });
+
     it('should render competence-card when there is at least one competence-card not started', async function() {
       // given
       const scorecard = { isNotStarted: true };
@@ -125,6 +140,10 @@ describe('Integration | Component | Dashboard | Content', function() {
   });
 
   describe('started competence-card rendering', function() {
+    beforeEach(function() {
+      this.owner.register('service:currentUser', CurrentUserStub);
+    });
+
     it('should render competence-card when there is at least one competence-card started', async function() {
       // given
       const scorecard = { isStarted: true };
@@ -177,17 +196,37 @@ describe('Integration | Component | Dashboard | Content', function() {
     });
   });
 
-  it('should display NewInformation', async function() {
-    // given
-    this.set('model', {
-      campaignParticipationOverviews: [],
-      scorecards: [],
+  describe('new dashboard info rendering', function() {
+
+    it('should display NewInformation on dashboard if user has not close it before', async function() {
+      // given
+      this.owner.register('service:currentUser', CurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(find('.new-information')).to.exist;
     });
 
-    // when
-    await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+    it('should not display NewInformation on dashboard if user has close it before', async function() {
+      // given
+      this.owner.register('service:currentUser', HasSeenNewDashboardInformationCurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
 
-    // then
-    expect(find('.new-information')).to.exist;
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(find('.new-information')).not.to.exist;
+    });
+
   });
 });

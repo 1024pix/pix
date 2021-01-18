@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-has-seen-new-level-info', () => {
+describe('Acceptance | Controller | users-controller-has-seen-new-dashboard-info', () => {
 
   let server;
   let user;
@@ -10,11 +10,11 @@ describe('Acceptance | Controller | users-controller-has-seen-new-level-info', (
   beforeEach(async () => {
     server = await createServer();
 
-    user = databaseBuilder.factory.buildUser({ hasSeenNewLevelInfo: false });
+    user = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false });
 
     options = {
       method: 'PATCH',
-      url: `/api/users/${user.id}/has-seen-new-level-info`,
+      url: `/api/users/${user.id}/has-seen-new-dashboard-info`,
       headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
     };
 
@@ -49,12 +49,12 @@ describe('Acceptance | Controller | users-controller-has-seen-new-level-info', (
 
   describe('Success case', () => {
 
-    it('should return the user with hasSeenNewLevelInfo', async () => {
+    it('should return the user with hasSeenNewDashboardInfo', async () => {
       // when
       const response = await server.inject(options);
 
       // then
-      expect(response.result.data.attributes['has-seen-new-level-info']).to.be.true;
+      expect(response.result.data.attributes['has-seen-new-dashboard-info']).to.be.true;
     });
   });
 });

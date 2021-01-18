@@ -40,4 +40,10 @@ export default function index(config) {
     user.hasSeenAssessmentInstructions = true;
     return user;
   });
+
+  config.patch('/users/:id/has-seen-new-dashboard-info', (schema, request) => {
+    const user = schema.users.find(request.params.id);
+    user.update({ hasSeenNewDashboardInfo: true });
+    return user;
+  });
 }
