@@ -44,7 +44,7 @@ export default class JuryCertificationSummary extends Model {
   }
 
   @computed('numberOfCertificationIssueReportsWithActionRequired')
-  get numberOfCertificationIssueReportsWithActionRequiredLabel() {
+  get numberOfCertificationIssueReportsWithRequiredActionLabel() {
     return this.numberOfCertificationIssueReportsWithActionRequired > 0 ? this.numberOfCertificationIssueReportsWithActionRequired : '';
   }
 

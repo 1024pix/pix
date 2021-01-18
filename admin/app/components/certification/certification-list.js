@@ -23,7 +23,7 @@ export default class CertificationList extends Component {
     },
 
     {
-      propertyName: 'numberOfCertificationIssueReportsWithActionRequiredLabel',
+      propertyName: 'numberOfCertificationIssueReportsWithRequiredActionLabel',
       title: 'Signalements impactants',
       className: 'certification-list-page__cell--important',
     },
