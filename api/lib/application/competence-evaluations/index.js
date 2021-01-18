@@ -27,22 +27,6 @@ exports.register = async function(server) {
         tags: ['api', 'competence-evaluations'],
       },
     },
-    {
-      /**
-       * @deprecated Method that should be deleted at some point, when replacement working.
-       * Replacement in assessment-controller::findCompetenceEvaluations
-       */
-      method: 'GET',
-      path: '/api/competence-evaluations',
-      config: {
-        handler: competenceEvaluationController.find,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des competence-evaluations par assessment',
-        ],
-        tags: ['api', 'competence-evaluations'],
-      },
-    },
   ]);
 };
 
