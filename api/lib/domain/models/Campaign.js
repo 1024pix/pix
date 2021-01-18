@@ -1,10 +1,11 @@
+const _ = require('lodash');
+
 const types = {
   ASSESSMENT: 'ASSESSMENT',
   PROFILES_COLLECTION: 'PROFILES_COLLECTION',
 };
 
 class Campaign {
-
   constructor({
     id,
     name,
@@ -14,19 +15,12 @@ class Campaign {
     externalIdHelpImageUrl,
     alternativeTextToExternalIdHelpImage,
     createdAt,
-    organizationLogoUrl,
-    organizationName,
-    organizationType,
     customLandingPageText,
-    isRestricted = false,
     archivedAt,
     type,
     targetProfile,
-    campaignReport,
     creator,
-    organizationId,
-    targetProfileId,
-    creatorId,
+    organization,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -36,19 +30,20 @@ class Campaign {
     this.externalIdHelpImageUrl = externalIdHelpImageUrl;
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.createdAt = createdAt;
-    this.organizationLogoUrl = organizationLogoUrl;
-    this.organizationName = organizationName;
-    this.organizationType = organizationType;
     this.customLandingPageText = customLandingPageText;
-    this.isRestricted = isRestricted;
     this.archivedAt = archivedAt;
     this.type = type;
     this.targetProfile = targetProfile;
-    this.campaignReport = campaignReport;
     this.creator = creator;
-    this.organizationId = organizationId;
-    this.targetProfileId = targetProfileId;
-    this.creatorId = creatorId;
+    this.organization = organization;
+  }
+
+  get organizationId() {
+    return _.get(this, 'organization.id', null);
+  }
+
+  get targetProfileId() {
+    return _.get(this, 'targetProfile.id', null);
   }
 
   isAssessment() {

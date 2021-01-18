@@ -126,8 +126,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
             createdAt: new Date('2020-01-01'),
             archivedAt: new Date('2020-02-01'),
             type: 'ASSESSMENT',
-            targetProfileId: 'targetProfileId1',
-            organizationId,
+            targetProfile: { id: 'targetProfileId1' },
+            organization: { id: organizationId },
           }),
         );
         targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
@@ -199,7 +199,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
             createdAt: new Date('2020-01-02'),
           }),
         );
-        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
       });
 
@@ -231,7 +231,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', () 
         campaignRepository.get
           .withArgs(campaignId)
           .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION' }));
-        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true, organizationId });
+        organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true, organization: { id: organizationId } });
       });
 
       it('it should not notify to Pole Emploi', async () => {

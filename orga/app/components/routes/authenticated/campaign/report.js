@@ -8,13 +8,13 @@ export default class Report extends Component {
   @service notifications;
 
   get participationsCount() {
-    const participationsCount = this.args.campaign.campaignReport.get('participationsCount');
+    const participationsCount = this.args.campaign.participationsCount;
 
     return participationsCount > 0 ? participationsCount : '-';
   }
 
   get sharedParticipationsCount() {
-    const sharedParticipationsCount = this.args.campaign.campaignReport.get('sharedParticipationsCount');
+    const sharedParticipationsCount = this.args.campaign.sharedParticipationsCount;
 
     return sharedParticipationsCount > 0 ? sharedParticipationsCount : '-';
   }

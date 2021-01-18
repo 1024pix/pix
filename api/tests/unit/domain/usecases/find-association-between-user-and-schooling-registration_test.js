@@ -16,8 +16,9 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
 
   beforeEach(() => {
     userId = domainBuilder.buildUser().id;
-    organizationId = domainBuilder.buildOrganization().id;
-    campaignCode = domainBuilder.buildCampaign({ organizationId }).code;
+    const organization = domainBuilder.buildOrganization();
+    organizationId = organization.id;
+    campaignCode = domainBuilder.buildCampaign({ organization }).code;
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organizationId, userId });
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode').throws('unexpected call');
     schoolingRegistrationReceivedStub = sinon.stub(schoolingRegistrationRepository, 'findOneByUserIdAndOrganizationId').throws('unexpected call');
@@ -27,7 +28,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
 
     it('should call findOneByUserIdAndOrganizationId', async () => {
       // given
-      getCampaignStub.withArgs(campaignCode).resolves({ organizationId });
+      getCampaignStub.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
       schoolingRegistrationReceivedStub.resolves({});
 
       // when
@@ -39,7 +40,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
 
     it('should return the schoolingRegistration', async () => {
       // given
-      getCampaignStub.withArgs(campaignCode).resolves({ organizationId });
+      getCampaignStub.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
       schoolingRegistrationReceivedStub.withArgs({ userId, organizationId }).resolves(schoolingRegistration);
 
       // when
@@ -55,7 +56,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
 
     it('should return the repositories returns', async () => {
       // given
-      getCampaignStub.withArgs(campaignCode).resolves({ organizationId });
+      getCampaignStub.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
       schoolingRegistrationReceivedStub.withArgs({ userId, organizationId }).resolves(null);
 
       // when
@@ -70,7 +71,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
 
     it('should return the repositories error', async () => {
       // given
-      getCampaignStub.withArgs(campaignCode).resolves({ organizationId });
+      getCampaignStub.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
       schoolingRegistrationReceivedStub.withArgs({ userId, organizationId }).resolves(null);
 
       // when

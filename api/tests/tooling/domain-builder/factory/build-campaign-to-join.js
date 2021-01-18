@@ -1,4 +1,5 @@
-const CampaignToJoin = require('../../../../lib/domain/models/CampaignToJoin');
+const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
 const { types } = require('../../../../lib/domain/models/Organization');
 
 module.exports = function buildCampaignToJoin({
@@ -10,7 +11,7 @@ module.exports = function buildCampaignToJoin({
   externalIdHelpImageUrl = 'baseCodeExternalIdImage',
   alternativeTextToExternalIdHelpImage = 'Une aide pour id externe',
   archivedAt = null,
-  type = CampaignToJoin.types.ASSESSMENT,
+  type = Campaign.types.ASSESSMENT,
   organizationId = 2,
   organizationName = 'NomOrga',
   organizationType = types.PRO,

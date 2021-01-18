@@ -48,46 +48,14 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       assert.contains('80%');
     });
 
-    test('it should display badge column when participant shared result', async function(assert) {
+    test('it should display badge and tooltip', async function(assert) {
       // given
-      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
-      const targetProfile = store.createRecord('targetProfile', {
-        id: 't1',
-        hasBadges: true,
-      });
+      const badge = store.createRecord('badge', { imageUrl: 'url-badge' });
       const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        targetProfile,
+        badges: [badge],
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared: true }];
-      participations.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.contains('Résultats Thématiques');
-    });
-
-    test('it should display badge and tooltip when pariticipant shared his results', async function(assert) {
-      // given
-      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
-      const targetProfile = store.createRecord('targetProfile', {
-        id: 't1',
-        hasBadges: true,
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        targetProfile,
-      });
-
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared: true }];
+      const participations = [{ badges: [badge], isShared: true }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -107,7 +75,6 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     test('it should display that participant\'s results are pending', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
         name: 'campagne 1',
       });
 
@@ -137,21 +104,14 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       assert.contains('En attente');
     });
 
-    test('it should not display badge neither tooltip when participant not shared result', async function(assert) {
+    test('it should not display badge neither tooltip', async function(assert) {
       // given
-      const badge = store.createRecord('badge', { id: 'b1', imageUrl: 'url-badge' });
-      const targetProfile = store.createRecord('targetProfile', {
-        id: 't1',
-        hasBadges: true,
-      });
-
+      const badge = store.createRecord('badge', { imageUrl: 'url-badge' });
       const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        targetProfile,
+        badges: [badge],
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', badges: [badge], isShared: false }];
+      const participations = [{ badges: [badge], isShared: false }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -171,7 +131,6 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     test('it should display that participant\'s results are still ongoing', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
         name: 'campagne 1',
       });
 
@@ -206,12 +165,10 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     test('it should display participant\'s results with external id', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
         idPixLabel: 'identifiant externe',
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', participantExternalId: '123' }];
+      const participations = [{ participantExternalId: '123' }];
       participations.meta = {
         rowCount: 1,
       };
@@ -233,7 +190,6 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     test('it should display "waiting for participants"', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
         name: 'campagne 1',
       });
 
@@ -257,11 +213,10 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
     test('it should not display badge column', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
+        badges: [],
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe' }];
+      const participations = [{}];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -279,18 +234,12 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
   module('when the campaign has badges', function() {
     test('it should display badge column', async function(assert) {
       // given
-      const targetProfile = store.createRecord('targetProfile', {
-        id: 't1',
-        hasBadges: true,
-      });
-
+      const badge = store.createRecord('badge');
       const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        targetProfile,
+        badges: [badge],
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe' }];
+      const participations = [{ }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -308,18 +257,12 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
   module('when the campaign has stages', function() {
     test('it should display stars instead of mastery percentage in result column', async function(assert) {
       // given
-      const stage = store.createRecord('stage', { id: 's1', threshold: 50 });
-      const campaignReport = store.createRecord('campaign-report', {
-        id: 'c1',
+      const stage = store.createRecord('stage', { threshold: 50 });
+      const campaign = store.createRecord('campaign', {
         stages: [stage],
       });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        campaignReport,
-      });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      const participations = [{ masteryPercentage: 60, isShared: true }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -349,14 +292,9 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
         id: 'd1',
         name: 'd1',
       });
-      const campaignReport = store.createRecord('campaign-report', {
-        id: 'c1',
-        stages: [],
-      });
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        campaignReport,
         divisions: [division],
       });
 
@@ -383,14 +321,9 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
         id: 'd1',
         name: 'd1',
       });
-      const campaignReport = store.createRecord('campaign-report', {
-        id: 'c1',
-        stages: [],
-      });
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        campaignReport,
         divisions: [division],
       });
 
@@ -426,14 +359,9 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
         id: 'd2',
         name: 'd2',
       });
-      const campaignReport = store.createRecord('campaign-report', {
-        id: 'c1',
-        stages: [],
-      });
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        campaignReport,
         divisions: [division],
       });
 

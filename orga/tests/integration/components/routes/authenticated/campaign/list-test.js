@@ -84,27 +84,13 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
     test('it should display the creator of the campaigns', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const user1 = store.createRecord('user', {
-        id: 1,
-        firstName: 'Jean-Michel',
-        lastName: 'Jarre',
-      });
-      const user2 = store.createRecord('user', {
-        id: 2,
-        firstName: 'Mathilde',
-        lastName: 'Bonnin de La Bonninière de Beaumont',
-      });
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        creator: user1,
-        code: 'AAAAAA111',
+        creatorFirstName: 'Jean-Michel',
+        creatorLastName: 'Jarre',
       });
       const campaign2 = store.createRecord('campaign', {
-        id: 2,
-        name: 'campagne 1',
-        creator: user2,
-        code: 'BBBBBB222',
+        creatorFirstName: 'Mathilde',
+        creatorLastName: 'Bonnin de La Bonninière de Beaumont',
       });
       const campaigns = [campaign1, campaign2];
       campaigns.meta = {
@@ -157,17 +143,8 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
     test('it should display the participations count', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const campaignReport = store.createRecord('campaignReport', {
-        id: 1,
-        participationsCount: 10,
-        sharedParticipationsCount: 4,
-      });
-
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        code: 'AAAAAA111',
-        campaignReport,
+        participationsCount: 10,
       });
 
       const campaigns = [campaign1];
@@ -189,17 +166,8 @@ module('Integration | Component | routes/authenticated/campaign/list', function(
     test('it should display the shared participations count', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const campaignReport = store.createRecord('campaignReport', {
-        id: 1,
-        participationsCount: 10,
-        sharedParticipationsCount: 4,
-      });
-
       const campaign1 = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        code: 'AAAAAA111',
-        campaignReport,
+        sharedParticipationsCount: 4,
       });
 
       const campaigns = [campaign1];

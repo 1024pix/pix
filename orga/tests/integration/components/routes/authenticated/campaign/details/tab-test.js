@@ -19,12 +19,9 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     module('when type is ASSESSMENT', function() {
       test('it should display target profile related to campaign', async function(assert) {
         // given
-        const targetProfile = store.createRecord('targetProfile', {
-          name: 'profil cible de la campagne 1',
-        });
         const campaign = store.createRecord('campaign', {
           type: 'ASSESSMENT',
-          targetProfile,
+          targetProfileName: 'profil cible de la campagne 1',
         });
 
         this.set('campaign', campaign);
@@ -145,9 +142,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
   module('on Archived action display', function() {
     test('it should display the button archived', async function(assert) {
       // given
-      const campaign = store.createRecord('campaign', {
-        archivedAt: null,
-      });
+      const campaign = store.createRecord('campaign', { isArchived: false });
 
       this.set('campaign', campaign);
 
@@ -163,7 +158,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     module('when the campaign is not archived', function() {
       test('it should display the button modify', async function(assert) {
         // given
-        const campaign = store.createRecord('campaign', { archivedAt: null });
+        const campaign = store.createRecord('campaign', { isArchived: false });
 
         this.set('campaign', campaign);
 
@@ -178,7 +173,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
     module('when the campaign is archived', function() {
       test('it should not display the button modify', async function(assert) {
         // given
-        const campaign = store.createRecord('campaign', { archivedAt: new Date() });
+        const campaign = store.createRecord('campaign', { isArchived: true });
 
         this.set('campaign', campaign);
 

@@ -18,7 +18,7 @@ describe('Unit | Domain | Models | CampaignParticipation', () => {
       const targetProfileId = campaignParticipation.getTargetProfileId();
 
       // then
-      expect(targetProfileId).to.equal(campaign.targetProfileId);
+      expect(targetProfileId).to.equal(campaign.targetProfile.id);
     });
 
     it('should return null if has not campaign', () => {
