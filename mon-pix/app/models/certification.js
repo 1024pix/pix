@@ -22,7 +22,7 @@ export default class Certification extends Model {
   @attr('string') status;
   @attr('string') verificationCode;
   @attr() cleaCertificationStatus;
-  @attr() deliveredAt;
+  @attr('date') deliveredAt;
   @attr('number') maxReachableLevelOnCertificationDate;
 
   // includes

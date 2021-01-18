@@ -5,13 +5,14 @@ import { tracked } from '@glimmer/tracking';
 
 export default class UserCertificationsDetailHeader extends Component {
   @service intl;
+  @service intlDateFormatter;
   @service fileSaver;
   @service session;
 
   @tracked tooltipText = this.intl.t('pages.certificate.verification-code.copy');
 
   get birthdate() {
-    return this.intl.formatDate(this.args.certification.birthdate, { format: 'LL' });
+    return this.intlDateFormatter.formatDateStringToString(this.args.certification.birthdate);
   }
 
   @action
