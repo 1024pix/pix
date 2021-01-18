@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.3.0 (18/01/2021)
+
+- [#2379](https://github.com/1024pix/pix/pull/2379) [FEATURE] Permettre de filtrer par classe les profils dans les resultats du campagne de collecte de profils (PIX-1681).
+- [#2380](https://github.com/1024pix/pix/pull/2380) [FEATURE] Ajouter une colonne qui affiche le nombre de tutoriels par sujet dans l'onglet analyse de Pix Orga (PIX-1955).
+- [#2397](https://github.com/1024pix/pix/pull/2397) [BUGFIX] Corriger certains bugs lors du changement de centre de certification dans Pix Certif (PIX-1980).
+- [#2352](https://github.com/1024pix/pix/pull/2352) [TECH] Faire émerger un nouveau read-model CampaignReport (PIX-1770).
+- [#2360](https://github.com/1024pix/pix/pull/2360) [TECH] Aligner la version de node local-CI-PAAS.
+- [#2393](https://github.com/1024pix/pix/pull/2393) [TECH] Mise à jour de axios de 0.21.0 vers 0.21.1.
+- [#2385](https://github.com/1024pix/pix/pull/2385) [TECH] Corriger les tests instables de l'import SIECLE (PIX-1732).
+- [#2406](https://github.com/1024pix/pix/pull/2406) [FIX] Corrige la fuite mémoire au niveau de la validation XML SAML
+- [#2407](https://github.com/1024pix/pix/pull/2407) [FIX] Réintroduit le logging système sur l'API
+- [#2395](https://github.com/1024pix/pix/pull/2395) [FIX] Corrige le rattachement d'un profil cible à une ou plusieurs organisations
+
 ## v3.2.0 (14/01/2021)
 
 - [#2391](https://github.com/1024pix/pix/pull/2391) [FEATURE] Mise à jour de la bannière de campagnes dans Pix Orga (PIX-1776).
