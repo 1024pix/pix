@@ -419,6 +419,41 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
+
+          context('When user must validate terms of service Pole Emploi', function() {
+
+            const authenticationKey = 'authenticationKey';
+
+            beforeEach(function() {
+              server.post('/pole-emploi/token', () => {
+
+                const userAccountNotFoundForPoleEmploiError = {
+                  'errors': [{
+                    'status': '401',
+                    'code': 'SHOULD_VALIDATE_CGU',
+                    'title': 'Unauthorized',
+                    'detail': 'L\'utilisateur n\'a pas de compte Pix',
+                    'meta': { authenticationKey },
+                  }],
+                };
+
+                return new Response(401, {}, userAccountNotFoundForPoleEmploiError);
+              });
+            });
+
+            it('should redirect to terms of service Pole Emploi page', async function() {
+              // given
+              const state = 'state';
+              const session = currentSession();
+              session.set('data.state', state);
+
+              // when
+              await visit(`/connexion-pole-emploi?code=test&state=${state}`);
+
+              // then
+              expect(currentURL()).to.equal(`/cgu-pole-emploi?authenticationKey=${authenticationKey}`);
+            });
+          });
         });
       });
 
