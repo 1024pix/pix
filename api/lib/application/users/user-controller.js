@@ -140,6 +140,13 @@ module.exports = {
     return userSerializer.serialize(updatedUser);
   },
 
+  async rememberUserHasSeenNewDashboardInfo(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    const updatedUser = await usecases.rememberUserHasSeenNewDashboardInfo({ userId: authenticatedUserId });
+    return userSerializer.serialize(updatedUser);
+  },
+
   getMemberships(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
