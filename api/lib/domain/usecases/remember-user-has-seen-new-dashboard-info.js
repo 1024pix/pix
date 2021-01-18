@@ -1,6 +1,6 @@
-module.exports = function rememberUserHasSeenAssessmentInstructions({
+module.exports = function rememberUserHasSeenNewDashboardInfo({
   userId,
   userRepository,
 }) {
-  return userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
+  return userRepository.updateHasSeenNewDashboardInfoToTrue(userId);
 };
