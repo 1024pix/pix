@@ -278,6 +278,12 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
+  async updateHasSeenNewDashboardInfoToTrue(id) {
+    const user = await BookshelfUser.where({ id }).fetch();
+    await user.save({ 'hasSeenNewDashboardInfo': true }, { patch: true, method: 'update' });
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
+  },
+
   async acceptPixLastTermsOfService(id) {
     const user = await BookshelfUser.where({ id }).fetch();
     await user.save({

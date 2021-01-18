@@ -1345,4 +1345,22 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#updateHasSeenNewDashboardInfoToTrue', () => {
+    let userId;
+
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false }).id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return the model with hasSeenNewDashboardInfo flag updated to true', async () => {
+      // when
+      const actualUser = await userRepository.updateHasSeenNewDashboardInfoToTrue(userId);
+
+      // then
+      expect(actualUser.hasSeenNewDashboardInfo).to.be.true;
+    });
+
+  });
+
 });
