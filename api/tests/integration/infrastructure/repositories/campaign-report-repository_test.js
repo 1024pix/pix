@@ -219,8 +219,8 @@ describe('Integration | Repository | Campaign-Report', () => {
         let filter;
 
         beforeEach(() => {
-          const creator1 = databaseBuilder.factory.buildUser({});
-          const creator2 = databaseBuilder.factory.buildUser({});
+          const creator1 = databaseBuilder.factory.buildUser({ firstName: 'Robert' });
+          const creator2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard' });
 
           filter = { creatorName: creator1.firstName.toUpperCase() };
 
@@ -247,8 +247,8 @@ describe('Integration | Repository | Campaign-Report', () => {
         let filter;
 
         beforeEach(() => {
-          const creator1 = databaseBuilder.factory.buildUser({});
-          const creator2 = databaseBuilder.factory.buildUser({});
+          const creator1 = databaseBuilder.factory.buildUser({ lastName: 'Redford' });
+          const creator2 = databaseBuilder.factory.buildUser({ lastName: 'Menez' });
 
           filter = { creatorName: creator1.lastName.toUpperCase() };
 
