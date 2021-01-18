@@ -16,7 +16,6 @@
   "main": "bin/www",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
-    "@authenio/samlify-node-xmllint": "^2.0.0",
     "@hapi/accept": "^5.0.1",
     "@hapi/hapi": "^19.2.0",
     "@hapi/inert": "^6.0.2",
