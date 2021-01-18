@@ -9,9 +9,11 @@ export const partnerCertificationStatusToDisplayName = {
   [REJECTED]: 'Rejetée',
   [NOT_PASSED]: 'Non passée',
 };
+export const STARTED = 'started';
+export const ERROR = 'error';
 export const certificationStatuses = [
-  { value: 'started', label: 'Démarrée' },
-  { value: 'error', label: 'En erreur' },
+  { value: STARTED, label: 'Démarrée' },
+  { value: ERROR, label: 'En erreur' },
   { value: 'validated', label: 'Validée' },
   { value: 'rejected', label: 'Rejetée' },
 ];

@@ -18,9 +18,10 @@ export default class CertificationList extends Component {
       title: 'Nom',
     },
     {
-      propertyName: 'statusLabel',
-      title: 'Statut',
+      propertyName: 'Statut',
+      component: 'certification-status',
     },
+
     {
       propertyName: 'numberOfCertificationIssueReportsWithActionRequiredLabel',
       title: 'Signalements impactants',
