@@ -348,6 +348,33 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
+  describe('#rememberUserHasSeenNewDashboardInfo', () => {
+    let request;
+    const userId = 1;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'rememberUserHasSeenNewDashboardInfo');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should remember user has seen new dashboard info', async () => {
+      // given
+      usecases.rememberUserHasSeenNewDashboardInfo.withArgs({ userId }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.rememberUserHasSeenNewDashboardInfo(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+  });
+
   describe('#getCurrentUser', () => {
     let request;
 
