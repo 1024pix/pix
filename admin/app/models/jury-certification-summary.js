@@ -1,6 +1,5 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
-import includes from 'lodash/includes';
 import find from 'lodash/find';
 import { certificationStatuses } from 'pix-admin/models/certification';
 

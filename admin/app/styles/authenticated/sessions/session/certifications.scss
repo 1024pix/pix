@@ -5,7 +5,8 @@
     margin-bottom: 20px;
   }
 
-  td.certification-list-page__cell--important {
+  td.certification-list-page__cell--important,
+  span.certification-list-page__cell--important {
     color: $information-dark;
     font-weight: bold;
   }
