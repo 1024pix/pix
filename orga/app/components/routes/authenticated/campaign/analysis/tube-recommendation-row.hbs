@@ -18,13 +18,9 @@
     <TutorialCounter @tutorials={{@tubeRecommendation.tutorials}} />
   </td>
   <td class="table__column--right">
-    <button type="button" class="icon-button" {{on 'click' this.toggleTutorialsSection}} aria-expanded="{{this.isOpen}}">
-      {{#if this.isOpen}}
-        <FaIcon @icon="chevron-up" />
-      {{else}}
-        <FaIcon @icon="chevron-down" />
-      {{/if}}
-    </button>
+    {{#if (gt @tubeRecommendation.tutorials.length 0)}}
+      <Chevron @isOpen={{this.isOpen}} @toggleParent={{this.toggleTutorialsSection}} />
+    {{/if}}
   </td>
 </tr>
 <tr class="tube-recommendation-tutorial {{if this.isOpen " tube-recommendation-tutorial--open"}}"
@@ -33,15 +29,12 @@
     <div class="tube-recommendation-tutorial-wrapper {{if this.isOpen " tube-recommendation-tutorial-wrapper--open"}}">
       <span class="competences-col__border competences-col__border--bottom {{if this.isOpen " competences-col__border--open"}}
         competences-col__border--{{@tubeRecommendation.areaColor}}"></span>
-      {{#if (eq @tubeRecommendation.tutorials.length 0)}}
-      <h3 class="tube-recommendation-tutorial__title">Aucun tuto recommandé pour ce sujet.</h3>
-      {{else}}
       <h3 class="tube-recommendation-tutorial__title">
         {{#if (eq @tubeRecommendation.tutorials.length 1)}}
           1 tuto recommandé par la communauté Pix
         {{else}}
           {{@tubeRecommendation.tutorials.length}} tutos recommandés par la communauté Pix
-      {{/if}}
+        {{/if}}
       </h3>
       <table class="tube-recommendation-tutorial-table">
         <tbody>
@@ -62,7 +55,6 @@
           {{/each}}
         </tbody>
       </table>
-      {{/if}}
     </div>
   </td>
 </tr>

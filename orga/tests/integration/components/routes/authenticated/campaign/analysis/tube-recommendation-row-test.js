@@ -103,21 +103,6 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     assert.dom('[aria-expanded="false"]').exists();
   });
 
-  test('it should display a "no data" message when tutorials are empty', async function(assert) {
-    // given
-    tubeRecommendation.tutorials = [];
-
-    await render(hbs`<Routes::Authenticated::Campaign::Analysis::TubeRecommendationRow
-      @tubeRecommendation={{tubeRecommendation}}
-    />`);
-
-    // when
-    await click('[data-icon="chevron-down"]');
-
-    // then
-    assert.dom('[aria-hidden="false"]').containsText('Aucun tuto recommandé pour ce sujet.');
-  });
-
   module('Testing the number of tutorials', () => {
     test('it should display "1 tuto" when there is only one tutorial', async function(assert) {
       // given
