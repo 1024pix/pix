@@ -1,14 +1,17 @@
 {{#if this.displayDivisionFilter }}
   <PixFilterBanner @title="Filtres" class="participant-filter-banner" aria-label="Filtres sur les profiles">
     <PixMultiSelect
-            class="division-filter"
-            @emptyMessage={{"Pas de classes"}}
-            @title={{"Classes"}}
-            @id={{"division"}}
-            @isSearchable={{false}}
-            @onSelect={{ @selectDivisions }}
-            @selected={{ @selectedDivisions }}
-            @options={{ this.divisionOptions }} as |option|>
+      class="division-filter"
+      @id="division"
+      @title="Classes"
+      @placeholder="Classes"
+      @isSearchable={{true}}
+      @showOptionsOnInput={{true}}
+      @emptyMessage="Pas de classe"
+      @onSelect={{@selectDivisions}}
+      @selected={{@selectedDivisions}}
+      @options={{this.divisionOptions}} as |option|
+    >
       {{option.value}}
     </PixMultiSelect>
   </PixFilterBanner>
