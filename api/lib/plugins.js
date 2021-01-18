@@ -41,6 +41,14 @@ const plugins = [
   Inert,
   Vision,
   Blipp,
+  {
+    plugin: require('good'),
+    options: {
+      reporters: {
+        console: consoleReporters,
+      },
+    },
+  },
   ...(settings.sentry.enabled ? [
     {
       plugin: require('hapi-sentry'),
