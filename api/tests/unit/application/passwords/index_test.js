@@ -1,12 +1,15 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
-const passwordController = require('../../../../lib/application/passwords/password-controller');
+
 const moduleUnderTest = require('../../../../lib/application/passwords');
+
+const passwordController = require('../../../../lib/application/passwords/password-controller');
 
 describe('Unit | Router | Password router', () => {
 
   let httpTestServer;
 
   beforeEach(() => {
+    sinon.stub(passwordController, 'checkResetDemand');
     sinon.stub(passwordController, 'createResetDemand');
     sinon.stub(passwordController, 'updateExpiredPassword').callsFake((request, h) => h.response().created());
 
@@ -55,6 +58,23 @@ describe('Unit | Router | Password router', () => {
         // then
         expect(response.statusCode).to.equal(400);
       });
+    });
+  });
+
+  describe('GET /api/password-reset-demands/{temporaryKey}', () => {
+
+    const method = 'GET';
+    const url = '/api/password-reset-demands/ABCDEF123';
+
+    it('should return 201 http status code', async () => {
+      // given
+      passwordController.checkResetDemand.resolves('ok');
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 

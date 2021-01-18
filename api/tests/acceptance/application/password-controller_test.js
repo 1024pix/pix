@@ -1,19 +1,15 @@
 const { databaseBuilder, expect, knex, sinon } = require('../../test-helper');
 
-const mailjetService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
-const createServer = require('../../../server');
+const config = require('../../../lib/config');
 
-function _insertPasswordResetDemand(temporaryKey, email) {
-  const resetDemandRaw = { email, temporaryKey };
-  return knex('reset-password-demands').insert(resetDemandRaw);
-}
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | password-controller', () => {
 
-  const fakeUserEmail = 'lebolossdu66@hotmail.com';
+  const email = 'user@example.net';
 
   let server;
 
@@ -25,215 +21,137 @@ describe('Acceptance | Controller | password-controller', () => {
 
     let options;
 
-    beforeEach(() => {
-      databaseBuilder.factory.buildUser({ email: fakeUserEmail });
-      return databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      return knex('reset-password-demands').delete();
-    });
-
-    describe('when email provided is unknown', () => {
-      beforeEach(() => {
-        options = {
-          method: 'POST',
-          url: '/api/password-reset-demands',
-          payload: {
-            data: {
-              attributes: {
-                email: 'uzinagaz@example.net',
-              },
-            },
+    beforeEach(async () => {
+      options = {
+        method: 'POST',
+        url: '/api/password-reset-demands',
+        payload: {
+          data: {
+            attributes: { email },
           },
-        };
-      });
+        },
+      };
 
-      it('should reply with 404', () => {
-        // when
-        const promise = server.inject(options);
+      config.mailing.enabled = false;
 
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
-      });
+      const userId = databaseBuilder.factory.buildUser({ email }).id;
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId });
+      await databaseBuilder.commit();
     });
 
-    describe('when existing email is provided and email is delivered', () => {
-      beforeEach(() => {
-        options = {
-          method: 'POST',
-          url: '/api/password-reset-demands',
-          payload: {
-            data: {
-              attributes: {
-                email: fakeUserEmail,
-              },
-            },
-          },
-        };
-
-        sinon.stub(mailjetService, 'sendResetPasswordDemandEmail').resolves();
-      });
-
-      it('should reply with 201', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
-        });
-      });
+    afterEach(async () => {
+      await knex('reset-password-demands').delete();
     });
 
-    describe('when existing email is provided, but some internal error has occured', () => {
-      beforeEach(() => {
-        options = {
-          method: 'POST',
-          url: '/api/password-reset-demands',
-          payload: {
-            data: {
-              attributes: {
-                email: fakeUserEmail,
-              },
-            },
-          },
-        };
+    context('when email provided is unknown', () => {
 
-        sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());
-      });
-
-      it('should reply with 500', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(500);
-        });
-      });
-    });
-
-    describe('When temporaryKey is valid and linked to a password reset demand', () => {
-
-      it('should reply with 200 status code', async () => {
+      it('should reply with 404', async () => {
         // given
-        const temporaryKey = resetPasswordService.generateTemporaryKey();
-        await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
-
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`,
-        };
+        options.payload.data.attributes.email = 'unknown@example.net';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(404);
       });
     });
 
+    context('when existing email is provided and email is delivered', () => {
+
+      it('should reply with 201', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    context('when existing email is provided, but some internal error has occured', () => {
+
+      it('should reply with 500', async () => {
+        // given
+        sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(500);
+      });
+    });
   });
 
   describe('GET /api/password-reset-demands/{temporaryKey}', () => {
 
-    let options;
+    const options = {
+      method: 'GET',
+      url: null,
+    };
 
-    describe('When temporaryKey is not valid', () => {
+    context('when temporaryKey is not valid', () => {
 
-      it('should reply with 401 status code', () => {
+      it('should reply with 401 status code', async () => {
         // given
-        options = {
-          method: 'GET',
-          url: '/api/password-reset-demands/invalid-temporary-key',
-        };
+        options.url = '/api/password-reset-demands/invalid-temporary-key';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
 
-    describe('When temporaryKey is valid but not linked to a password reset demand', () => {
-
-      it('should reply with 404 status code', () => {
-        // given
-        const temporaryKey = resetPasswordService.generateTemporaryKey();
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`,
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
-      });
-    });
-
-    describe('When something going wrong', () => {
-
-      beforeEach(() => {
-        sinon.stub(resetPasswordService, 'verifyDemand').rejects(new Error());
-      });
-
-      it('should reply with 500 status code', () => {
-        // given
-        const temporaryKey = resetPasswordService.generateTemporaryKey();
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`,
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(500);
-        });
-      });
-    });
-
-    describe('When temporaryKey is valid and linked to a password reset demand', () => {
+    context('when temporaryKey is valid', () => {
 
       let temporaryKey;
 
-      beforeEach(async () => {
+      beforeEach(() => {
         temporaryKey = resetPasswordService.generateTemporaryKey();
-        databaseBuilder.factory.buildUser({ email: fakeUserEmail });
-        await databaseBuilder.commit();
-        await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+        options.url = `/api/password-reset-demands/${temporaryKey}`;
       });
 
-      afterEach(() => {
-        return knex('reset-password-demands').delete();
+      context('when temporaryKey is not linked to a reset password demand', () => {
+
+        it('should reply with 404 status code', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
       });
 
-      it('should reply with 200 status code', () => {
-        // given
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`,
-        };
+      context('when something going wrong', () => {
 
-        // when
-        const promise = server.inject(options);
+        it('should reply with 500 status code', async () => {
+          // given
+          sinon.stub(resetPasswordService, 'verifyDemand').rejects(new Error());
 
-        // then
-        return promise.then((response) => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(500);
+        });
+      });
+
+      context('when temporaryKey is linked to a password reset demand', () => {
+
+        beforeEach(async () => {
+          databaseBuilder.factory.buildUser({ email });
+          databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should reply with 200 status code', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
           expect(response.statusCode).to.equal(200);
         });
       });
@@ -280,54 +198,57 @@ describe('Acceptance | Controller | password-controller', () => {
       });
     });
 
-    context('When username does not exist', () => {
+    context('Error cases', () => {
 
-      it('should respond 404 HTTP status code', async () => {
-        // given
-        options.payload.data.attributes = { username: 'unknow', expiredPassword, newPassword };
+      context('when username does not exist', () => {
 
-        // when
-        const response = await server.inject(options);
+        it('should respond 404 HTTP status code', async () => {
+          // given
+          options.payload.data.attributes = { username: 'unknow', expiredPassword, newPassword };
 
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
+          // when
+          const response = await server.inject(options);
 
-    context('When password is invalid', () => {
-
-      it('should respond 401 HTTP status code', async () => {
-        // given
-        options.payload.data.attributes = { username, expiredPassword: 'wrongPassword01', newPassword };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-    });
-
-    context('When shoulChangePassword is false', () => {
-
-      it('should respond 403 HTTP status code', async () => {
-        // given
-        const username = 'jean.oubliejamais0105';
-        databaseBuilder.factory.buildUser.withRawPassword({
-          username,
-          rawPassword: expiredPassword,
-          shouldChangePassword: false,
+          // then
+          expect(response.statusCode).to.equal(404);
         });
+      });
 
-        options.payload.data.attributes = { username, expiredPassword, newPassword };
+      context('when password is invalid', () => {
 
-        await databaseBuilder.commit();
+        it('should respond 401 HTTP status code', async () => {
+          // given
+          options.payload.data.attributes = { username, expiredPassword: 'wrongPassword01', newPassword };
 
-        // when
-        const response = await server.inject(options);
+          // when
+          const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(403);
+          // then
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      context('when shoulChangePassword is false', () => {
+
+        it('should respond 403 HTTP status code', async () => {
+          // given
+          const username = 'jean.oubliejamais0105';
+          databaseBuilder.factory.buildUser.withRawPassword({
+            username,
+            rawPassword: expiredPassword,
+            shouldChangePassword: false,
+          });
+
+          options.payload.data.attributes = { username, expiredPassword, newPassword };
+
+          await databaseBuilder.commit();
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
       });
     });
   });
