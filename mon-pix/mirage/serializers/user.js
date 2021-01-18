@@ -11,6 +11,7 @@ export default ApplicationSerializer.extend({
     'pixOrgaTermsOfServiceAccepted',
     'pixCertifTermsOfServiceAccepted',
     'hasSeenAssessmentInstructions',
+    'hasSeenNewDashboardInfo',
   ],
   include: ['competences'],
   links(user) {
