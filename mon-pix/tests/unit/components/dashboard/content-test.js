@@ -93,9 +93,9 @@ describe('Unit | Component | Dashboard | Content', function() {
 
   });
 
-  describe('#startedScorecards', function() {
+  describe('#startedCompetences', function() {
 
-    it('should return started scorecards', function() {
+    it('should return started competences', function() {
       // given
       const scorecards = [
         { id: 1, isStarted: true },
@@ -115,7 +115,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       component.args.model = { scorecards };
 
       // when
-      const result = component.startedScorecards;
+      const result = component.startedCompetences;
 
       // then
       expect(result).to.deep.equal(expectedScorecards);
@@ -138,7 +138,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       component.args.model = { scorecards };
 
       // when
-      const result = component.startedScorecards;
+      const result = component.startedCompetences;
 
       // then
       expect(result).to.deep.equal(expectedScorecards);
@@ -164,7 +164,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       component.args.model = EmberObject.create({ scorecards });
 
       // when
-      const result = component.startedScorecards;
+      const result = component.startedCompetences;
 
       // then
       expect(result).to.deep.equal(expectedScorecards);

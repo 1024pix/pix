@@ -14,7 +14,7 @@ export default class Content extends Component {
   }
 
   get hasStartedCompetences() {
-    return this.startedScorecards.length > 0;
+    return this.startedCompetences.length > 0;
   }
 
   get recommendedScorecards() {
@@ -22,7 +22,7 @@ export default class Content extends Component {
     return this._filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(isScorecardNotStarted);
   }
 
-  get startedScorecards() {
+  get startedCompetences() {
     const isScorecardStarted = (scorecard) => scorecard.isStarted;
     return this._filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(isScorecardStarted);
   }
