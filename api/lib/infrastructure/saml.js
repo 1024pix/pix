@@ -1,6 +1,9 @@
 const samlify = require('samlify');
-const validator = require('@authenio/samlify-node-xmllint');
-samlify.setSchemaValidator(validator);
+samlify.setSchemaValidator({
+  validate: () => {
+    return true;
+  },
+});
 const logger = require('./logger');
 const samlSettings = require('../config').saml;
 
