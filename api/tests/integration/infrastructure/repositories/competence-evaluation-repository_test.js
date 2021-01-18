@@ -219,42 +219,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
   });
 
-  describe('#find', () => {
-    let assessmentId;
-    let competenceEvaluationExpected;
-
-    beforeEach(() => {
-      // given
-      assessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.COMPETENCE_EVALUATION,
-      }).id;
-
-      competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
-        competenceId: '1',
-        assessmentId,
-        createdAt: new Date('2018-01-01'),
-        status: STARTED,
-      });
-      databaseBuilder.factory.buildCompetenceEvaluation({
-        competenceId: '2',
-        createdAt: new Date('2017-01-01'),
-        status: STARTED,
-      });
-
-      return databaseBuilder.commit();
-    });
-
-    it('should return the competence evaluation linked to the assessmentId', async () => {
-      // when
-      const options = { filter: { assessmentId }, sort: [] };
-      const { models: competenceEvaluations } = await competenceEvaluationRepository.find(options);
-
-      // then
-      expect(competenceEvaluations).to.have.length(1);
-      expect(_.omit(competenceEvaluations[0], ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
-    });
-  });
-
   describe('#findByAssessmentId', () => {
     let assessmentId;
     let competenceEvaluationExpected;
