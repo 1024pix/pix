@@ -507,15 +507,15 @@
             }
         },
         "dashboard": {
-            "title": "",
+            "title": "Homepage",
             "campaigns": {
-                "subtitle": "",
-                "title": ""
+                "subtitle": "Continue your personalised test or send your results",
+                "title": "Campaigns"
             },
             "recommended-competences": {
-                "profile-link": "",
-                "subtitle": "",
-                "title": ""
+                "profile-link": "See all skills",
+                "subtitle": "Discover the skills recommended for you.",
+                "title": "Recommended skills"
             }
         },
         "error": {
