@@ -1,10 +1,7 @@
-const _ = require('lodash');
-
 const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
-const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
@@ -18,51 +15,53 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   describe('#save', () => {
 
-    const deserializedCampaign = domainBuilder.buildCampaign({ id: NaN, code: '' });
-
     beforeEach(() => {
       sinon.stub(usecases, 'createCampaign');
-      sinon.stub(campaignSerializer, 'deserialize').resolves(deserializedCampaign);
-      sinon.stub(campaignSerializer, 'serialize');
-    });
-
-    it('should call the use case to create the new campaign', async () => {
-      // given
-      const connectedUserId = 1;
-      const request = { auth: { credentials: { userId: connectedUserId } } };
-
-      const createdCampaign = domainBuilder.buildCampaign();
-      usecases.createCampaign.resolves(createdCampaign);
-
-      // when
-      await campaignController.save(request, hFake);
-
-      // then
-      expect(usecases.createCampaign).to.have.been.calledOnce;
-      const { campaign } = usecases.createCampaign.firstCall.args[0];
-      expect(campaign).to.include({
-        ..._.pick(deserializedCampaign, ['name', 'type', 'organizationId']),
-        creatorId: connectedUserId,
-      });
+      sinon.stub(campaignReportSerializer, 'serialize');
     });
 
     it('should return a serialized campaign when the campaign has been successfully created', async () => {
       // given
-      const userId = 1245;
-      const request = { auth: { credentials: { userId } } };
+      const connectedUserId = 1;
+      const request = {
+        auth: { credentials: { userId: connectedUserId } },
+        payload: {
+          data: {
+            attributes: {
+              name: 'name',
+              type: 'ASSESSMENT',
+              title: 'title',
+              'id-pix-label': 'idPixLabel',
+              'custom-landing-page-text': 'customLandingPageText',
+            },
+            relationships: {
+              'target-profile': { data: { id: '123' } },
+              'organization': { data: { id: '456' } },
+            },
+          },
+        },
+      };
+      const campaign = {
+        name: 'name',
+        type: 'ASSESSMENT',
+        title: 'title',
+        idPixLabel: 'idPixLabel',
+        customLandingPageText: 'customLandingPageText',
+        organizationId: 456,
+        targetProfileId: 123,
+        creatorId: 1,
+      };
 
-      const createdCampaign = domainBuilder.buildCampaign();
-      usecases.createCampaign.resolves(createdCampaign);
-
-      const serializedCampaign = { name: createdCampaign.name };
-      campaignSerializer.serialize.returns(serializedCampaign);
+      const expectedResult = Symbol('result');
+      const createdCampaign = Symbol('created campaign');
+      usecases.createCampaign.withArgs({ campaign }).resolves(createdCampaign);
+      campaignReportSerializer.serialize.withArgs(createdCampaign).returns(expectedResult);
 
       // when
       const response = await campaignController.save(request, hFake);
 
       // then
-      expect(campaignSerializer.serialize).to.have.been.calledWith(createdCampaign);
-      expect(response.source).to.deep.equal(serializedCampaign);
+      expect(response.source).to.equal(expectedResult);
       expect(response.statusCode).to.equal(201);
     });
   });
@@ -179,7 +178,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#getByCode ', () => {
+  describe('#getByCode', () => {
 
     it('should return the serialized campaign', async () => {
       // given
@@ -219,7 +218,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
-  describe('#getById ', () => {
+  describe('#getById', () => {
     let request, campaign;
 
     beforeEach(() => {
@@ -240,7 +239,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       sinon.stub(usecases, 'getCampaign');
-      sinon.stub(campaignSerializer, 'serialize');
+      sinon.stub(campaignReportSerializer, 'serialize');
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(tokenService, 'createTokenForCampaignResults');
 
@@ -250,16 +249,16 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return the campaign', async () => {
       // given
+      const expectedResult = Symbol('ok');
       const tokenForCampaignResults = 'token';
-      const expectedCampaign = { ...campaign, tokenForCampaignResults };
-      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).resolves(campaign);
-      campaignSerializer.serialize.withArgs(campaign, {}, { tokenForCampaignResults }).returns(expectedCampaign);
+      usecases.getCampaign.withArgs({ campaignId: campaign.id }).resolves(campaign);
+      campaignReportSerializer.serialize.withArgs(campaign, {}, { tokenForCampaignResults }).returns(expectedResult);
 
       // when
       const response = await campaignController.getById(request, hFake);
 
       // then
-      expect(response).to.deep.equal(expectedCampaign);
+      expect(response).to.deep.equal(expectedResult);
     });
   });
 
@@ -297,13 +296,13 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       sinon.stub(usecases, 'updateCampaign');
-      sinon.stub(campaignSerializer, 'serialize');
+      sinon.stub(campaignReportSerializer, 'serialize');
     });
 
     it('should return the updated campaign', async () => {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
-      campaignSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
 
       // when
       const response = await campaignController.update(request, hFake);
@@ -311,29 +310,6 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response).to.deep.equal(updatedCampaign);
     });
-  });
-
-  describe('#getReport', () => {
-
-    const campaignId = 1;
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'getCampaignReport');
-      sinon.stub(campaignReportSerializer, 'serialize');
-    });
-
-    it('should return ok', async () => {
-      // given
-      usecases.getCampaignReport.withArgs({ campaignId }).resolves({});
-      campaignReportSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await campaignController.getReport({ params: { id: campaignId } });
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-
   });
 
   describe('#getCollectiveResult', () => {
@@ -421,7 +397,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'archiveCampaign');
-      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
@@ -429,7 +405,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     it('should return the updated campaign properly serialized', async () => {
       // given
       usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
-      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
 
       // when
       const response = await campaignController.archiveCampaign({
@@ -454,7 +430,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'unarchiveCampaign');
-      sinon.stub(campaignSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
+      sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
@@ -462,7 +438,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     it('should return the updated campaign properly serialized', async () => {
       // given
       usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
-      campaignSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
+      campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
 
       // when
       const response = await campaignController.unarchiveCampaign({

@@ -100,8 +100,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
             createdAt: new Date('2020-01-01'),
             archivedAt: new Date('2020-02-01'),
             type: 'ASSESSMENT',
-            targetProfileId: 'targetProfileId1',
-            organizationId,
+            targetProfile: { id: 'targetProfileId1' },
+            organization: { id: organizationId },
           }),
         );
         targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
@@ -142,7 +142,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         });
 
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
-        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organizationId }));
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
 
         event = new CampaignParticipationStarted({ campaignParticipationId });
@@ -170,7 +170,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         });
 
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
-        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organizationId }));
+        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organization: { id: organizationId } }));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
 
         event = new CampaignParticipationStarted({ campaignParticipationId });

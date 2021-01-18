@@ -163,6 +163,85 @@ describe('Integration | Repository | Badge', () => {
     });
   });
 
+  describe('#findByCampaignId', () => {
+
+    it('should return two badges for same target profile', async function() {
+      // given
+      const targetProfileId = targetProfileWithSeveralBadges.id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findByCampaignId(campaignId);
+
+      // then
+      expect(badges).to.have.length(2);
+
+      const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
+      expect(firstBadge).deep.equal({
+        ...badgeWithSameTargetProfile_1,
+        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
+        badgePartnerCompetences: [],
+      });
+
+      const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
+      expect(secondBadge).deep.equal({
+        ...badgeWithSameTargetProfile_2,
+        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
+        badgePartnerCompetences: [],
+      });
+    });
+
+    it('should return the badge linked to the given campaign with related badge criteria and badge partner competences', async () => {
+      // given
+      const targetProfileId = targetProfileWithPartnerCompetences.id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findByCampaignId(campaignId);
+
+      // then
+      expect(badges).to.have.lengthOf(1);
+      expect(badges[0]).to.be.an.instanceOf(Badge);
+      expect(badges[0].badgeCriteria[0]).to.be.an.instanceOf(BadgeCriterion);
+      expect(badges[0].badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
+      expect(badges[0]).to.deep.equal({
+        ...badgeWithBadgePartnerCompetences,
+        badgeCriteria: [ badgeCriterionForBadgeWithPartnerCompetences ],
+        badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
+      });
+    });
+
+    it('should return an empty array when the given campaign has no badges', async function() {
+      // given
+      const targetProfileId = targetProfileWithoutBadge.id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findByCampaignId(campaignId);
+
+      // then
+      expect(badges).to.have.lengthOf(0);
+    });
+
+    it('should not return a badge from another campaign', async function() {
+      // given
+      const targetProfileId = targetProfileWithSeveralBadges.id;
+      databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      const anotherCampaignId = databaseBuilder.factory.buildCampaign().id;
+      await databaseBuilder.commit();
+
+      // when
+      const badges = await badgeRepository.findByCampaignId(anotherCampaignId);
+
+      // then
+      expect(badges).to.have.lengthOf(0);
+    });
+
+  });
+
   describe('#findByCampaignParticipationId', () => {
 
     beforeEach(() => {

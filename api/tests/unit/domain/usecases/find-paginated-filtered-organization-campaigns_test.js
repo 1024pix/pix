@@ -4,10 +4,10 @@ const findPaginatedFilteredOrganizationCampaigns = require('../../../../lib/doma
 
 describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-campaigns', () => {
 
-  const campaignRepository = { findPaginatedFilteredByOrganizationIdWithCampaignReports: () => undefined };
+  const campaignReportRepository = { findPaginatedFilteredByOrganizationId: () => undefined };
 
   beforeEach(() => {
-    campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports = sinon.stub();
+    campaignReportRepository.findPaginatedFilteredByOrganizationId = sinon.stub();
   });
 
   describe('#findPaginatedFilteredOrganizationCampaigns', () => {
@@ -17,11 +17,11 @@ describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-camp
       const organizationId = 251;
       const foundCampaign = domainBuilder.buildCampaign({ organizationId });
       const foundCampaigns = [foundCampaign];
-      campaignRepository.findPaginatedFilteredByOrganizationIdWithCampaignReports.resolves(foundCampaigns);
+      campaignReportRepository.findPaginatedFilteredByOrganizationId.resolves(foundCampaigns);
       const page = { number: 1, size: 3 };
 
       // when
-      const promise = findPaginatedFilteredOrganizationCampaigns({ organizationId, page, campaignRepository });
+      const promise = findPaginatedFilteredOrganizationCampaigns({ organizationId, page, campaignReportRepository });
 
       // then
       return promise.then((campaigns) => {

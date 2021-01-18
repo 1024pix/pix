@@ -1,5 +1,5 @@
 const { knex } = require('../bookshelf');
-const CampaignToJoin = require('../../domain/models/CampaignToJoin');
+const CampaignToJoin = require('../../domain/read-models/CampaignToJoin');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {

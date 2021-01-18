@@ -11,6 +11,7 @@ export default class New extends Component {
 
   constructor() {
     super(...arguments);
+    this.args.campaign.organization = this.currentUser.organization;
     if (!this.currentUser.organization.canCollectProfiles) {
       this.isCampaignGoalAssessment = true;
       this.args.campaign.type = 'ASSESSMENT';

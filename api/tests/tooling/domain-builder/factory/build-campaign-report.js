@@ -1,12 +1,46 @@
-const CampaignReport = require('../../../../lib/domain/models/CampaignReport');
-const faker = require('faker');
+const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
 
-module.exports = function buildCampaignReport(
-  {
-    id = 1,
-    participationsCount = faker.random.number(50),
-    sharedParticipationsCount = faker.random.number({ max: participationsCount }),
-    stages = [],
-  } = {}) {
-  return new CampaignReport({ id, participationsCount, sharedParticipationsCount, stages });
+module.exports = function buildCampaignReport({
+  id = 1,
+  name = 'Un nom de campagne',
+  code = 'AZERTY123',
+  title = 'Un titre de campagne',
+  idPixLabel = 'Un id pix label',
+  createdAt = new Date(),
+  customLandingPageText = 'Une custom landing page',
+  archivedAt = null,
+  type = Campaign.types.ASSESSMENT,
+  creatorId = 2,
+  creatorFirstName = 'Un prénom',
+  creatorLastName = 'Un nom',
+  targetProfileId = 3,
+  targetProfileName = 'Le profil cible',
+  targetProfileImageUrl = 'url.org',
+  participationsCount = 5,
+  sharedParticipationsCount = 2,
+  badges = [],
+  stages = [],
+} = {}) {
+  return new CampaignReport({
+    id,
+    name,
+    code,
+    title,
+    idPixLabel,
+    createdAt,
+    customLandingPageText,
+    archivedAt,
+    type,
+    creatorId,
+    creatorFirstName,
+    creatorLastName,
+    targetProfileId,
+    targetProfileName,
+    targetProfileImageUrl,
+    participationsCount,
+    sharedParticipationsCount,
+    badges,
+    stages,
+  });
 };

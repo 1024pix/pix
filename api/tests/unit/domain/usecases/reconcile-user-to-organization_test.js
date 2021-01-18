@@ -24,7 +24,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
 
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode')
       .withArgs(campaignCode)
-      .resolves({ organizationId });
+      .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
 
     reconcileUserByNationalStudentIdAndOrganizationIdStub = sinon.stub(schoolingRegistrationRepository, 'reconcileUserByNationalStudentIdAndOrganizationId');
     findByUserIdStub = sinon.stub(schoolingRegistrationRepository, 'findByUserId');
