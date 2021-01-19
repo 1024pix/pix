@@ -1,0 +1,7 @@
+<section class="competence-card-list">
+  {{#each @scorecards as |scorecard|}}
+    <div class="competence-card-list__competence-card">
+      <CompetenceCard @scorecard={{scorecard}} @interactive={{true}}/>
+    </div>
+  {{/each}}
+</section>

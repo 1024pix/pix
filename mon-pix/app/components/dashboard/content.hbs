@@ -2,13 +2,25 @@
   <h1 class="sr-only">{{t 'pages.dashboard.title'}}</h1>
 
   {{#if this.hasCampaignParticipationOverviews}}
-    <section class="dashboard-content__campaign-participation-overviews">
-      <header>
-        <h2 class="dashboard-content-campaign-participation-overviews__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
-        <p class="dashboard-content-campaign-participation-overviews__info">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
-      </header>
+    <section data-test-campaign-participation-overviews>
+      <h2 class="dashboard-content__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
+      <p class="dashboard-content__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
 
-      <CampaignParticipationOverview::Grid @model={{@model}}/>
+      <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}}/>
+    </section>
+  {{/if}}
+
+  {{#if this.hasRecommendedCompetences}}
+    <section data-test-recommended-competences>
+      <div class="dashboard-content__header">
+        <div>
+          <h2 class="dashboard-content-header__title">{{t 'pages.dashboard.recommended-competences.title'}}</h2>
+          <p class="dashboard-content-header__subtitle">{{t 'pages.dashboard.recommended-competences.subtitle'}}</p>
+        </div>
+        <LinkTo @route="profile" class="dashboard-content__button">{{t 'pages.dashboard.recommended-competences.profile-link'}}</LinkTo>
+      </div>
+
+      <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
     </section>
   {{/if}}
 </section>

@@ -509,8 +509,13 @@
         "dashboard": {
             "title": "Accueil",
             "campaigns": {
-                "title": "Parcours",
-                "subtitle": "Continuez vos parcours de test en cours ou envoyez vos résultats"
+                "subtitle": "Continuez vos parcours de test en cours ou envoyez vos résultats",
+                "title": "Parcours"
+            },
+            "recommended-competences": {
+                "profile-link": "Toutes les compétences",
+                "subtitle": "Explorez les compétences recommandées pour vous.",
+                "title": "Compétences recommandées"
             }
         },
         "error": {

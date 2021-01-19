@@ -1,4 +1,4 @@
-@charset 'utf-8';
+@charset "utf-8";
 
 /* 3rd-party */
 @import 'ember-burger-menu/variables';
@@ -6,6 +6,7 @@
 @import 'ember-burger-menu/animations/push';
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
+
 /* globals */
 @import 'globals/a11y';
 @import 'globals/colors';
@@ -22,6 +23,7 @@
 @import 'globals/text';
 @import 'globals/titles';
 @import 'globals/layout';
+
 /* components */
 @import 'components/assessment-banner';
 @import 'components/background-banner';
@@ -44,8 +46,12 @@
 @import 'components/checkpoint';
 @import 'components/circle-chart';
 @import 'components/comparison-window';
-@import 'components/competence-card';
-@import 'components/competence-card-desktop';
+
+/* we need this to be before competence-card-default because of a mix
+of an adaptative/mobile-first approach — refactoring is welcome here */
+@import 'components/competence-card-mobile';
+@import 'components/competence-card-default';
+@import 'components/competence-card/list';
 @import 'components/dashboard/content';
 @import 'components/feedback-panel';
 @import 'components/footer';
@@ -69,7 +75,6 @@
 @import 'components/progression-gauge';
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
-@import 'components/qroc-solution-panel';
 @import 'components/qroc-solution-panel';
 @import 'components/qrocm-solution-panel';
 @import 'components/reached-stage';
@@ -134,6 +139,11 @@ img {
   max-width: 100%;
 }
 
+input {
+  font-size: 0.875rem;
+  font-family: $font-roboto;
+}
+
 input[type='radio'] {
   margin: 0 5px 0 0;
 }
@@ -142,12 +152,6 @@ input:invalid {
   box-shadow: none;
 }
 
-input {
-  font-size: 0.875rem;
-  font-family: $font-roboto;
-}
-
 a {
   text-decoration: none;
 }
-

@@ -7,14 +7,22 @@ export default class UserDashboard extends Route.extend(SecuredRouteMixin) {
   @service store;
 
   async model() {
-    const userId = this.currentUser.user.id;
+    const user = this.currentUser.user;
     const maximumDisplayed = 9;
     const queryParams = {
-      userId,
+      'userId': user.id,
       'page[number]': 1,
       'page[size]': maximumDisplayed,
       'filter[states]': ['ONGOING', 'TO_SHARE'],
     };
-    return await this.store.query('campaign-participation-overview', queryParams);
+    const campaignParticipationOverviews = await this.store.query('campaign-participation-overview', queryParams);
+
+    const profile = await user.belongsTo('profile').reload();
+    const scorecards = profile.scorecards;
+
+    return {
+      campaignParticipationOverviews,
+      scorecards,
+    };
   }
 }
