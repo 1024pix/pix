@@ -90,11 +90,29 @@
         <div class="card-body">
           <h5 class="card-title">Commentaires jury</h5>
           <div class="card-text">
-            <Certification::CertificationInfoField @value={{this.certification.commentForCandidate}} @edition={{this.edition}} @label="Pour le candidat :" @fieldId="certification-commentForCandidate" @large={{true}} />
-            <Certification::CertificationInfoField @value={{this.certification.commentForOrganization}} @edition={{this.edition}} @label="Pour l'organisation :" @fieldId="certification-commentForOrganization" @large={{true}} />
-            <Certification::CertificationInfoField @value={{this.certification.commentForJury}} @edition={{this.edition}} @label="Pour le jury :" @fieldId="certification-commentForJury" @large={{true}} />
-            <p></p>
-            <Certification::CertificationInfoField @value={{this.certification.juryId}} @edition={{false}} @label="Identifiant jury :" @large={{true}} />
+            <Certification::CertificationInfoField
+              @value={{this.certification.commentForCandidate}}
+              @edition={{this.edition}}
+              @label="Pour le candidat :"
+              @fieldId="certification-commentForCandidate"
+              @isTextarea={{true}} />
+            <Certification::CertificationInfoField
+              @value={{this.certification.commentForOrganization}}
+              @edition={{this.edition}}
+              @label="Pour l'organisation :"
+              @fieldId="certification-commentForOrganization"
+              @isTextarea={{true}} />
+            <Certification::CertificationInfoField
+              @value={{this.certification.commentForJury}}
+              @edition={{this.edition}}
+              @label="Pour le jury :"
+              @fieldId="certification-commentForJury"
+              @isTextarea={{true}} />
+            <Certification::CertificationInfoField
+              @value={{this.certification.juryId}}
+              @edition={{false}}
+              @label="Identifiant jury :"
+              @isTextarea={{true}} />
           </div>
         </div>
       </div>
@@ -106,7 +124,12 @@
         <div class="card-body">
           <h5 class="card-title">Résultats</h5>
           <div class="card-text">
-            <Certification::CertificationInfoField @value={{this.certification.pixScore}} @edition={{this.edition}} @label="Score :" @fieldId="certification-pixScore" @suffix=" Pix" @large={{true}} />
+            <Certification::CertificationInfoField
+              @value={{this.certification.pixScore}}
+              @edition={{this.edition}}
+              @label="Score :"
+              @fieldId="certification-pixScore"
+              @suffix=" Pix" />
             <p></p>
             <Certification::CertificationCompetenceList
                     @competences={{this.certification.competences}}
@@ -130,7 +153,7 @@
           </button>
         {{else}}
           <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onEdit}}>
-           Modifier
+            Modifier
           </button>
         {{/if}}
       </div>

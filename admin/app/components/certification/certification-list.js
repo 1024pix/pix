@@ -18,12 +18,19 @@ export default class CertificationList extends Component {
       title: 'Nom',
     },
     {
-      propertyName: 'status',
-      title: 'Statut',
+      propertyName: 'Statut',
+      component: 'certification-status',
+    },
+
+    {
+      propertyName: 'numberOfCertificationIssueReportsWithRequiredActionLabel',
+      title: 'Signalements impactants',
+      className: 'certification-list-page__cell--important',
     },
     {
-      propertyName: 'numberOfCertificationIssueReportsWithActionRequired',
-      title: 'Signalements impactants',
+      propertyName: 'hasSeenEndTestScreenLabel',
+      title: 'Ecran de fin de test vu',
+      className: 'certification-list-page__cell--important',
     },
     {
       propertyName: 'cleaStatus',
