@@ -72,9 +72,9 @@ describe('Unit | UseCase | update-publication-session', () => {
   });
 
   context('when the session exists', () => {
-    const recipient1 = Symbol('email1@example.net');
-    const recipient2 = Symbol('email2@example.net');
-    const certificationCenter = Symbol('certificationCenter');
+    const recipient1 = 'email1@example.net';
+    const recipient2 = 'email2@example.net';
+    const certificationCenter = 'certificationCenter';
     const candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient1,
     });
@@ -101,22 +101,18 @@ describe('Unit | UseCase | update-publication-session', () => {
     });
 
     context('When we publish the session', () => {
-      const updatedSession = { ...originalSession, publishedAt: now };
-
-      beforeEach(() => {
+      it('should return update the published date and send result emails', async () => {
+        // given
+        const updatedSession = { ...originalSession, publishedAt: now };
         toPublish = true;
         certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
-      });
-
-      it('should return update the published date and send result emails', async () => {
         function getCertificationResultArgs(recipientEmail) {
           return {
             email: recipientEmail,
             sessionId: sessionId,
             sessionDate,
             certificationCenterName: certificationCenter,
-            link: 'EMPTY LINK',
           };
         }
 
@@ -132,10 +128,30 @@ describe('Unit | UseCase | update-publication-session', () => {
         expect(sessionRepository.updatePublishedAt).calledWithExactly({ id: sessionId, publishedAt: now });
         expect(mailService.sendCertificationResultEmail).to.have.been.calledTwice;
         expect(mailService.sendCertificationResultEmail.firstCall)
-          .to.have.been.calledWithExactly(getCertificationResultArgs(recipient1));
+          .to.have.been.calledWithMatch(getCertificationResultArgs(recipient1));
         expect(mailService.sendCertificationResultEmail.secondCall)
-          .to.have.been.calledWithExactly(getCertificationResultArgs(recipient2));
+          .to.have.been.calledWithMatch(getCertificationResultArgs(recipient2));
         expect(session).to.deep.equal(updatedSession);
+      });
+
+      it('should generate links for certification results for each unique recipient', async () => {
+        // given
+        const updatedSession = { ...originalSession, publishedAt: now };
+        toPublish = true;
+        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
+
+        // when
+        await updatePublicationSession({
+          sessionId,
+          toPublish,
+          certificationRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(mailService.sendCertificationResultEmail.firstCall).to.have.been.calledWithMatch({ link: `api/email1@example.net/${sessionId}/results` });
+        expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch({ link: `api/email2@example.net/${sessionId}/results` });
       });
     });
 
