@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.4.0 (19/01/2021)
+
+- [#2412](https://github.com/1024pix/pix/pull/2412) [FEATURE] Amélioration du wording des catégories de signalement (PIX-1995)
+- [#2394](https://github.com/1024pix/pix/pull/2394) [FEATURE] Affichage des compétences recommandées dans le tableau de bord (PIX-1653).
+- [#2392](https://github.com/1024pix/pix/pull/2392) [FEATURE] Changement de style pour le menu (PIX-1655).
+- [#2386](https://github.com/1024pix/pix/pull/2386) [FEATURE] Mettre le filtre classe recherchable pour les campagnes (PIX-1981)
+- [#2400](https://github.com/1024pix/pix/pull/2400) [FEATURE] Remonter l'information qu'une campagne est à accès simplifié (PIX-1135).
+- [#2401](https://github.com/1024pix/pix/pull/2401) [FEATURE] Enlever le chevron dans Pix Orga au sein de l'onglet analyse quand il n'y a pas de tutoriels (PIX-1811).
+- [#2390](https://github.com/1024pix/pix/pull/2390) [FEATURE] Améliorer le wording de la page de finalisation d'une session (PIX-1985)
+- [#2398](https://github.com/1024pix/pix/pull/2398) [FEATURE] Pré remplissage de la liste des candidats à une session de certification (PIX-1597)
+- [#2384](https://github.com/1024pix/pix/pull/2384) [BUGFIX] Rendre l'affichage de la date de naissance du certificat insensible aux fuseaux horaires (PIX-1824)
+- [#2408](https://github.com/1024pix/pix/pull/2408) [BUG] Correction de flacky test sur les campaign report repository (PIX-1988)
+- [#2373](https://github.com/1024pix/pix/pull/2373) [CLEANUP] Retrait de la route API dépreciée qui permettant de récupérer les competence-evaluations d'un assessment (PIX-1975)
+
 ## v3.3.0 (18/01/2021)
 
 - [#2379](https://github.com/1024pix/pix/pull/2379) [FEATURE] Permettre de filtrer par classe les profils dans les resultats du campagne de collecte de profils (PIX-1681).
