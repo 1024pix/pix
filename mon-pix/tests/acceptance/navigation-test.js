@@ -34,15 +34,16 @@ describe('Acceptance | Navbar', function() {
       it(`should redirect from "${userNavigation.initialRoute}" to "${userNavigation.expectedRoute}"`, async function() {
         // given
         await visit(userNavigation.initialRoute);
-        expect(find('.navbar-desktop-header-container__menu').children[userNavigation.initialNavigationItem].children[0]
+
+        expect(find('.navbar-desktop-header-container__menu').children[0].children[userNavigation.initialNavigationItem].children[0]
           .getAttribute('class')).to.contain('active');
 
         // when
-        await click(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]);
+        await click(find('.navbar-desktop-header-container__menu').children[0].children[userNavigation.targetedNavigationItem].children[0]);
 
         // then
         expect(currentURL()).to.equal(userNavigation.expectedRoute);
-        expect(find('.navbar-desktop-header-container__menu').children[userNavigation.targetedNavigationItem].children[0]
+        expect(find('.navbar-desktop-header-container__menu').children[0].children[userNavigation.targetedNavigationItem].children[0]
           .getAttribute('class')).to.contain('active');
       });
     });
@@ -57,17 +58,6 @@ describe('Acceptance | Navbar', function() {
       // then
       expect(find('.navbar-desktop-header')).to.not.exist;
       expect(find('.navbar-mobile-header')).to.not.exist;
-    });
-
-    it('should contain link to pix.fr/aide', async function() {
-      // given
-      const helpItem = find('.navbar-desktop-header-container__menu').children[3];
-      const helpLink = helpItem.children[0].getAttribute('href');
-      // when
-      await visit('/profil');
-
-      // then
-      expect(helpLink).to.equal('https://pix.fr/aide');
     });
   });
 });

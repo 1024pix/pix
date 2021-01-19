@@ -1,21 +1,19 @@
-{{!-- template-lint-disable no-implicit-this  --}}
 <div class="navbar-desktop-header">
   <div class="navbar-desktop-header__container">
-    <!-- Logo (left) -->
     <div class="navbar-desktop-header-logo">
+      {{#if @shouldShowTheMarianneLogo}}
+        <div class="navbar-desktop-header-logo__marianne">
+          <img src="{{this.rootURL}}/images/logo-de-la-republique-francaise.svg" alt="{{t 'common.french-republic'}}">
+        </div>
+      {{/if}}
       <div class="navbar-desktop-header-logo__pix">
         <PixLogo />
       </div>
-      {{#if @shouldShowTheMarianneLogo}}
-        <div class="navbar-desktop-header-logo__marianne">
-          <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="{{t 'common.french-republic'}}">
-        </div>
-      {{/if}}
     </div>
 
-    {{#unless this.isInRouteWithoutLinksInHeader}}
-      {{#if this.isUserLogged}}
-        <ul class="navbar-desktop-header-container__menu">
+    {{#if this.isUserLogged}}
+      <nav class="navbar-desktop-header-container__menu">
+        <ul class="navbar-desktop-header-menu__list">
           {{#if this.showDashboard}}
             <li class="navbar-desktop-header-menu__item">
               <LinkTo @route="user-dashboard" class="navbar-desktop-header-menu__link">
@@ -38,34 +36,26 @@
               {{t 'navigation.main.tutorials'}}
             </LinkTo>
           </li>
-          <li class="navbar-desktop-header-menu__item">
-            <a href="{{t 'navigation.main.link-help'}}" target="_blank" class="navbar-desktop-header-menu__link">
-              {{t 'navigation.main.help'}}
-            </a>
-          </li>
         </ul>
-      {{/if}}
-    {{/unless}}
+        <!-- Right -->
+        <div class="navbar-desktop-header-right">
+          <ul class="navbar-desktop-header-menu__list">
+            <li class="navbar-desktop-header-menu__item">
+              <LinkTo @route="fill-in-campaign-code"
+                      class="button button--extra-thin button--link navbar-desktop-header-campaign-menu__button">
+                {{t 'navigation.main.code'}}
+              </LinkTo>
+            </li>
+          </ul>
+          <UserLoggedMenu />
 
-    {{#if this.isUserLogged}}
-      <ul class="navbar-desktop-header-container__campaign-menu">
-        <li class="navbar-desktop-header-campaign-menu__item">
-          <LinkTo @route="fill-in-campaign-code"
-                  class="button button--extra-thin button--link navbar-desktop-header-campaign-menu__button">
-            {{t 'navigation.main.code'}}
-          </LinkTo>
-        </li>
-      </ul>
+        </div>
+      </nav>
 
+    {{else}}
+      <div class="navbar-desktop-header-right">
+        <NavbarDesktopMenu @menu={{this.menu}} />
+      </div>
     {{/if}}
-
-    <!-- Links (right) -->
-    <div class="navbar-desktop-header-right">
-      <NavbarDesktopMenu @menu={{this.menu}} />
-
-      {{#if this.isUserLogged}}
-        <UserLoggedMenu />
-      {{/if}}
-    </div>
   </div>
 </div>
