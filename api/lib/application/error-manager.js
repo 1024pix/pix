@@ -73,6 +73,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
   }
+  if (error instanceof DomainErrors.UserAccountNotFoundForPoleEmploiError) {
+    return new HttpErrors.UnauthorizedError(error.message, error.responseCode, { authenticationKey: error.authenticationKey });
+  }
   if (error instanceof DomainErrors.UserAlreadyExistsWithAuthenticationMethodError) {
     return new HttpErrors.ConflictError(error.message);
   }

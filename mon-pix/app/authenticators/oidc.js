@@ -67,6 +67,10 @@ export default OIDCAuthenticator.extend({
     const response = await fetch(serverTokenEndpoint, request);
 
     const data = await response.json();
+    if (!response.ok) {
+      return RSVP.reject(data);
+    }
+
     const decodedAccessToken = decodeToken(data.access_token);
 
     return {

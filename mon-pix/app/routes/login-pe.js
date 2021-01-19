@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 import { v4 } from 'uuid';
 import config from 'ember-simple-auth-oidc/config';
+import get from 'lodash/get';
 
 const { host, clientId, authEndpoint } = config;
 
@@ -46,10 +47,18 @@ export default class LoginPeRoute extends Route {
 
     this.session.set('data.state', undefined);
 
-    await this.session.authenticate('authenticator:oidc', {
-      code,
-      redirectUri: this.redirectUri,
-    });
+    try {
+      await this.session.authenticate('authenticator:oidc', {
+        code,
+        redirectUri: this.redirectUri,
+      });
+    } catch (response) {
+      const shouldValidateCgu = get(response, 'errors[0].code') === 'SHOULD_VALIDATE_CGU';
+      const authenticationKey = get(response, 'errors[0].meta.authenticationKey');
+      if (shouldValidateCgu && authenticationKey) {
+        return this.replaceWith('terms-of-service-pe', { queryParams: { authenticationKey } });
+      }
+    }
   }
 
   _handleRedirectRequest() {

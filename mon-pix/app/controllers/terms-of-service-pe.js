@@ -4,10 +4,13 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class TermsOfServicePeController extends Controller {
+  queryParams = ['authenticationKey'];
+
   @service session;
   @service store;
   @service url;
 
+  @tracked authenticationKey = null;
   @tracked isTermsOfServiceValidated = false;
   @tracked showErrorTermsOfServiceNotSelected = false;
 
@@ -20,7 +23,7 @@ export default class TermsOfServicePeController extends Controller {
     if (this.isTermsOfServiceValidated) {
       this.showErrorTermsOfServiceNotSelected = false;
 
-      await this.session.authenticate('authenticator:oidc', { authenticationKey: 'authenticationKey' });
+      await this.session.authenticate('authenticator:oidc', { authenticationKey: this.authenticationKey });
 
       if (this.session.attemptedTransition) {
         this.session.attemptedTransition.retry();

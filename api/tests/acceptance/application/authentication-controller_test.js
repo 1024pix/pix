@@ -1,6 +1,7 @@
 const querystring = require('querystring');
 const jsonwebtoken = require('jsonwebtoken');
 const moment = require('moment');
+const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
 
 const { expect, databaseBuilder, knex, sinon, nock, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 
@@ -278,46 +279,54 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     context('When user is not connected to Pix', () => {
 
-      context('When user does not exist', () => {
+      context('When user has not account', () => {
 
         afterEach(async () => {
           await knex('authentication-methods').delete();
           await knex('users').delete();
         });
 
-        it('should create a user with firstName and lastName contained in the pole emploi idToken', async () => {
-          // when
-          await server.inject(options);
-
-          // then
-          const users = await knex('users').where({ firstName, lastName });
-          expect(users[0]).to.exist;
-        });
-
-        it('should create a POLE_EMPLOI authentication method for the created user', async () => {
-          // when
-          await server.inject(options);
-
-          // then
-          const users = await knex('users').where({ firstName, lastName });
-          const authenticationMethods = await knex('authentication-methods').where({ userId: users[0].id });
-          expect(authenticationMethods[0].identityProvider).to.equal(AuthenticationMethod.identityProviders.POLE_EMPLOI);
-          expect(authenticationMethods[0].externalIdentifier).to.equal(externalIdentifier);
-          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(getAccessTokenResponse['access_token']);
-          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(moment().add(getAccessTokenResponse['expires_in'], 's').toISOString());
-          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
-        });
-
-        it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+        it('should return http code 401', async () => {
           // when
           const response = await server.inject(options);
 
           // then
-          expect(response.statusCode).to.equal(200);
-          expect(getAccessTokenRequest.isDone()).to.be.true;
-          expect(response.result['access_token']).to.exist;
-          expect(response.result['id_token']).to.equal(idToken);
+          expect(response.statusCode).to.equal(401);
         });
+
+        it('should return an authenticationKey in meta', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.result.errors[0].meta).to.exist;
+        });
+
+        it('should return validate cgu in code', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.result.errors[0].code).to.exist;
+          expect(response.result.errors[0].code).to.equal('SHOULD_VALIDATE_CGU');
+        });
+
+        it('should return an authenticationKey in meta which match to cached object', async () => {
+          // when
+          const response = await server.inject(options);
+          const expectedObject = {
+            accessToken: 'access_token',
+            idToken: idToken,
+            expiresIn: 60,
+            refreshToken: 'refresh_token',
+          };
+
+          // then
+          const actualObject = await authenticationCache.get(response.result.errors[0].meta.authenticationKey);
+          expect(actualObject).to.exist;
+          expect(actualObject).to.deep.equal(expectedObject);
+        });
+
       });
 
       context('When user and POLE EMPLOI authentication method exist', () => {
@@ -473,6 +482,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         expect(response.statusCode).to.equal(401);
 
       });
+
     });
   });
 });

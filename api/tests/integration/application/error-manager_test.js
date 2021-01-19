@@ -526,7 +526,7 @@ describe('Integration | API | Controller Error', () => {
     });
   });
 
-  context('401 Unauthorized', () => {
+  context('should respond 401 Unauthorized', () => {
     const UNAUTHORIZED_ERROR = 401;
 
     it('responds Unauthorized when a MissingOrInvalidCredentialsError error occurs', async () => {
@@ -551,6 +551,15 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
       expect(responseDetail(response)).to.equal('Erreur, vous devez changer votre mot de passe.');
+    });
+
+    it('when a UserShouldChangePasswordError error is thrown', async () => {
+      const expectedMessage = 'L\'utilisateur n\'a pas de compte Pix';
+      routeHandler.throws(new DomainErrors.UserAccountNotFoundForPoleEmploiError(expectedMessage));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal(expectedMessage);
     });
   });
 
