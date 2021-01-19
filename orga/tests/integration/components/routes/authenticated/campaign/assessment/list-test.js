@@ -252,6 +252,73 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       // then
       assert.contains('Résultats Thématiques');
     });
+
+    test('it displays the badge filter', async function(assert) {
+      // given
+      const badge = store.createRecord('badge', { title: 'Les bases' });
+      const campaign = store.createRecord('campaign', {
+        badges: [badge],
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe' }];
+      participations.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.contains('Thématiques');
+      assert.contains('Les bases');
+    });
+
+    test('it filters the participations when a badge is selected', async function(assert) {
+      // given
+      const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
+      const campaign = store.createRecord('campaign', {
+        badges: [badge],
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      participations.meta = { rowCount: 1 };
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+      this.set('triggerFiltering', triggerFiltering);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}} @triggerFiltering={{triggerFiltering}}/>`);
+      await click('[for="badge-badge1"');
+
+      // then
+      assert.ok(triggerFiltering.calledWith({ badges: ['badge1'] }));
+    });
+  });
+
+  module('when the campaign has no badge', function() {
+    test('it not display the badge filter', async function(assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        badges: [],
+      });
+
+      const participations = [{ firstName: 'John', lastName: 'Doe' }];
+      participations.meta = { rowCount: 1 };
+
+      this.set('campaign', campaign);
+      this.set('participations', participations);
+      this.set('goToAssessmentPage', () => {});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
+
+      // then
+      assert.notContains('Thématiques');
+    });
   });
 
   module('when the campaign has stages', function() {
