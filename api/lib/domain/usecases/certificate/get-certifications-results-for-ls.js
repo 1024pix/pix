@@ -17,7 +17,7 @@ module.exports = async function getCertificationsResultsForLS({
     const { code: id, title: name } = competence.area;
     const area = { id, name };
     return new Competence({ area, id: competence.index, name: competence.name });
-  });
+  }).sort((competenceA, competenceB) => competenceA.id - competenceB.id);
 
   return new CertificationsResults({ certifications, competences });
 };
