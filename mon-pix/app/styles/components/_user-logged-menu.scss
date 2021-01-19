@@ -1,7 +1,16 @@
-/* stylelint-disable no-descending-specificity */
-
 .logged-user-details {
   margin: auto 0;
+  display: flex;
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: $grey-60 transparent transparent transparent;
+  display: inline-block;
+  margin: auto 0 auto 2px;
 }
 
 .logged-user-name__link {
@@ -41,21 +50,12 @@
   padding: 0;
   border: none;
   background-color: transparent;
+  display: flex;
+  align-items: center;
 
   @include device-is('tablet') {
     max-width: none;
   }
-}
-
-.caret {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 4px 4px 0 4px;
-  border-color: $grey-60 transparent transparent transparent;
-  margin-left: 2px;
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .logged-user-menu {
