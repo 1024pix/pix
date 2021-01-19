@@ -211,10 +211,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           user,
         });
 
-        user.memberships.push(membership);
-
-        organization.memberships.push(membership);
-
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: organization,
         });
@@ -255,10 +251,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           organizationRole: Membership.roles.MEMBER,
           user,
         });
-
-        user.memberships.push(membership);
-
-        organization.memberships.push(membership);
 
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: organization,
@@ -302,10 +294,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           user,
         });
 
-        user.memberships.push(membership);
-
-        organization.memberships.push(membership);
-
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: organization,
         });
@@ -347,10 +335,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           organizationRole: Membership.roles.MEMBER,
           user,
         });
-
-        user.memberships.push(membership);
-
-        organization.memberships.push(membership);
 
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: organization,
@@ -394,10 +378,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           user,
         });
 
-        user.memberships.push(membership);
-
-        organization.memberships.push(membership);
-
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: organization,
         });
@@ -440,10 +420,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           user,
         });
 
-        user.memberships.push(membership);
-
-        organization.memberships.push(membership);
-
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: organization,
         });
@@ -485,10 +461,6 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           organizationRole: Membership.roles.MEMBER,
           user,
         });
-
-        user.memberships.push(membership);
-
-        organization.memberships.push(membership);
 
         const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
           currentOrganization: organization,

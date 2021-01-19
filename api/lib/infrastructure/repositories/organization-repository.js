@@ -2,7 +2,6 @@ const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const BookshelfOrganization = require('../data/organization');
 const Organization = require('../../domain/models/Organization');
-const User = require('../../domain/models/User');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const DEFAULT_PAGE_SIZE = 10;
@@ -24,19 +23,6 @@ function _toDomain(bookshelfOrganization) {
     canCollectProfiles: Boolean(rawOrganization.canCollectProfiles),
     email: rawOrganization.email,
   });
-
-  let members = [];
-  if (rawOrganization.memberships) {
-    members = rawOrganization.memberships.map((membership) => {
-      return new User({
-        id: membership.user.id,
-        firstName: membership.user.firstName,
-        lastName: membership.user.lastName,
-        email: membership.user.email,
-      });
-    });
-  }
-  organization.members = members;
 
   organization.targetProfileShares = rawOrganization.targetProfileShares || [];
 
@@ -88,8 +74,6 @@ module.exports = {
       .fetch({
         require: true,
         withRelated: [
-          { 'memberships': (qb) => qb.where({ disabledAt: null }) },
-          'memberships.user',
           'targetProfileShares.targetProfile',
           'tags',
         ],
