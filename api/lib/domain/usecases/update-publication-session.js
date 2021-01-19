@@ -33,14 +33,13 @@ async function _sendPrescriberEmails(session) {
     .filter(Boolean);
 
   const promises = recipientEmails.map((recipientEmail) => {
-    const link = `api/${recipientEmail}/${session.id}/results`;
-
     return mailService.sendCertificationResultEmail({
       email: recipientEmail,
       sessionId: session.id,
       sessionDate: session.date,
       certificationCenterName: session.certificationCenter,
-      link,
+      resultRecipientEmail: recipientEmail,
+      daysBeforeExpiration: 30,
     });
   });
   return Promise.all(promises);

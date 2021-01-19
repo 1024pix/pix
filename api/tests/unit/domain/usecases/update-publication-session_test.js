@@ -140,6 +140,8 @@ describe('Unit | UseCase | update-publication-session', () => {
         toPublish = true;
         certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
+        mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 }).returns('token-1');
+        mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 }).returns('token-2');
 
         // when
         await updatePublicationSession({
@@ -150,8 +152,12 @@ describe('Unit | UseCase | update-publication-session', () => {
         });
 
         // then
-        expect(mailService.sendCertificationResultEmail.firstCall).to.have.been.calledWithMatch({ link: `api/email1@example.net/${sessionId}/results` });
-        expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch({ link: `api/email2@example.net/${sessionId}/results` });
+        expect(mailService.sendCertificationResultEmail.firstCall).to.have.been.calledWithMatch(
+          { sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 },
+        );
+        expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch(
+          { sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 },
+        );
       });
     });
 

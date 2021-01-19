@@ -2,6 +2,7 @@ const { sinon, expect } = require('../../../test-helper');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
+const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Service | MailService', () => {
 
@@ -70,10 +71,14 @@ describe('Unit | Service | MailService', () => {
 
     it('should use mailer to send an email with given options', async () => {
       // given
-      const link = 'pix.fr';
       const sessionDate = '2020-10-03';
       const sessionId = '3';
       const certificationCenterName = 'Vincennes';
+      const resultRecipientEmail = 'email1@example.net';
+      const daysBeforeExpiration = 30;
+      const tokenServiceStub = sinon.stub(tokenService, 'createCertificationResultLinkToken');
+      tokenServiceStub.withArgs({ sessionId, resultRecipientEmail, daysBeforeExpiration }).returns('token-1');
+      const link = '/api/sessions/results-by-recipient-email/token-1';
       const expectedOptions = {
         from: senderEmailAddress,
         fromName: 'PIX - Ne pas répondre',
@@ -93,7 +98,8 @@ describe('Unit | Service | MailService', () => {
         sessionId,
         sessionDate,
         certificationCenterName,
-        link,
+        resultRecipientEmail,
+        daysBeforeExpiration,
       });
 
       // then
