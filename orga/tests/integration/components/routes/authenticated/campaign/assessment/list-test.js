@@ -253,32 +253,11 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       assert.contains('Résultats Thématiques');
     });
 
-    test('it displays the badge filter', async function(assert) {
-      // given
-      const badge = store.createRecord('badge', { title: 'Les bases' });
-      const campaign = store.createRecord('campaign', {
-        badges: [badge],
-      });
-
-      const participations = [{ firstName: 'John', lastName: 'Doe' }];
-      participations.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.contains('Thématiques');
-      assert.contains('Les bases');
-    });
-
     test('it filters the participations when a badge is selected', async function(assert) {
       // given
       const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
       const campaign = store.createRecord('campaign', {
+        type: 'ASSESSMENT',
         badges: [badge],
       });
 
@@ -296,28 +275,6 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
 
       // then
       assert.ok(triggerFiltering.calledWith({ badges: ['badge1'] }));
-    });
-  });
-
-  module('when the campaign has no badge', function() {
-    test('it not display the badge filter', async function(assert) {
-      // given
-      const campaign = store.createRecord('campaign', {
-        badges: [],
-      });
-
-      const participations = [{ firstName: 'John', lastName: 'Doe' }];
-      participations.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.notContains('Thématiques');
     });
   });
 
@@ -351,35 +308,6 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       isSCOManagingStudents = true;
     }
 
-    test('it displays the division filter', async function(assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // given
-      const division = store.createRecord('division', {
-        id: 'd1',
-        name: 'd1',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        divisions: [division],
-      });
-
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
-      participations.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.contains('Classes');
-      assert.contains('d1');
-    });
-
     test('it filter the participations when a division is selected', async function(assert) {
       this.owner.register('service:current-user', CurrentUserStub);
 
@@ -410,41 +338,5 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
     });
 
-  });
-
-  module('when user does not work for a SCO organization which manages students', function() {
-    class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false }
-      isSCOManagingStudents = false;
-    }
-
-    test('it does not display the division filter', async function(assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // given
-      const division = store.createRecord('division', {
-        id: 'd2',
-        name: 'd2',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        divisions: [division],
-      });
-
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
-      participations.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
-
-      // then
-      assert.notContains('Classes');
-      assert.notContains('d2');
-    });
   });
 });

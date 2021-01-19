@@ -9,14 +9,14 @@ module('Unit | Controller | authenticated/campaigns/campaign/profiles', function
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/profiles');
   });
 
-  module('selectDivisions', function() {
+  module('triggerFiltering', function() {
     test('update the divisions', function(assert) {
       const fetchCampaign = sinon.stub();
       controller.set('fetchCampaign', fetchCampaign);
       controller.set('model', { id: 12 });
       controller.set('pageNumber', 11);
 
-      controller.selectDivisions(['6eme']);
+      controller.triggerFiltering({ divisions: ['6eme'] });
 
       assert.deepEqual(controller.divisions, ['6eme']);
       assert.deepEqual(controller.pageNumber, null);
