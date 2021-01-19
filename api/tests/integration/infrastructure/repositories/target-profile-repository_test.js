@@ -4,9 +4,71 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError, TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', () => {
+  describe('#create', () => {
+    afterEach(async () => {
+      await knex('target-profiles_skills').delete();
+      await knex('target-profiles').delete();
+    });
+
+    it('should return the created target profile', async () => {
+      const targetProfileData = {
+        name: 'myFirstTargetProfile',
+        imageUrl: 'someUrl',
+        isPublic: true,
+        ownerOrganizationId: null,
+        skillsId: [],
+      };
+      // when
+      const targetProfileId = await targetProfileRepository.create(targetProfileData);
+
+      const [targetProfile] = await knex('target-profiles').select(['name', 'imageUrl', 'outdated', 'isPublic', 'ownerOrganizationId']).where({ 'id': targetProfileId });
+
+      // then
+      expect(targetProfile.name).to.equal(targetProfileData.name);
+      expect(targetProfile.imageUrl).to.equal(targetProfileData.imageUrl);
+      expect(targetProfile.outdated).to.equal(false);
+      expect(targetProfile.isPublic).to.equal(targetProfileData.isPublic);
+      expect(targetProfile.ownerOrganizationId).to.equal(targetProfileData.ownerOrganizationId);
+    });
+
+    it('should attached each skillId once to target profile', async () => {
+      const targetProfileData = {
+        name: 'myFirstTargetProfile',
+        skillsId: ['skills1', 'skills2', 'skills2'],
+      };
+      // when
+      const targetProfileId = await targetProfileRepository.create(targetProfileData);
+
+      const skillsList = await knex('target-profiles_skills').select(['skillId']).where({ 'targetProfileId': targetProfileId });
+
+      const skillsId = skillsList.map((skill) => skill.skillId);
+      // then
+      expect(skillsId).to.exactlyContain(['skills1', 'skills2']);
+    });
+
+    it('should throw exception given wrong insert', async() => {
+      const targetProfileData = {
+        name: 'myFirstTargetProfile',
+        imageUrl: 'someUrl',
+        isPublic: true,
+        ownerOrganizationId: null,
+        skillsId: [null],
+      };
+      // when
+      const error = await catchErr(targetProfileRepository.create)(targetProfileData);
+
+      const targetProfileList = await knex('target-profiles');
+      const skillsList = await knex('target-profiles_skills');
+
+      expect(targetProfileList.length).to.be.equal(0);
+      expect(skillsList.length).to.be.equal(0);
+
+      expect(error).to.be.an.instanceOf(TargetProfileCannotBeCreated);
+    });
+  });
 
   describe('#get', () => {
 
@@ -468,7 +530,7 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
-  describe('isAttachedToOrganizations', () => {
+  describe('#isAttachedToOrganizations', () => {
 
     context('when none of given organizations is attached to the targetProfile', () => {
       it('return true', async function() {
