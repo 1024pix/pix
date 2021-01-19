@@ -16,7 +16,7 @@ export default class Campaign extends Model {
   @attr('string') creatorId;
   @attr('string') creatorLastName;
   @attr('string') creatorFirstName;
-  //@attr('date') createdAt;
+  @attr('date') createdAt;
   @attr('string') targetProfileId;
   @attr('string') targetProfileName;
   @attr('string') targetProfileImageUrl;
