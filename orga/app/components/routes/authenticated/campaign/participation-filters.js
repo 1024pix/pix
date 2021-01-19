@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default class List extends Component {
+export default class ParticipationFilters extends Component {
   @service currentUser;
 
   get displayFilters() {
@@ -10,8 +10,8 @@ export default class List extends Component {
   }
 
   get displayBadgesFilter() {
-    const { badges } = this.args.campaign;
-    return Boolean(badges) && badges.length > 0;
+    const { badges, isTypeAssessment } = this.args.campaign;
+    return isTypeAssessment && Boolean(badges) && badges.length > 0;
   }
 
   get badgeOptions() {
