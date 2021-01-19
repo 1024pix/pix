@@ -1,15 +1,21 @@
 .dashboard-content {
   padding: 40px 20px;
 
-  & > section {
+  @include device-is('desktop') {
+    padding: 40px 0;
+  }
+
+  &__section {
     border-bottom: 1px solid $grey-20;
-    padding-top: 40px;
-    padding-bottom: 24px;
+    padding: 40px 0 20px 0;
 
     &:last-child {
       border-bottom: none;
     }
   }
+}
+
+.dashboard-content-section {
 
   &__title {
     color: $grey-80;
@@ -28,20 +34,16 @@
     margin: 4px 0 24px;
   }
 
-  @include device-is('desktop') {
-    padding: 40px 0;
-  }
-
-  &__header {
+  &--with-button {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
   }
 
   &__button {
-    color: #172B4D;
-    border: 1px solid #5E6C84;
+    display: none;
+    color: $grey-90;
+    border: 1px solid $grey-50;
     padding: 10px 16px;
     border-radius: 4px;
     font-size: 0.875rem;
@@ -49,35 +51,9 @@
     &:hover {
       background-color: darken($grey-10, 5%);
     }
-  }
-}
 
-.dashboard-content-header {
-
-  &__title {
-    color: $grey-80;
-    font-size: 1.125rem;
-    font-family: $font-open-sans;
-    font-weight: $font-semi-bold;
-    letter-spacing: 0.009rem;
-    line-height: 1.562rem;
-  }
-
-  &__subtitle {
-    color: $grey-50;
-    font-size: 0.8125rem;
-    font-family: $font-roboto;
-    letter-spacing: 0.009rem;
-    margin: 4px 0 24px;
-  }
-}
-
-@include device-is('mobile') {
-
-  .dashboard-content {
-
-    &__button {
-      display: none;
+    @include device-is('tablet') {
+      display: block;
     }
   }
 }
