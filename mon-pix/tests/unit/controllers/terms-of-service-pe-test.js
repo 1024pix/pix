@@ -21,7 +21,7 @@ describe('Unit | Controller | terms-of-service-pe', function() {
       // when
       controller.isTermsOfServiceValidated = true ;
       controller.showErrorTermsOfServiceNotSelected = false ;
-
+      controller.authenticationKey = 'authenticationKey';
       await controller.send('submit');
 
       // then

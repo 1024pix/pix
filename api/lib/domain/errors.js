@@ -639,6 +639,7 @@ class SchoolingRegistrationNotFound extends NotFoundError {
     super(message);
   }
 }
+
 class UserNotFoundError extends NotFoundError {
   constructor(message = 'Ce compte est introuvable.') {
     super(message);
@@ -653,6 +654,13 @@ class UserNotFoundError extends NotFoundError {
   }
 }
 
+class UserAccountNotFoundForPoleEmploiError extends DomainError {
+  constructor({ message = 'L\'utilisateur n\'a pas de compte Pix', responseCode, authenticationKey }) {
+    super(message);
+    this.responseCode = responseCode;
+    this.authenticationKey = authenticationKey;
+  }
+}
 class WrongDateFormatError extends DomainError {
   constructor(message = 'Format de date invalide.') {
     super(message);
@@ -750,6 +758,7 @@ module.exports = {
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   UnexpectedUserAccount,
+  UserAccountNotFoundForPoleEmploiError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
   UserCouldNotBeReconciledError,

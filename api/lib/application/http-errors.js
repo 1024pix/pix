@@ -51,10 +51,12 @@ class NotFoundError extends BaseHttpError {
 }
 
 class UnauthorizedError extends BaseHttpError {
-  constructor(message) {
+  constructor(message, code, meta) {
     super(message);
     this.title = 'Unauthorized';
     this.status = 401;
+    this.code = code;
+    this.meta = meta;
   }
 }
 
