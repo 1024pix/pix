@@ -1,6 +1,7 @@
 const settings = require('../../config');
 const mailer = require('../../infrastructure/mailers/mailer');
 const moment = require('moment');
+const tokenService = require('./token-service');
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME = 'Pix Orga - Ne pas répondre';
@@ -68,10 +69,14 @@ function sendCertificationResultEmail({
   sessionId,
   sessionDate,
   certificationCenterName,
-  link,
+  resultRecipientEmail,
+  daysBeforeExpiration,
 }) {
   const pixName = PIX_NAME_FR;
   const formatedSessionDate = moment(sessionDate).locale('fr').format('L');
+  const token = tokenService.createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+  const link = `/api/sessions/results-by-recipient-email/${token}`;
+
   const variables = {
     link,
     sessionId,
