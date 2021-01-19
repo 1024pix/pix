@@ -26,7 +26,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() hasSeenEndTestScreen;
   @attr() cleaCertificationStatus;
   @attr() numberOfCertificationIssueReports;
-  @attr() numberOfCertificationIssueReportsWithActionRequired;
+  @attr() numberOfCertificationIssueReportsWithRequiredAction;
 
   @computed('createdAt')
   get creationDate() {
@@ -43,9 +43,9 @@ export default class JuryCertificationSummary extends Model {
     return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
   }
 
-  @computed('numberOfCertificationIssueReportsWithActionRequired')
+  @computed('numberOfCertificationIssueReportsWithRequiredAction')
   get numberOfCertificationIssueReportsWithRequiredActionLabel() {
-    return this.numberOfCertificationIssueReportsWithActionRequired > 0 ? this.numberOfCertificationIssueReportsWithActionRequired : '';
+    return this.numberOfCertificationIssueReportsWithRequiredAction > 0 ? this.numberOfCertificationIssueReportsWithRequiredAction : '';
   }
 
   @computed('hasSeenEndTestScreen')
