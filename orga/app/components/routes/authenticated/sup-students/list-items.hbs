@@ -30,12 +30,14 @@
             @field="lastName"
             @value={{@lastNameFilter}}
             @placeholder="Rechercher par nom"
+            @aria-label="Rechercher par nom"
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::HeaderFilterInput
             @field="firstName"
             @value={{@firstNameFilter}}
             @placeholder="Rechercher par prénom"
+            @aria-label="Rechercher par prénom"
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::Header/>

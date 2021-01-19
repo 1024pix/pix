@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
+import { visit, currentURL, click } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -87,8 +88,8 @@ module('Acceptance | join', function(hooks) {
         // given
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
         await click('button[type=submit]');
@@ -104,8 +105,8 @@ module('Acceptance | join', function(hooks) {
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
         await click('button[type=submit]');
@@ -142,8 +143,8 @@ module('Acceptance | join', function(hooks) {
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
         await click('button[type=submit]');
@@ -159,8 +160,8 @@ module('Acceptance | join', function(hooks) {
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
         await click('button[type=submit]');
@@ -199,8 +200,8 @@ module('Acceptance | join', function(hooks) {
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'fakepassword');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'fakepassword');
 
         // when
         await click('button[type=submit]');
@@ -240,8 +241,8 @@ module('Acceptance | join', function(hooks) {
         }, 412);
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
         await click('button[type=submit]');
@@ -273,10 +274,10 @@ module('Acceptance | join', function(hooks) {
           }).id;
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await fillIn('#register-firstName', 'pix');
-          await fillIn('#register-lastName', 'pix');
-          await fillIn('#register-email', 'shi@fu.me');
-          await fillIn('#register-password', 'Password4register');
+          await fillInByLabel('Prénom', 'pix');
+          await fillInByLabel('Nom', 'pix');
+          await fillInByLabel('Adresse e-mail', 'shi@fu.me');
+          await fillInByLabel('Mot de passe', 'Password4register');
           await click('#register-cgu');
 
           // when
@@ -314,10 +315,10 @@ module('Acceptance | join', function(hooks) {
           }, 422);
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await fillIn('#register-firstName', 'pix');
-          await fillIn('#register-lastName', 'pix');
-          await fillIn('#register-email', 'alreadyUser@organization.org');
-          await fillIn('#register-password', 'Password4register');
+          await fillInByLabel('Prénom', 'pix');
+          await fillInByLabel('Nom', 'pix');
+          await fillInByLabel('Adresse e-mail', 'alreadyUser@organization.org');
+          await fillInByLabel('Mot de passe', 'Password4register');
           await click('#register-cgu');
 
           // when

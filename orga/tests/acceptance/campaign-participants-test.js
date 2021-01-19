@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, click, currentURL, fillIn } from '@ember/test-helpers';
+import { visit, click, currentURL } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -82,7 +83,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // when
       await visit('/campagnes/1/evaluations');
-      await fillIn('.page-size select', changedPageSize);
+      await fillInByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
@@ -95,7 +96,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       const changedPageSize = 25;
 
       await visit('/campagnes/1/evaluations');
-      await fillIn('.page-size select', changedPageSize);
+      await fillInByLabel('Sélectionner une pagination', changedPageSize);
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
@@ -113,7 +114,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // when
       await visit(`/campagnes/1/evaluations?pageNumber=${startPage}`);
-      await fillIn('.page-size select', changedPageSize);
+      await fillInByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });

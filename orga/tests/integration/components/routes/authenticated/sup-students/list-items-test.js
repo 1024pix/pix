@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -125,7 +126,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       // when
       await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
-      await fillIn('[placeholder="Rechercher par nom"]', 'bob');
+      await fillInByLabel('Rechercher par nom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
@@ -142,7 +143,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       // when
       await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
-      await fillIn('[placeholder="Rechercher par prénom"]', 'bob');
+      await fillInByLabel('Rechercher par prénom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
