@@ -126,6 +126,15 @@ function _filterQuery(qb, filters) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
     qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
+  if (filters.badges) {
+    qb.join('badges', 'badges.targetProfileId', 'campaigns.targetProfileId');
+    qb.join('badge-acquisitions', function() {
+      this.on({ 'badge-acquisitions.badgeId': 'badges.id' })
+        .andOn({ 'badge-acquisitions.userId': 'campaign-participations.userId' });
+    });
+    qb.whereRaw('"badges"."id" = ANY(:badgeIds)', { badgeIds: filters.badges });
+    qb.where('campaign-participations.isShared', '=', true);
+  }
 }
 
 module.exports = campaignAssessmentParticipationRepository;
