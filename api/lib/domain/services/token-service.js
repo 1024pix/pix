@@ -23,6 +23,15 @@ function createIdTokenForUserReconciliation(externalUser) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan });
 }
 
+function createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration }) {
+  return jsonwebtoken.sign({
+    session_id: sessionId,
+    result_recipient_email: resultRecipientEmail,
+  }, settings.authentication.secret, {
+    expiresIn: `${daysBeforeExpiration}d`,
+  });
+}
+
 function extractTokenFromAuthChain(authChain) {
   if (!authChain) {
     return authChain;
@@ -100,6 +109,7 @@ module.exports = {
   createAccessTokenFromUser,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,
+  createCertificationResultLinkToken,
   decodeIfValid,
   extractExternalUserFromIdToken,
   extractPayloadFromPoleEmploiIdToken,
