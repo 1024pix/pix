@@ -919,6 +919,9 @@
             "title": "Pour réussir la prochaine fois",
             "info": "Ces liens vers les tutos ont été proposés par des utilisateurs de Pix."
         },
+        "user-tests": {
+            "title": "Mes parcours"
+        },
         "user-account": {
             "title": "Mon compte"
         },
