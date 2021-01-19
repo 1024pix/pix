@@ -61,6 +61,7 @@ Router.map(function() {
 
     this.route('target-profiles', function() {
       this.route('list');
+      this.route('new');
       this.route('target-profile', { path: '/:target_profile_id' }, function() {
         this.route('details', { path: '/' });
         this.route('organizations');
