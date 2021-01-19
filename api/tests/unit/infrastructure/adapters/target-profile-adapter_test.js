@@ -26,6 +26,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
       name: bookshelfTargetProfile.get('name'),
       imageUrl: bookshelfTargetProfile.get('imageUrl'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
+      isSimplifiedAccess: Boolean(bookshelfTargetProfile.get('isSimplifiedAccess')),
       ownerOrganizationId: bookshelfTargetProfile.get('ownerOrganizationId'),
       skills: [skill],
       sharedWithOrganizationIds: [organizationWhichShared.get('organizationId')],

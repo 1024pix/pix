@@ -83,6 +83,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.isRestricted).to.deep.equal(organization.isManagingStudents);
       expect(actualCampaign.targetProfileName).to.deep.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
+      expect(actualCampaign.isSimplifiedAccess).to.deep.equal(targetProfile.isSimplifiedAccess);
     });
 
     context('when the organization of the campaign has the POLE EMPLOI tag', () => {

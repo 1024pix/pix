@@ -19,6 +19,7 @@ class CampaignToJoin {
     organizationIsPoleEmploi,
     targetProfileName,
     targetProfileImageUrl,
+    targetProfileIsSimplifiedAccess,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -30,6 +31,7 @@ class CampaignToJoin {
     this.alternativeTextToExternalIdHelpImage = alternativeTextToExternalIdHelpImage;
     this.archivedAt = archivedAt;
     this.isRestricted = organizationIsManagingStudents;
+    this.isSimplifiedAccess = targetProfileIsSimplifiedAccess;
     this.organizationId = organizationId;
     this.organizationName = organizationName;
     this.organizationType = organizationType;

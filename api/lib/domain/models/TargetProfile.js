@@ -4,6 +4,7 @@ class TargetProfile {
     name,
     imageUrl,
     isPublic,
+    isSimplifiedAccess,
     outdated,
     skills = [],
     stages,
@@ -14,6 +15,7 @@ class TargetProfile {
     this.name = name;
     this.imageUrl = imageUrl;
     this.isPublic = isPublic;
+    this.isSimplifiedAccess = isSimplifiedAccess;
     this.outdated = outdated;
     this.skills = skills;
     this.stages = stages;
