@@ -19,7 +19,6 @@ class Organization {
     credit,
     canCollectProfiles,
     email,
-    memberships = [],
     targetProfileShares = [],
     students = [],
     organizationInvitations = [],
@@ -35,7 +34,6 @@ class Organization {
     this.credit = credit;
     this.canCollectProfiles = canCollectProfiles;
     this.email = email;
-    this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     this.students = students;
     this.organizationInvitations = organizationInvitations;
