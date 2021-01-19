@@ -1,32 +1,26 @@
-const { UserNotAuthorizedToAccessEntity, AssessmentNotCompletedError, ArchivedCampaignError } = require('../errors');
+const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const CampaignParticipationResultsShared = require('../events/CampaignParticipationResultsShared');
 
 module.exports = async function shareCampaignResult({
   userId,
   campaignParticipationId,
   campaignParticipationRepository,
-  campaignRepository,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
-  if (campaignParticipation.userId !== userId) {
-    throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
-  }
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, { include: ['campaign'] });
 
-  const campaign = await campaignRepository.get(campaignParticipation.campaignId);
-  if (campaign.isArchived()) {
-    throw new ArchivedCampaignError('Cannot share results on an archived campaign.');
-  }
+  _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId);
 
-  if (campaign.isAssessment()) {
-    const isLatestAssessmentCompleted = await campaignParticipationRepository.isAssessmentCompleted(campaignParticipationId);
-    if (!isLatestAssessmentCompleted) {
-      throw new AssessmentNotCompletedError();
-    }
-  }
-
-  await campaignParticipationRepository.share(campaignParticipation);
+  campaignParticipation.share();
+  await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
 
   return new CampaignParticipationResultsShared({
     campaignParticipationId: campaignParticipation.id,
   });
 };
+
+function _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId) {
+  if (campaignParticipation.userId !== userId) {
+    throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
+  }
+}
+

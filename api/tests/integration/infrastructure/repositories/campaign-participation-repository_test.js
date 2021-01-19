@@ -13,33 +13,36 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     let campaignId, recentAssessmentId;
     let campaignParticipationId, campaignParticipationNotSharedId;
-
+    let campaignParticipationAssessments;
     beforeEach(async () => {
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 12 }).id;
       campaignParticipationNotSharedId = databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         isShared: false,
         sharedAt: null,
       }).id;
 
-      databaseBuilder.factory.buildAssessment({
+      const assessment1 = databaseBuilder.factory.buildAssessment({
         type: 'CAMPAIGN',
         campaignParticipationId,
         createdAt: new Date('2000-01-01T10:00:00Z'),
       });
 
-      recentAssessmentId = databaseBuilder.factory.buildAssessment({
+      const assessment2 = databaseBuilder.factory.buildAssessment({
         type: 'CAMPAIGN',
         campaignParticipationId,
         createdAt: new Date('2000-03-01T10:00:00Z'),
-      }).id;
+      });
 
       databaseBuilder.factory.buildAssessment({
         type: 'CAMPAIGN',
         campaignParticipationId: campaignParticipationNotSharedId,
         createdAt: new Date('2000-02-01T10:00:00Z'),
       });
+
+      campaignParticipationAssessments = [assessment1, assessment2];
+      recentAssessmentId = assessment2.id;
 
       await databaseBuilder.commit();
     });
@@ -50,6 +53,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       // then
       expect(foundCampaignParticipation.id).to.equal(campaignParticipationId);
+      expect(foundCampaignParticipation.validatedSkillsCount).to.equal(12);
     });
 
     it('should return a null object for sharedAt when the campaign-participation is not shared', async () => {
@@ -66,6 +70,18 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       // then
       expect(foundCampaignParticipation.assessmentId).to.be.equal(recentAssessmentId);
+    });
+
+    it('returns the assessments of campaignParticipation', async () => {
+      //given
+      const expectedAssessmentIds = campaignParticipationAssessments.map(({ id }) => id);
+
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+      const assessmentIds = foundCampaignParticipation.assessments.map(({ id }) => id);
+
+      // then
+      expect(assessmentIds).to.exactlyContain(expectedAssessmentIds);
     });
 
   });
@@ -124,6 +140,26 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(campaignParticipationInDB[0].userId).to.equal(savedCampaignParticipation.userId);
     });
 
+  });
+
+  describe('update', () => {
+    it('save the changes of the campaignParticipation', async () => {
+      const campaignParticipationId = 12;
+      const campaignParticipationToUpdate = databaseBuilder.factory.buildCampaignParticipation({ id: campaignParticipationId, isShared: false, sharedAt: null, validatedSkillsCount: null });
+
+      await databaseBuilder.commit();
+
+      campaignParticipationToUpdate.isShared = true;
+      campaignParticipationToUpdate.sharedAt = new Date('2021-01-01');
+      campaignParticipationToUpdate.validatedSkillsCount = 10;
+
+      await campaignParticipationRepository.update(campaignParticipationToUpdate);
+      const campaignParticipation = await knex('campaign-participations').where({ id: campaignParticipationId }).first();
+
+      expect(campaignParticipation.isShared).to.equals(true);
+      expect(campaignParticipation.sharedAt).to.deep.equals(new Date('2021-01-01'));
+      expect(campaignParticipation.validatedSkillsCount).to.equals(10);
+    });
   });
 
   describe('#count', () => {
@@ -459,8 +495,8 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   });
 
-  describe('#share', () => {
-
+  describe('#updateWithSnapshot', () => {
+    let clock;
     let campaignParticipation;
     const frozenTime = new Date('1987-09-01T00:00:00Z');
 
@@ -471,27 +507,40 @@ describe('Integration | Repository | Campaign Participation', () => {
       });
 
       databaseBuilder.factory.buildKnowledgeElement({ userId: campaignParticipation.userId, createdAt: new Date('1985-09-01T00:00:00Z') });
-      sinon.useFakeTimers(frozenTime);
+      clock = sinon.useFakeTimers(frozenTime);
 
       await databaseBuilder.commit();
     });
 
     afterEach(() => {
+      clock.restore();
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return the shared campaign-participation', async () => {
-      // when
-      const updatedCampaignParticipation = await campaignParticipationRepository.share(campaignParticipation);
+    it('persists the campaign-participation changes', async () => {
+      // given
+      campaignParticipation.campaign = {};
+      campaignParticipation.assessments = [];
+      campaignParticipation.user = {};
+      campaignParticipation.assessmentId = {};
+      campaignParticipation.isShared = true;
+      campaignParticipation.participantExternalId = 'Laura';
 
+      // when
+      await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
+
+      const updatedCampaignParticipation = await knex('campaign-participations').where({ id: campaignParticipation.id }).first();
       // then
       expect(updatedCampaignParticipation.isShared).to.be.true;
-      expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
+      expect(updatedCampaignParticipation.participantExternalId).to.equals('Laura');
     });
 
     it('should save a snapshot', async () => {
+      // given
+      campaignParticipation.sharedAt = new Date();
+
       // when
-      await campaignParticipationRepository.share(campaignParticipation);
+      await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
 
       // then
       const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
