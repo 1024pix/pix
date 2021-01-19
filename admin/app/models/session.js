@@ -78,10 +78,10 @@ export default class Session extends Model {
   @computed('juryCertificationSummaries.[]')
   get countCertificationIssueReportsWithActionRequired() {
     const reducer = (totalOfCertificationIssueReports, juryCertificationSummary) => {
-      const numberOfCertificationIssueReportsWithActionRequired = juryCertificationSummary.numberOfCertificationIssueReportsWithActionRequired
-        ? juryCertificationSummary.numberOfCertificationIssueReportsWithActionRequired
+      const numberOfCertificationIssueReportsWithRequiredAction = juryCertificationSummary.numberOfCertificationIssueReportsWithRequiredAction
+        ? juryCertificationSummary.numberOfCertificationIssueReportsWithRequiredAction
         : 0;
-      return totalOfCertificationIssueReports + numberOfCertificationIssueReportsWithActionRequired;
+      return totalOfCertificationIssueReports + numberOfCertificationIssueReportsWithRequiredAction;
     };
     return this.juryCertificationSummaries.reduce(reducer, 0);
   }

@@ -26,7 +26,7 @@ module('Integration | Component | <Certification::CertificationList/>', function
   test('should display number of certification issue reports with required action', async function(assert) {
     // given
     this.certifications = [
-      EmberObject.create({ id: 1, numberOfCertificationIssueReportsWithActionRequired: 2 }),
+      EmberObject.create({ id: 1, numberOfCertificationIssueReportsWithRequiredActionLabel: 2 }),
     ];
 
     // when

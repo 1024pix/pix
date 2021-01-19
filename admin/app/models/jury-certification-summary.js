@@ -1,5 +1,7 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
+import find from 'lodash/find';
+import { certificationStatuses } from 'pix-admin/models/certification';
 
 const ACQUIRED = 'acquired';
 const REJECTED = 'rejected';
@@ -24,7 +26,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() hasSeenEndTestScreen;
   @attr() cleaCertificationStatus;
   @attr() numberOfCertificationIssueReports;
-  @attr() numberOfCertificationIssueReportsWithActionRequired;
+  @attr() numberOfCertificationIssueReportsWithRequiredAction;
 
   @computed('createdAt')
   get creationDate() {
@@ -39,5 +41,21 @@ export default class JuryCertificationSummary extends Model {
   @computed('cleaCertificationStatus')
   get cleaStatus() {
     return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
+  }
+
+  @computed('numberOfCertificationIssueReportsWithRequiredAction')
+  get numberOfCertificationIssueReportsWithRequiredActionLabel() {
+    return this.numberOfCertificationIssueReportsWithRequiredAction > 0 ? this.numberOfCertificationIssueReportsWithRequiredAction : '';
+  }
+
+  @computed('hasSeenEndTestScreen')
+  get hasSeenEndTestScreenLabel() {
+    return this.hasSeenEndTestScreen ? '' : 'non';
+  }
+
+  @computed('status')
+  get statusLabel() {
+    const statusWithLabel = find(certificationStatuses, (certificationStatus) => certificationStatus.value === this.status);
+    return statusWithLabel?.label;
   }
 }

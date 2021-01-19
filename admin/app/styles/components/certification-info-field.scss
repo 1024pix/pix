@@ -1,0 +1,38 @@
+.certification-info-field {
+  padding: 0 15px;
+  align-items: center;
+  
+  &__label {
+    margin-right: 5px;
+
+    &--editing {
+      width: 160px;
+    }
+
+    &--large {
+      min-width: 100%;
+    }
+
+    &--small {
+      max-width: 54px;
+    }
+  }
+
+  textarea {
+    resize: both;
+  }
+
+  input {
+    width: 160px;
+
+    &.form-control {
+      width: inherit;
+      margin-left: 10px;
+    }
+  }
+
+  &__suffix {
+    margin-left: 10px;
+  }
+
+}

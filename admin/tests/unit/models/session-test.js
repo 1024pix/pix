@@ -205,8 +205,8 @@ module('Unit | Model | session', function(hooks) {
 
     hooks.beforeEach(async function() {
       sessionWithCertificationIssueReports = run(() => {
-        const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithActionRequired: 5 });
-        const certif2 = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithActionRequired: 1 });
+        const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 5 });
+        const certif2 = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 1 });
         return store.createRecord('session', { juryCertificationSummaries: [certif, certif2] });
       });
 
