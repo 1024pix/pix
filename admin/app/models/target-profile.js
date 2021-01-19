@@ -9,6 +9,9 @@ export default class TargetProfile extends Model {
 
   @hasMany('badge') badges;
   @hasMany('skill') skills;
+  @hasMany('tube') tubes;
+  @hasMany('competence') competences;
+  @hasMany('area') areas;
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',
