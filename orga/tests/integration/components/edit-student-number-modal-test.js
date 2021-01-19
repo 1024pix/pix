@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -77,7 +78,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       test('should have the update button disable', async function(assert) {
         // when
         await fillInByLabel('Nouveau numéro étudiant', '');
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
 
         // then
         assert.dom('button[type=submit]').exists();
@@ -92,7 +93,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
         // when
         await fillInByLabel('Nouveau numéro étudiant', 123456);
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
 
         // then
         assert.dom('.error-message').hasText('');
@@ -105,7 +106,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
       test('it display error message', async function(assert) {
         // when
         await fillInByLabel('Nouveau numéro étudiant', ' ');
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
 
         // then
         assert.dom('.error-message').hasText('Le numéro étudiant ne doit pas être vide.');
@@ -125,7 +126,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
         // when
         await fillInByLabel('Nouveau numéro étudiant', 77107);
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
 
         // then
         assert.contains('Error occured');
@@ -145,9 +146,9 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
         // when
         await fillInByLabel('Nouveau numéro étudiant', 77107);
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
         await fillInByLabel('Nouveau numéro étudiant', 65432);
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
 
         // then
         assert.notContains('Error occured');
@@ -166,7 +167,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
         // when
         onSaveStudentNumberStub.rejects(error);
-        await click('[aria-label="Fermer la fenêtre"]');
+        await clickByLabel('Fermer la fenêtre');
 
         // then
         assert.dom('button[type=submit]').hasValue('');
@@ -187,7 +188,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
         // when
         onSaveStudentNumberStub.rejects(error);
-        await click('.button--light-grey');
+        await clickByLabel('Annuler');
 
         // then
         assert.dom('button[type=submit]').hasValue('');

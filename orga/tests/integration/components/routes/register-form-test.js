@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
-import { click, render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -65,10 +66,10 @@ module('Integration | Component | routes/register-form', function(hooks) {
       await fillInByLabel('Nom', 'pix');
       await fillInByLabel('Adresse e-mail', 'shi@fu.me');
       await fillInByLabel('Mot de passe', 'Mypassword1');
-      await click('#register-cgu');
+      await clickByLabel('Accepter les conditions d\'utilisation de Pix');
 
       // when
-      await click('.button');
+      await clickByLabel('Je m\'inscris');
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -168,7 +169,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillInByLabel('Adresse e-mail', user.email);
         await fillInByLabel('Mot de passe', user.password);
         if (user.cgu) {
-          await click('#register-cgu');
+          await clickByLabel('Accepter les conditions d\'utilisation de Pix');
         }
       };
 
@@ -199,7 +200,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ firstName: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -210,7 +211,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ lastName: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -221,7 +222,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ email: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -232,7 +233,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ password: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -243,7 +244,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ cgu: false } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);

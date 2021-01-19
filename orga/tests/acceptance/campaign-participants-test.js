@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { visit, click, currentURL } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -100,7 +101,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
-      await click('.page-navigation__arrow--next .icon-button');
+      await clickByLabel('Aller à la page suivante');
 
       // then
       assert.contains('Page 2 / 2');

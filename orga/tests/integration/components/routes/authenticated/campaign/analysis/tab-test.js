@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import clickByLabel from '../../../../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign/analysis/tab', function(hooks) {
@@ -59,15 +60,14 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tab', f
     });
 
     test('it should order by recommendation asc', async function(assert) {
-      await click('[aria-label="Analyse par sujet"] thead [role="button"]:first-child');
+      await clickByLabel('Pertinence');
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube B');
     });
 
     test('it should order by recommendation desc', async function(assert) {
-      const recommendationColumn = '[aria-label="Analyse par sujet"] thead [role="button"]:first-child';
-      await click(recommendationColumn);
-      await click(recommendationColumn);
+      await clickByLabel('Pertinence');
+      await clickByLabel('Pertinence');
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
     });

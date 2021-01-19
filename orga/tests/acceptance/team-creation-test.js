@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -92,7 +93,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await fillInByLabel('Adresse(s) e-mail', email);
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         const organizationInvitation = server.db.organizationInvitations[server.db.organizationInvitations.length - 1];
@@ -109,7 +110,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await fillInByLabel('Adresse(s) e-mail', '');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -121,7 +122,7 @@ module('Acceptance | Team Creation', function(hooks) {
 
         await visit('/equipe/creation');
         await fillInByLabel('Adresse(s) e-mail', email);
-        await click('.button--no-color');
+        await clickByLabel('Annuler');
 
         // when
         await visit('/equipe/creation');
@@ -146,7 +147,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -170,7 +171,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -194,7 +195,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -218,7 +219,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');

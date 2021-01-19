@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, click, currentURL } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -37,7 +38,7 @@ module('Acceptance | Information Banner', function(hooks) {
 
       // when
       await visit('/');
-      await click('.pix-banner a[href="/eleves"]');
+      await clickByLabel('importer ou ré-importer la base élèves');
 
       // then
       assert.equal(currentURL(), '/eleves');

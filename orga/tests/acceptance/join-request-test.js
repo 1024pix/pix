@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { visit, click } from '@ember/test-helpers';
+import { visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import Response from 'ember-cli-mirage/response';
 
@@ -24,7 +25,7 @@ module('Acceptance | join-request', function(hooks) {
       await fillInByLabel('Votre nom', 'lastName');
 
       // when
-      await click('button.join-request-form__button');
+      await clickByLabel('Envoyer');
 
       // then
       assert.contains('L\'UAI/RNE de l\'établissement n’est pas reconnu. Merci de contacter le support.');
@@ -39,7 +40,7 @@ module('Acceptance | join-request', function(hooks) {
       await fillInByLabel('Votre nom', 'lastName');
 
       // when
-      await click('button.join-request-form__button');
+      await clickByLabel('Envoyer');
 
       // then
       assert.contains('L\'UAI/RNE de l\'établissement n’est pas reconnu. Merci de contacter le support.');
@@ -54,7 +55,7 @@ module('Acceptance | join-request', function(hooks) {
       await fillInByLabel('Votre nom', 'lastName');
 
       // when
-      await click('button.join-request-form__button');
+      await clickByLabel('Envoyer');
 
       // then
       assert.contains('Nous n’avons pas d’adresse e-mail de contact associée à votre établissement, merci de contacter le support pour récupérer votre accès.');
@@ -69,7 +70,7 @@ module('Acceptance | join-request', function(hooks) {
       await fillInByLabel('Votre nom', 'lastName');
 
       // when
-      await click('button.join-request-form__button');
+      await clickByLabel('Envoyer');
 
       // then
       assert.contains('Une erreur est survenue. Merci de contacter le support.');
@@ -84,7 +85,7 @@ module('Acceptance | join-request', function(hooks) {
       await fillInByLabel('Votre nom', 'lastName');
 
       // when
-      await click('button.join-request-form__button');
+      await clickByLabel('Envoyer');
 
       // then
       assert.dom('.join-request__success').exists();

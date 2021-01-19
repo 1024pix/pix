@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import { resolve } from 'rsvp';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
@@ -146,7 +147,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await click('#generate-password');
+        await clickByLabel('Réinitialiser le mot de passe');
 
         // then
         assert.dom('#generated-password').exists();
@@ -157,7 +158,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await click('#generate-password');
+        await clickByLabel('Réinitialiser le mot de passe');
 
         // then
         assert.dom('button[aria-label="Copier le mot de passe unique"]').hasAttribute('data-clipboard-text', generatedPassword);
@@ -169,7 +170,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await click('#generate-password');
+        await clickByLabel('Réinitialiser le mot de passe');
         await triggerCopySuccess('button[aria-label="Copier le mot de passe unique"]');
 
         // then
@@ -179,12 +180,12 @@ module('Integration | Component | manage-authentication-method-modal', function(
       test('should generate unique password each time the modal is used', async function(assert) {
         // given
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
-        await click('#generate-password');
+        await clickByLabel('Réinitialiser le mot de passe');
         const firstGeneratedPassword = this.element.querySelector('#generated-password').value;
 
         // when
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
-        await click('#generate-password');
+        await clickByLabel('Réinitialiser le mot de passe');
         const secondGeneratedPassword = this.element.querySelector('#generated-password').value;
 
         // then

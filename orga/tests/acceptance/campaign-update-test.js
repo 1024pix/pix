@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -38,7 +39,7 @@ module('Acceptance | Campaign Update', function(hooks) {
     await fillInByLabel('Texte de la page d\'accueil', newText);
 
     // when
-    await click('button[type="submit"]');
+    await clickByLabel('Modifier');
 
     // then
     assert.equal(server.db.campaigns.find(1).name, newName);

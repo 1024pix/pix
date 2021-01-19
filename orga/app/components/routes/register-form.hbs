@@ -84,6 +84,7 @@
           @id="register-cgu"
           @type="checkbox"
           @checked={{this.user.cgu}}
+          aria-label="Accepter les conditions d'utilisation de Pix"
           {{on "focusout" (fn this.validateInput "cgu" this.user.cgu)}}
         />
         <span class="register-form__cgu">
