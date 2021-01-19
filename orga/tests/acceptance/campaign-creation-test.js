@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -69,12 +70,12 @@ module('Acceptance | Campaign Creation', function(hooks) {
     test('it should allow to create a campaign of type ASSESSMENT by default and redirect to the newly created campaign', async function(assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
-      await fillIn('#campaign-target-profile', expectedTargetProfileId);
-      await fillIn('#campaign-name', 'Ma Campagne');
+      await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
       await click('#askLabelIdPix');
-      await fillIn('#id-pix-label', 'Mail Pro');
-      await fillIn('#campaign-title', 'Savoir rechercher');
-      await fillIn('#custom-landing-page-text', 'Texte personnalisé');
+      await fillInByLabel('Libellé de l’identifiant', 'Mail Pro');
+      await fillInByLabel('Titre du parcours', 'Savoir rechercher');
+      await fillInByLabel('Texte de la page d\'accueil', 'Texte personnalisé');
 
       // when
       await click('button[type="submit"]');
@@ -116,8 +117,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
       await click('#assess-participants');
-      await fillIn('#campaign-target-profile', expectedTargetProfileId);
-      await fillIn('#campaign-name', 'Ma Campagne');
+      await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
       await click('#doNotAskLabelIdPix');
 
       // when
@@ -133,7 +134,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function(assert) {
       // given
       await click('#collect-participants-profile');
-      await fillIn('#campaign-name', 'Ma Campagne');
+      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
       await click('#doNotAskLabelIdPix');
 
       // when
@@ -148,9 +149,9 @@ module('Acceptance | Campaign Creation', function(hooks) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
       await click('#assess-participants');
-      await fillIn('#campaign-target-profile', expectedTargetProfileId);
-      await fillIn('#campaign-name', 'Ma Campagne');
-      await fillIn('#campaign-title', 'Savoir rechercher');
+      await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
+      await fillInByLabel('Nom de la campagne', 'Ma Campagne');
+      await fillInByLabel('Titre du parcours', 'Savoir rechercher');
       await click('#doNotAskLabelIdPix');
       await click('#collect-participants-profile');
 

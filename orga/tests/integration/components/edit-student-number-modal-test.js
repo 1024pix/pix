@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, click, render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
+import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -63,7 +64,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
       test('should have the update button enable', async function(assert) {
         // when
-        await fillIn('#studentNumber', this.student.studentNumber);
+        await fillInByLabel('Nouveau numéro étudiant', this.student.studentNumber);
 
         // then
         assert.dom('button[type=submit]').doesNotHaveAttribute('disabled');
@@ -75,7 +76,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
       test('should have the update button disable', async function(assert) {
         // when
-        await fillIn('#studentNumber', '');
+        await fillInByLabel('Nouveau numéro étudiant', '');
         await click('button[type=submit]');
 
         // then
@@ -90,7 +91,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         onSaveStudentNumberStub.withArgs(123456).resolves();
 
         // when
-        await fillIn('#studentNumber', 123456);
+        await fillInByLabel('Nouveau numéro étudiant', 123456);
         await click('button[type=submit]');
 
         // then
@@ -103,7 +104,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
     module('when the update button is clicked and a wrong student number is entered', function() {
       test('it display error message', async function(assert) {
         // when
-        await fillIn('#studentNumber', ' ');
+        await fillInByLabel('Nouveau numéro étudiant', ' ');
         await click('button[type=submit]');
 
         // then
@@ -123,7 +124,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         onSaveStudentNumberStub.rejects(error);
 
         // when
-        await fillIn('#studentNumber', 77107);
+        await fillInByLabel('Nouveau numéro étudiant', 77107);
         await click('button[type=submit]');
 
         // then
@@ -143,9 +144,9 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         onSaveStudentNumberStub.onFirstCall().rejects(error).onSecondCall().resolves();
 
         // when
-        await fillIn('#studentNumber', 77107);
+        await fillInByLabel('Nouveau numéro étudiant', 77107);
         await click('button[type=submit]');
-        await fillIn('#studentNumber', 65432);
+        await fillInByLabel('Nouveau numéro étudiant', 65432);
         await click('button[type=submit]');
 
         // then

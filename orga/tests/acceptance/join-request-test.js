@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, fillIn, click } from '@ember/test-helpers';
+import { visit, click } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import Response from 'ember-cli-mirage/response';
 
@@ -18,9 +19,9 @@ module('Acceptance | join-request', function(hooks) {
 
     test('it should fail if the uai does not belong to any organization', async function(assert) {
       // given
-      await fillIn('#uai', '1111111A');
-      await fillIn('#firstName', 'firstName');
-      await fillIn('#lastName', 'lastName');
+      await fillInByLabel('UAI/RNE de l\'établissement', '1111111A');
+      await fillInByLabel('Votre prénom', 'firstName');
+      await fillInByLabel('Votre nom', 'lastName');
 
       // when
       await click('button.join-request-form__button');
@@ -33,9 +34,9 @@ module('Acceptance | join-request', function(hooks) {
       // given
       const proOrganization = server.create('organization', { type: 'PRO', externalId: '1234567P' });
 
-      await fillIn('#uai', proOrganization.externalId);
-      await fillIn('#firstName', 'firstName');
-      await fillIn('#lastName', 'lastName');
+      await fillInByLabel('UAI/RNE de l\'établissement', proOrganization.externalId);
+      await fillInByLabel('Votre prénom', 'firstName');
+      await fillInByLabel('Votre nom', 'lastName');
 
       // when
       await click('button.join-request-form__button');
@@ -48,9 +49,9 @@ module('Acceptance | join-request', function(hooks) {
       // given
       const scoOrganization = server.create('organization', { type: 'SCO', externalId: '1234567S' });
 
-      await fillIn('#uai', scoOrganization.externalId);
-      await fillIn('#firstName', 'firstName');
-      await fillIn('#lastName', 'lastName');
+      await fillInByLabel('UAI/RNE de l\'établissement', scoOrganization.externalId);
+      await fillInByLabel('Votre prénom', 'firstName');
+      await fillInByLabel('Votre nom', 'lastName');
 
       // when
       await click('button.join-request-form__button');
@@ -63,9 +64,9 @@ module('Acceptance | join-request', function(hooks) {
       // given
       server.post('/organization-invitations/sco', () => new Response(500, {}, { errors: [{ status: '500', title: 'Internal Server Error' }] }));
 
-      await fillIn('#uai', '1111111A');
-      await fillIn('#firstName', 'firstName');
-      await fillIn('#lastName', 'lastName');
+      await fillInByLabel('UAI/RNE de l\'établissement', '1111111A');
+      await fillInByLabel('Votre prénom', 'firstName');
+      await fillInByLabel('Votre nom', 'lastName');
 
       // when
       await click('button.join-request-form__button');
@@ -78,9 +79,9 @@ module('Acceptance | join-request', function(hooks) {
       // given
       const scoOrganization = server.create('organization', { type: 'SCO', externalId: '1234567S', email: 'sco@example.net' });
 
-      await fillIn('#uai', scoOrganization.externalId);
-      await fillIn('#firstName', 'firstName');
-      await fillIn('#lastName', 'lastName');
+      await fillInByLabel('UAI/RNE de l\'établissement', scoOrganization.externalId);
+      await fillInByLabel('Votre prénom', 'firstName');
+      await fillInByLabel('Votre nom', 'lastName');
 
       // when
       await click('button.join-request-form__button');

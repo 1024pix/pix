@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn, click } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
+import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -76,7 +77,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
       // when
-      await fillIn('[placeholder="Rechercher par nom"]', 'bob');
+      await fillInByLabel('Rechercher par nom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
@@ -94,7 +95,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
       // when
-      await fillIn('[placeholder="Rechercher par prénom"]', 'bob');
+      await fillInByLabel('Rechercher par prénom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
@@ -113,7 +114,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
 
       // when
-      await fillIn('select', 'email');
+      await fillInByLabel('Rechercher par méthode de connexion', 'email');
 
       // then
       const call = triggerFiltering.getCall(0);

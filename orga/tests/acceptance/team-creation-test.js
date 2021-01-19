@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -88,7 +89,7 @@ module('Acceptance | Team Creation', function(hooks) {
         server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, pixOrgaTermsOfServiceAccepted: true });
 
         await visit('/equipe/creation');
-        await fillIn('#email', email);
+        await fillInByLabel('Adresse(s) e-mail', email);
 
         // when
         await click('button[type="submit"]');
@@ -105,7 +106,7 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should not allow to invite a prescriber when an email is not given', async function(assert) {
         // given
         await visit('/equipe/creation');
-        await fillIn('#email', '');
+        await fillInByLabel('Adresse(s) e-mail', '');
 
         // when
         await click('button[type="submit"]');
@@ -119,7 +120,7 @@ module('Acceptance | Team Creation', function(hooks) {
         const email = 'cancel&cancel.com';
 
         await visit('/equipe/creation');
-        await fillIn('#email', email);
+        await fillInByLabel('Adresse(s) e-mail', email);
         await click('.button--no-color');
 
         // when
@@ -142,7 +143,7 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 500);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
         await click('button[type="submit"]');
@@ -166,7 +167,7 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 412);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
         await click('button[type="submit"]');
@@ -190,7 +191,7 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 404);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
         await click('button[type="submit"]');
@@ -214,7 +215,7 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 400);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
         await click('button[type="submit"]');

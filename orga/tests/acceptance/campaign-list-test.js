@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click, fillIn } from '@ember/test-helpers';
+import { currentURL, visit, click } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -93,7 +94,7 @@ module('Acceptance | Campaign List', function(hooks) {
         await visit('/campagnes');
 
         // when
-        await fillIn('#creatorName', creator.firstName);
+        await fillInByLabel('Rechercher un créateur', creator.firstName);
 
         // then
         assert.equal(currentURL(), `/campagnes?creatorName=${creator.firstName}`);
@@ -104,7 +105,7 @@ module('Acceptance | Campaign List', function(hooks) {
         await visit(`/campagnes?creatorName=${creator.firstName}`);
 
         // when
-        await fillIn('#creatorName', '');
+        await fillInByLabel('Rechercher un créateur', '');
 
         // then
         assert.equal(currentURL(), '/campagnes');

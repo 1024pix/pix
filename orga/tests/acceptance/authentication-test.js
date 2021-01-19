@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
+import { visit, currentURL, click } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   authenticateSession,
@@ -69,8 +70,8 @@ module('Acceptance | authentication', function(hooks) {
     test('it should redirect prescriber to the terms-of-service page', async function(assert) {
       // given
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
       await click('button[type=submit]');
@@ -85,8 +86,8 @@ module('Acceptance | authentication', function(hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
       await click('button[type=submit]');
@@ -112,8 +113,8 @@ module('Acceptance | authentication', function(hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
       await click('button[type=submit]');
@@ -128,8 +129,8 @@ module('Acceptance | authentication', function(hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
       await click('button[type=submit]');

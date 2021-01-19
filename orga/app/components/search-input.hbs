@@ -1,9 +1,10 @@
 <div class="input search-input" ...attributes>
   <FaIcon @icon='search' />
-  <input 
+  <input
     id={{@inputName}}
     name={{@inputName}}
     placeholder={{@placeholder}}
+    aria-label={{@aria-label}}
     value={{@value}}
     oninput={{@filterFunction}}
     class="search-input__invisible-field"
