@@ -20,7 +20,7 @@ function duplicateChallengeOfSameDifficulty(challenge) {
 }
 
 describe('Integration | Domain | Stategies | SmartRandom', () => {
-  let challenges, targetSkills, knowledgeElements, lastAnswer, allAnswers, web1, web2, web3, web4, web5,
+  let challenges, targetSkills, knowledgeElements, lastAnswer, allAnswers, locale, web1, web2, web3, web4, web5,
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil1, cnil2, challengeWeb_1,
     challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6,
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
@@ -31,6 +31,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     knowledgeElements = null;
     lastAnswer = null;
     allAnswers = [];
+    locale = 'fr';
 
     // Acquis (skills)
     web1 = domainBuilder.buildSkill({ name: '@web1' });
@@ -52,23 +53,23 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
 
     // Challenges
-    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skills: [web1] });
-    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skills: [web2] });
-    challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skills: [web2, web3] });
-    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skills: [web3] });
-    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skills: [web4] });
-    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb6', skills: [web6] });
-    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb7', skills: [web7] });
-    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skills: [url2] });
-    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skills: [url3] });
-    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skills: [url4] });
-    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'recurl5', skills: [url5] });
-    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skills: [url6] });
-    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skills: [rechInfo5] });
-    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skills: [rechInfo7] });
-    challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skills: [cnil1] });
-    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skills: [cnil2] });
-    challengeInfo_2 = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2] });
+    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skills: [web1], locales: ['fr'] });
+    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skills: [web2], locales: ['fr'] });
+    challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skills: [web2, web3], locales: ['fr'] });
+    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skills: [web3], locales: ['fr'] });
+    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skills: [web4], locales: ['fr'] });
+    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb6', skills: [web6], locales: ['fr'] });
+    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb7', skills: [web7], locales: ['fr'] });
+    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skills: [url2], locales: ['fr'] });
+    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skills: [url3], locales: ['fr'] });
+    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skills: [url4], locales: ['fr'] });
+    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'recurl5', skills: [url5], locales: ['fr'] });
+    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skills: [url6], locales: ['fr'] });
+    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skills: [rechInfo5], locales: ['fr'] });
+    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skills: [rechInfo7], locales: ['fr'] });
+    challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skills: [cnil1], locales: ['fr'] });
+    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skills: [cnil2], locales: ['fr'] });
+    challengeInfo_2 = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2], locales: ['fr', 'en'] });
   });
 
   describe('#getPossibleSkillsForNextChallenge', function() {
@@ -86,6 +87,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements: [],
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -111,6 +113,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements: [],
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -133,6 +136,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements: [],
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -155,6 +159,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements: [],
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -178,6 +183,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements: [],
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -224,6 +230,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -256,6 +263,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -310,6 +318,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -361,6 +370,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -396,6 +406,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -423,6 +434,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -453,6 +465,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -493,6 +506,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -526,6 +540,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -573,6 +588,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -607,6 +623,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           lastAnswer,
           allAnswers,
+          locale,
         });
 
         // then
@@ -620,7 +637,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
-    context('when one challenge has already been answered but its learning content has been updated', function() {
+    context('when one challenge has already been answered but its learning content has been updated', () => {
       it('should not be asked again and ask another challenge from same skill', function() {
         // given
         targetSkills = [web2];
@@ -636,6 +653,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           allAnswers,
           lastAnswer,
+          locale,
         });
 
         // then
@@ -660,6 +678,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
           knowledgeElements,
           allAnswers,
           lastAnswer,
+          locale,
         });
 
         // then
@@ -667,6 +686,44 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
         expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web1.id);
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_1.id);
+      });
+    });
+
+    context('when one skill does not have challenge in the asked locale', () => {
+
+      it('should propose only skill with asked locale', function() {
+        // given
+        targetSkills = [info2, cnil2];
+        challenges = [challengeInfo_2, challengeCnil_2];
+        lastAnswer = null;
+        allAnswers = [];
+        knowledgeElements = [];
+
+        // when
+        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInEnglish } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          lastAnswer,
+          allAnswers,
+          locale: 'en',
+        });
+        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInFrench } = SmartRandom.getPossibleSkillsForNextChallenge({
+          targetSkills,
+          challenges,
+          knowledgeElements,
+          lastAnswer,
+          allAnswers,
+          locale: 'fr',
+        });
+
+        // then
+        expect(possibleSkillsForNextChallengeInFrench.length).to.be.equal(2);
+        expect(possibleSkillsForNextChallengeInFrench[0].name).to.be.equal('@info2');
+        expect(possibleSkillsForNextChallengeInFrench[1].name).to.be.equal('@cnil2');
+
+        expect(possibleSkillsForNextChallengeInEnglish.length).to.be.equal(1);
+        expect(possibleSkillsForNextChallengeInEnglish[0].name).to.be.equal('@info2');
       });
     });
   });
