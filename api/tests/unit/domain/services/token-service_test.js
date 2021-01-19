@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 
 const { catchErr, expect } = require('../../../test-helper');
 
-const { InvalidTemporaryKeyError, InvalidExternalUserTokenError } = require('../../../../lib/domain/errors');
+const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
@@ -160,6 +160,54 @@ describe('Unit | Domain | Service | Token Service', () => {
 
       // then
       expect(result).to.equal(null);
+    });
+  });
+
+  describe('#extractResultRecipientEmailAndSessionId', () => {
+
+    it('should return the session id and result recipient email if the token is valid', () => {
+      // given
+      const token = jsonwebtoken.sign({
+        result_recipient_email: 'recipientEmail@example.net',
+        session_id: 12345,
+      }, settings.authentication.secret, { expiresIn: '30d' });
+
+      // when
+      const tokenData = tokenService.extractResultRecipientEmailAndSessionId(token);
+
+      // then
+      expect(tokenData).to.deep.equal({
+        resultRecipientEmail: 'recipientEmail@example.net',
+        sessionId: 12345,
+      });
+    });
+
+    it('should throw if session id or result recipient email is missing', async () => {
+      // given
+      const invalidIdToken = jsonwebtoken.sign({
+        result_recipient_email: 'recipientEmail@example.net',
+      }, settings.authentication.secret, { expiresIn: '30d' });
+
+      // when
+      const error = await catchErr(tokenService.extractResultRecipientEmailAndSessionId)(invalidIdToken);
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
+    });
+
+    it('should throw if token is expired', async () => {
+      // given
+      const invalidIdToken = jsonwebtoken.sign({
+        result_recipient_email: 'recipientEmail@example.net',
+        session_id: 1234,
+      }, settings.authentication.secret, { expiresIn: '1' });
+
+      // when
+      setTimeout(async() => {}, 100);
+      const error = await catchErr(tokenService.extractResultRecipientEmailAndSessionId)(invalidIdToken);
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidResultRecipientTokenError);
     });
   });
 
