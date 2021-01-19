@@ -1,0 +1,68 @@
+.competence {
+  display: flex;
+  position: relative;
+
+  &__header {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: $grey-35;
+  }
+
+  &__border {
+    padding: 0.5rem 0;
+    margin-right: 1rem;
+    border-style: solid;
+    border-width: 1.5px;
+    border-radius: 1.5px;
+
+    &--jaffa {
+      border-color: $information-light;
+      background: $information-light;
+    }
+
+    &--emerald {
+      border-color: $content-light;
+      background: $content-light;
+    }
+
+    &--cerulean {
+      border-color: $communication-light;
+      background: $communication-light;
+    }
+
+    &--wild-strawberry {
+      border-color: $security-light;
+      background: $security-light;
+    }
+
+    &--butterfly-bush {
+      border-color: $environment-light;
+      background: $environment-light;
+    }
+  }
+}
+
+.skill-column {
+  overflow: visible;
+
+  &--check {
+    color: $success;
+    font-size: 1.7rem;
+  }
+  
+  &--uncheck {
+    color: $grey-20;
+    font-size: 1.7rem;
+  }
+}

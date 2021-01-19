@@ -53,6 +53,10 @@ td, th {
   &--wide {
     width: 25%;
   }
+
+  &--center {
+    text-align: center;
+  }
 }
 
 .table__empty {
