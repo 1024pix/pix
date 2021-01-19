@@ -1,16 +1,19 @@
 <div class="new-information {{@backgroundColorClass}}">
-  {{#if @closeaction}}
-    <button class="new-information__close" {{on 'click' @closeaction}} type="button">
-      <FaIcon @icon='times' @size='lg'/><span class="sr-only">{{t 'common.actions.close'}}</span>
-    </button>
-  {{/if}}
   <div class="new-information__content">
-    <img class="new-information-content__img"
-         src="{{@image}}"
-         alt=""
-         role="presentation"/>
-    <div class="new-information-content__text">
+    {{#if (media 'isDesktop')}}
+      <img class="new-information-content__img"
+           src="{{@image}}"
+           alt=""
+           role="presentation"/>
+    {{/if}}
+    <div class="new-information-content__text {{@textAlignment}} {{@textColorClass}}">
       {{{@information}}}
     </div>
   </div>
+
+  {{#if @closeaction}}
+    <button class="new-information__close {{@textColorClass}}" {{on 'click' @closeaction}} type="button">
+      <FaIcon @icon='times'/><span class="sr-only">{{t 'common.actions.close'}}</span>
+    </button>
+  {{/if}}
 </div>

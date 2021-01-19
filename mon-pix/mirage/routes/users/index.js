@@ -37,7 +37,7 @@ export default function index(config) {
   });
   config.patch('/users/:id/remember-user-has-seen-assessment-instructions', (schema, request) => {
     const user = schema.users.find(request.params.id);
-    user.hasSeenAssessmentInstructions = true;
+    user.update({ hasSeenAssessmentInstructions: true });
     return user;
   });
 
