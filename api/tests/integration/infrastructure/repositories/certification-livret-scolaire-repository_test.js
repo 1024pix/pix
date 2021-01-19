@@ -62,6 +62,7 @@ describe('Integration | Repository | Certification-ls ', () => {
 
       const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
       expect(certificationResult.status).to.equal(status.REJECTED);
+      expect(certificationResult.competenceResults).to.be.empty;
     });
 
     it('should return pending certification results for a given UAI', async () => {
@@ -72,6 +73,7 @@ describe('Integration | Repository | Certification-ls ', () => {
 
       const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
       expect(certificationResult.status).to.equal(status.PENDING);
+      expect(certificationResult.competenceResults).to.be.empty;
     });
 
     it('should return no certification results if no competence-marks for a given UAI', async () => {
