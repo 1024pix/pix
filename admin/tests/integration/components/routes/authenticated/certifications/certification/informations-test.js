@@ -92,7 +92,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
 
           // then
           assert.contains('Signalement(s) impactant(s)');
-          assert.dom('.card-text ul li').hasText('Autre incident - Un signalement impactant');
+          assert.dom('.card-text ul li').hasText('Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement impactant');
           assert.notContains('Signalement(s) non impactant(s)');
         });
       });
