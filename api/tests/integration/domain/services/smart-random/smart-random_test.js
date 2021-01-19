@@ -22,9 +22,9 @@ function duplicateChallengeOfSameDifficulty(challenge) {
 describe('Integration | Domain | Stategies | SmartRandom', () => {
   let challenges, targetSkills, knowledgeElements, lastAnswer, allAnswers, locale, web1, web2, web3, web4, web5,
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil1, cnil2, challengeWeb_1,
-    challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6,
+    challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
-    challengeRechInfo_7, challengeInfo_2, challengeCnil_1, challengeCnil_2;
+    challengeRechInfo_7, challengeInfo_2_frAndEn, challengeCnil_1, challengeCnil_2;
 
   beforeEach(() => {
     targetSkills = null;
@@ -58,8 +58,9 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     challengeWeb_2_3 = domainBuilder.buildChallenge({ id: 'recweb23', skills: [web2, web3], locales: ['fr'] });
     challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skills: [web3], locales: ['fr'] });
     challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skills: [web4], locales: ['fr'] });
-    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb6', skills: [web6], locales: ['fr'] });
-    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb7', skills: [web7], locales: ['fr'] });
+    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb5', skills: [web5], locales: ['fr'] });
+    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb6', skills: [web6], locales: ['fr'] });
+    challengeWeb_7 = domainBuilder.buildChallenge({ id: 'recweb7', skills: [web7], locales: ['fr'] });
     challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skills: [url2], locales: ['fr'] });
     challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skills: [url3], locales: ['fr'] });
     challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skills: [url4], locales: ['fr'] });
@@ -69,7 +70,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skills: [rechInfo7], locales: ['fr'] });
     challengeCnil_1 = domainBuilder.buildChallenge({ id: 'reccnil1', skills: [cnil1], locales: ['fr'] });
     challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skills: [cnil2], locales: ['fr'] });
-    challengeInfo_2 = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2], locales: ['fr', 'en'] });
+    challengeInfo_2_frAndEn = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2], locales: ['fr', 'en'] });
   });
 
   describe('#getPossibleSkillsForNextChallenge', function() {
@@ -201,7 +202,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       it('should end the test when the remaining challenges have been inferred to be too hard', function() {
         // given
         targetSkills = [url2, url3, rechInfo5, web7];
-        challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_6];
+        challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_7];
 
         lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeRechInfo_5.id, result: AnswerStatus.KO });
         allAnswers = [lastAnswer];
@@ -330,7 +331,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should ask a challenge of maximum difficulty when maximum difficulty (minus 1) was correctly answered (edge case test)', function() {
         // given
-        targetSkills = [web1, web2, web4, web6, web7];
+        targetSkills = [web1, web2, web4, web5, web6];
 
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_5, challengeWeb_6];
 
@@ -357,7 +358,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
             source: 'indirect',
           }),
           domainBuilder.buildKnowledgeElement({
-            skillId: web6.id,
+            skillId: web5.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
             source: 'direct',
           }),
@@ -376,7 +377,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // then
         expect(possibleSkillsForNextChallenge.length).to.be.equal(1);
         expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
-        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web7.id);
+        expect(possibleSkillsForNextChallenge[0].id).to.be.equal(web6.id);
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_6.id);
       });
 
@@ -416,8 +417,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       it('should prioritize a challenge from an easy tube if given the possibility', function() {
         // given
         targetSkills = [url4, url5, web3, info2];
-        challenges = [challengeUrl_4, challengeUrl_5, challengeInfo_2, challengeWeb_3];
-        lastAnswer = [domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.OK })];
+        challenges = [challengeUrl_4, challengeUrl_5, challengeInfo_2_frAndEn, challengeWeb_3];
+        lastAnswer = [domainBuilder.buildAnswer({ challengeId: challengeInfo_2_frAndEn.id, result: AnswerStatus.OK })];
         allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
@@ -447,8 +448,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       it('should nevertheless target a challenge from any tubes when there is no easy tube', function() {
         // given
         targetSkills = [url4, url6, info2];
-        challenges = [challengeUrl_4, challengeUrl_6, challengeInfo_2];
-        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.OK });
+        challenges = [challengeUrl_4, challengeUrl_6, challengeInfo_2_frAndEn];
+        lastAnswer = domainBuilder.buildAnswer({ challengeId: challengeInfo_2_frAndEn.id, result: AnswerStatus.OK });
         allAnswers = [lastAnswer];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
@@ -694,7 +695,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       it('should propose only skill with asked locale', function() {
         // given
         targetSkills = [info2, cnil2];
-        challenges = [challengeInfo_2, challengeCnil_2];
+        challenges = [challengeInfo_2_frAndEn, challengeCnil_2];
         lastAnswer = null;
         allAnswers = [];
         knowledgeElements = [];
