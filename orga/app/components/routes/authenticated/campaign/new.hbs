@@ -98,10 +98,9 @@
           @type="text"
           @class="input"
           @maxlength="255"
-          @label="Libellé de l’identifiant"
+          aria-label="Libellé de l’identifiant"
           @aria-required="true"
           @placeholder="Libellé de l’identifiant"
-          aria-label="Libellé de l’identifiant"
           @value={{@campaign.idPixLabel}}
         />
         {{#each @campaign.errors.idPixLabel as |error|}}

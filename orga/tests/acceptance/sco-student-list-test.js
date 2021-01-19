@@ -85,7 +85,7 @@ module('Acceptance | Sco Student List', function(hooks) {
       test('it should display the students list filtered by lastname', async function(assert) {
         // when
         await visit('/eleves');
-        await fillInByLabel('Rechercher par nom', 'ambo');
+        await fillInByLabel('Entrer un nom', 'ambo');
         // then
         assert.equal(currentURL(), '/eleves?lastName=ambo');
         assert.contains('Rambo');
@@ -95,7 +95,7 @@ module('Acceptance | Sco Student List', function(hooks) {
       test('it should display the students list filtered by firstname', async function(assert) {
         // when
         await visit('/eleves');
-        await fillInByLabel('Rechercher par prénom', 'Jo');
+        await fillInByLabel('Entrer un prénom', 'Jo');
 
         // then
         assert.equal(currentURL(), '/eleves?firstName=Jo');

@@ -126,7 +126,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       // when
       await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
-      await fillInByLabel('Rechercher par nom', 'bob');
+      await fillInByLabel('Entrer un nom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
@@ -143,7 +143,7 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       // when
       await render(hbs`<Routes::Authenticated::SupStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
-      await fillInByLabel('Rechercher par prénom', 'bob');
+      await fillInByLabel('Entrer un prénom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
