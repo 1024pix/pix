@@ -1,6 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
@@ -10,7 +7,6 @@ import {
   find,
   findAll,
   render,
-  settled,
   triggerKeyEvent,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -23,29 +19,34 @@ describe('Integration | Component | user logged menu', function() {
 
     beforeEach(async function() {
       // given
-      this.owner.register('service:currentUser', Service.extend({
-        user: {
+      class currentUserService extends Service {
+        user = {
           firstName: 'Hermione',
           email: 'hermione.granger@hogwarts.com',
           fullName: 'Hermione Granger',
-        },
-      }));
+        }
+      }
 
-      // when
-      await render(hbs`{{user-logged-menu}}`);
+      this.owner.register('service:currentUser', currentUserService);
     });
 
-    it('should render component', function() {
+    it('should render component', async function() {
+      // when
+      await render(hbs`<UserLoggedMenu/>`);
+
       // then
       expect(find('.logged-user-details')).to.exist;
     });
 
-    it('should display logged user name with a11y guidance', function() {
+    it('should display logged user name with a11y guidance', async function() {
+      // when
+      await render(hbs`<UserLoggedMenu/>`);
+
+      // then
       const nodes = find('.logged-user-name__link').childNodes;
       const buttonTextContent = nodes[1].textContent;
       const a11yText = nodes[3].textContent;
 
-      // then
       expect(find('.logged-user-name')).to.exist;
       expect(find('.logged-user-name__link')).to.exist;
       expect(a11yText).to.equal(this.intl.t('navigation.user-logged-menu.details'));
@@ -54,7 +55,7 @@ describe('Integration | Component | user logged menu', function() {
 
     it('should hide user menu, when no action on user-name', async function() {
       // when
-      await render(hbs`{{user-logged-menu}}`);
+      await render(hbs`<UserLoggedMenu/>`);
 
       // then
       expect(find('.logged-user-menu')).to.not.exist;
@@ -62,79 +63,80 @@ describe('Integration | Component | user logged menu', function() {
 
     it('should display a user menu, when user-name is clicked', async function() {
       // given
-      const MENU_ITEMS_COUNT = 3;
-      await render(hbs`{{user-logged-menu}}`);
+      const MENU_ITEMS_COUNT = 4;
 
       // when
+      await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name__link');
 
-      return settled().then(() => {
-        // then
-        expect(find('.logged-user-menu')).to.exist;
-        expect(findAll('.logged-user-menu__link')).to.have.lengthOf(MENU_ITEMS_COUNT);
-        expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('Hermione Granger');
-        expect(find('.logged-user-menu-details__identifier').textContent.trim()).to.equal('hermione.granger@hogwarts.com');
-      });
+      // then
+      expect(find('.logged-user-menu')).to.exist;
+      expect(findAll('.logged-user-menu__link')).to.have.lengthOf(MENU_ITEMS_COUNT);
+      expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('Hermione Granger');
+      expect(find('.logged-user-menu-details__identifier').textContent.trim()).to.equal('hermione.granger@hogwarts.com');
     });
 
     it('should display link to user certifications', async function() {
       // when
-      await render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
+      await render(hbs`<UserLoggedMenu/>`);
+      await click('.logged-user-name');
 
-      return settled().then(() => {
-        // then
-        expect(findAll('.logged-user-menu__link')[1].textContent.trim()).to.equal('Mes certifications');
-      });
+      // then
+      expect(findAll('.logged-user-menu__link')[1].textContent.trim()).to.equal('Mes certifications');
+    });
+
+    it('should display link to help center', async function() {
+      // when
+      await render(hbs`<UserLoggedMenu/>`);
+      await click('.logged-user-name');
+
+      // then
+      expect(findAll('.logged-user-menu__link')[2].textContent.trim()).to.equal('Aide');
     });
 
     it('should hide user menu, when it was previously open and user-name is clicked one more time', async function() {
       // when
-      await render(hbs`{{user-logged-menu}}`);
+      await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name');
       await click('.logged-user-name');
 
-      return settled().then(() => {
-        // then
-        expect(find('.logged-user-menu')).to.not.exist;
-      });
+      // then
+      expect(find('.logged-user-menu')).to.not.exist;
     });
 
     it('should hide user menu, when it was previously open and user press key escape', async function() {
       // when
+      await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name');
       await triggerKeyEvent('.logged-user-name', 'keydown', 27);
 
-      return settled().then(() => {
-        // then
-        expect(find('.logged-user-menu')).to.not.exist;
-      });
+      // then
+      expect(find('.logged-user-menu')).to.not.exist;
     });
 
     it('should hide user menu, when the menu is opened then closed', async function() {
       // when
+      await render(hbs`<UserLoggedMenu/>`);
       await click('.logged-user-name');
       await click('.logged-user-name');
 
-      return settled().then(() => {
-        // then
-        expect(find('.logged-user-menu')).to.not.exist;
-      });
+      // then
+      expect(find('.logged-user-menu')).to.not.exist;
     });
   });
 
   describe('when user is unlogged or not found', function() {
     beforeEach(function() {
-      this.owner.register('service:currentUser', Service.extend({ user: null }));
+      class currentUserService extends Service { user = null }
+      this.owner.register('service:currentUser', currentUserService);
     });
 
     it('should not display user information, for unlogged', async function() {
       // when
-      await render(hbs`{{user-logged-menu}}`);
+      await render(hbs`<UserLoggedMenu/>`);
 
       // then
-      return settled().then(() => {
-        expect(find('.logged-user-name')).to.not.exist;
-      });
+      expect(find('.logged-user-name')).to.not.exist;
     });
   });
 });

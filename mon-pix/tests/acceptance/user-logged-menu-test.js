@@ -1,4 +1,4 @@
-import { click, currentURL } from '@ember/test-helpers';
+import { click, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
@@ -25,6 +25,15 @@ describe('Acceptance | User account', function() {
 
       // then
       expect(currentURL()).to.equal('/mes-certifications');
+    });
+
+    it('should contain link to pix.fr/aide', async function() {
+      // when
+      await click('.logged-user-name');
+      const helplink = find('.logged-user-menu__actions').children[2].children[0].getAttribute('href');
+
+      // then
+      expect(helplink).to.equal('https://pix.fr/aide');
     });
 
   });
