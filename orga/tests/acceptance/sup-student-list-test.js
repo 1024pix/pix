@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { find, triggerEvent, visit, click, typeIn } from '@ember/test-helpers';
+import { find, triggerEvent, visit, typeIn } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -89,10 +90,10 @@ module('Acceptance | Sup Student List', function(hooks) {
         await visit('/etudiants');
 
         // when
-        await click('[aria-label="Afficher les actions"]');
-        await click('[aria-label="Actions"]>*:first-child');
+        await clickByLabel('Afficher les actions');
+        await clickByLabel('Éditer le numéro étudiant');
         await typeIn('#studentNumber', '1234');
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
 
         // then
         assert.contains('1234');
@@ -103,10 +104,10 @@ module('Acceptance | Sup Student List', function(hooks) {
         await visit('/etudiants');
 
         // when
-        await click('[aria-label="Afficher les actions"]');
-        await click('[aria-label="Actions"]>*:first-child');
+        await clickByLabel('Afficher les actions');
+        await clickByLabel('Éditer le numéro étudiant');
         await typeIn('#studentNumber', '321');
-        await click('button[type=submit]');
+        await clickByLabel('Mettre à jour');
 
         // then
         assert.contains('123');

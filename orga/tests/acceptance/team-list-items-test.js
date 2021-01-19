@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -103,7 +104,7 @@ module('Acceptance | Team List | Items', function(hooks) {
         // when
         await visit('/equipe');
 
-        await click('#edit-organization-role');
+        await clickByLabel('Modifier le rôle');
 
         // then
         assert.equal(currentURL(), '/equipe');
@@ -138,7 +139,7 @@ module('Acceptance | Team List | Items', function(hooks) {
         // when
         await visit('/equipe');
 
-        await click('#edit-organization-role');
+        await clickByLabel('Modifier le rôle');
 
         // then
         assert.equal(currentURL(), '/equipe');
@@ -151,7 +152,7 @@ module('Acceptance | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
         await fillInByLabel('Sélectionner un rôle', 'MEMBER');
-        await click('#save-organization-role');
+        await clickByLabel('Enregistrer');
 
         assert.dom('#table-members tbody tr td').exists({ count: 8 });
         assert.dom('.zone-edit-role').exists({ count: 1 });
@@ -170,7 +171,7 @@ module('Acceptance | Team List | Items', function(hooks) {
         // when
         await visit('/equipe');
 
-        await click('#edit-organization-role');
+        await clickByLabel('Modifier le rôle');
 
         // then
         assert.equal(currentURL(), '/equipe');
@@ -183,7 +184,7 @@ module('Acceptance | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
         await fillInByLabel('Sélectionner un rôle', 'ADMIN');
-        await click('#save-organization-role');
+        await clickByLabel('Enregistrer');
 
         assert.dom('#table-members tbody tr td').exists({ count: 8 });
         assert.dom('.zone-edit-role').exists({ count: 1 });
@@ -202,7 +203,7 @@ module('Acceptance | Team List | Items', function(hooks) {
         // when
         await visit('/equipe');
 
-        await click('#edit-organization-role');
+        await clickByLabel('Modifier le rôle');
 
         // then
         assert.equal(currentURL(), '/equipe');
@@ -215,11 +216,11 @@ module('Acceptance | Team List | Items', function(hooks) {
         assert.dom('#table-members tbody tr:last-child td:nth-child(4)').hasText('Enregistrer');
 
         await fillInByLabel('Sélectionner un rôle', 'ADMIN');
-        await click('#save-organization-role');
+        await clickByLabel('Enregistrer');
 
-        await click('#edit-organization-role');
+        await clickByLabel('Modifier le rôle');
         await fillInByLabel('Sélectionner un rôle', 'MEMBER');
-        await click('#cancel-update-organization-role');
+        await clickByLabel('Annuler');
 
         assert.dom('#table-members tbody tr:last-child td:nth-child(3)').hasText('Administrateur');
 

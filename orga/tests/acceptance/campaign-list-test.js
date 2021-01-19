@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -71,11 +72,11 @@ module('Acceptance | Campaign List', function(hooks) {
 
     test('it should redirect to campaign details on click', async function(assert) {
       // given
-      server.create('campaign', { id: 1 });
+      server.create('campaign', { id: 1, name: 'CampagneEtPrairie' });
       await visit('/campagnes');
 
       // when
-      await click('.campaign-list .table tbody tr:first-child');
+      await clickByLabel('CampagneEtPrairie');
 
       // then
       assert.equal(currentURL(), '/campagnes/1');

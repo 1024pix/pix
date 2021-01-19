@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
@@ -169,7 +170,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{noop}}/>`);
 
       // when
-      await click('[aria-label="Afficher les actions"]');
+      await clickByLabel('Afficher les actions');
 
       // then
       assert.contains('Gérer le compte');
@@ -302,7 +303,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
         test('it should display the dissociate action', async function(assert) {
           // when
-          await click('[aria-label="Afficher les actions"]');
+          await clickByLabel('Afficher les actions');
 
           // then
           assert.contains('Dissocier le compte');
@@ -381,7 +382,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
 
       test('it should not display the dissociate action', async function(assert) {
         // when
-        await click('[aria-label="Afficher les actions"]');
+        await clickByLabel('Afficher les actions');
 
         // then
         assert.notContains('Dissocier le compte');

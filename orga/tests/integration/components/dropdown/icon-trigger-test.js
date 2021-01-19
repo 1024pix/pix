@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Dropdown | icon-trigger', function(hooks) {
@@ -18,7 +19,7 @@ module('Integration | Component | Dropdown | icon-trigger', function(hooks) {
   test('should display actions on click', async function(assert) {
     // when
     await render(hbs`<Dropdown::IconTrigger/>`);
-    await click('[aria-label="Afficher les actions"]');
+    await clickByLabel('Afficher les actions');
 
     // then
     assert.dom('[aria-label="Actions"]').exists();
@@ -27,8 +28,8 @@ module('Integration | Component | Dropdown | icon-trigger', function(hooks) {
   test('should hide actions on click again', async function(assert) {
     // when
     await render(hbs`<Dropdown::IconTrigger/>`);
-    await click('[aria-label="Afficher les actions"]');
-    await click('[aria-label="Afficher les actions"]');
+    await clickByLabel('Afficher les actions');
+    await clickByLabel('Afficher les actions');
 
     // then
     assert.dom('[aria-label="Actions"]').doesNotExist();

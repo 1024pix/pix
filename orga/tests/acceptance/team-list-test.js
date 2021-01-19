@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -136,7 +137,7 @@ module('Acceptance | Team List', function(hooks) {
       await visit('/campagnes');
 
       // when
-      await click('a[href="/equipe"]');
+      await clickByLabel('Équipe');
 
       // then
       assert.equal(currentURL(), '/equipe');

@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
@@ -61,7 +62,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       await fillInByLabel('Mot de passe', 'JeMeLoggue1024');
 
       // when
-      await click('.button');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -99,7 +100,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       await fillInByLabel('Mot de passe', 'JeMeLoggue1024');
 
       //  when
-      await click('.button');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -124,7 +125,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     await fillInByLabel('Mot de passe', 'Mauvais mot de passe');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -145,7 +146,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
     await fillInByLabel('Mot de passe', 'pix123');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -165,7 +166,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should display password when user click', async function(assert) {
       // when
-      await click('.input-password__icon');
+      await clickByLabel('rendre le mot de passe lisible');
 
       // then
       assert.dom('#login-password').hasAttribute('type', 'text');
@@ -173,7 +174,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should change icon when user click on it', async function(assert) {
       // when
-      await click('.input-password__icon');
+      await clickByLabel('rendre le mot de passe lisible');
 
       // then
       assert.dom('.fa-eye').exists();
@@ -184,7 +185,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
       await fillInByLabel('Mot de passe', 'début du mot de passe');
 
       // when
-      await click('.input-password__icon');
+      await clickByLabel('rendre le mot de passe lisible');
       await fillInByLabel('Mot de passe', 'fin du mot de passe');
 
       // then

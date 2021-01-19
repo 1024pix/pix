@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { getRootElement, render, click, triggerKeyEvent } from '@ember/test-helpers';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -34,7 +35,7 @@ module('Integration | Component | modal', function(hooks) {
     test('should call close method when user clicks on close button', async function(assert) {
       this.set('display', true);
 
-      await click('[aria-label="Fermer la fenêtre"]');
+      await clickByLabel('Fermer la fenêtre');
 
       assert.ok(close.called);
     });
