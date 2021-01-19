@@ -97,6 +97,14 @@ module.exports = {
       .fetchAll();
     return bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, bookshelfCertificationCourses);
   },
+
+  async findBySessionIdAndUserIds({ sessionId, userIds }) {
+    const bookshelfCertificationCourses = await CertificationCourseBookshelf
+      .where({ sessionId })
+      .where('userId', 'in', userIds)
+      .fetchAll();
+    return bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, bookshelfCertificationCourses);
+  },
 };
 
 function _toDomain(bookshelfCertificationCourse) {
