@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-action--}}
 {{#if this.currentUser.user}}
   <button class="logged-user-name logged-user-name__link"
           type="button"
@@ -11,7 +10,7 @@
   </button>
 
   {{#if this._canDisplayMenu}}
-    <ClickOutside @action={{action "closeMenu"}}>
+    <ClickOutside @action={{this.closeMenu}}>
       <div class="logged-user-menu">
         <div class="logged-user-menu__details">
           <div class="logged-user-menu-details__fullname">{{this.currentUser.user.fullName}}</div>
