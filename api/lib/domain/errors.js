@@ -646,6 +646,12 @@ class SchoolingRegistrationNotFound extends NotFoundError {
   }
 }
 
+class UserCantBeCreatedError extends DomainError {
+  constructor(message = 'L\'utilisateur ne peut pas être créé') {
+    super(message);
+  }
+}
+
 class UserNotFoundError extends NotFoundError {
   constructor(message = 'Ce compte est introuvable.') {
     super(message);
@@ -768,6 +774,7 @@ module.exports = {
   UserAccountNotFoundForPoleEmploiError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
+  UserCantBeCreatedError,
   UserCouldNotBeReconciledError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
