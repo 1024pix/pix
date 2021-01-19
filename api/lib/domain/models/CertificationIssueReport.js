@@ -93,11 +93,11 @@ const subcategoryCodeRequiredAction = {
   [CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'C1',
   [CertificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'C3',
   [CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
-  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E2',
-  [CertificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E3',
-  [CertificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E4',
-  [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E5',
-  [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E6',
+  [CertificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E2',
+  [CertificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
+  [CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
+  [CertificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
+  [CertificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
   [CertificationIssueReportSubcategories.OTHER]: 'E7',
 };
 
