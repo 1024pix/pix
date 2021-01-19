@@ -78,7 +78,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
       // when
-      await fillInByLabel('Rechercher par nom', 'bob');
+      await fillInByLabel('Entrer un nom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
@@ -96,7 +96,7 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}}/>`);
 
       // when
-      await fillInByLabel('Rechercher par prénom', 'bob');
+      await fillInByLabel('Entrer un prénom', 'bob');
 
       // then
       const call = triggerFiltering.getCall(0);
