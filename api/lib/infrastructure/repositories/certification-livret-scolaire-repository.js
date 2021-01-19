@@ -1,5 +1,5 @@
 const Certificate = require('../../domain/read-models/livret-scolaire/Certificate');
-const PENDING_STATUS = require('../../domain/read-models/livret-scolaire/CertificateStatus').PENDING;
+const { PENDING, VALIDATED } = require('../../domain/read-models/livret-scolaire/CertificateStatus');
 const { knex } = require('../bookshelf');
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
         deliveredAt: 'sessions.publishedAt',
         certificationCenter: 'sessions.certificationCenter',
         // eslint-disable-next-line no-restricted-syntax
-        status: knex.raw(`CASE WHEN "isPublished" THEN "assessment-results".status ELSE '${PENDING_STATUS}' END`),
+        status: knex.raw(`CASE WHEN "isPublished" THEN "assessment-results".status ELSE '${PENDING}' END`),
         pixScore: 'assessment-results.pixScore',
       })
       .select(knex.raw('\'[\' || (string_agg(\'{ "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\') over (partition by "assessment-results".id)) || \']\' as "competenceResults"'))
@@ -37,7 +37,7 @@ module.exports = {
       .orderBy('firstName', 'ASC');
 
     return result.map((certificate) => {
-      const competenceResults = JSON.parse(certificate.competenceResults);
+      const competenceResults = _extractValidatedCompetenceResults(certificate);
       return new Certificate({
         ...certificate, competenceResults,
       });
@@ -52,5 +52,8 @@ function _filterMostRecentAssessments(queryBuilder) {
       this.on('last-assessment-results.assessmentId', 'assessments.id')
         .andOn('assessment-results.createdAt', '<', knex.ref('last-assessment-results.createdAt'));
     });
+}
 
+function _extractValidatedCompetenceResults(certificate) {
+  return certificate.status === VALIDATED ? JSON.parse(certificate.competenceResults) : [];
 }
