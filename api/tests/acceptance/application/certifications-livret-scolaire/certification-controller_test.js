@@ -25,6 +25,14 @@ describe('Acceptance | API | Certifications', () => {
     const referentialCompetences = {
       'data': [
         {
+          'id': '1.1',
+          'type': 'competences',
+        },
+        {
+          'id': '1.2',
+          'type': 'competences',
+        },
+        {
           'id': '2.1',
           'type': 'competences',
         },
@@ -44,18 +52,48 @@ describe('Acceptance | API | Certifications', () => {
           'id': '3.2',
           'type': 'competences',
         },
-        {
-          'id': '1.1',
-          'type': 'competences',
-        },
-        {
-          'id': '1.2',
-          'type': 'competences',
-        },
       ],
     };
 
     const referentialIncludedData = [
+      {
+        'attributes': {
+          'name': 'Information et données',
+        },
+        'id': '1',
+        'relationships': {},
+        'type': 'areas',
+      },
+      {
+        'attributes': {
+          'name': 'Mener une recherche et une veille d’information',
+        },
+        'id': '1.1',
+        'relationships': {
+          'area': {
+            'data': {
+              'id': '1',
+              'type': 'areas',
+            },
+          },
+        },
+        'type': 'competences',
+      },
+      {
+        'attributes': {
+          'name': 'Gérer des données',
+        },
+        'id': '1.2',
+        'relationships': {
+          'area': {
+            'data': {
+              'id': '1',
+              'type': 'areas',
+            },
+          },
+        },
+        'type': 'competences',
+      },
       {
         'attributes': {
           'name': 'Communication et collaboration',
@@ -147,44 +185,7 @@ describe('Acceptance | API | Certifications', () => {
         },
         'type': 'competences',
       },
-      {
-        'attributes': {
-          'name': 'Information et données',
-        },
-        'id': '1',
-        'relationships': {},
-        'type': 'areas',
-      },
-      {
-        'attributes': {
-          'name': 'Mener une recherche et une veille d’information',
-        },
-        'id': '1.1',
-        'relationships': {
-          'area': {
-            'data': {
-              'id': '1',
-              'type': 'areas',
-            },
-          },
-        },
-        'type': 'competences',
-      },
-      {
-        'attributes': {
-          'name': 'Gérer des données',
-        },
-        'id': '1.2',
-        'relationships': {
-          'area': {
-            'data': {
-              'id': '1',
-              'type': 'areas',
-            },
-          },
-        },
-        'type': 'competences',
-      },
+
     ];
 
     beforeEach(() => {
