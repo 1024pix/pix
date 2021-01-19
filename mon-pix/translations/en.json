@@ -919,6 +919,9 @@
             "title": "For better results next time",
             "info": "These tutorial links have been suggested by Pix users."
         },
+        "user-tests": {
+            "title": "My personalised tests"
+        },
         "user-account": {
             "title": "My account"
         },
