@@ -404,4 +404,32 @@ describe('Integration | Repository | Certification Course', function() {
       expect(result).to.be.empty;
     });
   });
+
+  describe('#findBySessionIdAndUserIds', () => {
+    let sessionId;
+    let firstCertifCourse;
+    let user1;
+    let user2;
+
+    function _cleanCertificationCourse(certificationCourse) {
+      return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
+    }
+
+    it('should returns all certification courses id with given session id and user ids', async () => {
+      // given
+      sessionId = databaseBuilder.factory.buildSession().id;
+      user1 = databaseBuilder.factory.buildUser();
+      user2 = databaseBuilder.factory.buildUser();
+      firstCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId, userId: user1.id });
+      databaseBuilder.factory.buildCertificationCourse({ sessionId, userId: user2.id });
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCourses = await certificationCourseRepository.findBySessionIdAndUserIds({ sessionId, userIds: [user1.id] });
+
+      // then
+      expect(certificationCourses).to.have.lengthOf(1);
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(firstCertifCourse));
+    });
+  });
 });
