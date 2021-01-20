@@ -1,6 +1,6 @@
 const faker = require('faker');
 const moment = require('moment');
-const { chunk, sample, sampleSize, random } = require('lodash');
+const { chunk, sample, sampleSize, random, map } = require('lodash');
 const { knex } = require('../../db/knex-database-connection');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
@@ -213,7 +213,7 @@ async function _createUsers({ count, uniqId, trx }) {
 }
 
 async function _createSchoolingRegistrations({ userIds, organizationId, uniqId, trx }) {
-  const { type } = await knex.select('type').from('organizations').where({ id: organizationId }).first();
+  const { type } = await trx.select('type').from('organizations').where({ id: organizationId }).first();
   let schoolingRegistrationSpecificBuilder;
   switch (type) {
     case 'SCO':
@@ -374,6 +374,30 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
   console.log('\tOK');
 }
 
+async function _createBadgeAcquisitions({ targetProfile, userAndCampaignParticipationIds, trx }) {
+  const badges = await trx.select('id').from('badges').where({ targetProfileId: targetProfile.id });
+  const badgeIds = map(badges, 'id');
+  if (badgeIds.length === 0) {
+    console.log(`\tAucun badge pour le profil cible ${targetProfile.id} - ${targetProfile.name}`);
+    return;
+  }
+  const badgeAcquisitionData = [];
+  for (const userAndCampaignParticipationId of userAndCampaignParticipationIds) {
+    for (const badgeId of badgeIds) {
+      const haveBadge = random(0, 1) === 1;
+      if (haveBadge) {
+        badgeAcquisitionData.push({
+          userId: userAndCampaignParticipationId.userId,
+          badgeId,
+        });
+      }
+    }
+  }
+  const chunkSize = _getChunkSize(badgeAcquisitionData[0]);
+  await trx.batchInsert('badge-acquisitions', badgeAcquisitionData.flat(), chunkSize);
+  console.log(`\t${badgeAcquisitionData.flat().length} acquisitions de badge créées`);
+}
+
 async function _createParticipants({ count, targetProfile, organizationId, campaignId, trx }) {
   console.log('Création des utilisateurs...');
   const userIds = await _createUsers({ count, uniqId: targetProfile.id, trx });
@@ -391,6 +415,9 @@ async function _createParticipants({ count, targetProfile, organizationId, campa
   console.log('OK');
   console.log('Création des answers/knowledge-elements...');
   await _createAnswersAndKnowledgeElements({ targetProfile, userAndAssessmentIds, trx });
+  console.log('OK');
+  console.log('Création des obtentions de badge...');
+  await _createBadgeAcquisitions({ targetProfile, userAndCampaignParticipationIds, trx });
   console.log('OK');
 }
 
