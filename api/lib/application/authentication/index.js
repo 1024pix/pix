@@ -25,6 +25,28 @@ exports.register = async (server) => {
       },
     },
 
+    {
+      method: 'POST',
+      path: '/api/token/anonymous',
+      config: {
+        auth: false,
+        payload: {
+          allow: 'application/x-www-form-urlencoded',
+        },
+        validate: {
+          payload: Joi.object().required().keys({
+            campaign_code: Joi.string().required(),
+          }),
+        },
+        handler: AuthenticationController.authenticateAnonymousUser,
+        notes: [
+          '- Cette route permet de créer un utilisateur à partir d\'un code parcours Accès Simplifié\n' +
+          '- Elle retournera un access token Pix correspondant à l\'utilisateur.',
+        ],
+        tags: ['api'],
+      },
+    },
+
     /**
      * This endpoint does nothing and exists only because it is required by
      * Ember Simpl Auth addon, for OAuth 2 "Password Grant" strategy.
