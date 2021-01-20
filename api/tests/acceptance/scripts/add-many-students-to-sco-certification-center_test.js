@@ -5,7 +5,7 @@ const { knex } = require('../../../lib/infrastructure/bookshelf');
 const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/data/schooling-registration');
 const { databaseBuilder } = require('../../test-helper');
 
-const { addManyStudentsToScoCertificationCenter } = require('../../../scripts/add-many-students-to-sco-certification-center');
+const { addManyStudentsToScoCertificationCenter } = require('../../../scripts/data-generation/add-many-students-to-sco-certification-center');
 
 describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.js', () => {
 
