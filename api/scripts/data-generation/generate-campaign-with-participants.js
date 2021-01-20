@@ -1,4 +1,6 @@
-const { chunk, sample, sampleSize } = require('lodash');
+const faker = require('faker');
+const moment = require('moment');
+const { chunk, sample, sampleSize, random } = require('lodash');
 const { knex } = require('../../db/knex-database-connection');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
@@ -8,6 +10,7 @@ const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');
 const participationSharedAt = new Date('2020-05-03');
 let lowRAMMode = false;
+let createSchoolingRegistration = false;
 let progression = 0;
 function _logProgression(totalCount) {
   ++progression;
@@ -31,15 +34,16 @@ function _getChunkSize(objectToBeInserted) {
 function _printUsage() {
   console.log(`
   node generate-campaign-with-participants.js [OPTIONS]
-    --organizationId id       : Id de l'organisation à laquelle on souhaite attacher la campagne
-    --participantCount count  : Nombre de participants à la campagne
-    --campaignType type       : Type de la campagne (case insensitive). Valeurs possibles : assessment | profiles_collection
-    --profileType type        : Type du targetProfile (case insensitive). Valeurs possibles : light | medium | all
-                                light : 1 compétence, medium : la moitié des compétences, all : toutes les compétences
-                                Option ignorée si le type de la campagne est profiles_collection
-    --lowRAM                  : Flag optionnel. Indique que la machine dispose de peu de RAM. Réalise donc la même
-                                opération en consommant moins de RAM (opération ralentie).
-    --help ou -h              : Affiche l'aide`);
+    --organizationId id                 : Id de l'organisation à laquelle on souhaite attacher la campagne
+    --participantCount count            : Nombre de participants à la campagne
+    --campaignType type                 : Type de la campagne (case insensitive). Valeurs possibles : assessment | profiles_collection
+    --profileType type                  : Type du targetProfile (case insensitive). Valeurs possibles : light | medium | all
+                                             light : 1 compétence, medium : la moitié des compétences, all : toutes les compétences
+                                             Option ignorée si le type de la campagne est profiles_collection
+    --createSchoolingRegistrations      : Flag pour créer une schooling-registration par participant
+    --lowRAM                            : Flag optionnel. Indique que la machine dispose de peu de RAM. Réalise donc la même
+                                             opération en consommant moins de RAM (opération ralentie).
+    --help ou -h                        : Affiche l'aide`);
 }
 
 function _getIdentifier(uniqId) {
@@ -105,6 +109,9 @@ function _validateAndNormalizeArgs(commandLineArgs) {
   }
   if (commandLineArgs.find((commandLineArg) => commandLineArg === '--lowRAM')) {
     lowRAMMode = true;
+  }
+  if (commandLineArgs.find((commandLineArg) => commandLineArg === '--createSchoolingRegistrations')) {
+    createSchoolingRegistration = true;
   }
   const campaignType = _validateAndNormalizeCampaignType(commandLineArgs);
   return {
@@ -175,6 +182,76 @@ async function _createUsers({ count, uniqId, trx }) {
   }
   const chunkSize = _getChunkSize(userData[0]);
   return trx.batchInsert('users', userData.flat(), chunkSize).returning('id');
+}
+
+async function _createSchoolingRegistrations({ userIds, organizationId, uniqId, trx }) {
+  const { type } = await knex.select('type').from('organizations').where({ id: organizationId }).first();
+  let schoolingRegistrationSpecificBuilder;
+  switch (type) {
+    case 'SCO':
+      schoolingRegistrationSpecificBuilder = _buildSCOSchoolingRegistration;
+      break;
+    case 'SUP': {
+      schoolingRegistrationSpecificBuilder = _buildSUPSchoolingRegistration;
+      break;
+    }
+    case 'PRO': {
+      schoolingRegistrationSpecificBuilder = _buildPROSchoolingRegistration;
+      break;
+    }
+    default:
+      throw new Error(`L'organisation d'id ${organizationId} présente le type inconnu : ${type}`);
+  }
+  const schoolingRegistrationData = [];
+  for (const userId of userIds) {
+    const identifier = _getIdentifier(uniqId);
+    schoolingRegistrationData.push(schoolingRegistrationSpecificBuilder({ userId, organizationId, identifier }));
+  }
+  const chunkSize = _getChunkSize(schoolingRegistrationData[0]);
+  return trx.batchInsert('schooling-registrations', schoolingRegistrationData.flat(), chunkSize).returning('id');
+}
+
+function _buildBaseSchoolingRegistration({ userId, organizationId, identifier }) {
+  return {
+    organizationId,
+    userId,
+    firstName: `firstName${identifier}`,
+    lastName: `lastName${identifier}`,
+    preferredLastName: `preferredLastName${identifier}`,
+    middleName: `middleName${identifier}`,
+    thirdName: `thirdName${identifier}`,
+    birthdate: moment(faker.date.past(2, '2009-12-31')).format('YYYY-MM-DD'),
+    birthCity: `birthCity${identifier}`,
+    birthCityCode: `birthCityCode${identifier}`,
+    birthCountryCode: `birthCountryCode${identifier}`,
+    birthProvinceCode: `birthProvinceCode${identifier}`,
+  };
+}
+
+function _buildSCOSchoolingRegistration({ userId, organizationId, identifier }) {
+  const divisions = ['3eme', '4eme', '5eme', '6eme'];
+  return {
+    ..._buildBaseSchoolingRegistration({ userId, organizationId, identifier }),
+    status: 'ST',
+    nationalStudentId: `INE_${organizationId}_${identifier}`,
+    division: divisions[random(0, 3)],
+  };
+}
+
+function _buildSUPSchoolingRegistration({ userId, organizationId, identifier }) {
+  const diplomas = ['LICENCE', 'MASTER', 'DOCTORAT', 'DUT'];
+  const groups = ['G1', 'G2', 'G3', 'G4'];
+  return {
+    ..._buildBaseSchoolingRegistration({ userId, organizationId, identifier }),
+    studentNumber: `NUMETU_${organizationId}_${identifier}`,
+    isSupernumerary: random(0, 1) === 1,
+    diploma: diplomas[random(0, 3)],
+    group: groups[random(0, 3)],
+  };
+}
+
+function _buildPROSchoolingRegistration({ userId, organizationId, identifier }) {
+  return _buildBaseSchoolingRegistration({ userId, organizationId, identifier });
 }
 
 async function _createAssessments({ userAndCampaignParticipationIds, trx }) {
@@ -269,10 +346,15 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
   console.log('\tOK');
 }
 
-async function _createParticipants({ count, targetProfile, campaignId, trx }) {
+async function _createParticipants({ count, targetProfile, organizationId, campaignId, trx }) {
   console.log('Création des utilisateurs...');
   const userIds = await _createUsers({ count, uniqId: targetProfile.id, trx });
   console.log('OK');
+  if (createSchoolingRegistration) {
+    console.log('Création des schooling-registrations...');
+    await _createSchoolingRegistrations({ userIds, organizationId, uniqId: targetProfile.id, trx });
+    console.log('OK');
+  }
   console.log('Création des campaign-participations...');
   const userAndCampaignParticipationIds = await _createCampaignParticipations({ campaignId, userIds, trx });
   console.log('OK');
@@ -299,10 +381,10 @@ async function _do({ organizationId, participantCount, profileType, campaignType
     while (participantLeftToProcess > 0) {
       console.log(`Reste à traiter : ${participantLeftToProcess} participants`);
       participantLeftToProcess = participantLeftToProcess - PARTICIPANT_CHUNK_SIZE;
-      await _createParticipants({ count: PARTICIPANT_CHUNK_SIZE, targetProfile, campaignId, trx });
+      await _createParticipants({ count: PARTICIPANT_CHUNK_SIZE, targetProfile, organizationId, campaignId, trx });
     }
   } else {
-    await _createParticipants({ count: participantCount, targetProfile, campaignId, trx });
+    await _createParticipants({ count: participantCount, targetProfile, organizationId, campaignId, trx });
   }
   await trx.commit();
   console.log(`Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nTargetProfile: ${targetProfile.id}`);
