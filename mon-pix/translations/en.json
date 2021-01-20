@@ -512,7 +512,7 @@
                 "subtitle": "Continue your personalised test or send your results",
                 "title": "Campaigns"
             },
-            "presentation": "",
+            "presentation": "{firstname}",
             "recommended-competences": {
                 "profile-link": "See all skills",
                 "subtitle": "Discover the skills recommended for you.",
