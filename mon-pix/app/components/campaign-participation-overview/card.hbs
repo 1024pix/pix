@@ -9,13 +9,13 @@
     <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
     <time class="campaign-participation-overview-card-header__date"
           datetime="{{@model.createdAt}}">
-      {{t 'pages.campaign-participation-overview.card.created-at' createddate=(format-date @model.createdAt)}}
+      {{t 'pages.campaign-participation-overview.card.started-at' starteddate=(format-date @model.createdAt)}}
     </time>
   </header>
 
   <LinkTo class="button button--link {{this.status.actionClass}} campaign-participation-overview-card__action"
           @route="campaigns.start-or-resume"
           @model={{@model.campaignCode}}>
-    {{t this.status.actionText }}
+    {{t this.status.actionText}}
   </LinkTo>
 </article>

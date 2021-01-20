@@ -110,11 +110,11 @@
             "title": "Personalised test",
             "card": {
                 "resume": "Resume",
-                "send": "",
-                "created-at": "",
+                "send": "Submit my results",
+                "started-at": "Started the {starteddate}",
                 "tag": {
-                    "started": "",
-                    "completed": ""
+                    "started": "In progress",
+                    "completed": "To be submitted"
                 }
             }
         },
@@ -516,6 +516,10 @@
                 "profile-link": "See all skills",
                 "subtitle": "Discover the skills recommended for you.",
                 "title": "Recommended skills"
+            },
+            "started-competences": {
+                "subtitle": "Continue your tests, find the most recent ones here.",
+                "title": "Resume testing a skill"
             }
         },
         "error": {
