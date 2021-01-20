@@ -1,9 +1,9 @@
 const times = require('lodash/times');
 const flatMap = require('lodash/flatMap');
 const faker = require('faker');
-const SchoolingRegistration = require('../lib/domain/models/SchoolingRegistration');
-const { SchoolingRegistrationsCouldNotBeSavedError } = require('../lib/domain/errors');
-const { knex } = require('../lib/infrastructure/bookshelf');
+const SchoolingRegistration = require('../../lib/domain/models/SchoolingRegistration');
+const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain/errors');
+const { knex } = require('../../lib/infrastructure/bookshelf');
 
 function _buildSchoolingRegistration(division, organizationId) {
   return new SchoolingRegistration({

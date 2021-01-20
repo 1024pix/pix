@@ -1,8 +1,8 @@
 const { chunk, sample, sampleSize } = require('lodash');
-const { knex } = require('../db/knex-database-connection');
-const competenceRepository = require('../lib/infrastructure/repositories/competence-repository');
-const skillRepository = require('../lib/infrastructure/repositories/skill-repository');
-const targetProfileRepository = require('../lib/infrastructure/repositories/target-profile-repository');
+const { knex } = require('../../db/knex-database-connection');
+const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
+const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
+const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
 
 const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');
