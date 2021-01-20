@@ -1,7 +1,7 @@
 const isNil = require('lodash/isNil');
 const endsWith = require('lodash/endsWith');
-const Joi = require('@hapi/joi')
-  .extend(require('@hapi/joi-date'));
+const Joi = require('joi')
+  .extend(require('@joi/date'));
 const {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,

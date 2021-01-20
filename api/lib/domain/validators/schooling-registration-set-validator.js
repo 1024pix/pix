@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+const Joi = require('joi').extend(require('@joi/date'));
 const { EntityValidationError } = require('../errors');
 
 const validationConfiguration = { allowUnknown: true };
