@@ -90,7 +90,7 @@ module('Acceptance | Campaign List', function(hooks) {
         server.create('campaign', { creator });
       });
 
-      test('t should update URL with creator first name filter', async function(assert) {
+      test('it should update URL with creator first name filter', async function(assert) {
         // given
         await visit('/campagnes');
 

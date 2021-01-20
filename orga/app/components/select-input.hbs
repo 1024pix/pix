@@ -1,5 +1,5 @@
 <div class="select-input" ...attributes>
-  <select {{on 'change' @onChange}} id={{@id}} aria-label={{@aria-label}}>
+  <select {{on 'change' @onChange}} id={{@id}} aria-label={{@ariaLabel}}>
     {{#if (not-eq @emptyOptionLabel undefined)}}
       <option value="">{{@emptyOptionLabel}}</option>
     {{/if}}
