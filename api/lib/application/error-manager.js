@@ -145,6 +145,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AlreadySharedCampaignParticipationError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
+  if (error instanceof DomainErrors.UserCantBeCreatedError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
   if (error instanceof DomainErrors.ForbiddenAccess) {
     return new HttpErrors.ForbiddenError(error.message);
   }

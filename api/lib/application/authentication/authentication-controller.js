@@ -62,4 +62,17 @@ module.exports = {
 
     return h.response(response).code(200);
   },
+
+  async authenticateAnonymousUser(request, h) {
+
+    const { 'campaign_code': campaignCode } = request.payload;
+    const accessToken = await usecases.authenticateAnonymousUser({ campaignCode });
+
+    const response = {
+      token_type: 'bearer',
+      access_token: accessToken,
+    };
+
+    return h.response(response).code(200);
+  },
 };
