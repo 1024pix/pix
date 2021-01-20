@@ -11,12 +11,10 @@ const ACCOUNT_CREATION_EMAIL_SUBJECT_EN = 'Your Pix account has been created';
 const RESET_PASSWORD_EMAIL_SUBJECT_FR = 'Demande de réinitialisation de mot de passe PIX';
 const RESET_PASSWORD_EMAIL_SUBJECT_EN = 'Pix password reset request';
 
-let pixName;
-let accountCreationEmailSubject;
-let resetPasswordEmailSubject;
-
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
+  let pixName;
+  let accountCreationEmailSubject;
   let variables;
 
   if (locale === 'fr') {
@@ -72,6 +70,7 @@ function sendCertificationResultEmail({
   certificationCenterName,
   link,
 }) {
+  const pixName = PIX_NAME_FR;
   const formatedSessionDate = moment(sessionDate).locale('fr').format('L');
   const variables = {
     link,
@@ -90,6 +89,8 @@ function sendCertificationResultEmail({
 }
 
 function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
+  let pixName;
+  let resetPasswordEmailSubject;
   let variables;
 
   if (locale === 'fr') {
