@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.5.0 (20/01/2021)
+
+- [#2409](https://github.com/1024pix/pix/pull/2409) [FEATURE] Rediriger l'utilisateur vers la page des CGU Pôle Emploi sur Pix App(PIX-1695).
+- [#2388](https://github.com/1024pix/pix/pull/2388) [FEATURE] Création d'un profil cible avec ses acquis dans PixAdmin (Pix-1757)
+- [#2402](https://github.com/1024pix/pix/pull/2402) [FEATURE] Améliorations mineures de Pix Admin (PIX-1986)
+- [#2404](https://github.com/1024pix/pix/pull/2404) [FEATURE] Afficher les competences et tubes par acquis dans Pix Admin (PIX-1991).
+- [#2418](https://github.com/1024pix/pix/pull/2418) [BUGFIX] Revert de l'option timezone du format-date dans le certificat
+- [#2414](https://github.com/1024pix/pix/pull/2414) [BUGFIX] Corrige l'affichage de la colonne "créé le" dans la liste des campagnes de Pix Orga (PIX-2014).
+- [#2377](https://github.com/1024pix/pix/pull/2377) [CLEANUP] Suppression des attributs non utilisés members et memberships du modèle Organization côté API (PIX-1977)
+
 ## v3.4.0 (19/01/2021)
 
 - [#2412](https://github.com/1024pix/pix/pull/2412) [FEATURE] Amélioration du wording des catégories de signalement (PIX-1995)
