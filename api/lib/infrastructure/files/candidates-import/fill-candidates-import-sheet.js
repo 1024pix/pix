@@ -1,59 +1,50 @@
-const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
-const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
-const sessionXmlService = require('../services/session-xml-service');
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const writeOdsUtils = require('../../utils/ods/write-ods-utils');
+const readOdsUtils = require('../../utils/ods/read-ods-utils');
+const sessionXmlService = require('../../../domain/services/session-xml-service');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
-} = require('../../infrastructure/files/candidates-import/candidates-import-placeholders');
+} = require('./candidates-import-placeholders');
+
 const moment = require('moment');
 const _ = require('lodash');
 
-module.exports = async function getCandidatesImportSheet({ userId, sessionId, sessionRepository }) {
+module.exports = async function fillCandidatesImportSheet(session) {
+  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath() });
 
-  const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
-  if (!hasMembership) {
-    throw new UserNotAuthorizedToAccessEntity('User is not allowed to access session.');
-  }
+  const sessionData = SessionData.fromSession(session);
+  const candidatesData = _getCandidatesData(session.certificationCandidates);
 
-  const [ stringifiedXml, session ] = await Promise.all([
-    readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath() }),
-    sessionRepository.getWithCertificationCandidates(sessionId),
-  ]);
-
-  const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
+  const updatedStringifiedXml = _updateXml(stringifiedXml, sessionData, candidatesData);
 
   return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getCandidatesImportTemplatePath() });
 };
 
-function _updateXmlWithSession(stringifiedXml, session) {
-  const sessionData = SessionData.fromSession(session);
+function _updateXml(stringifiedXml, sessionData, candidatesData) {
   const updatedStringifiedXml = sessionXmlService.getUpdatedXmlWithSessionData({
     stringifiedXml,
     sessionData,
     sessionTemplateValues: IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
   });
 
-  return _updateXmlWithCertificationCandidates(updatedStringifiedXml, session.certificationCandidates);
-}
-
-function _updateXmlWithCertificationCandidates(stringifiedXml, certificationCandidates) {
-  const enrolledCandidatesData = _certificationCandidatesToCandidatesData(certificationCandidates);
-
-  const emptyCandidatesData = _emptyCandidatesData(enrolledCandidatesData.length);
-
-  const candidatesData = enrolledCandidatesData.concat(emptyCandidatesData);
-
   return sessionXmlService.getUpdatedXmlWithCertificationCandidatesData({
-    stringifiedXml,
+    stringifiedXml: updatedStringifiedXml,
     candidatesData,
     candidateTemplateValues: IMPORT_CANDIDATES_TEMPLATE_VALUES,
   });
 }
 
+function _getCandidatesData(certificationCandidates) {
+  const enrolledCandidatesData = _certificationCandidatesToCandidatesData(certificationCandidates);
+
+  const emptyCandidatesData = _emptyCandidatesData(enrolledCandidatesData.length);
+
+  return enrolledCandidatesData.concat(emptyCandidatesData);
+}
+
 function _getCandidatesImportTemplatePath() {
-  return __dirname + '/../../infrastructure/files/candidates-import/candidates_import_template.ods';
+  return __dirname + '/candidates_import_template.ods';
 }
 
 function _certificationCandidatesToCandidatesData(certificationCandidates) {
@@ -170,3 +161,4 @@ class SessionData {
     return new SessionData(session);
   }
 }
+
