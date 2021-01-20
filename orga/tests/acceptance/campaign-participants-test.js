@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, click, currentURL } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
@@ -24,11 +24,13 @@ module('Acceptance | Campaign Participants', function(hooks) {
     createPrescriberByUser(user);
 
     server.create('campaign', { id: 1 });
+    server.create('campaign-assessment-participation', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST', campaignId: 1 });
+    server.create('campaign-assessment-participation-summary', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST' });
     server.createList('campaign-assessment-participation', rowCount, { campaignId: 1 });
     server.createList('campaign-assessment-participation-result', rowCount, { campaignId: 1 });
     server.createList('campaign-assessment-participation-summary', 20, 'completed');
     server.createList('campaign-assessment-participation-summary', 10, 'ongoing');
-    server.createList('campaign-assessment-participation-summary', 20, 'shared');
+    server.createList('campaign-assessment-participation-summary', 19, 'shared');
 
     await authenticateSession({
       user_id: user.id,
@@ -69,7 +71,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       await visit('/campagnes/1/evaluations');
 
       // when
-      await click('table tbody .tr--clickable');
+      await clickByLabel('AAAAAAAA_IAM_FIRST');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
