@@ -37,9 +37,12 @@ function _printUsage() {
     --organizationId id                 : Id de l'organisation à laquelle on souhaite attacher la campagne
     --participantCount count            : Nombre de participants à la campagne
     --campaignType type                 : Type de la campagne (case insensitive). Valeurs possibles : assessment | profiles_collection
+    --targetProfileId id                : Id du profil cible qu'on souhaite appliqué au parcours
+                                          Ignoré si la campagne est de type profiles_collection
     --profileType type                  : Type du targetProfile (case insensitive). Valeurs possibles : light | medium | all
                                              light : 1 compétence, medium : la moitié des compétences, all : toutes les compétences
                                              Option ignorée si le type de la campagne est profiles_collection
+                                             Option ignorée si un profil cible est spécifié via --targetProfileId
     --createSchoolingRegistrations      : Flag pour créer une schooling-registration par participant
     --lowRAM                            : Flag optionnel. Indique que la machine dispose de peu de RAM. Réalise donc la même
                                              opération en consommant moins de RAM (opération ralentie).
@@ -61,6 +64,19 @@ function _validateAndNormalizeOrganizationId(commandLineArgs) {
     throw new Error(`ID de l'organisation fourni ${commandLineArgs[organizationIdIndicatorIndex + 1]} n'est pas un entier.`);
   }
   return organizationId;
+}
+
+function _validateAndNormalizeTargetProfileId(commandLineArgs) {
+  const commandLineArgsLength = commandLineArgs.length;
+  const targetProfileIdIndicatorIndex = commandLineArgs.findIndex((commandLineArg) => commandLineArg === '--targetProfileId');
+  if (targetProfileIdIndicatorIndex === -1 || targetProfileIdIndicatorIndex + 1 >= commandLineArgsLength) {
+    return null;
+  }
+  const targetProfileId = parseInt(commandLineArgs[targetProfileIdIndicatorIndex + 1]);
+  if (isNaN(targetProfileId)) {
+    throw new Error(`ID du profil cible fourni ${commandLineArgs[targetProfileIdIndicatorIndex + 1]} n'est pas un entier.`);
+  }
+  return targetProfileId;
 }
 
 function _validateAndNormalizeParticipantCount(commandLineArgs) {
@@ -114,15 +130,18 @@ function _validateAndNormalizeArgs(commandLineArgs) {
     createSchoolingRegistration = true;
   }
   const campaignType = _validateAndNormalizeCampaignType(commandLineArgs);
+  const targetProfileId = _validateAndNormalizeTargetProfileId(commandLineArgs);
   return {
     organizationId: _validateAndNormalizeOrganizationId(commandLineArgs),
+    targetProfileId: _validateAndNormalizeTargetProfileId(commandLineArgs),
     participantCount: _validateAndNormalizeParticipantCount(commandLineArgs),
-    profileType: campaignType === 'ASSESSMENT' ? _validateAndNormalizeProfileType(commandLineArgs) : 'all',
+    profileType: campaignType === 'ASSESSMENT' && !targetProfileId ? _validateAndNormalizeProfileType(commandLineArgs) : 'all',
     campaignType,
   };
 }
 
 async function _createTargetProfile({ profileType }) {
+  console.log('Création du profil cible...');
   const competences = await competenceRepository.listPixCompetencesOnly();
   const competencesInProfile = profileType === 'light' ? [sample(competences)]
     : profileType === 'medium' ? sampleSize(competences, Math.round(competences.length / 2))
@@ -138,7 +157,16 @@ async function _createTargetProfile({ profileType }) {
     }
   }
 
-  return targetProfileRepository.get(targetProfileId);
+  const targetProfile = await targetProfileRepository.get(targetProfileId);
+  console.log('OK');
+  return targetProfile;
+}
+
+async function _getTargetProfile(targetProfileId) {
+  console.log('Récupération du profil cible existant...');
+  const targetProfile = await targetProfileRepository.get(targetProfileId);
+  console.log('OK');
+  return targetProfile;
 }
 
 async function _createCampaign({ organizationId, campaignType, targetProfileId }) {
@@ -366,10 +394,10 @@ async function _createParticipants({ count, targetProfile, organizationId, campa
   console.log('OK');
 }
 
-async function _do({ organizationId, participantCount, profileType, campaignType }) {
-  console.log('Création du targetProfile...');
-  const targetProfile = await _createTargetProfile({ profileType });
-  console.log('OK');
+async function _do({ organizationId, targetProfileId, participantCount, profileType, campaignType }) {
+  const targetProfile = targetProfileId ?
+    await _getTargetProfile(targetProfileId) :
+    await _createTargetProfile({ profileType });
   console.log('Création de la campagne...');
   const campaignId = await _createCampaign({ organizationId, campaignType, targetProfileId: targetProfile.id });
   console.log('OK');
@@ -387,7 +415,7 @@ async function _do({ organizationId, participantCount, profileType, campaignType
     await _createParticipants({ count: participantCount, targetProfile, organizationId, campaignId, trx });
   }
   await trx.commit();
-  console.log(`Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nTargetProfile: ${targetProfile.id}`);
+  console.log(`Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`);
 }
 
 async function main() {
@@ -396,6 +424,7 @@ async function main() {
     console.log('Validation des arguments...');
     const {
       organizationId,
+      targetProfileId,
       participantCount,
       profileType,
       campaignType,
@@ -404,6 +433,7 @@ async function main() {
     console.log('OK');
     await _do({
       organizationId,
+      targetProfileId,
       participantCount,
       profileType,
       campaignType,
