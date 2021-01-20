@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const campaignParticipationController = require('./campaign-participation-controller');
 const { sendJsonApiError, NotFoundError } = require('../http-errors');
 

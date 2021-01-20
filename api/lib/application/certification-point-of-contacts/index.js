@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const securityPreHandlers = require('../security-pre-handlers');
 const certificationPointOfContactController = require('./certification-point-of-contact-controller');
