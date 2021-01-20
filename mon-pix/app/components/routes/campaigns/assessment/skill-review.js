@@ -5,8 +5,11 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 
 export default class SkillReview extends Component {
+
   @service intl
   @service router
+  @service session;
+  @service url
 
   @tracked displayErrorMessage = false;
 
@@ -51,8 +54,13 @@ export default class SkillReview extends Component {
     this.displayLoadingButton = true;
     const campaignParticipation = this.args.model.campaignParticipation;
     return campaignParticipation.save()
-      .then(() => {
+      .then(async () => {
         campaignParticipation.isShared = true;
+
+        const isSimplifiedAccessCampaign = await this.args.model.campaignParticipation.campaign.get('isSimplifiedAccess');
+        if (isSimplifiedAccessCampaign) {
+          return this.disconnectUser();
+        }
       })
       .catch(() => {
         campaignParticipation.rollbackAttributes();
@@ -66,6 +74,11 @@ export default class SkillReview extends Component {
     const campaignParticipation = this.args.model.campaignParticipation;
     await campaignParticipation.save({ adapterOptions: { beginImprovement: true } });
     return this.router.transitionTo('campaigns.start-or-resume', assessment.codeCampaign);
+  }
+
+  async disconnectUser() {
+    await this.session.invalidate();
+    return window.location.replace(this.url.homeUrl);
   }
 
 }

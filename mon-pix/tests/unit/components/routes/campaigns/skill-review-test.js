@@ -22,6 +22,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
           masteryPercentage: 50,
         }),
         campaign: EmberObject.create({
+          isSimplifiedAccess: false,
           targetProfile: {
             name: 'Cléa Numérique',
           },
@@ -41,15 +42,28 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     });
 
     component.router.transitionTo = sinon.stub();
+    component.disconnectUser = sinon.stub();
   });
 
   describe('#shareCampaignParticipation', function() {
+
     it('should set isShared to true', async function() {
       // when
       await component.actions.shareCampaignParticipation.call(component);
 
       // then
       expect(component.args.model.campaignParticipation.isShared).to.equal(true);
+    });
+
+    it('should disconnect user if campaign has simplified access', async function() {
+      // given
+      component.args.model.campaignParticipation.campaign.isSimplifiedAccess = true;
+
+      // when
+      await component.actions.shareCampaignParticipation.call(component);
+
+      // then
+      sinon.assert.called(component.disconnectUser);
     });
   });
 
