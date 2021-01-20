@@ -7,8 +7,10 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Campaigns | Campaigns Result', function() {
+
   setupApplicationTest();
   setupMirage();
+
   let user;
   let campaign;
   let campaignParticipation;
@@ -36,8 +38,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
     });
 
     describe('When user is logged in', async function() {
+
       const competenceResultName = 'Competence Nom';
       const partnerCompetenceResultName = 'badge partner competence nom';
+
       let campaignParticipationResult;
 
       beforeEach(async function() {
