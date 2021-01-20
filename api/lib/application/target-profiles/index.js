@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const securityPreHandlers = require('../security-pre-handlers');
 const targetProfileController = require('./target-profile-controller');

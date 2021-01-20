@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const { InvalidCertificationReportForFinalization } = require('../errors');
 

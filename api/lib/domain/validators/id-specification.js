@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 // Min 32 bits signed integer, our most common id type in Postgres
 const minId = -(2 ** 31);

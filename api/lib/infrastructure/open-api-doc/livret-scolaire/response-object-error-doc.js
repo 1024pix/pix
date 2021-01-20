@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 module.exports = Joi.object({
   code: Joi.string().required().description('An application-specific error code.'),
