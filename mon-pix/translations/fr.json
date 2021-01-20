@@ -111,10 +111,10 @@
             "card": {
                 "resume": "Reprendre",
                 "send": "Envoyer mes résultats",
-                "created-at": "Commencé le {createddate}",
+                "started-at": "Commencé le {starteddate}",
                 "tag": {
                     "started": "En cours",
-                    "completed": "A envoyer"
+                    "completed": "À envoyer"
                 }
             }
         },
@@ -516,6 +516,10 @@
                 "profile-link": "Toutes les compétences",
                 "subtitle": "Explorez les compétences recommandées pour vous.",
                 "title": "Compétences recommandées"
+            },
+            "started-competences": {
+                "subtitle": "Continuez vos tests de compétences, retrouvez les plus récents ici.",
+                "title": "Reprendre une compétence"
             }
         },
         "error": {

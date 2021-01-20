@@ -92,4 +92,83 @@ describe('Unit | Component | Dashboard | Content', function() {
     });
 
   });
+
+  describe('#startedCompetences', function() {
+
+    it('should return started competences', function() {
+      // given
+      const scorecards = [
+        { id: 1, isStarted: true },
+        { id: 2, isStarted: true },
+        { id: 4, isStarted: true },
+        { id: 5, isStarted: false },
+        { id: 3, isStarted: true },
+      ];
+
+      const expectedScorecards = [
+        { id: 1, isStarted: true },
+        { id: 2, isStarted: true },
+        { id: 4, isStarted: true },
+        { id: 3, isStarted: true },
+      ];
+
+      component.args.model = { scorecards };
+
+      // when
+      const result = component.startedCompetences;
+
+      // then
+      expect(result).to.deep.equal(expectedScorecards);
+    });
+
+    it('should return scorecards ordered by index', function() {
+      // given
+      const scorecards = [
+        { id: 3, index: '3.1', isStarted: true },
+        { id: 1, index: '1.1', isStarted: true },
+        { id: 4, index: '2.4', isStarted: true },
+      ];
+
+      const expectedScorecards = [
+        { id: 1, index: '1.1', isStarted: true },
+        { id: 4, index: '2.4', isStarted: true },
+        { id: 3, index: '3.1', isStarted: true },
+      ];
+
+      component.args.model = { scorecards };
+
+      // when
+      const result = component.startedCompetences;
+
+      // then
+      expect(result).to.deep.equal(expectedScorecards);
+    });
+
+    it('should return a maximum of four cards', function() {
+      // given
+      const scorecards = [
+        { id: 1, isStarted: true },
+        { id: 2, isStarted: true },
+        { id: 4, isStarted: true },
+        { id: 5, isStarted: true },
+        { id: 3, isStarted: true },
+      ];
+
+      const expectedScorecards = [
+        { id: 1, isStarted: true },
+        { id: 2, isStarted: true },
+        { id: 4, isStarted: true },
+        { id: 5, isStarted: true },
+      ];
+
+      component.args.model = EmberObject.create({ scorecards });
+
+      // when
+      const result = component.startedCompetences;
+
+      // then
+      expect(result).to.deep.equal(expectedScorecards);
+    });
+
+  });
 });

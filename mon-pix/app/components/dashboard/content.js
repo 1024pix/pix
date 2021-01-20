@@ -13,9 +13,23 @@ export default class Content extends Component {
     return this.recommendedScorecards.length > 0;
   }
 
+  get hasStartedCompetences() {
+    return this.startedCompetences.length > 0;
+  }
+
   get recommendedScorecards() {
+    const isScorecardNotStarted = (scorecard) => scorecard.isNotStarted;
+    return this._filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(isScorecardNotStarted);
+  }
+
+  get startedCompetences() {
+    const isScorecardStarted = (scorecard) => scorecard.isStarted;
+    return this._filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(isScorecardStarted);
+  }
+
+  _filterScorecardsByStateAndRetrieveTheFirstOnesByIndex(state) {
     const scorecards = this.args.model.scorecards;
-    const filteredScorecards = scorecards.filter((scorecard) => scorecard.isNotStarted);
+    const filteredScorecards = scorecards.filter(state);
     const orderedAndFilteredScorecards = orderBy(filteredScorecards, ['index']);
     return orderedAndFilteredScorecards.slice(0, this.MAX_SCORECARDS_TO_DISPLAY);
   }
