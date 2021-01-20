@@ -14,8 +14,81 @@ describe('Integration | Application | Target Profiles | Routes', () => {
     sinon.stub(targetProfileController, 'getTargetProfileDetails').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'updateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
+  });
+
+  describe('POST /api/target-profiles', () => {
+    it('should resolve with owner organization id to null', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/admin/target-profiles';
+
+      const payload = {
+        data: {
+          attributes: {
+            'name': 'MyTargetProfile',
+            'owner-organization-id': null,
+            'image-url': null,
+            'is-public': false,
+            'skills-id': ['skill1', 'skill2'],
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should resolve with owner organization id to empty', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/admin/target-profiles';
+
+      const payload = {
+        data: {
+          attributes: {
+            'name': 'MyTargetProfile',
+            'owner-organization-id': '',
+            'image-url': null,
+            'is-public': false,
+            'skills-id': ['skill1', 'skill2'],
+          },
+        },
+      };
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should reject with alphanumeric owner organization id ', async () => {
+      // given
+      const method = 'POST';
+      const url = '/api/admin/target-profiles';
+
+      const payload = {
+        data: {
+          attributes: {
+            'name': 'MyTargetProfile',
+            'owner-organization-id': 'ABC',
+            'image-url': null,
+            'is-public': false,
+            'skills-id': ['skill1', 'skill2'],
+          },
+        },
+      };
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
   });
 
   describe('GET /api/target-profiles', () => {
