@@ -169,6 +169,19 @@ describe('Unit | Component | Dashboard | Content', function() {
       // then
       expect(result).to.deep.equal(expectedScorecards);
     });
+  });
 
+  describe('#userFirstname', function() {
+    it('should return userFirstname', function() {
+      // given
+      const userFirstName = 'user firstname';
+      component.currentUser = EmberObject.create({ user: { firstName: userFirstName } });
+
+      // when
+      const result = component.userFirstname;
+
+      // then
+      expect(result).to.equal(userFirstName);
+    });
   });
 });
