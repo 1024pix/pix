@@ -128,4 +128,12 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     title: null,
     customLandingPageText: null,
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 11,
+    code: 'SIMPLIFIE',
+    name: 'Parcours simplifié',
+    organizationId: 1,
+    targetProfileId: 100322,
+  });
 };
