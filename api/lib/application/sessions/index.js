@@ -282,7 +282,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/sessions/results-by-recipient-email/{token}',
+      path: '/api/sessions/download-results/{token}',
       config: {
         auth: false,
         handler: sessionController.getSessionResultsByRecipientEmail,

@@ -248,4 +248,24 @@ describe('Unit | Domain | Service | Token Service', () => {
 
   });
 
+  describe('#createCertificationResultLinkToken', () => {
+    it('should return a valid token with sessionId and resultRecipientEmail', () => {
+      // given
+      const sessionId = 'abcd1234';
+      const resultRecipientEmail = 'results@college-romain-rolland.edu';
+      const daysBeforeExpiration = 30;
+      const expectedTokenAttributes = {
+        'session_id': 'abcd1234',
+        'result_recipient_email': 'results@college-romain-rolland.edu',
+      };
+
+      // when
+      const linkToken = tokenService.createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+
+      // then
+      const decodedToken = jsonwebtoken.verify(linkToken, settings.authentication.secret);
+      expect(omit(decodedToken, ['iat', 'exp'])).to.deep.equal(expectedTokenAttributes);
+    });
+  });
+
 });
