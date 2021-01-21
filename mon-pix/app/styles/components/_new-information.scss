@@ -37,7 +37,8 @@
   }
 
   &--blue-gradient-background {
-    background: $default-gradient;
+    background-image: $default-gradient;
+    background-color: rgb(5, 108, 255);
   }
 
   &--white-text {
