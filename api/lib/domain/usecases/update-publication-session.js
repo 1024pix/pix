@@ -38,7 +38,8 @@ async function _sendPrescriberEmails(session) {
       sessionId: session.id,
       sessionDate: session.date,
       certificationCenterName: session.certificationCenter,
-      link: 'EMPTY LINK',
+      resultRecipientEmail: recipientEmail,
+      daysBeforeExpiration: 30,
     });
   });
   return Promise.all(promises);
