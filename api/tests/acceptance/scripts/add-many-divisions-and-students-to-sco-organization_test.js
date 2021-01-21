@@ -5,7 +5,7 @@ const { knex } = require('../../../lib/infrastructure/bookshelf');
 const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/data/schooling-registration');
 const { databaseBuilder } = require('../../test-helper');
 
-const { addManyDivisionsAndStudentsToScoCertificationCenter } = require('../../../scripts/add-many-divisions-and-students-to-sco-organization');
+const { addManyDivisionsAndStudentsToScoCertificationCenter } = require('../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization');
 
 describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', () => {
 
