@@ -1,10 +1,10 @@
-const { MIDDLE_SCHOOL_ID } = require('../db/seeds/data/organizations-sco-builder');
+const { MIDDLE_SCHOOL_ID } = require('../../db/seeds/data/organizations-sco-builder');
 const times = require('lodash/times');
 const faker = require('faker');
-const SchoolingRegistration = require('../lib/domain/models/SchoolingRegistration');
-const { SchoolingRegistrationsCouldNotBeSavedError } = require('../lib/domain/errors');
-const { knex } = require('../lib/infrastructure/bookshelf');
-const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
+const SchoolingRegistration = require('../../lib/domain/models/SchoolingRegistration');
+const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain/errors');
+const { knex } = require('../../lib/infrastructure/bookshelf');
+const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
 
 function _buildSchoolingRegistration() {
   return new SchoolingRegistration({
