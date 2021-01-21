@@ -1,5 +1,6 @@
 import EmberObject from '@ember/object';
-import { describe, it } from 'mocha';
+import Service from '@ember/service';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,9 +9,23 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 describe('Integration | Component | Dashboard | Content', function() {
   setupIntlRenderingTest();
 
+  beforeEach(function() {
+    class CurrentUserStub extends Service {
+      user = {
+        firstName: 'Banana',
+        email: 'banana.split@example.net',
+        fullName: 'Banana Split',
+      }
+    }
+    this.owner.register('service:currentUser', CurrentUserStub);
+  });
+
   it('should render component', async function() {
     // given
-    this.set('model', {});
+    this.set('model', {
+      campaignParticipationOverviews: [],
+      scorecards: [],
+    });
 
     // when
     await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
@@ -31,6 +46,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       });
       this.set('model', {
         campaignParticipationOverviews: [campaignParticipationOverview],
+        scorecards: [],
       });
 
       // when
@@ -42,7 +58,10 @@ describe('Integration | Component | Dashboard | Content', function() {
 
     it('should not render campaign participations when there is no campaign participation overviews', async function() {
       // given
-      this.set('model', {});
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
@@ -57,6 +76,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       // given
       const scorecard = { isNotStarted: true };
       this.set('model', {
+        campaignParticipationOverviews: [],
         scorecards: [scorecard],
       });
 
@@ -69,7 +89,10 @@ describe('Integration | Component | Dashboard | Content', function() {
 
     it('should not render competence-card when there is no competence-card', async function() {
       // given
-      this.set('model', {});
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
@@ -88,7 +111,10 @@ describe('Integration | Component | Dashboard | Content', function() {
         { id: 4, index: '2.4', isNotStarted: true },
         { id: 4, index: '1.4', isNotStarted: true },
       ];
-      this.set('model', { scorecards });
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards,
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
@@ -103,6 +129,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       // given
       const scorecard = { isStarted: true };
       this.set('model', {
+        campaignParticipationOverviews: [],
         scorecards: [scorecard],
       });
 
@@ -115,7 +142,10 @@ describe('Integration | Component | Dashboard | Content', function() {
 
     it('should not render competence-card when there is no competence-card', async function() {
       // given
-      this.set('model', {});
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
@@ -134,7 +164,10 @@ describe('Integration | Component | Dashboard | Content', function() {
         { id: 4, index: '2.4', isStarted: true },
         { id: 4, index: '1.4', isStarted: true },
       ];
-      this.set('model', { scorecards });
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards,
+      });
 
       // when
       await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
@@ -142,5 +175,19 @@ describe('Integration | Component | Dashboard | Content', function() {
       // then
       expect(findAll('.competence-card')).to.have.length(4);
     });
+  });
+
+  it('should display NewInformation', async function() {
+    // given
+    this.set('model', {
+      campaignParticipationOverviews: [],
+      scorecards: [],
+    });
+
+    // when
+    await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+    // then
+    expect(find('.new-information')).to.exist;
   });
 });

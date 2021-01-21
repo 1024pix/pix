@@ -94,4 +94,21 @@ describe('Unit | Component | Profile content', function() {
 
   });
 
+  describe('#newLevelImageUrl', function() {
+    it('should return a correct image url', function() {
+      // given
+      ENV.rootURL = '/';
+      intl.t.returns('fr');
+      component = createGlimmerComponent('component:profile-content', { });
+      component.intl = intl;
+
+      // when
+      const result = component.newLevelImageUrl;
+
+      // then
+      const expectedUrl = '/images/Illu_niveau6_fr.svg';
+      expect(result).to.equal(expectedUrl);
+    });
+  });
+
 });

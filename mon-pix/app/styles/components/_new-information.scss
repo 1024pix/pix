@@ -1,9 +1,7 @@
 .new-information {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  background: $yellow;
-  margin-top: 30px;
   height: 330px;
   border-radius: 10px;
   padding: 10px;
@@ -13,8 +11,12 @@
     height: 175px;
   }
 
+  img {
+    display: none;
+  }
+
   &__close {
-    align-self: flex-start;
+    align-self: flex-end;
     margin: 5px 10px 0 0;
     padding: 7px 10px;
     background-color: transparent;
@@ -58,4 +60,26 @@
       }
     }
   }
+}
+
+@include device-is('mobile') {
+
+  .new-information {
+    height: 290px;
+  }
+}
+
+@include device-is('tablet') {
+
+  .new-information {
+    height: 157px;
+  }
+}
+
+.new-information-yellow {
+  background: $yellow;
+}
+
+.new-information-blue-gradient {
+  background: $default-gradient;
 }

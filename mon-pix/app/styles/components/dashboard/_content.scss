@@ -9,6 +9,10 @@
     border-bottom: 1px solid $grey-20;
     padding: 40px 0 20px 0;
 
+    &:first-of-type {
+      padding-top: 0;
+    }
+
     &:last-child {
       border-bottom: none;
     }
