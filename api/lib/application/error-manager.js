@@ -208,6 +208,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.InvalidExternalUserTokenError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
+  if (error instanceof DomainErrors.InvalidResultRecipientTokenError) {
+    return new HttpErrors.UnauthorizedError(error.message);
+  }
   if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
     return new HttpErrors.UnauthorizedError(error.message);
   }

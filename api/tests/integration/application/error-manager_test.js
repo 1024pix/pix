@@ -545,6 +545,14 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Demande de réinitialisation invalide.');
     });
 
+    it('responds Unauthorized when a InvalidResultRecipientTokenError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.InvalidResultRecipientTokenError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal('Le token de récupération des résultats de la session de certification est invalide.');
+    });
+
     it('responds Unauthorized when a UserShouldChangePasswordError error occurs', async () => {
       routeHandler.throws(new DomainErrors.UserShouldChangePasswordError('Erreur, vous devez changer votre mot de passe.'));
       const response = await server.inject(options);
