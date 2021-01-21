@@ -48,7 +48,6 @@ export default class Content extends Component {
 
   @action
   async closeInformationAboutNewDashboard() {
-    console.log("clicked");
     await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewDashboardInfo: true } });
   }
 }
