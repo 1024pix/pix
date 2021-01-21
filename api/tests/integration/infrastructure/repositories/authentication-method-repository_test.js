@@ -507,4 +507,58 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
+  describe('#updateOnlyShouldChangePassword', () => {
+
+    let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        hashedPassword,
+        shouldChangePassword: true,
+        userId,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    context('when authentication method exists', () => {
+
+      it('should update authentication complement by userId with shouldChangePassword false', async () => {
+        // given
+        const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
+          password: hashedPassword,
+          shouldChangePassword: false,
+        });
+
+        // when
+        const updatedAuthenticationMethod = await authenticationMethodRepository.updateOnlyShouldChangePassword({
+          shouldChangePassword: false,
+          userId,
+        });
+
+        // then
+        expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
+        expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+      });
+    });
+
+    context('when authentication method does not exist', () => {
+
+      it('should throw AuthenticationMethodNotFoundError', async () => {
+        // given
+        userId = 1;
+
+        // when
+        const error = await catchErr(authenticationMethodRepository.updateOnlyShouldChangePassword)({
+          shouldChangePassword: false,
+          userId,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(AuthenticationMethodNotFoundError);
+      });
+    });
+  });
+
 });
