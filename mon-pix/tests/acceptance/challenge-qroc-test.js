@@ -46,6 +46,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         const event = document.createEvent('Event');
         event.initEvent('message', true, true);
         event.data = 'custom answer from embed';
+        event.origin = 'https://epreuves.pix.fr';
         find('.embed__iframe').dispatchEvent(event);
 
         // then
@@ -68,6 +69,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         const event = document.createEvent('Event');
         event.initEvent('message', true, true);
         event.data = 'custom answer from embed';
+        event.origin = 'https://epreuves.pix.fr';
         find('.embed__iframe').dispatchEvent(event);
 
         // then

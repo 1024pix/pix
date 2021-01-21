@@ -8,6 +8,7 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
 
   @tracked autoReplyAnswer = '';
   postMessageHandler = null;
+  embedOrigin = 'https://epreuves.pix.fr';
 
   constructor() {
     super(...arguments);
@@ -44,9 +45,26 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
   }
 
   _receiveEmbedMessage(event) {
-    if (typeof event.data === 'string') {
-      this.autoReplyAnswer = event.data;
+    const message = this._getMessageFromEventData(event);
+    if (message && message.answer && message.from === 'pix') {
+      this.autoReplyAnswer = message.answer;
     }
+  }
+
+  _getMessageFromEventData(event) {
+    let data = null;
+    if (event.origin === this.embedOrigin) {
+      if (typeof event.data === 'string') {
+        try {
+          data = JSON.parse(event.data);
+        } catch {
+          data = { answer: event.data, from: 'pix' };
+        }
+      } else if (typeof event.data === 'object') {
+        data = event.data;
+      }
+    }
+    return data;
   }
 
   get showProposal() {
