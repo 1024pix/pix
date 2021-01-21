@@ -1,4 +1,4 @@
-const { noop } = require('lodash');
+const { noop, isObject } = require('lodash');
 const { FileValidationError } = require('../../../domain/errors');
 const fs = require('fs');
 const readline = require('readline');
@@ -98,8 +98,9 @@ class SiecleFileStreamer {
   }
 
   async _isFileZipped() {
-    const { mime } = await FileType.fromStream(this._getStreamWithoutBOM());
-    return mime === ZIP;
+    const fileType = await FileType.fromStream(this._getStreamWithoutBOM());
+
+    return isObject(fileType) && fileType.mime === ZIP;
   }
 
   async _readFirstLine() {
