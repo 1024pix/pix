@@ -94,8 +94,8 @@ exports.register = async (server) => {
               attributes: {
                 'name': Joi.string().required(),
                 'is-public': Joi.boolean().required(),
-                'organization-id': Joi.string().empty('').allow(null),
-                'image-url': Joi.string().uri().empty('').allow(null),
+                'owner-organization-id': Joi.string().pattern(/^[0-9]+$/, 'numbers').empty('').allow(null).optional(),
+                'image-url': Joi.string().uri().empty('').allow(null).optional(),
                 'skills-id': Joi.array().required(),
               },
             },
