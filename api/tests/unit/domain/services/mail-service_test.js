@@ -3,6 +3,7 @@ const { sinon, expect } = require('../../../test-helper');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const tokenService = require('../../../../lib/domain/services/token-service');
+const settings = require('../../../../lib/config');
 
 describe('Unit | Service | MailService', () => {
 
@@ -71,6 +72,7 @@ describe('Unit | Service | MailService', () => {
 
     it('should use mailer to send an email with given options', async () => {
       // given
+      sinon.stub(settings.domain, 'pixApp').value('https://pix.app');
       const sessionDate = '2020-10-03';
       const sessionId = '3';
       const certificationCenterName = 'Vincennes';
@@ -78,7 +80,7 @@ describe('Unit | Service | MailService', () => {
       const daysBeforeExpiration = 30;
       const tokenServiceStub = sinon.stub(tokenService, 'createCertificationResultLinkToken');
       tokenServiceStub.withArgs({ sessionId, resultRecipientEmail, daysBeforeExpiration }).returns('token-1');
-      const link = '/api/sessions/results-by-recipient-email/token-1';
+      const link = 'https://pix.app.org/api/sessions/download-results/token-1';
       const expectedOptions = {
         from: senderEmailAddress,
         fromName: 'PIX - Ne pas répondre',
