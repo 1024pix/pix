@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.6.0 (21/01/2021)
+
+- [#2413](https://github.com/1024pix/pix/pull/2413) [FEATURE] Choisir l'acquis à jouer dans les acquis qui possèdent une épreuve locale (PIX-1987).
+- [#2417](https://github.com/1024pix/pix/pull/2417) [FEATURE] Pouvoir effectuer l'action "Mot de passe oublié" après la génération d'un mot de passe temporaire (PIX-1645).
+- [#2419](https://github.com/1024pix/pix/pull/2419) [FEATURE] Préparer la génération du fichier des résultats de certif agrégés par destinataire (PIX-973)
+- [#2403](https://github.com/1024pix/pix/pull/2403) [FEATURE] Créer le bloc "Reprendre une compétence" (PIX-1654).
+- [#2421](https://github.com/1024pix/pix/pull/2421) [BUGFIX] Arrêter d'intercepter des messages d'autres origines (PIX-2010).
+- [#2424](https://github.com/1024pix/pix/pull/2424) [BUGFIX] Corriger une variable indéfinie dans le service d'envoi de mail
+
 ## v3.5.0 (20/01/2021)
 
 - [#2409](https://github.com/1024pix/pix/pull/2409) [FEATURE] Rediriger l'utilisateur vers la page des CGU Pôle Emploi sur Pix App(PIX-1695).
