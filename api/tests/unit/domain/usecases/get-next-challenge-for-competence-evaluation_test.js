@@ -8,7 +8,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
   describe('#getNextChallengeForCompetenceEvaluation', () => {
 
     let userId, assessmentId, competenceId,
-      assessment, lastAnswer, challenges, targetSkills,
+      assessment, lastAnswer, challenges, targetSkills, locale,
       answerRepository, challengeRepository, skillRepository,
       knowledgeElementRepository, pickChallengeService,
       recentKnowledgeElements, actualComputedChallenge,
@@ -24,6 +24,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       challenges = [];
       targetSkills = [];
       lastAnswer = null;
+      locale = 'fr';
 
       answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challengeRepository = { findValidatedByCompetenceId: sinon.stub().resolves(challenges) };
@@ -61,6 +62,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           skillRepository,
           pickChallengeService,
           improvementService,
+          locale,
         });
       });
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
@@ -79,6 +81,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           skillRepository,
           pickChallengeService,
           improvementService,
+          locale,
         });
       });
       it('should have fetched the answers', () => {
@@ -101,6 +104,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           challenges,
           targetSkills,
           knowledgeElements: recentKnowledgeElements,
+          locale,
         });
       });
 
