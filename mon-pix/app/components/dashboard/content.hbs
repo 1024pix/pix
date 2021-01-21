@@ -2,7 +2,7 @@
   <h1 class="sr-only">{{t 'pages.dashboard.title'}}</h1>
 
   {{#unless this.hasUserSeenNewDashboardInfo}}
-    <section>
+    <section class="dashboard-content__section">
       <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
                       @image="/images/discovery_TDB_pix.svg"
                       @backgroundColorClass="new-information--blue-gradient-background"
