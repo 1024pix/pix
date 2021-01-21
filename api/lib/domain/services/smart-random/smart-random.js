@@ -5,7 +5,7 @@ const { computeTubesFromSkills } = require('./../tube-service');
 
 module.exports = { getPossibleSkillsForNextChallenge };
 
-function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers } = {}) {
+function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers, locale } = {}) {
 
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
@@ -14,7 +14,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
     return targetSkills.find((skill) => skill.id === ke.skillId);
   });
   const filteredChallenges = _removeChallengesWithAnswer({ challenges, allAnswers });
-  targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges });
+  targetSkills = _getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale });
 
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
@@ -57,9 +57,9 @@ function _findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {
   return { possibleSkillsForNextChallenge: filteredSkillsForFirstChallenge, levelEstimated: 2 };
 }
 
-function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges }) {
+function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale }) {
   return _.map(targetSkills, (skill) => {
-    const challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill));
+    const challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill) && challenge.locales.includes(locale));
     const [ firstChallenge ] = challenges;
     const skillCopy = Object.create(skill);
     return Object.assign(skillCopy, {
