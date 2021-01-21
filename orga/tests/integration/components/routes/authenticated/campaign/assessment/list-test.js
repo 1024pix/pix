@@ -42,7 +42,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}}/>`);
 
       // then
-      assert.notContains('En attente de participants');
+      assert.notContains('Aucun participant');
       assert.contains('Doe');
       assert.contains('John');
       assert.contains('80%');
@@ -205,7 +205,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}}/>`);
 
       // then
-      assert.contains('En attente de participants');
+      assert.contains('Aucun participant');
     });
   });
 
