@@ -19,7 +19,6 @@ const campaignAssessmentParticipationRepository = {
       .distinct('campaignParticipationId')
       .select('*')
       .from('campaign_participation_summaries')
-      .where({ rank: 1 })
       .modify(_filterByBadgeAcquisitionsOut, filters)
       .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
 
@@ -45,7 +44,7 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters
       'campaign-participations.sharedAt',
       'campaign-participations.isShared',
       'assessments.state',
-      knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']))
+    )
     .from('campaign-participations')
     .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
     .join('users', 'users.id', 'campaign-participations.userId')
@@ -55,6 +54,7 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters
         .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
     })
     .where('campaign-participations.campaignId', '=', campaignId)
+    .modify(_filterMostRecentAssessments)
     .modify(_filterByDivisions, filters)
     .modify(_filterByBadgeAcquisitionsIn, filters);
 }
@@ -104,6 +104,15 @@ async function _getValidatedTargetSkillIds(sharedAtDatesByUsers, targetedSkillId
   }
 
   return knowledgeElementsByUser;
+}
+
+function _filterMostRecentAssessments(qb) {
+  qb
+    .leftJoin({ 'newerAssessments': 'assessments' }, function() {
+      this.on('newerAssessments.campaignParticipationId', 'campaign-participations.id')
+        .andOn('assessments.createdAt', '<', knex.ref('newerAssessments.createdAt'));
+    })
+    .whereNull('newerAssessments.id');
 }
 
 function _filterByDivisions(qb, filters) {
