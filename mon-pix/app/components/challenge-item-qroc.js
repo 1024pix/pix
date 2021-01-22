@@ -8,7 +8,7 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
 
   @tracked autoReplyAnswer = '';
   postMessageHandler = null;
-  embedOrigin = 'https://epreuves.pix.fr';
+  embedOrigins = ['https://epreuves.pix.fr', 'https://1024pix.github.io'];
 
   constructor() {
     super(...arguments);
@@ -53,18 +53,28 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
 
   _getMessageFromEventData(event) {
     let data = null;
-    if (event.origin === this.embedOrigin) {
-      if (typeof event.data === 'string') {
+    if (this.embedOrigins.includes(event.origin)) {
+      if (this._isNumeric(event.data)) {
+        data = this._transformToObjectMessage(event.data);
+      } else if (typeof event.data === 'string') {
         try {
           data = JSON.parse(event.data);
         } catch {
-          data = { answer: event.data, from: 'pix' };
+          data = this._transformToObjectMessage(event.data);
         }
       } else if (typeof event.data === 'object') {
         data = event.data;
       }
     }
     return data;
+  }
+
+  _isNumeric(x) {
+    return parseFloat(x).toString() === x;
+  }
+
+  _transformToObjectMessage(answer) {
+    return { answer: answer, from: 'pix' };
   }
 
   get showProposal() {
