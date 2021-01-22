@@ -16,9 +16,11 @@ const campaignAssessmentParticipationRepository = {
       (qb) => {
         _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters);
       })
+      .distinct('campaignParticipationId')
       .select('*')
       .from('campaign_participation_summaries')
       .where({ rank: 1 })
+      .modify(_filterByBadgeAcquisitionsOut, filters)
       .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
 
     const { results, pagination } = await fetchPage(query, page);
@@ -53,7 +55,8 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters
         .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
     })
     .where('campaign-participations.campaignId', '=', campaignId)
-    .modify(_filterQuery, filters);
+    .modify(_filterByDivisions, filters)
+    .modify(_filterByBadgeAcquisitionsIn, filters);
 }
 
 async function _buildCampaignAssessmentParticipationSummaries(results, targetedSkillIds) {
@@ -103,24 +106,30 @@ async function _getValidatedTargetSkillIds(sharedAtDatesByUsers, targetedSkillId
   return knowledgeElementsByUser;
 }
 
-function _filterQuery(qb, filters) {
+function _filterByDivisions(qb, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
     qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
+}
+
+function _filterByBadgeAcquisitionsIn(qb, filters) {
   if (filters.badges) {
-    qb.where('campaign-participations.isShared', '=', true);
-    qb.whereIn('campaign-participations.userId',
-      knex.select('badge-acquisitions.userId')
-        .from('badge-acquisitions')
-        .join('badges', function() {
-          this.on({ 'badges.id': 'badge-acquisitions.badgeId' })
-            .andOn({ 'badges.targetProfileId': 'campaigns.targetProfileId' });
-        })
-        .whereRaw('"badge-acquisitions"."badgeId" = ANY(:badgeIds)', { badgeIds: filters.badges })
-        .groupBy('badge-acquisitions.userId')
-        .having(knex.raw('count("badge-acquisitions"."badgeId") = ?', filters.badges.length)),
-    );
+    qb.select(
+      knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'),
+    )
+      .join('badges', 'badges.targetProfileId', 'campaigns.targetProfileId')
+      .join('badge-acquisitions', function() {
+        this.on({ 'badge-acquisitions.badgeId': 'badges.id' })
+          .andOn({ 'badge-acquisitions.userId': 'campaign-participations.userId' });
+      })
+      .where('campaign-participations.isShared', '=', true);
+  }
+}
+
+function _filterByBadgeAcquisitionsOut(qb, filters) {
+  if (filters.badges) {
+    qb.whereRaw(':badgeIds <@ "badges_acquired"', { badgeIds: filters.badges });
   }
 }
 
