@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.7.0 (22/01/2021)
+
+- [#2399](https://github.com/1024pix/pix/pull/2399) [FEATURE] Encart présentation de la page d'accueil (PIX-1656)
+- [#2420](https://github.com/1024pix/pix/pull/2420) [FEATURE] Ajout de la page socle "Mes parcours" (PIX-2001).
+- [#2415](https://github.com/1024pix/pix/pull/2415) [FEATURE] Ajouter les liens de téléchargements des résultats de certification aux mails (PIX-1998)
+- [#2438](https://github.com/1024pix/pix/pull/2438) [BUGFIX] Correctif pour les Embed Auto (PIX-2038).
+- [#2437](https://github.com/1024pix/pix/pull/2437) [BUGFIX] Le tooltip est mal positionné et n'est pas lisible sur Pix Orga (PIX-2009)
+- [#2425](https://github.com/1024pix/pix/pull/2425) [BUGFIX] Pouvoir changer d'avis sur la saisie ou non de l'organisation de référence lors de la création d'un profil cible dans Pix Admin (PIX-2021).
+- [#2429](https://github.com/1024pix/pix/pull/2429) [TECH] Amélioration du script de génération de participants de campagne
+
 ## v3.6.0 (21/01/2021)
 
 - [#2413](https://github.com/1024pix/pix/pull/2413) [FEATURE] Choisir l'acquis à jouer dans les acquis qui possèdent une épreuve locale (PIX-1987).
