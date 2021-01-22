@@ -102,7 +102,7 @@ describe('Integration | Component | QROC proposal', function() {
           await render(hbs`<QrocProposal @format={{this.format}} @proposals={{this.proposals}} @answerValue={{this.answerValue}} />`);
 
           // then
-          expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('off');
+          expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('nope');
         });
       });
 
