@@ -28,7 +28,7 @@ describe('Unit | UseCase | update-publication-session', () => {
       updatePublishedAt: sinon.stub(),
       getWithCertificationCandidates: sinon.stub(),
     };
-
+    sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
     mailService.sendCertificationResultEmail = sinon.stub();
   });
 
@@ -176,6 +176,66 @@ describe('Unit | UseCase | update-publication-session', () => {
         expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch(
           { sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 },
         );
+      });
+
+      context('when there is at least one results recipient', () => {
+        let clock;
+
+        afterEach(() => {
+          clock.restore();
+        });
+
+        it('should set session results as sent now', async () => {
+          // given
+          const now = new Date();
+          clock = sinon.useFakeTimers(now);
+          toPublish = true;
+          certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+          sessionRepository.flagResultsAsSentToPrescriber = sinon.spy();
+          sessionRepository.updatePublishedAt.resolves();
+
+          // when
+          await updatePublicationSession({
+            sessionId,
+            toPublish,
+            certificationRepository,
+            sessionRepository,
+          });
+
+          // then
+          expect(sessionRepository.flagResultsAsSentToPrescriber).to.have.been.calledWith({ id: sessionId, resultsSentToPrescriberAt: now });
+        });
+      });
+
+      context('when there is no results recipient', () => {
+        it('should leave resultSentToPrescriberAt null', async () => {
+          // given
+          const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
+            resultRecipientEmail: null,
+          });
+          const sessionWithoutResultsRecipient = domainBuilder.buildSession({
+            id: sessionId,
+            certificationCenter,
+            date: sessionDate,
+            certificationCandidates: [ candidateWithNoRecipient ],
+          });
+          sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(sessionWithoutResultsRecipient);
+          toPublish = true;
+          certificationRepository.updatePublicationStatusesBySessionId.resolves();
+          sessionRepository.flagResultsAsSentToPrescriber = sinon.spy();
+          sessionRepository.updatePublishedAt.resolves();
+
+          // when
+          await updatePublicationSession({
+            sessionId,
+            toPublish,
+            certificationRepository,
+            sessionRepository,
+          });
+
+          // then
+          expect(sessionRepository.flagResultsAsSentToPrescriber).to.not.have.been.called;
+        });
       });
     });
 

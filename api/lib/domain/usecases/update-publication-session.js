@@ -20,19 +20,19 @@ module.exports = async function updatePublicationSession({
   await certificationRepository.updatePublicationStatusesBySessionId(sessionId, toPublish);
 
   if (toPublish) {
-    await _sendPrescriberEmails(session);
+    await _sendPrescriberEmails(session, sessionRepository);
     session = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
   }
 
   return session;
 };
 
-async function _sendPrescriberEmails(session) {
+async function _sendPrescriberEmails(session, sessionRepository) {
   const recipientEmails = uniqBy(session.certificationCandidates, 'resultRecipientEmail')
     .map((candidate) => candidate.resultRecipientEmail)
     .filter(Boolean);
 
-  const promises = recipientEmails.map((recipientEmail) => {
+  await Promise.all(recipientEmails.map((recipientEmail) => {
     return mailService.sendCertificationResultEmail({
       email: recipientEmail,
       sessionId: session.id,
@@ -41,6 +41,9 @@ async function _sendPrescriberEmails(session) {
       resultRecipientEmail: recipientEmail,
       daysBeforeExpiration: 30,
     });
-  });
-  return Promise.all(promises);
+  }));
+
+  if (recipientEmails.length > 0) {
+    await sessionRepository.flagResultsAsSentToPrescriber({ id: session.id, resultsSentToPrescriberAt: new Date() });
+  }
 }
