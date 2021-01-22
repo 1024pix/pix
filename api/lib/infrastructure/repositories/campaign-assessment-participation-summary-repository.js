@@ -2,53 +2,35 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
 const constants = require('../constants');
+const { fetchPage } = require('../utils/knex-utils');
 const targetProfileRepository = require('./target-profile-repository');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const CampaignAssessmentParticipationSummary = require('../../domain/read-models/CampaignAssessmentParticipationSummary');
 
-const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_PAGE_NUMBER = 1;
-
 const campaignAssessmentParticipationRepository = {
 
   async findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
-    const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
-    const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    const offset = (pageNumber - 1) * pageSize;
-
     const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
     const targetedSkillIds = targetProfile.skills.map(({ id }) => id);
-    const results = await knex.with('campaign_participation_summaries',
+    const query = knex.with('campaign_participation_summaries',
       (qb) => {
         _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters);
       })
       .select('*')
-      .select(knex.raw('COUNT(*) OVER() AS ??', ['rowCount']))
       .from('campaign_participation_summaries')
       .where({ rank: 1 })
-      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName'])
-      .limit(pageSize).offset(offset);
+      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
 
-    const rowCount = _getRowCount(results);
+    const { results, pagination } = await fetchPage(query, page);
 
     const campaignAssessmentParticipationSummaries = await _buildCampaignAssessmentParticipationSummaries(results, targetedSkillIds);
 
     return {
       campaignAssessmentParticipationSummaries,
-      pagination: {
-        page: pageNumber,
-        pageSize,
-        rowCount,
-        pageCount: Math.ceil(rowCount / pageSize),
-      },
+      pagination,
     };
   },
 };
-
-function _getRowCount(results) {
-  const firstRow = results[0];
-  return firstRow ? firstRow.rowCount : 0;
-}
 
 function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters) {
   qb.select(knex.raw('"campaign-participations"."id" AS "campaignParticipationId"'), knex.raw('"users"."id" AS "userId"'))
