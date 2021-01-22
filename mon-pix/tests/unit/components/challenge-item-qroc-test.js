@@ -51,12 +51,41 @@ describe('Unit | Component | Challenge item qroc', function() {
         expect(component.autoReplyAnswer).to.deep.equal(answer);
       });
 
+      it('should set the autoreply answer from a string with number', function() {
+        // given
+        const answer = '2';
+        const event = {
+          data: answer,
+          origin: 'https://epreuves.pix.fr',
+        };
+
+        // when
+        component._receiveEmbedMessage(event);
+
+        // then
+        expect(component.autoReplyAnswer).to.deep.equal(answer);
+      });
       it('should set the autoreply answer from a object', function() {
         // given
         const answer = 'magicWord';
         const event = {
           data: { answer, from: 'pix' },
           origin: 'https://epreuves.pix.fr',
+        };
+
+        // when
+        component._receiveEmbedMessage(event);
+
+        // then
+        expect(component.autoReplyAnswer).to.deep.equal(answer);
+      });
+
+      it('should set the autoreply answer from a object with preview origin', function() {
+        // given
+        const answer = 'magicWord';
+        const event = {
+          data: { answer, from: 'pix' },
+          origin: 'https://1024pix.github.io',
         };
 
         // when
