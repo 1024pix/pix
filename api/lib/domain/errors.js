@@ -244,8 +244,8 @@ class InvalidParametersForSessionPublication extends DomainError {
 }
 
 class SendingEmailToResultRecipientError extends DomainError {
-  constructor(message = 'Échec lors de l\'envoie des résultats au destinataire.') {
-    super(message);
+  constructor(failedEmailsRecipients) {
+    super(`Échec lors de l'envoi des résultats au(x) destinataire(s) : ${failedEmailsRecipients.join(', ')}`);
   }
 }
 
