@@ -455,6 +455,32 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             });
           });
         });
+
+        context('When is a simplified access campaign', function() {
+
+          beforeEach(function() {
+            campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
+          });
+
+          it('should redirect to landing page', async function() {
+            // when
+            await visit(`/campagnes/${campaign.code}`);
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should redirect to tutorial page after starting campaign', async function() {
+            // when
+            await visit(`/campagnes/${campaign.code}`);
+            await click('button[type="submit"]');
+            await fillIn('#id-pix-label', 'vu');
+            await click('button[type="submit"]');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          });
+        });
       });
 
       context('When campaign code does not exist', function() {
@@ -831,6 +857,31 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
         });
       });
 
+      context('When is a simplified access campaign', function() {
+
+        beforeEach(function() {
+          campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
+        });
+
+        it('should redirect to landing page', async function() {
+          // when
+          await visit(`/campagnes/${campaign.code}`);
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+        });
+
+        it('should redirect to tutorial page after starting campaign', async function() {
+          // when
+          await visit(`/campagnes/${campaign.code}`);
+          await click('button[type="submit"]');
+          await fillIn('#id-pix-label', 'vu');
+          await click('button[type="submit"]');
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+        });
+      });
     });
 
     context('When user is logged in an external platform', function() {
