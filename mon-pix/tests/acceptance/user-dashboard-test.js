@@ -172,4 +172,23 @@ describe('Acceptance | User dashboard page', function() {
       expect(currentURL()).to.equal(`/competences/${scorecard.competenceId}/details`);
     });
   });
+
+  describe('new dashboard information', function() {
+
+    beforeEach(async function() {
+      await authenticateByEmail(user);
+      await visit('/accueil');
+    });
+
+    it('should close new dashboard information on user click', async function() {
+      // given
+      expect(find('.new-information')).to.exist;
+
+      // when
+      await click('.new-information__close');
+
+      // then
+      expect(find('.new-information')).not.to.exist;
+    });
+  });
 });

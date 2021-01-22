@@ -28,6 +28,14 @@ export default class ProfileContent extends Component {
     }
   }
 
+  get newLevelImageUrl() {
+    const rootUrl = ENV.rootURL;
+    const rootUrlWithoutLastSlash = rootUrl.replace(/\/$/, '');
+    const currentLang = this.intl.t('current-lang');
+
+    return `${rootUrlWithoutLastSlash}/images/Illu_niveau6_${currentLang}.svg`;
+  }
+
   @action
   async closeInformationAboutNewLevel() {
     await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewLevelInfo: true } });

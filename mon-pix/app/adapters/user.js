@@ -73,6 +73,11 @@ export default class User extends ApplicationAdapter {
       return url + '/has-seen-new-level-info';
     }
 
+    if (adapterOptions && adapterOptions.rememberUserHasSeenNewDashboardInfo) {
+      delete adapterOptions.rememberUserHasSeenNewDashboardInfo;
+      return url + '/has-seen-new-dashboard-info';
+    }
+
     if (adapterOptions && adapterOptions.updatePassword) {
       delete adapterOptions.updatePassword;
       const temporaryKey = adapterOptions.temporaryKey;

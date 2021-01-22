@@ -7,7 +7,11 @@
 
   &__section {
     border-bottom: 1px solid $grey-20;
-    padding: 40px 0 20px 0;
+    padding: 20px 0 40px;
+
+    &:first-of-type {
+      padding-top: 0;
+    }
 
     &:last-child {
       border-bottom: none;

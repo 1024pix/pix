@@ -7,7 +7,12 @@
 
     {{#if this.newLevelMessage}}
       {{#unless currentUser.user.hasSeenNewLevelInfo}}
-        <NewInformation @information={{this.newLevelMessage}} @closeaction={{this.closeInformationAboutNewLevel}} />
+        <NewInformation @information={{this.newLevelMessage}}
+                        @image={{this.newLevelImageUrl}}
+                        @backgroundColorClass="new-information--yellow-background"
+                        @textColorClass="new-information--black-text"
+                        @closeaction={{this.closeInformationAboutNewLevel}}
+                        @textAlignment="new-information--align-text-center"/>
       {{/unless}}
     {{/if}}
 
