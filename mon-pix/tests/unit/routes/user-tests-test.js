@@ -9,17 +9,23 @@ describe('Unit | Route | User-Tests', function() {
   setupTest();
 
   describe('#model', function() {
-
     it('should returns the model that contains campaignParticipationOverviews', async function() {
       // given
       const currentUserStub = Service.create({ user: { id: 1 } });
+      const store = this.owner.lookup('service:store');
+      sinon.stub(store, 'query');
 
       const campaignParticipationOverviews = [EmberObject.create({ id: 10 })];
-      const storeStub = { query: sinon.stub().returns(campaignParticipationOverviews) };
+      store.query.withArgs('campaign-participation-overview', {
+        userId: 1,
+        'page[number]': 1,
+        'page[size]': 100,
+        'filter[states]': ['ONGOING', 'TO_SHARE'],
+      }).returns(campaignParticipationOverviews);
 
       const route = this.owner.lookup('route:user-tests');
       route.set('currentUser', currentUserStub);
-      route.set('store', storeStub);
+      route.set('store', store);
 
       // when
       const model = await route.model();
@@ -28,5 +34,4 @@ describe('Unit | Route | User-Tests', function() {
       expect(model).to.deep.equal(campaignParticipationOverviews);
     });
   });
-
 });
