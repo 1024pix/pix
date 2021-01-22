@@ -101,20 +101,13 @@ describe('Unit | UseCase | update-publication-session', () => {
     });
 
     context('When we publish the session', () => {
-      it('should return update the published date and send result emails', async () => {
+
+      it('should update the published date', async () => {
         // given
         const updatedSession = { ...originalSession, publishedAt: now };
         toPublish = true;
         certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
-        function getCertificationResultArgs(recipientEmail) {
-          return {
-            email: recipientEmail,
-            sessionId: sessionId,
-            sessionDate,
-            certificationCenterName: certificationCenter,
-          };
-        }
 
         // when
         const session = await updatePublicationSession({
@@ -125,13 +118,38 @@ describe('Unit | UseCase | update-publication-session', () => {
         });
 
         // then
-        expect(sessionRepository.updatePublishedAt).calledWithExactly({ id: sessionId, publishedAt: now });
+        expect(session).to.deep.equal(updatedSession);
+      });
+
+      it('should send result emails', async () => {
+        // given
+        const updatedSession = { ...originalSession, publishedAt: now };
+        toPublish = true;
+        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
+
+        // when
+        await updatePublicationSession({
+          sessionId,
+          toPublish,
+          certificationRepository,
+          sessionRepository,
+        });
+
+        // then
+        function getCertificationResultArgs(recipientEmail) {
+          return {
+            email: recipientEmail,
+            sessionId: sessionId,
+            sessionDate,
+            certificationCenterName: certificationCenter,
+          };
+        }
         expect(mailService.sendCertificationResultEmail).to.have.been.calledTwice;
         expect(mailService.sendCertificationResultEmail.firstCall)
           .to.have.been.calledWithMatch(getCertificationResultArgs(recipient1));
         expect(mailService.sendCertificationResultEmail.secondCall)
           .to.have.been.calledWithMatch(getCertificationResultArgs(recipient2));
-        expect(session).to.deep.equal(updatedSession);
       });
 
       it('should generate links for certification results for each unique recipient', async () => {
