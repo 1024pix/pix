@@ -591,4 +591,15 @@ describe('Integration | API | Controller Error', () => {
       expect(payload.message).to.equal('An internal server error occurred');
     });
   });
+
+  context('503 Service Unavailable Error', () => {
+    const SERVICE_UNAVAILABLE_ERROR = 503;
+    it('responds ServiceUnavailable when a SendingEmailToResultRecipientError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SendingEmailToResultRecipientError('Échec lors de l\'envoie des résultats au destinataire.'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(SERVICE_UNAVAILABLE_ERROR);
+      expect(responseDetail(response)).to.equal('Échec lors de l\'envoie des résultats au destinataire.');
+    });
+  });
 });

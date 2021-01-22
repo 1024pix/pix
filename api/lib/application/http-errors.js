@@ -76,6 +76,14 @@ class ForbiddenError extends BaseHttpError {
   }
 }
 
+class ServiceUnavailableError extends BaseHttpError {
+  constructor(message) {
+    super(message);
+    this.title = 'ServiceUnavailable';
+    this.status = 503;
+  }
+}
+
 class ImproveCompetenceEvaluationForbiddenError extends BaseHttpError {
   constructor(message) {
     super(message);
@@ -122,6 +130,7 @@ module.exports = {
   PayloadTooLargeError,
   PreconditionFailedError,
   sendJsonApiError,
+  ServiceUnavailableError,
   UnauthorizedError,
   UnprocessableEntityError,
 };

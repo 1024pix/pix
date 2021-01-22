@@ -115,6 +115,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.SendingEmailToResultRecipientError) {
+    return new HttpErrors.ServiceUnavailableError(error.message);
+  }
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
     return new HttpErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
   }

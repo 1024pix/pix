@@ -1,4 +1,4 @@
-const { InvalidParametersForSessionPublication } = require('../../domain/errors');
+const { InvalidParametersForSessionPublication, SendingEmailToResultRecipientError } = require('../../domain/errors');
 const mailService = require('../../domain/services/mail-service');
 const uniqBy = require('lodash/uniqBy');
 
@@ -32,18 +32,26 @@ async function _sendPrescriberEmails(session, sessionRepository) {
     .map((candidate) => candidate.resultRecipientEmail)
     .filter(Boolean);
 
-  await Promise.all(recipientEmails.map((recipientEmail) => {
-    return mailService.sendCertificationResultEmail({
-      email: recipientEmail,
-      sessionId: session.id,
-      sessionDate: session.date,
-      certificationCenterName: session.certificationCenter,
-      resultRecipientEmail: recipientEmail,
-      daysBeforeExpiration: 30,
-    });
-  }));
+  try {
+    await Promise.all(recipientEmails.map((recipientEmail) => {
+      return mailService.sendCertificationResultEmail({
+        email: recipientEmail,
+        sessionId: session.id,
+        sessionDate: session.date,
+        certificationCenterName: session.certificationCenter,
+        resultRecipientEmail: recipientEmail,
+        daysBeforeExpiration: 30,
+      });
+    }));
 
-  if (recipientEmails.length > 0) {
-    await sessionRepository.flagResultsAsSentToPrescriber({ id: session.id, resultsSentToPrescriberAt: new Date() });
+    if (recipientEmails.length > 0) {
+      await sessionRepository.flagResultsAsSentToPrescriber({ id: session.id, resultsSentToPrescriberAt: new Date() });
+    }
+
+  } catch (error) {
+    if (error) {
+      throw new SendingEmailToResultRecipientError();
+    }
   }
+
 }
