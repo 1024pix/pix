@@ -243,6 +243,12 @@ class InvalidParametersForSessionPublication extends DomainError {
   }
 }
 
+class SendingEmailToResultRecipientError extends DomainError {
+  constructor(message = 'Échec lors de l\'envoie des résultats au destinataire.') {
+    super(message);
+  }
+}
+
 class CompetenceResetError extends DomainError {
   constructor(remainingDaysBeforeReset) {
     super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
@@ -767,6 +773,7 @@ module.exports = {
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,
+  SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,

@@ -6,7 +6,7 @@ const {
 } = require('../../../test-helper');
 
 const updatePublicationSession = require('../../../../lib/domain/usecases/update-publication-session');
-const { InvalidParametersForSessionPublication } = require('../../../../lib/domain/errors');
+const { InvalidParametersForSessionPublication, SendingEmailToResultRecipientError } = require('../../../../lib/domain/errors');
 const mailService = require('../../../../lib/domain/services/mail-service');
 
 describe('Unit | UseCase | update-publication-session', () => {
@@ -179,16 +179,10 @@ describe('Unit | UseCase | update-publication-session', () => {
       });
 
       context('when there is at least one results recipient', () => {
-        let clock;
-
-        afterEach(() => {
-          clock.restore();
-        });
 
         it('should set session results as sent now', async () => {
           // given
           const now = new Date();
-          clock = sinon.useFakeTimers(now);
           toPublish = true;
           certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
           sessionRepository.flagResultsAsSentToPrescriber = sinon.spy();
@@ -259,6 +253,28 @@ describe('Unit | UseCase | update-publication-session', () => {
         expect(sessionRepository.updatePublishedAt).to.not.have.been.called;
         expect(mailService.sendCertificationResultEmail).to.not.have.been.called;
         expect(session).to.deep.equal(originalSession);
+      });
+    });
+
+    context('When the mail sending fails', () => {
+
+      it('should throw an error', async () => {
+        // given
+        toPublish = true;
+        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        sessionRepository.updatePublishedAt.resolves();
+        mailService.sendCertificationResultEmail.rejects();
+
+        // when
+        const error = await catchErr(updatePublicationSession)({
+          sessionId,
+          toPublish,
+          certificationRepository,
+          sessionRepository,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(SendingEmailToResultRecipientError);
       });
     });
   });
