@@ -1,4 +1,3 @@
-const Answer = require('../../domain/models/Answer');
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
 const usecases = require('../../domain/usecases');
@@ -7,7 +6,7 @@ const requestResponseUtils = require('../../infrastructure/utils/request-respons
 module.exports = {
 
   async save(request, h) {
-    const answer = partialDeserialize(request.payload);
+    const answer = answerSerializer.deserialize(request.payload);
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
     const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId });
 
@@ -59,16 +58,3 @@ module.exports = {
     return correctionSerializer.serialize(correction);
   },
 };
-
-function partialDeserialize(payload) {
-  // XXX missing AnswerStatus adapter for result serialisation
-  return new Answer({
-    value: payload.data.attributes.value,
-    result: null,
-    resultDetails: null,
-    timeout: payload.data.attributes.timeout,
-    elapsedTime: payload.data.attributes['elapsed-time'],
-    assessmentId: payload.data.relationships.assessment.data.id,
-    challengeId: payload.data.relationships.challenge.data.id,
-  });
-}
