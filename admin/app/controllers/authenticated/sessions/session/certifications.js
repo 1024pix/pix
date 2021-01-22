@@ -46,8 +46,12 @@ export default class ListController extends Controller {
       this.model.juryCertificationSummaries.reload();
       this.model.isPublished = toPublish;
       this.notifications.success(successText);
-    } catch (error) {
-      this.notifications.error(error);
+    } catch (e) {
+      if (e.errors && e.errors[0] && e.errors[0].detail) {
+        this.notifications.error(e.errors[0].detail);
+      } else {
+        this.notifications.error(e);
+      }
     }
     this.displayConfirm = false;
   }

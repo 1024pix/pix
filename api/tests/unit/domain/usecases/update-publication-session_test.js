@@ -104,10 +104,12 @@ describe('Unit | UseCase | update-publication-session', () => {
 
       it('should update the published date', async () => {
         // given
-        const updatedSession = { ...originalSession, publishedAt: now };
+        const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
+        const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
         toPublish = true;
         certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
-        sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
+        sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
+        sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
 
         // when
         const session = await updatePublicationSession({
@@ -115,10 +117,11 @@ describe('Unit | UseCase | update-publication-session', () => {
           toPublish,
           certificationRepository,
           sessionRepository,
+          publishedAt: now,
         });
 
         // then
-        expect(session).to.deep.equal(updatedSession);
+        expect(session).to.deep.equal(updatedSessionWithResultSent);
       });
 
       it('should send result emails', async () => {
@@ -183,10 +186,12 @@ describe('Unit | UseCase | update-publication-session', () => {
         it('should set session results as sent now', async () => {
           // given
           const now = new Date();
+          const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
+          const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
           toPublish = true;
           certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
-          sessionRepository.flagResultsAsSentToPrescriber = sinon.spy();
-          sessionRepository.updatePublishedAt.resolves();
+          sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
+          sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
 
           // when
           await updatePublicationSession({
@@ -202,7 +207,7 @@ describe('Unit | UseCase | update-publication-session', () => {
       });
 
       context('when there is no results recipient', () => {
-        it('should leave resultSentToPrescriberAt null', async () => {
+        it('should leave resultSentToPrescriberAt untouched', async () => {
           // given
           const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
             resultRecipientEmail: null,
@@ -214,10 +219,12 @@ describe('Unit | UseCase | update-publication-session', () => {
             certificationCandidates: [ candidateWithNoRecipient ],
           });
           sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(sessionWithoutResultsRecipient);
+
+          const now = new Date();
+          const updatedSessionWithPublishedAt = { ...sessionWithoutResultsRecipient, publishedAt: now };
           toPublish = true;
-          certificationRepository.updatePublicationStatusesBySessionId.resolves();
-          sessionRepository.flagResultsAsSentToPrescriber = sinon.spy();
-          sessionRepository.updatePublishedAt.resolves();
+          certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+          sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
 
           // when
           await updatePublicationSession({
@@ -225,6 +232,7 @@ describe('Unit | UseCase | update-publication-session', () => {
             toPublish,
             certificationRepository,
             sessionRepository,
+            publishedAt: now,
           });
 
           // then
@@ -256,14 +264,16 @@ describe('Unit | UseCase | update-publication-session', () => {
       });
     });
 
-    context('When the mail sending fails', () => {
+    context('When at least one of the e-mail sending fails', () => {
 
-      it('should throw an error', async () => {
+      it('should throw an error and leave the session unpublished', async () => {
         // given
         toPublish = true;
+        const publishedAt = new Date();
         certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
-        sessionRepository.updatePublishedAt.resolves();
-        mailService.sendCertificationResultEmail.rejects();
+        sessionRepository.updatePublishedAt.resolves({ ...originalSession, publishedAt: publishedAt });
+        mailService.sendCertificationResultEmail.onCall(0).rejects();
+        mailService.sendCertificationResultEmail.onCall(1).resolves();
 
         // when
         const error = await catchErr(updatePublicationSession)({
@@ -271,9 +281,27 @@ describe('Unit | UseCase | update-publication-session', () => {
           toPublish,
           certificationRepository,
           sessionRepository,
+          publishedAt,
         });
 
         // then
+        expect(mailService.sendCertificationResultEmail).to.have.been.calledWith({
+          sessionId,
+          resultRecipientEmail: 'email1@example.net',
+          daysBeforeExpiration: 30,
+          certificationCenterName: 'certificationCenter',
+          sessionDate: originalSession.date,
+          email: 'email1@example.net',
+        });
+        expect(mailService.sendCertificationResultEmail).to.have.been.calledWith({
+          sessionId,
+          resultRecipientEmail: 'email2@example.net',
+          daysBeforeExpiration: 30,
+          certificationCenterName: 'certificationCenter',
+          sessionDate: originalSession.date,
+          email: 'email2@example.net',
+        });
+        expect(sessionRepository.flagResultsAsSentToPrescriber).to.not.have.been.called;
         expect(error).to.be.an.instanceOf(SendingEmailToResultRecipientError);
       });
     });
