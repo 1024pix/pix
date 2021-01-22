@@ -13,9 +13,9 @@
         {{/if}}
         <Textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                   rows="5"
-                  name={{block.input}}
+                  name={{block.randomName}}
                   placeholder={{block.placeholder}}
-                  autocomplete="off"
+                  autocomplete="nope"
                   id="{{block.text}}"
                   @value={{mut (get @answersValue block.input)}}
                   disabled={{@answer}}
@@ -28,9 +28,9 @@
 
         <Input class="challenge-response__proposal challenge-response__proposal--sentence"
                @type="text"
-               name={{block.input}}
+               name={{block.randomName}}
                placeholder={{block.placeholder}}
-               autocomplete="off"
+               autocomplete="nope"
                id="{{block.text}}"
                @value={{mut (get @answersValue block.input)}}
                disabled={{@answer}}
@@ -43,9 +43,9 @@
         <Input class="challenge-response__proposal"
                size="{{get-qroc-input-size @format}}"
                @type="text"
-               name={{block.input}}
+               name={{block.randomName}}
                placeholder={{block.placeholder}}
-               autocomplete="off"
+               autocomplete="nope"
                id="{{block.text}}"
                @value={{mut (get @answersValue block.input)}}
                disabled={{@answer}}
