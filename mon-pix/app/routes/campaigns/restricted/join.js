@@ -14,7 +14,7 @@ export default class JoinRoute extends Route {
     return this.modelFor('campaigns');
   }
 
-  async redirect(campaign) {
+  async afterModel(campaign) {
     if (!this.session.get('data.externalUser')) {
       let schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', { userId: this.currentUser.user.id, campaignCode: campaign.code });
 
