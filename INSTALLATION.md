@@ -7,8 +7,10 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 * [Git](https://git-scm.com/) (2.6.4)
 * [Node.js](https://nodejs.org/) (v14.15.1) et NPM (6.14.8)
 * [Docker](https://docs.docker.com/get-started/) (19.03.5) avec [Docker Compose](https://docs.docker.com/compose/install/)
+- [Chrome](https://www.google.com/intl/fr_fr/chrome/) > v.64 (anée 2018) pour les teste end-to-end
 
-> ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
+> ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. 
+> Il est possible que l'application fonctionne avec des versions différentes.
 
 Assurez-vous aussi de ne pas avoir de process écoutant le port 5432 (PostgreSQL).
 
@@ -28,11 +30,13 @@ cd pix
 
 **2.1** ⚠️ Sous Windows seulement
 
-Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine. La `windows-build-tools@4.0.0` semble plus stable à l'installation.
+Il se peut que la dernière version `windows-build-tools` ne s'installe pas sur votre machine. 
+La `windows-build-tools@4.0.0` semble plus stable à l'installation.
 ```bash
 npm install windows-build-tools
 ```
-Ensuite, il faudra définir dans `.npmrc` quelle est l'invite de commande à utiliser pour lancer les script-shell. Par défaut, c'est le `cmd.exe` pour changer cela :
+Ensuite, il faudra définir dans `.npmrc` quelle est l'invite de commande à utiliser pour lancer les script-shell. 
+Par défaut, c'est le `cmd.exe` pour changer cela :
 
 * installation 64bit :
 ```bash 
