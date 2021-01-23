@@ -50,19 +50,20 @@ L'installation proprement dite est effectuée par `npx cypress install` dans un 
 #### Démarrer l'environnement à tester
 
 Pour lancer Cypress sur une plateforme complète, il faut lancer
-* [x] un cache applicatif branché sur le Airtable minimal de Cypress,
-* [x] une base de données Postgres,
-* [x] l'API sur ladite base de données,
-* [x] le front connecté à ladite API.
+* [x] un cache applicatif
+* [x] une base de données Postgres
+* [x] l'API, et la connecter à ladite base de données
+* [x] le front connecté à ladite API
  
 Pour les détails, voir [section dédiée](../INSTALLATION.md#L42-L42) du guide d'installation Pix
 
 ##### Configurer le cache applicatif pour les tests
 
-- Dans `~/api/.env`, renseignez/décommentez les variables `CYPRESS_AIRTABLE_BASE` et `CYPRESS_AIRTABLE_API_KEY`. Si vous ne possédez pas ces clefs, je vous invite à demander de l'aide à quelqu'un.
+Vérifiez les valeurs des variables suivantes dans le fichier`/api/.env` (voir le fichier `/api/sample.env`)
+- `CYPRESS_LMCS_BASE`
+- `CYPRESS_LCMS_API_KEY`
 
-- Nettoyez le cache Redis grâce aux commandes suivantes pour que les données du Airtable minimal soient récupérées au lancement des tests :
-
+Forcez la mise à jour de ces données dans le cache à la prochaine exécution des tests
 ```bash
 > redis-cli
 > FLUSHDB
