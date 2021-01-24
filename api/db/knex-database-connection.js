@@ -48,7 +48,13 @@ async function listAllTableNames() {
 }
 
 async function emptyAllTables() {
+
   const tableNames = await listAllTableNames();
+
+  if (tableNames.length === 0) {
+    throw new Error('Database has no tables to empty');
+  }
+
   const tablesToDelete = _.without(tableNames,
     'knex_migrations',
     'knex_migrations_lock',
