@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:4200",
+  "baseUrl": "http://localhost:3000/api",
   "env": {
     "API_URL": "http://localhost:3000",
     "ORGA_URL": "http://localhost:4201",
