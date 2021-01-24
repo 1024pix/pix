@@ -21,6 +21,7 @@ Cependant, la suite de test Pix étant lancée dans la CI sur Chrome, il est sug
 
 ### Installer Cypress
 
+#### Module npm
 Installer le module npm cypress
 ```
 cd high-level-tests/e2e
@@ -28,7 +29,8 @@ npm ci
 npx cypress install  
 ```
 
-Le téléchargment prend quelques minutes
+#### Wrapper Cypress
+Le téléchargement prend quelques minutes
 ```
 ╰─$ npx cypress install                                                                                                                            1 ↵
 Installing Cypress (version: 4.6.0)
@@ -44,20 +46,9 @@ Le module npm est un simple [wrapper](https://docs.cypress.io/guides/getting-sta
 
 L'installation proprement dite est effectuée par `npx cypress install` dans un dossier hors du repository (ex. [/.cache/Cypress](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Binary-cache) pour Linux)
 
+### Configurer l'environnement
 
-### Exécuter les tests
-
-#### Démarrer l'environnement à tester
-
-Pour lancer Cypress sur une plateforme complète, il faut lancer
-* [x] un cache applicatif
-* [x] une base de données Postgres
-* [x] l'API, et la connecter à ladite base de données
-* [x] le front connecté à ladite API
- 
-Pour les détails, voir [section dédiée](../INSTALLATION.md#L42-L42) du guide d'installation Pix
-
-##### Configurer le cache applicatif pour les tests
+#### Configurer le cache applicatif pour les tests
 
 Vérifiez les valeurs des variables suivantes dans le fichier`/api/.env` (voir le fichier `/api/sample.env`)
 - `CYPRESS_LMCS_BASE`
@@ -69,9 +60,51 @@ Forcez la mise à jour de ces données dans le cache à la prochaine exécution 
 > FLUSHDB
 ```
 
-#### Lancer les tests dans Cypress
+#### Configurer les captures d'écran
+Les étapes intermédiaires ne sont pas visualisables par défaut, pour ne pas consommer de la place sur la CI.
+C'est ce qu'indique le message : `The snapshot is missing. Displaying current state of the DOM.`
 
-###### Choisir les tests à lancer
+Pour les visualiser en local, à des fins d'analyse
+- ouvrir `cypress.json`
+- passer la variable `"numTestsKeptInMemory"` de 0 à au nombre de tests à garder
+```
+  "numTestsKeptInMemory": 1000,
+```
+
+
+### Exécuter les tests
+
+#### Principes
+
+Pour lancer Cypress sur une plateforme complète, il faut lancer
+* [x] un cache applicatif
+* [x] une base de données Postgres
+* [x] l'API, et la connecter à ladite base de données
+* [x] le front connecté à ladite API
+
+Pour les détails, voir [section dédiée](../INSTALLATION.md#L42-L42) du guide d'installation Pix
+
+#### Exécuter les tests dans une IHM
+
+###### Lancer l'intégralité de tests
+
+La tâche `cy:run`
+- lance l'intégralité des tests dans un navigateur
+- affiche le résultat dans la ligne de commande
+
+Note: le navigateur n'est pas headless, les fenêtres seront ouvertes et fermées automatiquement
+
+Syntaxe:
+- avec une connexion à la BDD par défaut `postgres@localhost/pix_test`
+```
+npm run cy:run:local
+```
+- avec une connexion à la BDD modifiable (ex: sur l'instance `pix_test`)
+```
+DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run
+```
+
+##### Choisir les tests à lancer
 
 La tâche `cy:open` ouvre un navigateur où il est possible de: 
 - lancer tout ou partie des tests
@@ -88,33 +121,45 @@ npm run cy:open:local
 DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:open
 ```
 
-Les étapes intermédiaires ne sont pas visualisables par défaut, pour ne pas consommer de la place sur la CI.
-C'est ce qu'indique le message : `The snapshot is missing. Displaying current state of the DOM.`
-
-Pour les visualiser en local, à des fins d'analyse, modifier `cypress.json` pour passer la variable `"numTestsKeptInMemory"` de 0 à 1 
-```
-  "numTestsKeptInMemory": 1,
-```
-
 Attention: ne pas committer ces modifications
 
-##### Lancer l'intégralité des tests
+#### Exécuter les tests en ligne de commande
 
-La tâche `cy:run` 
-- lance l'intégralité des tests dans un navigateur
-- affiche le résultat dans la ligne de commande
+##### Lancer l'intégralité de tests
 
-Note: le navigateur n'est pas headless, les fenêtres seront ouvertes et fermées automatiquement
+Le script
+- installe les dépendances des applications, en série
+- initialise la BDD 
+- démarre les applications, en parallèle
+- exécute les tests (environ 15 minutes)
 
-Syntaxe: 
-- avec une connexion à la BDD par défaut `postgres@localhost/pix_test`
+Utile lors
+- de la première utilisation, pour vérifier la configuration
+- d'un test de non-régression global, par exemple suite à une mise à jour de NodeJS
 ```
-npm run cy:run:local
+npm run cy:start-run:local:all
 ```
-- avec une connexion à la BDD modifiable (ex: sur l'instance `pix_test`)
+
+##### Lancer les tests une application
+
+Le script
+- installe les dépendances de l'application
+- initialise la BDD
+- démarre l'application et l'API
+- exécute les tests (environ 5 minutes pour mon-pix)
+
+Utile lors
+- d'un test de non-régression sur l'application, par exemple suite au développement d'une feature
+
+Ajouter 
+
+Exécuter l'une des tâches suivantes
+```shell
+npm run cy:start-run:local:mon-pix
+npm run cy:start-run:local:orga
+npm run cy:start-run:local:certif
 ```
-DATABASE_URL=postgresql://postgres@localhost/pix_test npm run cy:run
-```
+
 
 ### Écrire les tests
 
