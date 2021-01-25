@@ -32,6 +32,22 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       });
     });
 
+    it('should return the status when the campaign is completed and shared', function() {
+      // given
+      component.args.model = EmberObject.create({ assessmentState: 'completed', isShared: true });
+
+      // when
+      const result = component.status;
+
+      // then
+      expect(result).to.eql({
+        tagText: 'pages.campaign-participation-overview.card.tag.finished',
+        tagColor: 'grey-light',
+        actionText: 'pages.campaign-participation-overview.card.see-more',
+        actionClass: '',
+      });
+    });
+
     it('should return the status when the campaign is not completed', function() {
       // given
       component.args.model = EmberObject.create({ assessmentState: 'started' });
