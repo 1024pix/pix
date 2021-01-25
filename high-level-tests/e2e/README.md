@@ -41,10 +41,16 @@ Installing Cypress (version: 4.6.0)
 ```
 
 **Note**
+Le module npm est un simple [wrapper](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Installing) autour de Cypress, 
+qui permet de gérer de fixer la version et de simplifier l'intégration avec une CI.
 
-Le module npm est un simple [wrapper](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Installing) autour de Cypress, qui permet de gérer de fixer la version et de simplifier l'intégration avec une CI.
+L'installation proprement dite est effectuée par `npx cypress install` dans un dossier hors du repository 
+(ex. [/.cache/Cypress](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Binary-cache) pour Linux)
 
-L'installation proprement dite est effectuée par `npx cypress install` dans un dossier hors du repository (ex. [/.cache/Cypress](https://docs.cypress.io/guides/getting-started/installing-cypress.html#Binary-cache) pour Linux)
+#### NodeJS
+Il est possible que la version de NodeJS utilisée par Cypress lors des appels à npm (`cy.exec('npm run db:empty');`)
+ne soit pas toujours celle spécifiée par le repository (section `engine` du `package.json` ou `.nvmrc`).
+Une solution de contournement est d'installer une version de NodeJS par défaut sur votre OS.
 
 ### Configurer l'environnement
 
