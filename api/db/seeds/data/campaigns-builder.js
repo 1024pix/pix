@@ -131,9 +131,27 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCampaign({
     id: 11,
-    code: 'SIMPLIFIE',
     name: 'Parcours simplifié',
+    code: 'SIMPLIFIE',
+    type: 'ASSESSMENT',
+    title: 'Parcours simplifié',
     organizationId: 1,
+    creatorId: 2,
     targetProfileId: 100322,
+    customLandingPageText: '',
+    idPixLabel: null,
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 12,
+    name: 'Pro - Campagne d’évaluation PIC 3',
+    code: 'AZERTY654',
+    type: 'ASSESSMENT',
+    title: 'Parcours recherche avancée 3',
+    customLandingPageText: '',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: 1,
+    idPixLabel: null,
   });
 };
