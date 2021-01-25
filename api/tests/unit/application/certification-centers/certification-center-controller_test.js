@@ -24,7 +24,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
 
       sinon
         .stub(usecases, 'findStudentsForEnrollement')
-        .withArgs({ userId: 111, certificationCenterId: 99, sessionId: 88, page: { size: 10, number: 1 }, filter: { divisions: [ '3A' ] } })
+        .withArgs({ certificationCenterId: 99, sessionId: 88, page: { size: 10, number: 1 }, filter: { divisions: [ '3A' ] } })
         .resolves({
           data: [student],
           pagination: { page: 1, pageSize: 10, rowCount: 1, pageCount: 1 },
