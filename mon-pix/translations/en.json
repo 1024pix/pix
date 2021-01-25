@@ -111,10 +111,12 @@
             "card": {
                 "resume": "Resume",
                 "send": "Submit my results",
+                "see-more": "See more",
                 "started-at": "Started the {starteddate}",
                 "tag": {
                     "started": "In progress",
-                    "completed": "To be submitted"
+                    "completed": "To be submitted",
+                    "finished": "Finished"
                 }
             }
         },
