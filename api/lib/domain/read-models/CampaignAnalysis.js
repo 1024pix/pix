@@ -75,6 +75,10 @@ class CampaignTubeRecommendation {
     return this.tube.practicalTitle;
   }
 
+  get tubeDescription() {
+    return this.tube.description;
+  }
+
   get id() {
     return `${this.campaignId}_${this.tubeId}`;
   }
