@@ -24,11 +24,11 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       const result = component.status;
 
       // then
-      expect(result).to.eql({
+      expect(result).to.deep.equal({
         tagText: 'pages.campaign-participation-overview.card.tag.completed',
         tagColor: 'yellow-light',
         actionText: 'pages.campaign-participation-overview.card.send',
-        actionClass: 'button--yellow',
+        actionClass: 'button button--link button--yellow',
         dateText: 'pages.campaign-participation-overview.card.started-at',
       });
     });
@@ -41,11 +41,11 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       const result = component.status;
 
       // then
-      expect(result).to.eql({
+      expect(result).to.deep.equal({
         tagText: 'pages.campaign-participation-overview.card.tag.finished',
         tagColor: 'grey-light',
         actionText: 'pages.campaign-participation-overview.card.see-more',
-        actionClass: '',
+        actionClass: 'link campaign-participation-overview-card__see-more',
         dateText: 'pages.campaign-participation-overview.card.finished-at',
       });
     });
@@ -58,11 +58,11 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       const result = component.status;
 
       // then
-      expect(result).to.eql({
+      expect(result).to.deep.equal({
         tagText: 'pages.campaign-participation-overview.card.tag.started',
         tagColor: 'green-light',
         actionText: 'pages.campaign-participation-overview.card.resume',
-        actionClass: '',
+        actionClass: 'button button--link',
         dateText: 'pages.campaign-participation-overview.card.started-at',
       });
     });
