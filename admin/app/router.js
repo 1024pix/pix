@@ -40,8 +40,9 @@ Router.map(function() {
     });
 
     this.route('certification-centers', function() {
-      this.route('new');
+      this.route('get', { path: '/:certification_center_id' });
       this.route('list');
+      this.route('new');
     });
 
     this.route('sessions', function() {
