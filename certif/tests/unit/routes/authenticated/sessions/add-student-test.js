@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import EmberObject from '@ember/object';
 
-module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
+module.only('Unit | Route | authenticated/sessions/add-student', function(hooks) {
   setupTest(hooks);
   let route;
 
