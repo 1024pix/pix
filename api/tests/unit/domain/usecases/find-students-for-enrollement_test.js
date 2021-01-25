@@ -15,7 +15,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
     getIdByCertificationCenterId: sinon.stub(),
   };
   const schoolingRegistrationRepository = {
-    findByOrganizationIdOrderByDivision: sinon.stub(),
+    findByOrganizationIdAndUpdatedAtOrderByDivision: sinon.stub(),
   };
 
   const certificationCandidateRepository = {
@@ -61,7 +61,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
       const enrolledStudent = domainBuilder.buildSchoolingRegistration({ organization, division: '3A' });
       const enrollableStudents = _.times(5, () => domainBuilder.buildSchoolingRegistration({ organization }));
       const certificationCandidates = [ domainBuilder.buildCertificationCandidate({ sessionId, schoolingRegistrationId: enrolledStudent.id }) ];
-      schoolingRegistrationRepository.findByOrganizationIdOrderByDivision
+      schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
         .withArgs({ page: { number: 1, size: 10 }, filter: { divisions: ['3A'] }, organizationId: organization.id })
         .resolves({
           data: [ enrolledStudent, ...enrollableStudents ],
@@ -95,7 +95,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
 
       it('should return empty array', async () => {
         // given
-        schoolingRegistrationRepository.findByOrganizationIdOrderByDivision
+        schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
           .withArgs({ page: { number: 1, size: 10 }, filter: {}, organizationId: organization.id }).resolves({
             data: [],
             pagination: { page: 1, pageSize: 10, rowCount: 0, pageCount: 0 },

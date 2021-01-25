@@ -77,9 +77,13 @@ module.exports = {
       .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
   },
 
-  async findByOrganizationIdOrderByDivision({ organizationId, page, filter }) {
+  async findByOrganizationIdAndUpdatedAtOrderByDivision({ organizationId, page, filter }) {
+    const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
     const query = BookshelfSchoolingRegistration
-      .where({ organizationId })
+      .where((qb) => {
+        qb.where({ organizationId });
+        qb.where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR);
+      })
       .query((qb) => {
         qb.orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC');
         if (filter.divisions) {
