@@ -1,4 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
+const Answer = require('../../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
@@ -71,4 +72,54 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
       expect(json).to.deep.equal(expectedJSON);
     });
   });
+
+  describe('#deserialize()', () => {
+
+    let jsonAnswer;
+    const assessmentId = 'assessmentId', challengeId = 'recChallengeId';
+
+    beforeEach(() => {
+      jsonAnswer = {
+        data: {
+          type: 'answers',
+          attributes: {
+            value: 'test\u0000',
+            result: null,
+            'result-details': null,
+            timeout: null,
+            'elapsed-time': 34,
+          },
+          relationships: {
+            assessment: {
+              data: {
+                type: 'assessments',
+                id: assessmentId,
+              },
+            },
+            challenge: {
+              data: {
+                type: 'challenges',
+                id: challengeId,
+              },
+            },
+          },
+        },
+      };
+    });
+    it('should convert JSON API data into an Answer model object', () => {
+      // when
+      const answer = serializer.deserialize(jsonAnswer);
+
+      // then
+      expect(answer).to.be.an.instanceOf(Answer);
+      expect(answer.value).to.equal('test');
+      expect(answer.result).to.deep.equal(AnswerStatus.from(null));
+      expect(answer.resultDetails).to.equal(null);
+      expect(answer.timeout).to.equal(null);
+      expect(answer.elapsedTime).to.equal(34);
+      expect(answer.assessmentId).to.equal(assessmentId);
+      expect(answer.challengeId).to.equal(challengeId);
+    });
+  });
+
 });

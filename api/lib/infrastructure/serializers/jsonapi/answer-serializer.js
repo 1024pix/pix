@@ -1,3 +1,4 @@
+const Answer = require('../../../domain/models/Answer');
 const { Serializer } = require('jsonapi-serializer');
 const answerStatusJSONAPIAdapter = require('../../adapters/answer-status-json-api-adapter');
 
@@ -41,4 +42,20 @@ module.exports = {
     }).serialize(answer);
   },
 
+  deserialize(payload) {
+    return new Answer({
+      value: _cleanValue(payload.data.attributes.value),
+      result: null,
+      resultDetails: null,
+      timeout: payload.data.attributes.timeout,
+      elapsedTime: payload.data.attributes['elapsed-time'],
+      assessmentId: payload.data.relationships.assessment.data.id,
+      challengeId: payload.data.relationships.challenge.data.id,
+    });
+  },
+
 };
+
+function _cleanValue(value) {
+  return value.replace('\u0000', '');
+}
