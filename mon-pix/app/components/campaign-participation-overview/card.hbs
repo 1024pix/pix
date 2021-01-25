@@ -13,9 +13,12 @@
     </time>
   </header>
 
-  <LinkTo class="button button--link {{this.status.actionClass}} campaign-participation-overview-card__action"
+  <LinkTo class="{{this.status.actionClass}} campaign-participation-overview-card__action"
           @route="campaigns.start-or-resume"
           @model={{@model.campaignCode}}>
+    {{#if @model.isShared}}
+      <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
+    {{/if}}
     {{t this.status.actionText}}
   </LinkTo>
 </article>
