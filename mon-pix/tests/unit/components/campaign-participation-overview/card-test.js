@@ -16,7 +16,7 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
 
   describe('#status', function() {
 
-    it('should return the status when the campaign is completed', function() {
+    it('should return the status when the participation is completed', function() {
       // given
       component.args.model = EmberObject.create({ assessmentState: 'completed' });
 
@@ -29,10 +29,11 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
         tagColor: 'yellow-light',
         actionText: 'pages.campaign-participation-overview.card.send',
         actionClass: 'button--yellow',
+        dateText: 'pages.campaign-participation-overview.card.started-at',
       });
     });
 
-    it('should return the status when the campaign is completed and shared', function() {
+    it('should return the status when the participation is completed and shared', function() {
       // given
       component.args.model = EmberObject.create({ assessmentState: 'completed', isShared: true });
 
@@ -45,10 +46,11 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
         tagColor: 'grey-light',
         actionText: 'pages.campaign-participation-overview.card.see-more',
         actionClass: '',
+        dateText: 'pages.campaign-participation-overview.card.finished-at',
       });
     });
 
-    it('should return the status when the campaign is not completed', function() {
+    it('should return the status when the participation is not completed', function() {
       // given
       component.args.model = EmberObject.create({ assessmentState: 'started' });
 
@@ -61,7 +63,31 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
         tagColor: 'green-light',
         actionText: 'pages.campaign-participation-overview.card.resume',
         actionClass: '',
+        dateText: 'pages.campaign-participation-overview.card.started-at',
       });
+    });
+  });
+
+  describe('#date', function() {
+    it('should return the sharing date when the participation is shared', function() {
+      // given
+      component.args.model = EmberObject.create({ isShared: true, sharedAt: '2020-12-18T15:16:20.109Z' });
+
+      // when
+      const result = component.date;
+
+      // then
+      expect(result).to.equal('2020-12-18T15:16:20.109Z');
+    });
+    it('should return the starting date when the participation is not shared', function() {
+      // given
+      component.args.model = EmberObject.create({ isShared: false, createdAt: '2020-12-10T15:16:20.109Z' });
+
+      // when
+      const result = component.date;
+
+      // then
+      expect(result).to.equal('2020-12-10T15:16:20.109Z');
     });
   });
 });
