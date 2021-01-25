@@ -42,7 +42,12 @@
     {{#if @certificationCenters}}
       <tbody>
       {{#each @certificationCenters as |certificationCenter|}}
-        <tr>
+        <tr
+          aria-label="Centre de certification"
+          role="button"
+          class="tr--clickable"
+          {{on "click" (fn @goToCertificationCenterPage certificationCenter.id)}}
+        >
           <td>{{certificationCenter.id}}</td>
           <td>{{certificationCenter.name}}</td>
           <td>{{certificationCenter.type}}</td>
