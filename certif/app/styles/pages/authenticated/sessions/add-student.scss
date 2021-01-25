@@ -1,5 +1,5 @@
 .add-student {
-margin-bottom: 68px;
+  margin-bottom: 68px;
   &__return-to span {
     color: $blue-zodia;
   }
@@ -9,5 +9,14 @@ margin-bottom: 68px;
     font-family: $open-sans;
     font-size: 2.25rem;
     font-weight: 300;
+  }
+
+  &__info-message {
+    align-items: center;
+    display: flex;
+
+    span {
+      margin-left: 6px;
+    }
   }
 }
