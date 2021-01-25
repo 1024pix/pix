@@ -112,7 +112,8 @@
                 "resume": "Reprendre",
                 "send": "Envoyer mes résultats",
                 "see-more": "Voir le détail",
-                "started-at": "Commencé le {starteddate}",
+                "started-at": "Commencé le {date}",
+                "finished-at": "Terminé le {date}",
                 "tag": {
                     "started": "En cours",
                     "completed": "À envoyer",

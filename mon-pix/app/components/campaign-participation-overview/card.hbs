@@ -8,8 +8,8 @@
     <h3 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h3>
     <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
     <time class="campaign-participation-overview-card-header__date"
-          datetime="{{@model.createdAt}}">
-      {{t 'pages.campaign-participation-overview.card.started-at' starteddate=(format-date @model.createdAt)}}
+          datetime="{{this.date}}">
+      {{t this.status.dateText date=(format-date this.date)}}
     </time>
   </header>
 

@@ -112,7 +112,8 @@
                 "resume": "Resume",
                 "send": "Submit my results",
                 "see-more": "See more",
-                "started-at": "Started the {starteddate}",
+                "started-at": "Started the {date}",
+                "finished-at": "Finished the {date}",
                 "tag": {
                     "started": "In progress",
                     "completed": "To be submitted",
