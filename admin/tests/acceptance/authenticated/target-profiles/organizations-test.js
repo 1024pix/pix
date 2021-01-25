@@ -19,12 +19,10 @@ module('Acceptance | authenticated/targets-profile/target-profile/organizations'
   });
 
   module('with multiple organizations', function(hooks) {
-    let myOrganization;
-    let myOtherOrganization;
 
     hooks.beforeEach(async function() {
-      myOrganization = this.server.create('organization', { name: 'My organization' });
-      myOtherOrganization = this.server.create('organization', { name: 'My other organization' });
+      this.server.create('organization', { name: 'My organization' });
+      this.server.create('organization', { name: 'My other organization' });
     });
 
     test('should list organizations', async function(assert) {
