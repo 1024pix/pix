@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn, triggerEvent, render } from '@ember/test-helpers';
+import { click, triggerEvent, render } from '@ember/test-helpers';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -44,8 +44,8 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
                          @targetProfile={{this.targetProfile}}
                          @isFileInvalid={{this.isFileInvalid}}
-                         
-                         @onLoadFile={{this.onLoadFile}} 
+
+                         @onLoadFile={{this.onLoadFile}}
                          @onSubmit={{this.onSubmit}}
                          @onCancel={{this.onCancel}}/>`);
 
@@ -67,8 +67,8 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
                          @targetProfile={{this.targetProfile}}
                          @isFileInvalid={{this.isFileInvalid}}
-                         
-                         @onLoadFile={{this.onLoadFile}} 
+
+                         @onLoadFile={{this.onLoadFile}}
                          @onSubmit={{this.onSubmit}}
                          @onCancel={{this.onCancel}}/>`);
 
@@ -81,8 +81,8 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
                          @targetProfile={{this.targetProfile}}
                          @isFileInvalid={{this.isFileInvalid}}
-                         
-                         @onLoadFile={{this.onLoadFile}} 
+
+                         @onLoadFile={{this.onLoadFile}}
                          @onSubmit={{this.onSubmit}}
                          @onCancel={{this.onCancel}}/>`);
 
@@ -100,8 +100,8 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
                          @targetProfile={{this.targetProfile}}
                          @isFileInvalid={{this.isFileInvalid}}
-                         
-                         @onLoadFile={{this.onLoadFile}} 
+
+                         @onLoadFile={{this.onLoadFile}}
                          @onSubmit={{this.onSubmit}}
                          @onCancel={{this.onCancel}}/>`);
 
@@ -116,8 +116,8 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
                          @targetProfile={{this.targetProfile}}
                          @isFileInvalid={{this.isFileInvalid}}
-                         
-                         @onLoadFile={{this.onLoadFile}} 
+
+                         @onLoadFile={{this.onLoadFile}}
                          @onSubmit={{this.onSubmit}}
                          @onCancel={{this.onCancel}}/>`);
 

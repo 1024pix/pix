@@ -2,11 +2,12 @@ import ApplicationAdapter from './application';
 import queryString from 'query-string';
 
 export default class OrganizationAdapter extends ApplicationAdapter {
-  urlForQuery (query, modelName) {
+
+  urlForQuery(query) {
     if (query.targetProfileId) {
       const { targetProfileId } = query;
       delete query.targetProfileId;
-      return  `${this.host}/api/admin/target-profiles/${targetProfileId}/organizations`;
+      return `${this.host}/api/admin/target-profiles/${targetProfileId}/organizations`;
     }
     return super.urlForQuery(...arguments);
   }
