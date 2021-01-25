@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
             competenceId: 'rec1',
             competenceName: 'Cuisson des legumes d’automne',
             tubePracticalTitle: 'Savoir cuisiner des legumes d’automne à la perfection',
+            tubeDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
             areaColor: 'jaffa',
             averageScore: 11,
             tutorials: [{
@@ -65,6 +66,7 @@ describe('Unit | Serializer | JSONAPI | campaign-analysis-serializer', () => {
             'tube-id': 'tubeRec1',
             'competence-name': 'Cuisson des legumes d’automne',
             'tube-practical-title': 'Savoir cuisiner des legumes d’automne à la perfection',
+            'tube-description': 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
             'area-color': 'jaffa',
             'average-score': 11,
           },
