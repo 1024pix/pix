@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.8.0 (26/01/2021)
+
+- [#2436](https://github.com/1024pix/pix/pull/2436) [FEATURE] Permettre à un utilisateur de passer un parcours Accès Simplifié sans inscription sur Pix App (PIX-1040).
+- [#2416](https://github.com/1024pix/pix/pull/2416) [FEATURE] Ajout du filtre sur les résultats thématiques pour les participations (PIX-1678)
+- [#2440](https://github.com/1024pix/pix/pull/2440) [FEATURE] Afficher mes parcours à envoyer et en cours dans la page Mes parcours (PIX-2002)
+- [#2427](https://github.com/1024pix/pix/pull/2427) [FEATURE] Dans Pix App, déconnecter un utilisateur après qu'il a envoyé ses résultats d'un parcours simplifié (PIX-2011).
+- [#2441](https://github.com/1024pix/pix/pull/2441) [BUGFIX] Erreur lors de la sauvegarde d'une réponse avec null à la fin (PIX-2015).
+- [#2432](https://github.com/1024pix/pix/pull/2432) [BUGFIX] Vérifier l'existence de l'objet fileType avant d'en extraire son contenu (PIX-2017).
+- [#2431](https://github.com/1024pix/pix/pull/2431) [CLEANUP] Afficher les nouvelles dépréciations sur PixAPP comme des erreurs (PIX-2029).
+
 ## v3.7.0 (22/01/2021)
 
 - [#2399](https://github.com/1024pix/pix/pull/2399) [FEATURE] Encart présentation de la page d'accueil (PIX-1656)
