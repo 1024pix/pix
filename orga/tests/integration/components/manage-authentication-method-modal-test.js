@@ -73,7 +73,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await triggerCopySuccess('button[aria-label="Copier l\'identifiant"]');
 
         // then
-        assert.dom('#username + .tooltip').hasText('Copié !');
+        assert.contains('Copié !');
       });
     });
 
