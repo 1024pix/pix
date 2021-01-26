@@ -60,11 +60,12 @@
   }
 
   &__clipboard-button {
-    margin-top: -10px;
-    margin-left: 6px;
+    margin: -10px 6px 0 6px;
   }
 
-  &__tooltip-text {
-    margin-bottom: 6px;
+  &__tooltip {
+    .pix-tooltip__content {
+      margin-bottom: 6px;
+    }
   }
 }
