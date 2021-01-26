@@ -111,6 +111,7 @@ module.exports = injectDependencies({
   attachOrganizationsToTargetProfile: require('./attach-organizations-to-target-profile'),
   archiveCampaign: require('./archive-campaign'),
   assignCertificationOfficerToJurySession: require('./assign-certification-officer-to-jury-session'),
+  authenticateAnonymousUser: require('./authenticate-anonymous-user'),
   authenticatePoleEmploiUser: require('./authenticate-pole-emploi-user'),
   authenticateUser: require('./authenticate-user'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),

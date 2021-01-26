@@ -16,6 +16,7 @@ describe('Unit | Domain | Models | User', () => {
         cgu: true,
         lastTermsOfServiceValidatedAt: '2020-05-04T13:40:00.000Z',
         mustValidateTermsOfService: true,
+        isAnonymous: false,
       };
 
       // when
@@ -29,6 +30,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.cgu).to.equal(rawData.cgu);
       expect(user.lastTermsOfServiceValidatedAt).to.equal(rawData.lastTermsOfServiceValidatedAt);
       expect(user.mustValidateTermsOfService).to.equal(rawData.mustValidateTermsOfService);
+      expect(user.isAnonymous).to.equal(rawData.isAnonymous);
     });
   });
 

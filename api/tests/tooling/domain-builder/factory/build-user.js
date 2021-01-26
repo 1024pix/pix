@@ -21,6 +21,7 @@ module.exports = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   hasSeenNewLevelInfo = false,
+  isAnonymous = false,
   pixRoles = [buildPixRole()],
   memberships = [buildMembership()],
   certificationCenterMemberships = [buildCertificationCenterMembership()],
@@ -33,7 +34,7 @@ module.exports = function buildUser({
     lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService,
     pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
-    hasSeenAssessmentInstructions, hasSeenNewLevelInfo,
+    hasSeenAssessmentInstructions, hasSeenNewLevelInfo, isAnonymous,
     pixRoles, memberships, certificationCenterMemberships,
     authenticationMethods,
   });

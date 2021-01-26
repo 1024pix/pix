@@ -569,6 +569,14 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
       expect(responseDetail(response)).to.equal(expectedMessage);
     });
+
+    it('responds Unauthorized when a UserCantBeCreatedError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserCantBeCreatedError('L\'utilisateur ne peut pas être créé'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal('L\'utilisateur ne peut pas être créé');
+    });
   });
 
   context('500 Internal Server Error', () => {

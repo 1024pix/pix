@@ -485,4 +485,89 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     });
   });
+
+  describe('POST /api/token/anonymous', () => {
+
+    let options;
+
+    context('When is not simplified Access Campaign', () => {
+
+      const campaignCode = 'RANDOM123';
+
+      beforeEach(async () => {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
+        databaseBuilder.factory.buildCampaign({ code: campaignCode, targetProfile });
+
+        options = {
+          method: 'POST',
+          url: '/api/token/anonymous',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            campaign_code: campaignCode,
+          }),
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return an 401', async() =>{
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+        expect(response.result.errors[0].detail).to.equal('L\'utilisateur ne peut pas être créé');
+      });
+    });
+
+    context('When is simplified Access Campaign', () =>{
+
+      const simplifiedAccessCampaignCode = 'SIMPLIFIE';
+      const firstName = '';
+      const lastName = '';
+      const isAnonymous = true;
+
+      beforeEach(async () => {
+
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: true }).id;
+        databaseBuilder.factory.buildCampaign({ code: simplifiedAccessCampaignCode, targetProfileId });
+
+        options = {
+          method: 'POST',
+          url: '/api/token/anonymous',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            campaign_code: simplifiedAccessCampaignCode,
+          }),
+        };
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return a 200 with accessToken', async() =>{
+        // when
+        const response = await server.inject(options);
+        const result = response.result;
+
+        // then
+        expect(response.statusCode).to.equal(200);
+
+        expect(result.token_type).to.equal('bearer');
+        expect(result.access_token).to.exist;
+      });
+
+      it('should create an anonymous user', async () => {
+        // when
+        await server.inject(options);
+
+        // then
+        const users = await knex('users').where({ firstName, lastName, isAnonymous });
+        expect(users[0]).to.exist;
+      });
+    });
+  });
 });

@@ -40,4 +40,16 @@ export default function index(config) {
       user_id: createdUser.id,
     };
   });
+
+  config.post('/token/anonymous', (schema) => {
+    const createdUser = schema.users.create({
+      firstName: '',
+      lastName: '',
+    });
+
+    return {
+      access_token: 'aaa.' + btoa(`{"user_id":${createdUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+      user_id: createdUser.id,
+    };
+  });
 }
