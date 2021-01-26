@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError } = require('../errors');
 
 class CampaignParticipation {
 
@@ -14,6 +15,7 @@ class CampaignParticipation {
     assessmentId,
     campaignId,
     userId,
+    validatedSkillsCount,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -26,6 +28,7 @@ class CampaignParticipation {
     this.assessmentId = assessmentId;
     this.campaignId = campaignId;
     this.userId = userId;
+    this.validatedSkillsCount = validatedSkillsCount;
   }
 
   getTargetProfileId() {
@@ -36,6 +39,32 @@ class CampaignParticipation {
     return _.maxBy(this.assessments, 'createdAt');
   }
 
+  share() {
+    this._canBeShared();
+
+    this.isShared = true;
+    this.sharedAt = new Date();
+  }
+
+  _canBeShared() {
+    if (this.isShared) {
+      throw new AlreadySharedCampaignParticipationError();
+    }
+    if (this.campaign.isArchived()) {
+      throw new ArchivedCampaignError('Cannot share results on an archived campaign.');
+    }
+    if (this.campaign.isAssessment() && lastAssessmentNotCompleted(this)) {
+      throw new AssessmentNotCompletedError();
+    }
+  }
+
+  canComputeValidatedSkillsCount() {
+    return this.campaign.isAssessment();
+  }
+}
+
+function lastAssessmentNotCompleted(campaignParticipation) {
+  return !campaignParticipation.lastAssessment || !campaignParticipation.lastAssessment.isCompleted();
 }
 
 module.exports = CampaignParticipation;

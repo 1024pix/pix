@@ -12,6 +12,7 @@ module.exports = function buildCampaignParticipation({
   sharedAt = faker.date.past(),
   userId,
   participantExternalId = faker.random.word(),
+  validatedSkillsCount,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
@@ -26,6 +27,7 @@ module.exports = function buildCampaignParticipation({
     createdAt,
     sharedAt,
     participantExternalId,
+    validatedSkillsCount,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'campaign-participations',

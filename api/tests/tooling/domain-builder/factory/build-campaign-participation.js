@@ -14,6 +14,7 @@ module.exports = function buildCampaignParticipation(
     campaignId = campaign.id,
     assessmentId = null,
     userId = faker.random.number(2),
+    validatedSkillsCount,
   } = {}) {
 
   return new CampaignParticipation({
@@ -26,5 +27,6 @@ module.exports = function buildCampaignParticipation(
     campaignId,
     assessmentId,
     userId,
+    validatedSkillsCount,
   });
 };

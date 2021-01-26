@@ -4,7 +4,6 @@ const Campaign = require('../../domain/models/Campaign');
 const Assessment = require('../../domain/models/Assessment');
 const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
-const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
@@ -15,10 +14,22 @@ const fp = require('lodash/fp');
 const _ = require('lodash');
 const DomainTransaction = require('../DomainTransaction');
 
+const ATTRIBUTES_TO_SAVE = [
+  'id',
+  'createdAt',
+  'isShared',
+  'participantExternalId',
+  'sharedAt',
+  'campaignId',
+  'userId',
+  'validatedSkillsCount',
+];
+
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
     id: bookshelfCampaignParticipation.get('id'),
     assessmentId: _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation),
+    assessments: bookshelfCampaignParticipation.related('assessments').map((attributes) => new Assessment(attributes.toJSON())),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
@@ -27,6 +38,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
     userId: bookshelfCampaignParticipation.get('userId'),
     user: new User(bookshelfCampaignParticipation.related('user').toJSON()),
+    validatedSkillsCount: bookshelfCampaignParticipation.get('validatedSkillsCount'),
   });
 }
 
@@ -48,6 +60,12 @@ module.exports = {
     return new BookshelfCampaignParticipation(_adaptModelToDb(campaignParticipation))
       .save(null, { transacting: domainTransaction.knexTransaction })
       .then(_toDomain);
+  },
+
+  async update(campaignParticipation) {
+    const attributes = _getAttributes(campaignParticipation);
+
+    await BookshelfCampaignParticipation.forge(attributes).save();
   },
 
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
@@ -123,21 +141,11 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  async share(campaignParticipation) {
-    let savedBookshelfCampaignParticipation = null;
-    try {
-      savedBookshelfCampaignParticipation = await new BookshelfCampaignParticipation(campaignParticipation)
-        .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true });
-    } catch (err) {
-      _checkNotFoundError(err);
-    }
+  async updateWithSnapshot(campaignParticipation) {
+    await this.update(campaignParticipation);
 
-    const savedCampaignParticipation = _toDomain(savedBookshelfCampaignParticipation);
-
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: savedCampaignParticipation.userId, limitDate: savedCampaignParticipation.sharedAt });
-    await knowledgeElementSnapshotRepository.save({ userId: savedCampaignParticipation.userId, snappedAt: savedCampaignParticipation.sharedAt, knowledgeElements });
-
-    return savedCampaignParticipation;
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt });
+    await knowledgeElementSnapshotRepository.save({ userId: campaignParticipation.userId, snappedAt: campaignParticipation.sharedAt, knowledgeElements });
   },
 
   count(filters = {}) {
@@ -168,13 +176,6 @@ function _adaptModelToDb(campaignParticipation) {
     participantExternalId: campaignParticipation.participantExternalId,
     userId: campaignParticipation.userId,
   };
-}
-
-function _checkNotFoundError(err) {
-  if (err instanceof BookshelfCampaignParticipation.NotFoundError) {
-    throw new NotFoundError('Participation non trouvée');
-  }
-  throw err;
 }
 
 function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
@@ -216,4 +217,8 @@ function _rowToResult(row) {
     participantLastName: row.lastName,
     division: row.division,
   };
+}
+
+function _getAttributes(campaignParticipation) {
+  return _.pick(campaignParticipation, ATTRIBUTES_TO_SAVE);
 }
