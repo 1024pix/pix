@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const userOrgaSettingsController = require('./user-orga-settings-controller');
 
 exports.register = async function(server) {

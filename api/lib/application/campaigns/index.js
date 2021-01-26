@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const campaignController = require('./campaign-controller');
 
 exports.register = async function(server) {

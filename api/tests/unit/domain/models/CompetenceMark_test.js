@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
       // then
       expect(error).to.be.instanceOf(ObjectValidationError);
-      expect(error.message).to.be.equal('ValidationError: "level" must be larger than or equal to -1');
+      expect(error.message).to.be.equal('ValidationError: "level" must be greater than or equal to -1');
     });
 
     it('should return an error if score > 64', async () => {

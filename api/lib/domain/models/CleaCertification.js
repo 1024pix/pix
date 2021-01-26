@@ -2,8 +2,8 @@ const _ = require('lodash');
 const Badge = require('../models/Badge');
 const PartnerCertification = require('./PartnerCertification');
 const { NotEligibleCandidateError } = require('../errors');
-const Joi = require('@hapi/joi')
-  .extend(require('@hapi/joi-date'));
+const Joi = require('joi')
+  .extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
 
 const MIN_PERCENTAGE = 75;

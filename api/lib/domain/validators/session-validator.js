@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { statuses } = require('../models/Session');
 const { types } = require('../models/CertificationCenter');
 

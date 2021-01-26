@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const certificationStatus = require('../../../../lib/domain/read-models/livret-scolaire/CertificateStatus');
 const competenceResultDoc = require('./competence-result-doc');
 

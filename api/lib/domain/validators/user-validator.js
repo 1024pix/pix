@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const { EntityValidationError } = require('../errors');
 const validationConfiguration = { abortEarly: false, allowUnknown: true };

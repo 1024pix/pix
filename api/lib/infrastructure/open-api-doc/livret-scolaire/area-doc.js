@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 module.exports = Joi.object({
   id: Joi.number().example('1').required().description('ID unique de la compétence (ex : “1”, “4”)'),

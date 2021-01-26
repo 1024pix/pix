@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 module.exports = Joi.object({
   level: Joi.number().example('4').required().description('Niveau obtenu pour la compétence'),

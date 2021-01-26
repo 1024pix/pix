@@ -1,5 +1,5 @@
-const Joi = require('@hapi/joi')
-  .extend(require('@hapi/joi-date'));
+const Joi = require('joi')
+  .extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
 const { states } = require('./Assessment');
 
