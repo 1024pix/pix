@@ -145,19 +145,6 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
           const expectedData = [
             {
               type: 'campaign-participation-overviews',
-              id: startedCampaignParticipationElements.campaignParticipation.id.toString(),
-              attributes: {
-                'is-shared': startedCampaignParticipationElements.campaignParticipation.isShared,
-                'shared-at': startedCampaignParticipationElements.campaignParticipation.sharedAt,
-                'created-at': startedCampaignParticipationElements.campaignParticipation.createdAt,
-                'organization-name': startedCampaignParticipationElements.organization.name,
-                'campaign-code': startedCampaignParticipationElements.campaign.code,
-                'campaign-title': startedCampaignParticipationElements.campaign.title,
-                'assessment-state': Assessment.states.STARTED,
-              },
-            },
-            {
-              type: 'campaign-participation-overviews',
               id: sharableCampaignParticipationElements.campaignParticipation.id.toString(),
               attributes: {
                 'is-shared': sharableCampaignParticipationElements.campaignParticipation.isShared,
@@ -167,6 +154,18 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
                 'campaign-code': sharableCampaignParticipationElements.campaign.code,
                 'campaign-title': sharableCampaignParticipationElements.campaign.title,
                 'assessment-state': Assessment.states.COMPLETED,
+              },
+            }, {
+              type: 'campaign-participation-overviews',
+              id: startedCampaignParticipationElements.campaignParticipation.id.toString(),
+              attributes: {
+                'is-shared': startedCampaignParticipationElements.campaignParticipation.isShared,
+                'shared-at': startedCampaignParticipationElements.campaignParticipation.sharedAt,
+                'created-at': startedCampaignParticipationElements.campaignParticipation.createdAt,
+                'organization-name': startedCampaignParticipationElements.organization.name,
+                'campaign-code': startedCampaignParticipationElements.campaign.code,
+                'campaign-title': startedCampaignParticipationElements.campaign.title,
+                'assessment-state': Assessment.states.STARTED,
               },
             }];
           expect(response.result.data).to.deep.equal(expectedData);
