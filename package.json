@@ -71,6 +71,7 @@
     "lint:mon-pix": "cd mon-pix && npm run lint",
     "lint:orga": "cd orga && npm run lint",
     "lint:scripts": "cd scripts && eslint .",
+    "lint:docs": "find ./docs -type f -name '*.md' | xargs -L1 markdown-link-check --quiet --config ./docs/link--check-config.json ",
     "preinstall": "npx check-engine",
     "start": "run-p --print-label start:api start:mon-pix start:orga start:certif start:admin",
     "start:admin": "cd admin && npm start",
