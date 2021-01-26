@@ -21,6 +21,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       user_id: 'the-user-id',
     }));
     sinon.stub(authenticationController, 'authenticatePoleEmploiUser').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(authenticationController, 'authenticateAnonymousUser').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest, true);
   });
@@ -227,7 +228,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
     });
 
-    it('should return a 400 BAd Request if username is missing', async () => {
+    it('should return a 400 Bad Request if username is missing', async () => {
       // given
       payload.data.attributes.username = undefined;
 
@@ -238,7 +239,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 BAd Request if password is missing', async () => {
+    it('should return a 400 Bad Request if password is missing', async () => {
       // given
       payload.data.attributes.password = undefined;
 
@@ -249,7 +250,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 BAd Request if external-user-token is missing', async () => {
+    it('should return a 400 Bad Request if external-user-token is missing', async () => {
       // given
       payload.data.attributes['external-user-token'] = undefined;
 
@@ -260,7 +261,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 BAd Request if expected-user-id is missing', async () => {
+    it('should return a 400 Bad Request if expected-user-id is missing', async () => {
       // given
       payload.data.attributes['expected-user-id'] = undefined;
 
@@ -358,6 +359,43 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
         code,
         client_id,
       });
+
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/token/anonymous', () => {
+
+    const method = 'POST';
+    const url = '/api/token/anonymous';
+    const headers = {
+      'content-type': 'application/x-www-form-urlencoded',
+    };
+    const code = 'SIMPLIFIE';
+
+    let payload;
+
+    beforeEach(() => {
+      payload = querystring.stringify({
+        campaign_code: code,
+      });
+    });
+
+    it('should return a response with HTTP status code 200', async () => {
+      // when
+      const response = await httpTestServer.request(method, url, payload, null, headers);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 400 when campaignCode is missing', async () => {
+      // given
+      payload = querystring.stringify({});
 
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);

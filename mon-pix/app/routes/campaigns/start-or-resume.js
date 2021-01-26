@@ -85,6 +85,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       && !this.state.hasUserCompletedRestrictedCampaignAssociation;
   }
 
+  get _shouldJoinSimplifiedCampaignAsAnonymous() {
+    return this.state.hasUserSeenLandingPage
+      && this.state.isCampaignSimplifiedAccess
+      && !this.state.isUserLogged;
+  }
+
   _shouldResetState(campaignCode) {
     return campaignCode !== this.state.campaignCode;
   }
@@ -94,7 +100,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.transitionTo('login-pe');
   }
 
-  beforeModel(transition) {
+  async beforeModel(transition) {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
     if (this._shouldResetState(campaign.code)) {
@@ -117,6 +123,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this.replaceWith('campaigns.restricted.join', campaign);
     }
 
+    if (this._shouldJoinSimplifiedCampaignAsAnonymous) {
+      this.session.set('attemptedTransition', { retry: () => {} });
+      await this.session.authenticate('authenticator:anonymous', { campaignCode: this.state.campaignCode });
+      await this.currentUser.load();
+    }
+
     if (this._shouldVisitLandingPageAsVisitor) {
       return this.replaceWith('campaigns.campaign-landing-page', campaign, { queryParams: transition.to.queryParams });
     }
@@ -129,6 +141,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       campaignCode: null,
       isCampaignRestricted: false,
       isCampaignForSCOOrganization: false,
+      isCampaignSimplifiedAccess: false,
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
       hasUserSeenLandingPage: false,
@@ -149,6 +162,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
+      isCampaignSimplifiedAccess: get(campaign, 'isSimplifiedAccess', this.state.isCampaignSimplifiedAccess),
       isCampaignForSCOOrganization: get(campaign, 'organizationType') === 'SCO',
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,

@@ -61,6 +61,7 @@ const buildUser = function buildUser({
   hasSeenAssessmentInstructions = false,
   hasSeenNewLevelInfo = false,
   hasSeenNewDashboardInfo = false,
+  isAnonymous = false,
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
@@ -72,8 +73,8 @@ const buildUser = function buildUser({
     cgu, lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    hasSeenNewLevelInfo,
     hasSeenNewDashboardInfo,
+    hasSeenNewLevelInfo, isAnonymous,
     createdAt, updatedAt,
     password: '',
     shouldChangePassword: false,

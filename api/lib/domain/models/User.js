@@ -18,6 +18,7 @@ class User {
     hasSeenNewDashboardInfo,
     mustValidateTermsOfService,
     lang,
+    isAnonymous,
     memberships = [],
     certificationCenterMemberships = [],
     pixRoles = [],
@@ -41,6 +42,7 @@ class User {
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;
+    this.isAnonymous = isAnonymous;
     this.pixRoles = pixRoles;
     this.pixScore = pixScore;
     this.memberships = memberships;
