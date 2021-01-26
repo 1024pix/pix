@@ -14,8 +14,8 @@ export default class ProfilesController extends Controller {
   }
 
  @action
-  selectDivisions(divisions) {
+  triggerFiltering(filters) {
     this.pageNumber = null;
-    this.divisions = divisions;
+    this.divisions = filters.divisions;
   }
 }

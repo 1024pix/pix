@@ -1,21 +1,10 @@
-{{#if this.displayDivisionFilter }}
-  <PixFilterBanner @title="Filtres" class="participant-filter-banner" aria-label="Filtres sur les participations">
-    <PixMultiSelect
-      class="division-filter"
-      @id="division"
-      @title="Classes"
-      @placeholder="Classes"
-      @isSearchable={{true}}
-      @showOptionsOnInput={{true}}
-      @emptyMessage="Pas de classe"
-      @onSelect={{this.onSelectDivision}}
-      @selected={{@selectedDivisions}}
-      @options={{this.divisionOptions}} as |option|
-    >
-      {{option.value}}
-    </PixMultiSelect>
-  </PixFilterBanner>
-{{/if}}
+<Routes::Authenticated::Campaign::ParticipationFilters 
+  @campaign={{@campaign}}
+  @selectedDivisions={{@selectedDivisions}}
+  @selectedBadges={{@selectedBadges}}
+  @triggerFiltering={{@triggerFiltering}}
+/>
+
 <div class="panel">
   <div class="table content-text content-text--small">
     <table>
@@ -91,7 +80,7 @@
     </table>
 
     {{#unless @participations}}
-      <div class="table__empty content-text">En attente de participants</div>
+      <div class="table__empty content-text">Aucun participant</div>
     {{/unless}}
   </div>
 </div>

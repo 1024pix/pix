@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/campaigns/campaign/assessments', function(hooks) {
   setupTest(hooks);
@@ -10,15 +9,40 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessments', funct
   });
 
   module('triggerFiltering', function() {
-    test('update the filters', function(assert) {
-      const fetchCampaign = sinon.stub();
-      controller.set('fetchCampaign', fetchCampaign);
-      controller.set('model', { id: 12 });
-      controller.set('pageNumber', 11);
+    module('division filter', function() {
+      test('update the division filter', function(assert) {
+        // given
+        controller.triggerFiltering({ divisions: ['6eme'] });
+        // then
+        assert.deepEqual(controller.divisions, ['6eme']);
+      });
 
-      controller.triggerFiltering({ divisions: ['6eme'] });
+      test('should keep other filters when division is updated', function(assert) {
+        // when
+        controller.set('badges', ['badge1']);
+        // given
+        controller.triggerFiltering({ divisions: ['6eme'] });
+        // then
+        assert.deepEqual(controller.badges, ['badge1']);
+      });
+    });
 
-      assert.deepEqual(controller.divisions, ['6eme']);
+    module('badge filter', function() {
+      test('update the badge filter', function(assert) {
+        // given
+        controller.triggerFiltering({ badges: ['badge1'] });
+        // then
+        assert.deepEqual(controller.badges, ['badge1']);
+      });
+
+      test('should keep other filters when is badge updated', function(assert) {
+        // when
+        controller.set('divisions', ['division1']);
+        // given
+        controller.triggerFiltering({ badges: ['badge1'] });
+        // then
+        assert.deepEqual(controller.divisions, ['division1']);
+      });
     });
   });
 });

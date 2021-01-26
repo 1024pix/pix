@@ -13,6 +13,9 @@ export default class AssessmentsRoute extends Route {
     divisions: {
       refreshModel: true,
     },
+    badges: {
+      refreshModel: true,
+    },
   };
 
   @action
@@ -36,7 +39,10 @@ export default class AssessmentsRoute extends Route {
         number: params.pageNumber,
         size: params.pageSize,
       },
-      filter: { divisions: params.divisions },
+      filter: {
+        divisions: params.divisions,
+        badges: params.badges,
+      },
       campaignId: params.campaignId,
     });
   }
@@ -46,6 +52,7 @@ export default class AssessmentsRoute extends Route {
       controller.pageNumber = 1;
       controller.pageSize = 10;
       controller.divisions = [];
+      controller.badges = [];
     }
   }
 }

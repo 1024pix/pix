@@ -1,21 +1,9 @@
-{{#if this.displayDivisionFilter }}
-  <PixFilterBanner @title="Filtres" class="participant-filter-banner" aria-label="Filtres sur les profiles">
-    <PixMultiSelect
-      class="division-filter"
-      @id="division"
-      @title="Classes"
-      @placeholder="Classes"
-      @isSearchable={{true}}
-      @showOptionsOnInput={{true}}
-      @emptyMessage="Pas de classe"
-      @onSelect={{@selectDivisions}}
-      @selected={{@selectedDivisions}}
-      @options={{this.divisionOptions}} as |option|
-    >
-      {{option.value}}
-    </PixMultiSelect>
-  </PixFilterBanner>
-{{/if}}
+<Routes::Authenticated::Campaign::ParticipationFilters 
+  @campaign={{@campaign}}
+  @selectedDivisions={{@selectedDivisions}}
+  @triggerFiltering={{@triggerFiltering}}
+/>
+
 <div class="panel">
   <div class="table content-text content-text--small">
     <table>
