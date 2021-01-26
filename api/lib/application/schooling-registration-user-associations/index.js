@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi').extend(require('@hapi/joi-date'));
+const Joi = require('joi').extend(require('@joi/date'));
 const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
 const securityPreHandlers = require('../security-pre-handlers');
 const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');

@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const certificationDoc = require('./certification-doc');
 const competenceDoc = require('./competence-doc');

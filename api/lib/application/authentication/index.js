@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');
 

@@ -1,6 +1,6 @@
 const certificationCenterController = require('./certification-center-controller');
 const securityPreHandlers = require('../security-pre-handlers');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { idSpecification } = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {

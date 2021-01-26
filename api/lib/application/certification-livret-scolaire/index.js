@@ -1,6 +1,6 @@
 const certificationController = require('./certification-controller');
 const { featureToggles } = require('../../config');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc');
 const certificationsResultsResponseDoc = require('../../infrastructure/open-api-doc/livret-scolaire/certifications-results-doc');

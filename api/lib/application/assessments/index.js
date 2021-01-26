@@ -1,4 +1,4 @@
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const assessmentController = require('./assessment-controller');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 

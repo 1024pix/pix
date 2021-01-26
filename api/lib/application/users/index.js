@@ -1,6 +1,6 @@
 const securityPreHandlers = require('../security-pre-handlers');
 const userController = require('./user-controller');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
