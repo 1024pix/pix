@@ -159,36 +159,6 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
       isSCOManagingStudents = true;
     }
 
-    test('it displays the division filter', async function(assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // given
-      const division = store.createRecord('division', {
-        id: 'd1',
-        name: 'd1',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        stages: [],
-        divisions: [division],
-      });
-
-      const profiles = [{ firstName: 'John', lastName: 'Doe', isShared: true }];
-      profiles.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('profiles', profiles);
-      this.set('goToProfilePage', () => {});
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::List @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>}}`);
-
-      // then
-      assert.contains('Classes');
-      assert.contains('d1');
-    });
-
     test('it filters the profiles when a division is selected', async function(assert) {
       this.owner.register('service:current-user', CurrentUserStub);
 
@@ -206,55 +176,18 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
 
       const profiles = [{ firstName: 'John', lastName: 'Doe', isShared: true }];
       profiles.meta = { rowCount: 1 };
-      const selectDivisions = sinon.stub();
+      const triggerFiltering = sinon.stub();
       this.set('campaign', campaign);
       this.set('profiles', profiles);
       this.set('goToProfilePage', () => {});
-      this.set('selectDivisions', selectDivisions);
+      this.set('triggerFiltering', triggerFiltering);
 
       // when
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::List @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}} @selectDivisions={{selectDivisions}}/>`);
+      await render(hbs`<Routes::Authenticated::Campaign::Profile::List @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}} @triggerFiltering={{triggerFiltering}}/>`);
       await click('[for="division-d1"]');
 
       // then
-      assert.ok(selectDivisions.calledWith(['d1']));
-    });
-  });
-
-  module('when user does not work for a SCO organization which manages students', function() {
-    class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false }
-      isSCOManagingStudents = false;
-    }
-
-    test('it does not display the division filter', async function(assert) {
-      this.owner.register('service:current-user', CurrentUserStub);
-
-      // given
-      const division = store.createRecord('division', {
-        id: 'd2',
-        name: 'd2',
-      });
-      const campaign = store.createRecord('campaign', {
-        id: 1,
-        name: 'campagne 1',
-        stages: [],
-        divisions: [division],
-      });
-
-      const profiles = [{ firstName: 'John', lastName: 'Doe', isShared: true }];
-      profiles.meta = { rowCount: 1 };
-
-      this.set('campaign', campaign);
-      this.set('profiles', profiles);
-      this.set('goToProfilePage', () => {});
-
-      // when
-      await render(hbs`<Routes::Authenticated::Campaign::Profile::List @campaign={{campaign}} @profiles={{profiles}} @goToProfilePage={{goToProfilePage}}/>`);
-
-      // then
-      assert.notContains('Classes');
-      assert.notContains('d2');
+      assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
     });
   });
 });
