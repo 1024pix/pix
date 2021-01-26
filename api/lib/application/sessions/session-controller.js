@@ -214,7 +214,17 @@ module.exports = {
   async updatePublication(request) {
     const sessionId = request.params.id;
     const toPublish = request.payload.data.attributes.toPublish;
-    const session = await usecases.updatePublicationSession({ sessionId, toPublish });
+
+    if (typeof toPublish !== 'boolean') {
+      throw new BadRequestError('Echec lors de la publication des résultats de la session, paramètres entrants invalides.');
+    }
+
+    let session;
+    if (toPublish) {
+      session = await usecases.publishSession({ sessionId });
+    } else {
+      session = await usecases.unpublishSession({ sessionId });
+    }
     return sessionSerializer.serialize(session);
   },
 

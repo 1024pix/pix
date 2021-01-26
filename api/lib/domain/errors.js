@@ -237,12 +237,6 @@ class InvalidCertificationIssueReportForSaving extends DomainError {
   }
 }
 
-class InvalidParametersForSessionPublication extends DomainError {
-  constructor(message = 'Echec lors de la publication des résultats de la session, paramètres entrants invalides.') {
-    super(message);
-  }
-}
-
 class SendingEmailToResultRecipientError extends DomainError {
   constructor(failedEmailsRecipients) {
     super(`Échec lors de l'envoi des résultats au(x) destinataire(s) : ${failedEmailsRecipients.join(', ')}`);
@@ -748,7 +742,6 @@ module.exports = {
   InvalidCertificationReportForFinalization,
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
-  InvalidParametersForSessionPublication,
   InvalidRecaptchaTokenError,
   InvalidResultRecipientTokenError,
   InvalidTemporaryKeyError,

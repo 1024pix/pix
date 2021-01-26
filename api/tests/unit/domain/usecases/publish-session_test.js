@@ -5,16 +5,15 @@ const {
   catchErr,
 } = require('../../../test-helper');
 
-const updatePublicationSession = require('../../../../lib/domain/usecases/update-publication-session');
-const { InvalidParametersForSessionPublication, SendingEmailToResultRecipientError } = require('../../../../lib/domain/errors');
+const publishSession = require('../../../../lib/domain/usecases/publish-session');
+const { SendingEmailToResultRecipientError } = require('../../../../lib/domain/errors');
 const mailService = require('../../../../lib/domain/services/mail-service');
 
-describe('Unit | UseCase | update-publication-session', () => {
+describe('Unit | UseCase | publish-session', () => {
 
   const sessionId = 123;
   let certificationRepository;
   let sessionRepository;
-  let toPublish;
   const now = new Date('2019-01-01T05:06:07Z');
   const sessionDate = '2020-05-08';
   let clock;
@@ -22,7 +21,7 @@ describe('Unit | UseCase | update-publication-session', () => {
   beforeEach(() => {
     clock = sinon.useFakeTimers(now);
     certificationRepository = {
-      updatePublicationStatusesBySessionId: sinon.stub(),
+      publishCertificationCoursesBySessionId: sinon.stub(),
     };
     sessionRepository = {
       updatePublishedAt: sinon.stub(),
@@ -34,41 +33,6 @@ describe('Unit | UseCase | update-publication-session', () => {
 
   afterEach(() => {
     clock.restore();
-  });
-
-  context('when input parameters are invalid', () => {
-    context('when sessionId is not a number', () => {
-
-      it('should return throw a InvalidParametersForSessionPublication error', async () => {
-        // when
-        const error = await catchErr(updatePublicationSession)({
-          sessionId: 'salut',
-          toPublish: true,
-          certificationRepository,
-          sessionRepository,
-        });
-
-        // then
-        expect(sessionRepository.getWithCertificationCandidates).to.not.have.been.called;
-        expect(error).to.be.instanceOf(InvalidParametersForSessionPublication);
-      });
-    });
-    context('when toPublish is not a Boolean', () => {
-
-      it('should return throw a InvalidParametersForSessionPublication error', async () => {
-        // when
-        const error = await catchErr(updatePublicationSession)({
-          sessionId: 1,
-          toPublish: 'salut',
-          certificationRepository,
-          sessionRepository,
-        });
-
-        // then
-        expect(sessionRepository.getWithCertificationCandidates).to.not.have.been.called;
-        expect(error).to.be.instanceOf(InvalidParametersForSessionPublication);
-      });
-    });
   });
 
   context('when the session exists', () => {
@@ -106,15 +70,13 @@ describe('Unit | UseCase | update-publication-session', () => {
         // given
         const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
         const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
-        toPublish = true;
-        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
         sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
 
         // when
-        const session = await updatePublicationSession({
+        const session = await publishSession({
           sessionId,
-          toPublish,
           certificationRepository,
           sessionRepository,
           publishedAt: now,
@@ -127,14 +89,12 @@ describe('Unit | UseCase | update-publication-session', () => {
       it('should send result emails', async () => {
         // given
         const updatedSession = { ...originalSession, publishedAt: now };
-        toPublish = true;
-        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
 
         // when
-        await updatePublicationSession({
+        await publishSession({
           sessionId,
-          toPublish,
           certificationRepository,
           sessionRepository,
         });
@@ -158,16 +118,14 @@ describe('Unit | UseCase | update-publication-session', () => {
       it('should generate links for certification results for each unique recipient', async () => {
         // given
         const updatedSession = { ...originalSession, publishedAt: now };
-        toPublish = true;
-        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
         mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 }).returns('token-1');
         mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 }).returns('token-2');
 
         // when
-        await updatePublicationSession({
+        await publishSession({
           sessionId,
-          toPublish,
           certificationRepository,
           sessionRepository,
         });
@@ -188,15 +146,13 @@ describe('Unit | UseCase | update-publication-session', () => {
           const now = new Date();
           const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
           const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
-          toPublish = true;
-          certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+          certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
           sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
           sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
 
           // when
-          await updatePublicationSession({
+          await publishSession({
             sessionId,
-            toPublish,
             certificationRepository,
             sessionRepository,
           });
@@ -222,14 +178,12 @@ describe('Unit | UseCase | update-publication-session', () => {
 
           const now = new Date();
           const updatedSessionWithPublishedAt = { ...sessionWithoutResultsRecipient, publishedAt: now };
-          toPublish = true;
-          certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+          certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
           sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
 
           // when
-          await updatePublicationSession({
+          await publishSession({
             sessionId,
-            toPublish,
             certificationRepository,
             sessionRepository,
             publishedAt: now,
@@ -241,44 +195,19 @@ describe('Unit | UseCase | update-publication-session', () => {
       });
     });
 
-    context('When we unpublish the session', () => {
-
-      beforeEach(() => {
-        toPublish = false;
-        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
-      });
-
-      it('should return the session', async () => {
-        // when
-        const session = await updatePublicationSession({
-          sessionId,
-          toPublish,
-          certificationRepository,
-          sessionRepository,
-        });
-
-        // then
-        expect(sessionRepository.updatePublishedAt).to.not.have.been.called;
-        expect(mailService.sendCertificationResultEmail).to.not.have.been.called;
-        expect(session).to.deep.equal(originalSession);
-      });
-    });
-
     context('When at least one of the e-mail sending fails', () => {
 
       it('should throw an error and leave the session unpublished', async () => {
         // given
-        toPublish = true;
         const publishedAt = new Date();
-        certificationRepository.updatePublicationStatusesBySessionId.withArgs(sessionId, toPublish).resolves();
+        certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.resolves({ ...originalSession, publishedAt: publishedAt });
         mailService.sendCertificationResultEmail.onCall(0).rejects();
         mailService.sendCertificationResultEmail.onCall(1).resolves();
 
         // when
-        const error = await catchErr(updatePublicationSession)({
+        const error = await catchErr(publishSession)({
           sessionId,
-          toPublish,
           certificationRepository,
           sessionRepository,
           publishedAt,
