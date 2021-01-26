@@ -14,8 +14,9 @@ export default class ErrorRoute extends Route {
     super.setupController(...arguments);
     controller.errorMessage = error;
 
-    if (error.errors && error.errors[0]) {
-      const apiError = error.errors[0];
+    const apiError = get(error, 'errors[0]');
+
+    if (apiError) {
       controller.errorDetail = apiError.detail;
       controller.errorStatus = apiError.status;
       controller.errorTitle = apiError.title;
