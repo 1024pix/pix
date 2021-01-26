@@ -7,19 +7,20 @@ module.exports = datasource.extend({
   tableName: 'Domaines',
 
   usedFields: [
+    'id persistant',
     'Code',
     'Nom',
     'Titre',
-    'Competences (identifiants)',
+    'Competences (identifiants) (id persistant)',
   ],
 
   fromAirTableObject(airtableRecord) {
     return {
-      id: airtableRecord.getId(),
+      id: airtableRecord.get('id persistant'),
       code: airtableRecord.get('Code'),
       name: airtableRecord.get('Nom'),
       title: airtableRecord.get('Titre'),
-      competenceIds: airtableRecord.get('Competences (identifiants)'),
+      competenceIds: airtableRecord.get('Competences (identifiants) (id persistant)'),
     };
   },
 

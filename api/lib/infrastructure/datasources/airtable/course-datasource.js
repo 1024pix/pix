@@ -7,11 +7,12 @@ module.exports = datasource.extend({
   tableName: 'Tests',
 
   usedFields: [
+    'id persistant',
     'Nom',
     'Description',
     'Adaptatif ?',
-    'Competence',
-    'Épreuves',
+    'Competence (id persistant)',
+    'Épreuves (id persistant)',
     'Image',
   ],
 
@@ -22,12 +23,12 @@ module.exports = datasource.extend({
     }
 
     return {
-      id: airtableRecord.getId(),
+      id: airtableRecord.get('id persistant'),
       name: airtableRecord.get('Nom'),
       description: airtableRecord.get('Description'),
       adaptive: airtableRecord.get('Adaptatif ?'),
-      competences: airtableRecord.get('Competence'),
-      challenges: airtableRecord.get('Épreuves'),
+      competences: airtableRecord.get('Competence (id persistant)'),
+      challenges: airtableRecord.get('Épreuves (id persistant)'),
       status: airtableRecord.get('Statut'),
       imageUrl,
     };

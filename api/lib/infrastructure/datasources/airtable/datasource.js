@@ -9,13 +9,8 @@ const _DatasourcePrototype = {
     return id ? `${modelName}_${id}` : `${modelName}`;
   },
 
-  _doGet(id) {
-    return airtable.getRecord(this.tableName, id).then(this.fromAirTableObject).catch((err) => {
-      if (err.error === 'NOT_FOUND') {
-        throw new AirtableResourceNotFound();
-      }
-      throw err;
-    });
+  _doGet() {
+    throw new AirtableResourceNotFound();
   },
 
   _doList() {
@@ -39,7 +34,7 @@ const _DatasourcePrototype = {
 
   async loadEntries() {
     const cacheKeyList = this._generateCacheKey(this.modelName);
-    const results = await this._doList();
+    const results = (await this._doList()).filter((record) => record.id);
     await cache.set(cacheKeyList, results);
 
     return Promise.all(results.map((record) => {
@@ -48,10 +43,8 @@ const _DatasourcePrototype = {
     })).then(() => true);
   },
 
-  async loadEntry(id) {
-    const key = this._generateCacheKey(this.modelName, id);
-    const airtableRecord = await airtable.getRecord(this.tableName, id);
-    return cache.set(key, this.fromAirTableObject(airtableRecord));
+  async loadEntry() {
+    throw new AirtableResourceNotFound();
   },
 
 };
