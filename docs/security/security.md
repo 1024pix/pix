@@ -27,4 +27,4 @@ This is enforced by default on ESA. On logout, the [handleSessionInvalidated](ht
 browser's native `location.replace()` method, which ensure no state is left behind.
 
 Wherever ESA default behavior is replaced by redefining `sessionInvalidated `(eg [in mon-pix](https://github.com/1024pix/pix/blob/dev/mon-pix/app/routes/application.js)), 
-this very browser method `location.replace()` is called to ensure the same goal (eg: [in mon-pix]([https://github.com/1024pix/pix/blob/dev/mon-pix/app/routes/logout.js]).
+this very browser method `location.replace()` is called to ensure the same goal (eg: [in mon-pix](https://github.com/1024pix/pix/blob/dev/mon-pix/app/routes/logout.js).
