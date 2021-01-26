@@ -8,5 +8,5 @@ Pour toute contribution, il est essentiel de lire [Contributing](./CONTRIBUTING.
 * [Contributing](./CONTRIBUTING.md)
 * [CSS](./CSS.md)
 * [Responsive Design](./Responsive-Design.md)
-* [Tests](./Tests.md)
+* [Tests](./test.md)
 * [Usecase](./Usecase.md)

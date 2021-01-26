@@ -179,7 +179,7 @@ Exemple: `detail: err.details[0].message` au lieu de `detail: 'The server could 
 
 - On avait déjà le status, title, detail. On propose de l'enrichir avec les attributs code, et l'objet meta.
 
-    Exemple ici: https://github.com/1024pix/pix/pull/1727/commits/8b3744c31457d5fb4a4f3ae0eb8a923ea85ed4ba
+    Exemple ici: https://github.com/1024pix/pix/pull/1727/
 
     L'attribut code : va contenir un code compréhensible de l'erreur, violation de règle de gestion pour identifier facilement l'erreur.
     L'objet meta va contenir des informations spécifiques au use-case. Exemple : afficher un message calculé côté IHM avec des informations renvoyées dans l'objet.
