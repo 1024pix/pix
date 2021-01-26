@@ -12,6 +12,7 @@ const swaggers = require('./lib/swaggers');
 const config = require('./lib/config');
 const security = require('./lib/infrastructure/security');
 const { handleFailAction } = require('./lib/validate');
+const { validateIds } = require('./lib/domain/validators/id-validator');
 
 const createServer = async () => {
 
@@ -35,6 +36,13 @@ const createServer = async () => {
       stripTrailingSlash: true,
     },
   });
+
+  server.ext('onPostAuth',
+    (request, h) =>{
+      validateIds(request);
+      return h.continue;
+    },
+  );
 
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
 
