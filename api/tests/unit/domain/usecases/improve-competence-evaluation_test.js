@@ -14,7 +14,16 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
   const domainTransaction = Symbol('DomainTransaction');
 
   beforeEach(() => {
-    competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
+    const currentAssessment = new Assessment({
+      state: 'completed',
+      userId,
+      competenceId,
+      isImproving: false,
+      courseId: '[NOT USED] CompetenceId is in Competence Evaluation.',
+      type: 'COMPETENCE_EVALUATION',
+    });
+
+    competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ assessment: currentAssessment });
     userId = 'validUserId';
     competenceId = 'recCompetence';
     expectedAssessment = new Assessment({
@@ -104,6 +113,36 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
 
       // then
       expect(error).to.be.instanceOf(ImproveCompetenceEvaluationForbiddenError);
+    });
+  });
+
+  context('when user has already started the improvement of the competence', () => {
+    beforeEach(() => {
+      const currentAssessment = new Assessment({
+        state: 'started',
+        userId,
+        competenceId,
+        isImproving: true,
+        courseId: '[NOT USED] CompetenceId is in Competence Evaluation.',
+        type: 'COMPETENCE_EVALUATION',
+      });
+
+      competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ assessment: currentAssessment });
+      competenceEvaluationRepository.getByCompetenceIdAndUserId.resolves(competenceEvaluation);
+    });
+
+    it('should not modify data and return the current competence evaluation', async () => {
+      // given
+      const expectedCompetenceEvaluation = { ...competenceEvaluation };
+
+      // when
+      const result = await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
+
+      // then
+      expect(assessmentRepository.save).to.be.not.called;
+      expect(competenceEvaluationRepository.updateAssessmentId).to.be.not.called;
+
+      expect(result).to.deep.equal(expectedCompetenceEvaluation);
     });
   });
 
