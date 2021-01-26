@@ -83,14 +83,20 @@ module.exports = {
     });
   },
 
-  async updatePublicationStatusesBySessionId(sessionId, toPublish) {
+  async publishCertificationCoursesBySessionId(sessionId) {
     const statuses = await getAssessmentResultsStatusesBySessionId(sessionId);
     if (statuses.includes('error') || statuses.includes('started')) {
       throw new CertificationCourseNotPublishableError();
     }
     await CertificationCourseBookshelf
       .where({ sessionId })
-      .save({ isPublished: toPublish }, { method: 'update' });
+      .save({ isPublished: true }, { method: 'update' });
+  },
+
+  async unpublishCertificationCoursesBySessionId(sessionId) {
+    await CertificationCourseBookshelf
+      .where({ sessionId })
+      .save({ isPublished: false }, { method: 'update' });
   },
 
   async hasVerificationCode(id) {

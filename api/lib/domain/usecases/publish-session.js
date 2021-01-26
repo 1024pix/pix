@@ -1,39 +1,33 @@
-const { InvalidParametersForSessionPublication, SendingEmailToResultRecipientError } = require('../../domain/errors');
+const { SendingEmailToResultRecipientError } = require('../../domain/errors');
 const mailService = require('../../domain/services/mail-service');
 const uniqBy = require('lodash/uniqBy');
 const some = require('lodash/some');
 
-module.exports = async function updatePublicationSession({
+module.exports = async function publishSession({
   sessionId,
-  toPublish,
   certificationRepository,
   sessionRepository,
   publishedAt = new Date(),
 }) {
-  const integerSessionId = parseInt(sessionId);
+  const session = await sessionRepository.getWithCertificationCandidates(sessionId);
 
-  if (!Number.isFinite(integerSessionId) || (typeof toPublish !== 'boolean')) {
-    throw new InvalidParametersForSessionPublication();
+  await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
+
+  let publishedSession = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
+
+  const emailingAttempts = await _sendPrescriberEmails(session);
+  if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
+    publishedSession = await sessionRepository.flagResultsAsSentToPrescriber({
+      id: session.id,
+      resultsSentToPrescriberAt: publishedAt,
+    });
+  }
+  if (_someHaveFailed(emailingAttempts)) {
+    const failedEmailsRecipients = _failedAttemptsRecipients(emailingAttempts);
+    throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
   }
 
-  let session = await sessionRepository.getWithCertificationCandidates(sessionId);
-
-  await certificationRepository.updatePublicationStatusesBySessionId(sessionId, toPublish);
-
-  if (toPublish) {
-    session = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
-
-    const emailingAttempts = await _sendPrescriberEmails(session);
-    if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
-      session = await sessionRepository.flagResultsAsSentToPrescriber({ id: session.id, resultsSentToPrescriberAt: publishedAt });
-    }
-    if (_someHaveFailed(emailingAttempts)) {
-      const failedEmailsRecipients = _failedAttemptsRecipients(emailingAttempts);
-      throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
-    }
-  }
-
-  return session;
+  return publishedSession;
 };
 
 async function _sendPrescriberEmails(session) {
@@ -69,15 +63,19 @@ class EmailingAttempt {
     this.recipientEmail = recipientEmail;
     this.status = status;
   }
+
   hasFailed() {
     return this.status === AttemptStatus.FAILURE;
   }
+
   hasSucceeded() {
     return this.status === AttemptStatus.SUCCESS;
   }
+
   static success(recipientEmail) {
     return new EmailingAttempt(recipientEmail, AttemptStatus.SUCCESS);
   }
+
   static failure(recipientEmail) {
     return new EmailingAttempt(recipientEmail, AttemptStatus.FAILURE);
   }
@@ -104,4 +102,3 @@ function _failedAttemptsRecipients(emailingAttempts) {
   return emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed())
     .map((emailAttempt) => emailAttempt.recipient);
 }
-

@@ -662,9 +662,8 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         request.payload.data.attributes.toPublish = true;
         const usecaseResult = session;
-        sinon.stub(usecases, 'updatePublicationSession').withArgs({
+        sinon.stub(usecases, 'publishSession').withArgs({
           sessionId,
-          toPublish: true,
         }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
@@ -684,9 +683,8 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         request.payload.data.attributes.toPublish = false;
         const usecaseResult = session;
-        sinon.stub(usecases, 'updatePublicationSession').withArgs({
+        sinon.stub(usecases, 'unpublishSession').withArgs({
           sessionId,
-          toPublish: false,
         }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
