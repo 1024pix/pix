@@ -21,6 +21,7 @@ const dependencies = {
   scoringCertificationService: require('../services/scoring/scoring-certification-service'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
+  targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
 };
@@ -38,6 +39,7 @@ const handlersToBeInjected = {
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
+  computeValidatedSkillsCount: require('./compute-validated-skills-count'),
 };
 
 function buildEventDispatcher(handlersStubs) {

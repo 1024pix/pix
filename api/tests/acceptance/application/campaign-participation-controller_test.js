@@ -229,25 +229,12 @@ describe('Acceptance | API | Campaign Participations', () => {
           id: 'recCompetence1',
           tubes: [{
             id: 'recTube1',
-            skills: [{
-              id: 'recAcquisWeb1',
-              nom: '@web1',
-              challenges: [{
-                id: 'recchallenge',
-              }],
-            }, {
-              id: 'recAcquisWeb2',
-              nom: '@web2',
-              challenges: [{
-                id: 'recchallenge',
-              }],
-            }, {
-              id: 'recAcquisWeb3',
-              nom: '@web3',
-              challenges: [{
-                id: 'recchallenge',
-              }],
-            }],
+            skills: [
+              {
+                id: 'recAcquisWeb1',
+                nom: '@web1',
+              },
+            ],
           }],
         }],
       }];
@@ -267,60 +254,35 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     });
 
-    context('when assessment is completed', () => {
-      beforeEach(() => {
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          id: campaignParticipationId,
-          userId: user.id,
-          isShared: false,
-          sharedAt: null,
-        });
-        assessment = databaseBuilder.factory.buildAssessment({
-          campaignParticipationId: campaignParticipation.id,
-          userId: user.id,
-          type: Assessment.types.CAMPAIGN,
-          state: Assessment.states.COMPLETED,
-        });
-
-        return databaseBuilder.commit();
+    beforeEach(() => {
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recAcquisWeb1' });
+      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        id: campaignParticipationId,
+        userId: user.id,
+        isShared: false,
+        sharedAt: null,
+        campaignId: campaign.id,
+      });
+      assessment = databaseBuilder.factory.buildAssessment({
+        campaignParticipationId: campaignParticipation.id,
+        userId: user.id,
+        type: Assessment.types.CAMPAIGN,
+        state: Assessment.states.COMPLETED,
       });
 
-      it('should allow the user to share his campaign participation', async () => {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(204);
-        expect(response.result).to.be.null;
-      });
+      return databaseBuilder.commit();
     });
 
-    context('when assessment is not completed', () => {
-      beforeEach(() => {
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          id: campaignParticipationId,
-          userId: user.id,
-          isShared: false,
-          sharedAt: null,
-        });
-        assessment = databaseBuilder.factory.buildAssessment({
-          campaignParticipationId: campaignParticipation.id,
-          userId: user.id,
-          type: Assessment.types.CAMPAIGN,
-          state: Assessment.states.STARTED,
-        });
+    it('shares the campaign participation', async () => {
+      // when
+      const response = await server.inject(options);
+      const campaignParticipation = await knex('campaign-participations').first();
 
-        return databaseBuilder.commit();
-      });
-
-      it('should disallow the user to share his campaign participation', async () => {
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(409);
-        expect(response.result.errors[0].detail).to.equal('Cette évaluation n\'est pas terminée.');
-      });
+      // then
+      expect(response.statusCode).to.equal(204);
+      expect(campaignParticipation.isShared).to.equal(true);
     });
   });
 
