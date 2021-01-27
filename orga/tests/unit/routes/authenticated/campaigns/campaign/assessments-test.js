@@ -33,6 +33,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessments', function(h
         pageSize: 2,
         divisions: ['4eme'],
         badges: [],
+        stages: [],
         campaignId: 3,
       };
       const expectedSummaries = [{
@@ -50,6 +51,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessments', function(h
             filter: {
               divisions: params.divisions,
               badges: params.badges,
+              stages: params.stages,
             },
             campaignId: params.campaignId,
           })
