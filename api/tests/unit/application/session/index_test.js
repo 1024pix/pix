@@ -39,7 +39,8 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(sessionController, 'getJuryCertificationSummaries').returns('ok');
     sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
     sinon.stub(sessionController, 'finalize').returns('ok');
-    sinon.stub(sessionController, 'updatePublication').returns('ok');
+    sinon.stub(sessionController, 'publish').returns('ok');
+    sinon.stub(sessionController, 'unpublish').returns('ok');
     sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
     sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
     sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
@@ -248,7 +249,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
-  describe('PATCH /api/admin/sessions/{id}/publication', () => {
+  describe('PATCH /api/admin/sessions/{id}/publish', () => {
 
     it('should exist', async () => {
       // given
@@ -261,7 +262,26 @@ describe('Unit | Application | Sessions | Routes', () => {
       };
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publication', payload);
+      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+  describe('PATCH /api/admin/sessions/{id}/unpublish', () => {
+
+    it('should exist', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            toPublish: true,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/unpublish', payload);
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -314,8 +334,10 @@ describe('Unit | Application | Sessions | Routes', () => {
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'POST', url: '/api/sessions/9999999999/candidate-participation' } },
       { condition: 'session ID params is not a number', request: { method: 'PUT', url: '/api/sessions/salut/finalization' } },
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PUT', url: '/api/sessions/9999999999/finalization' } },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/publication', payload: { data: { attributes: { toPublish: true } } } } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/publication', payload: { data: { attributes: { toPublish: true } } } } },
+      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/publish' } },
+      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/unpublish' } },
+      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/publish' } },
+      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/unpublish' } },
       { condition: 'session ID params is not a number', request: { method: 'PUT', url: '/api/admin/sessions/salut/results-sent-to-prescriber' } },
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PUT', url: '/api/admin/sessions/9999999999/results-sent-to-prescriber' } },
       { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/certification-officer-assignment' } },

@@ -45,18 +45,28 @@ module('Unit | Adapter | session', function(hooks) {
 
     module('when updatePublishedCertification adapterOption is passed', function() {
 
-      [true, false].forEach(function(isTrue) {
-        test(`should send a patch request with publish to ${isTrue}`, function(assert) {
-          // when
-          const snapshot = { id: 123, adapterOptions: { updatePublishedCertifications: true, toPublish: isTrue } };
-          adapter.ajax = sinon.stub();
+      test('should send a patch request to /publish', function(assert) {
+        // when
+        const snapshot = { id: 123, adapterOptions: { updatePublishedCertifications: true, toPublish: true } };
+        adapter.ajax = sinon.stub();
 
-          adapter.updateRecord(null, { modelName: 'session' }, snapshot);
+        adapter.updateRecord(null, { modelName: 'session' }, snapshot);
 
-          // then
-          sinon.assert.calledWithExactly(adapter.ajax, 'http://localhost:3000/api/admin/sessions/123/publication', 'PATCH', { data: { data: { attributes: { toPublish: isTrue } } } });
-          assert.ok(adapter);
-        });
+        // then
+        sinon.assert.calledWithExactly(adapter.ajax, 'http://localhost:3000/api/admin/sessions/123/publish', 'PATCH');
+        assert.ok(adapter);
+      });
+
+      test('should send a patch request to /unpublish', function(assert) {
+        // when
+        const snapshot = { id: 123, adapterOptions: { updatePublishedCertifications: true, toPublish: false } };
+        adapter.ajax = sinon.stub();
+
+        adapter.updateRecord(null, { modelName: 'session' }, snapshot);
+
+        // then
+        sinon.assert.calledWithExactly(adapter.ajax, 'http://localhost:3000/api/admin/sessions/123/unpublish', 'PATCH');
+        assert.ok(adapter);
       });
     });
 
