@@ -24,26 +24,28 @@
         <div class="input-container">
           <div class="manage-authentication-window__clipboard">
             <Input
-                    id="email"
-                    name="email"
-                    @type="text"
-                    class="input disabled"
-                    @value={{@student.email}}
-                    disabled={{true}}
+              id="email"
+              name="email"
+              @type="text"
+              class="input disabled"
+              @value={{@student.email}}
+              disabled={{true}}
             />
             {{#if (is-clipboard-supported)}}
-              <div class="tooltip content-text content-text--small">
-                <span class="tooltip-text manage-authentication-window__tooltip-text">{{this.tooltipTextEmail}}</span>
+              <PixTooltip
+                @text={{this.tooltipTextEmail}}
+                @position='top'
+                @isInline={{true}}
+                class="manage-authentication-window__tooltip">
                 <CopyButton
-                        @aria-label="Copier l'adresse e-mail"
-                        @clipboardText={{@student.email}}
-                        @success={{this.clipboardSuccessEmail}}
+                  @aria-label="Copier l'adresse e-mail"
+                  @clipboardText={{@student.email}}
+                  @success={{this.clipboardSuccessEmail}}
                   {{ on 'mouseout' this.clipboardOutEmail}}
-                        @classNames="icon-button manage-authentication-window__clipboard-button"
-                >
+                  @classNames="icon-button manage-authentication-window__clipboard-button">
                   <FaIcon @icon="copy" @prefix="far" />
                 </CopyButton>
-              </div>
+              </PixTooltip>
             {{/if}}
           </div>
         </div>
@@ -77,18 +79,20 @@
                   disabled={{true}}
                 />
                 {{#if (is-clipboard-supported)}}
-                  <div class="tooltip content-text content-text--small">
-                    <span class="tooltip-text manage-authentication-window__tooltip-text">{{this.tooltipTextUsername}}</span>
+                  <PixTooltip
+                    @text={{this.tooltipTextUsername}}
+                    @position='top'
+                    @isInline={{true}}
+                    class="manage-authentication-window__tooltip">
                     <CopyButton
                       @aria-label="Copier l'identifiant"
                       @clipboardText={{@student.username}}
                       @success={{this.clipboardSuccessUsername}}
                       {{ on 'mouseout' this.clipboardOutUsername}}
-                      @classNames="icon-button manage-authentication-window__clipboard-button"
-                    >
+                      @classNames="icon-button manage-authentication-window__clipboard-button">
                       <FaIcon @icon="copy" @prefix="far" />
                     </CopyButton>
-                  </div>
+                  </PixTooltip>
                 {{/if}}
               </div>
             </div>
@@ -113,18 +117,20 @@
                   disabled={{true}}
                 />
                 {{#if (is-clipboard-supported)}}
-                  <div class="tooltip content-text content-text--small">
-                    <span class="tooltip-text manage-authentication-window__tooltip-text">{{this.tooltipTextGeneratedPassword}}</span>
+                  <PixTooltip
+                    @text={{this.tooltipTextGeneratedPassword}}
+                    @position='top'
+                    @isInline={{true}}
+                    class="manage-authentication-window__tooltip">
                     <CopyButton
                       @aria-label="Copier le mot de passe unique"
                       @clipboardText={{this.generatedPassword}}
                       @success={{this.clipboardSuccessGeneratedPassword}}
                       {{on 'mouseout' this.clipboardOutGeneratedPassword}}
-                      @classNames="icon-button manage-authentication-window__clipboard-button"
-                    >
+                      @classNames="icon-button manage-authentication-window__clipboard-button">
                       <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
                     </CopyButton>
-                  </div>
+                  </PixTooltip>
                 {{/if}}
               </div>
             </div>

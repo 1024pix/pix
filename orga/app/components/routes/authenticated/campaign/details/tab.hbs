@@ -17,17 +17,19 @@
       <div class="campaign-details-content__clipboard">
         <p class="content-text campaign-details-content__text">{{this.campaignsRootUrl}}</p>
         {{#if (is-clipboard-supported)}}
-          <div class="tooltip content-text content-text--small">
-            <span class="tooltip-text campaign-details-content__tooltip-text">{{this.tooltipText}}</span>
+          <PixTooltip
+            @text={{this.tooltipText}}
+            @position='top'
+            @isInline={{true}}
+            class="campaign-details-content__tooltip">
             <CopyButton
               @clipboardText={{this.campaignsRootUrl}}
               @success={{this.clipboardSuccess}}
               {{on 'mouseLeave' this.clipboardOut}}
-              @classNames="icon-button campaign-details-content__clipboard-button"
-            >
-              <FaIcon @icon='copy' @prefix='far'></FaIcon>
+              @classNames="icon-button campaign-details-content__clipboard-button">
+              <FaIcon @icon='copy' @prefix='far'/>
             </CopyButton>
-          </div>
+          </PixTooltip>
         {{/if}}
       </div>
     </div>

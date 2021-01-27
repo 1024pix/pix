@@ -14,9 +14,7 @@ $margin-right: 32px;
   }
 
   &__tooltip {
-    display: inline-block;
-    color: $grey-40;
-
+    display: inline-flex;
     .pix-tooltip ul {
       margin-block-start: 1em;
       margin-block-end: 1em;
@@ -30,6 +28,7 @@ $margin-right: 32px;
   }
 
   &__tooltip-title {
+    color: $grey-40;
     font-size: 0.75rem;
     svg {
       margin-left: 4px;
@@ -41,7 +40,7 @@ $margin-right: 32px;
       margin-right: 10px;
     }
     > *:last-child {
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
 
