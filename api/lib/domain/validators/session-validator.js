@@ -3,7 +3,7 @@ const { statuses } = require('../models/Session');
 const { types } = require('../models/CertificationCenter');
 
 const { EntityValidationError } = require('../errors');
-const { idSpecification } = require('./id-specification');
+const identifiersType = require('./id-specification');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -45,7 +45,7 @@ const sessionValidationJoiSchema = Joi.object({
 });
 
 const sessionFiltersValidationSchema = Joi.object({
-  id: idSpecification.optional(),
+  id: identifiersType.sessionId.optional(),
   status: Joi.string().trim()
     .valid(statuses.CREATED, statuses.FINALIZED, statuses.IN_PROCESS, statuses.PROCESSED).optional(),
   resultsSentToPrescriberAt: Joi.boolean().optional(),

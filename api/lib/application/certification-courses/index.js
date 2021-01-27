@@ -3,7 +3,7 @@ const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const certificationCourseController = require('./certification-course-controller');
 
-const { idSpecification } = require('../../domain/validators/id-specification');
+const identifiersType = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {
   server.route([
@@ -30,7 +30,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.certificationCourseId,
           }),
         },
         pre: [{

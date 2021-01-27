@@ -7,7 +7,6 @@ const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
 const featureToggles = require('../preHandlers/feature-toggles');
 const { EntityValidationError } = require('../../domain/errors');
-const { idSpecification } = require('../../domain/validators/id-specification');
 const identifiersType = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {
