@@ -120,7 +120,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
     context('when demand exists', () => {
       const temporaryKey = 'someTemporaryKey';
-      const email = 'someMail';
+      const email = 'someMail@example.net';
 
       context('when demand has been used already', () => {
 
@@ -160,6 +160,21 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           expect(demand.attributes.used).to.equal(false);
         });
 
+        context('when case is not identical', () => {
+          it('should return the bookshelf demand', async () => {
+            // given
+            const sameEmailWithAnotherCase = 'SomeMaIL@example.net';
+
+            // when
+            const demand = await resetPasswordDemandsRepository.findByUserEmail(sameEmailWithAnotherCase, temporaryKey);
+
+            // then
+            expect(demand.attributes.id).to.equal(demandId);
+            expect(demand.attributes.email).to.equal(email);
+            expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
+            expect(demand.attributes.used).to.equal(false);
+          });
+        });
       });
     });
   });
