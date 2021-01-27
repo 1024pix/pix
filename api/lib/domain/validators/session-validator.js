@@ -3,7 +3,7 @@ const { statuses } = require('../models/Session');
 const { types } = require('../models/CertificationCenter');
 
 const { EntityValidationError } = require('../errors');
-const identifiersType = require('./id-specification');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 

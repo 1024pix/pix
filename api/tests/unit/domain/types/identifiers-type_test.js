@@ -1,9 +1,9 @@
 const { expect } = require('../../../test-helper');
-const { userId } = require('../../../../lib/domain/validators/id-specification');
+const { userId } = require('../../../../lib/domain/types/identifiers-type');
 
-describe('Unit | Domain | Validators | id-specification', () => {
+describe('Unit | Domain | Type | identifier-types', () => {
 
-  describe('#idSpecification', () => {
+  describe('#userId', () => {
 
     context('when id is valid', () => {
 
