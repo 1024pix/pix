@@ -16,9 +16,11 @@
       <Input
         @id="input-for-category-in-challenge-question-number"
         @name="question-number"
-        @type="text"
+        @type="number"
+        @max="500"
         @required="true"
         @value={{@inChallengeCategory.questionNumber}}
+        placeholder="7"
       />
       <label for="subcategory-for-category-in-challenge">Sélectionnez une sous-catégorie :</label>
       <PixSelect
