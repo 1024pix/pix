@@ -1,7 +1,7 @@
 const certificationCenterController = require('./certification-center-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const Joi = require('joi');
-const { idSpecification } = require('../../domain/validators/id-specification');
+const identifiersType = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {
   server.route([
@@ -68,8 +68,8 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            certificationCenterId: idSpecification,
-            sessionId: idSpecification,
+            certificationCenterId: identifiersType.certificationCenterId,
+            sessionId: identifiersType.sessionId,
           }),
           query: Joi.object({
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
@@ -91,7 +91,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            certificationCenterId: idSpecification,
+            certificationCenterId: identifiersType.certificationCenterId,
           }),
         },
         handler: certificationCenterController.getDivisions,

@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const { idSpecification } = require('../../../../lib/domain/validators/id-specification');
+const { userId } = require('../../../../lib/domain/validators/id-specification');
 
 describe('Unit | Domain | Validators | id-specification', () => {
 
@@ -12,7 +12,7 @@ describe('Unit | Domain | Validators | id-specification', () => {
         const validId = 1;
 
         // when
-        const { error } = idSpecification.validate(validId);
+        const { error } = userId.validate(validId);
 
         // then
         expect(error).to.be.undefined;
@@ -26,7 +26,7 @@ describe('Unit | Domain | Validators | id-specification', () => {
         const lowerBoundOutOfRangeId = 0;
 
         // when
-        const { error } = idSpecification.validate(lowerBoundOutOfRangeId);
+        const { error } = userId.validate(lowerBoundOutOfRangeId);
 
         // then
         expect(error.message).to.equal('"value" must be greater than or equal to 1');
@@ -37,7 +37,7 @@ describe('Unit | Domain | Validators | id-specification', () => {
         const upperBoundOutOfRangeId = 2147483648;
 
         // when
-        const { error } = idSpecification.validate(upperBoundOutOfRangeId);
+        const { error } = userId.validate(upperBoundOutOfRangeId);
 
         // then
         expect(error.message).to.equal('"value" must be less than or equal to 2147483647');

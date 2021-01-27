@@ -1,14 +1,21 @@
 const Joi = require('joi');
 
 const sequenceStartAt = 1;
-// Max 32 bits signed integer, our most common id type in Postgres
 const sequencesEndsAt = 2 ** 31 - 1;
-const idSpecification = Joi.number().integer().min(sequenceStartAt).max(sequencesEndsAt).required();
+const positive32bitIntegerType = Joi.number().integer().min(sequenceStartAt).max(sequencesEndsAt).required();;
 
-const positive32bitIntegerType = idSpecification;
 const userId = positive32bitIntegerType;
+const sessionId = positive32bitIntegerType;
+const certificationCandidateId = positive32bitIntegerType;
+const certificationCenterId = positive32bitIntegerType;
+const certificationCourseId = positive32bitIntegerType;
+const membershipId = positive32bitIntegerType;
 
 module.exports = {
-  idSpecification,
   userId,
+  sessionId,
+  certificationCandidateId,
+  certificationCenterId,
+  certificationCourseId,
+  membershipId,
 };
