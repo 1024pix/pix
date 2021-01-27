@@ -21,13 +21,14 @@
 /* pages */
 @import 'login';
 @import 'authenticated';
-@import 'authenticated/organizations/get';
 @import 'authenticated/certifications/index';
-@import 'authenticated/certifications/certification/informations';
 @import 'authenticated/certifications/certification/details';
+@import 'authenticated/certifications/certification/informations';
+@import 'authenticated/certification-center/index';
+@import 'authenticated/organizations/get';
 @import 'authenticated/sessions/list';
-@import 'authenticated/sessions/session/informations';
 @import 'authenticated/sessions/session/certifications';
+@import 'authenticated/sessions/session/informations';
 @import 'authenticated/tools';
 
 /* components */

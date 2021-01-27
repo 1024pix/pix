@@ -44,11 +44,16 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers/{id}',
       config: {
-        handler: certificationCenterController.getById,
         pre: [{
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+        validate: {
+          params: Joi.object({
+            id: idSpecification,
+          }),
+        },
+        handler: certificationCenterController.getById,
         notes: [
           '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
           '- Récupération d\'un centre de certification\n' +

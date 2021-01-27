@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -57,6 +57,18 @@ module('Acceptance | Certification-centers List', function(hooks) {
 
       // then
       assert.dom('#type').hasValue('sup');
+    });
+
+    test('should go to certification center page when line is clicked', async function(assert) {
+      // given
+      server.createList('certification-center', 1);
+      await visit('/certification-centers/list');
+
+      // when
+      await click('tr[aria-label="Centre de certification"]:first-child');
+
+      // then
+      assert.equal(currentURL(), '/certification-centers/1');
     });
   });
 });

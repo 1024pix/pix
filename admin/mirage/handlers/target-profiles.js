@@ -12,7 +12,6 @@ function attachTargetProfiles(schema, request) {
 }
 
 function attachTargetProfileToOrganizations(schema, request) {
-  const targetProfileId = request.params.id;
   const params = JSON.parse(request.requestBody);
   const organizationsToAttach = params['organization-ids'];
   organizationsToAttach.forEach((organizationId) =>
