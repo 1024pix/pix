@@ -153,6 +153,16 @@
             -moz-outline-radius: 4px;
             border: none;
           }
+
+          &::placeholder {
+            color: transparent;
+          }
+
+          &:not(:placeholder-shown):invalid {
+            outline: 2px solid $information-dark;
+            -moz-outline-radius: 4px;
+            border: none;
+          }
         }
 
         label[for|="input-radio-for-category"] {
