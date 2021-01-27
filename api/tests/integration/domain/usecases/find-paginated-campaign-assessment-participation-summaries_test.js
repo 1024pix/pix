@@ -1,10 +1,9 @@
-const { expect, catchErr, databaseBuilder, mockLearningContent } = require('../../../test-helper');
+const { expect, catchErr, databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCase | find-paginated-campaign-assessment-participation-summaries', () => {
 
-  let filters = {};
   context('when requesting user is not allowed to access campaign informations', () => {
     let campaign;
     let user;
@@ -35,16 +34,33 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
     let participant;
 
     beforeEach(async () => {
-      const skill = { id: 'Skill1', name: '@Acquis1' };
+      const skill = { id: 'Skill1', name: '@Acquis1', challenges: [] };
+
+      const learningContent = [{
+        id: 'recArea1',
+        titleFrFr: 'area1_Title',
+        color: 'specialColor',
+        competences: [{
+          id: 'recCompetence1',
+          name: 'Fabriquer un meuble',
+          index: '1.1',
+          tubes: [{
+            id: 'recTube1',
+            skills: [skill],
+          }],
+        }],
+      }];
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+
       const organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [skill]);
-      const participation = { participantExternalId: 'Ashitaka', campaignId: campaign.id };
+      const participation = { participantExternalId: 'Ashitaka', campaignId: campaign.id, validatedSkillsCount: 1 };
       participant = { id: 123, firstName: 'Princess', lastName: 'Mononoke' };
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
 
-      mockLearningContent({ skills: [skill] });
       await databaseBuilder.commit();
     });
 
@@ -52,7 +68,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
         userId: user.id,
         campaignId: campaign.id,
-        filters,
+        filters: {},
       });
 
       expect(campaignAssessmentParticipationSummaries[0].participantExternalId).to.equal('Ashitaka');
@@ -71,7 +87,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
         const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
           userId: user.id,
           campaignId: campaign.id,
-          filters,
+          filters: {},
         });
 
         expect(campaignAssessmentParticipationSummaries[0].badges.length).to.equal(1);
@@ -81,7 +97,6 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
 
     context('when there is a filter on division', () => {
       beforeEach(async () => {
-        filters = { divisions: ['6eme'] };
         const participation = { participantExternalId: 'Yubaba', campaignId: campaign.id };
         const participant = { id: 456, firstName: 'Chihiro', lastName: 'Ogino' };
         databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
@@ -90,14 +105,33 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
         await databaseBuilder.commit();
       });
 
-      it('returns the campaignAssessmentParticipationSummaries for the participants with badges', async () => {
+      it('returns the campaignAssessmentParticipationSummaries for the participants for the division', async () => {
         const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
           userId: user.id,
           campaignId: campaign.id,
-          filters,
+          filters: { divisions: ['6eme'] },
         });
 
         expect(campaignAssessmentParticipationSummaries[0].participantExternalId).to.equal('Yubaba');
+      });
+    });
+
+    context('when there is a filter on stages', () => {
+      let stage;
+
+      beforeEach(async () => {
+        stage = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 });
+        await databaseBuilder.commit();
+      });
+
+      it('returns the campaignAssessmentParticipationSummaries for the participants with reached stage', async () => {
+        const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
+          userId: user.id,
+          campaignId: campaign.id,
+          filters: { stages: [stage.id] },
+        });
+
+        expect(campaignAssessmentParticipationSummaries[0].participantExternalId).to.equal('Ashitaka');
       });
     });
   });
