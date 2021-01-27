@@ -12,7 +12,7 @@ module.exports = {
       attributes: [
         'firstName', 'lastName', 'email', 'username',
         'cgu', 'lastTermsOfServiceValidatedAt', 'mustValidateTermsOfService',
-        'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'lang',
+        'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'lang', 'isAnonymous',
         'memberships', 'certificationCenterMemberships',
         'pixScore', 'scorecards', 'profile',
         'campaignParticipations', 'hasSeenAssessmentInstructions', 'hasSeenNewLevelInfo', 'isCertifiable',

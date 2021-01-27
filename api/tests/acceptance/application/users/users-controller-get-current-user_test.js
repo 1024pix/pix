@@ -42,6 +42,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             username: user.username,
             cgu: user.cgu,
             lang: 'fr',
+            'is-anonymous': false,
             'last-terms-of-service-validated-at': user.lastTermsOfServiceValidatedAt,
             'must-validate-terms-of-service': user.mustValidateTermsOfService,
             'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
