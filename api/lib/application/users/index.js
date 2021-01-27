@@ -8,6 +8,7 @@ const XRegExp = require('xregexp');
 const featureToggles = require('../preHandlers/feature-toggles');
 const { EntityValidationError } = require('../../domain/errors');
 const { idSpecification } = require('../../domain/validators/id-specification');
+const identifiersType = require('../../domain/validators/id-specification');
 
 exports.register = async function(server) {
   server.route([
@@ -55,7 +56,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.userId,
           }),
           failAction: (request, h) => {
             return sendJsonApiError(new BadRequestError('L\'identifiant de l\'utilisateur n\'est pas au bon format.'), h);
