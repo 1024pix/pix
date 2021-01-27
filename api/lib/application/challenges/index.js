@@ -1,4 +1,7 @@
-const ChallengeController = require('./challenge-controller');
+const Joi = require('joi');
+
+const challengeController = require('./challenge-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -7,7 +10,12 @@ exports.register = async function(server) {
       path: '/api/challenges/{id}',
       config: {
         auth: false,
-        handler: ChallengeController.get,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.challengeId,
+          }),
+        },
+        handler: challengeController.get,
         tags: ['api'],
       },
     },

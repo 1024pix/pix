@@ -1,4 +1,7 @@
+const Joi = require('joi');
+
 const certificationController = require('./certification-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -18,6 +21,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certifications/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationController.getCertification,
         notes: [
           '- **Route nécessitant une authentification**\n' +
@@ -45,6 +53,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/attestation/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationController.getPDFAttestation,
         notes: [
           '- **Route accessible par un user authentifié**\n' +

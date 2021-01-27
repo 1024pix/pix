@@ -38,7 +38,7 @@ exports.register = async function(server) {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.membershipId,
           }),
         },
         handler: membershipController.update,

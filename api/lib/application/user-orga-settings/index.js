@@ -1,5 +1,7 @@
 const Joi = require('joi');
+
 const userOrgaSettingsController = require('./user-orga-settings-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -12,6 +14,9 @@ exports.register = async function(server) {
           options: {
             allowUnknown: true,
           },
+          params: Joi.object({
+            id: identifiersType.userOrgaSettingsId,
+          }),
           payload: Joi.object({
             data: {
               relationships: {

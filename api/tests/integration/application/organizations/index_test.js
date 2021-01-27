@@ -63,7 +63,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     it('should call the organization controller to get the campaigns', async () => {
       // given
       const method = 'GET';
-      const url = '/api/organizations/:id/campaigns';
+      const url = '/api/organizations/1/campaigns';
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -109,7 +109,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     it('should call the organization controller to send invitations', async () => {
       // given
       const method = 'POST';
-      const url = '/api/organizations/:id/invitations';
+      const url = '/api/organizations/1/invitations';
       const payload = {
         data: {
           type: 'organization-invitations',
@@ -133,7 +133,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     it('should exist', async () => {
       // given
       const method = 'GET';
-      const url = '/api/organizations/:id/invitations';
+      const url = '/api/organizations/1/invitations';
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -204,7 +204,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     it('should resolve with a 204 status code', async () => {
       // given
       const method = 'POST';
-      const url = '/api/organizations/:id/target-profiles';
+      const url = '/api/organizations/1/target-profiles';
       const payload = {
         data: {
           type: 'target-profile-shares',

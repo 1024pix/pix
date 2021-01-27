@@ -50,7 +50,7 @@ exports.register = async function(server) {
         }],
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.certificationCenterId,
           }),
         },
         handler: certificationCenterController.getById,
@@ -106,6 +106,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers/{id}/sessions',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCenterId,
+          }),
+        },
         handler: certificationCenterController.getSessions,
         tags: ['api', 'certification-center'],
         notes: [

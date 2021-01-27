@@ -67,12 +67,12 @@ describe('Acceptance | Controller | answer-controller-get', () => {
         };
       });
 
-      it('should return 404 HTTP status code', async () => {
+      it('should return 400 HTTP status code', async () => {
         // when
         const response = await server.inject(options);
 
         // given
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(400);
       });
     });
 
