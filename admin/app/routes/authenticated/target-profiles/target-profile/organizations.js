@@ -13,7 +13,7 @@ export default class TargetProfileOrganizationsRoute extends Route {
 
   async model(params) {
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
-    const queryParams  = {
+    const queryParams = {
       targetProfileId: targetProfile.id,
       page: {
         size: params.pageSize,
@@ -29,7 +29,7 @@ export default class TargetProfileOrganizationsRoute extends Route {
     const organizations = await this.store.query('organization', queryParams);
     return {
       organizations,
-      targetProfile
+      targetProfile,
     };
   }
 
