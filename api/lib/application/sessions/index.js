@@ -3,7 +3,7 @@ const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
 const featureToggles = require('../preHandlers/feature-toggles');
-const identifiersType = require('../../domain/validators/id-specification');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([

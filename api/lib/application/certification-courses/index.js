@@ -3,7 +3,7 @@ const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const certificationCourseController = require('./certification-course-controller');
 
-const identifiersType = require('../../domain/validators/id-specification');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
