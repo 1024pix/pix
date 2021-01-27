@@ -11,6 +11,10 @@ class Stage {
     this.message = message;
     this.threshold = threshold;
   }
+
+  getMinSkillsCountToReachStage(totalSkills) {
+    return Math.ceil(totalSkills * (this.threshold / 100));
+  }
 }
 
 module.exports = Stage;
