@@ -38,10 +38,22 @@ describe('Integration | Application | Users | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 400 when id in param is not a number"', async () => {
+    it('should return BAD_REQUEST (400) when id in param is not a number"', async () => {
 
       // given
       const url = '/api/admin/users/NOT_A_NUMBER';
+
+      // when
+      const response = await httpTestServer.request(methodGET, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return BAD_REQUEST (400) when id in param is out of range"', async () => {
+
+      // given
+      const url = '/api/admin/users/0';
 
       // when
       const response = await httpTestServer.request(methodGET, url);
