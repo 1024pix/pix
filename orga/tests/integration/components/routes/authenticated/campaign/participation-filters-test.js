@@ -190,5 +190,81 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
         assert.notContains('Thématiques');
       });
     });
+
+    module('when campaign has no stages', function() {
+      test('should not displays the stage filter', async function(assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          stages: [],
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} />`);
+
+        // then
+        assert.notContains('Paliers');
+      });
+    });
+
+    module('when the campaign has stage but is not assessment type', function() {
+      test('it should not displays the stage filter', async function(assert) {
+        // given
+        const stage = store.createRecord('stage', { id: 'stage1' });
+        const campaign = store.createRecord('campaign', {
+          type: 'PROFILES_COLLECTION',
+          stages: [stage],
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} />`);
+
+        // then
+        assert.notContains('Paliers');
+      });
+    });
+
+    module('when campaign has stages and has type ASSESSMENT', function() {
+      test('it displays the stage filter', async function(assert) {
+        // given
+        const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
+        const campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          stages: [stage],
+        });
+
+        this.set('campaign', campaign);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}}/>`);
+
+        // then
+        assert.contains('Paliers');
+      });
+
+      test('it triggers the filter when a stage is selected', async function(assert) {
+        // given
+        const stage = store.createRecord('stage', { id: 'stage1', threshold: 40 });
+        const campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          stages: [stage],
+        });
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} @triggerFiltering={{triggerFiltering}} />`);
+        await click('[for="stage-stage1"]');
+
+        // then
+        assert.ok(triggerFiltering.calledWith({ stages: ['stage1'] }));
+      });
+    });
   });
 });
