@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.8.1 (27/01/2021)
+
+- [#2452](https://github.com/1024pix/pix/pull/2452) [BUGFIX] Corriger une faute la bannière SCO de Pix Certif (PIX-2030)
+- [#2428](https://github.com/1024pix/pix/pull/2428) [TECH] Remplacer le package déprécié @hapi/joi par joi.
+- [#2435](https://github.com/1024pix/pix/pull/2435) [TECH] Calculer le nombre d'acquis obtenus lors du partage des résultats d'une campagne (Pix-1989).
+- [#2458](https://github.com/1024pix/pix/pull/2458) [Certif] Réparer le lien pour le lien de téléchargement du PV d'incident (PIX-2051)
+
 ## v3.8.0 (26/01/2021)
 
 - [#2436](https://github.com/1024pix/pix/pull/2436) [FEATURE] Permettre à un utilisateur de passer un parcours Accès Simplifié sans inscription sur Pix App (PIX-1040).
