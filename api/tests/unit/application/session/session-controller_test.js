@@ -670,7 +670,7 @@ describe('Unit | Controller | sessionController', () => {
 
       it('should return the serialized session', async () => {
         // when
-        const response = await sessionController.updatePublication(request);
+        const response = await sessionController.publish(request);
 
         // then
         expect(response).to.equal(serializedSession);
@@ -691,7 +691,7 @@ describe('Unit | Controller | sessionController', () => {
 
       it('should return the serialized session', async () => {
         // when
-        const response = await sessionController.updatePublication(request);
+        const response = await sessionController.unpublish(request);
 
         // then
         expect(response).to.equal(serializedSession);

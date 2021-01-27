@@ -211,20 +211,19 @@ module.exports = {
     return sessionSerializer.serializeForFinalization(session);
   },
 
-  async updatePublication(request) {
+  async publish(request) {
     const sessionId = request.params.id;
-    const toPublish = request.payload.data.attributes.toPublish;
 
-    if (typeof toPublish !== 'boolean') {
-      throw new BadRequestError('Echec lors de la publication des résultats de la session, paramètres entrants invalides.');
-    }
+    const session = await usecases.publishSession({ sessionId });
 
-    let session;
-    if (toPublish) {
-      session = await usecases.publishSession({ sessionId });
-    } else {
-      session = await usecases.unpublishSession({ sessionId });
-    }
+    return sessionSerializer.serialize(session);
+  },
+
+  async unpublish(request) {
+    const sessionId = request.params.id;
+
+    const session = await usecases.unpublishSession({ sessionId });
+
     return sessionSerializer.serialize(session);
   },
 
