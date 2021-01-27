@@ -88,17 +88,6 @@ module.exports = {
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
 
-  isMembershipExistingByOrganizationIdAndEmail(organizationId, email) {
-    return BookshelfMembership
-      .where({ 'memberships.organizationId': organizationId, 'users.email': email })
-      .query((qb) => {
-        qb.innerJoin('users', 'users.id', 'memberships.userId');
-      })
-      .fetch({ require: true })
-      .then(() => true)
-      .catch(() => false);
-  },
-
   updateById({ id, membershipAttributes }) {
     return new BookshelfMembership({ id })
       .save(membershipAttributes, { patch: true, method: 'update', require: true })
