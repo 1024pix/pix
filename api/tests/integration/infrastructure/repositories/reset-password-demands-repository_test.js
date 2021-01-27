@@ -27,7 +27,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
   });
 
   describe('#markAsBeingUsed', () => {
-    const email = 'someEmail';
+    const email = 'someEmail@example.net';
 
     beforeEach(() => {
       databaseBuilder.factory.buildResetPasswordDemand({ email, used: false });
@@ -44,6 +44,23 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
         .where({ email })
         .first();
       expect(demand.used).to.be.true;
+    });
+
+    context('when case is not identical', () => {
+      it('should mark demand as used', async () => {
+        // given
+        const sameEmailWithAnotherCase = 'SomeEmaIL@example.net';
+
+        // when
+        await resetPasswordDemandsRepository.markAsBeingUsed(sameEmailWithAnotherCase);
+
+        // then
+        const demand = await knex('reset-password-demands')
+          .select('used')
+          .where({ email })
+          .first();
+        expect(demand.used).to.be.true;
+      });
     });
   });
 
