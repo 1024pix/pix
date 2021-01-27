@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import Service from '@ember/service';
 import setupIntl from '../../../helpers/setup-intl';
 import EmberObject from '@ember/object';
 
@@ -82,6 +83,30 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
       controller.set('model', model);
       // then
       expect(controller.shouldDisplayAnswers).to.be.false;
+    });
+  });
+
+  describe('#displayHomeLink', () => {
+    it('should not display home link when user is anonymous', function() {
+      // given
+      controller.currentUser = Service.create({ user: { isAnonymous: true } });
+
+      // when
+      controller.displayHomeLink;
+
+      // then
+      expect(controller.displayHomeLink).to.be.false;
+    });
+
+    it('should display home link when user is not anonymous', function() {
+      // given
+      controller.currentUser = Service.create({ user: { isAnonymous: false } });
+
+      // when
+      controller.displayHomeLink;
+
+      // then
+      expect(controller.displayHomeLink).to.be.true;
     });
   });
 });
