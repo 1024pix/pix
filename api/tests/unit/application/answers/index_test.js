@@ -36,7 +36,7 @@ describe('Unit | Router | answer-router', function() {
 
     it('should exist', async () => {
       // when
-      const result = await httpTestServer.request('GET', '/api/answers/answer_id');
+      const result = await httpTestServer.request('GET', '/api/answers/1');
 
       // then
       expect(result.statusCode).to.equal(200);
@@ -58,7 +58,7 @@ describe('Unit | Router | answer-router', function() {
 
     it('should exist', async () => {
       // when
-      const result = await httpTestServer.request('PATCH', '/api/answers/answer_id');
+      const result = await httpTestServer.request('PATCH', '/api/answers/1');
 
       // then
       expect(result.statusCode).to.equal(204);

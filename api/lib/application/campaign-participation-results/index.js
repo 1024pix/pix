@@ -1,4 +1,6 @@
+const Joi = require('joi');
 const campaignParticipationResultController = require('./campaign-participation-result-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -6,6 +8,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaign-participations/{id}/campaign-participation-result',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignParticipationId,
+          }),
+        },
         handler: campaignParticipationResultController.get,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

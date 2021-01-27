@@ -1,4 +1,6 @@
+const Joi = require('joi');
 const certificationReportController = require('./certification-report-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([
@@ -6,6 +8,11 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/certification-reports/{id}/certification-issue-reports',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationIssueReportId,
+          }),
+        },
         handler: certificationReportController.saveCertificationIssueReport,
         tags: ['api', 'certification-reports'],
         notes: [

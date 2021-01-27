@@ -1,7 +1,9 @@
 const Joi = require('joi');
+
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const securityPreHandlers = require('../security-pre-handlers');
 const targetProfileController = require('./target-profile-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([
@@ -46,7 +48,7 @@ exports.register = async (server) => {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.targetProfileId,
           }),
         },
         handler: targetProfileController.getTargetProfileDetails,
@@ -70,7 +72,7 @@ exports.register = async (server) => {
             'organization-ids': Joi.array().items(Joi.number().integer()).required(),
           }),
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.targetProfileId,
           }),
         },
         handler: targetProfileController.attachOrganizations,
@@ -122,7 +124,7 @@ exports.register = async (server) => {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.targetProfileId,
           }),
           query: Joi.object({
             'filter[id]': Joi.number().integer().empty('').allow(null).optional(),
@@ -151,7 +153,7 @@ exports.register = async (server) => {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.targetProfileId,
           }),
           payload: Joi.object({
             data: {
@@ -179,7 +181,7 @@ exports.register = async (server) => {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.targetProfileId,
           }),
         },
         handler: targetProfileController.findTargetProfileBadges,

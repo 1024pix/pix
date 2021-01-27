@@ -15,6 +15,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationCourseController.computeResult,
         tags: ['api'],
         notes: [
@@ -45,6 +50,11 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/certification-courses/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationCourseController.update,
         tags: ['api'],
       },
@@ -65,6 +75,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-courses/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationCourseController.get,
         tags: ['api'],
       },

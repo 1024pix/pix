@@ -1,4 +1,7 @@
+const Joi = require('joi');
+
 const userTutorialsController = require('./user-tutorials-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([
@@ -7,6 +10,14 @@ exports.register = async (server) => {
       path: '/api/users/tutorials/{tutorialId}',
       config: {
         handler: userTutorialsController.add,
+        validate: {
+          params: Joi.object({
+            tutorialId: identifiersType.tutorialId,
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
         tags: ['api', 'tutorials'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -31,6 +42,11 @@ exports.register = async (server) => {
       method: 'DELETE',
       path: '/api/users/tutorials/{tutorialId}',
       config: {
+        validate: {
+          params: Joi.object({
+            tutorialId: identifiersType.tutorialId,
+          }),
+        },
         handler: userTutorialsController.removeFromUser,
         tags: ['api', 'tutorials'],
         notes: [

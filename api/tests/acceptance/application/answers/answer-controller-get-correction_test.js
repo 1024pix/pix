@@ -147,7 +147,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/answers/coucou/correction',
+        url: '/api/answers/1/correction',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 

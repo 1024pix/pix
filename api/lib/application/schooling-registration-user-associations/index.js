@@ -1,7 +1,9 @@
 const Joi = require('joi').extend(require('@joi/date'));
+
 const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
 const securityPreHandlers = require('../security-pre-handlers');
 const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -156,8 +158,8 @@ exports.register = async function(server) {
           },
           params:
             Joi.object({
-              id: Joi.number().required(),
-              schoolingRegistrationId: Joi.number().required(),
+              id: identifiersType.organizationId,
+              schoolingRegistrationId: identifiersType.schoolingRegistrationId,
             }),
           payload: Joi.object({
             data: {
@@ -191,7 +193,7 @@ exports.register = async function(server) {
           payload: Joi.object({
             data: {
               attributes: {
-                'schooling-registration-id': Joi.number(),
+                'schooling-registration-id': identifiersType.schoolingRegistrationId,
               },
             },
           }),
