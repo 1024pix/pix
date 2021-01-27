@@ -137,6 +137,24 @@ class TargetProfileWithLearningContent {
     const skillMaxDifficulty = _.maxBy(this.skills, 'difficulty');
     return skillMaxDifficulty ? skillMaxDifficulty.difficulty : null;
   }
+
+  getSkillsCountBoundariesFromStages(stageIds) {
+    if (!stageIds || stageIds.length === 0) return null;
+
+    const totalSkills = this.skills.length;
+
+    return stageIds.map((stageId) => {
+      const boundary = {};
+      const stageIndex = this.stages.findIndex((stage) => stage.id == stageId);
+      boundary.from = this.stages[stageIndex].getMinSkillsCountToReachStage(totalSkills);
+      if (stageIndex !== this.stages.length - 1) {
+        boundary.to = this.stages[stageIndex + 1].getMinSkillsCountToReachStage(totalSkills) - 1;
+      } else {
+        boundary.to = totalSkills;
+      }
+      return boundary;
+    });
+  }
 }
 
 module.exports = TargetProfileWithLearningContent;
