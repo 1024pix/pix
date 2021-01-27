@@ -80,7 +80,7 @@ module.exports = function(environment) {
 
     formBuilderLinkUrlReportsCategorisation: 'https://form-eu.123formbuilder.com/41052/form',
     formBuilderLinkUrlNoReportsCategorisation: 'https://eu.123formbuilder.com/form-29080/certification-depot-du-pv-de-session-scanne',
-    urlToDownloadSessionIssueReportSheet: 'https://cloud.pix.fr/s/XmS23tRyjHbffJn/download',
+    urlToDownloadSessionIssueReportSheet: 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download',
   };
 
   if (environment === 'development') {
