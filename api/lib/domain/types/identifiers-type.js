@@ -1,21 +1,27 @@
 const Joi = require('joi');
 
-const sequenceStartAt = 1;
-const sequencesEndsAt = 2 ** 31 - 1;
-const positive32bitIntegerType = Joi.number().integer().min(sequenceStartAt).max(sequencesEndsAt).required();
+const postgreSQLSequenceDefaultStart = 1;
+const postgreSQLSequenceEnd = 2 ** 31 - 1;
 
-const userId = positive32bitIntegerType;
-const sessionId = positive32bitIntegerType;
-const certificationCandidateId = positive32bitIntegerType;
-const certificationCenterId = positive32bitIntegerType;
-const certificationCourseId = positive32bitIntegerType;
-const membershipId = positive32bitIntegerType;
+const implementationType = {
+  positiveInteger32bits: Joi.number().integer().min(postgreSQLSequenceDefaultStart).max(postgreSQLSequenceEnd).required(),
+  alphanumeric255: Joi.string().max(255).required(),
+};
+
+const competenceId = implementationType.alphanumeric255;
+const certificationCandidateId = implementationType.positiveInteger32bits;
+const certificationCenterId = implementationType.positiveInteger32bits;
+const certificationCourseId = implementationType.positiveInteger32bits;
+const membershipId = implementationType.positiveInteger32bits;
+const userId = implementationType.positiveInteger32bits;
+const sessionId = implementationType.positiveInteger32bits;
 
 module.exports = {
-  userId,
-  sessionId,
   certificationCandidateId,
   certificationCenterId,
   certificationCourseId,
+  competenceId,
   membershipId,
+  userId,
+  sessionId,
 };

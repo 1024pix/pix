@@ -423,6 +423,12 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate : {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            competenceId: identifiersType.competenceId,
+          }),
+        },
         handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
