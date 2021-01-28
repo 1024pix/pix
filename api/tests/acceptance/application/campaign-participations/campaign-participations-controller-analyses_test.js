@@ -49,6 +49,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
           tubes: [{
             id: 'recTube1',
             practicalTitleFr: 'Monter une étagère',
+            practicalDescriptionFr: 'Comment monter une étagère',
             skills: [{
               id: 'recSkillId1',
               nom: '@skill1',
@@ -115,6 +116,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
             'competence-id': 'recCompetence1',
             'competence-name': 'Fabriquer un meuble',
             'tube-practical-title': 'Monter une étagère',
+            'tube-description': 'Comment monter une étagère',
             'average-score': 30,
           },
           relationships: {
