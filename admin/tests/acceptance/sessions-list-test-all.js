@@ -5,7 +5,7 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module.only('Acceptance | Session List All', function(hooks) {
+module.only('Acceptance | Session List', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
