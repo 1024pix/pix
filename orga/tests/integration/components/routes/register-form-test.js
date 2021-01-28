@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
-import { click, fillIn, render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -60,14 +62,14 @@ module('Integration | Component | routes/register-form', function(hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillIn('#register-firstName', 'pix');
-      await fillIn('#register-lastName', 'pix');
-      await fillIn('#register-email', 'shi@fu.me');
-      await fillIn('#register-password', 'Mypassword1');
-      await click('#register-cgu');
+      await fillInByLabel('Prénom', 'pix');
+      await fillInByLabel('Nom', 'pix');
+      await fillInByLabel('Adresse e-mail', 'shi@fu.me');
+      await fillInByLabel('Mot de passe', 'Mypassword1');
+      await clickByLabel('Accepter les conditions d\'utilisation de Pix');
 
       // when
-      await click('.button');
+      await clickByLabel('Je m\'inscris');
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -90,7 +92,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillIn('#register-firstName', stringFilledIn);
+          await fillInByLabel('Prénom', stringFilledIn);
           await triggerEvent('#register-firstName', 'focusout');
 
           // then
@@ -107,7 +109,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillIn('#register-lastName', stringFilledIn);
+          await fillInByLabel('Nom', stringFilledIn);
           await triggerEvent('#register-lastName', 'focusout');
 
           // then
@@ -126,7 +128,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillIn('#register-email', stringFilledIn);
+          await fillInByLabel('Adresse e-mail', stringFilledIn);
           await triggerEvent('#register-email', 'focusout');
 
           // then
@@ -146,7 +148,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillIn('#register-password', stringFilledIn);
+          await fillInByLabel('Mot de passe', stringFilledIn);
           await triggerEvent('#register-password', 'focusout');
 
           // then
@@ -162,12 +164,12 @@ module('Integration | Component | routes/register-form', function(hooks) {
       let validUser;
 
       const fillForm = async function(user) {
-        await fillIn('#register-firstName', user.firstName);
-        await fillIn('#register-lastName', user.lastName);
-        await fillIn('#register-email', user.email);
-        await fillIn('#register-password', user.password);
+        await fillInByLabel('Prénom', user.firstName);
+        await fillInByLabel('Nom', user.lastName);
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', user.password);
         if (user.cgu) {
-          await click('#register-cgu');
+          await clickByLabel('Accepter les conditions d\'utilisation de Pix');
         }
       };
 
@@ -198,7 +200,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ firstName: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -209,7 +211,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ lastName: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -220,7 +222,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ email: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -231,7 +233,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ password: '' } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);
@@ -242,7 +244,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ cgu: false } });
 
         // when
-        await click('.button');
+        await clickByLabel('Je m\'inscris');
 
         // then
         assert.equal(spy.callCount, 0);

@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -86,12 +88,12 @@ module('Acceptance | join', function(hooks) {
       test('it should redirect user to the terms-of-service page', async function(assert) {
         // given
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await clickByLabel('Se connecter');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
-        await click('button[type=submit]');
+        await clickByLabel('Je me connecte');
 
         // then
         assert.equal(currentURL(), '/cgu');
@@ -103,12 +105,12 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await clickByLabel('Se connecter');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
-        await click('button[type=submit]');
+        await clickByLabel('Je me connecte');
 
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -141,12 +143,12 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await clickByLabel('Se connecter');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
-        await click('button[type=submit]');
+        await clickByLabel('Je me connecte');
 
         // then
         assert.equal(currentURL(), '/campagnes');
@@ -158,12 +160,12 @@ module('Acceptance | join', function(hooks) {
         server.create('campaign');
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await clickByLabel('Se connecter');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
-        await click('button[type=submit]');
+        await clickByLabel('Je me connecte');
 
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -198,12 +200,12 @@ module('Acceptance | join', function(hooks) {
         }, 401);
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'fakepassword');
+        await clickByLabel('Se connecter');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'fakepassword');
 
         // when
-        await click('button[type=submit]');
+        await clickByLabel('Je me connecte');
 
         // then
         assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -239,12 +241,12 @@ module('Acceptance | join', function(hooks) {
           }],
         }, 412);
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-        await click('#login');
-        await fillIn('#login-email', user.email);
-        await fillIn('#login-password', 'secret');
+        await clickByLabel('Se connecter');
+        await fillInByLabel('Adresse e-mail', user.email);
+        await fillInByLabel('Mot de passe', 'secret');
 
         // when
-        await click('button[type=submit]');
+        await clickByLabel('Je me connecte');
 
         // then
         assert.equal(currentURL(), '/cgu');
@@ -273,14 +275,14 @@ module('Acceptance | join', function(hooks) {
           }).id;
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await fillIn('#register-firstName', 'pix');
-          await fillIn('#register-lastName', 'pix');
-          await fillIn('#register-email', 'shi@fu.me');
-          await fillIn('#register-password', 'Password4register');
-          await click('#register-cgu');
+          await fillInByLabel('Prénom', 'pix');
+          await fillInByLabel('Nom', 'pix');
+          await fillInByLabel('Adresse e-mail', 'shi@fu.me');
+          await fillInByLabel('Mot de passe', 'Password4register');
+          await clickByLabel('Accepter les conditions d\'utilisation de Pix');
 
           // when
-          await click('button[type=submit]');
+          await clickByLabel('Je m\'inscris');
 
           // then
           assert.equal(currentURL(), '/cgu');
@@ -314,14 +316,14 @@ module('Acceptance | join', function(hooks) {
           }, 422);
 
           await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
-          await fillIn('#register-firstName', 'pix');
-          await fillIn('#register-lastName', 'pix');
-          await fillIn('#register-email', 'alreadyUser@organization.org');
-          await fillIn('#register-password', 'Password4register');
-          await click('#register-cgu');
+          await fillInByLabel('Prénom', 'pix');
+          await fillInByLabel('Nom', 'pix');
+          await fillInByLabel('Adresse e-mail', 'alreadyUser@organization.org');
+          await fillInByLabel('Mot de passe', 'Password4register');
+          await clickByLabel('Accepter les conditions d\'utilisation de Pix');
 
           // when
-          await click('button[type=submit]');
+          await clickByLabel('Je m\'inscris');
 
           // then
           assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);

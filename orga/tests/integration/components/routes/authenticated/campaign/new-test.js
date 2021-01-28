@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -74,7 +76,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await click('#assess-participants');
+      await clickByLabel('Choisir d\'évaluer les participants');
 
       // then
       assert.dom('#campaign-title').exists();
@@ -94,7 +96,7 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await click('#collect-participants-profile');
+      await clickByLabel('Choisir de collecter les profils Pix des participants');
 
       // then
       assert.dom('#campaign-title').doesNotExist();
@@ -162,10 +164,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     // given
     this.campaign = EmberObject.create({});
     await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-    await fillIn('#campaign-name', 'Ma campagne');
+    await fillInByLabel('Nom de la campagne', 'Ma campagne');
 
     // when
-    await click('button[type="submit"]');
+    await clickByLabel('Créer la campagne');
 
     // then
     assert.deepEqual(receivedCampaign.name, 'Ma campagne');

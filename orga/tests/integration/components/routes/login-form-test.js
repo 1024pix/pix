@@ -1,7 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
-import { click, fillIn, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
@@ -56,11 +58,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Routes::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillIn('#login-email', 'pix@example.net');
-      await fillIn('#login-password', 'JeMeLoggue1024');
+      await fillInByLabel('Adresse e-mail', 'pix@example.net');
+      await fillInByLabel('Mot de passe', 'JeMeLoggue1024');
 
       // when
-      await click('.button');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -94,11 +96,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Routes::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillIn('#login-email', 'pix@example.net');
-      await fillIn('#login-password', 'JeMeLoggue1024');
+      await fillInByLabel('Adresse e-mail', 'pix@example.net');
+      await fillInByLabel('Mot de passe', 'JeMeLoggue1024');
 
       //  when
-      await click('.button');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -119,11 +121,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
     SessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
 
     await render(hbs`<Routes::LoginForm/>`);
-    await fillIn('#login-email', 'pix@example.net');
-    await fillIn('#login-password', 'Mauvais mot de passe');
+    await fillInByLabel('Adresse e-mail', 'pix@example.net');
+    await fillInByLabel('Mot de passe', 'Mauvais mot de passe');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -140,11 +142,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
     SessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
 
     await render(hbs`<Routes::LoginForm/>`);
-    await fillIn('#login-email', 'pix@example.net');
-    await fillIn('#login-password', 'pix123');
+    await fillInByLabel('Adresse e-mail', 'pix@example.net');
+    await fillInByLabel('Mot de passe', 'pix123');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -164,7 +166,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should display password when user click', async function(assert) {
       // when
-      await click('.input-password__icon');
+      await clickByLabel('rendre le mot de passe lisible');
 
       // then
       assert.dom('#login-password').hasAttribute('type', 'text');
@@ -172,7 +174,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should change icon when user click on it', async function(assert) {
       // when
-      await click('.input-password__icon');
+      await clickByLabel('rendre le mot de passe lisible');
 
       // then
       assert.dom('.fa-eye').exists();
@@ -180,11 +182,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should not change icon when user keeps typing his password', async function(assert) {
       // given
-      await fillIn('#login-password', 'début du mot de passe');
+      await fillInByLabel('Mot de passe', 'début du mot de passe');
 
       // when
-      await click('.input-password__icon');
-      await fillIn('#login-password', 'fin du mot de passe');
+      await clickByLabel('rendre le mot de passe lisible');
+      await fillInByLabel('Mot de passe', 'fin du mot de passe');
 
       // then
       assert.dom('.fa-eye').exists();

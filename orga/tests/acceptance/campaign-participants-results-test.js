@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, click, currentURL } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -20,8 +21,8 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
 
     server.create('campaign', { id: 1 });
     const campaignAssessmentParticipationResult = server.create('campaign-assessment-participation-result', 'withCompetenceResults', { id: 1, campaignId: 1 });
-    server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult });
-    server.create('campaign-assessment-participation-summary', { id: 1 });
+    server.create('campaign-assessment-participation', { id: 1, campaignId: 1, campaignAssessmentParticipationResult, lastName: 'Bacri' });
+    server.create('campaign-assessment-participation-summary', { id: 1, lastName: 'Bacri' });
 
     await authenticateSession({
       user_id: user.id,
@@ -36,7 +37,7 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
     test('it could click on user to go to details', async function(assert) {
       // when
       await visit('/campagnes/1/evaluations');
-      await click('[aria-label="Participant"]:first-child');
+      await clickByLabel('Bacri');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
@@ -45,7 +46,7 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
     test('it could return on list of participants', async function(assert) {
       // when
       await visit('/campagnes/1/evaluations/1');
-      await click('[aria-label="Retourner au détail de la campagne"]');
+      await clickByLabel('Retourner au détail de la campagne');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/evaluations');

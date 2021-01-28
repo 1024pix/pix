@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, visit, currentURL } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -42,7 +43,7 @@ module('Acceptance | Switch Organization', function(hooks) {
       await visit('/');
 
       // when
-      await click('.logged-user-summary__link');
+      await clickByLabel('Résumé utilisateur');
 
       // then
       assert.dom('.logged-user-menu-item__organization-name').doesNotExist();
@@ -67,7 +68,7 @@ module('Acceptance | Switch Organization', function(hooks) {
 
     test('should have an organization in menu', async function(assert) {
       // when
-      await click('.logged-user-summary__link');
+      await clickByLabel('Résumé utilisateur');
 
       // then
       assert.dom('.logged-user-menu-item__organization-name').exists();
@@ -79,8 +80,8 @@ module('Acceptance | Switch Organization', function(hooks) {
 
       test('should change main organization in summary', async function(assert) {
         // when
-        await click('.logged-user-summary__link');
-        await click('.logged-user-menu-item');
+        await clickByLabel('Résumé utilisateur');
+        await clickByLabel('My Heaven Company');
 
         // then
         assert.dom('.logged-user-summary__organization').hasText('My Heaven Company (HEAVEN)');
@@ -88,9 +89,9 @@ module('Acceptance | Switch Organization', function(hooks) {
 
       test('should have the old main organization in the menu', async function(assert) {
         // when
-        await click('.logged-user-summary__link');
-        await click('.logged-user-menu-item');
-        await click('.logged-user-summary__link');
+        await clickByLabel('Résumé utilisateur');
+        await clickByLabel('My Heaven Company');
+        await clickByLabel('Résumé utilisateur');
 
         // then
         assert.dom('.logged-user-menu-item__organization-name').exists();
@@ -105,8 +106,8 @@ module('Acceptance | Switch Organization', function(hooks) {
           await visit('/campagnes?pageNumber=2&pageSize=10&name=test&status=archived');
 
           // when
-          await click('.logged-user-summary__link');
-          await click('.logged-user-menu-item');
+          await clickByLabel('Résumé utilisateur');
+          await clickByLabel('My Heaven Company');
 
           // then
           assert.equal(currentURL(), '/campagnes');
@@ -117,8 +118,8 @@ module('Acceptance | Switch Organization', function(hooks) {
 
         test('it should display student menu item', async function(assert) {
           // when
-          await click('.logged-user-summary__link');
-          await click('.logged-user-menu-item');
+          await clickByLabel('Résumé utilisateur');
+          await clickByLabel('My Heaven Company');
 
           // then
           assert.dom('.sidebar').containsText('Élèves');

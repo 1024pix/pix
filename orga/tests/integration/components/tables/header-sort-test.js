@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Tables | header-sort', function(hooks) {
@@ -42,7 +43,7 @@ module('Integration | Component | Tables | header-sort', function(hooks) {
     test('should inverse arrow on click', async function(assert) {
       // when
       await render(hbs`<Table::HeaderSort @isDisabled={{false}} @onSort={{this.onSort}}>Header</Table::HeaderSort>`);
-      await click('[role="button"]');
+      await clickByLabel('Header');
 
       // then
       assert.ok(onSortStub.calledWith('asc'));

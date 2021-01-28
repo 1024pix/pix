@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | dissociate-user-modal', function(hooks) {
@@ -63,8 +64,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
     test('it dissociate user form student on click', async function(assert) {
       const student = { id: 12345 };
       this.set('student', student);
-
-      await click('.dissociate-user-modal__actions button:last-child');
+      await clickByLabel('Oui, dissocier le compte');
 
       assert.ok(studentAdapter.dissociateUser.calledWith(student));
     });
@@ -73,7 +73,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
       const student = { id: 12345, lastName: 'Dupont', firstName: 'Jean' };
       this.set('student', student);
 
-      await click('.dissociate-user-modal__actions button:last-child');
+      await clickByLabel('Oui, dissocier le compte');
 
       assert.ok(notifications.sendSuccess.calledWith('La dissociation du compte de l’élève Dupont Jean est réussie.'));
     });
@@ -83,7 +83,7 @@ module('Integration | Component | dissociate-user-modal', function(hooks) {
       const student = { id: 12345, lastName: 'Dupont', firstName: 'Jean' };
       this.set('student', student);
 
-      await click('.dissociate-user-modal__actions button:last-child');
+      await clickByLabel('Oui, dissocier le compte');
 
       assert.ok(notifications.sendError.calledWith('La dissociation du compte de l’élève Dupont Jean a échoué. Veuillez réessayer.'));
     });

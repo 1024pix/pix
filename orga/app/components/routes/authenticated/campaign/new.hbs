@@ -23,14 +23,14 @@
       <label class="label">Quel est l'objectif de votre campagne ?</label>
       <div class="form__sub-label" role="button">
         <label>
-          <input type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" class="radio-button" {{on "change" this.setCampaignGoal}}>
+          <input aria-label="Choisir d'évaluer les participants" type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" class="radio-button" {{on "change" this.setCampaignGoal}}>
           <span class="radio-button-span"></span>Évaluer les participants
         </label>
       </div>
 
       <div class="form__sub-label" role="button">
         <label>
-          <input type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" class="radio-button" {{on "change" this.setCampaignGoal}}>
+          <input aria-label="Choisir de collecter les profils Pix des participants" type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" class="radio-button" {{on "change" this.setCampaignGoal}}>
           <span class="radio-button-span"></span>Collecter les profils Pix des participants
         </label>
       </div>
@@ -75,13 +75,13 @@
       <div class="label">
         <label for="id-pix-wanted-or-not">Souhaitez-vous demander un identifiant externe ?</label>
       </div>
-      <div id="doNotAskLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.doNotAskLabelIdPix}}>
+      <div aria-label="Ne pas demander d'identifiant externe" id="doNotAskLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.doNotAskLabelIdPix}}>
         <label>
           <input type="radio" checked={{@notWantIdPix}} name="radio" class="radio-button">
           <span class="radio-button-span"></span>Non
         </label>
       </div>
-      <div id="askLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.askLabelIdPix}}>
+      <div aria-label="Demander un identifiant externe" id="askLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.askLabelIdPix}}>
         <label>
           <input type="radio" checked={{@wantIdPix}} name="radio" class="radio-button">
           <span class="radio-button-span"></span>Oui
@@ -98,7 +98,7 @@
           @type="text"
           @class="input"
           @maxlength="255"
-          @label="Libellé de l’identifiant"
+          aria-label="Libellé de l’identifiant"
           @aria-required="true"
           @placeholder="Libellé de l’identifiant"
           @value={{@campaign.idPixLabel}}

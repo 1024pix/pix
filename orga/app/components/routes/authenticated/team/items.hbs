@@ -27,6 +27,7 @@
           @options={{this.organizationRoles}}
           @selectedOption={{@membership.organizationRole}}
           @placeholder="Sélectionner un rôle"
+          @ariaLabel="Sélectionner un rôle"
         />
       </div>
     </td>
@@ -35,7 +36,7 @@
         <button id='save-organization-role' type="button" class="button button--thin" {{on 'click' (fn this.updateRoleOfMember @membership)}}>
           Enregistrer
         </button>
-        <button id='cancel-update-organization-role' type="button" class="button button--round-with-icon"
+        <button aria-label="Annuler" id='cancel-update-organization-role' type="button" class="button button--round-with-icon"
           {{on 'click' this.cancelUpdateRoleOfMember}}>
           <FaIcon @icon='times'></FaIcon>
         </button>

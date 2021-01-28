@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -48,7 +49,7 @@ module('Acceptance | Campaign Details', function(hooks) {
       await visit('/campagnes/1');
 
       // when
-      await click('[aria-label="Retour"]');
+      await clickByLabel('Retour');
 
       // then
       assert.equal(currentURL(), '/campagnes');

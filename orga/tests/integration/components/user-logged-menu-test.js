@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';
 import Service from '@ember/service';
@@ -60,7 +61,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
   test('should display the chevron-up icon when menu is open', async function(assert) {
     // when
     await render(hbs`<UserLoggedMenu/>`);
-    await click('.logged-user-summary__link');
+    await clickByLabel('Résumé utilisateur');
 
     // then
     assert.dom('.fa-chevron-up').exists();
@@ -70,7 +71,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
   test('should display the disconnect link when menu is open', async function(assert) {
     // when
     await render(hbs`<UserLoggedMenu/>`);
-    await click('.logged-user-summary__link');
+    await clickByLabel('Résumé utilisateur');
 
     // then
     assert.contains('Se déconnecter');
@@ -79,7 +80,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
   test('should display the organizations name and externalId when menu is open', async function(assert) {
     // when
     await render(hbs`<UserLoggedMenu />`);
-    await click('.logged-user-summary__link');
+    await clickByLabel('Résumé utilisateur');
 
     // then
     assert.contains(organization2.name);
