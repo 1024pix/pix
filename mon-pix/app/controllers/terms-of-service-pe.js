@@ -25,11 +25,6 @@ export default class TermsOfServicePeController extends Controller {
 
       await this.session.authenticate('authenticator:oidc', { authenticationKey: this.authenticationKey });
 
-      if (this.session.attemptedTransition) {
-        this.session.attemptedTransition.retry();
-      } else {
-        this.transitionToRoute('profile');
-      }
     } else {
       this.showErrorTermsOfServiceNotSelected = true;
     }
