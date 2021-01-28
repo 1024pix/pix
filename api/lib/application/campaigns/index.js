@@ -139,6 +139,11 @@ exports.register = async function(server) {
           params: Joi.object({
             id: Joi.number().integer().required(),
           }),
+          query: Joi.object({
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
         },
         handler: campaignController.findProfilesCollectionParticipations,
         notes: [

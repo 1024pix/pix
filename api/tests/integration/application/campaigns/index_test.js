@@ -19,6 +19,7 @@ describe('Integration | Application | Route | campaignRouter', () => {
     sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(campaignController, 'findProfilesCollectionParticipations').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -100,6 +101,81 @@ describe('Integration | Application | Route | campaignRouter', () => {
 
       // then
       expect(response.statusCode).to.equal(201);
+    });
+  });
+
+  describe('GET /api/campaigns/{id}/profiles-collection-participations', () => {
+
+    it('should return 200 with empty query string', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 200 with pagination', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?page[number]=1&page[size]=25');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 200 with a string array of one element as division filter', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 200 with a string array of several elements as division filter', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[divisions][]="3EMEB"&filter[divisions][]="3EMEA"');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 with unexpected filters', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[unexpected][]=5');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a division filter which is not an array', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?filter[divisions]="3EMEA"');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a page number which is not a number', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?page[number]=a');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a page size which is not a number', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/profiles-collection-participations?page[size]=a');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/invalid/profiles-collection-participations');
+
+      // then
+      expect(result.statusCode).to.equal(400);
     });
   });
 });
