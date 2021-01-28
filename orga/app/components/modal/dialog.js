@@ -9,6 +9,7 @@ export default class Dialog extends Component {
   }
 
   willDestroy() {
+    super.willDestroy(...arguments);
     document.removeEventListener('keyup', this.closeOnEscape);
   }
 
