@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.9.0 (28/01/2021)
+
+- [#2446](https://github.com/1024pix/pix/pull/2446) [FEATURE] Masquer les élèves des années précédentes dans Pix Certif (PIX-2022)
+- [#2459](https://github.com/1024pix/pix/pull/2459) [FEATURE] Afficher la première lettre du prénom et nom de l'utilisateur en majuscule sur le profil dans Pix Orga/App/Certif (PIX-329).
+- [#2434](https://github.com/1024pix/pix/pull/2434) [FEATURE] Afficher le descriptif d'un sujet sur Pix Orga au sein de l'onglet analyse lorsque je le déplie (PIX-1997).
+- [#2445](https://github.com/1024pix/pix/pull/2445) [FEATURE] Ajout des cartes terminées dans mes parcours (PIX-2003)
+- [#2451](https://github.com/1024pix/pix/pull/2451) [FEATURE] Afficher la page de detail d'un centre de certification dans Pix Admin (PIX-500).
+- [#2468](https://github.com/1024pix/pix/pull/2468) [BUGFIX] Corriger l'apparition furtive de la page d'erreur suite à l'acceptation des CGU Pôle Emploi (PIX-2036).
+- [#2453](https://github.com/1024pix/pix/pull/2453) [BUGFIX] Récupérer correctement l'erreur provenant de l'API (Sentry)
+- [#2465](https://github.com/1024pix/pix/pull/2465) [BUGFIX] Eviter les erreurs de casse sur les e-mails (PIX-2052).
+- [#2410](https://github.com/1024pix/pix/pull/2410) [TECH] Création d'helpers de tests front respectueux de l'a11y sur PixOrga (PIX-2008)
+- [#2448](https://github.com/1024pix/pix/pull/2448) [TECH] Utiliser Pix Tooltip dans Pix Orga (Pix-2000).
+
 ## v3.8.1 (27/01/2021)
 
 - [#2452](https://github.com/1024pix/pix/pull/2452) [BUGFIX] Corriger une faute la bannière SCO de Pix Certif (PIX-2030)
