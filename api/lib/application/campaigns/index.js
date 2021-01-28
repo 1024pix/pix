@@ -157,6 +157,17 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}/assessment-participations',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+          query: Joi.object({
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[badges][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
+        },
         handler: campaignController.findAssessmentParticipations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
