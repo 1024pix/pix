@@ -147,7 +147,7 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
 
         // when
         await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} @triggerFiltering={{triggerFiltering}} />`);
-        await click('[for="badge-badge1"');
+        await click('[for="badge-badge1"]');
 
         // then
         assert.ok(triggerFiltering.calledWith({ badges: ['badge1'] }));
