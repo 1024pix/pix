@@ -12,7 +12,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
     it('should create a password reset demand', async () => {
       // when
-      const email = 'someMail';
+      const email = 'someMail@example.net';
       const temporaryKey = 'someKey';
       await resetPasswordDemandsRepository.create({ email, temporaryKey });
 
@@ -27,7 +27,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
   });
 
   describe('#markAsBeingUsed', () => {
-    const email = 'someEmail';
+    const email = 'someEmail@example.net';
 
     beforeEach(() => {
       databaseBuilder.factory.buildResetPasswordDemand({ email, used: false });
@@ -44,6 +44,23 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
         .where({ email })
         .first();
       expect(demand.used).to.be.true;
+    });
+
+    context('when case is not identical', () => {
+      it('should mark demand as used', async () => {
+        // given
+        const sameEmailWithAnotherCase = 'SomeEmaIL@example.net';
+
+        // when
+        await resetPasswordDemandsRepository.markAsBeingUsed(sameEmailWithAnotherCase);
+
+        // then
+        const demand = await knex('reset-password-demands')
+          .select('used')
+          .where({ email })
+          .first();
+        expect(demand.used).to.be.true;
+      });
     });
   });
 
@@ -81,7 +98,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       });
 
       context('when demand is still up', () => {
-        const email = 'someMail';
+        const email = 'someMail@example.net';
         let demandId;
 
         beforeEach(() => {
@@ -120,7 +137,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
     context('when demand exists', () => {
       const temporaryKey = 'someTemporaryKey';
-      const email = 'someMail';
+      const email = 'someMail@example.net';
 
       context('when demand has been used already', () => {
 
@@ -160,6 +177,21 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           expect(demand.attributes.used).to.equal(false);
         });
 
+        context('when case is not identical', () => {
+          it('should return the bookshelf demand', async () => {
+            // given
+            const sameEmailWithAnotherCase = 'SomeMaIL@example.net';
+
+            // when
+            const demand = await resetPasswordDemandsRepository.findByUserEmail(sameEmailWithAnotherCase, temporaryKey);
+
+            // then
+            expect(demand.attributes.id).to.equal(demandId);
+            expect(demand.attributes.email).to.equal(email);
+            expect(demand.attributes.temporaryKey).to.equal(temporaryKey);
+            expect(demand.attributes.used).to.equal(false);
+          });
+        });
       });
     });
   });
