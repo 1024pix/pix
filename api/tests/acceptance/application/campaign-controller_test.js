@@ -623,7 +623,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         // when
         const options = {
           method: 'GET',
-          url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions]=Division+Barry`,
+          url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions][]=Division+Barry`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
         // when
@@ -673,7 +673,7 @@ describe('Acceptance | API | Campaign Controller', () => {
         // when
         const options = {
           method: 'GET',
-          url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions]=Division+Marvin&filter[divisions]=Division+Aretha`,
+          url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[divisions][]=Division+Marvin&filter[divisions][]=Division+Aretha`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
         // when
