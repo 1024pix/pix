@@ -143,7 +143,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#findByOrganizationIdOrderByDivision', () => {
+  describe('#findByOrganizationIdAndUpdatedAtOrderByDivision', () => {
 
     it('should return instances of SchoolingRegistration', async () => {
       // given
@@ -157,7 +157,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const paginatedSchoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+      const paginatedSchoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision(
         {
           organizationId: organization.id,
           page: {
@@ -191,7 +191,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision(
         {
           organizationId: organization_1.id,
           page: {
@@ -245,7 +245,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision(
         {
           organizationId: organization.id,
           page: {
@@ -267,7 +267,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       ]);
     });
 
-    it('When there are two students and we ask for pages of one student, it should return one student on page two', async () => {
+    it('when there are two students and we ask for pages of one student, it should return one student on page two', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -286,7 +286,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision(
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision(
         {
           organizationId: organization.id,
           page: {
@@ -301,6 +301,36 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       expect(_.map(schoolingRegistrations.data, 'id')).to.deep.include.ordered.members([
         schoolingRegistration3B.id,
       ]);
+    });
+
+    it('should filter out students registered after August 15, 2020', async () => {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      const beforeTheDate = new Date('2020-08-14T10:00:00Z');
+      const afterTheDate = new Date('2020-08-16T10:00:00Z');
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId, updatedAt: beforeTheDate });
+      const earlierSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration(
+        { organizationId, updatedAt: afterTheDate },
+      );
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision(
+        {
+          organizationId,
+          page: {
+            size: 10,
+            number: 1,
+          },
+          filter: {},
+        },
+      );
+
+      // then
+      expect(schoolingRegistrations.data, 'id').to.have.length(1);
+      expect(schoolingRegistrations.data[0].id).to.equal(earlierSchoolingRegistration.id);
     });
   });
 

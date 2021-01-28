@@ -12,7 +12,7 @@ module.exports = async function findStudentsForEnrollement({
 }) {
   try {
     const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
-    const paginatedStudents = await schoolingRegistrationRepository.findByOrganizationIdOrderByDivision({
+    const paginatedStudents = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision({
       page,
       filter,
       organizationId,
