@@ -7,10 +7,12 @@ module.exports = {
   },
 
   markAsBeingUsed(email) {
-    return ResetPasswordDemand.where({ email }).save({ used: true }, {
-      patch: true,
-      require: false,
-    });
+    return ResetPasswordDemand
+      .query((qb) => qb.where('email', 'ILIKE', email))
+      .save({ used: true }, {
+        patch: true,
+        require: false,
+      });
   },
 
   findByTemporaryKey(temporaryKey) {
@@ -25,7 +27,11 @@ module.exports = {
   },
 
   findByUserEmail(email, temporaryKey) {
-    return ResetPasswordDemand.where({ email, used: false, temporaryKey })
+    return ResetPasswordDemand.query((qb) => {
+      qb.where('email', 'ILIKE', email);
+      qb.where({ 'used': false });
+      qb.where({ temporaryKey });
+    })
       .fetch({ require: true })
       .catch((err) => {
         if (err instanceof ResetPasswordDemand.NotFoundError) {
