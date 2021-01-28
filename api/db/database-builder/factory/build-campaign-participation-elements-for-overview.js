@@ -8,6 +8,7 @@ module.exports = function buildCampaignParticipationElementsForOverview({ userId
   index,
   lastAssessmentState,
   campaignParticipationCreatedAt,
+  campaignParticipationSharedAt,
   campaignArchivedAt,
   isShared,
 } = {}) {
@@ -27,6 +28,7 @@ module.exports = function buildCampaignParticipationElementsForOverview({ userId
     createdAt: campaignParticipationCreatedAt,
     campaignId: campaign.id,
     isShared,
+    sharedAt: campaignParticipationSharedAt,
   });
 
   buildAssessment({
