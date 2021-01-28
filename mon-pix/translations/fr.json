@@ -111,10 +111,13 @@
             "card": {
                 "resume": "Reprendre",
                 "send": "Envoyer mes résultats",
-                "started-at": "Commencé le {starteddate}",
+                "see-more": "Voir le détail",
+                "started-at": "Commencé le {date}",
+                "finished-at": "Terminé le {date}",
                 "tag": {
                     "started": "En cours",
-                    "completed": "À envoyer"
+                    "completed": "À envoyer",
+                    "finished": "Terminé"
                 }
             }
         },

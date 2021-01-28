@@ -8,14 +8,17 @@
     <h3 class="campaign-participation-overview-card-header__title">{{@model.organizationName}}</h3>
     <strong class="campaign-participation-overview-card-header__subtitle">{{@model.campaignTitle}}</strong>
     <time class="campaign-participation-overview-card-header__date"
-          datetime="{{@model.createdAt}}">
-      {{t 'pages.campaign-participation-overview.card.started-at' starteddate=(format-date @model.createdAt)}}
+          datetime="{{this.date}}">
+      {{t this.status.dateText date=(format-date this.date)}}
     </time>
   </header>
 
-  <LinkTo class="button button--link {{this.status.actionClass}} campaign-participation-overview-card__action"
+  <LinkTo class="{{this.status.actionClass}} campaign-participation-overview-card__action"
           @route="campaigns.start-or-resume"
           @model={{@model.campaignCode}}>
+    {{#if @model.isShared}}
+      <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
+    {{/if}}
     {{t this.status.actionText}}
   </LinkTo>
 </article>
