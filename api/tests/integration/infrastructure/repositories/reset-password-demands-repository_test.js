@@ -12,7 +12,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
     it('should create a password reset demand', async () => {
       // when
-      const email = 'someMail';
+      const email = 'someMail@example.net';
       const temporaryKey = 'someKey';
       await resetPasswordDemandsRepository.create({ email, temporaryKey });
 
@@ -98,7 +98,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       });
 
       context('when demand is still up', () => {
-        const email = 'someMail';
+        const email = 'someMail@example.net';
         let demandId;
 
         beforeEach(() => {
