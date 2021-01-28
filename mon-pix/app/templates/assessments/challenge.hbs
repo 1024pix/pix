@@ -6,7 +6,7 @@
     {{#if @model.assessment.isCertification}}
       <CertificationBanner @certificationNumber={{@model.assessment.certificationNumber}} @certification={{@model.assessment.certificationCourse}} />
     {{else}}
-      <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{true}} />
+      <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{this.displayHomeLink}} />
     {{/if}}
   </div>
 

@@ -1,8 +1,9 @@
-import { beforeEach, afterEach, describe, it } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
+import { expect } from 'chai';
 
 describe('Unit | Controller | Assessments | Challenge', function() {
 
@@ -23,11 +24,10 @@ describe('Unit | Controller | Assessments | Challenge', function() {
   describe('#pageTitle', () => {
     it('should return Épreuve 2 sur 5', function() {
       // given
-      const model = {
+      controller.model = {
         assessment: {},
         answer: null,
       };
-      controller.model = model;
       sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(2);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
 
@@ -36,6 +36,24 @@ describe('Unit | Controller | Assessments | Challenge', function() {
 
       // then
       sinon.assert.calledWith(intl.t, 'pages.challenge.title', { stepNumber: 2, totalChallengeNumber: 5 });
+    });
+  });
+
+  describe('#displayHomeLink', () => {
+    it('should not display home link', function() {
+      // given
+      controller.currentUser = Service.create({ user: { isAnonymous: true } });
+
+      // then
+      expect(controller.displayHomeLink).to.be.false;
+    });
+
+    it('should display home link', function() {
+      // given
+      controller.currentUser = Service.create({ user: { isAnonymous: false } });
+
+      // then
+      expect(controller.displayHomeLink).to.be.true;
     });
   });
 
