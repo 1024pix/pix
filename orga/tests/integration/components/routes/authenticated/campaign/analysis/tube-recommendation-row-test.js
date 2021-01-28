@@ -33,6 +33,7 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
       competenceId: 'recCompA',
       competenceName: 'Competence A',
       tubePracticalTitle: 'Tube A',
+      tubeDescription: 'Tube Desc A',
       areaColor: 'jaffa',
     });
 
@@ -69,6 +70,8 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tube-re
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('10 minutes');
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Par Youtube');
     assert.dom('[aria-expanded="true"]').exists();
+    assert.contains('Tube Desc A');
+
   });
 
   test('it should expand and display 2 tutorials in the list', async function(assert) {

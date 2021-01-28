@@ -51,12 +51,14 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const tube1_1_1 = domainBuilder.buildTargetedTube({
         id: 'recArea1_Competence1_Tube1',
         practicalTitle: 'tube1_1_1_practicalTitle',
+        description: 'tube1_1_1_practicalDescription',
         competenceId: 'recArea1_Competence1',
         skills: [skill1_1_1_2],
       });
       const tube1_2_1 = domainBuilder.buildTargetedTube({
         id: 'recArea1_Competence2_Tube1',
         practicalTitle: 'tube1_2_1_practicalTitle',
+        description: 'tube1_2_1_practicalDescriptionFrFr',
         competenceId: 'recArea1_Competence2',
         skills: [skill1_2_1_1],
       });
@@ -120,10 +122,14 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
           id: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
           practicalTitleFrFr: 'tube1_1_1_practicalTitle',
+          practicalDescriptionFrFr: 'tube1_1_1_practicalDescription',
+
         }, {
           id: 'recArea1_Competence2_Tube1',
           competenceId: 'recArea1_Competence2',
           practicalTitleFrFr: 'tube1_2_1_practicalTitle',
+          practicalDescriptionFrFr: 'tube1_2_1_practicalDescriptionFrFr',
+
         }],
         skills: [{
           id: 'recArea1_Competence1_Tube1_Skill2',
@@ -279,6 +285,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
           id: 'tubeId',
           competenceId: 'competenceId',
           practicalTitleEnUs: 'somePracticalTitle',
+          practicalDescriptionEnUs: 'someDescription',
         }],
         skills: [{
           id: 'skillId',
@@ -369,12 +376,14 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const tube1_1_1 = domainBuilder.buildTargetedTube({
         id: 'recArea1_Competence1_Tube1',
         practicalTitle: 'tube1_1_1_practicalTitle',
+        description: 'tube1_1_1_description',
         competenceId: 'recArea1_Competence1',
         skills: [skill1_1_1_2],
       });
       const tube1_2_1 = domainBuilder.buildTargetedTube({
         id: 'recArea1_Competence2_Tube1',
         practicalTitle: 'tube1_2_1_practicalTitle',
+        description: 'tube1_2_1_description',
         competenceId: 'recArea1_Competence2',
         skills: [skill1_2_1_1],
       });
@@ -438,10 +447,12 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
           id: 'recArea1_Competence1_Tube1',
           competenceId: 'recArea1_Competence1',
           practicalTitleFrFr: 'tube1_1_1_practicalTitle',
+          practicalDescriptionFrFr: 'tube1_1_1_description',
         }, {
           id: 'recArea1_Competence2_Tube1',
           competenceId: 'recArea1_Competence2',
           practicalTitleFrFr: 'tube1_2_1_practicalTitle',
+          practicalDescriptionFrFr: 'tube1_2_1_description',
         }],
         skills: [{
           id: 'recArea1_Competence1_Tube1_Skill2',
@@ -599,6 +610,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
           id: 'tubeId',
           competenceId: 'competenceId',
           practicalTitleEnUs: 'somePracticalTitle',
+          practicalDescriptionEnUs: 'someDescription',
         }],
         skills: [{
           id: 'skillId',

@@ -13,9 +13,9 @@
 
 .tube-recommendation-subtitle {
   font-family: $open-sans;
-  color: $grey-35;
   font-weight: 400;
   font-size: 0.75rem;
+  color: $grey-35;
 
   &--open {
     color: $grey-60;
@@ -30,9 +30,15 @@
     height: 100%;
   }
 
+  &__description {
+    font-family: $open-sans;
+    color: $grey-60;
+    font-size: 0.875rem;
+  }
+
   &__column {
     position: relative;
-    padding-left: 52px;
+    padding-left: 32px;
     padding-right: 52px;
   }
 
@@ -40,6 +46,7 @@
     font-weight: 400;
     font-family: $open-sans;
     font-size: 1rem;
+    padding-left: 20px;
   }
 }
 
@@ -57,6 +64,7 @@
 
 .tube-recommendation-tutorial-table {
   margin-bottom: 10px;
+  margin-left: 20px;
 
   &__row {
     padding-left: 0;

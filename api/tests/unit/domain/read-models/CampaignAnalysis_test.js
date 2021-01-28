@@ -46,6 +46,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
       expect(campaignAnalysis.campaignTubeRecommendations[0].competenceId).to.equal(targetedCompetence.id);
       expect(campaignAnalysis.campaignTubeRecommendations[0].competenceName).to.equal(targetedCompetence.name);
       expect(campaignAnalysis.campaignTubeRecommendations[0].tubePracticalTitle).to.equal(targetedTube.practicalTitle);
+      expect(campaignAnalysis.campaignTubeRecommendations[0].tubeDescription).to.equal(targetedTube.description);
       expect(campaignAnalysis.campaignTubeRecommendations[0].areaColor).to.equal(targetedArea.color);
       expect(campaignAnalysis.campaignTubeRecommendations[0].maxSkillLevelInTargetProfile).to.equal(targetProfileWithLearningContent.maxSkillDifficulty);
     });

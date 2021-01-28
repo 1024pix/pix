@@ -109,9 +109,11 @@ async function _findTargetedTubes(skills, locale) {
   const learningContentTubes = await tubeDatasource.findByRecordIds(Object.keys(skillsByTubeId));
   return learningContentTubes.map((learningContentTube) => {
     const practicalTitle = getTranslatedText(locale, { frenchText: learningContentTube.practicalTitleFrFr, englishText: learningContentTube.practicalTitleEnUs });
+    const description = getTranslatedText(locale, { frenchText: learningContentTube.practicalDescriptionFrFr, englishText: learningContentTube.practicalDescriptionEnUs });
     return new TargetedTube({
       ...learningContentTube,
       practicalTitle,
+      description,
       skills: skillsByTubeId[learningContentTube.id],
     });
   });
