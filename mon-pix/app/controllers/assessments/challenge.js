@@ -7,6 +7,7 @@ import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel'];
   @service intl;
+  @service currentUser;
   @tracked newLevel = null;
 
   get showLevelup() {
@@ -18,5 +19,9 @@ export default class ChallengeController extends Controller {
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
 
     return this.intl.t('pages.challenge.title', { stepNumber, totalChallengeNumber });
+  }
+
+  get displayHomeLink() {
+    return this.currentUser.user && !this.currentUser.user.isAnonymous;
   }
 }

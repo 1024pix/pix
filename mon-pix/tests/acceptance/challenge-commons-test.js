@@ -11,13 +11,10 @@ describe('Acceptance | Common behavior to all challenges', function() {
   setupMirage();
   let user;
 
-  beforeEach(async function() {
-    user = server.create('user', 'withEmail');
-    await authenticateByEmail(user);
-  });
-
   context('Challenge answered: the answers inputs should be disabled', function() {
     beforeEach(async function() {
+      user = server.create('user', 'withEmail');
+      await authenticateByEmail(user);
       const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       const challenge = server.create('challenge', 'forCompetenceEvaluation');
       const answer = server.create('answer', 'skipped', { assessment, challenge });
@@ -41,6 +38,8 @@ describe('Acceptance | Common behavior to all challenges', function() {
     let challenge;
 
     beforeEach(async function() {
+      user = server.create('user', 'withEmail');
+      await authenticateByEmail(user);
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
       await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
@@ -84,6 +83,26 @@ describe('Acceptance | Common behavior to all challenges', function() {
       expect(find('.feedback-panel')).to.exist;
     });
 
+  });
+
+  describe('When user is anonymous', () => {
+
+    it('should not display home link', async () => {
+      //given
+      const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+      const challenge = server.create('challenge', 'forCompetenceEvaluation', 'QROCM', { instruction: 'Instruction [lien](http://www.a.link.example.url)' });
+      const user = server.create('user', 'withEmail', {
+        isAnonymous: true,
+      });
+
+      await authenticateByEmail(user);
+
+      // when
+      await visit(`/assessments/${assessment.id}/challenges/${challenge.id}`);
+
+      // then
+      expect(find('.assessment-banner__home-link')).to.not.exist;
+    });
   });
 
 });
