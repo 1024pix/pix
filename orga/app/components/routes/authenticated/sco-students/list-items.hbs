@@ -42,12 +42,14 @@
             @field="lastName"
             @value={{@lastNameFilter}}
             @placeholder="Rechercher par nom"
+            @ariaLabel="Entrer un nom"
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::HeaderFilterInput
             @field="firstName"
             @value={{@firstNameFilter}}
             @placeholder="Rechercher par prénom"
+            @ariaLabel="Entrer un prénom"
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::Header/>
@@ -56,6 +58,7 @@
             @options={{@connexionTypesOptions}}
             @selectedOption={{@connexionTypeFilter}}
             @triggerFiltering={{@triggerFiltering}}
+            @ariaLabel="Rechercher par méthode de connexion"
             @emptyOptionLabel="Tous"
           />
           <Table::Header/>

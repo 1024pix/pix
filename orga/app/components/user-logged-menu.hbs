@@ -1,5 +1,5 @@
-<div class="dropdown logged-user-summary content-text content-text--small" aria-label="Résumé utilisateur">
-  <a href="#" class="link logged-user-summary__link" {{on 'click' this.toggleUserMenu}} aria-haspopup="listbox" aria-expanded="{{this.isMenuOpen}}">
+<div class="dropdown logged-user-summary content-text content-text--small">
+  <a href="#" aria-label="Résumé utilisateur" class="link logged-user-summary__link" {{on 'click' this.toggleUserMenu}} aria-haspopup="listbox" aria-expanded="{{this.isMenuOpen}}">
     <div>
       <div class="logged-user-summary__name">{{this.currentUser.prescriber.firstName}} {{this.currentUser.prescriber.lastName}}</div>
       <div class="logged-user-summary__organization">{{this.organizationNameAndExternalId}}</div>

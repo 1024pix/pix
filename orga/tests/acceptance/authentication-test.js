@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   authenticateSession,
@@ -69,11 +71,11 @@ module('Acceptance | authentication', function(hooks) {
     test('it should redirect prescriber to the terms-of-service page', async function(assert) {
       // given
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
-      await click('button[type=submit]');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.equal(currentURL(), '/cgu');
@@ -85,11 +87,11 @@ module('Acceptance | authentication', function(hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
-      await click('button[type=submit]');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -112,11 +114,11 @@ module('Acceptance | authentication', function(hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
-      await click('button[type=submit]');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.equal(currentURL(), '/campagnes');
@@ -128,11 +130,11 @@ module('Acceptance | authentication', function(hooks) {
       server.create('campaign');
 
       await visit('/connexion');
-      await fillIn('#login-email', user.email);
-      await fillIn('#login-password', 'secret');
+      await fillInByLabel('Adresse e-mail', user.email);
+      await fillInByLabel('Mot de passe', 'secret');
 
       // when
-      await click('button[type=submit]');
+      await clickByLabel('Je me connecte');
 
       // then
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
@@ -233,7 +235,7 @@ module('Acceptance | authentication', function(hooks) {
         await visit('/');
 
         // when
-        await click('.sidebar-menu a:nth-child(2)');
+        await clickByLabel('Équipe');
 
         // then
         assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
@@ -293,13 +295,13 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // when
-          await click('.sidebar-menu a:nth-child(3)');
+          await clickByLabel('Élèves');
 
           // then
           assert.dom('.sidebar-menu').containsText('Campagnes');
           assert.dom('.sidebar-menu').containsText('Équipe');
           assert.dom('.sidebar-menu').containsText('Élèves');
-          assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
+          assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
         });
 

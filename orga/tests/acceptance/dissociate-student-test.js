@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, click } from '@ember/test-helpers';
+import { visit } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -49,9 +50,9 @@ module('Acceptance | Student List', function(hooks) {
       });
       // when
       await visit('/eleves');
-      await click('[aria-label="Afficher les actions"]');
-      await click('.list-students-page__actions [role="button"]:last-child');
-      await click('.dissociate-user-modal__actions button:last-child');
+      await clickByLabel('Afficher les actions');
+      await clickByLabel('Dissocier le compte');
+      await clickByLabel('Oui, dissocier le compte');
 
       // then
       assert.dom('[aria-label="Afficher les actions"]').doesNotExist();

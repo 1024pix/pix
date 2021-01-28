@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
-import { visit, click, currentURL, fillIn } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -22,11 +24,13 @@ module('Acceptance | Campaign Participants', function(hooks) {
     createPrescriberByUser(user);
 
     server.create('campaign', { id: 1 });
+    server.create('campaign-assessment-participation', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST', campaignId: 1 });
+    server.create('campaign-assessment-participation-summary', { id: 1, lastName: 'AAAAAAAA_IAM_FIRST' });
     server.createList('campaign-assessment-participation', rowCount, { campaignId: 1 });
     server.createList('campaign-assessment-participation-result', rowCount, { campaignId: 1 });
     server.createList('campaign-assessment-participation-summary', 20, 'completed');
     server.createList('campaign-assessment-participation-summary', 10, 'ongoing');
-    server.createList('campaign-assessment-participation-summary', 20, 'shared');
+    server.createList('campaign-assessment-participation-summary', 19, 'shared');
 
     await authenticateSession({
       user_id: user.id,
@@ -67,7 +71,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
       await visit('/campagnes/1/evaluations');
 
       // when
-      await click('table tbody .tr--clickable');
+      await clickByLabel('AAAAAAAA_IAM_FIRST');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
@@ -82,7 +86,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // when
       await visit('/campagnes/1/evaluations');
-      await fillIn('.page-size select', changedPageSize);
+      await fillInByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });
@@ -95,11 +99,11 @@ module('Acceptance | Campaign Participants', function(hooks) {
       const changedPageSize = 25;
 
       await visit('/campagnes/1/evaluations');
-      await fillIn('.page-size select', changedPageSize);
+      await fillInByLabel('Sélectionner une pagination', changedPageSize);
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
-      await click('.page-navigation__arrow--next .icon-button');
+      await clickByLabel('Aller à la page suivante');
 
       // then
       assert.contains('Page 2 / 2');
@@ -113,7 +117,7 @@ module('Acceptance | Campaign Participants', function(hooks) {
 
       // when
       await visit(`/campagnes/1/evaluations?pageNumber=${startPage}`);
-      await fillIn('.page-size select', changedPageSize);
+      await fillInByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
       assert.dom('table tbody tr').exists({ count: changedPageSize });

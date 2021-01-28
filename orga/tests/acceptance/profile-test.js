@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, click, currentURL } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -32,7 +33,7 @@ module('Acceptance | Campaign Profile', function(hooks) {
 
     // when
     await visit('/campagnes/1/profils/1');
-    await click('[aria-label="Retourner au détail de la campagne"]');
+    await clickByLabel('Retourner au détail de la campagne');
 
     // then
     assert.equal(currentURL(), '/campagnes/1/profils');

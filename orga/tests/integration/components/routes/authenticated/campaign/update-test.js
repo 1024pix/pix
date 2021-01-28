@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -29,8 +31,8 @@ module('Integration | Component | routes/authenticated/campaign/update', functio
     await render(hbs`<Routes::Authenticated::Campaign::Update @campaign={{this.campaign}} @update={{this.updateCampaignSpy}} @cancel={{this.cancelSpy}} />`);
 
     // then
-    await fillIn('#campaign-title', 'New title');
-    await click('button[type="submit"]');
+    await fillInByLabel('Titre du parcours', 'New title');
+    await clickByLabel('Modifier');
 
     assert.deepEqual(this.campaign.title, 'New title');
   });

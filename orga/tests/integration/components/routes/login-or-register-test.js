@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/login-or-register', function(hooks) {
@@ -35,7 +36,7 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
     await render(hbs`<Routes::LoginOrRegister/>`);
 
     // when
-    await click('#login');
+    await clickByLabel('Se connecter');
 
     // then
     assert.dom('.login-form').exists();
@@ -46,8 +47,8 @@ module('Integration | Component | routes/login-or-register', function(hooks) {
     await render(hbs`<Routes::LoginOrRegister/>`);
 
     // when
-    await click('#login');
-    await click('#register');
+    await clickByLabel('Se connecter');
+    await clickByLabel('S\'inscrire');
 
     // then
     assert.dom('.register-form').exists();

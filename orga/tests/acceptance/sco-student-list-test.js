@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
-import { find, currentURL, triggerEvent, visit, click, fillIn } from '@ember/test-helpers';
+import { find, currentURL, triggerEvent, visit } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -83,7 +85,7 @@ module('Acceptance | Sco Student List', function(hooks) {
       test('it should display the students list filtered by lastname', async function(assert) {
         // when
         await visit('/eleves');
-        await fillIn('[placeholder="Rechercher par nom"]', 'ambo');
+        await fillInByLabel('Entrer un nom', 'ambo');
         // then
         assert.equal(currentURL(), '/eleves?lastName=ambo');
         assert.contains('Rambo');
@@ -93,7 +95,7 @@ module('Acceptance | Sco Student List', function(hooks) {
       test('it should display the students list filtered by firstname', async function(assert) {
         // when
         await visit('/eleves');
-        await fillIn('[placeholder="Rechercher par prénom"]', 'Jo');
+        await fillInByLabel('Entrer un prénom', 'Jo');
 
         // then
         assert.equal(currentURL(), '/eleves?firstName=Jo');
@@ -101,10 +103,10 @@ module('Acceptance | Sco Student List', function(hooks) {
         assert.notContains('Norris');
       });
 
-      test('it should display the students list filtered by connexion type', async function(assert) {
+      test('it should display the students list filtered by connection type', async function(assert) {
         // when
         await visit('/eleves');
-        await fillIn('select', 'email');
+        await fillInByLabel('Rechercher par méthode de connexion', 'email');
 
         // then
         assert.equal(currentURL(), '/eleves?connexionType=email');
@@ -168,8 +170,8 @@ module('Acceptance | Sco Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // then
           assert.contains('Réinitialiser le mot de passe');
@@ -178,11 +180,11 @@ module('Acceptance | Sco Student List', function(hooks) {
         test('it should display unique password input when reset button is clicked', async function(assert) {
           // given
           await visit('/eleves');
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // when
-          await click('#generate-password');
+          await clickByLabel('Réinitialiser le mot de passe');
 
           // then
           assert.dom('#generate-password').doesNotExist();
@@ -194,8 +196,8 @@ module('Acceptance | Sco Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // then
           assert.dom('#username').hasValue(username);
@@ -217,8 +219,8 @@ module('Acceptance | Sco Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // then
           assert.contains('Médiacentre');
@@ -228,11 +230,11 @@ module('Acceptance | Sco Student List', function(hooks) {
         test('it should display username and unique password when add username button is clicked', async function(assert) {
           // given
           await visit('/eleves');
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // when
-          await click('[aria-label="Ajouter un identifiant"]');
+          await clickByLabel('Ajouter un identifiant');
 
           // then
           assert.contains('Médiacentre');
@@ -259,8 +261,8 @@ module('Acceptance | Sco Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // then
           assert.contains('Médiacentre');
@@ -272,8 +274,8 @@ module('Acceptance | Sco Student List', function(hooks) {
           await visit('/eleves');
 
           // when
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // then
           assert.contains('Réinitialiser le mot de passe');
@@ -282,11 +284,11 @@ module('Acceptance | Sco Student List', function(hooks) {
         test('it should open password modal and display unique password when reset button is clicked', async function(assert) {
           // given
           await visit('/eleves');
-          await click('[aria-label="Afficher les actions"]');
-          await click('li');
+          await clickByLabel('Afficher les actions');
+          await clickByLabel('Gérer le compte');
 
           // when
-          await click('#generate-password');
+          await clickByLabel('Réinitialiser le mot de passe');
 
           // then
           assert.dom('#generate-password').doesNotExist();

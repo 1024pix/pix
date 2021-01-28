@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   authenticateSession,
@@ -43,7 +44,7 @@ module('Acceptance | terms-of-service', function(hooks) {
       await visit('/cgu');
 
       // when
-      await click('button[type=submit]');
+      await clickByLabel('J’accepte les conditions d’utilisation');
 
       // then
       assert.equal(currentURL(), '/campagnes');

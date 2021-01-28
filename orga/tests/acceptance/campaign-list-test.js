@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click, fillIn } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -70,11 +72,11 @@ module('Acceptance | Campaign List', function(hooks) {
 
     test('it should redirect to campaign details on click', async function(assert) {
       // given
-      server.create('campaign', { id: 1 });
+      server.create('campaign', { id: 1, name: 'CampagneEtPrairie' });
       await visit('/campagnes');
 
       // when
-      await click('.campaign-list .table tbody tr:first-child');
+      await clickByLabel('CampagneEtPrairie');
 
       // then
       assert.equal(currentURL(), '/campagnes/1');
@@ -88,12 +90,12 @@ module('Acceptance | Campaign List', function(hooks) {
         server.create('campaign', { creator });
       });
 
-      test('t should update URL with creator first name filter', async function(assert) {
+      test('it should update URL with creator first name filter', async function(assert) {
         // given
         await visit('/campagnes');
 
         // when
-        await fillIn('#creatorName', creator.firstName);
+        await fillInByLabel('Rechercher un créateur', creator.firstName);
 
         // then
         assert.equal(currentURL(), `/campagnes?creatorName=${creator.firstName}`);
@@ -104,7 +106,7 @@ module('Acceptance | Campaign List', function(hooks) {
         await visit(`/campagnes?creatorName=${creator.firstName}`);
 
         // when
-        await fillIn('#creatorName', '');
+        await fillInByLabel('Rechercher un créateur', '');
 
         // then
         assert.equal(currentURL(), '/campagnes');

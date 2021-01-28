@@ -1,5 +1,7 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 
@@ -88,10 +90,10 @@ module('Acceptance | Team Creation', function(hooks) {
         server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, pixOrgaTermsOfServiceAccepted: true });
 
         await visit('/equipe/creation');
-        await fillIn('#email', email);
+        await fillInByLabel('Adresse(s) e-mail', email);
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         const organizationInvitation = server.db.organizationInvitations[server.db.organizationInvitations.length - 1];
@@ -105,10 +107,10 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should not allow to invite a prescriber when an email is not given', async function(assert) {
         // given
         await visit('/equipe/creation');
-        await fillIn('#email', '');
+        await fillInByLabel('Adresse(s) e-mail', '');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -119,8 +121,8 @@ module('Acceptance | Team Creation', function(hooks) {
         const email = 'cancel&cancel.com';
 
         await visit('/equipe/creation');
-        await fillIn('#email', email);
-        await click('.button--no-color');
+        await fillInByLabel('Adresse(s) e-mail', email);
+        await clickByLabel('Annuler');
 
         // when
         await visit('/equipe/creation');
@@ -142,10 +144,10 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 500);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -166,10 +168,10 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 412);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -190,10 +192,10 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 404);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
@@ -214,10 +216,10 @@ module('Acceptance | Team Creation', function(hooks) {
               },
             ],
           }, 400);
-        await fillIn('#email', 'fake@email');
+        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
 
         // when
-        await click('button[type="submit"]');
+        await clickByLabel('Inviter');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
