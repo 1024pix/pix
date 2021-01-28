@@ -736,7 +736,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     it('should return the campaign participation result summaries as JSONAPI', async () => {
       const options = {
         method: 'GET',
-        url: `/api/campaigns/${campaign.id}/assessment-participations?page[number]=1&page[size]=10&filter[divisions]=5eme`,
+        url: `/api/campaigns/${campaign.id}/assessment-participations?page[number]=1&page[size]=10&filter[divisions][]=5eme`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
