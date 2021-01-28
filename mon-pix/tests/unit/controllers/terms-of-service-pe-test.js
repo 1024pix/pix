@@ -11,7 +11,6 @@ describe('Unit | Controller | terms-of-service-pe', function() {
 
     beforeEach(function() {
       controller = this.owner.lookup('controller:terms-of-service-pe');
-      controller.transitionToRoute = sinon.stub();
       controller.session = {
         authenticate: sinon.stub().resolves(),
       };
@@ -26,7 +25,6 @@ describe('Unit | Controller | terms-of-service-pe', function() {
 
       // then
       sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oidc', { authenticationKey: 'authenticationKey' });
-      sinon.assert.calledWith(controller.transitionToRoute, 'profile');
       expect(controller.showErrorTermsOfServiceNotSelected).to.be.false;
     });
 
