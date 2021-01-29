@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-classic-classes,ember/require-tagless-components*/
+
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn, render } from '@ember/test-helpers';
