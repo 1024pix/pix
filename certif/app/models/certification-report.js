@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes*/
+
 import Model, { attr, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 

@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes*/
+
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { computed } from '@ember/object';
