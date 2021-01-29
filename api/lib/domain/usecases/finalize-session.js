@@ -1,4 +1,5 @@
 const { SessionAlreadyFinalizedError } = require('../errors');
+const SessionFinalized = require('../events/SessionFinalized');
 
 module.exports = async function finalizeSession({
   sessionId,
@@ -18,9 +19,11 @@ module.exports = async function finalizeSession({
 
   await certificationReportRepository.finalizeAll(certificationReports);
 
-  return sessionRepository.finalize({
+  await sessionRepository.finalize({
     id: sessionId,
     examinerGlobalComment,
     finalizedAt: new Date(),
   });
+
+  return new SessionFinalized(sessionId);
 };

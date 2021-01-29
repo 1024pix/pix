@@ -625,6 +625,7 @@ describe('Unit | Controller | sessionController', () => {
 
       sinon.stub(certificationReportSerializer, 'deserialize').resolves(aCertificationReport);
       sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
+      sinon.stub(usecases, 'getSession').resolves(updatedSession);
       sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession);
     });
 
