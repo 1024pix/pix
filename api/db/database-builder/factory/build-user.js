@@ -76,7 +76,6 @@ const buildUser = function buildUser({
     hasSeenNewDashboardInfo,
     hasSeenNewLevelInfo, isAnonymous,
     createdAt, updatedAt,
-    shouldChangePassword: false,
   };
 
   return databaseBuffer.pushInsertable({
@@ -110,7 +109,6 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    shouldChangePassword: false,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -154,7 +152,6 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
     lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    shouldChangePassword: false,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -200,7 +197,6 @@ buildUser.withMembership = function buildUserWithMemberships({
     lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    shouldChangePassword: false,
   };
 
   const user = databaseBuffer.pushInsertable({
