@@ -184,6 +184,24 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
         });
       });
 
+      context('when error.why is email_format', () => {
+        it('throws a parsing error', async () => {
+          error = new Error();
+          error.key = 'ColumnName';
+          error.why = 'email_format';
+
+          const input = `ColumnLabel;
+          boeuf_bourguignon@chef..com;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+
+          const parsingError = await catchErr(parser.parse, parser)();
+
+          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit être une adresse email valide.');
+        });
+      });
+
       it('should throw an error including line number', async () => {
         error = new Error();
         error.key = 'ColumnName';
