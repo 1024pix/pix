@@ -5,7 +5,7 @@ const { knex } = require('../../db/knex-database-connection');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
-
+const computeValidatedSkillsCount = require('../prod/compute-validated-skills-count-for-assessment-campaign-participation');
 const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');
 const participationSharedAt = new Date('2020-05-03');
@@ -442,6 +442,8 @@ async function _do({ organizationId, targetProfileId, participantCount, profileT
     await _createParticipants({ count: participantCount, targetProfile, organizationId, campaignId, trx });
   }
   await trx.commit();
+  console.log('calcul des validatedSkillsCount ...');
+  await computeValidatedSkillsCount(10);
   console.log(`Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`);
 }
 
