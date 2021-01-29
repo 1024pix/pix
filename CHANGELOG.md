@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.10.0 (29/01/2021)
+
+- [#2471](https://github.com/1024pix/pix/pull/2471) [BUGFIX] Ajouter une validation pour les filtres passés à l'API (Pix-2068).
+- [#2469](https://github.com/1024pix/pix/pull/2469) [BUGFIX] Upgrade Ember from 3.22.0 to 3.23.0 (PIX-2067).
+- [#2470](https://github.com/1024pix/pix/pull/2470) [BUGFIX] L'erreur n'est pas remontée à l'utilisateur lorsque ce dernier importe un fichier CSV d'étudiants comportant une erreur dans la colonne Adresse e-mail dans PixOrga (PIX-2057)
+- [#2449](https://github.com/1024pix/pix/pull/2449) [BUGFIX] Éviter de créer deux assessments lors d'un retenter (PIX-2048).
+- [#2461](https://github.com/1024pix/pix/pull/2461) [TECH] Création d'un script de calcul du résultats pour toutes les participations de campagne d'évaluation (PIX-1993).
+- [#2396](https://github.com/1024pix/pix/pull/2396) [TECH] Mise à jour de la description du repository.
+- [#2353](https://github.com/1024pix/pix/pull/2353) [TECH] Mettre à jour la BDD de la version 12.4 à la version 12.5.
+- [#2405](https://github.com/1024pix/pix/pull/2405) [DOC] Ajout de l'ADR sur la spécification de la version de NodeJS.
+
 ## v3.9.0 (28/01/2021)
 
 - [#2446](https://github.com/1024pix/pix/pull/2446) [FEATURE] Masquer les élèves des années précédentes dans Pix Certif (PIX-2022)
