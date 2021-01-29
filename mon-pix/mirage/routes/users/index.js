@@ -23,6 +23,13 @@ export default function index(config) {
   config.get('/users/:id/campaign-participations', getUserCampaignParticipations);
   config.get('/users/:id/campaign-participation-overviews', getUserCampaignParticipationOverviews);
 
+  config.patch('/users/:id/email', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+    const user = schema.users.find(request.params.id);
+    user.update({ email: body.data.attributes.email });
+    return new Response(204);
+  });
+
   config.patch('/users/:id/password-update', (schema, request) => {
     const body = JSON.parse(request.requestBody);
     const user = schema.users.find(request.params.id);

@@ -1,4 +1,4 @@
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
@@ -34,6 +34,21 @@ describe('Acceptance | User account page', function() {
 
       // then
       expect(currentURL()).to.equal('/mon-compte');
+    });
+
+    it('should edit e-mail', async function() {
+      // given
+      const newEmail = 'new-email@example.net';
+      await authenticateByEmail(user);
+      await visit('/mon-compte');
+
+      // when
+      await click('button[data-test-edit-email]');
+      await fillIn('input[data-test-new-email]', newEmail);
+      await click('button[data-test-submit-email]');
+
+      // then
+      expect(user.email).to.equal(newEmail);
     });
   });
 });
