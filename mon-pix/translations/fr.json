@@ -927,7 +927,14 @@
             "title": "Mes parcours"
         },
         "user-account": {
-            "title": "Mon compte"
+            "title": "Mon compte",
+            "account-panel": {
+                "first-name": "Prénom",
+                "last-name": "Nom",
+                "email": "Adresse e-mail",
+                "new-email": "Nouvelle adresse e-mail",
+                "username": "Identifiant",
+            }
         },
         "user-tutorials": {
             "title": "Mes tutos",
@@ -1050,12 +1057,6 @@
         },
         "user": {
             "account": "Mon compte",
-            "account-panel": {
-                "first-name": "Prénom",
-                "last-name": "Nom",
-                "email": "Adresse e-mail",
-                "username": "Identifiant"
-            },
             "certifications": "Mes certifications",
             "sign-out": "Se déconnecter"
         }

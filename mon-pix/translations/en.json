@@ -927,7 +927,14 @@
             "title": "My personalised tests"
         },
         "user-account": {
-            "title": "My account"
+            "title": "My account",
+            "account-panel": {
+                "first-name": "First name",
+                "last-name": "Last name",
+                "email": "Email address",
+                "new-email": "New email address",
+                "username": "Username",
+            }
         },
         "user-tutorials": {
             "title": "My tutorials",
@@ -1047,12 +1054,6 @@
         "pix": "Pix",
         "user": {
             "account": "My account",
-            "account-panel": {
-                "first-name": "First name",
-                "last-name": "Last name",
-                "email": "Email address",
-                "username": "Username"
-            },
             "certifications": "My certifications",
             "sign-out": "Log out"
         },
