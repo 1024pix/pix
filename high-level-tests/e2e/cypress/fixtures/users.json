@@ -6,7 +6,6 @@
     "email": "daenerys.targaryen@pix.fr",
     "cgu": true,
     "pixOrgaTermsOfServiceAccepted": true,
-    "password": "",
     "shouldChangePassword": false,
     "lang": "fr-fr"
   },
@@ -16,7 +15,6 @@
     "lastName": "Tarly",
     "email": "samwell.tarly@pix.fr",
     "cgu": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -26,7 +24,6 @@
     "email": "john.snow@pix.fr",
     "cgu": true,
     "pixOrgaTermsOfServiceAccepted": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -35,7 +32,6 @@
     "lastName": "Lannister",
     "email": "tyrion.lannister@example.net",
     "cgu": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -44,7 +40,6 @@
     "lastName": "Lannister",
     "email": "jaime.lannister@example.net",
     "cgu": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -53,7 +48,6 @@
     "lastName": "Lannister",
     "email": "cersei.lannister@example.net",
     "cgu": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -63,7 +57,6 @@
     "email": "certif.pro@example.net",
     "cgu": true,
     "pixCertifTermsOfServiceAccepted": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -71,7 +64,6 @@
     "firstName": "user",
     "lastName": "name",
     "username": "user.shouldChangePassword1234",
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -81,7 +73,6 @@
     "email": "user-who-must-validate-the-last-terms-of-service@example.net",
     "cgu": true,
     "mustValidateTermsOfService": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -91,7 +82,6 @@
     "email": "aemon.targaryen@pix.fr",
     "cgu": true,
     "pixOrgaTermsOfServiceAccepted": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
@@ -101,14 +91,12 @@
     "email": "certif.sup@example.net",
     "cgu": true,
     "pixCertifTermsOfServiceAccepted": true,
-    "password": "",
     "shouldChangePassword": false
   },
   {
     "id": 12,
     "firstName": "user",
     "lastName": "gar",
-    "password": "",
     "shouldChangePassword": false
   }
 ]
