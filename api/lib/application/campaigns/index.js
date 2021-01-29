@@ -154,6 +154,11 @@ exports.register = async function(server) {
       method: 'DELETE',
       path: '/api/campaigns/{id}/archive',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.unarchiveCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

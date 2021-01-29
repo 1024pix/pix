@@ -211,19 +211,20 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   describe('DELETE /api/campaigns/{id}/archive', () => {
 
-    it('should exist', async () => {
-      // given
-      const method = 'DELETE';
-      const url = '/api/campaigns/{id}/archive';
-      const headers = {
-        authorization: generateValidRequestAuthorizationHeader(userId),
-      };
-
+    it('should return 200', async () => {
       // when
-      const response = await httpTestServer.request(method, url, null, null, headers);
+      const response = await httpTestServer.request('DELETE', '/api/campaigns/1/archive');
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const response = await httpTestServer.request('DELETE', '/api/campaigns/invalid/archive');
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
