@@ -66,6 +66,10 @@ class Assessment {
     return this.state === Assessment.states.COMPLETED;
   }
 
+  isStarted() {
+    return this.state === Assessment.states.STARTED;
+  }
+
   setCompleted() {
     this.state = Assessment.states.COMPLETED;
   }

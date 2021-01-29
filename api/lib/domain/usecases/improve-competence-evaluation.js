@@ -10,11 +10,16 @@ module.exports = async function improveCompetenceEvaluation({
   competenceId,
   domainTransaction,
 }) {
-  const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({
+  let competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({
     competenceId,
     userId,
     domainTransaction,
   });
+
+  if (competenceEvaluation.assessment.isStarted() && competenceEvaluation.assessment.isImproving) {
+    return { ...competenceEvaluation, assessmentId: competenceEvaluation.assessmentId };
+  }
+
   const competenceLevel = await getCompetenceLevel({ userId, competenceId });
 
   if (competenceLevel === MAX_REACHABLE_LEVEL) {
@@ -22,9 +27,10 @@ module.exports = async function improveCompetenceEvaluation({
   }
 
   const assessment = Assessment.createImprovingForCompetenceEvaluation({ userId, competenceId });
+
   const { id: assessmentId } = await assessmentRepository.save({ assessment, domainTransaction });
 
-  await competenceEvaluationRepository.updateAssessmentId({
+  competenceEvaluation = await competenceEvaluationRepository.updateAssessmentId({
     currentAssessmentId: competenceEvaluation.assessmentId,
     newAssessmentId: assessmentId,
     domainTransaction,
