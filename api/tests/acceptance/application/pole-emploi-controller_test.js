@@ -11,7 +11,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
     server = await createServer();
   });
 
-  describe('POST /api/certification-centers', () => {
+  describe('POST /api/pole-emploi/certification-centers', () => {
 
     const userAuthenticationKey = 'userAuthenticationKey';
 
@@ -37,7 +37,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
 
       request = {
         method: 'POST',
-        url: `/api/pole-emplois/users?authentication-key=${userAuthenticationKey}`,
+        url: `/api/pole-emploi/users?authentication-key=${userAuthenticationKey}`,
       };
     });
 

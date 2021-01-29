@@ -4,7 +4,7 @@ exports.register = async function(server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/pole-emplois/users',
+      path: '/api/pole-emploi/users',
       config: {
         auth: false,
         handler: poleEmploiController.createUser,
