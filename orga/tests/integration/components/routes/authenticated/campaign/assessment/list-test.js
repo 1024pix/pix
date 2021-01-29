@@ -271,7 +271,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}} @triggerFiltering={{triggerFiltering}}/>`);
-      await click('[for="badge-badge1"');
+      await click('[for="badge-badge1"]');
 
       // then
       assert.ok(triggerFiltering.calledWith({ badges: ['badge1'] }));
@@ -332,7 +332,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::Assessment::List @campaign={{campaign}} @participations={{participations}} @goToAssessmentPage={{goToAssessmentPage}} @triggerFiltering={{triggerFiltering}}/>`);
-      await click('[for="division-d1"');
+      await click('[for="division-d1"]');
 
       // then
       assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
