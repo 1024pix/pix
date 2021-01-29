@@ -557,7 +557,6 @@ function _adaptModelToDb(user) {
 
   return {
     ...userToBeSaved,
-    password: '',
     shouldChangePassword: false,
   };
 }
