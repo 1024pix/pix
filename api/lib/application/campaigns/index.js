@@ -138,6 +138,11 @@ exports.register = async function(server) {
       method: 'PUT',
       path: '/api/campaigns/{id}/archive',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.archiveCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
