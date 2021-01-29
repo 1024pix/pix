@@ -6,7 +6,6 @@
     "email": "daenerys.targaryen@pix.fr",
     "cgu": true,
     "pixOrgaTermsOfServiceAccepted": true,
-    "shouldChangePassword": false,
     "lang": "fr-fr"
   },
   {
@@ -14,8 +13,7 @@
     "firstName": "Samwell",
     "lastName": "Tarly",
     "email": "samwell.tarly@pix.fr",
-    "cgu": true,
-    "shouldChangePassword": false
+    "cgu": true
   },
   {
     "id": 3,
@@ -23,32 +21,28 @@
     "lastName": "Snow",
     "email": "john.snow@pix.fr",
     "cgu": true,
-    "pixOrgaTermsOfServiceAccepted": true,
-    "shouldChangePassword": false
+    "pixOrgaTermsOfServiceAccepted": true
   },
   {
     "id": 4,
     "firstName": "Tyrion",
     "lastName": "Lannister",
     "email": "tyrion.lannister@example.net",
-    "cgu": true,
-    "shouldChangePassword": false
+    "cgu": true
   },
   {
     "id": 5,
     "firstName": "Jaime",
     "lastName": "Lannister",
     "email": "jaime.lannister@example.net",
-    "cgu": true,
-    "shouldChangePassword": false
+    "cgu": true
   },
   {
     "id": 6,
     "firstName": "Cersei",
     "lastName": "Lannister",
     "email": "cersei.lannister@example.net",
-    "cgu": true,
-    "shouldChangePassword": false
+    "cgu": true
   },
   {
     "id": 7,
@@ -56,15 +50,13 @@
     "lastName": "Pro",
     "email": "certif.pro@example.net",
     "cgu": true,
-    "pixCertifTermsOfServiceAccepted": true,
-    "shouldChangePassword": false
+    "pixCertifTermsOfServiceAccepted": true
   },
   {
     "id": 8,
     "firstName": "user",
     "lastName": "name",
-    "username": "user.shouldChangePassword1234",
-    "shouldChangePassword": false
+    "username": "user.shouldChangePassword1234"
   },
   {
     "id": 9,
@@ -72,8 +64,7 @@
     "lastName": "Baratheon",
     "email": "user-who-must-validate-the-last-terms-of-service@example.net",
     "cgu": true,
-    "mustValidateTermsOfService": true,
-    "shouldChangePassword": false
+    "mustValidateTermsOfService": true
   },
   {
     "id": 10,
@@ -81,8 +72,7 @@
     "lastName": "Targaryen",
     "email": "aemon.targaryen@pix.fr",
     "cgu": true,
-    "pixOrgaTermsOfServiceAccepted": true,
-    "shouldChangePassword": false
+    "pixOrgaTermsOfServiceAccepted": true
   },
   {
     "id": 11,
@@ -90,13 +80,11 @@
     "lastName": "Sup",
     "email": "certif.sup@example.net",
     "cgu": true,
-    "pixCertifTermsOfServiceAccepted": true,
-    "shouldChangePassword": false
+    "pixCertifTermsOfServiceAccepted": true
   },
   {
     "id": 12,
     "firstName": "user",
-    "lastName": "gar",
-    "shouldChangePassword": false
+    "lastName": "gar"
   }
 ]
