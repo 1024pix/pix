@@ -86,6 +86,11 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/campaigns/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.update,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

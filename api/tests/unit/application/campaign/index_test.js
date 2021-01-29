@@ -129,12 +129,20 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   describe('PATCH /api/campaigns/{id}', () => {
 
-    it('should exist', async () => {
+    it('should return 201', async () => {
       // when
-      const response = await httpTestServer.request('PATCH', '/api/campaigns/FAKE_ID');
+      const response = await httpTestServer.request('PATCH', '/api/campaigns/1');
 
       // then
       expect(response.statusCode).to.equal(201);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/campaigns/invalid');
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
