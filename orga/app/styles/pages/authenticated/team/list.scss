@@ -9,6 +9,12 @@
     display: flex;
     margin: 1em;
   }
+
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid $grey-20;
+    margin-bottom: 16px;
+  }
 }
 
 .list-team-page-header {

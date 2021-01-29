@@ -9,10 +9,12 @@ then(`je suis redirigé vers la page pour rejoindre l'organisation`, () => {
 });
 
 then(`je vois {int} invitation\(s\) en attente`, (numberOfInvitations) => {
+  cy.contains(`Invitations (${numberOfInvitations})`).click();
   cy.get('[aria-label="Invitation en attente"]').should('have.lengthOf', numberOfInvitations);
 });
 
 then(`je vois {int} membre\(s\)`, (numberOfMembers) => {
+  cy.contains(`Membres (${numberOfMembers})`).click();
   cy.get('[aria-label="Membre"]').should('have.lengthOf', numberOfMembers);
 });
 
