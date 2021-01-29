@@ -2,18 +2,23 @@
   <div class="page-title">
     <LinkTo @route="authenticated.certification-centers.list"><span id="link-to-certification-centers-page">Tous les centres de certification</span></LinkTo>
     <span class="wire">&nbsp;>&nbsp;</span>
-    {{@model.name}}
+    {{@model.certificationCenter.name}}
   </div>
 </header>
 
-<main class="page-body">
+<main class="page-body" id="certification-center-get-page">
   <section class="page-section mb_10">
     <div class="certification-center__data">
-      <h1 class="certification-center__name">{{@model.name}}</h1>
+      <h1 class="certification-center__name">{{@model.certificationCenter.name}}</h1>
       <p>
-        Type : <span>{{@model.type}}</span><br>
-        Identifiant externe : <span>{{@model.externalId}}</span><br>
+        Type : <span>{{@model.certificationCenter.type}}</span><br>
+        Identifiant externe : <span>{{@model.certificationCenter.externalId}}</span><br>
       </p>
     </div>
   </section>
+
+  <CertificationCenterMembershipsSection
+    @certificationCenterMemberships={{@model.certificationCenterMemberships}}
+  />
+
 </main>
