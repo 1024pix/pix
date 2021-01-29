@@ -1,0 +1,44 @@
+<section class="page-section mb_10">
+
+  <header class="page-section__header">
+    <h2 class="page-section__title">Membres</h2>
+  </header>
+
+  <div class="member-list content-text content-text--small">
+    <div class="table-admin">
+      <table>
+        <thead>
+        <tr>
+          <th class="table__column">ID Membre</th>
+          <th class="table__column">ID Utilisateur</th>
+          <th class="table__column table__column--wide">Prénom</th>
+          <th class="table__column table__column--wide">Nom</th>
+          <th class="table__column table__column--wide">Adresse e-mail</th>
+          <th class="table__column table__column--wide">Date de rattachement</th>
+        </tr>
+        </thead>
+
+        {{#if @certificationCenterMemberships}}
+          <tbody>
+          {{#each @certificationCenterMemberships as |certificationCenterMembership|}}
+            <tr aria-label="Membre">
+              <td data-test-membership-id>{{certificationCenterMembership.id}}</td>
+              <td data-test-user-id>{{certificationCenterMembership.user.id}}</td>
+              <td data-test-user-first-name>{{certificationCenterMembership.user.firstName}}</td>
+              <td data-test-user-last-name>{{certificationCenterMembership.user.lastName}}</td>
+              <td data-test-user-email>{{certificationCenterMembership.user.email}}</td>
+              <td data-test-membership-created-at>
+                {{moment-format certificationCenterMembership.createdAt 'DD-MM-YYYY - HH:mm:ss'}}
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        {{/if}}
+      </table>
+
+      {{#unless @certificationCenterMemberships}}
+        <div class="table__empty content-text" data-test-empty-message>Aucun résultat</div>
+      {{/unless}}
+    </div>
+  </div>
+</section>
