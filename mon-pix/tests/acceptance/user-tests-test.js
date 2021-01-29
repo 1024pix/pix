@@ -22,6 +22,15 @@ describe('Acceptance | User tests', function() {
     });
 
     it('can visit /mes-parcours', async function() {
+      //given
+      server.create('campaign-participation-overview', {
+        assessmentState: 'started',
+        campaignCode: '123',
+        campaignTitle: 'Campaign 1',
+        createdAt: new Date('2020-04-20T04:05:06Z'),
+        isShared: false,
+      });
+
       // when
       await visit('/mes-parcours');
 
