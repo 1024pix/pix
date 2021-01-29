@@ -25,7 +25,7 @@ export default OIDCAuthenticator.extend({
     let serverTokenEndpoint;
 
     if (authenticationKey) {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/pole-emploi/users?authentication-key=${authenticationKey}`;
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/users/pole-emploi?authentication-key=${authenticationKey}`;
       request = {
         method: 'POST',
         headers: {

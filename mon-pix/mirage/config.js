@@ -73,7 +73,7 @@ export default function() {
     return user;
   });
 
-  this.post('/pole-emploi/users', (schema) =>{
+  this.post('/users/pole-emploi', (schema) =>{
     const createdUser = schema.users.create({
       firstName: 'Paul',
       lastName: 'Emploi',
