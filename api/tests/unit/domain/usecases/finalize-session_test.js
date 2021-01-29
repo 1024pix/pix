@@ -7,6 +7,7 @@ const {
 
 const finalizeSession = require('../../../../lib/domain/usecases/finalize-session');
 const { SessionAlreadyFinalizedError, InvalidCertificationReportForFinalization } = require('../../../../lib/domain/errors');
+const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
 
 describe('Unit | UseCase | finalize-session', () => {
 
@@ -18,7 +19,11 @@ describe('Unit | UseCase | finalize-session', () => {
 
   beforeEach(async () => {
     sessionId = 'dummy session id';
-    updatedSession = Symbol('updated session');
+    updatedSession = domainBuilder.buildSession({
+      id: sessionId,
+      examinerGlobalComment,
+      finalizedAt: new Date(),
+    });
     examinerGlobalComment = 'It was a fine session my dear.';
     sessionRepository = {
       finalize: sinon.stub(),
@@ -100,6 +105,21 @@ describe('Unit | UseCase | finalize-session', () => {
       });
 
       it('should finalize session with expected arguments', async () => {
+        // given
+        clock = sinon.useFakeTimers(now);
+        const validReportForFinalization = domainBuilder.buildCertificationReport({
+          examinerComment: 'signalement sur le candidat',
+          hasSeenEndTestScreen: false,
+        });
+        certificationReports = [validReportForFinalization];
+        sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
+        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        sessionRepository.finalize.withArgs({
+          id: sessionId,
+          examinerGlobalComment,
+          finalizedAt: now,
+        }).resolves(updatedSession);
+
         // when
         await finalizeSession({
           sessionId,
@@ -116,8 +136,43 @@ describe('Unit | UseCase | finalize-session', () => {
           finalizedAt: now,
         })).to.be.true;
       });
+
+      it('raises a session finalized event', async () => {
+        // given
+        clock = sinon.useFakeTimers(now);
+        const validReportForFinalization = domainBuilder.buildCertificationReport({
+          examinerComment: 'signalement sur le candidat',
+          hasSeenEndTestScreen: false,
+        });
+        certificationReports = [validReportForFinalization];
+        sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
+        certificationReportRepository.finalizeAll.withArgs(certificationReports).resolves();
+        sessionRepository.finalize.withArgs({
+          id: sessionId,
+          examinerGlobalComment,
+          finalizedAt: now,
+        }).resolves(updatedSession);
+
+        // when
+        const event = await finalizeSession({
+          sessionId,
+          examinerGlobalComment,
+          sessionRepository,
+          certificationReports,
+          certificationReportRepository,
+        });
+
+        // then
+        expect(event).to.be.an.instanceof(SessionFinalized);
+        expect(event).to.deep.equal(new SessionFinalized({
+          sessionId,
+          finalizedAt: updatedSession.finalizedAt,
+          hasExaminerGlobalComment: Boolean(examinerGlobalComment),
+          certificationCenterName: updatedSession.certificationCenterName,
+          sessionDate: updatedSession.date,
+          sessionTime: updatedSession.time,
+        }));
+      });
     });
-
   });
-
 });
