@@ -68,6 +68,11 @@ exports.register = async function(server) {
       path: '/api/campaigns/{id}/csv-profiles-collection-results',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.getCsvProfilesCollectionResults,
         notes: [
           '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
