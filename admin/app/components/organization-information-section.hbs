@@ -130,10 +130,10 @@
               Département : <span class="organization__provinceCode">{{@organization.provinceCode}}</span><br>
             {{/if}}
             {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
-              Gestion d’élèves/étudiants : <span class="organization__isManagingStudents">{{this.isManagingStudents}}</span><br>
+              Gestion d’élèves/étudiants : <span class="organization__isManagingStudents">{{if @organization.isManagingStudents 'Oui' 'Non'}}</span><br>
             {{/if}}
             Adresse e-mail: <span class ="organization'__email">{{@organization.email}}</span><br>
-            Collecte de profils : <span class="organization__canCollectProfiles">{{this.canCollectProfiles}}</span><br>
+            Collecte de profils : <span class="organization__canCollectProfiles">{{if @organization.canCollectProfiles 'Oui' 'Non'}}</span><br>
             Crédits : <span class="organization__credit">{{@organization.credit}}</span>
           </p>
           <button type="button" class="btn btn-outline-default" aria-label="Editer" {{on "click" this.toggleEditMode}}>Editer</button>
