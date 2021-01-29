@@ -1,4 +1,3 @@
-const { save } = require('../../infrastructure/repositories/assessment-repository');
 const FinalizedSession = require('../models/FinalizedSession');
 const { checkEventType } = require('./check-event-type');
 const SessionFinalized = require('./SessionFinalized');
@@ -17,8 +16,8 @@ async function handleSessionFinalized({
     sessionId: event.sessionId,
     finalizedAt: event.finalizedAt,
     certificationCenterName: event.certificationCenterName,
-    sessionDate: event.date,
-    sessionTime: event.time,
+    sessionDate: event.sessionDate,
+    sessionTime: event.sessionTime,
     hasExaminerGlobalComment: event.hasExaminerGlobalComment,
     juryCertificationSummaries,
   });

@@ -24,6 +24,7 @@ const dependencies = {
   targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
+  // TODO : ajouter les dependences du handler ici
 };
 
 const partnerCertificationRepository = injectDependencies(
@@ -40,6 +41,7 @@ const handlersToBeInjected = {
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
   computeValidatedSkillsCount: require('./compute-validated-skills-count'),
+  // TODO : ajouter le handler ici
 };
 
 function buildEventDispatcher(handlersStubs) {

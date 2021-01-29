@@ -34,7 +34,6 @@ module.exports = class FinalizedSession {
       certificationCenterName,
       sessionDate,
       sessionTime,
-
       isPublishable: !hasExaminerGlobalComment
         && _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries)
         && _hasNoStartedOrErrorAssessmentResults(juryCertificationSummaries)
