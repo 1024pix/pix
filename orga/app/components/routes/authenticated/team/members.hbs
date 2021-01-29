@@ -1,0 +1,29 @@
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table id="table-members">
+      <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Rôle</th>
+        <th></th>
+      </tr>
+      </thead>
+      {{#if @memberships}}
+        <tbody>
+        {{#each @memberships as |membership|}}
+          <Routes::Authenticated::Team::Items @membership={{membership}}/>
+        {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless @memberships}}
+      <div class="table__empty content-text">En attente de membres</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if @memberships}}
+  <PaginationControl @pagination={{@memberships.meta}}/>
+{{/if}}
