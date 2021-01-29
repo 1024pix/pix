@@ -359,7 +359,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
