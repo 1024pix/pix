@@ -32,6 +32,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.getById,
         notes: [
           '- Récupération d\'une campagne par son id',
@@ -44,6 +49,11 @@ exports.register = async function(server) {
       path: '/api/campaigns/{id}/csv-assessment-results',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.getCsvAssessmentResults,
         notes: [
           '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
@@ -58,6 +68,11 @@ exports.register = async function(server) {
       path: '/api/campaigns/{id}/csv-profiles-collection-results',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.getCsvProfilesCollectionResults,
         notes: [
           '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
@@ -71,6 +86,11 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/campaigns/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.update,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -84,6 +104,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}/collective-results',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.getCollectiveResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -113,6 +138,11 @@ exports.register = async function(server) {
       method: 'PUT',
       path: '/api/campaigns/{id}/archive',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.archiveCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -124,6 +154,11 @@ exports.register = async function(server) {
       method: 'DELETE',
       path: '/api/campaigns/{id}/archive',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.unarchiveCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -139,6 +174,11 @@ exports.register = async function(server) {
           params: Joi.object({
             id: Joi.number().integer().required(),
           }),
+          query: Joi.object({
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
         },
         handler: campaignController.findProfilesCollectionParticipations,
         notes: [
@@ -152,6 +192,17 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}/assessment-participations',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+          query: Joi.object({
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[badges][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
+            'page[number]': Joi.number().integer().empty(''),
+            'page[size]': Joi.number().integer().empty(''),
+          }),
+        },
         handler: campaignController.findAssessmentParticipations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -164,6 +215,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}/divisions',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.division,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
