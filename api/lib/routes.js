@@ -25,7 +25,6 @@ module.exports = [
   require('./application/organization-invitations'),
   require('./application/organizations'),
   require('./application/passwords'),
-  require('./application/pole-emploi'),
   require('./application/prescribers'),
   require('./application/progressions'),
   require('./application/saml'),

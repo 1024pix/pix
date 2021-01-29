@@ -10,6 +10,7 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const tokenService = require('../../domain/services/token-service');
 
 const usecases = require('../../domain/usecases');
 
@@ -244,6 +245,20 @@ module.exports = {
     const userId = parseInt(request.params.id);
     const userDetailsForAdmin = await usecases.dissociateSchoolingRegistrations({ userId });
     return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
+  },
+
+  async createPoleEmploiUser(request, h) {
+    const authenticationKey = request.query['authentication-key'];
+
+    const { userId, idToken } = await usecases.createUserFromPoleEmploi({ authenticationKey });
+
+    const accessToken = tokenService.createAccessTokenFromUser(userId, 'pole_emploi_connect');
+
+    const response = {
+      access_token: accessToken,
+      id_token: idToken,
+    };
+    return h.response(response).code(200);
   },
 
 };

@@ -593,6 +593,15 @@ exports.register = async function(server) {
         tags: ['api', 'administration', 'user'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/users/pole-emploi',
+      config: {
+        auth: false,
+        handler: userController.createPoleEmploiUser,
+        tags: ['api'],
+      },
+    },
   ]);
 };
 

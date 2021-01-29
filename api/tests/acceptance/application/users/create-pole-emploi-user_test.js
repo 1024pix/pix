@@ -1,9 +1,9 @@
-const { expect, knex } = require('../../test-helper');
-const createServer = require('../../../server');
-const authenticationCache = require('../../../lib/infrastructure/caches/authentication-cache');
+const { expect, knex } = require('../../../test-helper');
+const createServer = require('../../../../server');
+const authenticationCache = require('../../../../lib/infrastructure/caches/authentication-cache');
 const jsonwebtoken = require('jsonwebtoken');
 
-describe('Acceptance | API | Pole Emploi Controller', () => {
+describe('Acceptance | Controller | createPoleEmploiUser', () => {
 
   let server, request;
 
@@ -11,7 +11,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
     server = await createServer();
   });
 
-  describe('POST /api/pole-emploi/certification-centers', () => {
+  describe('POST /api/users/pole-emploi', () => {
 
     const userAuthenticationKey = 'userAuthenticationKey';
 
@@ -37,7 +37,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
 
       request = {
         method: 'POST',
-        url: `/api/pole-emploi/users?authentication-key=${userAuthenticationKey}`,
+        url: `/api/users/pole-emploi?authentication-key=${userAuthenticationKey}`,
       };
     });
 
@@ -53,6 +53,13 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
       // then
       expect(response.statusCode).to.equal(200);
 
+    });
+
+    it('should create user and authentication method in database', async () => {
+      // when
+      await server.inject(request);
+
+      // then
       const createdUser = await knex('users').first();
       expect(createdUser.firstName).to.equal(firstName);
       expect(createdUser.lastName).to.equal(lastName);
@@ -60,5 +67,6 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
       const createdAuthenticationMethod = await knex('authentication-methods').first();
       expect(createdAuthenticationMethod.externalIdentifier).to.equal(externalIdentifier);
     });
+
   });
 });
