@@ -2,7 +2,6 @@ const {
   expect,
   HttpTestServer,
   sinon,
-  generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -11,8 +10,6 @@ const moduleUnderTest = require('../../../../lib/application/campaigns');
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
 describe('Unit | Application | Router | campaign-router ', function() {
-
-  const userId = 1;
 
   let httpTestServer;
 
@@ -36,7 +33,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   describe('POST /api/campaigns', () => {
 
-    it('should exist', async () => {
+    it('should return 201', async () => {
       // when
       const response = await httpTestServer.request('POST', '/api/campaigns');
 
@@ -47,7 +44,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   describe('GET /api/campaigns?filter[code=SOMECODE]', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
       // given
       campaignController.getByCode.returns('ok');
 
@@ -58,7 +55,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should throw a 404 NotFound error when controller throws a NotFound domain error', async () => {
+    it('should return 404 when controller throws a NotFound domain error', async () => {
       // given
       campaignController.getByCode.rejects(new NotFoundError());
 
@@ -168,22 +165,16 @@ describe('Unit | Application | Router | campaign-router ', function() {
   describe('GET /api/campaigns/{id}/analyses', () => {
 
     it('should return 200', async () => {
-      // given
-      const campaignId = 1;
-
       // when
-      const response = await httpTestServer.request('GET', `/api/campaigns/${campaignId}/analyses`);
+      const response = await httpTestServer.request('GET', '/api/campaigns/1/analyses');
 
       // then
       expect(response.statusCode).to.equal(200);
     });
 
     it('should return 400', async () => {
-      // given
-      const campaignId = 'wrongId';
-
       // when
-      const response = await httpTestServer.request('GET', `/api/campaigns/${campaignId}/analyses`);
+      const response = await httpTestServer.request('GET', '/api/campaigns/wrong_id/analyses');
 
       // then
       expect(response.statusCode).to.equal(400);
