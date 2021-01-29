@@ -1,6 +1,7 @@
 const tokenService = require('../domain/services/token-service');
 const boom = require('boom');
-const { credentialLivretScolaireGraviteeApplication, livretScolaireAuthentication } = require('../config');
+const { find } = require('lodash');
+const { graviteeRegisterApplicationsCredentials, livretScolaireAuthentication } = require('../config');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 
@@ -49,16 +50,20 @@ async function checkApplicationIsAuthenticated(request, h) {
 
   const decodedAccessToken = tokenService.getDecodedToken(accessToken, livretScolaireAuthentication.secret);
 
-  if (decodedAccessToken && decodedAccessToken.client_id !== credentialLivretScolaireGraviteeApplication.clientId) {
+  const application = find(graviteeRegisterApplicationsCredentials, { clientId: decodedAccessToken.client_id });
+
+  if (!application || (decodedAccessToken && decodedAccessToken.client_id !== application.clientId)) {
     return _replyWithAuthenticationError(h);
   }
 
-  if (decodedAccessToken && decodedAccessToken.scope !== credentialLivretScolaireGraviteeApplication.scope) {
+  if (decodedAccessToken && decodedAccessToken.scope !== application.scope) {
     return _replyWithAuthorizationError(h);
   }
-  if (decodedAccessToken && decodedAccessToken.scope === credentialLivretScolaireGraviteeApplication.scope) {
+
+  if (decodedAccessToken && decodedAccessToken.scope === application.scope) {
     return h.authenticated({ credentials: { accessToken, client_id: decodedAccessToken.clientId, source: decodedAccessToken.source } });
   }
+
   return _replyWithAuthenticationError(h);
 }
 

@@ -167,12 +167,26 @@ module.exports = (function() {
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
     },
 
-    credentialLivretScolaireGraviteeApplication: {
-      clientId: process.env.LIVRET_SCOLAIRE_CLIENT_ID,
-      clientSecret: process.env.LIVRET_SCOLAIRE_CLIENT_SECRET,
-      scope: 'organizations-certifications-result',
-      source: 'lsu',
-    },
+    graviteeRegisterApplicationsCredentials: [
+      {
+        clientId: process.env.LSU_CLIENT_ID,
+        clientSecret: process.env.LSU_CLIENT_SECRET,
+        scope: 'organizations-certifications-result',
+        source: 'lsu',
+      },
+      {
+        clientId: process.env.LSL_CLIENT_ID,
+        clientSecret: process.env.LSL_CLIENT_SECRET,
+        scope: 'organizations-certifications-result',
+        source: 'lsl',
+      },
+      {
+        clientId: process.env.GRAVITEE_OSMOSE_CLIENT_ID,
+        clientSecret: process.env.GRAVITEE_OSMOSE_CLIENT_SECRET,
+        scope: 'organizations-certifications-result',
+        source: 'osmose',
+      },
+    ],
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -224,8 +238,11 @@ module.exports = (function() {
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
 
-    config.credentialLivretScolaireGraviteeApplication.clientId = 'clientId';
-    config.credentialLivretScolaireGraviteeApplication.clientSecret = 'clientSecret';
+    config.graviteeRegisterApplicationsCredentials = [
+      { clientId: 'lsuClientId', clientSecret: 'lsuClientSecret', scope: 'organizations-certifications-result', source: 'lsu' },
+      { clientId: 'lslClientId', clientSecret: 'lslClientSecret', scope: 'organizations-certifications-result', source: 'lsl' },
+      { clientId: 'graviteeOsmoseClientId', clientSecret: 'graviteeOsmoseClientSecret', scope: 'organizations-certifications-result', source: 'ósmose' },
+    ];
 
     config.logging.enabled = false;
 
