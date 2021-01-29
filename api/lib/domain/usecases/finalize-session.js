@@ -19,11 +19,18 @@ module.exports = async function finalizeSession({
 
   await certificationReportRepository.finalizeAll(certificationReports);
 
-  await sessionRepository.finalize({
+  const finalizedSession = await sessionRepository.finalize({
     id: sessionId,
     examinerGlobalComment,
     finalizedAt: new Date(),
   });
 
-  return new SessionFinalized(sessionId);
+  return new SessionFinalized({
+    sessionId,
+    finalizedAt: finalizedSession.finalizedAt,
+    hasExaminerGlobalComment: Boolean(examinerGlobalComment),
+    certificationCenterName: finalizedSession.certificationCenterName,
+    sessionDate: finalizedSession.date,
+    sessionTime: finalizedSession.time,
+  });
 };
