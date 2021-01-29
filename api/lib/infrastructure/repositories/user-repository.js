@@ -555,8 +555,5 @@ function _adaptModelToDb(user) {
     'authenticationMethods',
   ]);
 
-  return {
-    ...userToBeSaved,
-    shouldChangePassword: false,
-  };
+  return userToBeSaved;
 }
