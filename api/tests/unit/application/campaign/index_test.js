@@ -29,6 +29,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
     sinon.stub(campaignController, 'unarchiveCampaign').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'findProfilesCollectionParticipations').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(campaignController, 'division').callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -367,4 +368,22 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
+  describe('GET /api/campaigns/{id}/divisions', () => {
+
+    it('should return 200', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/divisions');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/invalid/divisions');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
 });
