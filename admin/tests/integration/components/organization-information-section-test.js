@@ -4,7 +4,7 @@ import { click, render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module.only('Integration | Component | organization-information-section', function(hooks) {
+module('Integration | Component | organization-information-section', function(hooks) {
 
   setupRenderingTest(hooks);
 
