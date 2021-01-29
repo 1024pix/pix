@@ -30,7 +30,10 @@ Router.map(function() {
       this.route('list', { path: '/' });
     });
     this.route('team', { path: '/equipe' }, function() {
-      this.route('list', { path: '/' });
+      this.route('list', { path: '/' }, function() {
+        this.route('members', { path: '/membres' });
+        this.route('invitations');
+      });
       this.route('new', { path: '/creation' });
     });
     this.route('campaigns', { path: '/campagnes' }, function() {
