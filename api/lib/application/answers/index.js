@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const answerController = require('./answer-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
+const { NotFoundError } = require('../../domain/errors');
 
 exports.register = async function(server) {
   server.route([
@@ -75,6 +76,9 @@ exports.register = async function(server) {
           params: Joi.object({
             id: identifiersType.answerId,
           }),
+          failAction: (request) => {
+            throw new NotFoundError(`Not found correction for answer of ID ${request.params.id}`);
+          },
         },
         handler: answerController.getCorrection,
         tags: ['api', 'answers'],
