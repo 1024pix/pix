@@ -104,6 +104,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}/collective-results',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.getCollectiveResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

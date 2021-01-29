@@ -148,12 +148,20 @@ describe('Unit | Application | Router | campaign-router ', function() {
 
   describe('GET /api/campaigns/{id}/collective-results', () => {
 
-    it('should exist', async () => {
+    it('should return 200', async () => {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1/collective-results');
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 400 with an invalid campaign id', async () => {
+      // when
+      const response = await httpTestServer.request('GET', '/api/campaigns/invalid/collective-results');
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
