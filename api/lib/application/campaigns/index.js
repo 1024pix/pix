@@ -180,6 +180,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}/divisions',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.division,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
