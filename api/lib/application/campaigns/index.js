@@ -199,6 +199,7 @@ exports.register = async function(server) {
           query: Joi.object({
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
             'filter[badges][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
+            'filter[stages][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
             'page[number]': Joi.number().integer().empty(''),
             'page[size]': Joi.number().integer().empty(''),
           }),
