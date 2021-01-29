@@ -24,7 +24,7 @@ describe('Unit | Controller | terms-of-service', function() {
 
       // then
       sinon.assert.calledWith(controller.currentUser.user.save, { adapterOptions: { acceptPixTermsOfService: true } });
-      sinon.assert.calledWith(controller.transitionToRoute, 'profile');
+      sinon.assert.calledWith(controller.transitionToRoute, '');
       expect(controller.showErrorTermsOfServiceNotSelected).to.be.false;
 
     });

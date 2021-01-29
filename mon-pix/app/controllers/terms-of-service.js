@@ -24,7 +24,7 @@ export default class TermsOfServiceController extends Controller {
       if (this.session.attemptedTransition) {
         this.session.attemptedTransition.retry();
       } else {
-        this.transitionToRoute('profile');
+        this.transitionToRoute('');
       }
     } else {
       this.showErrorTermsOfServiceNotSelected = true;
