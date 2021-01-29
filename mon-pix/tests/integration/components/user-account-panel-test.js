@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { click, fillIn, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 
-describe('Integration | Component | user account panel', () => {
+describe('Integration | Component | User account panel', () => {
 
   setupIntlRenderingTest();
 
@@ -45,4 +46,71 @@ describe('Integration | Component | user account panel', () => {
     });
   });
 
+  context('when editing e-mail', function() {
+    let user;
+    beforeEach(function() {
+      // given
+      user = {
+        firstName: 'John',
+        lastName: 'DOE',
+        email: 'john.doe@example.net',
+        username: 'john.doe0101',
+      };
+      this.set('user', user);
+    });
+
+    it('should display save and cancel button', async function() {
+      // when
+      await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+      await click('button[data-test-edit-email]');
+
+      // then
+      expect(find('label[for=new-email]')).to.exist;
+      expect(find('input[data-test-new-email]')).to.exist;
+      expect(find('button[data-test-cancel-email]')).to.exist;
+      expect(find('button[data-test-submit-email]')).to.exist;
+    });
+
+    context('when the user cancel edition', function() {
+      it('should not display save and cancel button and display edit button', async function() {
+        // given
+        await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+        await click('button[data-test-edit-email]');
+
+        // when
+        await click('button[data-test-cancel-email]');
+
+        // then
+        expect(find('label[for=new-email]')).to.not.exist;
+        expect(find('input[data-test-new-email]')).to.not.exist;
+        expect(find('button[data-test-cancel-email]')).to.not.exist;
+        expect(find('button[data-test-submit-email]')).to.not.exist;
+        expect(find('button[data-test-edit-email]')).to.exist;
+      });
+    });
+
+    context('when the user save', function() {
+      it('should call update user method and disable editing mode', async function() {
+        // given
+        const newEmail = 'newEmail@example.net';
+        const saveStub = sinon.stub();
+        saveStub.resolves();
+        this.user.save = saveStub;
+        await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+
+        // when
+        await click('button[data-test-edit-email]');
+        await fillIn('input[data-test-new-email]', newEmail);
+        await click('button[data-test-submit-email]');
+
+        // then
+        sinon.assert.calledWith(saveStub, { adapterOptions: { updateEmail: true } });
+        expect(find('button[data-test-edit-email]')).to.exist;
+        expect(find('input[data-test-new-email]')).to.not.exist;
+        expect(find('button[data-test-cancel-email]')).to.not.exist;
+        expect(find('button[data-test-submit-email]')).to.not.exist;
+        expect(this.user.email).to.equal(newEmail);
+      });
+    });
+  });
 });
