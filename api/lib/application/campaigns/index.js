@@ -32,6 +32,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: Joi.number().integer().required(),
+          }),
+        },
         handler: campaignController.getById,
         notes: [
           '- Récupération d\'une campagne par son id',
