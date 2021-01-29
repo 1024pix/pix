@@ -4,23 +4,24 @@ const {
   ApplicationWithInvalidClientSecretError,
 } = require('../../domain/errors');
 
-const { credentialLivretScolaireGraviteeApplication, livretScolaireAuthentication } = require('../../config');
+const { find } = require('lodash');
+const { graviteeRegisterApplicationsCredentials, livretScolaireAuthentication } = require('../../config');
 
-function _checkClientId(clientId) {
+function _checkClientId(application, clientId) {
 
-  if (clientId !== credentialLivretScolaireGraviteeApplication.clientId) {
+  if (!application || application.clientId !== clientId) {
     throw new ApplicationWithInvalidClientIdError('The client ID is invalid.');
   }
 }
 
-function _checkClientSecret(clientSecret) {
-  if (clientSecret !== credentialLivretScolaireGraviteeApplication.clientSecret) {
+function _checkClientSecret(application, clientSecret) {
+  if (application.clientSecret !== clientSecret) {
     throw new ApplicationWithInvalidClientSecretError('The client secret is invalid.');
   }
 }
 
-function _checkAppScope(scope) {
-  if (scope !== credentialLivretScolaireGraviteeApplication.scope) {
+function _checkAppScope(application, scope) {
+  if (application.scope !== scope) {
     throw new ApplicationScopeNotAllowedError('The scope is invalid.');
   }
 }
@@ -31,10 +32,11 @@ module.exports = async function authenticateApplication({
   scope,
   tokenService,
 }) {
-  _checkClientId(clientId);
-  _checkClientSecret(clientSecret);
-  _checkAppScope(scope);
+  const application = find(graviteeRegisterApplicationsCredentials, { clientId });
+  _checkClientId(application, clientId);
+  _checkClientSecret(application, clientSecret);
+  _checkAppScope(application, scope);
 
-  return tokenService.createAccessTokenFromApplication(clientId, credentialLivretScolaireGraviteeApplication.source, scope, livretScolaireAuthentication.secret, livretScolaireAuthentication.tokenLifespan);
+  return tokenService.createAccessTokenFromApplication(clientId, application.source, scope, livretScolaireAuthentication.secret, livretScolaireAuthentication.tokenLifespan);
 
 };

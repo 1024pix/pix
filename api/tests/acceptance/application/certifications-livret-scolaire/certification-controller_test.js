@@ -11,9 +11,9 @@ const { buildOrganization, buildValidatedPublishedCertificationData, mockLearnin
 describe('Acceptance | API | Certifications', () => {
 
   let server, options;
-  const LIVRET_SCOLAIRE_CLIENT_ID = 'clientId';
-  const LIVRET_SCOLAIRE_SCOPE = 'organizations-certifications-result';
-  const LIVRET_SCOLAIRE_SOURCE = 'lsu';
+  const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
+  const OSMOSE_SCOPE = 'organizations-certifications-result';
+  const OSMOSE_SOURCE = 'osmose';
 
   describe('GET /api/organizations/:id/certifications', () => {
     const pixScore = 400;
@@ -207,7 +207,7 @@ describe('Acceptance | API | Certifications', () => {
         options = {
           method: 'GET',
           url: `/api/organizations/${uai}/certifications`,
-          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(LIVRET_SCOLAIRE_CLIENT_ID, LIVRET_SCOLAIRE_SOURCE, LIVRET_SCOLAIRE_SCOPE) },
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(OSMOSE_CLIENT_ID, OSMOSE_SOURCE, OSMOSE_SCOPE) },
 
         };
 
@@ -263,7 +263,7 @@ describe('Acceptance | API | Certifications', () => {
         options = {
           method: 'GET',
           url: '/api/organizations/9999/certifications',
-          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(LIVRET_SCOLAIRE_CLIENT_ID, LIVRET_SCOLAIRE_SOURCE, LIVRET_SCOLAIRE_SCOPE) },
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(OSMOSE_CLIENT_ID, OSMOSE_SOURCE, OSMOSE_SCOPE) },
         };
 
         // when
@@ -338,7 +338,7 @@ describe('Acceptance | API | Certifications', () => {
         options = {
           method: 'GET',
           url: '/api/organizations/9999/certifications',
-          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(LIVRET_SCOLAIRE_CLIENT_ID, LIVRET_SCOLAIRE_SOURCE) },
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(OSMOSE_CLIENT_ID, OSMOSE_SOURCE) },
         };
 
         // when
