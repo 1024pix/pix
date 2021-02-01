@@ -1,5 +1,9 @@
 #!/bin/bash
 
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+RESET=$(tput sgr0)
+
 testExit() {
   local description=$1
   local command=$2
@@ -11,10 +15,10 @@ testExit() {
 
   echo "## $description"
   if [ "$actualExitCode" != "$expectedExitCode" ]; then
-    echo "TEST FAILED: expected $command to exit with $expectedExitCode but got $actualExitCode"
+    echo "${RED}❌ TEST FAILED: expected $command to exit with $expectedExitCode but got $actualExitCode ${RESET}"
     echo "$output"
   else
-    echo "SUCCESS"
+    echo "${GREEN}✅ SUCCESS ${RESET}"
   fi
 }
 
