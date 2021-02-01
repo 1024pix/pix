@@ -10,7 +10,7 @@
     align-items: center;
   }
 
-  &__textarea--without-indicator p {
+  &__textarea--without-indicator + p {
     display: none;
   }
 

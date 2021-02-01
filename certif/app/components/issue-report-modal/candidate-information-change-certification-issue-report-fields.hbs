@@ -18,15 +18,11 @@
         @onChange={{this.onChangeSubcategory}}
       />
       <label for="text-area-for-category-candidate-information-change">{{this.subcategoryTextAreaLabel}}</label>
-      <Textarea
-        id="text-area-for-category-candidate-information-change"
-        @class="session-finalization-reports-informations-step__textarea"
+      <PixTextarea
+        @id="text-area-for-category-candidate-information-change"
         @value={{@candidateInformationChangeCategory.description}}
         @maxlength={{@maxlength}}
-        required
-      />
-      <p class="candidate-information-change-certification-issue-report-fields-details__char-count">{{this.reportLength}}
-        / {{@maxlength}}</p>
+        required="true" />
     </div>
   {{/if}}
 </fieldset>

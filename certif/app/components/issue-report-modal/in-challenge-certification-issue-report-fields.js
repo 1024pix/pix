@@ -3,11 +3,6 @@ import { action } from '@ember/object';
 import { certificationIssueReportSubcategories, subcategoryToLabel, subcategoryToCode } from 'pix-certif/models/certification-issue-report';
 
 export default class InChallengeCertificationIssueReportFields extends Component {
-  get reportLength() {
-    return this.args.inChallengeCategory.description
-      ? this.args.inChallengeCategory.description.length
-      : 0;
-  }
 
   get isOtherSubcategorySelected() {
     return this.args.inChallengeCategory.subcategory === certificationIssueReportSubcategories.OTHER;

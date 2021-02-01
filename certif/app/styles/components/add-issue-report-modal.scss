@@ -44,6 +44,10 @@
       }
     }
 
+    input {
+      outline: 2px transparent;
+    }
+
     &--frame {
       max-height: 50vh;
       overflow-y: scroll;
@@ -151,7 +155,7 @@
           &:focus {
             outline: 2px solid $communication-dark;
             -moz-outline-radius: 4px;
-            border: none;
+            border-color: transparent;
           }
 
           &::placeholder {
@@ -180,24 +184,8 @@
         padding-left: 32px;
 
         textarea {
-          box-sizing: border-box;
-          border: 1.2px solid $blue-zodia;
-          border-radius: 4px;
+          box-shadow: none;
           min-height: 82px;
-          padding: 8px;
-
-          &:focus {
-            outline: 2px solid $communication-dark;
-            -moz-outline-radius: 4px;
-            border: none;
-          }
-        }
-
-        p[class$="certification-issue-report-fields-details__char-count"] {
-          margin-top: 6px;
-          font-size: 12px;
-          display: flex;
-          flex-direction: row-reverse;
         }
       }
     }
