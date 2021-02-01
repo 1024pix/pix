@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v3.11.0 (01/02/2021)
+
+- [#2455](https://github.com/1024pix/pix/pull/2455) [FEATURE] Séparer la liste des membres et des invitations dans deux onglets distincts sur Pix Orga (PIX-1150).
+- [#2462](https://github.com/1024pix/pix/pull/2462) [FEATURE] Cacher le bouton "Quitter" pendant un parcours aux utilisateur anonymes sur Pix App (PIX-2046).
+- [#2480](https://github.com/1024pix/pix/pull/2480) [BUGFIX] Le script de calcul des acquis validés pour des participations aux parcours dépasse en mémoire lorsque la campagne a trop de participants (PIX-2079).
+- [#2474](https://github.com/1024pix/pix/pull/2474) [TECH] Mise à jour Ember pour pix-admin de 3.22 à 3.23
+- [#2473](https://github.com/1024pix/pix/pull/2473) [TECH] Mise à jour Ember pour Pix-App de la version 3.22 à 3.23
+
 ## v3.10.0 (29/01/2021)
 
 - [#2471](https://github.com/1024pix/pix/pull/2471) [BUGFIX] Ajouter une validation pour les filtres passés à l'API (Pix-2068).
