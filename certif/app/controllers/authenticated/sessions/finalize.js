@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes*/
+
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action, computed } from '@ember/object';
