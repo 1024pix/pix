@@ -183,6 +183,13 @@ export default Factory.extend({
       user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': false }) });
     },
   }),
+  campaignParticipations: trait({
+    afterCreate(user, server) {
+      user.update({ campaignParticipations: [server.create('campaign-participation', {
+        'campaign': server.create('campaign', { type: 'ASSESSMENT' }),
+      }) ] });
+    },
+  }),
   withSomeCertificates: trait({
     afterCreate(user, server) {
       const rejectedCertificate = server.create('certification', {

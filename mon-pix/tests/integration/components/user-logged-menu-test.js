@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import ENV from 'mon-pix/config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import {
   click,
@@ -10,6 +11,7 @@ import {
   triggerKeyEvent,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { contains } from '../../helpers/contains';
 
 describe('Integration | Component | user logged menu', function() {
 
@@ -72,8 +74,8 @@ describe('Integration | Component | user logged menu', function() {
       // then
       expect(find('.logged-user-menu')).to.exist;
       expect(findAll('.logged-user-menu__link')).to.have.lengthOf(MENU_ITEMS_COUNT);
-      expect(find('.logged-user-menu-details__fullname').textContent.trim()).to.equal('Hermione Granger');
-      expect(find('.logged-user-menu-details__identifier').textContent.trim()).to.equal('hermione.granger@hogwarts.com');
+      expect(contains('Hermione Granger')).to.exist;
+      expect(contains('hermione.granger@hogwarts.com')).to.exist;
     });
 
     it('should display link to user certifications', async function() {
@@ -82,7 +84,7 @@ describe('Integration | Component | user logged menu', function() {
       await click('.logged-user-name');
 
       // then
-      expect(findAll('.logged-user-menu__link')[1].textContent.trim()).to.equal('Mes certifications');
+      expect(contains('Mes certifications')).to.exist;
     });
 
     it('should display link to help center', async function() {
@@ -91,7 +93,7 @@ describe('Integration | Component | user logged menu', function() {
       await click('.logged-user-name');
 
       // then
-      expect(findAll('.logged-user-menu__link')[2].textContent.trim()).to.equal('Aide');
+      expect(contains('Aide')).to.exist;
     });
 
     it('should hide user menu, when it was previously open and user-name is clicked one more time', async function() {
@@ -122,6 +124,60 @@ describe('Integration | Component | user logged menu', function() {
 
       // then
       expect(find('.logged-user-menu')).to.not.exist;
+    });
+
+    describe('Link to "My tests"', () => {
+      beforeEach(async function() {
+        ENV.APP.FT_DASHBOARD = true;
+      });
+
+      afterEach(function() {
+        ENV.APP.FT_DASHBOARD = false;
+      });
+
+      describe('when user has at least one participation', () => {
+        beforeEach(function() {
+          class currentUserService extends Service {
+            user = {
+              hasAssessmentParticipations: true,
+            }
+          }
+          this.owner.unregister('service:currentUser');
+          this.owner.register('service:currentUser', currentUserService);
+        });
+
+        it('should display link to user tests', async function() {
+          // when
+          await render(hbs`<UserLoggedMenu/>`);
+          await click('.logged-user-name');
+
+          // then
+          expect(contains('Mes parcours')).to.exist;
+        });
+
+        it('should not display link to user tests if feature disabled', async function() {
+          // given
+          ENV.APP.FT_DASHBOARD = false;
+
+          // when
+          await render(hbs`<UserLoggedMenu/>`);
+          await click('.logged-user-name');
+
+          // then
+          expect(contains('Mes parcours')).to.not.exist;
+        });
+      });
+
+      describe('when user has no participation', () => {
+        it('should not display link to user tests', async function() {
+          // when
+          await render(hbs`<UserLoggedMenu/>`);
+          await click('.logged-user-name');
+
+          // then
+          expect(contains('Mes parcours')).to.not.exist;
+        });
+      });
     });
   });
 
