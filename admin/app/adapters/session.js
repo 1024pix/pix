@@ -20,9 +20,13 @@ export default class SessionAdapter extends ApplicationAdapter {
       return this.ajax(url, 'PUT');
     }
     if (snapshot.adapterOptions.updatePublishedCertifications) {
-      const data = { data: { attributes: { toPublish: snapshot.adapterOptions.toPublish } } };
-      const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/publication';
-      return this.ajax(url, 'PATCH', { data });
+      let url;
+      if (snapshot.adapterOptions.toPublish) {
+        url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/publish';
+      } else {
+        url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/unpublish';
+      }
+      return this.ajax(url, 'PATCH');
     }
     if (snapshot.adapterOptions.certificationOfficerAssignment) {
       const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/certification-officer-assignment';

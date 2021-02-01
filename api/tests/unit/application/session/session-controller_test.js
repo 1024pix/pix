@@ -662,16 +662,15 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         request.payload.data.attributes.toPublish = true;
         const usecaseResult = session;
-        sinon.stub(usecases, 'updatePublicationSession').withArgs({
+        sinon.stub(usecases, 'publishSession').withArgs({
           sessionId,
-          toPublish: true,
         }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
       it('should return the serialized session', async () => {
         // when
-        const response = await sessionController.updatePublication(request);
+        const response = await sessionController.publish(request);
 
         // then
         expect(response).to.equal(serializedSession);
@@ -684,16 +683,15 @@ describe('Unit | Controller | sessionController', () => {
       beforeEach(() => {
         request.payload.data.attributes.toPublish = false;
         const usecaseResult = session;
-        sinon.stub(usecases, 'updatePublicationSession').withArgs({
+        sinon.stub(usecases, 'unpublishSession').withArgs({
           sessionId,
-          toPublish: false,
         }).resolves(usecaseResult);
         sinon.stub(sessionSerializer, 'serialize').withArgs(session).resolves(serializedSession);
       });
 
       it('should return the serialized session', async () => {
         // when
-        const response = await sessionController.updatePublication(request);
+        const response = await sessionController.unpublish(request);
 
         // then
         expect(response).to.equal(serializedSession);

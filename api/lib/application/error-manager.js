@@ -115,6 +115,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CertificationCandidateForbiddenDeletionError) {
     return new HttpErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.SendingEmailToResultRecipientError) {
+    return new HttpErrors.ServiceUnavailableError(error.message);
+  }
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
     return new HttpErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
   }
@@ -122,9 +125,6 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.InvalidCertificationReportForFinalization) {
-    return new HttpErrors.BadRequestError(error.message);
-  }
-  if (error instanceof DomainErrors.InvalidParametersForSessionPublication) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.UnexpectedUserAccount) {

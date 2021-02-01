@@ -329,14 +329,6 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Echec lors de la validation du certification course');
     });
 
-    it('responds Bad Request when a InvalidParametersForSessionPublication error occurs', async () => {
-      routeHandler.throws(new DomainErrors.InvalidParametersForSessionPublication('Echec lors de la publication des résultats de la session, paramètres entrants invalides.'));
-      const response = await server.inject(options);
-
-      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
-      expect(responseDetail(response)).to.equal('Echec lors de la publication des résultats de la session, paramètres entrants invalides.');
-    });
-
     it('responds Bad Request when a MembershipCreationError error occurs', async () => {
       routeHandler.throws(new DomainErrors.MembershipCreationError('Erreur lors de la création du membership à une organisation.'));
       const response = await server.inject(options);
@@ -589,6 +581,17 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(INTERNAL_SERVER_ERROR);
       expect(payload.message).to.equal('An internal server error occurred');
+    });
+  });
+
+  context('503 Service Unavailable Error', () => {
+    const SERVICE_UNAVAILABLE_ERROR = 503;
+    it('responds ServiceUnavailable when a SendingEmailToResultRecipientError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SendingEmailToResultRecipientError(['toto@pix.fr', 'titi@pix.fr']));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(SERVICE_UNAVAILABLE_ERROR);
+      expect(responseDetail(response)).to.equal('Échec lors de l\'envoi des résultats au(x) destinataire(s) : toto@pix.fr, titi@pix.fr');
     });
   });
 });

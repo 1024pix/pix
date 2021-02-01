@@ -334,7 +334,7 @@ exports.register = async (server) => {
     },
     {
       method: 'PATCH',
-      path: '/api/admin/sessions/{id}/publication',
+      path: '/api/admin/sessions/{id}/publish',
       config: {
         validate: {
           params: Joi.object({
@@ -345,10 +345,31 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
-        handler: sessionController.updatePublication,
+        handler: sessionController.publish,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Publie ou dépublie toutes les certifications courses d\'une session',
+          '- Publie toutes les certifications courses d\'une session',
+        ],
+        tags: ['api', 'session', 'publication'],
+      },
+    },
+    {
+      method: 'PATCH',
+      path: '/api/admin/sessions/{id}/unpublish',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: idSpecification,
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.unpublish,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Dépublie toutes les certifications courses d\'une session',
         ],
         tags: ['api', 'session', 'publication'],
       },
