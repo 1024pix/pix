@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-implicit-this  --}}
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
 
@@ -6,7 +5,7 @@
   <h1 class="sr-only">{{t 'pages.profile.accessibility.title'}}</h1>
 
     {{#if this.newLevelMessage}}
-      {{#unless currentUser.user.hasSeenNewLevelInfo}}
+      {{#unless this.currentUser.user.hasSeenNewLevelInfo}}
         <NewInformation @information={{this.newLevelMessage}}
                         @image={{this.newLevelImageUrl}}
                         @backgroundColorClass="new-information--yellow-background"
@@ -29,7 +28,9 @@
     </div>
 
     {{#if @model.profile.scorecards}}
-      <ProfileScorecards @interactive={{true}} @areasCode={{@model.profile.areasCode}} @scorecards={{@model.profile.scorecards}}/>
+      <ProfileScorecards @interactive={{true}}
+                         @areasCode={{@model.profile.areasCode}}
+                         @scorecards={{@model.profile.scorecards}}/>
     {{else}}
       <p class="app-loader__image">
         <img src="/images/interwind.gif" alt="" role="presentation" />
