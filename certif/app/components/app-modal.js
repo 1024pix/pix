@@ -1,3 +1,4 @@
+/* eslint-disable ember/require-tagless-components,ember/no-component-lifecycle-hooks,ember/no-actions-hash*/
 import { on } from '@ember/object/evented';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 import {
