@@ -11,7 +11,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
   hooks.beforeEach(function() {
     controller = this.owner.lookup('controller:authenticated/sessions/session/certifications');
-    model = EmberObject.create({ id: Symbol('an id'), certifications: [{}, {}] });
+    model = EmberObject.create({ id: Symbol('an id'), certifications: [{}, {}], isPublished: null });
   });
 
   module('#canPublish', function() {
@@ -96,13 +96,21 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
   module('#toggleSessionPublication', function(hooks) {
 
     let notificationsStub;
+    let store;
+    let isPublishedGetterStub;
 
     hooks.beforeEach(function() {
       notificationsStub = { success: sinon.stub() };
+      store = {
+        findRecord: sinon.stub(),
+      };
       controller.set('model', model);
+      controller.set('store', store);
       controller.set('notifications', notificationsStub);
       controller.set('displayConfirm', true);
       controller.model.save = sinon.stub();
+      isPublishedGetterStub = sinon.stub();
+      sinon.stub(controller.model, 'isPublished').get(isPublishedGetterStub);
       controller.model.juryCertificationSummaries = { reload: sinon.stub() };
     });
 
@@ -110,10 +118,12 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       // given
       const anError = 'anError';
       Object.assign(notificationsStub, { error: sinon.stub() });
+
       controller.model.save = sinon.stub().throws(anError);
 
       // when
       await controller.actions.toggleSessionPublication.call(controller);
+      store.findRecord.resolves(model);
 
       // then
       assert.throws(model.save, anError);
@@ -125,7 +135,8 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
       test('should publish all certifications', async function(assert) {
         // given
-        controller.model.isPublished = false;
+        isPublishedGetterStub.onCall(0).returns(false);
+        isPublishedGetterStub.onCall(1).returns(true);
 
         // when
         await controller.actions.toggleSessionPublication.call(controller);
@@ -141,7 +152,8 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
       test('should unpublish all certifications', async function(assert) {
         // given
-        model.isPublished = true;
+        isPublishedGetterStub.onCall(0).returns(true);
+        isPublishedGetterStub.onCall(1).returns(false);
 
         // when
         await controller.actions.toggleSessionPublication.call(controller);

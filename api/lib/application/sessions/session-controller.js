@@ -211,10 +211,19 @@ module.exports = {
     return sessionSerializer.serializeForFinalization(session);
   },
 
-  async updatePublication(request) {
+  async publish(request) {
     const sessionId = request.params.id;
-    const toPublish = request.payload.data.attributes.toPublish;
-    const session = await usecases.updatePublicationSession({ sessionId, toPublish });
+
+    const session = await usecases.publishSession({ sessionId });
+
+    return sessionSerializer.serialize(session);
+  },
+
+  async unpublish(request) {
+    const sessionId = request.params.id;
+
+    const session = await usecases.unpublishSession({ sessionId });
+
     return sessionSerializer.serialize(session);
   },
 

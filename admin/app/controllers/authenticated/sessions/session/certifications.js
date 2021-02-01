@@ -36,19 +36,55 @@ export default class ListController extends Controller {
 
   @action
   async toggleSessionPublication() {
-    const toPublish = !this.model.isPublished;
-    const successText = toPublish
-      ? 'Les certifications ont été correctement publiées.'
-      : 'Les certifications ont été correctement dépubliées.';
+    const isPublished = this.model.isPublished;
+    if (isPublished) {
+      await this.unpublishSession();
+    } else {
+      await this.publishSession();
+    }
+  }
 
+  async unpublishSession() {
     try {
-      await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish } });
+      await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish: false } });
       this.model.juryCertificationSummaries.reload();
-      this.model.isPublished = toPublish;
-      this.notifications.success(successText);
-    } catch (error) {
+      this.notifications.success('Les certifications ont été correctement dépubliées.');
+    } catch (e) {
+      this.notifyError(e);
+    }
+    this.hideConfirmationModal();
+  }
+
+  async publishSession() {
+    try {
+      await this.model.save({ adapterOptions: { updatePublishedCertifications: true, toPublish: true } });
+    } catch (e) {
+      this.notifyError(e);
+      await this.forceRefreshModelFromBackend();
+    }
+
+    const isPublished = this.model.isPublished;
+    await this.model.juryCertificationSummaries.reload();
+    if (isPublished) {
+      this.notifications.success('Les certifications ont été correctement publiées.');
+    }
+    this.hideConfirmationModal();
+  }
+
+  notifyError(error) {
+    if (error.errors && error.errors[0] && error.errors[0].detail) {
+      const autoClear = error.errors[0].status != 503;
+      this.notifications.error(error.errors[0].detail, { autoClear });
+    } else {
       this.notifications.error(error);
     }
+  }
+
+  async forceRefreshModelFromBackend() {
+    await this.store.findRecord('session', this.model.id, { reload: true });
+  }
+
+  hideConfirmationModal() {
     this.displayConfirm = false;
   }
 
