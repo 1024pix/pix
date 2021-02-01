@@ -15,6 +15,7 @@
   <section class="campaign-participation-overview-card-content">
     {{#if (eq @model.status "finished")}}
       <p class="campaign-participation-overview-card-content__content">
+        {{t 'pages.campaign-participation-overview.card.results' result=@model.masteryPercentage}}
       </p>
     {{/if}}
     <LinkTo class="{{this.cardInfo.actionClass}} campaign-participation-overview-card-content__action"

@@ -114,6 +114,7 @@
                 "see-more": "Voir le détail",
                 "started-at": "Commencé le {date}",
                 "finished-at": "Terminé le {date}",
+                "results": "{result} % de réussite",
                 "tag": {
                     "started": "En cours",
                     "completed": "À envoyer",

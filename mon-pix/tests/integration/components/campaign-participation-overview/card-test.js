@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { find, render } from '@ember/test-helpers';
+import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
@@ -94,6 +95,25 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.finished'));
       expect(find('.campaign-participation-overview-card-content__action').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.see-more'));
       expect(find('.campaign-participation-overview-card-header__date').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.finished-at', { date: '18/12/2020' }));
+    });
+
+    it('should render the result with percentage', async function() {
+      // given
+      const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+        isShared: true,
+        createdAt: '2020-12-10T15:16:20.109Z',
+        sharedAt: '2020-12-18T15:16:20.109Z',
+        assessmentState: 'completed',
+        campaignTitle: 'My campaign',
+        masteryPercentage: 20,
+      });
+      this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+      // when
+      await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
+
+      // then
+      expect(contains('20 % de réussite'));
     });
   });
 });
