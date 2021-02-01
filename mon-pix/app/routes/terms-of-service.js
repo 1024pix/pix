@@ -11,7 +11,7 @@ export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRoute
     const user = users.firstObject;
 
     if (!user.mustValidateTermsOfService) {
-      return this.replaceWith('profile');
+      return this.replaceWith('');
     }
 
     return user;
