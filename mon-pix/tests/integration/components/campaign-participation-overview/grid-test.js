@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { find, findAll, render } from '@ember/test-helpers';
@@ -7,6 +6,11 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | CampaignParticipationOverview | Grid', function() {
   setupIntlRenderingTest();
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
+  });
 
   it('should render component', async function() {
     // when
@@ -19,12 +23,12 @@ describe('Integration | Component | CampaignParticipationOverview | Grid', funct
   it('should render campaign participation overview items', async function() {
     // given
     const campaignParticipationOverviews = [
-      EmberObject.create({
+      store.createRecord('campaign-participation-overview', {
         createdAt: '2020-12-10T15:16:20.109Z',
         assessmentState: 'started',
         campaignTitle: 'My campaign 1',
       }),
-      EmberObject.create({
+      store.createRecord('campaign-participation-overview', {
         createdAt: '2020-12-10T15:16:20.109Z',
         assessmentState: 'started',
         campaignTitle: 'My campaign 2',

@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { find, render } from '@ember/test-helpers';
@@ -7,10 +6,15 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 describe('Integration | Component | CampaignParticipationOverview | Card', function() {
   setupIntlRenderingTest();
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
+  });
 
   it('should show campaign information', async function() {
     //given
-    const campaignParticipationOverview = EmberObject.create({
+    const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: false,
       createdAt: '2020-12-10T15:16:20.109Z',
       assessmentState: 'started',
@@ -30,7 +34,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
 
   it('should render component with a started state', async function() {
     // given
-    const campaignParticipationOverview = EmberObject.create({
+    const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: false,
       createdAt: '2020-12-10T15:16:20.109Z',
       assessmentState: 'started',
@@ -50,7 +54,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
 
   it('should render component with a completed state but not shared', async function() {
     // given
-    const campaignParticipationOverview = EmberObject.create({
+    const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: false,
       createdAt: '2020-12-10T15:16:20.109Z',
       assessmentState: 'completed',
@@ -69,7 +73,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
 
   it('should render component with a completed state and shared', async function() {
     // given
-    const campaignParticipationOverview = EmberObject.create({
+    const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
       isShared: true,
       createdAt: '2020-12-10T15:16:20.109Z',
       sharedAt: '2020-12-18T15:16:20.109Z',

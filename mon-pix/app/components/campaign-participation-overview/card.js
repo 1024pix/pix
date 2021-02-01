@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-const STATUSES = {
+const INFO_BY_STATUSES = {
   completed: {
     tagText: 'pages.campaign-participation-overview.card.tag.completed',
     tagColor: 'yellow-light',
@@ -25,20 +25,8 @@ const STATUSES = {
 };
 
 export default class Card extends Component {
-  get status() {
-    const currentState = this.args.model.get('assessmentState');
-    const isShared = this.args.model.get('isShared');
-
-    if (isShared) return STATUSES.finished;
-
-    return STATUSES[currentState];
-  }
-
-  get date() {
-    const isShared = this.args.model.get('isShared');
-    const sharedAt = this.args.model.get('sharedAt');
-    const createdAt = this.args.model.get('createdAt');
-
-    return isShared ? sharedAt : createdAt;
+  get cardInfo() {
+    const status = this.args.model.status;
+    return INFO_BY_STATUSES[status];
   }
 }
