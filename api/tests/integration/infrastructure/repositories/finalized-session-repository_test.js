@@ -37,4 +37,30 @@ describe('Integration | Repository | Finalized-session', () => {
       });
     });
   });
+
+  describe('#get', () => {
+
+    afterEach(() => {
+      return knex('finalized-sessions').delete();
+    });
+
+    it('Retrieves a finalized session', async () => {
+      // given
+      const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await finalizedSessionRepository.get({ sessionId: finalizedSession.sessionId });
+
+      // then
+      expect(result).to.deep.equal({
+        sessionId: finalizedSession.sessionId,
+        finalizedAt: finalizedSession.finalizedAt,
+        certificationCenterName: finalizedSession.certificationCenterName,
+        sessionDate: finalizedSession.date,
+        sessionTime: finalizedSession.time,
+        isPublishable: finalizedSession.isPublishable,
+      });
+    });
+  });
 });
