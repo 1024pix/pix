@@ -13,6 +13,7 @@ const jurySessionRepository = require('../../infrastructure/repositories/jury-se
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const { getCertificationResultsCsv } = require('../../infrastructure/utils/csv/certification-results');
+const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet');
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
 const { featureToggles } = require('../../config');
@@ -82,7 +83,9 @@ module.exports = {
     const sessionId = parseInt(request.params.id);
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
-    const candidateImportSheet = await usecases.getCandidatesImportSheet({ sessionId, userId });
+
+    const session = await usecases.getSessionWithCandidates({ sessionId, userId });
+    const candidateImportSheet = await fillCandidatesImportSheet(session);
 
     return h.response(candidateImportSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
