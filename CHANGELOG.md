@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.12.0 (01/02/2021)
+
+- [#2439](https://github.com/1024pix/pix/pull/2439) [FEATURE] Enregistrer la date de l'envoi des résultats lors de l'envoi automatique (PIX-1339)
+- [#2475](https://github.com/1024pix/pix/pull/2475) [TECH] Mise à jour Ember de pix-certif de la version 3.22 à 3.23
+- [#2423](https://github.com/1024pix/pix/pull/2423) [CLEANUP] Séparer la logique de génération de csv du usecase lors de l'import du template de liste de candidats
+
 ## v3.11.0 (01/02/2021)
 
 - [#2455](https://github.com/1024pix/pix/pull/2455) [FEATURE] Séparer la liste des membres et des invitations dans deux onglets distincts sur Pix Orga (PIX-1150).
