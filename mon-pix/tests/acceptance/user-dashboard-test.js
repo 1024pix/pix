@@ -78,7 +78,7 @@ describe('Acceptance | User dashboard page', function() {
         // when
           await visit('/accueil');
           // then
-          const resumeButton = find('.campaign-participation-overview-card__action');
+          const resumeButton = find('.campaign-participation-overview-card-content__action');
           expect(resumeButton).to.exist;
           expect(resumeButton.textContent.trim()).to.equal('Reprendre');
         });
@@ -86,7 +86,7 @@ describe('Acceptance | User dashboard page', function() {
         it('should redirect to the unfinished campaign where it stopped when clicking on resume button ', async function() {
         // when
           await visit('/accueil');
-          await click('.campaign-participation-overview-card__action');
+          await click('.campaign-participation-overview-card-content__action');
 
           // then
           expect(currentURL()).to.equal(`/campagnes/${uncompletedCampaignParticipationOverview.campaignCode}/presentation`);
@@ -118,7 +118,7 @@ describe('Acceptance | User dashboard page', function() {
           await visit('/accueil');
 
           // then
-          const shareButton = find('.campaign-participation-overview-card__action');
+          const shareButton = find('.campaign-participation-overview-card-content__action');
           expect(shareButton).to.exist;
           expect(shareButton.textContent.trim()).to.equal('Envoyer mes résultats');
         });
@@ -126,7 +126,7 @@ describe('Acceptance | User dashboard page', function() {
         it('should redirect to the unshared campaign results page when clicking on share button', async function() {
         // when
           await visit('/accueil');
-          await click('.campaign-participation-overview-card__action');
+          await click('.campaign-participation-overview-card-content__action');
 
           // then
           expect(currentURL()).to.equal(`/campagnes/${unsharedCampaignParticipationOverview.campaignCode}/presentation`);

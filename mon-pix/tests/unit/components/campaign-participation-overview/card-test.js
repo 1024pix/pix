@@ -51,7 +51,7 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
         tagText: 'pages.campaign-participation-overview.card.tag.finished',
         tagColor: 'grey-light',
         actionText: 'pages.campaign-participation-overview.card.see-more',
-        actionClass: 'link campaign-participation-overview-card__see-more',
+        actionClass: 'link campaign-participation-overview-card-content__see-more',
         dateText: 'pages.campaign-participation-overview.card.finished-at',
       });
     });
