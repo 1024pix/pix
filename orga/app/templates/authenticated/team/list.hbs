@@ -1,3 +1,20 @@
 <div class="list-team-page">
-  <Routes::Authenticated::Team::ListItems @memberships={{@model.memberships}} @organizationInvitations={{@model.organization.organizationInvitations}} />
+  <div class="list-team-page__header">
+    <div class="page__title page-title">Mon équipe</div>
+    <div class="list-team-page-header__add-member-button">
+      <LinkTo @route="authenticated.team.new" class="button button--link">Inviter un membre</LinkTo>
+    </div>
+  </div>
+
+  <nav class="navbar list-team-page__tabs">
+    <LinkTo @route="authenticated.team.list.members" class="navbar-item">
+      Membres ({{@model.memberships.meta.rowCount}})
+    </LinkTo>
+
+    <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
+      Invitations ({{@model.organization.organizationInvitations.length}})
+    </LinkTo>
+  </nav>
+
+  {{outlet}}
 </div>

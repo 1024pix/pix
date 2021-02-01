@@ -71,9 +71,10 @@ module('Acceptance | Team List', function(hooks) {
 
       test('it should be accessible', async function(assert) {
         // when
-        await visit('/equipe');
+        await visit('/equipe/membres');
+
         // then
-        assert.equal(currentURL(), '/equipe');
+        assert.equal(currentURL(), '/equipe/membres');
       });
 
       test('it should show title of team page', async function(assert) {
@@ -82,30 +83,6 @@ module('Acceptance | Team List', function(hooks) {
 
         // then
         assert.dom('.page-title').hasText('Mon équipe');
-      });
-
-      test('it should list the team members', async function(assert) {
-        // when
-        await visit('/equipe');
-
-        // then
-        assert.dom('#table-members tbody tr').exists({ count: 1 });
-        assert.dom('#table-members tbody tr:first-child').hasText('Cover Harry Administrateur');
-      });
-
-      test('it should list the pending team invitations', async function(assert) {
-        // given
-        const organizationId = server.db.organizations[0].id;
-        server.create('organization-invitation', {
-          organizationId,
-          createdAt: new Date(),
-        });
-
-        // when
-        await visit('/equipe');
-
-        // then
-        assert.dom('#table-invitations tbody tr').exists({ count: 1 });
       });
     });
   });
@@ -133,14 +110,14 @@ module('Acceptance | Team List', function(hooks) {
           createdAt: new Date(),
         });
       });
-      await visit('/equipe?pageNumber=2');
+      await visit('/equipe/membres?pageNumber=2');
       await visit('/campagnes');
 
       // when
       await clickByLabel('Équipe');
 
       // then
-      assert.equal(currentURL(), '/equipe');
+      assert.equal(currentURL(), '/equipe/membres');
     });
   });
 });
