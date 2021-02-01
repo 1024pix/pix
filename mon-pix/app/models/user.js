@@ -15,6 +15,7 @@ export default class User extends Model {
   @attr('boolean') hasSeenNewDashboardInfo;
   @attr('string') recaptchaToken;
   @attr('string') lang;
+  @attr('boolean') isAnonymous;
 
   // includes
   @belongsTo('is-certifiable') isCertifiable;

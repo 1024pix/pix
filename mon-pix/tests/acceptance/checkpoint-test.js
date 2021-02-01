@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { authenticateByEmail } from '../helpers/authentication';
 
 describe('Acceptance | Checkpoint', () => {
   setupApplicationTest();
@@ -30,7 +31,7 @@ describe('Acceptance | Checkpoint', () => {
     });
 
     it('should display questions and links to solutions', async () => {
-      // When
+      // when
       await visit(`/assessments/${assessment.id}/checkpoint`);
 
       // then
@@ -45,7 +46,7 @@ describe('Acceptance | Checkpoint', () => {
   describe('Without answers', () => {
 
     it('should display a message indicating that there is no answers to provide', async () => {
-      // When
+      // when
       await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
       // then
@@ -56,6 +57,23 @@ describe('Acceptance | Checkpoint', () => {
       expect(find('.checkpoint__continue')).to.exist;
       expect(find('.checkpoint__continue').textContent).to.contain('Voir mes résultats');
       expect(find('.checkpoint-no-answer__info').textContent).to.contain('Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.');
+    });
+  });
+
+  describe('When user is anonymous', () => {
+
+    it('should not display home link', async () => {
+      //given
+      const user = server.create('user', 'withEmail', {
+        isAnonymous: true,
+      });
+      await authenticateByEmail(user);
+
+      // when
+      await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
+
+      // then
+      expect(find('.assessment-banner__home-link')).to.not.exist;
     });
   });
 });

@@ -7,6 +7,7 @@ export default class CheckpointController extends Controller {
   queryParams = ['finalCheckpoint', 'newLevel'];
 
   @service intl;
+  @service currentUser;
 
   @tracked answer = null;
   @tracked challenge = null;
@@ -32,6 +33,10 @@ export default class CheckpointController extends Controller {
 
   get pageTitle() {
     return this.finalCheckpoint ? this.intl.t('pages.checkpoint.title.end-of-assessment') : this.intl.t('pages.checkpoint.title.assessment-progress');
+  }
+
+  get displayHomeLink() {
+    return this.currentUser.user && !this.currentUser.user.isAnonymous;
   }
 
   @action
