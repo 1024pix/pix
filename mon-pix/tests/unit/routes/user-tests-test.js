@@ -34,4 +34,23 @@ describe('Unit | Route | User-Tests', function() {
       expect(model).to.deep.equal(campaignParticipationOverviews);
     });
   });
+
+  describe('redirect', function() {
+    it('should redirect to default page if there is no campaign participation', function() {
+      const route = this.owner.lookup('route:user-tests');
+      sinon.stub(route, 'replaceWith');
+
+      route.redirect([], {});
+      sinon.assert.calledWithExactly(route.replaceWith, '');
+    });
+
+    it('should continue on user-tests if there is some campaign participations', function() {
+      const route = this.owner.lookup('route:user-tests');
+      sinon.stub(route, 'replaceWith');
+      const campaignParticipationOverviews = [EmberObject.create({ id: 10 })];
+
+      route.redirect(campaignParticipationOverviews, {});
+      sinon.assert.notCalled(route.replaceWith);
+    });
+  });
 });
