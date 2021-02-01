@@ -1,4 +1,3 @@
-import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -6,22 +5,26 @@ import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-compone
 
 describe('Unit | Component | CampaignParticipation | Card', function() {
   let component;
+  let store;
 
   setupTest();
 
   beforeEach(function() {
     // given
+    store = this.owner.lookup('service:store');
     component = createGlimmerComponent('component:campaign-participation-overview/card');
   });
 
-  describe('#status', function() {
+  describe('#cardInfo', function() {
 
-    it('should return the status when the participation is completed', function() {
+    it('should return the card info when the status is "completed"', function() {
       // given
-      component.args.model = EmberObject.create({ assessmentState: 'completed' });
+      component.args.model = store.createRecord('campaign-participation-overview', {
+        assessmentState: 'completed',
+      });
 
       // when
-      const result = component.status;
+      const result = component.cardInfo;
 
       // then
       expect(result).to.deep.equal({
@@ -33,12 +36,15 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       });
     });
 
-    it('should return the status when the participation is completed and shared', function() {
+    it('should return the card info when the status is "finished"', function() {
       // given
-      component.args.model = EmberObject.create({ assessmentState: 'completed', isShared: true });
+      component.args.model = store.createRecord('campaign-participation-overview', {
+        assessmentState: 'completed',
+        isShared: true,
+      });
 
       // when
-      const result = component.status;
+      const result = component.cardInfo;
 
       // then
       expect(result).to.deep.equal({
@@ -50,12 +56,14 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
       });
     });
 
-    it('should return the status when the participation is not completed', function() {
+    it('should return the card info when the status is "started"', function() {
       // given
-      component.args.model = EmberObject.create({ assessmentState: 'started' });
+      component.args.model = store.createRecord('campaign-participation-overview', {
+        assessmentState: 'started',
+      });
 
       // when
-      const result = component.status;
+      const result = component.cardInfo;
 
       // then
       expect(result).to.deep.equal({
@@ -65,29 +73,6 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
         actionClass: 'button button--link',
         dateText: 'pages.campaign-participation-overview.card.started-at',
       });
-    });
-  });
-
-  describe('#date', function() {
-    it('should return the sharing date when the participation is shared', function() {
-      // given
-      component.args.model = EmberObject.create({ isShared: true, sharedAt: '2020-12-18T15:16:20.109Z' });
-
-      // when
-      const result = component.date;
-
-      // then
-      expect(result).to.equal('2020-12-18T15:16:20.109Z');
-    });
-    it('should return the starting date when the participation is not shared', function() {
-      // given
-      component.args.model = EmberObject.create({ isShared: false, createdAt: '2020-12-10T15:16:20.109Z' });
-
-      // when
-      const result = component.date;
-
-      // then
-      expect(result).to.equal('2020-12-10T15:16:20.109Z');
     });
   });
 });
