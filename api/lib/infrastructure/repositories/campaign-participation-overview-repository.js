@@ -33,6 +33,7 @@ function _findByUserId({ userId }) {
       validatedSkillsCount: 'campaign-participations.validatedSkillsCount',
       campaignCode: 'campaigns.code',
       campaignTitle: 'campaigns.title',
+      targetProfileId: 'campaigns.targetProfileId',
       organizationName: 'organizations.name',
       assessmentState: 'assessments.state',
     })
