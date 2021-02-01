@@ -12,12 +12,18 @@
       {{t this.cardInfo.dateText date=(format-date @model.date)}}
     </time>
   </header>
-  <LinkTo class="{{this.cardInfo.actionClass}} campaign-participation-overview-card__action"
-          @route="campaigns.start-or-resume"
-          @model={{@model.campaignCode}}>
+  <section class="campaign-participation-overview-card-content">
     {{#if (eq @model.status "finished")}}
-      <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
+      <p class="campaign-participation-overview-card-content__content">
+      </p>
     {{/if}}
-    {{t this.cardInfo.actionText}}
-  </LinkTo>
+    <LinkTo class="{{this.cardInfo.actionClass}} campaign-participation-overview-card-content__action"
+            @route="campaigns.start-or-resume"
+            @model={{@model.campaignCode}}>
+      {{#if (eq @model.status "finished")}}
+        <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
+      {{/if}}
+      {{t this.cardInfo.actionText}}
+    </LinkTo>
+  </section>
 </article>
