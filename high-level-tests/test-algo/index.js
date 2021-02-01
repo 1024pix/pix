@@ -17,11 +17,17 @@ async function launch_test() {
       type: 'string',
       description: 'L\'id de la compétence',
     })
+    .option('locale', {
+      type: 'string',
+      description: 'Locale du challenge désiré',
+      choices: ['fr', 'fr-fr', 'en'],
+      default: 'fr',
+    })
     .demandOption(['competenceId'])
     .argv;
 
   const competenceId = argv.competenceId;
-  const locale = 'fr';
+  const locale = argv.locale;
   const lastAnswer = null;
   const allAnswers = [];
   const knowledgeElements = [];
