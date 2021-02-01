@@ -13,12 +13,6 @@ export default class CandidateInformationChangeCertificationIssueReportFieldsCom
   @tracked
   subcategoryTextAreaLabel = subcategoryToTextareaLabel[this.args.candidateInformationChangeCategory.subcategory];
 
-  get reportLength() {
-    return this.args.candidateInformationChangeCategory.description
-      ? this.args.candidateInformationChangeCategory.description.length
-      : 0;
-  }
-
   @action
   onChangeSubcategory(event) {
     this.args.candidateInformationChangeCategory.subcategory = event.target.value;

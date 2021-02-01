@@ -11,14 +11,11 @@
   {{#if @otherCategory.isChecked}}
     <div class="other-certification-issue-report-fields__details">
       <label for="text-area-for-category-other">Décrivez l’incident</label>
-      <Textarea
+      <PixTextarea
         id="text-area-for-category-other"
-        @class="session-finalization-reports-informations-step__textarea"
         @value={{@otherCategory.description}}
         @maxlength={{@maxlength}}
-        required
-      />
-      <p class="other-certification-issue-report-fields-details__char-count">{{this.reportLength}} / {{@maxlength}}</p>
+        required="true" />
     </div>
   {{/if}}
 </fieldset>

@@ -18,14 +18,11 @@
         @onChange={{this.onChangeSubcategory}}
       />
       <label for="text-area-for-category-late-or-leaving">{{this.subcategoryTextAreaLabel}}</label>
-      <Textarea
-        id="text-area-for-category-late-or-leaving"
-        @class="session-finalization-reports-informations-step__textarea"
+      <PixTextarea
+        @id="text-area-for-category-late-or-leaving"
         @value={{@lateOrLeavingCategory.description}}
         @maxlength={{@maxlength}}
-        required
-      />
-      <p class="late-or-leaving-certification-issue-report-fields-details__char-count">{{this.reportLength}} / {{@maxlength}}</p>
+        required="true" />
     </div>
   {{/if}}
 </fieldset>
