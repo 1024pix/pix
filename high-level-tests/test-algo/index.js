@@ -1,5 +1,7 @@
 'use strict';
 require('dotenv').config();
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
 
 const smartRandom = require('../../api/lib/domain/services/smart-random/smart-random');
 const dataFetcher = require('../../api/lib/domain/services/smart-random/data-fetcher');
@@ -10,13 +12,22 @@ const pickChallengeService = require('../../api/lib/domain/services/pick-challen
 
 async function launch_test() {
 
+  const argv = yargs(hideBin(process.argv))
+    .option('competenceId', {
+      type: 'string',
+      description: 'L\'id de la compétence',
+    })
+    .demandOption(['competenceId'])
+    .argv;
+
+  const competenceId = argv.competenceId;
   const locale = 'fr';
   const lastAnswer = null;
   const allAnswers = [];
   const knowledgeElements = [];
   const assessment = {
     id: null,
-    competenceId: 'recsvLz0W2ShyfD63',
+    competenceId,
   };
 
   const knowledgeElementRepository = {
