@@ -10,7 +10,7 @@ module.exports = class FinalizedSession {
     sessionDate,
     sessionTime,
     isPublishable,
-  }) {
+  } = {}) {
     this.sessionId = sessionId;
     this.finalizedAt = finalizedAt;
     this.certificationCenterName = certificationCenterName;
