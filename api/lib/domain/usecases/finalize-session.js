@@ -29,7 +29,7 @@ module.exports = async function finalizeSession({
     sessionId,
     finalizedAt: finalizedSession.finalizedAt,
     hasExaminerGlobalComment: Boolean(examinerGlobalComment),
-    certificationCenterName: finalizedSession.certificationCenterName,
+    certificationCenterName: finalizedSession.certificationCenter,
     sessionDate: finalizedSession.date,
     sessionTime: finalizedSession.time,
   });

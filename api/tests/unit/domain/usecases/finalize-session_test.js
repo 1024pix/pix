@@ -139,6 +139,13 @@ describe('Unit | UseCase | finalize-session', () => {
 
       it('raises a session finalized event', async () => {
         // given
+        const updatedSession = domainBuilder.buildSession({
+          finalizedAt: new Date('2020-01-01T14:00:00Z'),
+          examinerGlobalComment: 'an examiner comment',
+          certificationCenter: 'a certification center name',
+          date: '2019-12-12',
+          time: '16:00:00',
+        });
         clock = sinon.useFakeTimers(now);
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
@@ -166,11 +173,11 @@ describe('Unit | UseCase | finalize-session', () => {
         expect(event).to.be.an.instanceof(SessionFinalized);
         expect(event).to.deep.equal(new SessionFinalized({
           sessionId,
-          finalizedAt: updatedSession.finalizedAt,
-          hasExaminerGlobalComment: Boolean(examinerGlobalComment),
-          certificationCenterName: updatedSession.certificationCenterName,
-          sessionDate: updatedSession.date,
-          sessionTime: updatedSession.time,
+          finalizedAt: new Date('2020-01-01T14:00:00Z'),
+          hasExaminerGlobalComment: true,
+          certificationCenterName: 'a certification center name',
+          sessionDate: '2019-12-12',
+          sessionTime: '16:00:00',
         }));
       });
     });
