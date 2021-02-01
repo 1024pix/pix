@@ -7,46 +7,40 @@
     {{/if}}
 
     {{#if block.input}}
+      {{#if block.text}}
+        <label for="{{block.input}}">{{block.text}}</label>
+      {{/if}}
+
       {{#if (eq @format 'paragraphe')}}
-        {{#if block.text}}
-          <label for="{{block.text}}">{{block.text}}</label>
-        {{/if}}
         <Textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
                   rows="5"
                   name={{block.randomName}}
                   placeholder={{block.placeholder}}
                   autocomplete="nope"
-                  id="{{block.text}}"
+                  id="{{block.input}}"
                   @value={{mut (get @answersValue block.input)}}
                   disabled={{@answer}}
                   aria-label={{block.ariaLabel}}
                   onkeydown={{action 'onInputChange'}} />
       {{else if (eq @format 'phrase')}}
-        {{#if block.text}}
-          <label for="{{block.text}}">{{block.text}}</label>
-        {{/if}}
-
         <Input class="challenge-response__proposal challenge-response__proposal--sentence"
                @type="text"
                name={{block.randomName}}
                placeholder={{block.placeholder}}
                autocomplete="nope"
-               id="{{block.text}}"
+               id="{{block.input}}"
                @value={{mut (get @answersValue block.input)}}
                disabled={{@answer}}
                aria-label={{block.ariaLabel}}
                onkeydown={{action 'onInputChange'}} />
       {{else}}
-        {{#if block.text}}
-          <label for="{{block.text}}">{{block.text}}</label>
-        {{/if}}
         <Input class="challenge-response__proposal"
                size="{{get-qroc-input-size @format}}"
                @type="text"
                name={{block.randomName}}
                placeholder={{block.placeholder}}
                autocomplete="nope"
-               id="{{block.text}}"
+               id="{{block.input}}"
                @value={{mut (get @answersValue block.input)}}
                disabled={{@answer}}
                aria-label={{block.ariaLabel}}
