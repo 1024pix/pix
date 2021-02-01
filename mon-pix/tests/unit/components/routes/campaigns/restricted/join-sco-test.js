@@ -339,66 +339,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       sinon.assert.called(eventStub.preventDefault);
     });
 
-    it('should display an error on firstName', async function() {
-      // given
-      component.firstName = ' ';
-
-      // when
-      await component.actions.submit.call(component, eventStub);
-
-      // then
-      sinon.assert.notCalled(onSubmitToReconcileStub);
-      expect(component.validation.firstName).to.equal('Votre prénom n’est pas renseigné.');
-    });
-
-    it('should display an error on lastName', async function() {
-      // given
-      component.lastName = '';
-
-      // when
-      await component.actions.submit.call(component, eventStub);
-
-      // then
-      sinon.assert.notCalled(onSubmitToReconcileStub);
-      expect(component.validation.lastName).to.equal('Votre nom n’est pas renseigné.');
-    });
-
-    it('should display an error on dayOfBirth', async function() {
-      // given
-      component.dayOfBirth = '99';
-
-      // when
-      await component.actions.submit.call(component, eventStub);
-
-      // then
-      sinon.assert.notCalled(onSubmitToReconcileStub);
-      expect(component.validation.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
-    });
-
-    it('should display an error on monthOfBirth', async function() {
-      // given
-      component.monthOfBirth = '99';
-
-      // when
-      await component.actions.submit.call(component, eventStub);
-
-      // then
-      sinon.assert.notCalled(onSubmitToReconcileStub);
-      expect(component.validation.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
-    });
-
-    it('should display an error on yearOfBirth', async function() {
-      // given
-      component.yearOfBirth = '99';
-
-      // when
-      await component.actions.submit.call(component, eventStub);
-
-      // then
-      sinon.assert.notCalled(onSubmitToReconcileStub);
-      expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
-    });
-
     context('When user does not come from external identity provider', function() {
 
       beforeEach(function() {
@@ -557,6 +497,66 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         // then
         sinon.assert.calledOnce(record.unloadRecord);
         expect(component.errorMessage).to.be.null;
+      });
+
+      it('should display an error on firstName', async function() {
+        // given
+        component.firstName = ' ';
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.notCalled(onSubmitToReconcileStub);
+        expect(component.validation.firstName).to.equal('Votre prénom n’est pas renseigné.');
+      });
+
+      it('should display an error on lastName', async function() {
+        // given
+        component.lastName = '';
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.notCalled(onSubmitToReconcileStub);
+        expect(component.validation.lastName).to.equal('Votre nom n’est pas renseigné.');
+      });
+
+      it('should display an error on dayOfBirth', async function() {
+        // given
+        component.dayOfBirth = '99';
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.notCalled(onSubmitToReconcileStub);
+        expect(component.validation.dayOfBirth).to.equal('Votre jour de naissance n’est pas valide.');
+      });
+
+      it('should display an error on monthOfBirth', async function() {
+        // given
+        component.monthOfBirth = '99';
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.notCalled(onSubmitToReconcileStub);
+        expect(component.validation.monthOfBirth).to.equal('Votre mois de naissance n’est pas valide.');
+      });
+
+      it('should display an error on yearOfBirth', async function() {
+        // given
+        component.yearOfBirth = '99';
+
+        // when
+        await component.actions.submit.call(component, eventStub);
+
+        // then
+        sinon.assert.notCalled(onSubmitToReconcileStub);
+        expect(component.validation.yearOfBirth).to.equal('Votre année de naissance n’est pas valide.');
       });
 
       it('should display a not found error', async function() {
