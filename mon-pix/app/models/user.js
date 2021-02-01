@@ -1,5 +1,4 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
-
 export default class User extends Model {
 
   // attributes
@@ -26,7 +25,11 @@ export default class User extends Model {
 
   // methods
   get fullName() {
-    return `${this.firstName} ${ this.lastName}`;
+    return `${this.firstName} ${this.lastName}`;
   }
 
+  get hasAssessmentParticipations() {
+    const participations = this.campaignParticipations.toArray();
+    return participations.some((participation) => participation.campaign.get('isAssessment'));
+  }
 }
