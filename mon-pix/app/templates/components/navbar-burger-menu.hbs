@@ -9,6 +9,13 @@
       </p>
     </div>
   {{/if}}
+  
+  {{#if this.showMyTestsLink}}
+    <LinkTo @route="user-tests" class="navbar-burger-menu-user-info__item">
+      {{t 'navigation.user.tests'}}
+    </LinkTo>
+  {{/if}}
+
   <LinkTo @route="user-certifications" class="navbar-burger-menu-user-info__item">
     {{t 'navigation.user.certifications'}}
   </LinkTo>
