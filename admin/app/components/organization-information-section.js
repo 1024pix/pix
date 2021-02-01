@@ -88,7 +88,6 @@ class Form extends Object.extend(Validations) {
 }
 
 export default class OrganizationInformationSection extends Component {
-
   @tracked isEditMode = false;
 
   constructor() {
@@ -99,14 +98,6 @@ export default class OrganizationInformationSection extends Component {
   get externalURL() {
     const urlDashboardPrefix = ENV.APP.ORGANIZATION_DASHBOARD_URL;
     return urlDashboardPrefix && (urlDashboardPrefix + this.args.organization.id);
-  }
-
-  get isManagingStudents() {
-    return this.args.organization.isManagingStudents ? 'Oui' : 'Non';
-  }
-
-  get canCollectProfiles() {
-    return this.args.organization.canCollectProfiles ? 'Oui' : 'Non';
   }
 
   @action
@@ -137,6 +128,7 @@ export default class OrganizationInformationSection extends Component {
     if (!validations.isValid) {
       return;
     }
+
     this.args.organization.set('name', this.form.name.trim());
     this.args.organization.set('externalId', !this.form.externalId ? null : this.form.externalId.trim());
     this.args.organization.set('provinceCode', !this.form.provinceCode ? null : this.form.provinceCode.trim());

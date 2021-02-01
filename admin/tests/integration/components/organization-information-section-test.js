@@ -67,7 +67,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.dom('button[aria-label=\'Editer\'').exists();
+      assert.dom('button[aria-label=\'Editer\']').exists();
     });
 
     test('it should toggle edition mode on click to edit button', async function(assert) {
@@ -75,7 +75,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
 
       // then
       assert.dom('.organization__edit-form').exists();
@@ -86,7 +86,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
 
       // then
       assert.dom('input#name').hasValue(organization.name);
@@ -103,7 +103,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('#name', '');
 
       // then
@@ -115,7 +115,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('#name', 'a'.repeat(256));
 
       // then
@@ -127,7 +127,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('#externalId', 'a'.repeat(256));
 
       // then
@@ -139,7 +139,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('#provinceCode', 'a'.repeat(256));
 
       // then
@@ -151,7 +151,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('#email', 'a'.repeat(256));
 
       // then
@@ -163,7 +163,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('#email', 'not-valid-email-format');
 
       // then
@@ -175,7 +175,7 @@ module('Integration | Component | organization-information-section', function(ho
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('#credit', 'credit');
 
       // then
@@ -185,10 +185,10 @@ module('Integration | Component | organization-information-section', function(ho
     test('it should toggle display mode on click to cancel button', async function(assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
 
       // when
-      await click('button[aria-label=\'Annuler\'');
+      await click('button[aria-label=\'Annuler\']');
 
       // then
       assert.dom('.organization__data').exists();
@@ -198,7 +198,7 @@ module('Integration | Component | organization-information-section', function(ho
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', 'new provinceCode');
@@ -206,7 +206,7 @@ module('Integration | Component | organization-information-section', function(ho
       await click('input#canCollectProfiles');
 
       // when
-      await click('button[aria-label=\'Annuler\'');
+      await click('button[aria-label=\'Annuler\']');
 
       // then
       assert.dom('.organization__name').hasText(organization.name);
@@ -220,7 +220,8 @@ module('Integration | Component | organization-information-section', function(ho
       // given
       this.set('onSubmit', () => {});
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`);
-      await click('button[aria-label=\'Editer\'');
+      await click('button[aria-label=\'Editer\']');
+
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', '  ');
@@ -229,7 +230,7 @@ module('Integration | Component | organization-information-section', function(ho
       await click('input#canCollectProfiles');
 
       // when
-      await click('button[aria-label=\'Enregistrer\'');
+      await click('button[aria-label=\'Enregistrer\']');
 
       // then
       assert.dom('.organization__name').hasText('new name');
