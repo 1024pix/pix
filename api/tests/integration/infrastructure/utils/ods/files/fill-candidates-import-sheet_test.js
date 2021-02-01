@@ -2,14 +2,14 @@ const { unlink, writeFile } = require('fs').promises;
 
 const _ = require('lodash');
 
-const { expect, databaseBuilder } = require('../../../../test-helper');
+const { expect, databaseBuilder } = require('../../../../../test-helper');
 
-const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
+const readOdsUtils = require('../../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 
-const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
-const getCandidatesImportSheet = require('../../../../../lib/domain/usecases/get-candidates-import-sheet');
+const fillCandidatesImportSheet = require('../../../../../../lib/infrastructure/files/candidates-import/fill-candidates-import-sheet');
 
-describe('Integration | UseCases | getCandidatesImportSheet', () => {
+const usecases = require('../../../../../../lib/domain/usecases');
+describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', () => {
 
   const expectedOdsFilePath = `${__dirname}/candidates_import_template.ods`;
   const actualOdsFilePath = `${__dirname}/candidates_import_template.tmp.ods`;
@@ -55,7 +55,8 @@ describe('Integration | UseCases | getCandidatesImportSheet', () => {
 
   it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
     // when
-    const updatedOdsFileBuffer = await getCandidatesImportSheet({ userId, sessionId, sessionRepository });
+    const session = await usecases.getSessionWithCandidates({ sessionId, userId });
+    const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);
     await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
     const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
     const expectResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
@@ -63,5 +64,4 @@ describe('Integration | UseCases | getCandidatesImportSheet', () => {
     // then
     expect(actualResult).to.deep.equal(expectResult);
   });
-
 });
