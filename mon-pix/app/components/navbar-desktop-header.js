@@ -1,8 +1,6 @@
-/* eslint ember/no-computed-properties-in-native-classes: 0 */
-
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-import { alias } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 import ENV from 'mon-pix/config/environment';
 
 export default class NavbarDesktopHeader extends Component {
@@ -10,7 +8,7 @@ export default class NavbarDesktopHeader extends Component {
   @service session;
   @service intl;
 
-  @alias('session.isAuthenticated') isUserLogged;
+  @tracked isUserLogged = this.session.isAuthenticated;
 
   get menu() {
     return (this.isUserLogged || this._isExternalUser) ? [] : this._menuItems;
