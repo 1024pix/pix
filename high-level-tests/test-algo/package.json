@@ -1,0 +1,17 @@
+{
+  "name": "test-algo",
+  "version": "1.0.0",
+  "description": "Application permettant de tester l'algorithme adaptatif de choix d'épreuve pour le positionnement.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "./tests/tests.sh"
+  },
+  "keywords": [],
+  "author": "GIP Pix",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "yargs": "^16.2.0"
+  }
+}
