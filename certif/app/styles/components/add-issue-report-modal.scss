@@ -58,6 +58,14 @@
       border-radius: 4px;
       padding: 24px;
 
+      button {
+        font-weight: 500;
+
+        svg {
+          margin-right: 8px;
+        }
+      }
+
       .add-issue-report-modal-content__category-label {
         font-family: $roboto;
         padding: 0;
@@ -78,14 +86,6 @@
         color: $grey-50;
         padding: 0 0 0 16px;
         margin: 8px 0 0 0;
-      }
-
-      button {
-        font-weight: 500;
-
-        svg {
-          margin-right: 8px;
-        }
       }
     }
 
@@ -129,11 +129,8 @@
         min-width: 0;
         margin-bottom: 22px;
 
-        label[for^="input-radio-for-category"] {
-
-          span {
-            font-weight: bold;
-          }
+        label[for^="input-radio-for-category"] span {
+          font-weight: bold;
         }
 
         input[id|="input-radio-for-category"] {
