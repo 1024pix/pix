@@ -13,6 +13,7 @@ export default class User extends Model {
   @attr('boolean') isAuthenticatedFromGAR;
 
   @hasMany('membership') memberships;
+  @hasMany('certification-center-membership') certificationCenterMemberships;
   @hasMany('schooling-registration') schoolingRegistrations;
 
   @computed('firstName', 'lastName')
