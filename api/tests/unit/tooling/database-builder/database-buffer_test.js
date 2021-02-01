@@ -22,6 +22,20 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
       ]);
     });
 
+    it('should add an object to insert with a custom id property', () => {
+      // given
+      const tableName = 'someTableName';
+      const values = { sessionId: 123, a: 'aVal', b: 'bVal' };
+
+      // when
+      databaseBuffer.pushInsertable({ tableName, values, customIdKey: 'sessionId' });
+
+      // then
+      expect(databaseBuffer.objectsToInsert).to.deep.equal([
+        { tableName, values },
+      ]);
+    });
+
     it('should return inserted values', () => {
       // given
       const tableName = 'someTableName';
@@ -32,6 +46,24 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
 
       // then
       expect(expectedValues).to.deep.equal(values);
+    });
+
+    context('when no id is provided but there is a custom id key', () => {
+
+      it('should add an object to insert with a custom id property', () => {
+        // given
+        const tableName = 'someTableName';
+        const values = { a: 'aVal', b: 'bVal' };
+        const expectedId = databaseBuffer.nextId;
+
+        // when
+        databaseBuffer.pushInsertable({ tableName, values, customIdKey: 'sessionId' });
+
+        // then
+        expect(databaseBuffer.objectsToInsert).to.deep.equal([
+          { tableName, values: { ...values, sessionId: expectedId } },
+        ]);
+      });
     });
 
     context('when no id is provided along with the object', () => {
