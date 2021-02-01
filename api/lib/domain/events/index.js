@@ -24,7 +24,8 @@ const dependencies = {
   targetProfileWithLearningContentRepository: require('../../infrastructure/repositories/target-profile-with-learning-content-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   poleEmploiNotifier: require('../../infrastructure/externals/pole-emploi/pole-emploi-notifier'),
-  // TODO : ajouter les dependences du handler ici
+  juryCertificationSummaryRepository: require('../../infrastructure/repositories/jury-certification-summary-repository'),
+  finalizedSessionRepository: require('../../infrastructure/repositories/finalized-session-repository'),
 };
 
 const partnerCertificationRepository = injectDependencies(
@@ -41,7 +42,7 @@ const handlersToBeInjected = {
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
   computeValidatedSkillsCount: require('./compute-validated-skills-count'),
-  // TODO : ajouter le handler ici
+  handleSessionFinalized: require('./handle-session-finalized'),
 };
 
 function buildEventDispatcher(handlersStubs) {
