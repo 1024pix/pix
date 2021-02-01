@@ -5,6 +5,8 @@ const knowlegeElementRepository = require('../../lib/infrastructure/repositories
 const { knex } = require('../../db/knex-database-connection');
 const _ = require('lodash');
 const bluebird = require('bluebird');
+const constants = require('../../lib/infrastructure/constants');
+
 let count;
 let total;
 
@@ -40,14 +42,17 @@ async function _updateCampaignParticipations(campaign) {
 
 async function _validatedSkillsCountByUser(campaign) {
   const campaignParticipationInfos = await _getSharingDateByUserId(campaign);
-  const sharingDateByUserId = {};
-
-  campaignParticipationInfos.forEach(({ userId, sharedAt }) => sharingDateByUserId[userId] = sharedAt);
-
+  const campaignParticipationInfosChunks = _.chunk(campaignParticipationInfos, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
   const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId: campaign.id });
-  const validatedKnowledgeElementByCompetencesByUser = await knowlegeElementRepository.findTargetedGroupedByCompetencesForUsers(sharingDateByUserId, targetProfile);
+  let validatedSkillsCountByUser = [];
 
-  const validatedSkillsCountByUser = _.entries(validatedKnowledgeElementByCompetencesByUser).map(_countValidatedSkills);
+  await bluebird.mapSeries(campaignParticipationInfosChunks, async (campaignParticipationInfosChunk) => {
+    const sharingDateByUserId = {};
+    campaignParticipationInfosChunk.forEach(({ userId, sharedAt }) => sharingDateByUserId[userId] = sharedAt);
+    const validatedKnowledgeElementByCompetencesByUser = await knowlegeElementRepository.findTargetedGroupedByCompetencesForUsers(sharingDateByUserId, targetProfile);
+    validatedSkillsCountByUser = [...validatedSkillsCountByUser, ..._.entries(validatedKnowledgeElementByCompetencesByUser).map(_countValidatedSkills)];
+  });
+
   return validatedSkillsCountByUser.map(([ userId, validatedSkillsCount ]) => {
     const campaignParticipation = campaignParticipationInfos.find((campaignParticipation) => campaignParticipation.userId == userId);
     return [campaignParticipation.id, validatedSkillsCount];
