@@ -621,6 +621,26 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
       });
 
+      describe('When student mistyped its information, has an error, and correct it', () => {
+
+        it('should reconcile', async function() {
+          // given
+          const error = { status: '409', meta: { userId: 1 } };
+
+          onSubmitToReconcileStub
+            .onFirstCall().rejects({ errors: [error] })
+            .onSecondCall().resolves();
+
+          // when
+          await component.actions.submit.call(component, eventStub);
+          await component.actions.submit.call(component, eventStub);
+
+          // then
+          expect(component.displayInformationModal).to.be.true;
+          expect(component.reconciliationError).to.be.null;
+          expect(component.isLoading).to.be.false;
+        });
+      });
     });
   });
 
