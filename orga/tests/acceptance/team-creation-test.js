@@ -100,7 +100,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(organizationInvitation.email, email);
         assert.equal(organizationInvitation.status, 'PENDING');
         assert.equal(organizationInvitation.code, code);
-        assert.equal(currentURL(), '/equipe');
+        assert.equal(currentURL(), '/equipe/membres');
         assert.dom('[aria-label="Membre"]').exists({ count: 1 });
       });
 
