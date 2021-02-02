@@ -56,7 +56,8 @@ function _campaignParticipationByParticipantSortedByDate(qb, campaignId, filters
     .where('campaign-participations.campaignId', '=', campaignId)
     .modify(_filterMostRecentAssessments)
     .modify(_filterByDivisions, filters)
-    .modify(_filterByBadgeAcquisitionsIn, filters);
+    .modify(_filterByBadgeAcquisitionsIn, filters)
+    .modify(_filterBySkillBoundaries, filters);
 }
 
 async function _buildCampaignAssessmentParticipationSummaries(results, targetedSkillIds) {
@@ -140,6 +141,16 @@ function _filterByBadgeAcquisitionsOut(qb, filters) {
   if (filters.badges) {
     qb.whereRaw(':badgeIds <@ "badges_acquired"', { badgeIds: filters.badges });
   }
+}
+
+function _filterBySkillBoundaries(qb, filters) {
+  if (!filters.validatedSkillBoundaries) return;
+
+  qb.where((builder) => {
+    filters.validatedSkillBoundaries.forEach((boundary) => {
+      builder.orWhereBetween('campaign-participations.validatedSkillsCount', [boundary.from, boundary.to]);
+    });
+  });
 }
 
 module.exports = campaignAssessmentParticipationRepository;

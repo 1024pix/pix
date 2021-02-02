@@ -6,12 +6,26 @@ export default class ParticipationFilters extends Component {
   @service currentUser;
 
   get displayFilters() {
-    return this.displayBadgesFilter || this.displayDivisionFilter;
+    return this.displayStagesFilter || this.displayBadgesFilter || this.displayDivisionFilter;
+  }
+
+  get displayStagesFilter() {
+    const { isTypeAssessment, hasStages } = this.args.campaign;
+    return isTypeAssessment && hasStages;
+  }
+
+  get stageOptions() {
+    return this.args.campaign.stages.map(({ id, threshold }) => ({ value: id, threshold }));
+  }
+
+  @action
+  onSelectStage(stages) {
+    this.args.triggerFiltering({ stages });
   }
 
   get displayBadgesFilter() {
-    const { badges, isTypeAssessment } = this.args.campaign;
-    return isTypeAssessment && Boolean(badges) && badges.length > 0;
+    const { isTypeAssessment, hasBadges } = this.args.campaign;
+    return isTypeAssessment && hasBadges;
   }
 
   get badgeOptions() {

@@ -15,6 +15,17 @@
         {{option.label}}
       </PixMultiSelect>
     {{/if}}
+    {{#if this.displayStagesFilter }}
+      <PixMultiSelect
+        @id="stage"
+        @title="Paliers"
+        @onSelect={{this.onSelectStage}}
+        @selected={{@selectedStages}}
+        @options={{this.stageOptions}} as |stage|
+      >
+        <StageStars @result={{stage.threshold}} @stages={{@campaign.stages}} />
+      </PixMultiSelect>
+    {{/if}}
     {{#if this.displayBadgesFilter }}
       <PixMultiSelect
         @id="badge"

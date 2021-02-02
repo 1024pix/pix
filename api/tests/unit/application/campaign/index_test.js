@@ -344,6 +344,22 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
+    it('should return 200 with a string array of one element as stage filter', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages][]=114');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should return 200 with a string array of several elements as stage filter', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages][]=114&filter[stages][]=115');
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
     it('should return 400 with unexpected filters', async () => {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[unexpected][]=5');
@@ -371,6 +387,22 @@ describe('Unit | Application | Router | campaign-router ', function() {
     it('should return 400 with a badge filter which is not a number', async () => {
       // when
       const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[badges][]="truc"');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a stage filter which is not an array', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages]=114');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 with a stage filter which is not a number', async () => {
+      // when
+      const result = await httpTestServer.request('GET', '/api/campaigns/1/assessment-participations?filter[stages][]="truc"');
 
       // then
       expect(result.statusCode).to.equal(400);
