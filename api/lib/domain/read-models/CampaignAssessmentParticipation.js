@@ -3,6 +3,7 @@ const Assessment = require('../models/Assessment');
 class CampaignAssessmentParticipation {
 
   constructor({
+    userId,
     firstName,
     lastName,
     campaignParticipationId,
@@ -17,6 +18,7 @@ class CampaignAssessmentParticipation {
     testedSkillsCount,
     badges = [],
   }) {
+    this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.campaignParticipationId = campaignParticipationId;
