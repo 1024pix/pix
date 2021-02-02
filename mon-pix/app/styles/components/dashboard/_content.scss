@@ -1,10 +1,6 @@
 .dashboard-content {
   padding: 40px 20px;
 
-  @include device-is('desktop') {
-    padding: 40px 0;
-  }
-
   &__section {
     border-bottom: 1px solid $grey-20;
     padding: 20px 0 40px;
