@@ -99,8 +99,20 @@
   }
 
   &__progress-bar {
-    margin-top: 14px;
-    margin-right: 20px;
+    margin: 16px 16px 0 16px;
+  }
+
+  &__stages {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding-left: 16px;
+    border-left: 1px solid $grey-20;
+
+    .pix-stars svg {
+      width: 26px;
+      height: 26px;
+    }
   }
 }
 
