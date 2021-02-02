@@ -4,13 +4,13 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    max-width: 980px;
+    max-width: 1280px;
     padding: 18px 16px;
     width: 100%;
 
     @include device-is('desktop') {
       flex-direction: row;
-      padding: 18px 0 48px;
+      padding: 18px 20px 48px 20px;
     }
   }
 }
