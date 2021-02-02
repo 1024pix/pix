@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.13.0 (02/02/2021)
+
+- [#2487](https://github.com/1024pix/pix/pull/2487) [FEATURE] Passage du header, footer et TDB en 1280px (PIX-1994). 
+- [#2485](https://github.com/1024pix/pix/pull/2485) [FEATURE] Préparer l'affichage de la liste des sessions publiables (a.k.a "Sans problèmes") (PIX-2094)
+- [#2483](https://github.com/1024pix/pix/pull/2483) [FEATURE] Redirige vers le dashboard quand la feature est activée (PIX-1751).
+- [#2482](https://github.com/1024pix/pix/pull/2482) [FEATURE] Rediriger vers la page par défaut de Pix App lorsqu'un utilisateur saisis /mes-parcours dans l'url et n'a pas de parcours (PIX-2007).
+- [#2494](https://github.com/1024pix/pix/pull/2494) [BUGFIX] Fix les notifications lors de la publication de session dans pix-certif (PIX-2096)
+- [#2442](https://github.com/1024pix/pix/pull/2442) [BUGFIX] Empêcher les suggestions de navigateurs sur les champs de saisie (1834)
+- [#2490](https://github.com/1024pix/pix/pull/2490) [TECH] Installer la même version de node en local que dans la CI.
+- [#2493](https://github.com/1024pix/pix/pull/2493) [TECH] Update Hapi dependencies after Joi upgrade
+- [#2472](https://github.com/1024pix/pix/pull/2472) [TECH] Supprimer les colonnes inutilisées dans users (PIX-1711 PIX-1833).
+- [#2484](https://github.com/1024pix/pix/pull/2484) [TEST] Création de la brique de test de l'algo (PIX-2060).
+
 ## v3.12.0 (01/02/2021)
 
 - [#2439](https://github.com/1024pix/pix/pull/2439) [FEATURE] Enregistrer la date de l'envoi des résultats lors de l'envoi automatique (PIX-1339)
