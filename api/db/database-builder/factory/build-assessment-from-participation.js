@@ -7,5 +7,5 @@ module.exports = function buildAssessmentFromParticipation(campaignParticipation
   const participantId = buildUser({ ...participant }).id;
   const campaignParticipationId = buildCampaignParticipation({ ...campaignParticipation, userId: participantId }).id;
 
-  return buildAssessment({ userId: participant.id, campaignParticipationId: campaignParticipationId });
+  return buildAssessment({ userId: participantId, campaignParticipationId: campaignParticipationId });
 };
