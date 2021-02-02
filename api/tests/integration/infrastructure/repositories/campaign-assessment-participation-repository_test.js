@@ -66,6 +66,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           validatedSkillsCount: 0,
           masteryPercentage: 0,
           progression: 100,
+          badges: [],
         };
 
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
