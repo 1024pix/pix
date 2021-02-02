@@ -3,6 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupApplicationTest } from 'ember-mocha';
 import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import ENV from 'mon-pix/config/environment';
 
 import visit from '../helpers/visit';
 import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
@@ -13,9 +14,13 @@ describe('Acceptance | Authentication', function() {
   setupMirage();
 
   let user;
+  const CURRENT_FT_DASHBOARD = ENV.APP.FT_DASHBOARD;
 
   beforeEach(function() {
     user = server.create('user', 'withEmail');
+  });
+  afterEach(() => {
+    ENV.APP.FT_DASHBOARD = CURRENT_FT_DASHBOARD;
   });
 
   describe('Success cases', function() {
@@ -39,6 +44,18 @@ describe('Acceptance | Authentication', function() {
 
         // then
         expect(currentURL()).to.equal('/profil');
+      });
+
+      context('when dashboard is on', function() {
+        it('should redirect to the /accueil after connexion', async function() {
+          // given
+          ENV.APP.FT_DASHBOARD = true;
+
+          await authenticateByEmail(user);
+
+          // then
+          expect(currentURL()).to.equal('/accueil');
+        });
       });
     });
   });
