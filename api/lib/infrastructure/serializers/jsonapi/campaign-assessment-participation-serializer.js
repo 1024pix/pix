@@ -17,9 +17,15 @@ module.exports = {
         'validatedSkillsCount',
         'masteryPercentage',
         'progression',
+        'badges',
         'campaignAssessmentParticipationResult',
         'campaignAnalysis',
       ],
+      badges: {
+        ref: 'id',
+        included: true,
+        attributes: ['title', 'altMessage', 'imageUrl'],
+      },
       campaignAssessmentParticipationResult: {
         ref: 'id',
         ignoreRelationshipData: true,
