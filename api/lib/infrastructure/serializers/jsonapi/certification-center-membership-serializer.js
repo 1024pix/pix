@@ -8,7 +8,7 @@ module.exports = {
         record.certificationCenter.sessions = [];
         return record;
       },
-      attributes: ['certificationCenter'],
+      attributes: ['createdAt', 'certificationCenter', 'user'],
       certificationCenter: {
         ref: 'id',
         included: true,
@@ -22,6 +22,11 @@ module.exports = {
             },
           },
         },
+      },
+      user: {
+        ref: 'id',
+        included: true,
+        attributes: ['firstName', 'lastName', 'email'],
       },
     }).serialize(certificationCenterMemberships);
   },
