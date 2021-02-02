@@ -84,7 +84,7 @@ describe('Integration | Component | QROCm proposal', function() {
           await render(hbs`<QrocmProposal @proposals={{this.proposals}} @format={{this.format}} @answerValue={{this.answerValue}} />`);
 
           // then
-          expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('off');
+          expect(find(`${data.cssClass}`).getAttribute('autocomplete')).to.equal('nope');
         });
       });
     });

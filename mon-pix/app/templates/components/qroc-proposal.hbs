@@ -11,9 +11,9 @@
                   rows="5"
                   id="qroc_input"
                   {{on 'keydown' this.onInputChange}}
-                  name={{block.input}}
+                  name={{block.randomName}}
                   placeholder={{block.placeholder}}
-                  autocomplete="off"
+                  autocomplete="nope"
                   value="{{this.userAnswer}}"
                   data-uid="qroc-proposal-uid"
                   disabled={{if @answer true}}>
@@ -23,9 +23,9 @@
                type="text"
                id="qroc_input"
                {{on 'keydown' this.onInputChange}}
-               name={{block.input}}
+               name={{block.randomName}}
                placeholder={{block.placeholder}}
-               autocomplete="off"
+               autocomplete="nope"
                value="{{this.userAnswer}}"
                data-uid="qroc-proposal-uid"
                disabled={{if @answer true}}>
@@ -34,9 +34,9 @@
                type="number"
                id="qroc_input"
                {{on 'keydown' this.onInputChange}}
-               name={{block.input}}
+               name={{block.randomName}}
                placeholder={{block.placeholder}}
-               autocomplete="off"
+               autocomplete="nope"
                value="{{this.userAnswer}}"
                data-uid="qroc-proposal-uid"
                disabled={{if @answer true}}>
@@ -46,9 +46,9 @@
                type="text"
                id="qroc_input"
                {{on 'keydown' this.onInputChange}}
-               name={{block.input}}
+               name={{block.randomName}}
                placeholder={{block.placeholder}}
-               autocomplete="off"
+               autocomplete="nope"
                value="{{this.userAnswer}}"
                data-uid="qroc-proposal-uid"
                disabled={{if @answer true}}>
