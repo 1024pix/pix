@@ -44,5 +44,23 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessments', funct
         assert.deepEqual(controller.divisions, ['division1']);
       });
     });
+
+    module('stage filter', function() {
+      test('update the stage filter', function(assert) {
+        // given
+        controller.triggerFiltering({ stages: ['stage1'] });
+        // then
+        assert.deepEqual(controller.stages, ['stage1']);
+      });
+
+      test('should keep other filters when is stage updated', function(assert) {
+        // when
+        controller.set('divisions', ['division1']);
+        // given
+        controller.triggerFiltering({ stages: ['stage1'] });
+        // then
+        assert.deepEqual(controller.divisions, ['division1']);
+      });
+    });
   });
 });

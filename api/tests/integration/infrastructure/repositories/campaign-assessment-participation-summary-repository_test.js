@@ -416,5 +416,62 @@ describe('Integration | Repository | Campaign Assessment Participation Summary',
         expect(participantExternalIds).to.exactlyContain(['The good']);
       });
     });
+
+    context('when there is a filter on validated skills count', () => {
+      it('returns participants which have validated skill count between one boundary', async () => {
+        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 10, participantExternalId: 'The good', campaignId: campaign.id }, { id: 1 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 20, participantExternalId: 'The bad', campaignId: campaign.id }, { id: 2 });
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignAssessmentParticipationSummaries } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { validatedSkillBoundaries: [{ from: 0, to: 15 }] },
+        });
+
+        const participantExternalIds = campaignAssessmentParticipationSummaries.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['The good']);
+      });
+
+      it('returns participants which have validated skill count between several boundaries', async () => {
+        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 10, participantExternalId: 'The good', campaignId: campaign.id }, { id: 1 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 20, participantExternalId: 'The bad', campaignId: campaign.id }, { id: 2 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 30, participantExternalId: 'The ugly', campaignId: campaign.id }, { id: 3 });
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignAssessmentParticipationSummaries } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { validatedSkillBoundaries: [{ from: 0, to: 15 }, { from: 15, to: 25 }] },
+        });
+
+        const participantExternalIds = campaignAssessmentParticipationSummaries.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['The good', 'The bad']);
+      });
+
+      it('"from" and "to" boundaries must be inclusive', async () => {
+        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 10, participantExternalId: 'The good', campaignId: campaign.id }, { id: 1 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 20, participantExternalId: 'The bad', campaignId: campaign.id }, { id: 2 });
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignAssessmentParticipationSummaries } = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { validatedSkillBoundaries: [{ from: 10, to: 20 }] },
+        });
+
+        const participantExternalIds = campaignAssessmentParticipationSummaries.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['The good', 'The bad']);
+      });
+    });
   });
 });

@@ -16,6 +16,9 @@ export default class AssessmentsRoute extends Route {
     badges: {
       refreshModel: true,
     },
+    stages: {
+      refreshModel: true,
+    },
   };
 
   @action
@@ -42,6 +45,7 @@ export default class AssessmentsRoute extends Route {
       filter: {
         divisions: params.divisions,
         badges: params.badges,
+        stages: params.stages,
       },
       campaignId: params.campaignId,
     });
@@ -53,6 +57,7 @@ export default class AssessmentsRoute extends Route {
       controller.pageSize = 10;
       controller.divisions = [];
       controller.badges = [];
+      controller.stages = [];
     }
   }
 }

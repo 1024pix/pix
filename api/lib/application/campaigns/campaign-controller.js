@@ -144,6 +144,9 @@ module.exports = {
     if (filters.badges && !Array.isArray(filters.badges)) {
       filters.badges = [filters.badges];
     }
+    if (filters.stages && !Array.isArray(filters.stages)) {
+      filters.stages = [filters.stages];
+    }
     const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
     const campaignAssessmentParticipationSummariesPaginated = await usecases.findPaginatedCampaignAssessmentParticipationSummaries({ userId: currentUserId, campaignId, page, filters });
     return campaignAssessmentParticipationSummarySerializer.serializeForPaginatedList(campaignAssessmentParticipationSummariesPaginated);

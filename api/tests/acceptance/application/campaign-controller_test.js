@@ -700,16 +700,14 @@ describe('Acceptance | API | Campaign Controller', () => {
 
       databaseBuilder.factory.buildMembership({ userId, organizationId: organization.id });
 
+      const skill = { id: 'Skill1', name: '@Acquis1', challenges: [] };
       const learningContent = [{
         id: 'recArea1',
         competences: [{
           id: 'recCompetence1',
           tubes: [{
             id: 'recTube1',
-            skills: [{
-              id: 'skill1',
-              challenges: [],
-            }],
+            skills: [skill],
           }],
         }],
       }];
@@ -717,7 +715,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
 
-      campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [learningContent]);
+      campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId: organization.id }, [skill]);
 
       const campaignParticipation = {
         participantExternalId: 'Die Hard',

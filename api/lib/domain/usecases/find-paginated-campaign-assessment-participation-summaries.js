@@ -8,9 +8,13 @@ module.exports = async function findPaginatedCampaignAssessmentParticipationSumm
   campaignRepository,
   campaignAssessmentParticipationSummaryRepository,
   badgeAcquisitionRepository,
+  targetProfileWithLearningContentRepository,
 }) {
 
   await _checkUserAccessToCampaign(campaignId, userId, campaignRepository);
+
+  const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+  filters.validatedSkillBoundaries = targetProfile.getSkillsCountBoundariesFromStages(filters.stages);
 
   const paginatedParticipations = await campaignAssessmentParticipationSummaryRepository.findPaginatedByCampaignId({ page, campaignId, filters });
 
