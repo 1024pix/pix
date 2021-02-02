@@ -1,5 +1,5 @@
 const { sinon, expect } = require('../../../test-helper');
-const campaignParticipationResultController = require('../../../../lib/application/campaignParticipationResults/campaign-participation-result-controller');
+const campaignParticipationResultController = require('../../../../lib/application/campaign-participation-results/campaign-participation-result-controller');
 const campaignParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-result-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 
