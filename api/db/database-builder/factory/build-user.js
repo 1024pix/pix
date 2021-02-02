@@ -76,8 +76,6 @@ const buildUser = function buildUser({
     hasSeenNewDashboardInfo,
     hasSeenNewLevelInfo, isAnonymous,
     createdAt, updatedAt,
-    password: '',
-    shouldChangePassword: false,
   };
 
   return databaseBuffer.pushInsertable({
@@ -101,7 +99,6 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   hasSeenAssessmentInstructions = false,
   createdAt = new Date(),
   updatedAt = new Date(),
-
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
@@ -112,8 +109,6 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    password: '',
-    shouldChangePassword: false,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -157,8 +152,6 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
     lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    password: '',
-    shouldChangePassword: false,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -192,10 +185,8 @@ buildUser.withMembership = function buildUserWithMemberships({
   hasSeenAssessmentInstructions = false,
   createdAt = new Date(),
   updatedAt = new Date(),
-
   organizationRole = Membership.roles.ADMIN,
   organizationId = null,
-
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
@@ -206,8 +197,6 @@ buildUser.withMembership = function buildUserWithMemberships({
     lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    password: '',
-    shouldChangePassword: false,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -249,7 +238,6 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   hasSeenNewLevelInfo = false,
   createdAt = new Date(),
   updatedAt = new Date(),
-
   certificationCenterId = null,
 } = {}) {
 
