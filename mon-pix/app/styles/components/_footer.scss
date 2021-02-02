@@ -10,7 +10,7 @@
 
     @include device-is('desktop') {
       flex-direction: row;
-      padding: 18px 0 48px;
+      padding: 18px 20px 48px 20px;
     }
   }
 }
