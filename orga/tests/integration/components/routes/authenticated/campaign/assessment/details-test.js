@@ -206,6 +206,48 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
           assert.contains('65%');
         });
       });
+
+      module('when the campaign has badges', function() {
+        test('it displays badges acquired', async function(assert) {
+          const campaign = { hasBadges: true };
+          const campaignAssessmentParticipation = { isShared: true, badges: [{ id: 1, title: 'Les bases' }] };
+
+          this.campaignAssessmentParticipation = campaignAssessmentParticipation;
+          this.campaign = campaign;
+
+          await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
+
+          assert.dom('[aria-label="Résultats Thématiques"]').containsText('Les bases');
+        });
+      });
+
+      module('when the campaign has not badges', function() {
+        test('it does not display badges acquired', async function(assert) {
+          const campaign = { hasBadges: false };
+          const campaignAssessmentParticipation = { isShared: true, badges: [{ id: 1, title: 'Les bases' }] };
+
+          this.campaignAssessmentParticipation = campaignAssessmentParticipation;
+          this.campaign = campaign;
+
+          await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
+
+          assert.dom('[aria-label="Résultats Thématiques"]').doesNotExist();
+        });
+      });
+
+      module('when the campaign has badges but the participant has not acquired one', function() {
+        test('it does not display badges', async function(assert) {
+          const campaign = { hasBadges: true };
+          const campaignAssessmentParticipation = { isShared: true, badges: [] };
+
+          this.campaignAssessmentParticipation = campaignAssessmentParticipation;
+          this.campaign = campaign;
+
+          await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
+
+          assert.dom('[aria-label="Résultats Thématiques"]').doesNotExist();
+        });
+      });
     });
 
     module('when the participation is not shared', function() {

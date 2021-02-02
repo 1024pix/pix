@@ -1,10 +1,11 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getCampaignAssessmentParticipation = require('../../../../lib/domain/usecases/get-campaign-assessment-participation');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 
 describe('Unit | UseCase | get-campaign-assessment-participation', () => {
 
-  let campaignRepository, campaignAssessmentParticipationRepository;
+  let campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository;
   let userId, campaignId, campaignParticipationId;
 
   beforeEach(() => {
@@ -13,6 +14,9 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
     };
     campaignAssessmentParticipationRepository = {
       getByCampaignIdAndCampaignParticipationId: sinon.stub(),
+    };
+    badgeAcquisitionRepository = {
+      getCampaignAcquiredBadgesByUsers: sinon.stub(),
     };
   });
 
@@ -27,14 +31,31 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
 
     it('should get the campaignAssessmentParticipation', async () => {
       // given
-      const expectedResult = Symbol('Result');
-      campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId.withArgs({ campaignId, campaignParticipationId }).resolves(expectedResult);
+      const participantId = domainBuilder.buildUser().id;
+      const campaignAssessmentParticipation = new CampaignAssessmentParticipation({ userId: participantId });
+      campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId.withArgs({ campaignId, campaignParticipationId }).resolves(campaignAssessmentParticipation);
+      badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers.withArgs({ campaignId, userIds: [participantId] }).resolves({});
 
       // when
-      const result = await getCampaignAssessmentParticipation({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository });
+      const result = await getCampaignAssessmentParticipation({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository });
 
       // then
-      expect(result).to.equal(expectedResult);
+      expect(result).to.equal(campaignAssessmentParticipation);
+    });
+
+    it('should set badges', async () => {
+      // given
+      const badges = Symbol('badges');
+      const participantId = domainBuilder.buildUser().id;
+      const campaignAssessmentParticipation = new CampaignAssessmentParticipation({ userId: participantId });
+      campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId.withArgs({ campaignId, campaignParticipationId }).resolves(campaignAssessmentParticipation);
+      badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers.withArgs({ campaignId, userIds: [participantId] }).resolves({ [participantId]: badges });
+
+      // when
+      const result = await getCampaignAssessmentParticipation({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository });
+
+      // then
+      expect(result.badges).to.equal(badges);
     });
   });
 
@@ -48,7 +69,7 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
 
     it('should throw UserNotAuthorizedToAccessEntity', async () => {
       // when
-      const result = await catchErr(getCampaignAssessmentParticipation)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository });
+      const result = await catchErr(getCampaignAssessmentParticipation)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository });
 
       // then
       expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
