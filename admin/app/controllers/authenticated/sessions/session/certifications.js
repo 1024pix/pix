@@ -63,9 +63,8 @@ export default class ListController extends Controller {
       await this.forceRefreshModelFromBackend();
     }
 
-    const isPublished = this.model.isPublished;
     await this.model.juryCertificationSummaries.reload();
-    if (isPublished) {
+    if (this.model.isPublished) {
       this.notifications.success('Les certifications ont été correctement publiées.');
     }
     this.hideConfirmationModal();
