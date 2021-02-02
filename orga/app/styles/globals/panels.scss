@@ -64,7 +64,6 @@
     align-content: center;
     background-color: $grey-10;
     border-radius: 8px;
-    padding: 0 16px;
   }
 }
 
@@ -98,7 +97,7 @@
     display: flex;
     align-items: center;
     height: 32px;
-    padding-right: 16px;
+    padding: 0 16px;
     border-right: 1px solid $grey-20;
 
     img {
@@ -118,20 +117,24 @@
   }
 
   &__progress-bar {
-    margin: 16px 16px 0 16px;
+    padding: 16px 16px 0 16px;
   }
 
   &__stages {
     display: flex;
     align-items: center;
     height: 32px;
-    padding-left: 16px;
+    padding: 0 16px;
     border-left: 1px solid $grey-20;
 
     .pix-stars svg {
       width: 26px;
       height: 26px;
     }
+  }
+
+  &__mastery-percentage {
+    padding-right: 16px;
   }
 }
 
