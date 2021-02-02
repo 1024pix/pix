@@ -1,0 +1,9 @@
+{{#each @badges as |badge|}}
+  <PixTooltip
+    @text={{badge.title}}
+    @position='bottom'
+    @isInline={{true}}
+  >
+    <img src={{badge.imageUrl}} alt={{badge.altMessage}} />
+  </PixTooltip>
+{{/each}}
