@@ -1,6 +1,6 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
-const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
+const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const events = require('../../../../lib/domain/events');

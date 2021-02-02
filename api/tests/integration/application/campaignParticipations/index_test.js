@@ -4,9 +4,9 @@ const {
   HttpTestServer,
 } = require('../../../test-helper');
 
-const moduleUnderTest = require('../../../../lib/application/campaignParticipations');
+const moduleUnderTest = require('../../../../lib/application/campaign-participations');
 
-const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
+const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
 
 describe('Integration | Application | Route | campaignParticipationRouter', () => {
 
