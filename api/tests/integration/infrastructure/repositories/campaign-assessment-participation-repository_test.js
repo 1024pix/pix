@@ -13,7 +13,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    let campaignId, campaignParticipationId;
+    let campaignId, campaignParticipationId, userId;
 
     context('When there is an assessment for another campaign and another participation', () => {
       const participant = {
@@ -32,10 +32,12 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         mockLearningContent({ skills: [skill1, skill2] });
         campaignId = databaseBuilder.factory.buildAssessmentCampaign({}).id;
 
-        campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
+        const assessment = databaseBuilder.factory.buildAssessmentFromParticipation({
           ...participation,
           campaignId,
-        }, participant).campaignParticipationId;
+        }, participant);
+        campaignParticipationId = assessment.campaignParticipationId;
+        userId = assessment.userId;
 
         databaseBuilder.factory.buildAssessmentFromParticipation({
           campaignId,
@@ -60,12 +62,14 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         const expectedResult = {
           ...participant,
           ...participation,
+          userId,
           campaignId,
           campaignParticipationId,
           targetedSkillsCount: 0,
           validatedSkillsCount: 0,
           masteryPercentage: 0,
           progression: 100,
+          badges: [],
         };
 
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });

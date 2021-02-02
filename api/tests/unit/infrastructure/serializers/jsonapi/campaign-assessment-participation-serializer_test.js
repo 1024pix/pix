@@ -10,63 +10,145 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
     let modelCampaignAssessmentParticipation;
     let expectedJsonApi;
 
-    beforeEach(() => {
-      const createdAt = new Date('2020-01-01');
-      const sharedAt = new Date('2020-01-02');
-      expectedJsonApi = {
-        data: {
-          type: 'campaign-assessment-participations',
-          id: '1',
-          attributes: {
-            'first-name': 'someFirstName',
-            'last-name': 'someLastName',
-            'participant-external-id': 'someParticipantExternalId',
-            'campaign-id': 2,
-            'created-at': createdAt,
-            'is-shared': true,
-            'shared-at': sharedAt,
-            'targeted-skills-count': 20,
-            'validated-skills-count': 7,
-            'mastery-percentage': 35,
-            'progression': 100,
-          },
-          relationships: {
-            'campaign-analysis': {
-              links: {
-                related: '/api/campaign-participations/1/analyses',
+    describe('with badges', function() {
+      beforeEach(() => {
+        const createdAt = new Date('2020-01-01');
+        const sharedAt = new Date('2020-01-02');
+        expectedJsonApi = {
+          data: {
+            type: 'campaign-assessment-participations',
+            id: '1',
+            attributes: {
+              'first-name': 'someFirstName',
+              'last-name': 'someLastName',
+              'participant-external-id': 'someParticipantExternalId',
+              'campaign-id': 2,
+              'created-at': createdAt,
+              'is-shared': true,
+              'shared-at': sharedAt,
+              'targeted-skills-count': 20,
+              'validated-skills-count': 7,
+              'mastery-percentage': 35,
+              'progression': 100,
+            },
+            relationships: {
+              'badges': {
+                data: [{
+                  id: '1',
+                  type: 'badges',
+                }],
+              },
+              'campaign-analysis': {
+                links: {
+                  related: '/api/campaign-participations/1/analyses',
+                },
+              },
+              'campaign-assessment-participation-result': {
+                links: {
+                  'related': '/api/campaigns/2/assessment-participations/1/results',
+                },
               },
             },
-            'campaign-assessment-participation-result': {
-              links: {
-                'related': '/api/campaigns/2/assessment-participations/1/results',
-              },
-            },
           },
-        },
-      };
+          included: [{
+            id: '1',
+            type: 'badges',
+            attributes: {
+              'alt-message': 'someAltMessage',
+              'image-url': 'someImageUrl',
+              title: 'someTitle',
+            },
+          }],
+        };
 
-      modelCampaignAssessmentParticipation = new CampaignAssessmentParticipation({
-        campaignParticipationId: 1,
-        campaignId: 2,
-        firstName: 'someFirstName',
-        lastName: 'someLastName',
-        participantExternalId: 'someParticipantExternalId',
-        assessementState: Assessment.states.COMPLETED,
-        createdAt,
-        isShared: true,
-        sharedAt,
-        targetedSkillsCount: 20,
-        validatedSkillsCount: 7,
-        testedSkillsCount: 3,
+        modelCampaignAssessmentParticipation = new CampaignAssessmentParticipation({
+          campaignParticipationId: 1,
+          campaignId: 2,
+          firstName: 'someFirstName',
+          lastName: 'someLastName',
+          participantExternalId: 'someParticipantExternalId',
+          assessementState: Assessment.states.COMPLETED,
+          createdAt,
+          isShared: true,
+          sharedAt,
+          targetedSkillsCount: 20,
+          validatedSkillsCount: 7,
+          testedSkillsCount: 3,
+          badges: [{ id: 1, title: 'someTitle', altMessage: 'someAltMessage', imageUrl: 'someImageUrl' }],
+        });
+      });
+
+      it('should convert a CampaignAssessmentParticipation model object into JSON API data', function() {
+        // when
+        const json = serializer.serialize(modelCampaignAssessmentParticipation);
+
+        // then
+        expect(json).to.deep.equal(expectedJsonApi);
       });
     });
 
-    it('should convert a CampaignAssessmentParticipation model object into JSON API data', function() {
-      // when
-      const json = serializer.serialize(modelCampaignAssessmentParticipation);
+    describe('without badges', function() {
+      beforeEach(() => {
+        const createdAt = new Date('2020-01-01');
+        const sharedAt = new Date('2020-01-02');
+        expectedJsonApi = {
+          data: {
+            type: 'campaign-assessment-participations',
+            id: '1',
+            attributes: {
+              'first-name': 'someFirstName',
+              'last-name': 'someLastName',
+              'participant-external-id': 'someParticipantExternalId',
+              'campaign-id': 2,
+              'created-at': createdAt,
+              'is-shared': true,
+              'shared-at': sharedAt,
+              'targeted-skills-count': 20,
+              'validated-skills-count': 7,
+              'mastery-percentage': 35,
+              'progression': 100,
+            },
+            relationships: {
+              'badges': {
+                data: [],
+              },
+              'campaign-analysis': {
+                links: {
+                  related: '/api/campaign-participations/1/analyses',
+                },
+              },
+              'campaign-assessment-participation-result': {
+                links: {
+                  'related': '/api/campaigns/2/assessment-participations/1/results',
+                },
+              },
+            },
+          },
+        };
 
-      // then
-      expect(json).to.deep.equal(expectedJsonApi);
+        modelCampaignAssessmentParticipation = new CampaignAssessmentParticipation({
+          campaignParticipationId: 1,
+          campaignId: 2,
+          firstName: 'someFirstName',
+          lastName: 'someLastName',
+          participantExternalId: 'someParticipantExternalId',
+          assessementState: Assessment.states.COMPLETED,
+          createdAt,
+          isShared: true,
+          sharedAt,
+          targetedSkillsCount: 20,
+          validatedSkillsCount: 7,
+          testedSkillsCount: 3,
+        });
+      });
+
+      it('should convert a CampaignAssessmentParticipation model object into JSON API data', function() {
+        // when
+        const json = serializer.serialize(modelCampaignAssessmentParticipation);
+
+        // then
+        expect(json).to.deep.equal(expectedJsonApi);
+      });
     });
   });
 });

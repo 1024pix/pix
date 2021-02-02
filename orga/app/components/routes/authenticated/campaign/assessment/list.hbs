@@ -59,18 +59,9 @@
               {{/if}}
             </td>
             {{#if @campaign.hasBadges}}
-              <td>
+              <td class="participant-list__badges">
                 {{#if participation.isShared}}
-                  {{#each participation.badges as |badge|}}
-                    <PixTooltip
-                      @text={{badge.title}}
-                      @position='bottom'
-                      @isInline={{true}}
-                      class="participant-list__tooltip"
-                    >
-                      <img src={{badge.imageUrl}} alt={{badge.altMessage}} class="participant-list__badge" />
-                    </PixTooltip>
-                  {{/each}}
+                  <Badges @badges={{participation.badges}} />
                 {{/if}}
               </td>
             {{/if}}

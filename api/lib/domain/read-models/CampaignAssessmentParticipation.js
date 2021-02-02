@@ -3,6 +3,7 @@ const Assessment = require('../models/Assessment');
 class CampaignAssessmentParticipation {
 
   constructor({
+    userId,
     firstName,
     lastName,
     campaignParticipationId,
@@ -15,7 +16,9 @@ class CampaignAssessmentParticipation {
     targetedSkillsCount,
     validatedSkillsCount,
     testedSkillsCount,
+    badges = [],
   }) {
+    this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.campaignParticipationId = campaignParticipationId;
@@ -26,6 +29,7 @@ class CampaignAssessmentParticipation {
     this.createdAt = createdAt;
     this.targetedSkillsCount = targetedSkillsCount;
     this.progression = this._computeProgression(assessementState, testedSkillsCount);
+    this.badges = badges;
 
     if (this.isShared) {
       this.validatedSkillsCount = validatedSkillsCount;
@@ -44,6 +48,10 @@ class CampaignAssessmentParticipation {
   _computeProgression(assessementState, testedSkillsCount) {
     if (assessementState === Assessment.states.COMPLETED) return 100;
     return Math.round(testedSkillsCount * 100 / this.targetedSkillsCount);
+  }
+
+  setBadges(badges) {
+    this.badges = badges;
   }
 }
 
