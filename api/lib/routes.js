@@ -5,7 +5,7 @@ module.exports = [
   require('./application/authentication'),
   require('./application/cache'),
   require('./application/campaign-participation-results'),
-  require('./application/campaignParticipations'),
+  require('./application/campaign-participations'),
   require('./application/campaigns'),
   require('./application/certification-center-memberships'),
   require('./application/certification-centers'),
