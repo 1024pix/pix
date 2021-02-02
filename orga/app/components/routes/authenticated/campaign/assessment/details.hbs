@@ -54,8 +54,13 @@
                 {{@campaignAssessmentParticipation.validatedSkillsCount}} / {{@campaignAssessmentParticipation.targetedSkillsCount}} ACQUIS
               </ProgressBar>
             </div>
-            <div class="value-text value-text--highlight">{{@campaignAssessmentParticipation.masteryPercentage}}%
-            </div>
+            {{#if @campaign.hasStages}}
+              <div aria-label="Paliers" class="panel-header-data-content__stages">
+                <StageStars @result={{@campaignAssessmentParticipation.masteryPercentage}} @stages={{@campaign.stages}}/>
+              </div>
+            {{else}}
+              <div class="value-text value-text--highlight">{{@campaignAssessmentParticipation.masteryPercentage}}%</div>
+            {{/if}}
           </li>
         </ul>
       {{/if}}

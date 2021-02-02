@@ -152,22 +152,6 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
 
   module('results information', function() {
     module('when the participation is shared', function() {
-      test('it displays campaign participation mastery percentage', async function(assert) {
-        const campaignAssessmentParticipation = {
-          masteryPercentage: 65,
-          isShared: true,
-        };
-
-        const campaign = {};
-
-        this.campaignAssessmentParticipation = campaignAssessmentParticipation;
-        this.campaign = campaign;
-
-        await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
-
-        assert.contains('65%');
-      });
-
       test('it displays campaign participation details of mastery percentage (validated skills over total skills)', async function(assert) {
         const campaignAssessmentParticipation = {
           validatedSkillsCount: 45,
@@ -183,6 +167,44 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
         await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
 
         assert.dom('[aria-label="Résultat"]').containsText('45 / 50 ACQUIS');
+      });
+
+      module('when the campaign has stages', function() {
+        test('it displays stages acquired', async function(assert) {
+          const campaign = {
+            hasStages: true,
+            stages: [{ threshold: 20 }, { threshold: 70 }],
+          };
+          const campaignAssessmentParticipation = {
+            masteryPercentage: 65,
+            isShared: true,
+          };
+
+          this.campaignAssessmentParticipation = campaignAssessmentParticipation;
+          this.campaign = campaign;
+
+          await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
+
+          assert.dom('[aria-label="Paliers"]').containsText('1 étoiles sur 2');
+        });
+      });
+
+      module('when the campaign has no stages', function() {
+        test('it displays campaign participation mastery percentage', async function(assert) {
+          const campaignAssessmentParticipation = {
+            masteryPercentage: 65,
+            isShared: true,
+          };
+
+          const campaign = {};
+
+          this.campaignAssessmentParticipation = campaignAssessmentParticipation;
+          this.campaign = campaign;
+
+          await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
+
+          assert.contains('65%');
+        });
       });
     });
 
