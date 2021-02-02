@@ -2,6 +2,7 @@ const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
 const sessionValidator = require('../../domain/validators/session-validator');
+const events = require('../../domain/events');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const jurySessionSerializer = require('../../infrastructure/serializers/jsonapi/jury-session-serializer');
@@ -206,7 +207,9 @@ module.exports = {
         .map((data) => certificationReportSerializer.deserialize({ data })),
     );
 
-    const session = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationReports });
+    const event = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationReports });
+    await events.eventDispatcher.dispatch(event);
+    const session = await usecases.getSession({ sessionId });
 
     return sessionSerializer.serializeForFinalization(session);
   },
