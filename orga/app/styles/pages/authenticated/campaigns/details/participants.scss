@@ -22,12 +22,14 @@
     font-size: 0.875rem;
   }
 
-  &__badge {
-    height: 40px;
-  }
+  &__badges {
+    .pix-tooltip {
+      display: inline-block;
+    }
 
-  &__tooltip {
-    display: inline-block;
+    img {
+      height: 40px;
+    }
   }
 }
 
