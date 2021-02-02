@@ -1,6 +1,5 @@
 const some = require('lodash/some');
 const every = require('lodash/every');
-const { statuses: juryCertificationSummaryStatuses } = require('../read-models/JuryCertificationSummary');
 
 module.exports = class FinalizedSession {
   constructor({
@@ -36,25 +35,22 @@ module.exports = class FinalizedSession {
       sessionTime,
       isPublishable: !hasExaminerGlobalComment
         && _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries)
-        && _hasNoStartedOrErrorAssessmentResults(juryCertificationSummaries)
+        && _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries)
         && _hasExaminerSeenAllEndScreens(juryCertificationSummaries),
     });
   }
 };
 
 function _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) {
-  return !some(
-    juryCertificationSummaries.flatMap((summary) => summary.certificationIssueReports),
-    (issueReport) => issueReport.isActionRequired,
-  );
+  return !juryCertificationSummaries.some((summary) => summary.isActionRequired());
 }
 
-function _hasNoStartedOrErrorAssessmentResults(juryCertificationSummaries) {
+function _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries) {
   return !some(
     juryCertificationSummaries,
     (summary) => {
-      return summary.status === juryCertificationSummaryStatuses.ERROR
-        || summary.status === juryCertificationSummaryStatuses.STARTED;
+      return summary.hasScoringError()
+        || !summary.hasCompletedAssessment();
     },
   );
 }
