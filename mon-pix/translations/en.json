@@ -509,6 +509,9 @@
                 "you-have-reached-level": "You reached"
             }
         },
+        "competences": {
+            "title": "Skills"
+        },
         "dashboard": {
             "title": "Homepage",
             "campaigns": {
