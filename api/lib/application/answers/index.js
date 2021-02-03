@@ -1,4 +1,7 @@
+const Joi = require('joi');
 const answerController = require('./answer-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
+const { NotFoundError } = require('../../domain/errors');
 
 exports.register = async function(server) {
   server.route([
@@ -20,6 +23,11 @@ exports.register = async function(server) {
       path: '/api/answers/{id}',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.answerId,
+          }),
+        },
         handler: answerController.get,
         tags: ['api', 'answers'],
         notes: [
@@ -33,6 +41,11 @@ exports.register = async function(server) {
       path: '/api/answers/{id}',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.answerId,
+          }),
+        },
         handler: answerController.update,
         tags: ['api', 'answers'],
         notes: [
@@ -59,6 +72,14 @@ exports.register = async function(server) {
       path: '/api/answers/{id}/correction',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.answerId,
+          }),
+          failAction: (request) => {
+            throw new NotFoundError(`Not found correction for answer of ID ${request.params.id}`);
+          },
+        },
         handler: answerController.getCorrection,
         tags: ['api', 'answers'],
         notes: [

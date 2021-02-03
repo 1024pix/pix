@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const securityPreHandlers = require('../security-pre-handlers');
 const certificationPointOfContactController = require('./certification-point-of-contact-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -11,7 +12,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            userId: Joi.number().required(),
+            userId: identifiersType.certificationCenterMembershipId,
           }),
         },
         pre: [{

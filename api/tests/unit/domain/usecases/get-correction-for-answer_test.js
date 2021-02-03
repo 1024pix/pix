@@ -151,25 +151,4 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
     });
   });
 
-  context('when provided answer id is not an integer', () => {
-
-    it('should throw a NotFound error', async () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ state: 'completed' });
-      assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
-
-      // when
-      const error = await catchErr(getCorrectionForAnswer)({
-        assessmentRepository,
-        answerRepository,
-        correctionRepository,
-        answerId: 'not an integer id',
-        userId: assessment.userId,
-      });
-
-      // then
-      return expect(error).to.be.instanceOf(NotFoundError);
-    });
-  });
-
 });
