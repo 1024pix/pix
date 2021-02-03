@@ -30,8 +30,10 @@ function _findByUserId({ userId }) {
       createdAt: 'campaign-participations.createdAt',
       isShared: 'campaign-participations.isShared',
       sharedAt: 'campaign-participations.sharedAt',
+      validatedSkillsCount: 'campaign-participations.validatedSkillsCount',
       campaignCode: 'campaigns.code',
       campaignTitle: 'campaigns.title',
+      targetProfileId: 'campaigns.targetProfileId',
       organizationName: 'organizations.name',
       assessmentState: 'assessments.state',
     })

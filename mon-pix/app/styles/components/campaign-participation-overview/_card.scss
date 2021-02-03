@@ -15,6 +15,24 @@
     letter-spacing: 0.009rem;
     width: 100%;
   }
+}
+
+.campaign-participation-overview-card-content {
+  width: 100%;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 50px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    background-color: $grey-10;
+    font-size: 1.125rem;
+    font-weight: $font-medium;
+    color: $grey-60
+  }
 
   &__action {
     padding: 11px 16px;
