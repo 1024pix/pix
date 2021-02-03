@@ -34,6 +34,7 @@ describe('Integration | Repository | Finalized-session', () => {
         date: '2021-01-01',
         time: '14:00:00',
         isPublishable: true,
+        publishedAt: null,
       });
     });
   });
@@ -60,6 +61,38 @@ describe('Integration | Repository | Finalized-session', () => {
         sessionDate: finalizedSession.date,
         sessionTime: finalizedSession.time,
         isPublishable: finalizedSession.isPublishable,
+        publishedAt: null,
+      });
+    });
+  });
+
+  describe('#updatePublishedAt', () => {
+
+    afterEach(() => {
+      return knex('finalized-sessions').delete();
+    });
+
+    it('should update the publication date of a finalized session', async () => {
+      // given
+      const publishedAt = new Date('2021-01-01');
+      const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await finalizedSessionRepository.updatePublishedAt({
+        sessionId: finalizedSession.sessionId,
+        publishedAt,
+      });
+
+      // then
+      expect(result).to.deep.equal({
+        sessionId: finalizedSession.sessionId,
+        finalizedAt: finalizedSession.finalizedAt,
+        certificationCenterName: finalizedSession.certificationCenterName,
+        sessionDate: finalizedSession.date,
+        sessionTime: finalizedSession.time,
+        isPublishable: finalizedSession.isPublishable,
+        publishedAt,
       });
     });
   });

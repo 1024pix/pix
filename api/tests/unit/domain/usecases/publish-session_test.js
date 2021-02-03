@@ -14,6 +14,7 @@ describe('Unit | UseCase | publish-session', () => {
   const sessionId = 123;
   let certificationRepository;
   let sessionRepository;
+  let finalizedSessionRepository;
   const now = new Date('2019-01-01T05:06:07Z');
   const sessionDate = '2020-05-08';
   let clock;
@@ -26,6 +27,9 @@ describe('Unit | UseCase | publish-session', () => {
     sessionRepository = {
       updatePublishedAt: sinon.stub(),
       getWithCertificationCandidates: sinon.stub(),
+    };
+    finalizedSessionRepository = {
+      updatePublishedAt: sinon.stub().resolves(),
     };
     sessionRepository.flagResultsAsSentToPrescriber = sinon.stub();
     mailService.sendCertificationResultEmail = sinon.stub();
@@ -78,12 +82,14 @@ describe('Unit | UseCase | publish-session', () => {
         const session = await publishSession({
           sessionId,
           certificationRepository,
+          finalizedSessionRepository,
           sessionRepository,
           publishedAt: now,
         });
 
         // then
         expect(session).to.deep.equal(updatedSessionWithResultSent);
+        expect(finalizedSessionRepository.updatePublishedAt).to.have.been.calledWith({ sessionId, publishedAt: now });
       });
 
       it('should send result emails', async () => {
@@ -96,6 +102,7 @@ describe('Unit | UseCase | publish-session', () => {
         await publishSession({
           sessionId,
           certificationRepository,
+          finalizedSessionRepository,
           sessionRepository,
         });
 
@@ -127,6 +134,7 @@ describe('Unit | UseCase | publish-session', () => {
         await publishSession({
           sessionId,
           certificationRepository,
+          finalizedSessionRepository,
           sessionRepository,
         });
 
@@ -154,6 +162,7 @@ describe('Unit | UseCase | publish-session', () => {
           await publishSession({
             sessionId,
             certificationRepository,
+            finalizedSessionRepository,
             sessionRepository,
           });
 
@@ -185,6 +194,7 @@ describe('Unit | UseCase | publish-session', () => {
           await publishSession({
             sessionId,
             certificationRepository,
+            finalizedSessionRepository,
             sessionRepository,
             publishedAt: now,
           });
@@ -209,6 +219,7 @@ describe('Unit | UseCase | publish-session', () => {
         const error = await catchErr(publishSession)({
           sessionId,
           certificationRepository,
+          finalizedSessionRepository,
           sessionRepository,
           publishedAt,
         });

@@ -6,6 +6,7 @@ const some = require('lodash/some');
 module.exports = async function publishSession({
   sessionId,
   certificationRepository,
+  finalizedSessionRepository,
   sessionRepository,
   publishedAt = new Date(),
 }) {
@@ -14,6 +15,8 @@ module.exports = async function publishSession({
   await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
 
   let publishedSession = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
+
+  await finalizedSessionRepository.updatePublishedAt(sessionId);
 
   const emailingAttempts = await _sendPrescriberEmails(session);
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {

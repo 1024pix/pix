@@ -9,6 +9,7 @@ module.exports = class FinalizedSession {
     sessionDate,
     sessionTime,
     isPublishable,
+    publishedAt,
   } = {}) {
     this.sessionId = sessionId;
     this.finalizedAt = finalizedAt;
@@ -16,6 +17,7 @@ module.exports = class FinalizedSession {
     this.sessionDate = sessionDate;
     this.sessionTime = sessionTime;
     this.isPublishable = isPublishable;
+    this.publishedAt = publishedAt;
   }
 
   static from({
@@ -37,6 +39,7 @@ module.exports = class FinalizedSession {
         && _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries)
         && _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries)
         && _hasExaminerSeenAllEndScreens(juryCertificationSummaries),
+      publishedAt: null,
     });
   }
 };

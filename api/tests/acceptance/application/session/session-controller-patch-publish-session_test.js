@@ -79,6 +79,7 @@ describe('PATCH /api/admin/sessions/:id/publish', () => {
 
         beforeEach(() => {
           sessionId = databaseBuilder.factory.buildSession({ publishedAt: date }).id;
+          databaseBuilder.factory.buildFinalizedSession({ sessionId });
           options.url = `/api/admin/sessions/${sessionId}/publish`;
           certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false }).id;
           return databaseBuilder.commit();

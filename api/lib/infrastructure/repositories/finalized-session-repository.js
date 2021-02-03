@@ -17,6 +17,14 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, bookshelfFinalizedSession);
   },
+
+  async updatePublishedAt({ sessionId, publishedAt }) {
+    const updatedFinalizedSession = await FinalizedSessionBookshelf
+      .where({ sessionId })
+      .save({ publishedAt }, { method: 'update' });
+
+    return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, updatedFinalizedSession);
+  },
 };
 
 function _toDTO(finalizedSession) {
