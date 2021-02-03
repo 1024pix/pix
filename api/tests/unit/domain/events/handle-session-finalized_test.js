@@ -75,6 +75,7 @@ describe('Unit | Domain | Events | handle-session-finalized', () => {
         sessionDate: event.sessionDate,
         sessionTime: event.sessionTime,
         isPublishable: true,
+        publishedAt: null,
       }),
     );
   });

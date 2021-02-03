@@ -9,6 +9,7 @@ module.exports = function buildFinalizedSession({
   isPublishable = faker.random.boolean(),
   time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
   date = moment(faker.date.recent()).format('YYYY-MM-DD'),
+  publishedAt = null,
 } = {}) {
 
   const values = {
@@ -18,6 +19,7 @@ module.exports = function buildFinalizedSession({
     isPublishable,
     time,
     date,
+    publishedAt,
   };
 
   return databaseBuffer.pushInsertable({
