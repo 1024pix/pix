@@ -202,7 +202,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.deep.equal(true);
+      expect(result).to.be.true;
     });
 
     it('should return false when there is one competence started', function() {
@@ -221,7 +221,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.deep.equal(false);
+      expect(result).to.be.false;
     });
 
     it('should return false when there is one competence not started', function() {
@@ -240,7 +240,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.deep.equal(false);
+      expect(result).to.be.false;
     });
 
     it('should return false when there is one campaign participation', function() {
@@ -262,7 +262,7 @@ describe('Unit | Component | Dashboard | Content', function() {
       const result = component.hasNothingToShow;
 
       // then
-      expect(result).to.deep.equal(false);
+      expect(result).to.be.false;
     });
 
   });
