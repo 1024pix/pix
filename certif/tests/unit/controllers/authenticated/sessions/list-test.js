@@ -2,6 +2,8 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
 
+import config from 'pix-certif/config/environment';
+
 module('Unit | Controller | authenticated/sessions/list', function(hooks) {
   setupTest(hooks);
 
@@ -36,6 +38,36 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
 
       // then
       assert.equal(hasSession, true);
+    });
+  });
+
+  module('#shouldDisplayResultRecipientInfoMessage', function() {
+    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is disabled', function() {
+      test('should return false', function(assert) {
+        // given
+        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
+        const controller = this.owner.lookup('controller:authenticated/sessions/list');
+
+        // when
+        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
+
+        // then
+        assert.notOk(shouldDisplayResultRecipientInfoMessage);
+      });
+    });
+
+    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is enabled', function() {
+      test('should return true', function(assert) {
+        // given
+        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
+        const controller = this.owner.lookup('controller:authenticated/sessions/list');
+
+        // when
+        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
+
+        // then
+        assert.ok(shouldDisplayResultRecipientInfoMessage);
+      });
     });
   });
 });
