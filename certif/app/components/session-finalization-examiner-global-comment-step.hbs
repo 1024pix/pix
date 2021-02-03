@@ -29,34 +29,24 @@
       </div>
     </div>
     {{#if this.displayExaminerGlobalCommentTextArea}}
-      <div class="session-finalization-examiner-global-comment-step__header-container">
-        <div class="session-finalization-examiner-global-comment-step__characters-information">
-          {{@session.examinerGlobalComment.length}} / {{@examinerGlobalCommentMaxLength}}
-        </div>
-      </div>
-      <Textarea
-              @id="examiner-global-comment"
-              class="session-finalization-examiner-global-comment-step__textarea"
-              @value={{@session.examinerGlobalComment}}
+      <PixTextarea
+        @id="examiner-global-comment"
         {{on 'input' @updateExaminerGlobalComment}}
-              @maxlength={{@examinerGlobalCommentMaxLength}}
-      />
+        @value={{@session.examinerGlobalComment}}
+        @maxlength={{@examinerGlobalCommentMaxLength}}
+        class="session-finalization-examiner-global-comment-step__textarea" />
     {{/if}}
   {{else}}
     <div class="session-finalization-examiner-global-comment-step__header-container">
       <label for="examiner-global-comment" class="session-finalization-examiner-global-comment-step__label">
         Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.
       </label>
-      <div class="session-finalization-examiner-global-comment-step__characters-information">
-        {{@session.examinerGlobalComment.length}} / {{@examinerGlobalCommentMaxLength}}
-      </div>
     </div>
-    <Textarea
-            @id="examiner-global-comment"
-            class="session-finalization-examiner-global-comment-step__textarea"
-            @value={{@session.examinerGlobalComment}}
+    <PixTextarea
+      @id="examiner-global-comment"
       {{on 'input' @updateExaminerGlobalComment}}
-            @maxlength={{@examinerGlobalCommentMaxLength}}
-    />
+      @value={{@session.examinerGlobalComment}}
+      @maxlength={{@examinerGlobalCommentMaxLength}}
+      class="session-finalization-examiner-global-comment-step__textarea" />
   {{/if}}
 </div>

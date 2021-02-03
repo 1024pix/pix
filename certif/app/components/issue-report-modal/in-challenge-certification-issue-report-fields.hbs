@@ -16,9 +16,11 @@
       <Input
         @id="input-for-category-in-challenge-question-number"
         @name="question-number"
-        @type="text"
+        @type="number"
+        @max="48"
         @required="true"
         @value={{@inChallengeCategory.questionNumber}}
+        placeholder="7"
       />
       <label for="subcategory-for-category-in-challenge">Sélectionnez une sous-catégorie :</label>
       <PixSelect
@@ -30,15 +32,11 @@
       />
       {{#if this.isOtherSubcategorySelected }}
         <label for="text-area-for-category-in-challenge-subcategory-other">Précisez</label>
-        <Textarea
-          id="text-area-for-category-in-challenge-subcategory-other"
-          @class="session-finalization-reports-informations-step__textarea"
+        <PixTextarea
+          @id="text-area-for-category-in-challenge-subcategory-other"
           @value={{@inChallengeCategory.description}}
           @maxlength={{@maxlength}}
-          required
-        />
-        <p class="candidate-information-change-certification-issue-report-fields-details__char-count">{{this.reportLength}}
-          / {{@maxlength}}</p>
+          required="true" />
       {{/if}}
     </div>
   {{/if}}
