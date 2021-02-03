@@ -114,6 +114,7 @@
                 "see-more": "See more",
                 "started-at": "Started the {date}",
                 "finished-at": "Finished the {date}",
+                "results": "Success rate: {result}%",
                 "tag": {
                     "started": "In progress",
                     "completed": "To be submitted",

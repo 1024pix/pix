@@ -59,6 +59,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
             'campaign-code': sharableCampaignParticipationElements.campaign.code,
             'campaign-title': sharableCampaignParticipationElements.campaign.title,
             'assessment-state': Assessment.states.COMPLETED,
+            'mastery-percentage': null,
           },
         }];
         expect(response.result.data).to.deep.equal(expectedData);
@@ -124,6 +125,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
               'campaign-code': startedCampaignParticipationElements.campaign.code,
               'campaign-title': startedCampaignParticipationElements.campaign.title,
               'assessment-state': Assessment.states.STARTED,
+              'mastery-percentage': null,
             },
           }];
           expect(response.result.data).to.deep.equal(expectedData);
@@ -154,6 +156,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
                 'campaign-code': sharableCampaignParticipationElements.campaign.code,
                 'campaign-title': sharableCampaignParticipationElements.campaign.title,
                 'assessment-state': Assessment.states.COMPLETED,
+                'mastery-percentage': null,
               },
             }, {
               type: 'campaign-participation-overviews',
@@ -166,6 +169,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
                 'campaign-code': startedCampaignParticipationElements.campaign.code,
                 'campaign-title': startedCampaignParticipationElements.campaign.title,
                 'assessment-state': Assessment.states.STARTED,
+                'mastery-percentage': null,
               },
             }];
           expect(response.result.data).to.deep.equal(expectedData);
