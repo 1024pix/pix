@@ -11,6 +11,15 @@
     </section>
   {{/unless}}
 
+  {{#if this.hasNothingToShow}}
+    <section class="dashboard-content__section" data-test-empty-dashboard>
+      <div class="dashboard-content-section--with-button">
+        <p class="dashboard-content-section__title">{{t 'pages.dashboard.empty-dashboard-message'}}</p>
+        <LinkTo @route="profile" class="dashboard-content-section__button">{{t 'pages.dashboard.recommended-competences.profile-link'}}</LinkTo>
+      </div>
+    </section>
+  {{/if}}
+
   {{#if this.hasCampaignParticipationOverviews}}
     <section class="dashboard-content__section" data-test-campaign-participation-overviews>
       <h2 class="dashboard-content-section__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
