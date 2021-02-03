@@ -3,7 +3,7 @@ const databaseBuffer = require('../database-buffer');
 const moment = require('moment');
 
 module.exports = function buildFinalizedSession({
-  sessionId = faker.random.number({ min: 0, max: 10 }),
+  sessionId = faker.random.number(),
   certificationCenterName = faker.random.word(),
   finalizedAt = faker.date.recent(),
   isPublishable = faker.random.boolean(),
