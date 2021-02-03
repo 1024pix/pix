@@ -27,10 +27,15 @@
     <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
       {{t 'navigation.main.dashboard'}}
     </LinkTo>
+    <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
+      {{t 'navigation.main.skills'}}
+    </LinkTo>
+
+  {{else}}
+    <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
+      {{t 'navigation.main.profile'}}
+    </LinkTo>
   {{/if}}
-  <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
-    {{t 'navigation.main.profile'}}
-  </LinkTo>
 
   <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
     {{t 'navigation.main.start-certification'}}

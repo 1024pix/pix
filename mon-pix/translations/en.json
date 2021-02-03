@@ -154,18 +154,6 @@
             "jury-info": "Notes from the examining body are not displayed on the verification page of your certificate.",
             "validity": "Certificate valid for 3 years"
         },
-        "competence-result": {
-            "title": "Results",
-            "header": {
-                "congratulations": "Congratulations!",
-                "not-bad": "Not bad, but could be better!",
-                "not-bad-subtitle": "A little more effort and you’ll reach the first level.",
-                "too-bad": "Never mind!",
-                "too-bad-subtitle": "It doesn’t seem to be your day, but you’ll do better next time.",
-                "you-have-earned": "You have",
-                "you-have-reached-level": "You reached"
-            }
-        },
         "certification-joiner": {
             "title": "Join a certification session",
             "congratulation-banner": {
@@ -508,6 +496,21 @@
                 "title": "Develop your skills",
                 "description": "Here are a selection of tutorials that will help you increase your pix score."
             }
+        },
+        "competence-result": {
+            "title": "Results",
+            "header": {
+                "congratulations": "Congratulations!",
+                "not-bad": "Not bad, but could be better!",
+                "not-bad-subtitle": "A little more effort and you’ll reach the first level.",
+                "too-bad": "Never mind!",
+                "too-bad-subtitle": "It doesn’t seem to be your day, but you’ll do better next time.",
+                "you-have-earned": "You have",
+                "you-have-reached-level": "You reached"
+            }
+        },
+        "competences": {
+            "title": "Skills"
         },
         "dashboard": {
             "title": "Homepage",
@@ -1046,6 +1049,7 @@
             "help": "Help",
             "link-help": "https://pix.org/en-gb/faq-pix",
             "profile": "Profile",
+            "skills": "Skills",
             "start-certification": "Certification",
             "tutorials": "My tutorials"
         },
