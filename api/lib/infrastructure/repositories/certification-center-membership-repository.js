@@ -7,10 +7,24 @@ module.exports = {
 
   async findByUserId(userId) {
     const certificationCenterMemberships = await BookshelfCertificationCenterMembership
-      .where({ userId: userId })
+      .where({ userId })
       .fetchAll({
         withRelated: [
           'certificationCenter',
+        ],
+      });
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCenterMembership, certificationCenterMemberships);
+  },
+
+  async findByCertificationCenterId(certificationCenterId) {
+    const certificationCenterMemberships = await BookshelfCertificationCenterMembership
+      .where({ certificationCenterId })
+      .orderBy('id', 'ASC')
+      .fetchAll({
+        withRelated: [
+          'certificationCenter',
+          'user',
         ],
       });
 
