@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.14.0 (03/02/2021)
+
+- [#2486](https://github.com/1024pix/pix/pull/2486) [FEATURE] Ajout de "Mes parcours" dans le menu de Pix App (PIX-2004)
+- [#2477](https://github.com/1024pix/pix/pull/2477) [FEATURE] Ajout du résultat dans les cartes terminées des tableaux de bord (PIX-2049)
+- [#2488](https://github.com/1024pix/pix/pull/2488) [FEATURE] Changer l'entrée de menu "Profil" en "Compétences" (PIX-2080).
+- [#2476](https://github.com/1024pix/pix/pull/2476) [FEATURE] Permettre aux utilisateurs de modifier leur adresse e-mail (PIX-2045).
+- [#2481](https://github.com/1024pix/pix/pull/2481) [FEATURE] Améliorations de la page de finalisation de session (PIX-1996)
+- [#2492](https://github.com/1024pix/pix/pull/2492) [FEATURE] Affichage des résultats thématiques dans les résultats individuels d'une campagne d'évaluation (PIX-2054).
+- [#2463](https://github.com/1024pix/pix/pull/2463) [FEATURE] Filtrer les participations aux campagnes d'évaluation par paliers (PIX-1676).
+- [#2491](https://github.com/1024pix/pix/pull/2491) [FEATURE] Affichage des paliers dans les résultats individuels d'une campagne d'évaluation (PIX-2053).
+- [#2489](https://github.com/1024pix/pix/pull/2489) [BUGFIX] Pouvoir se réconcilier après avoir eu une erreur et corrigé ses infos lors de la réconciliation SCO.
+- [#2464](https://github.com/1024pix/pix/pull/2464) [TECH] Valider les identifiants dans l'API.
+- [#2450](https://github.com/1024pix/pix/pull/2450) [TECH] Prévenir l'introduction de liens non joignables dans la documentation.
+- [#2447](https://github.com/1024pix/pix/pull/2447) [DOC] ADR - Caractère obligatoire ou optionnel du use-case.
+
 ## v3.13.0 (02/02/2021)
 
 - [#2487](https://github.com/1024pix/pix/pull/2487) [FEATURE] Passage du header, footer et TDB en 1280px (PIX-1994). 
