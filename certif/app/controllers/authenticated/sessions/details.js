@@ -30,4 +30,9 @@ export default class SessionsDetailsController extends Controller {
   get shouldDisplayDownloadButton() {
     return this.hasOneOrMoreCandidates && (this.shouldDisplayPrescriptionScoStudentRegistrationFeature || this.isResultRecipientEmailVisible);
   }
+
+  @computed('isResultRecipientEmailVisible')
+  get shouldDisplayResultRecipientInfoMessage() {
+    return this.isResultRecipientEmailVisible === true;
+  }
 }
