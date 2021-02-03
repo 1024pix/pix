@@ -4,13 +4,14 @@ const { knex } = require('../../../../db/knex-database-connection');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
 describe('Integration | Repository | Finalized-session', () => {
+
   describe('#save', () => {
 
     afterEach(() => {
       return knex('finalized-sessions').delete();
     });
 
-    it('Saves a finalized session', async () => {
+    it('saves a finalized session', async () => {
       // given
       const finalizedSession = new FinalizedSession({
         sessionId: 1234,
@@ -45,7 +46,7 @@ describe('Integration | Repository | Finalized-session', () => {
       return knex('finalized-sessions').delete();
     });
 
-    it('Retrieves a finalized session', async () => {
+    it('retrieves a finalized session', async () => {
       // given
       const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
       await databaseBuilder.commit();
@@ -93,6 +94,74 @@ describe('Integration | Repository | Finalized-session', () => {
         sessionTime: finalizedSession.time,
         isPublishable: finalizedSession.isPublishable,
         publishedAt,
+      });
+    });
+  });
+
+  describe('#findPublishableSessions', () => {
+
+    afterEach(() => {
+      return knex('finalized-sessions').delete();
+    });
+
+    context('when there are publishable sessions', () => {
+
+      it('finds a list of publishable finalized session', async () => {
+        // given
+        const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
+        const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
+        const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
+
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null }),
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' }),
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await finalizedSessionRepository.findPublishableSessions();
+
+        // then
+        expect(result).to.have.lengthOf(3);
+        expect(result).to.deep.equal([
+          {
+            sessionId: publishableFinalizedSession1.sessionId,
+            finalizedAt: publishableFinalizedSession1.finalizedAt,
+            certificationCenterName: publishableFinalizedSession1.certificationCenterName,
+            sessionDate: publishableFinalizedSession1.date,
+            sessionTime: publishableFinalizedSession1.time,
+            isPublishable: publishableFinalizedSession1.isPublishable,
+            publishedAt: null,
+          },
+          {
+            sessionId: publishableFinalizedSession2.sessionId,
+            finalizedAt: publishableFinalizedSession2.finalizedAt,
+            certificationCenterName: publishableFinalizedSession2.certificationCenterName,
+            sessionDate: publishableFinalizedSession2.date,
+            sessionTime: publishableFinalizedSession2.time,
+            isPublishable: publishableFinalizedSession2.isPublishable,
+            publishedAt: null,
+          },
+          {
+            sessionId: publishableFinalizedSession3.sessionId,
+            finalizedAt: publishableFinalizedSession3.finalizedAt,
+            certificationCenterName: publishableFinalizedSession3.certificationCenterName,
+            sessionDate: publishableFinalizedSession3.date,
+            sessionTime: publishableFinalizedSession3.time,
+            isPublishable: publishableFinalizedSession3.isPublishable,
+            publishedAt: null,
+          },
+        ]);
+      });
+    });
+
+    context('when there are no publishable sessions', () => {
+
+      it('returns an empty array', async () => {
+        // given / when
+        const result = await finalizedSessionRepository.findPublishableSessions();
+
+        // then
+        expect(result).to.have.lengthOf(0);
       });
     });
   });

@@ -16,7 +16,7 @@ module.exports = async function publishSession({
 
   let publishedSession = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
 
-  await finalizedSessionRepository.updatePublishedAt(sessionId);
+  await finalizedSessionRepository.updatePublishedAt({ sessionId, publishedAt });
 
   const emailingAttempts = await _sendPrescriberEmails(session);
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
