@@ -1,8 +1,10 @@
-const buildCertificationCenter = require('./build-certification-center');
-const buildUser = require('./build-user');
-const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 const faker = require('faker');
+
+const buildCertificationCenter = require('./build-certification-center');
+const buildUser = require('./build-user');
+
+const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildCertificationCenterMembership({
   id,
