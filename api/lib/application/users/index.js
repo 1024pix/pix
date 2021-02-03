@@ -1,12 +1,14 @@
+const Joi = require('joi');
+const XRegExp = require('xregexp');
+
 const securityPreHandlers = require('../security-pre-handlers');
 const userController = require('./user-controller');
-const Joi = require('joi');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
-const XRegExp = require('xregexp');
 const featureToggles = require('../preHandlers/feature-toggles');
 const { EntityValidationError } = require('../../domain/errors');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -54,7 +56,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.userId,
           }),
           failAction: (request, h) => {
             return sendJsonApiError(new BadRequestError('L\'identifiant de l\'utilisateur n\'est pas au bon format.'), h);
@@ -87,7 +89,7 @@ exports.register = async function(server) {
         },
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.userId,
           }),
           payload: Joi.object({
             data: {
@@ -117,6 +119,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.getMemberships,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -134,6 +141,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.getCertificationCenterMemberships,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -151,6 +163,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.getCampaignParticipations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -170,6 +187,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.getCampaignParticipationOverviews,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -198,6 +220,9 @@ exports.register = async function(server) {
         ],
         handler: userController.updateEmail,
         validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
           options: {
             allowUnknown: true,
           },
@@ -233,6 +258,9 @@ exports.register = async function(server) {
           options: {
             allowUnknown: true,
           },
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
           payload: Joi.object({
             data: {
               attributes: {
@@ -256,6 +284,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.accepPixLastTermsOfService,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -274,6 +307,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.acceptPixOrgaTermsOfService,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -290,7 +328,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().positive().required(),
+            id: identifiersType.userId,
             lang: Joi.string().valid('fr', 'en'),
           }),
         },
@@ -316,6 +354,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.acceptPixCertifTermsOfService,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -334,6 +377,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.rememberUserHasSeenAssessmentInstructions,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -352,6 +400,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.rememberUserHasSeenNewLevelInfo,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -370,6 +423,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.rememberUserHasSeenNewDashboardInfo,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -388,6 +446,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.isCertifiable,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -405,6 +468,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
         handler: userController.getProfile,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -422,6 +490,12 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
           assign: 'requestedUserIsAuthenticatedUser',
         }],
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            competenceId: identifiersType.competenceId,
+          }),
+        },
         handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -438,8 +512,8 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            userId: Joi.number().required(),
-            campaignId: Joi.number().required(),
+            userId: identifiersType.userId,
+            campaignId: identifiersType.campaignId,
           }),
         },
         pre: [{
@@ -461,8 +535,8 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            userId: Joi.number().required(),
-            campaignId: Joi.number().required(),
+            userId: identifiersType.userId,
+            campaignId: identifiersType.campaignId,
           }),
         },
         pre: [{
@@ -484,7 +558,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().positive().required(),
+            id: identifiersType.userId,
           }),
         },
         pre: [{
@@ -504,7 +578,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().positive().required(),
+            id: identifiersType.userId,
           }),
         },
         pre: [{

@@ -3,7 +3,7 @@ const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
 const featureToggles = require('../preHandlers/feature-toggles');
-const { idSpecification } = require('../../domain/validators/id-specification');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([
@@ -29,7 +29,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -46,7 +46,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -64,7 +64,7 @@ exports.register = async (server) => {
         auth: false,
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         handler: sessionController.getAttendanceSheet,
@@ -82,7 +82,7 @@ exports.register = async (server) => {
         auth: false,
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         handler: sessionController.getCandidatesImportSheet,
@@ -111,7 +111,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -132,7 +132,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         payload: {
@@ -158,7 +158,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -180,7 +180,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -201,7 +201,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -222,8 +222,8 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
-            certificationCandidateId: idSpecification,
+            id: identifiersType.sessionId,
+            certificationCandidateId: identifiersType.certificationCandidateId,
           }),
         },
         pre: [{
@@ -244,7 +244,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -265,7 +265,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -298,7 +298,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -320,7 +320,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         handler: sessionController.createCandidateParticipation,
@@ -338,7 +338,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -359,7 +359,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -380,7 +380,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -403,7 +403,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [{
@@ -424,7 +424,7 @@ exports.register = async (server) => {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.sessionId,
           }),
         },
         pre: [

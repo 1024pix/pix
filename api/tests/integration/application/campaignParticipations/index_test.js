@@ -47,7 +47,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
       };
 
       // when
-      const response = await httpTestServer.request('PATCH', '/api/campaign-participations/FAKE_ID', payload);
+      const response = await httpTestServer.request('PATCH', '/api/campaign-participations/1', payload);
 
       // then
       expect(response.statusCode).to.equal(201);

@@ -42,7 +42,7 @@ describe('Integration | Route | AssessmentRoute', () => {
 
     it('should exist', async () => {
       // when
-      const response = await httpTestServer.request('GET', '/api/assessments/assessment_id/next');
+      const response = await httpTestServer.request('GET', '/api/assessments/1/next');
 
       // then
       expect(response.statusCode).to.equal(200);
@@ -63,7 +63,7 @@ describe('Integration | Route | AssessmentRoute', () => {
   describe('GET /api/assessments/{id}', () => {
 
     const method = 'GET';
-    const url = '/api/assessments/assessment_id';
+    const url = '/api/assessments/1';
 
     it('should exist', async () => {
       // when

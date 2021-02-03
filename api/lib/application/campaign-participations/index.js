@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const campaignParticipationController = require('./campaign-participation-controller');
 const { sendJsonApiError, NotFoundError } = require('../http-errors');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -28,6 +29,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaign-participations/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignParticipationId,
+          }),
+        },
         handler: campaignParticipationController.getById,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -40,6 +46,11 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/campaign-participations/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignParticipationId,
+          }),
+        },
         handler: campaignParticipationController.shareCampaignResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -64,6 +75,11 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/campaign-participations/{id}/begin-improvement',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignParticipationId,
+          }),
+        },
         handler: campaignParticipationController.beginImprovement,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -79,7 +95,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignParticipationId,
           }),
         },
         handler: campaignParticipationController.getAnalysis,
@@ -97,8 +113,8 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            campaignId: Joi.number().integer().required(),
-            campaignParticipationId: Joi.number().integer().required(),
+            campaignId: identifiersType.campaignId,
+            campaignParticipationId: identifiersType.campaignParticipationId,
           }),
         },
         handler: campaignParticipationController.getCampaignProfile,
@@ -116,8 +132,8 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            campaignId: Joi.number().integer().required(),
-            campaignParticipationId: Joi.number().integer().required(),
+            campaignId: identifiersType.campaignId,
+            campaignParticipationId: identifiersType.campaignParticipationId,
           }),
         },
         handler: campaignParticipationController.getCampaignAssessmentParticipation,
@@ -135,8 +151,8 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            campaignId: Joi.number().integer().required(),
-            campaignParticipationId: Joi.number().integer().required(),
+            campaignId: identifiersType.campaignId,
+            campaignParticipationId: identifiersType.campaignParticipationId,
           }),
         },
         handler: campaignParticipationController.getCampaignAssessmentParticipationResult,

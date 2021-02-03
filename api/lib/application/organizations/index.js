@@ -1,8 +1,9 @@
 const Joi = require('joi');
-const { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } = require('../http-errors');
 
+const { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } = require('../http-errors');
 const securityPreHandlers = require('../security-pre-handlers');
 const organizationController = require('./organization-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([
@@ -57,6 +58,11 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
         handler: organizationController.getOrganizationDetails,
         tags: ['api', 'organizations'],
         notes: [
@@ -73,6 +79,11 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
         handler: organizationController.updateOrganizationInformation,
         tags: ['api', 'organizations'],
         notes: [
@@ -85,6 +96,11 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/campaigns',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
         handler: organizationController.findPaginatedFilteredCampaigns,
         tags: ['api', 'organizations'],
         notes: [
@@ -101,6 +117,11 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster,
           assign: 'belongsToOrganization',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
         handler: organizationController.findPaginatedFilteredMemberships,
         tags: ['api', 'organizations'],
         notes: [
@@ -131,6 +152,9 @@ exports.register = async (server) => {
         }],
         handler: organizationController.attachTargetProfiles,
         validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
           payload: Joi.object({
             data: {
               attributes: {
@@ -155,7 +179,7 @@ exports.register = async (server) => {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.organizationId,
           }),
           query: Joi.object({
             'page[size]': Joi.number().integer().empty(''),
@@ -180,7 +204,7 @@ exports.register = async (server) => {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.organizationId,
           }),
           query: Joi.object({
             format: Joi.string().default('xml'),
@@ -209,7 +233,7 @@ exports.register = async (server) => {
         }],
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.organizationId,
           }),
         },
         payload: {
@@ -238,6 +262,9 @@ exports.register = async (server) => {
         }],
         handler: organizationController.sendInvitations,
         validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
           options: {
             allowUnknown: true,
           },
@@ -264,6 +291,11 @@ exports.register = async (server) => {
           method: securityPreHandlers.checkUserIsAdminInOrganization,
           assign: 'isAdminInOrganization',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
         handler: organizationController.findPendingInvitations,
         tags: ['api', 'invitations'],
         notes: [
@@ -279,7 +311,7 @@ exports.register = async (server) => {
         auth: false,
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.organizationId,
           }),
           query: Joi.object({
             accessToken: Joi.string().required(),

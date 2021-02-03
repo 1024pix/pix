@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const campaignController = require('./campaign-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -34,7 +35,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.getById,
@@ -51,7 +52,7 @@ exports.register = async function(server) {
         auth: false,
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.getCsvAssessmentResults,
@@ -70,7 +71,7 @@ exports.register = async function(server) {
         auth: false,
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.getCsvProfilesCollectionResults,
@@ -88,7 +89,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.update,
@@ -106,7 +107,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.getCollectiveResult,
@@ -123,7 +124,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.getAnalysis,
@@ -140,7 +141,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.archiveCampaign,
@@ -156,7 +157,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.unarchiveCampaign,
@@ -172,7 +173,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
           query: Joi.object({
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
@@ -194,7 +195,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
           query: Joi.object({
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
@@ -218,7 +219,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.campaignId,
           }),
         },
         handler: campaignController.division,

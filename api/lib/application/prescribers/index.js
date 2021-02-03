@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const securityPreHandlers = require('../security-pre-handlers');
 const prescriberController = require('./prescriber-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -11,7 +12,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            userId: Joi.number().required(),
+            userId: identifiersType.userId,
           }),
         },
         pre: [{

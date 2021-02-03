@@ -3,7 +3,7 @@ const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const certificationCourseController = require('./certification-course-controller');
 
-const { idSpecification } = require('../../domain/validators/id-specification');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -15,6 +15,11 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationCourseController.computeResult,
         tags: ['api'],
         notes: [
@@ -30,7 +35,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: idSpecification,
+            id: identifiersType.certificationCourseId,
           }),
         },
         pre: [{
@@ -45,6 +50,11 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/certification-courses/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationCourseController.update,
         tags: ['api'],
       },
@@ -65,6 +75,11 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-courses/{id}',
       config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
         handler: certificationCourseController.get,
         tags: ['api'],
       },

@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const assessmentController = require('./assessment-controller');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function(server) {
   server.route([
@@ -28,6 +29,11 @@ exports.register = async function(server) {
       path: '/api/assessments/{id}/next',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
         handler: assessmentController.getNextChallenge,
         notes: [
           '- Récupération de la question suivante pour l\'évaluation donnée',
@@ -40,6 +46,11 @@ exports.register = async function(server) {
       path: '/api/assessments/{id}',
       config: {
         auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
         pre: [{
           method: assessmentAuthorization.verify,
           assign: 'authorizationCheck',
@@ -57,6 +68,11 @@ exports.register = async function(server) {
           method: assessmentAuthorization.verify,
           assign: 'authorizationCheck',
         }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+          }),
+        },
         handler: assessmentController.completeAssessment,
         tags: ['api'],
       },
@@ -67,7 +83,7 @@ exports.register = async function(server) {
       config: {
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.assessmentId,
           }),
         },
         handler: assessmentController.findCompetenceEvaluations,

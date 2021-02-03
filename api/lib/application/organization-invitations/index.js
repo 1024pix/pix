@@ -1,5 +1,7 @@
 const Joi = require('joi');
+
 const organizationInvitationController = require('./organization-invitation-controller');
+const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
   server.route([
@@ -10,6 +12,9 @@ exports.register = async (server) => {
         auth: false,
         handler: organizationInvitationController.acceptOrganizationInvitation,
         validate: {
+          params: Joi.object({
+            id: identifiersType.organizationInvitationId,
+          }),
           payload: Joi.object({
             data: {
               id: Joi.string().required(),
@@ -60,7 +65,7 @@ exports.register = async (server) => {
         handler: organizationInvitationController.getOrganizationInvitation,
         validate: {
           params: Joi.object({
-            id: Joi.number().integer().required(),
+            id: identifiersType.organizationInvitationId,
           }),
           query: Joi.object({
             code: Joi.string().required(),
