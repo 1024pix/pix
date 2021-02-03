@@ -4,7 +4,7 @@ Date : 2020-03-27
 
 ## État
 
-Cet ADR est étendu par l'ADR [#10](docs/adr/0010-propager-domain-events-via-event-dispatcher.md)
+Cet ADR est étendu par l'ADR [#10](0010-propager-domain-events-via-event-dispatcher.md)
 
 ## Contexte
 Il y a une richesse métier spécifique importante qui gravite autour de la notion de "badge":
