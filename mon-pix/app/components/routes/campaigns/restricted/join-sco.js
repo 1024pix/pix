@@ -85,6 +85,9 @@ export default class JoinSco extends Component {
     event.preventDefault();
     this.isLoading = true;
     this.errorMessage = null;
+    this.displayInformationModal = false;
+    this.reconciliationError = null;
+    this.reconciliationWarning = null;
 
     this._validateForm();
     if (this.isFormNotValid) {
