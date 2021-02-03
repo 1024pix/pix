@@ -1061,6 +1061,7 @@
         "pix": "Pix",
         "user": {
             "account": "My account",
+            "tests": "My personalised tests",
             "certifications": "My certifications",
             "sign-out": "Log out"
         },
