@@ -150,7 +150,12 @@ $pix-modal-border-radius: 5px;
 .ember-modal-overlay {
   display: flex;
   justify-content: center;
-  align-items: center;
+  overflow: scroll;
+
+  & > div {
+    height: max-content;
+    margin-top: 10vh;
+  }
 }
 
 .ember-modal-overlay.translucent {

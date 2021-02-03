@@ -150,8 +150,7 @@ module('Acceptance | Session Finalization', function(hooks) {
 
           // then
           assert.equal(finalizeController.session.examinerGlobalComment, expectedComment);
-          assert.dom('.session-finalization-examiner-global-comment-step__characters-information').exists();
-          assert.dom('.session-finalization-examiner-global-comment-step__characters-information').hasText(expectedIndicator);
+          assert.dom('#examiner-global-comment + p').hasText(expectedIndicator);
         });
 
         test('it checks the hasSeenEndTestScreen checkbox', async function(assert) {

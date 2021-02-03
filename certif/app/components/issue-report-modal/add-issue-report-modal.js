@@ -129,7 +129,6 @@ export default class AddIssueReportModal extends Component {
     this.technicalProblemCategory,
   ];
 
-  @tracked reportLength = 0;
   @tracked showCategoryMissingError = false;
   @tracked showIssueReportSubmitError = false;
 
@@ -156,10 +155,5 @@ export default class AddIssueReportModal extends Component {
       issueReportToSave.rollbackAttributes();
       this.showIssueReportSubmitError = true;
     }
-  }
-
-  @action
-  handleTextareaChange(e) {
-    this.reportLength = e.target.value.length;
   }
 }

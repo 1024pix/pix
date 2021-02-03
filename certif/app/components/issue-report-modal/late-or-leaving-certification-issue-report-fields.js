@@ -13,12 +13,6 @@ export default class OtherCertificationissueReportFields extends Component {
   @tracked
   subcategoryTextAreaLabel = subcategoryToTextareaLabel[this.args.lateOrLeavingCategory.subcategory];
 
-  get reportLength() {
-    return this.args.lateOrLeavingCategory.description
-      ? this.args.lateOrLeavingCategory.description.length
-      : 0;
-  }
-
   @action
   onChangeSubcategory(event) {
     this.args.lateOrLeavingCategory.subcategory = event.target.value;

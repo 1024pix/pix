@@ -47,12 +47,11 @@
                 {{/if}}
               </div>
             {{else}}
-              <Textarea
-                @class="session-finalization-reports-informations-step__textarea"
-                @value={{report.firstIssueReportDescription}}
+              <PixTextarea
                 {{on 'input' (fn @updateCertificationIssueReport report)}}
+                @value={{report.firstIssueReportDescription}}
                 @maxlength={{@issueReportDescriptionMaxLength}}
-              />
+                class="session-finalization-reports-informations-step__textarea--without-indicator" />
             {{/if}}
           </td>
           <td>
