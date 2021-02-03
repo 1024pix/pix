@@ -184,4 +184,86 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.equal(userFirstName);
     });
   });
+
+  describe('#hasNothingToShow', function() {
+    it('should return true when there is nothing to show', function() {
+      // given
+      const scorecards = [
+        { id: 1, isNotStarted: false, isStarted: false },
+        { id: 2, isNotStarted: false, isStarted: false },
+        { id: 4, isNotStarted: false, isStarted: false },
+        { id: 5, isNotStarted: false, isStarted: false },
+        { id: 3, isNotStarted: false, isStarted: false },
+      ];
+
+      component.args.model = { scorecards, campaignParticipationOverviews: [] };
+
+      // when
+      const result = component.hasNothingToShow;
+
+      // then
+      expect(result).to.deep.equal(true);
+    });
+
+    it('should return false when there is one competence started', function() {
+      // given
+      const scorecards = [
+        { id: 1, isNotStarted: false, isStarted: true },
+        { id: 2, isNotStarted: false, isStarted: false },
+        { id: 4, isNotStarted: false, isStarted: false },
+        { id: 5, isNotStarted: false, isStarted: false },
+        { id: 3, isNotStarted: false, isStarted: false },
+      ];
+
+      component.args.model = { scorecards, campaignParticipationOverviews: [] };
+
+      // when
+      const result = component.hasNothingToShow;
+
+      // then
+      expect(result).to.deep.equal(false);
+    });
+
+    it('should return false when there is one competence not started', function() {
+      // given
+      const scorecards = [
+        { id: 1, isNotStarted: false, isStarted: false },
+        { id: 2, isNotStarted: true, isStarted: false },
+        { id: 4, isNotStarted: false, isStarted: false },
+        { id: 5, isNotStarted: false, isStarted: false },
+        { id: 3, isNotStarted: false, isStarted: false },
+      ];
+
+      component.args.model = { scorecards, campaignParticipationOverviews: [] };
+
+      // when
+      const result = component.hasNothingToShow;
+
+      // then
+      expect(result).to.deep.equal(false);
+    });
+
+    it('should return false when there is one campaign participation', function() {
+      // given
+      const scorecards = [
+        { id: 1, isNotStarted: false, isStarted: false },
+        { id: 2, isNotStarted: false, isStarted: false },
+        { id: 4, isNotStarted: false, isStarted: false },
+        { id: 5, isNotStarted: false, isStarted: false },
+        { id: 3, isNotStarted: false, isStarted: false },
+      ];
+      const campaignParticipationOverviews = [
+        { id: 1 },
+      ];
+
+      component.args.model = { scorecards, campaignParticipationOverviews };
+
+      // when
+      const result = component.hasNothingToShow;
+
+      // then
+      expect(result).to.deep.equal(false);
+    });
+
+  });
 });
