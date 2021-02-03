@@ -23,7 +23,13 @@ Router.map(function() {
 
   this.route('index', { path: '/' });
   this.route('inscription');
-  this.route('profile', { path: '/profil' });
+
+  if (config.APP.FT_DASHBOARD) {
+    this.route('profile', { path: '/competences' });
+  } else {
+    this.route('profile', { path: '/profil' });
+  }
+
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
   this.route('user-account', { path: '/mon-compte' });
