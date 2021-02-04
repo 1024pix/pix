@@ -9,6 +9,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
   let campaignCollectiveResultRepository;
   let targetProfileWithLearningContentRepository;
   const targetProfileWithLearningContent = Symbol('targetProfileWithLearningContent');
+  const locale = 'fr';
 
   beforeEach(() => {
     campaignCollectiveResultRepository = { getCampaignCollectiveResult: sinon.stub() };
@@ -20,7 +21,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
 
     beforeEach(() => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      targetProfileWithLearningContentRepository.getByCampaignId.resolves(targetProfileWithLearningContent);
+      targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId, locale }).resolves(targetProfileWithLearningContent);
     });
 
     it('should resolve a CampaignCollectiveResult', async () => {
@@ -35,6 +36,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
         campaignRepository,
         campaignCollectiveResultRepository,
         targetProfileWithLearningContentRepository,
+        locale,
       });
 
       // then
@@ -56,6 +58,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
         campaignRepository,
         campaignCollectiveResultRepository,
         targetProfileWithLearningContentRepository,
+        locale,
       });
 
       // then
