@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v3.15.0 (04/02/2021)
+
+- [#2503](https://github.com/1024pix/pix/pull/2503) [BUGFIX] Le script dév/local de génération de campagnes avec participants ne fonctionne plus (PIX-2108)
+- [#2502](https://github.com/1024pix/pix/pull/2502) [BUGFIX] Les filtres sur les paliers dans la liste des participants d'une campagne sur PixOrga ne fonctionnent pas correctement (PIX-2107)
+
 ## v3.14.0 (03/02/2021)
 
 - [#2486](https://github.com/1024pix/pix/pull/2486) [FEATURE] Ajout de "Mes parcours" dans le menu de Pix App (PIX-2004)
