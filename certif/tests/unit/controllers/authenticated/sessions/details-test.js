@@ -117,34 +117,57 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
         });
       });
     });
+  });
 
-    module('#shouldDisplayResultRecipientInfoMessage', function() {
-      module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is disabled', function() {
-        test('should return false', function(assert) {
-          // given
-          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
-          const controller = this.owner.lookup('controller:authenticated/sessions/details');
+  module('#shouldDisplayResultRecipientInfoMessage', function() {
+    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is disabled', function() {
+      test('should return false', function(assert) {
+        // given
+        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
+        const controller = this.owner.lookup('controller:authenticated/sessions/details');
+        controller.currentUser = {
+          currentCertificationCenter: { isScoManagingStudents: false },
+        };
 
-          // when
-          const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
+        // when
+        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
 
-          // then
-          assert.notOk(shouldDisplayResultRecipientInfoMessage);
-        });
+        // then
+        assert.notOk(shouldDisplayResultRecipientInfoMessage);
       });
+    });
 
-      module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is enabled', function() {
-        test('should return true', function(assert) {
-          // given
-          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
-          const controller = this.owner.lookup('controller:authenticated/sessions/details');
+    module('when the current user certification center does manage students', function() {
+      test('should also return false', function(assert) {
+        // given
+        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
+        const controller = this.owner.lookup('controller:authenticated/sessions/details');
+        controller.currentUser = {
+          currentCertificationCenter: { isScoManagingStudents: true },
+        };
 
-          // when
-          const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
+        // when
+        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
 
-          // then
-          assert.ok(shouldDisplayResultRecipientInfoMessage);
-        });
+        // then
+        assert.notOk(shouldDisplayResultRecipientInfoMessage);
+      });
+    });
+
+    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is enabled and current user is if of type Sco and does not managing students', function() {
+      test('should return true', function(assert) {
+        // given
+        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
+        const controller = this.owner.lookup('controller:authenticated/sessions/details');
+        controller.currentUser = {
+          currentCertificationCenter: { isScoManagingStudents: false },
+        };
+
+        // when
+        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
+
+        // then
+        assert.ok(shouldDisplayResultRecipientInfoMessage);
       });
     });
   });
