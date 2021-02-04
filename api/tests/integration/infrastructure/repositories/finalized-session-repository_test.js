@@ -98,7 +98,7 @@ describe('Integration | Repository | Finalized-session', () => {
     });
   });
 
-  describe('#findPublishableSessions', () => {
+  describe('#findFinalizedSessionsToPublish', () => {
 
     afterEach(() => {
       return knex('finalized-sessions').delete();
@@ -118,7 +118,7 @@ describe('Integration | Repository | Finalized-session', () => {
         await databaseBuilder.commit();
 
         // when
-        const result = await finalizedSessionRepository.findPublishableSessions();
+        const result = await finalizedSessionRepository.findFinalizedSessionsToPublish();
 
         // then
         expect(result).to.have.lengthOf(3);
@@ -158,7 +158,7 @@ describe('Integration | Repository | Finalized-session', () => {
 
       it('returns an empty array', async () => {
         // given / when
-        const result = await finalizedSessionRepository.findPublishableSessions();
+        const result = await finalizedSessionRepository.findFinalizedSessionsToPublish();
 
         // then
         expect(result).to.have.lengthOf(0);
