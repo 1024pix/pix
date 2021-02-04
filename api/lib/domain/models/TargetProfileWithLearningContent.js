@@ -24,7 +24,7 @@ class TargetProfileWithLearningContent {
     this.competences = competences;
     this.areas = areas;
     this.badges = badges;
-    this.stages = stages;
+    this.stages = _.sortBy(stages, 'threshold');
   }
 
   get skillNames() {
@@ -46,7 +46,6 @@ class TargetProfileWithLearningContent {
   get reachableStages() {
     return _(this.stages)
       .filter(({ threshold }) => threshold > 0)
-      .sortBy('threshold')
       .value();
   }
 
