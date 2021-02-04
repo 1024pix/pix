@@ -21,19 +21,6 @@
 
   padding: 40px 20px;
 
-  &__section {
-    border-bottom: 1px solid $grey-20;
-    padding: 20px 0 40px;
-
-    &:first-of-type {
-      padding-top: 0;
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
   @include device-is('tablet') {
     grid-template-columns: repeat(6, 1fr);
 
@@ -75,7 +62,23 @@
   }
 }
 
-.dashboard-content-section {
+.dashboard-content-cards {
+
+  &__section {
+    border-bottom: 1px solid $grey-20;
+    padding: 20px 0 40px;
+
+    &:first-of-type {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.dashboard-content-cards-section {
 
   &__title {
     color: $grey-80;
