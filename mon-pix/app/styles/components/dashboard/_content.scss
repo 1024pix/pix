@@ -1,14 +1,22 @@
+@mixin add-dashboard-content-separator() {
+  border-bottom: 1px solid $grey-20;
+  padding: 24px 0;
+}
+
 .dashboard-content {
   display: grid;
   grid: "autoplace";
   grid-template-columns: 1fr;
+  padding: 40px 20px;
 
   &__banner {
     grid-area: 1 / 1 / 2 / 2;
   }
 
   &__score {
+    @include add-dashboard-content-separator();
     grid-area: 2 / 1 / 3 / 2;
+    margin-bottom: 20px;
   }
 
   &__cards {
@@ -19,8 +27,6 @@
     grid-area: 7 / 1 / 8 / 2;
   }
 
-  padding: 40px 20px;
-
   @include device-is('tablet') {
     grid-template-columns: repeat(6, 1fr);
 
@@ -30,10 +36,14 @@
 
     &__score {
       grid-area: 2 / 1 / 3 / 4;
+      height: 100%;
     }
 
     &__certif {
+      @include add-dashboard-content-separator();
       grid-area: 2 / 4 / 3 / 7;
+      margin-bottom: 24px;
+      height: 100%;
     }
 
     &__cards {
@@ -43,17 +53,23 @@
 
   @include device-is('large-screen') {
     grid-template-columns: repeat(4, 1fr);
+    padding: 0;
 
     &__banner {
+      @include add-dashboard-content-separator();
       grid-area: 1 / 1 / 2 / 4;
     }
 
     &__score {
       grid-area: 1 / 4 / 2 / 5;
+      border-bottom: none;
+      margin: 0;
     }
 
     &__certif {
       grid-area: 2 / 4 / 13 / 5;
+      border-bottom: none;
+      margin: 0;
     }
 
     &__cards {
@@ -65,12 +81,8 @@
 .dashboard-content-cards {
 
   &__section {
-    border-bottom: 1px solid $grey-20;
-    padding: 20px 0 40px;
-
-    &:first-of-type {
-      padding-top: 0;
-    }
+    @include add-dashboard-content-separator();
+    padding: 24px 0;
 
     &:last-child {
       border-bottom: none;
