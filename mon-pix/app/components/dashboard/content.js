@@ -50,6 +50,10 @@ export default class Content extends Component {
     return this.currentUser.user.hasSeenNewDashboardInfo;
   }
 
+  get userScore() {
+    return this.currentUser.user.profile.pixScore;
+  }
+
   @action
   async closeInformationAboutNewDashboard() {
     await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewDashboardInfo: true } });
