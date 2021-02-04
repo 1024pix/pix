@@ -19,6 +19,20 @@ async function getCertificationCenterWithoutMembershipIdByExternalId(externalId)
   return certificationCenter ? certificationCenter.id : null;
 }
 
+async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
+  const certificationCenterIdWithMemberships = await knex('certification-centers')
+    .select('certification-centers.id', 'certification-center-memberships.userId')
+    .leftJoin('certification-center-memberships', 'certification-centers.id', 'certification-center-memberships.certificationCenterId')
+    .where('certification-centers.externalId', '=', externalId);
+
+  return { id: certificationCenterIdWithMemberships[0].id,
+    certificationCenterMemberships: _(certificationCenterIdWithMemberships)
+      .map((certificationCenterMembership) => certificationCenterMembership.userId)
+      .compact()
+      .value(),
+  };
+}
+
 async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
   const adminMemberships = await knex('memberships')
     .select('memberships.userId')
@@ -93,6 +107,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  getCertificationCenterIdWithMembershipsUserIdByExternalId,
   getCertificationCenterWithoutMembershipIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,
