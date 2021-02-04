@@ -30,20 +30,21 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     { firstName: 'Brandone', lastName: 'Bro' },
   ]);
 
-  const pixMembersNotCompleted = [users[0], users[1], users[2], users[3]];
+  const pixMembersNotCompleted = [users[1], users[2], users[3]];
   const pixMembersNotShared = [users[4], users[5], users[6], users[7], users[8]];
-  const pixMembersCompletedShared = [users[9], users[10], users[11], users[12]];
+  const pixMembersCompletedShared = [users[0], users[9], users[10], users[11], users[12]];
 
-  const participateToCampaignOfAssessment = (campaignId, user, isShared) => {
+  const participateToCampaignOfAssessment = (campaignId, user, isShared, validatedSkillsCount = null) => {
     const sharedAt = isShared ? new Date() : null;
     const participantExternalId = user.firstName.toLowerCase() + user.lastName.toLowerCase();
-    return databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: user.id, participantExternalId, isShared, sharedAt });
+    return databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: user.id, participantExternalId, isShared, sharedAt, validatedSkillsCount });
   };
 
   const participateComplexAssessmentCampaign = (campaignId, user, state, isShared) => {
     const { id: userId } = user;
-    const { id: campaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared);
-    if (['Jaune', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID });
+    const validatedSkillsCount = isShared ? 3 : null;
+    const { id: campaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared, validatedSkillsCount);
+    if (['Stéphan', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID });
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       userId,
@@ -96,7 +97,6 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
   participateComplexAssessmentCampaign(2, users[0], 'STARTED', false);
   participateComplexAssessmentCampaign(11, users[0], 'COMPLETED', false);
-  participateComplexAssessmentCampaign(12, users[0], 'COMPLETED', true);
 
   [CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(userId, true));
   [CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(userId, false));
