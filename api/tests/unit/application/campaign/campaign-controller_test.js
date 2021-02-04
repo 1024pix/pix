@@ -317,6 +317,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     const campaignId = 1;
     const userId = 1;
+    const locale = 'fr';
 
     beforeEach(() => {
       sinon.stub(usecases, 'computeCampaignCollectiveResult');
@@ -325,19 +326,22 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return ok', async () => {
       // given
-      usecases.computeCampaignCollectiveResult.resolves({});
-      campaignCollectiveResultSerializer.serialize.withArgs({}).returns('ok');
+      const campaignCollectiveResult = Symbol('campaignCollectiveResults');
+      const expectedResults = Symbol('results');
+      usecases.computeCampaignCollectiveResult.withArgs({ userId, campaignId, locale }).resolves(campaignCollectiveResult);
+      campaignCollectiveResultSerializer.serialize.withArgs(campaignCollectiveResult).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: campaignId },
+        headers: { 'accept-language': locale },
+      };
 
       // when
-      const response = await campaignController.getCollectiveResult({
-        params: { id: campaignId },
-        auth: {
-          credentials: { userId },
-        },
-      });
+      const response = await campaignController.getCollectiveResult(request);
 
       // then
-      expect(response).to.be.equal('ok');
+      expect(response).to.equal(expectedResults);
     });
 
     it('should return an unauthorized error', async () => {

@@ -15,6 +15,7 @@ const divisionSerializer = require('../../infrastructure/serializers/jsonapi/div
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
@@ -122,8 +123,9 @@ module.exports = {
   async getCollectiveResult(request) {
     const { userId } = request.auth.credentials;
     const campaignId = parseInt(request.params.id);
+    const locale = extractLocaleFromRequest(request);
 
-    const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId });
+    const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId, locale });
     return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
   },
 
