@@ -47,6 +47,9 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
         // given
         config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
         const controller = this.owner.lookup('controller:authenticated/sessions/list');
+        controller.currentUser = {
+          currentCertificationCenter: { isScoManagingStudents: false },
+        };
 
         // when
         const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
@@ -56,11 +59,31 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
       });
     });
 
-    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is enabled', function() {
+    module('when the current user certification center does manage students', function() {
+      test('should also return false', function(assert) {
+        // given
+        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
+        const controller = this.owner.lookup('controller:authenticated/sessions/list');
+        controller.currentUser = {
+          currentCertificationCenter: { isScoManagingStudents: true },
+        };
+
+        // when
+        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
+
+        // then
+        assert.notOk(shouldDisplayResultRecipientInfoMessage);
+      });
+    });
+
+    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is enabled and current user is not sco managing students', function() {
       test('should return true', function(assert) {
         // given
         config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
         const controller = this.owner.lookup('controller:authenticated/sessions/list');
+        controller.currentUser = {
+          currentCertificationCenter: { isScoManagingStudents: false },
+        };
 
         // when
         const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
