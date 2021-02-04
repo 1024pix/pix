@@ -4,21 +4,25 @@ const {
   sinon,
 } = require('../../../test-helper');
 
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/certification-centers');
 
-const CertificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
+const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 
 describe('Unit | Router | certification-center-router', function() {
 
   let httpTestServer;
 
   beforeEach(function() {
-    sinon.stub(CertificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
+    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+    sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
+    sinon.stub(certificationCenterController, 'findCertificationCenterMembershipsByCertificationCenter').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   describe('GET /api/certification-centers/{certificationCenterId}/divisions', function() {
+
     it('should reject an invalid certification center id', async () => {
       // when
       const result = await httpTestServer.request('GET', '/api/certification-centers/invalid/divisions');
@@ -109,7 +113,28 @@ describe('Unit | Router | certification-center-router', function() {
       // then
       expect(result.statusCode).to.equal(400);
     });
+  });
 
+  describe('GET /api/certification-centers/{certificationCenterId}/certification-center-memberships', () => {
+
+    const method = 'GET';
+    const url = '/api/certification-centers/1/certification-center-memberships';
+
+    it('should exist', async () => {
+      // when
+      const result = await httpTestServer.request(method, url);
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should reject an invalid certification-centers id', async () => {
+      // when
+      const result = await httpTestServer.request(method, '/api/certification-centers/invalid/certification-center-memberships');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
   });
 
 });
