@@ -11,8 +11,11 @@
       {{/unless}}
   </section>
 
-  <section class="dashboard-content__section--score dashboard-content__score">
-    SCORE PIX
+  <section class="dashboard-content__score">
+    <div class="dashboard-content-score__wrapper">
+      <HexagonScore @pixScore={{this.userScore}} />
+      <LinkTo @route="profile" class="dashboard-content-score-wrapper__button">{{t 'pages.dashboard.score.profile-link'}}</LinkTo>
+    </div>
   </section>
 
   <section class="dashboard-content__cards">
