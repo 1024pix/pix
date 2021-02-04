@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
+const finalizedSessionController = require('./finalized-session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
 const featureToggles = require('../preHandlers/feature-toggles');
 const identifiersType = require('../../domain/types/identifiers-type');
@@ -55,6 +56,18 @@ exports.register = async (server) => {
         }],
         handler: sessionController.get,
         tags: ['api', 'sessions'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/sessions/to-publish',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: finalizedSessionController.findFinalizedSessionsToPublish,
+        tags: ['api', 'finalized-sessions'],
       },
     },
     {
