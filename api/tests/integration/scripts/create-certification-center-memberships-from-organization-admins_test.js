@@ -163,26 +163,40 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
   describe('#fetchCertificationCenterMembershipsByExternalId', () => {
 
-    it('should fetch list of certification center memberships by externalId', async () => {
+    it('should fetch list of certification center memberships by externalId without already existing ones', async () => {
       // given
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId: certificationCenter.id,
+        userId,
+      });
+
+      const organization = databaseBuilder.factory.buildOrganization({ externalId: certificationCenter.externalId });
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      const newAdminUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: newAdminUserId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      await databaseBuilder.commit();
+
       const expectedCertificationCenterMemberships = [
-        { certificationCenterId: certificationCenterId1, userId: adminUserId1a },
-        { certificationCenterId: certificationCenterId1, userId: adminUserId1b },
+        { certificationCenterId: certificationCenter.id, userId: newAdminUserId },
       ];
 
       // when
-      const result = await fetchCertificationCenterMembershipsByExternalId(externalId1);
+      const result = await fetchCertificationCenterMembershipsByExternalId(certificationCenter.externalId);
 
       // then
       expect(result).to.deep.have.members(expectedCertificationCenterMemberships);
-    });
-
-    it('should return empty array when certification center has membership', async () => {
-      // when
-      const result = await fetchCertificationCenterMembershipsByExternalId(externalIdForCertificationCenterWithMembership);
-
-      // then
-      expect(result).to.have.lengthOf(0);
     });
   });
 
@@ -208,6 +222,48 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       // then
       expect(result).to.deep.have.members(expectedCertificationCenterMemberships);
     });
+
+    context('when the certification center has a membership already and organization has 2 to insert', () => {
+
+      it('should create a list of 2 certification center memberships to insert from a list of externalIds', async () => {
+        // given
+        const externalId = 'externalId';
+
+        const organizationId = databaseBuilder.factory.buildOrganization({
+          externalId,
+        }).id;
+
+        const adminUserId = databaseBuilder.factory.buildUser().id;
+        const adminUserBisId = databaseBuilder.factory.buildUser().id;
+        const user = databaseBuilder.factory.buildUser().id;
+
+        _.each([
+          { userId: adminUserId, organizationId, organizationRole: Membership.roles.ADMIN },
+          { userId: adminUserBisId, organizationId, organizationRole: Membership.roles.ADMIN },
+          { userId: user, organizationId, organizationRole: Membership.roles.MEMBER },
+        ], (membership) => (databaseBuilder.factory.buildMembership(membership)));
+
+        const certificationCenterWithMembershipId = databaseBuilder.factory.buildCertificationCenter({
+          externalId,
+        }).id;
+        databaseBuilder.factory.buildCertificationCenterMembership(
+          { certificationCenterId: certificationCenterWithMembershipId, userId: adminUserId });
+
+        await databaseBuilder.commit();
+
+        const expectedCertificationCenterMemberships = [
+          { certificationCenterId: certificationCenterWithMembershipId, userId: adminUserBisId },
+        ];
+
+        // when
+        const result = await prepareDataForInsert([
+          { externalId },
+        ]);
+
+        // then
+        expect(result).to.deep.have.members(expectedCertificationCenterMemberships);
+      });
+    });
   });
 
   describe('#createCertificationCenterMemberships', () => {
@@ -221,22 +277,26 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       await knex('certification-center-memberships').delete();
     });
 
-    it('should insert 4 certification center memberships', async () => {
-      // given
-      const certificationCenterMemberships = [
-        { certificationCenterId: certificationCenterId1, userId: adminUserId1a },
-        { certificationCenterId: certificationCenterId1, userId: adminUserId1b },
-        { certificationCenterId: certificationCenterId2, userId: adminUserId2a },
-        { certificationCenterId: certificationCenterId2, userId: adminUserId2b },
-      ];
-      const numberBefore = await getNumberOfCertificationCenterMemberships();
+    context('when the certification center does not have any membership', () => {
 
-      // when
-      await createCertificationCenterMemberships(certificationCenterMemberships);
-      const numberAfter = await getNumberOfCertificationCenterMemberships();
+      it('should insert 4 certification center memberships', async () => {
+        // given
+        const certificationCenterMemberships = [
+          { certificationCenterId: certificationCenterId1, userId: adminUserId1a },
+          { certificationCenterId: certificationCenterId1, userId: adminUserId1b },
+          { certificationCenterId: certificationCenterId2, userId: adminUserId2a },
+          { certificationCenterId: certificationCenterId2, userId: adminUserId2b },
+        ];
+        const numberBefore = await getNumberOfCertificationCenterMemberships();
 
-      // then
-      expect(numberAfter - numberBefore).to.equal(4);
+        // when
+        await createCertificationCenterMemberships(certificationCenterMemberships);
+        const numberAfter = await getNumberOfCertificationCenterMemberships();
+
+        // then
+        expect(numberAfter - numberBefore).to.equal(4);
+      });
+
     });
   });
 

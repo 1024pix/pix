@@ -50,12 +50,15 @@ function buildCertificationCenterMemberships({ certificationCenterId, membership
 }
 
 async function fetchCertificationCenterMembershipsByExternalId(externalId) {
-  const certificationCenterId = await getCertificationCenterWithoutMembershipIdByExternalId(externalId);
-  if (!certificationCenterId) {
-    return [];
-  }
+  const certificationCenter = await getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId);
   const membershipUserIds = await getAdminMembershipsUserIdByOrganizationExternalId(externalId);
-  return buildCertificationCenterMemberships({ certificationCenterId, membershipUserIds });
+  const missingMemberships = _.filter(membershipUserIds, (userId) => {
+    return !certificationCenter.certificationCenterMemberships.includes(userId);
+  });
+  return buildCertificationCenterMemberships({
+    certificationCenterId: certificationCenter.id,
+    membershipUserIds: missingMemberships,
+  });
 }
 
 async function prepareDataForInsert(rawExternalIds) {
