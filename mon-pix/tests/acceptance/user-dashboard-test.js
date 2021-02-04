@@ -147,7 +147,7 @@ describe('Acceptance | User dashboard page', function() {
     });
 
     it('should display the link to profile', function() {
-      expect(find('.dashboard-content-section__button')).to.exist;
+      expect(find('.dashboard-content-cards-section__button')).to.exist;
     });
 
   });
