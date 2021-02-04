@@ -1,7 +1,9 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
-const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+
+const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 
 describe('Unit | Controller | certifications-center-controller', () => {
 
@@ -54,6 +56,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
   });
 
   describe('#getDivisions', () => {
+
     it('Should return a serialized list of divisions', async () => {
       // given
       const request = {
@@ -114,4 +117,35 @@ describe('Unit | Controller | certifications-center-controller', () => {
       );
     });
   });
+
+  describe('#findCertificationCenterMembershipsByCertificationCenter', () => {
+
+    const certificationCenterId = 1;
+
+    const request = {
+      params: {
+        certificationCenterId,
+      },
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'findCertificationCenterMembershipsByCertificationCenter');
+      sinon.stub(certificationCenterMembershipSerializer, 'serialize');
+    });
+
+    it('should call usecase and serializer and return ok', async () => {
+      // given
+      usecases.findCertificationCenterMembershipsByCertificationCenter.withArgs({
+        certificationCenterId,
+      }).resolves({});
+      certificationCenterMembershipSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await certificationCenterController.findCertificationCenterMembershipsByCertificationCenter(request);
+
+      // then
+      expect(response).to.equal('ok');
+    });
+  });
+
 });

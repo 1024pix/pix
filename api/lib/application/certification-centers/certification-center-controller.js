@@ -1,8 +1,11 @@
 const usecases = require('../../domain/usecases');
+
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
+const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const divisionSerializer = require('../../infrastructure/serializers/jsonapi/sco-certification-center-division-serializer');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const studentCertificationSerializer = require('../../infrastructure/serializers/jsonapi/student-certification-serializer');
-const divisionSerializer = require('../../infrastructure/serializers/jsonapi/sco-certification-center-division-serializer');
+
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
@@ -59,5 +62,14 @@ module.exports = {
     });
 
     return divisionSerializer.serialize(divisions);
+  },
+
+  async findCertificationCenterMembershipsByCertificationCenter(request) {
+    const certificationCenterId = parseInt(request.params.certificationCenterId);
+    const certificationCenterMemberships = await usecases.findCertificationCenterMembershipsByCertificationCenter({
+      certificationCenterId,
+    });
+
+    return certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
   },
 };
