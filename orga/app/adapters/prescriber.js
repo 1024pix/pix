@@ -5,8 +5,14 @@ export default class PrescriberAdapter extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/prescription/prescribers/${id}`;
   }
 
-  urlForUpdateRecord(id) {
-    return `${this.host}/${this.namespace}/users/${id}/pix-orga-terms-of-service-acceptance`;
+  urlForUpdateRecord(id, modelName, { adapterOptions }) {
+    if (adapterOptions && adapterOptions.acceptPixOrgaTermsOfService) {
+      return `${this.host}/${this.namespace}/users/${id}/pix-orga-terms-of-service-acceptance`;
+    }
+
+    if (adapterOptions && adapterOptions.lang) {
+      return `${this.host}/${this.namespace}/users/${id}/lang/${adapterOptions.lang}`;
+    }
   }
 
   async updateRecord(store, type, snapshot) {
