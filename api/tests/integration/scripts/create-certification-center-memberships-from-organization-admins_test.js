@@ -6,6 +6,7 @@ const Membership = require('../../../lib/domain/models/Membership');
 const BookshelfCertificationCenterMembership = require('../../../lib/infrastructure/data/certification-center-membership');
 
 const {
+  getCertificationCenterIdWithMembershipsUserIdByExternalId,
   getCertificationCenterWithoutMembershipIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   fetchCertificationCenterMembershipsByExternalId,
@@ -90,6 +91,46 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
       // then
       expect(result).to.be.null;
+    });
+  });
+
+  describe('#getCertificationCenterIdWithMembershipsUserIdByExternalId', () => {
+
+    context('when certification center has memberships', () => {
+      it('should get certification center id with memberships user id by externalId', async () => {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: certificationCenter.id,
+          userId,
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await getCertificationCenterIdWithMembershipsUserIdByExternalId(certificationCenter.externalId);
+
+        // then
+        expect(result.id).to.equal(certificationCenter.id);
+        expect(result.certificationCenterMemberships).to.deep.equal([userId]);
+      });
+    });
+
+    context('when certification center does not have memberships', () => {
+      it('should get certification center id with memberships user id by externalId', async () => {
+        // given
+        const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await getCertificationCenterIdWithMembershipsUserIdByExternalId(certificationCenter.externalId);
+
+        // then
+        expect(result.id).to.equal(certificationCenter.id);
+        expect(result.certificationCenterMemberships).to.deep.equal([]);
+      });
     });
   });
 
