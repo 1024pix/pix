@@ -50,13 +50,12 @@ async function _get(whereClauseFnc, locale) {
     throw new NotFoundError('Le profil cible n\'existe pas');
   }
 
-  const targetProfile = await _toDomain(results, locale);
-  targetProfile.badges = await _findBadges(targetProfile.id);
-  targetProfile.stages = await _findStages(targetProfile.id);
-  return targetProfile;
+  const badges = await _findBadges(results[0].id);
+  const stages = await _findStages(results[0].id);
+  return _toDomain(results, badges, stages, locale);
 }
 
-async function _toDomain(results, locale) {
+async function _toDomain(results, badges, stages, locale) {
   const skillIds = _.compact(results.map(({ skillId }) => skillId));
   const {
     skills,
@@ -64,7 +63,6 @@ async function _toDomain(results, locale) {
     competences,
     areas,
   } = await _getTargetedLearningContent(skillIds, locale);
-  const badges = results[0].badges;
 
   return new TargetProfileWithLearningContent({
     id: results[0].id,
@@ -76,7 +74,8 @@ async function _toDomain(results, locale) {
     tubes,
     competences,
     areas,
-    badges: badges && !_.isEmpty(badges[0]) ? badges : [],
+    badges,
+    stages,
   });
 }
 
