@@ -113,17 +113,8 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/memberships',
+      path: '/api/users/me/memberships',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
         handler: userController.getMemberships,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

@@ -16,7 +16,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
     server = await createServer();
   });
 
-  describe('GET /users/:id/memberships', () => {
+  describe('GET /users/me/memberships', () => {
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
@@ -26,7 +26,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
 
       options = {
         method: 'GET',
-        url: `/api/users/${userId}/memberships`,
+        url: '/api/users/me/memberships',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
     });
@@ -44,17 +44,6 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
-        // given
-        const otherUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
     });
 
     describe('Success case', () => {

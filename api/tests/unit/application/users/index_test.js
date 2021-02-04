@@ -91,7 +91,7 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}/memberships', function() {
+  describe('GET /api/users/me/memberships', function() {
 
     const method = 'GET';
 
@@ -103,7 +103,7 @@ describe('Unit | Router | user-router', () => {
 
     it('should exist', async () => {
       // given
-      const url = '/api/users/12/memberships';
+      const url = '/api/users/me/memberships';
 
       // when
       await httpTestServer.request(method, url);
