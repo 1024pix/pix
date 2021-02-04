@@ -24,4 +24,24 @@ module('Unit | Adapters | prescriber', function(hooks) {
     });
   });
 
+  module('#urlForUpdateRecord', function() {
+
+    test('it should redirect to pix-orga-terms-of-service-acceptance', async function(assert) {
+      // when
+      const options = { adapterOptions: { acceptPixOrgaTermsOfService: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'prescriber', options);
+
+      // then
+      assert.equal(url.endsWith('/users/123/pix-orga-terms-of-service-acceptance'), true);
+    });
+
+    test('should redirect to lang', async function(assert) {
+      // when
+      const options = { adapterOptions: { lang: 'en' } };
+      const url = await adapter.urlForUpdateRecord(123, 'prescriber', options);
+
+      // then
+      assert.equal(url.endsWith('/users/123/lang/en'), true);
+    });
+  });
 });
