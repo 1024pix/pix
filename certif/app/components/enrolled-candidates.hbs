@@ -15,7 +15,7 @@
         <div id="add-candidate" class="certification-candidates-add-button__text">
           Ajouter un candidat
         </div>
-        <PixActionButton aria-describedby="add-candidate" @icon='plus'/>
+        <PixActionButton aria-describedby="add-candidate" @icon='plus' @withBackground={{true}} />
       </div>
     {{/if}}
   </div>
@@ -110,19 +110,23 @@
                 <div class="certification-candidates-actions__delete">
                   {{#if candidate.isLinked}}
                     <PixActionButton
-                            @icon="trash-alt"
-                            class="certification-candidates-actions__delete-button--disabled"
-                            data-test-id="panel-candidate__actions__delete__{{candidate.id}}" />
+                      @icon="trash-alt"
+                      class="certification-candidates-actions__delete-button--disabled"
+                      data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
+                      @withBackground={{true}}
+                    />
                     <div class="certification-candidates-actions__delete-tooltip">
                       Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
                     </div>
                   {{else}}
                     <PixActionButton
-                            @icon="trash-alt"
+                      @icon="trash-alt"
                       {{on 'click' (fn this.deleteCertificationCandidate candidate)}}
-                            aria-label="Supprimer un élève"
-                            class="certification-candidates-actions__delete-button"
-                            data-test-id="panel-candidate__actions__delete__{{candidate.id}}" />
+                      aria-label="Supprimer un élève"
+                      class="certification-candidates-actions__delete-button"
+                      data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
+                      @withBackground={{true}}
+                    />
                   {{/if}}
                 </div>
               </div>
