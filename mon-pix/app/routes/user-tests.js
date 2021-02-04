@@ -13,7 +13,7 @@ export default class UserTestsRoute extends Route.extend(SecuredRouteMixin) {
       'userId': user.id,
       'page[number]': 1,
       'page[size]': maximumDisplayed,
-      'filter[states]': ['ONGOING', 'TO_SHARE', 'ENDED'],
+      'filter[states]': ['ONGOING', 'TO_SHARE', 'ENDED', 'ARCHIVED'],
     };
 
     return this.store.query('campaign-participation-overview', queryParams);
