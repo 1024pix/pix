@@ -1,6 +1,25 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+const TargetProfileWithLearningContent = require('../../../../lib/domain/models/TargetProfileWithLearningContent');
 
 describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
+
+  describe('constructor', () => {
+
+    it('should order stages by threshold', () => {
+      // given
+      const stage1 = domainBuilder.buildStage({ threshold: 50 });
+      const stage2 = domainBuilder.buildStage({ threshold: 0 });
+      const stage3 = domainBuilder.buildStage({ threshold: 10 });
+
+      // when
+      const targetProfile = new TargetProfileWithLearningContent({
+        stages: [stage1, stage2, stage3],
+      });
+
+      // then
+      expect(targetProfile.stages).to.exactlyContainInOrder([stage2, stage3, stage1]);
+    });
+  });
 
   describe('get#skillNames', () => {
 
@@ -70,11 +89,12 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
 
     it('should return reachable stages ordered by threshold', () => {
       // given
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const stage1 = domainBuilder.buildStage({ threshold: 0 });
       const stage2 = domainBuilder.buildStage({ threshold: 50 });
       const stage3 = domainBuilder.buildStage({ threshold: 10 });
-      targetProfile.stages = [stage1, stage2, stage3];
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({
+        stages: [stage1, stage2, stage3],
+      });
 
       // when
       const reachableStages = targetProfile.reachableStages;
