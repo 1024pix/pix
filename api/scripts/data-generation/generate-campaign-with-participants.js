@@ -205,7 +205,6 @@ async function _createUsers({ count, uniqId, trx }) {
       firstName: `firstName${identifier}`,
       lastName: `lastName${identifier}`,
       email: `email${identifier}@example.net`,
-      password: 'salut',
     });
   }
   const chunkSize = _getChunkSize(userData[0]);
