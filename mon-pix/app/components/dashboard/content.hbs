@@ -2,7 +2,7 @@
   <h1 class="sr-only">{{t 'pages.dashboard.title'}}</h1>
 
   {{#unless this.hasUserSeenNewDashboardInfo}}
-    <section class="dashboard-content__section">
+    <section class="dashboard-content__section" data-test-new-dashboard-info>
       <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
                       @image="/images/discovery_TDB_pix.svg"
                       @backgroundColorClass="new-information--blue-gradient-background"
@@ -14,8 +14,12 @@
   {{#if this.hasNothingToShow}}
     <section class="dashboard-content__section" data-test-empty-dashboard>
       <div class="dashboard-content-section--with-button">
-        <p class="dashboard-content-section__title">{{t 'pages.dashboard.empty-dashboard-message'}}</p>
-        <LinkTo @route="profile" class="dashboard-content-section__button">{{t 'pages.dashboard.recommended-competences.profile-link'}}</LinkTo>
+        <NewInformation @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
+                        @image="/images/fusee.png"
+                        @backgroundColorClass="new-information--yellow-background"
+                        @linkText={{t 'pages.dashboard.empty-dashboard.link-to-competences'}}
+                        @linkTo="profile"
+                        @textColorClass="new-information--black-text"/>
       </div>
     </section>
   {{/if}}
