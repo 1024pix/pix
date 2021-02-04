@@ -26,7 +26,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, updatedFinalizedSession);
   },
 
-  async findPublishableSessions() {
+  async findFinalizedSessionsToPublish() {
     const publishableFinalizedSessions = await FinalizedSessionBookshelf
       .where({ isPublishable: true, publishedAt: null })
       .fetchAll();

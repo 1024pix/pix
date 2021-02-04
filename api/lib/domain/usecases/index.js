@@ -152,7 +152,7 @@ module.exports = injectDependencies({
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findLatestOngoingUserCampaignParticipations: require('./find-latest-ongoing-user-campaign-participations'),
   findDivisionsByCertificationCenter: require('./find-divisions-by-certification-center'),
-  findPublishableFinalizedSessions: require('./find-publishable-finalized-sessions'),
+  findFinalizedSessionsToPublish: require('./find-finalized-sessions-to-publish'),
   findPaginatedCampaignAssessmentParticipationSummaries: require('./find-paginated-campaign-assessment-participation-summaries'),
   findPaginatedFilteredCertificationCenters: require('./find-paginated-filtered-certification-centers'),
   findPaginatedFilteredOrganizationCampaigns: require('./find-paginated-filtered-organization-campaigns'),

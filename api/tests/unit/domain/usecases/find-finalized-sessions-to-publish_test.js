@@ -1,13 +1,13 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const findPublishableFinalizedSessions = require('../../../../lib/domain/usecases/find-publishable-finalized-sessions');
+const findFinalizedSessionsToPublish = require('../../../../lib/domain/usecases/find-finalized-sessions-to-publish');
 
-describe('Unit | UseCase | findPublishableFinalizedSessions', () => {
+describe('Unit | UseCase | findFinalizedSessionsToPublish', () => {
 
   let finalizedSessionRepository;
 
   beforeEach(() => {
     finalizedSessionRepository = {
-      findPublishableSessions: sinon.stub(),
+      findFinalizedSessionsToPublish: sinon.stub(),
     };
   });
 
@@ -21,9 +21,9 @@ describe('Unit | UseCase | findPublishableFinalizedSessions', () => {
         domainBuilder.buildFinalizedSession({ isPublishable: true }),
       ];
 
-      finalizedSessionRepository.findPublishableSessions.resolves(publishableSessions);
+      finalizedSessionRepository.findFinalizedSessionsToPublish.resolves(publishableSessions);
       // when
-      const result = await findPublishableFinalizedSessions({ finalizedSessionRepository });
+      const result = await findFinalizedSessionsToPublish({ finalizedSessionRepository });
 
       // then
       expect(result).to.deep.equal(publishableSessions);
@@ -34,9 +34,9 @@ describe('Unit | UseCase | findPublishableFinalizedSessions', () => {
 
     it('should get an empty array', async () => {
       // given
-      finalizedSessionRepository.findPublishableSessions.resolves([]);
+      finalizedSessionRepository.findFinalizedSessionsToPublish.resolves([]);
       // when
-      const result = await findPublishableFinalizedSessions({ finalizedSessionRepository });
+      const result = await findFinalizedSessionsToPublish({ finalizedSessionRepository });
 
       // then
       expect(result).to.deep.equal([]);
