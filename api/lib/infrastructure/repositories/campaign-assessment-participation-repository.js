@@ -60,53 +60,29 @@ function _assessmentRankByCreationDate() {
 }
 
 async function _buildCampaignAssessmentParticipation(result, targetedSkillIds) {
-  const testedSkillsCount = await _getTestedSkillsCountInTargetProfile(result, targetedSkillIds);
+  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({ [result.userId]: result.sharedAt });
+  const knowledgeElements = knowledgeElementsByUser[result.userId];
+  const testedSkillsCount = _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements);
   return new CampaignAssessmentParticipation({
     ...result,
     targetedSkillsCount: targetedSkillIds.length,
-    validatedSkillsCount: await _getValidatedSkillsCountInTargetProfile(result, targetedSkillIds),
+    validatedSkillsCount: _getValidatedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements),
     testedSkillsCount,
   });
 }
 
-async function _getValidatedSkillsCountInTargetProfile(result, targetedSkillIds) {
-  const validatedTargetedSkillIdsByUser = await _getValidatedTargetSkillIds(
-    { [result.userId]: result.sharedAt },
-    targetedSkillIds,
-  );
+function _getValidatedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements) {
+  const validatedKnowledgeElements = _.filter(knowledgeElements, 'isValidated');
+  const validatedSkillIds = _.map(validatedKnowledgeElements, 'skillId');
+  const validatedTargetedSkillIds = _.intersection(validatedSkillIds, targetedSkillIds);
 
-  return _.get(validatedTargetedSkillIdsByUser, `${result.userId}.length`, 0);
+  return validatedTargetedSkillIds.length;
 }
 
-async function _getTestedSkillsCountInTargetProfile(result, targetedSkillIds) {
-  const testedTargetedSkillIdsByUser = await _getTestedTargetSkillIds(
-    { [result.userId]: result.sharedAt },
-    targetedSkillIds,
-  );
+function _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements) {
+  const testedKnowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated || knowledgeElement.isInvalidated);
+  const testedSkillIds = _.map(testedKnowledgeElements, 'skillId');
+  const testedTargetedSkillIdsByUser = _.intersection(testedSkillIds, targetedSkillIds);
 
-  return _.get(testedTargetedSkillIdsByUser, `${result.userId}.length`, 0);
-}
-
-async function _getValidatedTargetSkillIds(sharedAtDatesByUsers, targetedSkillIds) {
-  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers(sharedAtDatesByUsers);
-
-  for (const userId of Object.keys(knowledgeElementsByUser)) {
-    const validatedKnowledgeElements = _.filter(knowledgeElementsByUser[userId], 'isValidated');
-    const validatedSkillIds = _.map(validatedKnowledgeElements, 'skillId');
-    knowledgeElementsByUser[userId] = _.intersection(validatedSkillIds, targetedSkillIds);
-  }
-
-  return knowledgeElementsByUser;
-}
-
-async function _getTestedTargetSkillIds(sharedAtDatesByUsers, targetedSkillIds) {
-  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers(sharedAtDatesByUsers);
-
-  for (const userId of Object.keys(knowledgeElementsByUser)) {
-    const testedKnowledgeElements = _.filter(knowledgeElementsByUser[userId], (knowledgeElement) => knowledgeElement.isValidated || knowledgeElement.isInvalidated);
-    const testedSkillIds = _.map(testedKnowledgeElements, 'skillId');
-    knowledgeElementsByUser[userId] = _.intersection(testedSkillIds, targetedSkillIds);
-  }
-
-  return knowledgeElementsByUser;
+  return testedTargetedSkillIdsByUser.length;
 }
