@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/sessions/list', function(hooks) {
+module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
   setupTest(hooks);
   let controller;
 
   hooks.beforeEach(function() {
-    controller = this.owner.lookup('controller:authenticated.sessions.list');
+    controller = this.owner.lookup('controller:authenticated.sessions.list.all');
   });
 
   module('#triggerFiltering task', function() {
