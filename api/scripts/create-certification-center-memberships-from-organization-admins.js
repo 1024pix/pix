@@ -27,8 +27,11 @@ async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
   const adminMemberships = await knex('memberships')
     .select('memberships.userId')
     .innerJoin('organizations', 'memberships.organizationId', 'organizations.id')
+    .innerJoin('users', 'users.id', 'memberships.userId')
     .where('organizationRole', Membership.roles.ADMIN)
-    .where('organizations.externalId', '=', externalId);
+    .where('organizations.externalId', '=', externalId)
+    .where('users.firstName', '!~', 'prenom_.*\\d')
+    .where('users.lastName', '!~', 'nom_.*\\d');
 
   return adminMemberships.map((adminMembership) => adminMembership.userId);
 }
