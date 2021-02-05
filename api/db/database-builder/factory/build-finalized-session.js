@@ -3,12 +3,13 @@ const databaseBuffer = require('../database-buffer');
 const moment = require('moment');
 
 module.exports = function buildFinalizedSession({
-  sessionId = 1,
+  sessionId = faker.random.number(),
   certificationCenterName = faker.random.word(),
   finalizedAt = faker.date.recent(),
   isPublishable = faker.random.boolean(),
   time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
   date = moment(faker.date.recent()).format('YYYY-MM-DD'),
+  publishedAt = null,
 } = {}) {
 
   const values = {
@@ -18,6 +19,7 @@ module.exports = function buildFinalizedSession({
     isPublishable,
     time,
     date,
+    publishedAt,
   };
 
   return databaseBuffer.pushInsertable({

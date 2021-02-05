@@ -41,6 +41,18 @@ class JuryCertificationSummary {
     this.hasSeenEndTestScreen = hasSeenEndTestScreen;
     this.certificationIssueReports = certificationIssueReports;
   }
+
+  isActionRequired() {
+    return this.certificationIssueReports.some((issueReport) => issueReport.isActionRequired);
+  }
+
+  hasScoringError() {
+    return this.status === JuryCertificationSummary.statuses.ERROR;
+  }
+
+  hasCompletedAssessment() {
+    return this.status !== JuryCertificationSummary.statuses.STARTED;
+  }
 }
 
 module.exports = JuryCertificationSummary;

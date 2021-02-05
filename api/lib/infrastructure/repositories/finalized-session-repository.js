@@ -17,6 +17,22 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, bookshelfFinalizedSession);
   },
+
+  async updatePublishedAt({ sessionId, publishedAt }) {
+    const updatedFinalizedSession = await FinalizedSessionBookshelf
+      .where({ sessionId })
+      .save({ publishedAt }, { method: 'update' });
+
+    return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, updatedFinalizedSession);
+  },
+
+  async findFinalizedSessionsToPublish() {
+    const publishableFinalizedSessions = await FinalizedSessionBookshelf
+      .where({ isPublishable: true, publishedAt: null })
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
+  },
 };
 
 function _toDTO(finalizedSession) {
