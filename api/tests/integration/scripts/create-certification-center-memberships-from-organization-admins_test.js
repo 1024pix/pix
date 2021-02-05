@@ -118,12 +118,26 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
     it('should get admin memberships by organization externalId', async () => {
       // given
-      const expectedUserIds = [adminUserId1a, adminUserId1b];
+      const organization = databaseBuilder.factory.buildOrganization();
+      const adminUserId1 = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: adminUserId1,
+        organizationRole: Membership.roles.ADMIN,
+      });
+      const adminUserId2 = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: adminUserId2,
+        organizationRole: Membership.roles.ADMIN,
+      });
+      await databaseBuilder.commit();
 
       // when
-      const userIds = await getAdminMembershipsUserIdByOrganizationExternalId(externalId1);
+      const userIds = await getAdminMembershipsUserIdByOrganizationExternalId(organization.externalId);
 
       // then
+      const expectedUserIds = [adminUserId1, adminUserId2];
       expect(userIds).to.deep.equal(expectedUserIds);
     });
 
