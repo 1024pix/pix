@@ -171,6 +171,25 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       // then
       expect(memberships).to.deep.equal([notAnonymizeUserId]);
     });
+
+    it('should not return disabled member', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const disabledUser = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: disabledUser.id,
+        organizationRole: Membership.roles.ADMIN,
+        disabledAt: '2020-02-04',
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await getAdminMembershipsUserIdByOrganizationExternalId(organization.externalId);
+
+      // then
+      expect(memberships).to.have.length(0);
+    });
   });
 
   describe('#fetchCertificationCenterMembershipsByExternalId', () => {
