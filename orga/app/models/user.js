@@ -1,4 +1,4 @@
-import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
+import Model, { belongsTo, attr } from '@ember-data/model';
 
 export default class User extends Model {
   @attr('string') email;
@@ -7,6 +7,5 @@ export default class User extends Model {
   @attr('string') password;
   @attr('boolean') cgu;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
-  @hasMany('membership') memberships;
   @belongsTo('user-orga-setting') userOrgaSettings;
 }
