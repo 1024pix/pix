@@ -38,9 +38,10 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       assert.notOk(applicationAdapter.headers['Authorization']);
     });
 
-    test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr', function(assert) {
+    test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function(assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
+      applicationAdapter.intl = { get: () => ['fr'] };
 
       // When
       applicationAdapter.set('currentDomain', { getExtension() { return 'fr'; } });
@@ -49,15 +50,27 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       assert.equal(applicationAdapter.headers['Accept-Language'], 'fr-fr');
     });
 
-    test('should add Accept-Language header set to fr-fr when the current domain contains pix.org', function(assert) {
+    test('should add Accept-Language header set to fr when the current domain contains pix.org and locale is "fr"', function(assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
+      applicationAdapter.intl = { get: () => ['fr'] };
 
       // When
       applicationAdapter.set('currentDomain', { getExtension() { return 'org'; } });
 
       // Then
       assert.equal(applicationAdapter.headers['Accept-Language'], 'fr');
+    });
+
+    test('should add Accept-Language header set to en when locale is "en"', function(assert) {
+      // Given
+      const applicationAdapter = this.owner.lookup('adapter:application');
+
+      // When
+      applicationAdapter.intl = { get: () => ['en'] };
+
+      // Then
+      assert.equal(applicationAdapter.headers['Accept-Language'], 'en');
     });
   });
 

@@ -36,6 +36,9 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
+    "@formatjs/intl-getcanonicallocales": "^1.5.3",
+    "@formatjs/intl-locale": "^2.4.14",
+    "@formatjs/intl-pluralrules": "^4.0.6",
     "@fortawesome/ember-fontawesome": "^0.2.2",
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
@@ -65,6 +68,7 @@
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.0.2",
     "ember-file-upload": "^3.0.5",
+    "ember-intl": "^5.6.2",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-modal-dialog": "^3.0.1",

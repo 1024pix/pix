@@ -17,6 +17,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.exampleEmail().toLowerCase(),
+    lang: 'someSuperCoolLanguage',
     /* eslint-disable-next-line no-sync */
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
@@ -69,6 +70,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
           firstName: user.firstName,
           lastName: user.lastName,
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          lang: user.lang,
         };
       });
 
@@ -82,6 +84,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', () => {
         expect(foundPrescriber.firstName).to.equal(expectedPrescriber.firstName);
         expect(foundPrescriber.lastName).to.equal(expectedPrescriber.lastName);
         expect(foundPrescriber.pixOrgaTermsOfServiceAccepted).to.equal(expectedPrescriber.pixOrgaTermsOfServiceAccepted);
+        expect(foundPrescriber.lang).to.equal(expectedPrescriber.lang);
       });
 
       it('should return a UserNotFoundError if no user is found', async () => {

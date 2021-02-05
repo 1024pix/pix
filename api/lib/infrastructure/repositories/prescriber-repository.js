@@ -9,12 +9,13 @@ const { ForbiddenAccess, UserNotFoundError } = require('../../domain/errors');
 const Prescriber = require('../../domain/read-models/Prescriber');
 
 function _toPrescriberDomain(bookshelfUser) {
-  const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted } = bookshelfUser.toJSON();
+  const { id, firstName, lastName, pixOrgaTermsOfServiceAccepted, lang } = bookshelfUser.toJSON();
   return new Prescriber({
     id,
     firstName,
     lastName,
     pixOrgaTermsOfServiceAccepted,
+    lang,
     memberships: bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, bookshelfUser.related('memberships')),
     userOrgaSettings: bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, bookshelfUser.related('userOrgaSettings')),
   });
@@ -45,7 +46,7 @@ module.exports = {
       const prescriberFromDB = await BookshelfUser
         .where({ id: userId })
         .fetch({ require: true,
-          columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted'],
+          columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
           withRelated: [
             { 'memberships': (qb) => qb.where({ disabledAt: null }).orderBy('id') },
             'memberships.organization',
