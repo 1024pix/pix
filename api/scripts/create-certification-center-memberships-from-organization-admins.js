@@ -29,6 +29,7 @@ async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
     .innerJoin('organizations', 'memberships.organizationId', 'organizations.id')
     .innerJoin('users', 'users.id', 'memberships.userId')
     .where('organizationRole', Membership.roles.ADMIN)
+    .whereNull('memberships.disabledAt')
     .where('organizations.externalId', '=', externalId)
     .where('users.firstName', '!~', 'prenom_.*\\d')
     .where('users.lastName', '!~', 'nom_.*\\d');
