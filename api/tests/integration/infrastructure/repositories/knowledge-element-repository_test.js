@@ -813,15 +813,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
             [expectedKnowledgeElement.competenceId]: [expectedKnowledgeElement],
           });
         });
-
-        it('should save a snasphot', async () => {
-          // when
-          await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: new Date('2018-02-01') });
-
-          // then
-          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
-          expect(actualUserSnapshots.length).to.equal(1);
-        });
       });
     });
   });
@@ -934,26 +925,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           expect(knowledgeElementsCountByCompetenceId).to.deep.equal({
             [targetProfile.competences[0].id]: 1,
           });
-        });
-
-        it('should save a snasphot', async () => {
-          // given
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-          const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildKnowledgeElement({
-            userId,
-            createdAt: new Date('2018-01-01'),
-            competenceId: targetProfile.competences[0].id,
-            skillId: targetProfile.skills[0].id,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          await knowledgeElementRepository.countValidatedTargetedByCompetencesForOneUser(userId, new Date('2018-02-01'), targetProfile);
-
-          // then
-          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
-          expect(actualUserSnapshots.length).to.equal(1);
         });
       });
     });
@@ -1150,26 +1121,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           expect(knowledgeElementsCountByCompetenceId).to.deep.equal({
             [targetProfile.competences[0].id]: 1,
           });
-        });
-
-        it('should save a snasphot', async () => {
-          // given
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-          const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildKnowledgeElement({
-            userId,
-            createdAt: new Date('2018-01-01'),
-            competenceId: targetProfile.competences[0].id,
-            skillId: targetProfile.skills[0].id,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          await knowledgeElementRepository.countValidatedTargetedByCompetencesForUsers({ [userId]: new Date('2018-02-01') }, targetProfile);
-
-          // then
-          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
-          expect(actualUserSnapshots.length).to.equal(1);
         });
       });
     });
@@ -1397,26 +1348,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
             [targetProfile.competences[0].id]: [expectedKnowledgeElement],
           });
         });
-
-        it('should save a snasphot', async () => {
-          // given
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-          const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildKnowledgeElement({
-            userId,
-            createdAt: new Date('2018-01-01'),
-            competenceId: targetProfile.competences[0].id,
-            skillId: targetProfile.skills[0].id,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers({ [userId]: new Date('2018-02-01') }, targetProfile);
-
-          // then
-          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
-          expect(actualUserSnapshots.length).to.equal(1);
-        });
       });
     });
 
@@ -1634,25 +1565,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
             [targetProfile.tubes[0].id]: [expectedKnowledgeElement],
           });
         });
-
-        it('should save a snasphot', async () => {
-          // given
-          const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-          const userId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildKnowledgeElement({
-            userId,
-            createdAt: new Date('2018-01-01'),
-            skillId: targetProfile.skills[0].id,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          await knowledgeElementRepository.findValidatedTargetedGroupedByTubes({ [userId]: new Date('2018-02-01') }, targetProfile);
-
-          // then
-          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId });
-          expect(actualUserSnapshots.length).to.equal(1);
-        });
       });
     });
 
@@ -1826,23 +1738,6 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
           // then
           expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([expectedKnowledgeElement]);
-        });
-
-        it('should save a snasphot', async () => {
-          // when
-          await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: new Date('2018-02-01') });
-
-          // then
-          const actualUserSnapshots = await knex.select('*').from('knowledge-element-snapshots').where({ userId: userId1 });
-          expect(actualUserSnapshots.length).to.equal(1);
-          const actualKnowledgeElements = [];
-          for (const knowledgeElementData of actualUserSnapshots[0].snapshot) {
-            actualKnowledgeElements.push(new KnowledgeElement({
-              ...knowledgeElementData,
-              createdAt: new Date(knowledgeElementData.createdAt),
-            }));
-          }
-          expect(actualKnowledgeElements).to.deep.equal([expectedKnowledgeElement]);
         });
       });
     });
