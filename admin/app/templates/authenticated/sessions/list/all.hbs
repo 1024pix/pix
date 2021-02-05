@@ -1,0 +1,22 @@
+<span class="session-list__self-toogle">
+  <p>Afficher uniquement mes sessions</p>
+  <XToggle
+  @size='small'
+  @theme='light'
+  @value={{this.assignedToSelfOnly}}
+  @onToggle={{perform this.triggerFiltering 'assignedToSelfOnly'}}
+  />
+</span>
+
+<Sessions::ListItems
+  @sessions={{this.model}}
+  @id={{this.id}}
+  @certificationCenterName={{this.certificationCenterName}}
+  @status={{this.status}}
+  @onChangeSessionStatus={{this.updateSessionStatusFilter}}
+  @certificationCenterType={{this.certificationCenterType}}
+  @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
+  @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}}
+  @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}
+  @triggerFiltering={{this.triggerFiltering}}
+/>

@@ -46,7 +46,9 @@ Router.map(function() {
     });
 
     this.route('sessions', function() {
-      this.route('list');
+      this.route('list', function() {
+        this.route('all', { path: '/' });
+      });
       this.route('session', { path: '/:session_id' }, function() {
         this.route('informations', { path: '/' });
         this.route('certifications');

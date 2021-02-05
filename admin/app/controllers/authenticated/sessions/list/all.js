@@ -7,8 +7,8 @@ import { action } from '@ember/object';
 
 const DEFAULT_PAGE_NUMBER = 1;
 
-export default class SessionListController extends Controller {
-
+export default class AuthenticatedSessionsListAllController extends Controller {
+    
   queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'status', 'resultsSentToPrescriberAt'];
   DEBOUNCE_MS = config.pagination.debounce;
 

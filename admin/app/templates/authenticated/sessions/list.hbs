@@ -1,29 +1,17 @@
 <header class="page-header">
   <div class="page-title">Toutes les sessions</div>
+  <nav class="navbar">
+    <LinkTo @route="authenticated.sessions.list" class="navbar-item">
+        Toutes les sessions
+    </LinkTo>
+    {{!-- <LinkTo @route="authenticated.sessions.to-publish" class="navbar-item">
+        Sessions sans erreurs
+    </LinkTo> --}}
+  </nav>
 </header>
 
 <main class="page-body">
   <section class="page-section">
-      <span class="session-list__self-toogle">
-          <p>Afficher uniquement mes sessions</p>
-          <XToggle
-            @size='small'
-            @theme='light'
-            @value={{this.assignedToSelfOnly}}
-            @onToggle={{perform this.triggerFiltering 'assignedToSelfOnly'}}
-          />
-      </span>
-      <Sessions::ListItems
-        @sessions={{this.model}}
-        @id={{this.id}}
-        @certificationCenterName={{this.certificationCenterName}}
-        @status={{this.status}}
-        @onChangeSessionStatus={{this.updateSessionStatusFilter}}
-        @certificationCenterType={{this.certificationCenterType}}
-        @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}
-        @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}}
-        @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}
-        @triggerFiltering={{this.triggerFiltering}}
-      />
+      {{outlet}}
   </section>
 </main>
