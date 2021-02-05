@@ -7,7 +7,6 @@ const BookshelfCertificationCenterMembership = require('../../../lib/infrastruct
 
 const {
   getCertificationCenterIdWithMembershipsUserIdByExternalId,
-  getCertificationCenterWithoutMembershipIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   fetchCertificationCenterMembershipsByExternalId,
   prepareDataForInsert,
@@ -73,25 +72,6 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     });
 
     await databaseBuilder.commit();
-  });
-
-  describe('#getCertificationCenterIdByExternalId', () => {
-
-    it('should get certification center by externalId', async () => {
-      // when
-      const certificationCenterId = await getCertificationCenterWithoutMembershipIdByExternalId(externalId1);
-
-      // then
-      expect(certificationCenterId).to.equal(certificationCenterId1);
-    });
-
-    it('should return null when certification center has a membership', async () => {
-      // when
-      const result = await getCertificationCenterWithoutMembershipIdByExternalId(externalIdForCertificationCenterWithMembership);
-
-      // then
-      expect(result).to.be.null;
-    });
   });
 
   describe('#getCertificationCenterIdWithMembershipsUserIdByExternalId', () => {
