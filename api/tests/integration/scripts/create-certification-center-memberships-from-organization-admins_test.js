@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 
 const Membership = require('../../../lib/domain/models/Membership');
@@ -15,63 +13,12 @@ const {
 
 describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', () => {
 
-  const externalId1 = '1234567A';
-  const externalId2 = '7654321B';
-  const externalIdForCertificationCenterWithMembership = '1231231C';
-
-  let organizationId1;
-  let organizationId2;
-  let certificationCenterId1;
-  let certificationCenterId2;
-  let certificationCenterWithMembershipId;
-
-  let adminUserId1a;
-  let adminUserId1b;
-  let adminUserId2a;
-  let adminUserId2b;
-
-  beforeEach(async () => {
-    organizationId1 = databaseBuilder.factory.buildOrganization({
-      externalId: externalId1,
-    }).id;
-    organizationId2 = databaseBuilder.factory.buildOrganization({
-      externalId: externalId2,
-    }).id;
-
-    adminUserId1a = databaseBuilder.factory.buildUser().id;
-    adminUserId1b = databaseBuilder.factory.buildUser().id;
-    const userId1 = databaseBuilder.factory.buildUser().id;
-
-    adminUserId2a = databaseBuilder.factory.buildUser().id;
-    adminUserId2b = databaseBuilder.factory.buildUser().id;
-    const userId2 = databaseBuilder.factory.buildUser().id;
-
-    _.each([
-      { userId: adminUserId1a, organizationId: organizationId1, organizationRole: Membership.roles.ADMIN },
-      { userId: adminUserId1b, organizationId: organizationId1, organizationRole: Membership.roles.ADMIN },
-      { userId: userId1, organizationId: organizationId1, organizationRole: Membership.roles.MEMBER },
-
-      { userId: adminUserId2a, organizationId: organizationId2, organizationRole: Membership.roles.ADMIN },
-      { userId: adminUserId2b, organizationId: organizationId2, organizationRole: Membership.roles.ADMIN },
-      { userId: userId2, organizationId: organizationId2, organizationRole: Membership.roles.MEMBER },
-
-    ], (membership) => (databaseBuilder.factory.buildMembership(membership)));
-
-    certificationCenterId1 = databaseBuilder.factory.buildCertificationCenter({
-      externalId: externalId1,
-    }).id;
-    certificationCenterId2 = databaseBuilder.factory.buildCertificationCenter({
-      externalId: externalId2,
-    }).id;
-    certificationCenterWithMembershipId = databaseBuilder.factory.buildCertificationCenter({
-      externalId: externalIdForCertificationCenterWithMembership,
-    }).id;
-    databaseBuilder.factory.buildCertificationCenterMembership({
-      certificationCenterId: certificationCenterWithMembershipId,
-      userId: userId1,
-    });
-
-    await databaseBuilder.commit();
+  afterEach(async () => {
+    await knex('certification-center-memberships').delete();
+    await knex('certification-centers').delete();
+    await knex('memberships').delete();
+    await knex('organizations').delete();
+    await knex('users').delete();
   });
 
   function _buildUserWithAdminMembership(organizationId) {
@@ -312,31 +259,32 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
         .then((number) => parseInt(number, 10));
     };
 
-    afterEach(async () => {
-      await knex('certification-center-memberships').delete();
-    });
-
     context('when the certification center does not have any membership', () => {
 
       it('should insert 4 certification center memberships', async () => {
         // given
+        const { organization: organization1, certificationCenter: certificationCenter1 } = _buildOrganizationAndAssociatedCertificationCenter();
+        const adminUserId1a = _buildUserWithAdminMembership(organization1.id);
+        const adminUserId1b = _buildUserWithAdminMembership(organization1.id);
+        const { organization: organization2, certificationCenter: certificationCenter2 } = _buildOrganizationAndAssociatedCertificationCenter();
+        const adminUserId2a = _buildUserWithAdminMembership(organization2.id);
+        const adminUserId2b = _buildUserWithAdminMembership(organization2.id);
+
         const certificationCenterMemberships = [
-          { certificationCenterId: certificationCenterId1, userId: adminUserId1a },
-          { certificationCenterId: certificationCenterId1, userId: adminUserId1b },
-          { certificationCenterId: certificationCenterId2, userId: adminUserId2a },
-          { certificationCenterId: certificationCenterId2, userId: adminUserId2b },
+          { certificationCenterId: certificationCenter1.id, userId: adminUserId1a },
+          { certificationCenterId: certificationCenter1.id, userId: adminUserId1b },
+          { certificationCenterId: certificationCenter2.id, userId: adminUserId2a },
+          { certificationCenterId: certificationCenter2.id, userId: adminUserId2b },
         ];
-        const numberBefore = await getNumberOfCertificationCenterMemberships();
+        await databaseBuilder.commit();
 
         // when
         await createCertificationCenterMemberships(certificationCenterMemberships);
-        const numberAfter = await getNumberOfCertificationCenterMemberships();
+        const count = await getNumberOfCertificationCenterMemberships();
 
         // then
-        expect(numberAfter - numberBefore).to.equal(4);
+        expect(count).to.equal(4);
       });
-
     });
   });
-
 });
