@@ -71,7 +71,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/1/memberships',
+        url: '/api/users/1/is-certifiable',
         headers: { authorization: generateValidRequestAuthorizationHeader(2) },
       };
 
