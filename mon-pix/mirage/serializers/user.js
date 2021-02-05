@@ -38,9 +38,6 @@ export default ApplicationSerializer.extend({
       certificationCenterMemberships: {
         related: `${userBaseUrl}/certification-center-memberships`,
       },
-      memberships: {
-        related: `${userBaseUrl}/memberships`,
-      },
     };
   },
 });
