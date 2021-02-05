@@ -5,6 +5,7 @@ class Prescriber {
     firstName,
     lastName,
     pixOrgaTermsOfServiceAccepted,
+    lang,
     areNewYearSchoolingRegistrationsImported,
     memberships = [],
     userOrgaSettings,
@@ -13,6 +14,7 @@ class Prescriber {
     this.firstName = firstName;
     this.lastName = lastName;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
+    this.lang = lang;
     this.areNewYearSchoolingRegistrationsImported = areNewYearSchoolingRegistrationsImported;
     this.memberships = memberships;
     this.userOrgaSettings = userOrgaSettings;
