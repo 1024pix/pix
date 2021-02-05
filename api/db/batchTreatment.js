@@ -5,10 +5,7 @@ function batch(knex, elementsToUpdate, treatment) {
   function _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone) {
 
     if (remainingElementsToUpdate.length <= 0) {
-      return Promise.resolve()
-        .then(() => {
-          console.log(`-- ENDING - ${numberOfTotalBatches} iterations done\n`);
-        });
+      return Promise.resolve();
     }
 
     const assessments = remainingElementsToUpdate.splice(0, BATCH_SIZE);
@@ -32,9 +29,6 @@ function batch(knex, elementsToUpdate, treatment) {
 
   return Promise
     .resolve()
-    .then(() => {
-      console.log(`\n-- STARTING - Processing the data through ${numberOfTotalBatches} iterations`);
-    })
     .then(() => _innerTreatment(knex, elementsToUpdate, numberOfTotalBatches, 0));
 }
 
