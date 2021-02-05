@@ -4,13 +4,13 @@ import { contains, notContains } from './contains';
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
-export function createPrescriberByUser(user) {
+export function createPrescriberByUser(user, memberships) {
   const prescriber = server.create('prescriber', {
     id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
     pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
-    memberships: user.memberships,
+    memberships,
     userOrgaSettings: user.userOrgaSettings,
   });
 
@@ -189,13 +189,16 @@ export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
     isManagingStudents: true,
   });
 
-  const memberships = server.create('membership', {
+  const membership = server.create('membership', {
     userId: user.id,
     organizationId: organization.id,
     organizationRole: role,
   });
 
   user.userOrgaSettings = server.create('user-orga-setting', { user, organization });
-  user.memberships = [memberships];
-  return user;
+  return { user, memberships: [ membership ] };
+}
+
+export function createStudents(organizationId, students) {
+  students.map((student) =>{ server.create('student', { organizationId, ...student });});
 }

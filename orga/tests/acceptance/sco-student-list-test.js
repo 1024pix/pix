@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, only, test } from 'qunit';
 import { find, currentURL, triggerEvent, visit } from '@ember/test-helpers';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
@@ -9,6 +9,7 @@ import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createUserManagingStudents,
   createPrescriberByUser,
+  createStudents,
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -34,6 +35,7 @@ module('Acceptance | Sco Student List', function(hooks) {
   module('When prescriber is logged in', function(hooks) {
 
     let user;
+    let memberships;
 
     hooks.afterEach(function() {
       const notificationMessagesService = this.owner.lookup('service:notifications');
@@ -63,17 +65,18 @@ module('Acceptance | Sco Student List', function(hooks) {
       });
     });
 
-    module('When prescriber is looking for students', function(hooks) {
+    module.only('When prescriber is looking for students', function(hooks) {
 
       hooks.beforeEach(async function() {
-        user = createUserManagingStudents();
-        createPrescriberByUser(user);
+        const result = createUserManagingStudents();
 
-        organizationId = user.memberships.models.firstObject.organizationId;
+        user = result.user;
+        memberships = result.memberships;
+        createPrescriberByUser(user, memberships);
 
-        server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris', hasEmail: false });
-        server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo', hasEmail: true });
+        const students = [{ firstName: 'Chuck', lastName: 'Norris', hasEmail: false }, { firstName: 'John', lastName: 'Rambo', hasEmail: true }];
 
+        createStudents(memberships[0].attrs.organizationId, students);
         await authenticateSession({
           user_id: user.id,
           access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
@@ -82,7 +85,7 @@ module('Acceptance | Sco Student List', function(hooks) {
         });
       });
 
-      test('it should display the students list filtered by lastname', async function(assert) {
+      only('it should display the students list filtered by lastname', async function(assert) {
         // when
         await visit('/eleves');
         await fillInByLabel('Entrer un nom', 'ambo');
