@@ -139,6 +139,38 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       // then
       expect(memberships).to.have.lengthOf(0);
     });
+
+    it('should not return anonymize user', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const anonymmizeUser = databaseBuilder.factory.buildUser({
+        firstName: 'prenom_1234',
+        lastName: 'nom_1234',
+      });
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: anonymmizeUser.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      const notAnonymizeUserId = databaseBuilder.factory.buildUser({
+        firstName: 'pre_1234',
+        lastName: 'no_1234',
+      }).id;
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: notAnonymizeUserId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await getAdminMembershipsUserIdByOrganizationExternalId(organization.externalId);
+
+      // then
+      expect(memberships).to.deep.equal([notAnonymizeUserId]);
+    });
   });
 
   describe('#fetchCertificationCenterMembershipsByExternalId', () => {
