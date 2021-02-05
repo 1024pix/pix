@@ -6,13 +6,22 @@ import sinon from 'sinon';
 module('Unit | Route | application', function(hooks) {
   setupTest(hooks);
 
-  const saveStub = sinon.stub().resolves();
-  const prescriber = {
-    lang: 'en',
-    save: saveStub,
-  };
+  let saveStub;
+  let prescriber;
+  let store;
 
-  module('sessionAuthenticated', function() {
+  hooks.beforeEach(function() {
+    store = this.owner.lookup('service:store');
+  });
+
+  module('sessionAuthenticated', function(hooks) {
+
+    hooks.beforeEach(function() {
+      saveStub = sinon.stub().resolves();
+      prescriber = store.createRecord('prescriber', { id: 1, lang: 'en' });
+      prescriber.save = saveStub;
+    });
+
     test('should set locales', async function(assert) {
       // given
       const load = sinon.stub().resolves(prescriber);
@@ -68,7 +77,14 @@ module('Unit | Route | application', function(hooks) {
     });
   });
 
-  module('beforeModel', function() {
+  module('beforeModel', function(hooks) {
+
+    hooks.beforeEach(function() {
+      saveStub = sinon.stub().resolves();
+      prescriber = store.createRecord('prescriber', { id: 1, lang: 'en' });
+      prescriber.save = saveStub;
+    });
+
     test('should set the locales', async function(assert) {
       // given
       const transition = { to: { queryParams: {} } };
@@ -89,7 +105,28 @@ module('Unit | Route | application', function(hooks) {
       assert.ok(setLocaleStub.calledWith(['en', 'fr']));
     });
 
-    test('should update user when there is lang param', async function(assert) {
+    test('should update user when there is lang param different from user lang', async function(assert) {
+      // given
+      const transition = { to: { queryParams: { lang: 'fr' } } };
+      const load = sinon.stub().resolves(prescriber);
+      const currentUserStub = Service.create({ load, prescriber });
+      const setLocaleStub = sinon.stub();
+      const intlStub = Service.create({
+        setLocale: setLocaleStub,
+      });
+      const route = this.owner.lookup('route:application');
+      route.set('currentUser', currentUserStub);
+      route.set('intl', intlStub);
+
+      // when
+      await route.beforeModel(transition);
+
+      // then
+      assert.ok(saveStub.calledWith({ adapterOptions: { lang: 'fr' } }));
+      assert.equal(prescriber.lang, 'fr');
+    });
+
+    test('should not update user lang when the passed lang param is the same as the user lang', async function(assert) {
       // given
       const transition = { to: { queryParams: { lang: 'en' } } };
       const load = sinon.stub().resolves(prescriber);
@@ -106,7 +143,8 @@ module('Unit | Route | application', function(hooks) {
       await route.beforeModel(transition);
 
       // then
-      assert.ok(saveStub.calledWith({ adapterOptions: { lang: 'en' } }));
+      assert.notOk(saveStub.called);
+      assert.equal(prescriber.lang, 'en');
     });
 
     test('it should load the current user', async function(assert) {
