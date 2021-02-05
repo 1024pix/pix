@@ -4,25 +4,12 @@ const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructu
 const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
-} = require('../../../../scripts/prod/generate-knowledge-element-snapshots-for-active-campaigns');
+} = require('../../../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns');
 
-describe('Integration | Scripts | generate-knowledge-element-snapshots-for-active-campaigns.js', () => {
+describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campaigns.js', () => {
 
   describe('#getEligibleCampaignParticipations', () => {
     const maxParticipationCountToGet = 5;
-
-    it('should avoid returning campaign participations that are not in active campaigns', async () => {
-      // given
-      const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: new Date('2020-01-01') }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
-      await databaseBuilder.commit();
-
-      // when
-      const campaignParticipationData = await getEligibleCampaignParticipations(maxParticipationCountToGet);
-
-      // then
-      expect(campaignParticipationData.length).to.equal(0);
-    });
 
     it('should avoid returning campaign participations that are not shared', async () => {
       // given

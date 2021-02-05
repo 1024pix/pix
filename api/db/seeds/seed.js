@@ -29,11 +29,15 @@ const targetProfilesBuilder = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 const stagesBuilder = require('./data/stages-builder');
+const {
+  getEligibleCampaignParticipations,
+  generateKnowledgeElementSnapshots,
+} = require('../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 const SEED_NUMBER = 20110228;
 
-exports.seed = (knex) => {
+exports.seed = async (knex) => {
   faker.seed(SEED_NUMBER);
 
   const databaseBuilder = new DatabaseBuilder({ knex });
@@ -76,8 +80,10 @@ exports.seed = (knex) => {
   // Éléments de parcours pour l'utilisateur Pix Aile
   buildPixAileProfile({ databaseBuilder });
 
-  return databaseBuilder.commit()
-    .then(() => alterSequenceIfPG(knex));
+  await databaseBuilder.commit();
+  await alterSequenceIfPG(knex);
+  const campaignParticipationData = await getEligibleCampaignParticipations(50000);
+  await generateKnowledgeElementSnapshots(campaignParticipationData, 3);
 };
 
 /**
@@ -87,18 +93,13 @@ exports.seed = (knex) => {
  * (time being enough for dev ou review apps - seed are not run on staging or prod)
  */
 function alterSequenceIfPG(knex) {
+  return knex.raw('SELECT sequence_name FROM information_schema.sequences;')
+    .then((sequenceNameQueryResult) => {
+      const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
 
-  const isPG = process.env.DATABASE_URL || false;
-
-  if (isPG) {
-    return knex.raw('SELECT sequence_name FROM information_schema.sequences;')
-      .then((sequenceNameQueryResult) => {
-        const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
-
-        const sequenceUpdatePromises = sequenceNames.map((sequenceName) => {
-          return knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`);
-        });
-        return Promise.all(sequenceUpdatePromises);
+      const sequenceUpdatePromises = sequenceNames.map((sequenceName) => {
+        return knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`);
       });
-  }
+      return Promise.all(sequenceUpdatePromises);
+    });
 }

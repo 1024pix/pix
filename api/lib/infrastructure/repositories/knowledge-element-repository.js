@@ -58,14 +58,6 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
   });
 }
 
-async function _findByUserIdAndLimitDateThenSaveSnapshot({ userId, limitDate }) {
-  const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate });
-  if (limitDate) {
-    await knowledgeElementSnapshotRepository.save({ userId, snappedAt: limitDate, knowledgeElements });
-  }
-  return knowledgeElements;
-}
-
 async function _findSnapshotsForUsers(userIdsAndDates) {
   const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
 
@@ -73,7 +65,7 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
     const userId = parseInt(userIdStr);
     let knowledgeElements = knowledgeElementsFromSnapshot;
     if (!knowledgeElements) {
-      knowledgeElements = await _findByUserIdAndLimitDateThenSaveSnapshot({
+      knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({
         userId,
         limitDate: userIdsAndDates[userId],
       });

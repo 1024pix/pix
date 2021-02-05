@@ -49,8 +49,6 @@ async function getEligibleCampaignParticipations(maxSnapshotCount) {
       this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId')
         .andOn('knowledge-element-snapshots.snappedAt', 'campaign-participations.sharedAt');
     })
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .whereNull('campaigns.archivedAt')
     .whereNotNull('campaign-participations.sharedAt')
     .where((qb) => {
       qb.whereNull('knowledge-element-snapshots.snappedAt')
@@ -67,9 +65,7 @@ async function generateKnowledgeElementSnapshots(campaignParticipationData, conc
     try {
       await knowledgeElementSnapshotRepository.save({ userId, snappedAt: sharedAt, knowledgeElements });
     } catch (err) {
-      if (err instanceof AlreadyExistingEntityError) {
-        console.log(`Un snapshot existe déjà pour l'utilisateur ${userId} à la date ${sharedAt}. Ignoré.`);
-      } else {
+      if (!(err instanceof AlreadyExistingEntityError)) {
         throw err;
       }
     }
@@ -96,13 +92,9 @@ async function main() {
       concurrency,
     } = _validateAndNormalizeArgs(commandLineArgs);
 
-    console.log(`Génération de ${maxSnapshotCount} snapshots avec une concurrence de ${concurrency}`);
-
     const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
-    console.log(`${campaignParticipationData.length} participations récupérées...`);
 
     await generateKnowledgeElementSnapshots(campaignParticipationData, concurrency);
-    console.log('FIN');
   } catch (error) {
     console.error('\x1b[31mErreur : %s\x1b[0m', error.message);
     yargs.showHelp();
