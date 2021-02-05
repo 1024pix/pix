@@ -9,16 +9,6 @@ const Membership = require('../lib/domain/models/Membership');
 
 const { knex } = require('../lib/infrastructure/bookshelf');
 
-async function getCertificationCenterWithoutMembershipIdByExternalId(externalId) {
-  const certificationCenter = await knex('certification-centers')
-    .first('certification-centers.id')
-    .leftJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
-    .whereNull('certification-center-memberships.id')
-    .where('certification-centers.externalId', '=', externalId);
-
-  return certificationCenter ? certificationCenter.id : null;
-}
-
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
   const certificationCenterIdWithMemberships = await knex('certification-centers')
     .select('certification-centers.id', 'certification-center-memberships.userId')
@@ -111,7 +101,6 @@ if (require.main === module) {
 
 module.exports = {
   getCertificationCenterIdWithMembershipsUserIdByExternalId,
-  getCertificationCenterWithoutMembershipIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
