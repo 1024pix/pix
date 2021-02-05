@@ -11,6 +11,8 @@ const FRENCHSPOKEN_LOCALE = 'fr';
 export default class ApplicationAdapter extends JSONAPIAdapter.extend(DataAdapterMixin) {
   @service currentDomain;
   @service ajaxQueue;
+  @service intl;
+
   host = ENV.APP.API_HOST;
   namespace = 'api';
 
@@ -19,14 +21,21 @@ export default class ApplicationAdapter extends JSONAPIAdapter.extend(DataAdapte
     if (this.session.isAuthenticated) {
       headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
     }
-    headers['Accept-Language'] = this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION ?
-      FRENCH_LOCALE
-      : FRENCHSPOKEN_LOCALE;
-
+    headers['Accept-Language'] = this._locale;
     return headers;
   }
 
   ajax() {
     return this.ajaxQueue.add(() => super.ajax(...arguments));
+  }
+
+  get _locale() {
+    const currentLocale = this.intl.get('locale')[0];
+    if (currentLocale === 'fr') {
+      return this.currentDomain.getExtension() === FRENCH_DOMAIN_EXTENSION ?
+        FRENCH_LOCALE
+        : FRENCHSPOKEN_LOCALE;
+    }
+    return currentLocale;
   }
 }

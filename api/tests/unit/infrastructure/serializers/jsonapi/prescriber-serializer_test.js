@@ -15,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           'last-name': prescriber.lastName,
           'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
           'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported,
+          'lang': prescriber.lang,
         },
         relationships: {
           memberships: {
@@ -109,6 +110,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           'last-name': prescriber.lastName,
           'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
           'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported,
+          'lang': prescriber.lang,
         },
         relationships: {
           memberships: {
@@ -451,6 +453,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           pixOrgaTermsOfServiceAccepted: true,
           memberships: [],
           certificationCenterMemberships: [],
+          lang: 'someLanguage',
         });
 
         const tags = [domainBuilder.buildTag({ name: 'OTHER' })];
@@ -472,6 +475,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
           lastName: user.lastName,
           areNewYearSchoolingRegistrationsImported: false,
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          lang: user.lang,
           memberships: [membership],
           userOrgaSettings,
         });

@@ -59,13 +59,6 @@ export default function() {
     return user;
   });
 
-  this.get('/users/me', (schema, request) => {
-    const userToken = request.requestHeaders['Authorization'].replace('Bearer ', '');
-    const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
-
-    return schema.users.find(userId);
-  });
-
   this.patch('/users/:id/pix-orga-terms-of-service-acceptance', (schema, request) => {
     const user = schema.users.find(request.params.id);
     user.update({ pixOrgaTermsOfServiceAccepted: true });
