@@ -49,8 +49,6 @@ async function getEligibleCampaignParticipations(maxSnapshotCount) {
       this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId')
         .andOn('knowledge-element-snapshots.snappedAt', 'campaign-participations.sharedAt');
     })
-    .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .whereNull('campaigns.archivedAt')
     .whereNotNull('campaign-participations.sharedAt')
     .where((qb) => {
       qb.whereNull('knowledge-element-snapshots.snappedAt')
