@@ -216,7 +216,6 @@ module.exports = injectDependencies({
   getTargetProfileDetails: require('./get-target-profile-details'),
   getUserByResetPasswordDemand: require('./get-user-by-reset-password-demand'),
   getUserCampaignParticipationToCampaign: require('./get-user-campaign-participation-to-campaign'),
-  getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
   getUserDetailsForAdmin: require('./get-user-details-for-admin'),
   getUserProfile: require('./get-user-profile'),
   getUserProfileSharedForCampaign: require('./get-user-profile-shared-for-campaign'),
