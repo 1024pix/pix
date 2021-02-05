@@ -135,18 +135,8 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     it('should get admin memberships by organization externalId', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
-      const adminUserId1 = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildMembership({
-        organizationId: organization.id,
-        userId: adminUserId1,
-        organizationRole: Membership.roles.ADMIN,
-      });
-      const adminUserId2 = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildMembership({
-        organizationId: organization.id,
-        userId: adminUserId2,
-        organizationRole: Membership.roles.ADMIN,
-      });
+      const adminUserId1 = _buildUserWithAdminMembership(organization.id);
+      const adminUserId2 = _buildUserWithAdminMembership(organization.id);
       await databaseBuilder.commit();
 
       // when
@@ -226,26 +216,14 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
     it('should fetch list of certification center memberships by externalId without already existing ones', async () => {
       // given
-      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      const userId = databaseBuilder.factory.buildUser().id;
+      const { organization, certificationCenter } = _buildOrganizationAndAssociatedCertificationCenter();
+      const userId = _buildUserWithAdminMembership(organization.id);
       databaseBuilder.factory.buildCertificationCenterMembership({
         certificationCenterId: certificationCenter.id,
         userId,
       });
 
-      const organization = databaseBuilder.factory.buildOrganization({ externalId: certificationCenter.externalId });
-      databaseBuilder.factory.buildMembership({
-        organizationId: organization.id,
-        userId,
-        organizationRole: Membership.roles.ADMIN,
-      });
-
-      const newAdminUserId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildMembership({
-        organizationId: organization.id,
-        userId: newAdminUserId,
-        organizationRole: Membership.roles.ADMIN,
-      });
+      const newAdminUserId = _buildUserWithAdminMembership(organization.id);
 
       await databaseBuilder.commit();
 
@@ -295,40 +273,33 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
       it('should create a list of 2 certification center memberships to insert from a list of externalIds', async () => {
         // given
-        const externalId = 'externalId';
+        const { organization, certificationCenter: certificationCenterWithMembership } = _buildOrganizationAndAssociatedCertificationCenter();
 
-        const organizationId = databaseBuilder.factory.buildOrganization({
-          externalId,
-        }).id;
+        const adminUserId = _buildUserWithAdminMembership(organization.id);
+        const adminUserBisId = _buildUserWithAdminMembership(organization.id);
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildMembership({
+          userId,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.MEMBER,
+        });
 
-        const adminUserId = databaseBuilder.factory.buildUser().id;
-        const adminUserBisId = databaseBuilder.factory.buildUser().id;
-        const user = databaseBuilder.factory.buildUser().id;
-
-        _.each([
-          { userId: adminUserId, organizationId, organizationRole: Membership.roles.ADMIN },
-          { userId: adminUserBisId, organizationId, organizationRole: Membership.roles.ADMIN },
-          { userId: user, organizationId, organizationRole: Membership.roles.MEMBER },
-        ], (membership) => (databaseBuilder.factory.buildMembership(membership)));
-
-        const certificationCenterWithMembershipId = databaseBuilder.factory.buildCertificationCenter({
-          externalId,
-        }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership(
-          { certificationCenterId: certificationCenterWithMembershipId, userId: adminUserId });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId: certificationCenterWithMembership.id,
+          userId: adminUserId,
+        });
 
         await databaseBuilder.commit();
 
-        const expectedCertificationCenterMemberships = [
-          { certificationCenterId: certificationCenterWithMembershipId, userId: adminUserBisId },
-        ];
-
         // when
         const result = await prepareDataForInsert([
-          { externalId },
+          { externalId: organization.externalId },
         ]);
 
         // then
+        const expectedCertificationCenterMemberships = [
+          { certificationCenterId: certificationCenterWithMembership.id, userId: adminUserBisId },
+        ];
         expect(result).to.deep.have.members(expectedCertificationCenterMemberships);
       });
     });
