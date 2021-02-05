@@ -1,8 +1,15 @@
-.certification-center__data {
+#certification-center-get-page {
 
-  .certification-center__name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 20px;
+  .page-section__header {
+    justify-content: space-around;
+  }
+
+  .certification-center__data {
+
+    .certification-center__name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
   }
 }
