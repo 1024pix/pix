@@ -1,222 +1,229 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const { expect, databaseBuilder } = require('../../../test-helper');
+const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
 const campaignParticipationOverviewRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-overview-repository');
 const _ = require('lodash');
 
-let userId;
-
 describe('Integration | Repository | Campaign Participation Overview', () => {
+  let userId;
 
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    knex('campaigns').delete();
-    knex('organizations').delete();
-    knex('users').delete();
-    knex('campaign-participations').delete();
-    return knex('assessments').delete();
-  });
-
   describe('#findByUserIdWithFilters', () => {
 
-    context('with one campaign participation of type `ASSESSMENT` completed but not shared', () => {
+    context('when there is no filter', () => {
 
-      beforeEach(async () => {
-
-        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
-          userId,
-          index: '1',
-          isShared: false,
-          lastAssessmentState: Assessment.states.COMPLETED,
-          campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
-        });
-
+      it('retrieves information about campaign participation, campaign and organization', async () => {
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ name: 'Organization ABCD' });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ title: 'Campaign ABCD', code: 'ABCD', archivedAt: new Date('2020-01-03'), organizationId, targetProfileId });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-01-02'), validatedSkillsCount: 12 });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.STARTED });
         await databaseBuilder.commit();
-      });
 
-      it('should retrieve no campaign participation overviews for the user when state is ONGOING', async () => {
-        const states = ['ONGOING'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-        expect(campaignParticipationOverviews).to.have.lengthOf(0);
-      });
+        const { campaignParticipationOverviews: [campaignParticipation] } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
 
-      it('should retrieve one campaign participation overviews for the user when state is TO_SHARE', async () => {
-        const states = ['TO_SHARE'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-
-        expect(campaignParticipationOverviews).to.have.lengthOf(1);
-        expect(campaignParticipationOverviews[0]).to.be.instanceOf(CampaignParticipationOverview);
-        expect(campaignParticipationOverviews[0].createdAt).to.deep.equal(new Date('2000-07-01T10:00:00Z'));
-        expect(campaignParticipationOverviews[0].assessmentState).to.equal('completed');
-        expect(campaignParticipationOverviews[0].organizationName).to.equal('1 - My organization');
-      });
-    });
-
-    context('with one campaign participation of type `ASSESSMENT` completed and shared', () => {
-
-      beforeEach(async () => {
-
-        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
-          userId,
-          index: '1',
+        expect(campaignParticipation).to.deep.equal({
+          id: participationId,
+          createdAt: new Date('2020-01-01'),
+          sharedAt: new Date('2020-01-02'),
           isShared: true,
-          lastAssessmentState: Assessment.states.COMPLETED,
-          campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
+          campaignCode: 'ABCD',
+          campaignTitle: 'Campaign ABCD',
+          campaignArchivedAt: new Date('2020-01-03'),
+          organizationName: 'Organization ABCD',
+          assessmentState: Assessment.states.STARTED,
+          validatedSkillsCount: 12,
+          targetProfileId,
+          totalSkillsCount: undefined,
         });
+      });
+
+      it('should retrieve all campaign participation of the user', async () => {
+        const { id: participation1Id } = campaignParticipationOverviewFactory.build({ userId });
+        const { id: participation2Id } = campaignParticipationOverviewFactory.build({ userId });
+        campaignParticipationOverviewFactory.build();
+        await databaseBuilder.commit();
+
+        const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+        const campaignParticipationUserIds = _.map(campaignParticipationOverviews, 'id');
+
+        expect(campaignParticipationUserIds).to.exactlyContain([participation1Id, participation2Id]);
+      });
+
+      it('should retrieve only campaign participation that have an assessment', async () => {
+        const { id: participation1Id } = campaignParticipationOverviewFactory.build({ userId });
+        const { id: participation2Id } = campaignParticipationOverviewFactory.build({ userId });
+        databaseBuilder.factory.buildCampaignParticipation({ userId });
+        await databaseBuilder.commit();
+
+        const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+        const campaignParticipationUserIds = _.map(campaignParticipationOverviews, 'id');
+
+        expect(campaignParticipationUserIds).to.exactlyContain([participation1Id, participation2Id]);
+      });
+
+      it('retrieves information about the most recent assessment of campaign participation', async () => {
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.ABORTED, createdAt: new Date('2020-01-01') });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.STARTED, createdAt: new Date('2020-01-02') });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.COMPLETED, createdAt: new Date('2020-01-03') });
+        await databaseBuilder.commit();
+
+        const { campaignParticipationOverviews: [campaignParticipation] } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+
+        expect(campaignParticipation.assessmentState).to.equal(Assessment.states.COMPLETED);
+      });
+
+      it('retrieves pagination information', async () => {
+        const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-01') });
+        campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-02') });
+        await databaseBuilder.commit();
+        const page = { number: 2, size: 1 };
+
+        const {
+          campaignParticipationOverviews,
+          pagination,
+        } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, page });
+
+        expect(campaignParticipationOverviews[0].id).to.equal(oldestParticipation);
+        expect(pagination).to.deep.equal({
+          page: 2,
+          pageSize: 1,
+          rowCount: 2,
+          pageCount: 2,
+        });
+      });
+
+    });
+
+    context('when there are filters', () => {
+      let onGoingParticipation;
+      let toShareParticipation;
+      let endedParticipation;
+      let archivedParticipation;
+
+      beforeEach(async () => {
+        onGoingParticipation = campaignParticipationOverviewFactory.build({ userId, assessmentState: Assessment.states.STARTED, sharedAt: null });
+        toShareParticipation = campaignParticipationOverviewFactory.build({ userId, assessmentState: Assessment.states.COMPLETED, sharedAt: null });
+        endedParticipation = campaignParticipationOverviewFactory.build({ userId, sharedAt: new Date('2020-01-02') });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ archivedAt: new Date('2020-01-02') });
+        archivedParticipation = campaignParticipationOverviewFactory.build({ userId, sharedAt: null, campaignId });
 
         await databaseBuilder.commit();
       });
 
-      it('should retrieve no campaign participation overviews for the user when state is ONGOING', async () => {
-        const states = ['ONGOING'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-        expect(campaignParticipationOverviews).to.have.lengthOf(0);
+      context('the filter is ONGOING', () => {
+        it('returns participation with a started assessment', async () => {
+          const states = ['ONGOING'];
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+
+          expect(campaignParticipationOverviews[0].id).to.equal(onGoingParticipation.id);
+          expect(campaignParticipationOverviews).to.have.lengthOf(1);
+        });
       });
 
-      it('should retrieve no campaign participation overviews for the user when state is TO_SHARE', async () => {
-        const states = ['TO_SHARE'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-        expect(campaignParticipationOverviews).to.have.lengthOf(0);
+      context('the filter is TO_SHARE', () => {
+        it('returns participation with a completed assessment', async () => {
+          const states = ['TO_SHARE'];
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+
+          expect(campaignParticipationOverviews[0].id).to.equal(toShareParticipation.id);
+          expect(campaignParticipationOverviews).to.have.lengthOf(1);
+        });
       });
 
-      it('should retrieve one campaign participation overviews for the user when state is ENDED', async () => {
-        const states = ['ENDED'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-        expect(campaignParticipationOverviews).to.have.lengthOf(1);
+      context('the filter is ENDED', () => {
+        it('returns shared participation', async () => {
+          const states = ['ENDED'];
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
 
-        expect(campaignParticipationOverviews[0]).to.be.instanceOf(CampaignParticipationOverview);
-        expect(campaignParticipationOverviews[0].createdAt).to.deep.equal(new Date('2000-07-01T10:00:00Z'));
-        expect(campaignParticipationOverviews[0].assessmentState).to.equal('completed');
-        expect(campaignParticipationOverviews[0].organizationName).to.equal('1 - My organization');
+          expect(campaignParticipationOverviews[0].id).to.equal(endedParticipation.id);
+          expect(campaignParticipationOverviews).to.have.lengthOf(1);
+        });
+      });
+
+      context('the filter is ARCHIVED', () => {
+        it('returns participation where the campaign is archived', async () => {
+          const states = ['ARCHIVED'];
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+
+          expect(campaignParticipationOverviews[0].id).to.equal(archivedParticipation.id);
+          expect(campaignParticipationOverviews).to.have.lengthOf(1);
+        });
+      });
+
+      context('when there are several statuses given for the status filter', () => {
+        it('returns only participations which matches with the given statuses', async () => {
+          const states = ['ONGOING', 'TO_SHARE'];
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
+
+          expect(_.map(campaignParticipationOverviews, 'id')).to.exactlyContain([ onGoingParticipation.id, toShareParticipation.id]);
+        });
       });
     });
 
-    context('with many campaign participations of type `ASSESSMENT`', () => {
-      beforeEach(async () => {
-        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
-          userId,
-          index: '1',
-          isShared: false,
-          lastAssessmentState: Assessment.states.STARTED,
-          campaignParticipationCreatedAt: new Date('2000-07-01T10:00:00Z'),
+    context('order', () => {
+      context('when all campaign participation have different status', ()=> {
+        it('orders all campaign participation by status', async () => {
+          const { id: participationArchived } = campaignParticipationOverviewFactory.buildArchived({ userId });
+          const { id: participationEndedId } = campaignParticipationOverviewFactory.buildEnded({ userId });
+          const { id: participationOnGoingId } = campaignParticipationOverviewFactory.buildOnGoing({ userId });
+          const { id: participationToShareId } = campaignParticipationOverviewFactory.buildToShare({ userId });
+          await databaseBuilder.commit();
+
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+
+          expect(campaignParticipationIds).to.exactlyContainInOrder([participationToShareId, participationOnGoingId, participationEndedId, participationArchived]);
         });
+      });
 
-        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
-          userId,
-          index: '2',
-          isShared: false,
-          lastAssessmentState: Assessment.states.COMPLETED,
-          campaignParticipationCreatedAt: new Date('2000-07-02T10:00:00Z'),
+      context('when there are campaign participation with the same status', () => {
+        it('orders all campaign participation by assessment creation date', async () => {
+          const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-01') });
+          const { id: newestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-02') });
+          await databaseBuilder.commit();
+
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+
+          expect(campaignParticipationIds).to.exactlyContainInOrder([newestParticipation, oldestParticipation]);
         });
+      });
 
-        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
-          userId,
-          index: '3',
-          isShared: true,
-          lastAssessmentState: Assessment.states.COMPLETED,
-          campaignParticipationCreatedAt: new Date('2000-07-03T10:00:00Z'),
-          campaignParticipationSharedAt: new Date('2000-07-03T10:00:00Z'),
+      context('when there are several campaign participation with the status ended', () => {
+        it('orders campaign participation by sharing date then assessment creation date', async () => {
+          const { id: firstParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-01'), assessmentCreatedAt: new Date('2020-01-04') });
+          const { id: secondParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-02'), assessmentCreatedAt: new Date('2020-01-02') });
+          const { id: lastParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-02'), assessmentCreatedAt: new Date('2020-01-03') });
+
+          await databaseBuilder.commit();
+
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+
+          expect(campaignParticipationIds).to.exactlyContainInOrder([lastParticipation, secondParticipation, firstParticipation ]);
         });
+      });
 
-        databaseBuilder.factory.buildCampaignParticipationElementsForOverview({
-          userId,
-          index: '4',
-          isShared: false,
-          lastAssessmentState: Assessment.states.STARTED,
-          campaignParticipationCreatedAt: new Date('2000-07-04T10:00:00Z'),
-          campaignArchivedAt: new Date('2000-07-05T11:00:00Z'),
+      context('when there are several campaign participation with the status archived', () => {
+        it('orders campaign participation by assessment creation date', async () => {
+          const { id: firstParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: new Date('2020-01-01'), assessmentCreatedAt: new Date('2020-01-04') });
+          const { id: lastParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: new Date('2020-01-02'), assessmentCreatedAt: new Date('2020-01-02') });
+          const { id: secondParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: null, assessmentCreatedAt: new Date('2020-01-03') });
+
+          await databaseBuilder.commit();
+
+          const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+          const campaignParticipationIds = _.map(campaignParticipationOverviews, 'id');
+
+          expect(campaignParticipationIds).to.exactlyContainInOrder([firstParticipation, secondParticipation, lastParticipation]);
         });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should retrieve all campaign participations of the user', async () => {
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-
-        expect(campaignParticipationOverviews).to.have.lengthOf(3);
-        expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign', '1 - My campaign', '3 - My campaign']);
-      });
-
-      it('should retrieve the campaign participations of the user with filtered assessment where state is TO_SHARE', async () => {
-        const states = ['TO_SHARE'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-
-        expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign']);
-
-        expect(campaignParticipationOverviews[0]).to.be.instanceOf(CampaignParticipationOverview);
-        expect(campaignParticipationOverviews[0].createdAt).to.deep.equal(new Date('2000-07-02T10:00:00Z'));
-        expect(campaignParticipationOverviews[0].assessmentState).to.equal('completed');
-        expect(campaignParticipationOverviews[0].organizationName).to.equal('2 - My organization');
-      });
-
-      it('should retrieve the campaign participations of the user with filtered assessment where state is ONGOING and TO_SHARE', async () => {
-        const states = ['ONGOING', 'TO_SHARE'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-
-        expect(campaignParticipationOverviews).to.have.lengthOf(2);
-        expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign', '1 - My campaign']);
-      });
-
-      it('should retrieve the campaign participations of the user with filtered assessment where state is TO_SHARE and ENDED', async () => {
-        const states = ['TO_SHARE', 'ENDED'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-
-        expect(campaignParticipationOverviews).to.have.lengthOf(2);
-        expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['2 - My campaign', '3 - My campaign']);
-      });
-
-      it('should retrieve the campaign participations of the user with filtered assessment where state is  ENDED', async () => {
-        const states = ['ENDED'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-
-        expect(campaignParticipationOverviews).to.have.lengthOf(1);
-        expect(_.map(campaignParticipationOverviews, 'campaignTitle')).to.deep.equal(['3 - My campaign']);
-      });
-    });
-
-    context('with one campaign participation of type `PROFILES_COLLECTION`', () => {
-      beforeEach(async () => {
-        const organizationId = databaseBuilder.factory.buildOrganization({ name: 'My organization' }).id;
-        const campaignId = databaseBuilder.factory.buildCampaign({
-          organizationId,
-          title: 'My campaign',
-          createdAt: new Date('2000-01-01T10:00:00Z'),
-          archivedAt: null,
-          type: Campaign.types.PROFILES_COLLECTION,
-        }).id;
-
-        databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          createdAt: new Date('2000-07-01T10:00:00Z'),
-          campaignId,
-        }).id;
-
-        await databaseBuilder.commit();
-      });
-
-      it('should retrieve no campaign participation of the user', async () => {
-        const states = ['ONGOING', 'TO_SHARE', 'ENDED'];
-        const rawCampaignParticipationOverviews = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId, states });
-        const { campaignParticipationOverviews } = rawCampaignParticipationOverviews;
-
-        expect(campaignParticipationOverviews).to.have.lengthOf(0);
       });
     });
   });
-
 });
