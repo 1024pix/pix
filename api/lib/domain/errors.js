@@ -438,6 +438,12 @@ class InvalidResultRecipientTokenError extends DomainError {
   }
 }
 
+class InvalidSessionResultError extends DomainError {
+  constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
+    super(message);
+  }
+}
+
 class InvalidRecaptchaTokenError extends DomainError {
   constructor(message = 'Token de recaptcha invalide.') {
     super(message);
@@ -744,6 +750,7 @@ module.exports = {
   InvalidExternalUserTokenError,
   InvalidRecaptchaTokenError,
   InvalidResultRecipientTokenError,
+  InvalidSessionResultError,
   InvalidTemporaryKeyError,
   ManyOrganizationsFoundError,
   MatchingReconciledStudentNotFoundError,

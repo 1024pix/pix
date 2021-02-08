@@ -137,6 +137,17 @@ module.exports = {
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
+  async getSessionResultsToDownload(request, h) {
+    const token = request.params.token;
+    const { sessionId } = tokenService.extractSessionId(token);
+    const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
+    const csvResult = await getCertificationResultsCsv({ session, certificationResults });
+
+    return h.response(csvResult)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
+  },
+
   async getSessionResultsByRecipientEmail(request, h) {
     const token = request.params.token;
     const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);

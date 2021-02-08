@@ -307,6 +307,18 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/sessions/download-all-results/{token}',
+      config: {
+        auth: false,
+        handler: sessionController.getSessionResultsToDownload,
+        tags: ['api', 'sessions', 'results'],
+        notes: [
+          'Elle retourne les résultats de certifications d\'une session agrégés par email de destinataire des résultats',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/sessions/{id}/certification-reports',
       config: {
         validate: {

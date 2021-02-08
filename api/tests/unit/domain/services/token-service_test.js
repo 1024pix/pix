@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 
 const { catchErr, expect } = require('../../../test-helper');
 
-const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError } = require('../../../../lib/domain/errors');
+const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError, InvalidSessionResultError } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
@@ -160,6 +160,50 @@ describe('Unit | Domain | Service | Token Service', () => {
 
       // then
       expect(result).to.equal(null);
+    });
+  });
+
+  describe('#extractSessionId', () => {
+
+    it('should return the session id if the token is valid', () => {
+      // given
+      const token = jsonwebtoken.sign({
+        session_id: 12345,
+      }, settings.authentication.secret, { expiresIn: '30d' });
+
+      // when
+      const tokenData = tokenService.extractSessionId(token);
+
+      // then
+      expect(tokenData).to.deep.equal({
+        sessionId: 12345,
+      });
+    });
+
+    it('should throw if session id or result recipient email is missing', async () => {
+      // given
+      const invalidIdToken = jsonwebtoken.sign({
+      }, settings.authentication.secret, { expiresIn: '30d' });
+
+      // when
+      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidSessionResultError);
+    });
+
+    it('should throw if token is expired', async () => {
+      // given
+      const invalidIdToken = jsonwebtoken.sign({
+        session_id: 1234,
+      }, settings.authentication.secret, { expiresIn: '1' });
+
+      // when
+      setTimeout(async() => {}, 100);
+      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidSessionResultError);
     });
   });
 
