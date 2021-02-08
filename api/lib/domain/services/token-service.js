@@ -32,11 +32,11 @@ function createCertificationResultsByRecipientEmailLinkToken({ sessionId, result
   });
 }
 
-function createCertificationResultsLinkToken({ sessionId }) {
+function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }) {
   return jsonwebtoken.sign({
     session_id: sessionId,
   }, settings.authentication.secret, {
-    expiresIn: '30d',
+    expiresIn: `${daysBeforeExpiration}d`,
   });
 }
 
