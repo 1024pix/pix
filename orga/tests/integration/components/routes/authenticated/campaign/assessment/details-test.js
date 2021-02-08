@@ -56,6 +56,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
 
     await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
 
+    assert.contains('Avancement');
     assert.contains('75%');
   });
 
@@ -152,6 +153,23 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
 
   module('results information', function() {
     module('when the participation is shared', function() {
+      test('it should not display campaign progression', async function(assert) {
+        const campaignAssessmentParticipation = {
+          progression: 100,
+          isShared: true,
+        };
+
+        const campaign = {};
+
+        this.campaignAssessmentParticipation = campaignAssessmentParticipation;
+        this.campaign = campaign;
+
+        await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
+
+        assert.notContains('Avancement');
+        assert.notContains('100%');
+      });
+
       test('it displays campaign participation details of mastery percentage (validated skills over total skills)', async function(assert) {
         const campaignAssessmentParticipation = {
           validatedSkillsCount: 45,
