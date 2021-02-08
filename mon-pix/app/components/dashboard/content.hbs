@@ -2,7 +2,7 @@
   <h1 class="sr-only">{{t 'pages.dashboard.title'}}</h1>
 
   {{#unless this.hasUserSeenNewDashboardInfo}}
-    <section class="dashboard-content__section">
+    <section class="dashboard-content__section" data-test-new-dashboard-info>
       <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
                       @image="/images/discovery_TDB_pix.svg"
                       @backgroundColorClass="new-information--blue-gradient-background"
@@ -10,6 +10,19 @@
                       @closeaction={{this.closeInformationAboutNewDashboard}}/>
     </section>
   {{/unless}}
+
+  {{#if this.hasNothingToShow}}
+    <section class="dashboard-content__section" data-test-empty-dashboard>
+      <div class="dashboard-content-section--with-button">
+        <NewInformation @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
+                        @image="/images/fusee.png"
+                        @backgroundColorClass="new-information--yellow-background"
+                        @linkText={{t 'pages.dashboard.empty-dashboard.link-to-competences'}}
+                        @linkTo="profile"
+                        @textColorClass="new-information--black-text"/>
+      </div>
+    </section>
+  {{/if}}
 
   {{#if this.hasCampaignParticipationOverviews}}
     <section class="dashboard-content__section" data-test-campaign-participation-overviews>

@@ -519,6 +519,10 @@
                 "subtitle": "Continuez vos parcours de test en cours ou envoyez vos résultats",
                 "title": "Parcours"
             },
+            "empty-dashboard" : {
+                "link-to-competences": "Voir mes compétences",
+                "message": "<h2>Bravo vous avez terminé les compétences recommandées !</h2> <p> Pour aller plus loin continuez à vous entraîner en retentant des compétences. </p>"
+            },
             "presentation": "<h2>Bonjour {firstname}, découvrez votre tableau de bord.</h2><p>Accédez rapidement et facilement à vos parcours et vos tests de compétence déjà commencés.<br>Retrouvez l’évolution de votre score Pix et vérifiez si votre profil est prêt pour la certification Pix.</p>",
             "recommended-competences": {
                 "profile-link": "Toutes les compétences",
