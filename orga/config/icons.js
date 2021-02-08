@@ -26,6 +26,7 @@ module.exports = function() {
     'free-regular-svg-icons': [
       'check-circle',
       'copy',
+      'trash-alt',
     ],
   };
 };
