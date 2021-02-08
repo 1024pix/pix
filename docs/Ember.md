@@ -6,6 +6,9 @@
    * [Le fichier `router.js`](#le-fichier-routerjs)
    * [Utilisation de transitionTo](#utilisation-de-transitionto)
 
+2. [Tests](#tests)
+  * [Stubber un service](#stubber-un-service)
+
 
 ## Routes
 
@@ -112,6 +115,83 @@ export default class MyRoute extends Route {
     }
   }
 }
+```
+
+## Tests
+
+### Stubber un service
+
+On exploite l'injection des services dans Ember afin de tester correctement les modules qui en utilisent.
+
+```javascript
+// components/login-form.js
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+
+export default class LoginForm extends Component {
+  @service session;
+  @tracked printSuccessMessage = false;
+  email = null;
+  
+  @action
+  async authenticate(event) {
+    await this.session.authenticate('authenticator:oauth2', email, 'pix123', 'pix-orga');
+    this.printSuccessMessage = true;
+  }
+}
+```
+```handlebars
+{{!-- components/login-form.hbs --}}
+<form {{on 'submit' this.authenticate}}>
+  <label for="login-email">Adresse e-mail</label>
+  <Input
+    @id="login-email"
+    @name="login"
+    @type="email"
+    @value={{this.email}}
+    @required='true'
+  />
+
+  <div>
+    <button type="submit">Je me connecte</button>
+  </div>
+  {{#if this.printSuccessMessage}}
+    <p>Bravo !</p>
+  {{/if}}
+</form>
+```
+```javascript
+// tests/integration/components/login-form.js
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { click, fillIn, render } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import Service from '@ember/service';
+
+module('Integration | Component | login-form', function(hooks) {
+  setupRenderingTest(hooks);
+  
+  test('it should display success message when authentication is successful', async function(assert) {
+    const authenticateStub = sinon.stub();
+    class SessionStub extends Service {
+      authenticate = authenticateStub;
+    }
+    authenticateStub
+      .withArgs('authenticator:oauth2', 'pix@example.net', 'pix123', 'pix-orga')
+      .resolves();
+    this.owner.register('service:session', SessionStub);
+    await render(hbs`<Routes::LoginForm/>`);
+
+    // when
+    await fillIn('#login-email', 'pix@example.net');
+    await click('.button');
+
+    // then
+    assert.contains('Bravo !');
+  });
+});
 ```
 
 
