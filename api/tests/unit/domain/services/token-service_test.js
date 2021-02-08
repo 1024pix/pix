@@ -292,7 +292,7 @@ describe('Unit | Domain | Service | Token Service', () => {
 
   });
 
-  describe('#createCertificationResultLinkToken', () => {
+  describe('#createCertificationResultsByRecipientEmailLinkToken', () => {
     it('should return a valid token with sessionId and resultRecipientEmail', () => {
       // given
       const sessionId = 'abcd1234';
@@ -304,7 +304,25 @@ describe('Unit | Domain | Service | Token Service', () => {
       };
 
       // when
-      const linkToken = tokenService.createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+      const linkToken = tokenService.createCertificationResultsByRecipientEmailLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+
+      // then
+      const decodedToken = jsonwebtoken.verify(linkToken, settings.authentication.secret);
+      expect(omit(decodedToken, ['iat', 'exp'])).to.deep.equal(expectedTokenAttributes);
+    });
+  });
+
+  describe('#createCertificationResultsLinkToken', () => {
+    it('should return a valid token with sessionId and resultRecipientEmail', () => {
+      // given
+      const sessionId = 'abcd1234';
+      const daysBeforeExpiration = 30;
+      const expectedTokenAttributes = {
+        'session_id': 'abcd1234',
+      };
+
+      // when
+      const linkToken = tokenService.createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration });
 
       // then
       const decodedToken = jsonwebtoken.verify(linkToken, settings.authentication.secret);
