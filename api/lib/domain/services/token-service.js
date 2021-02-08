@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError } = require('../../domain/errors');
+const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError, InvalidSessionResultError } = require('../../domain/errors');
 const settings = require('../../config');
 
 function createAccessTokenFromUser(userId, source) {
@@ -76,6 +76,17 @@ function extractResultRecipientEmailAndSessionId(token) {
   };
 }
 
+function extractSessionId(token) {
+  const decoded = getDecodedToken(token);
+  if (!decoded.session_id) {
+    throw new InvalidSessionResultError();
+  }
+
+  return {
+    sessionId: decoded.session_id,
+  };
+}
+
 function extractUserId(token) {
   const decoded = getDecodedToken(token);
   return decoded.user_id || null;
@@ -115,6 +126,7 @@ module.exports = {
   extractPayloadFromPoleEmploiIdToken,
   extractResultRecipientEmailAndSessionId,
   extractSamlId,
+  extractSessionId,
   extractTokenFromAuthChain,
   extractUserId,
   extractUserIdForCampaignResults,
