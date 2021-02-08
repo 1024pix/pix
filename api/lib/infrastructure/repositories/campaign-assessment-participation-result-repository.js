@@ -5,8 +5,8 @@ const knowledgeElementRepository = require('./knowledge-element-repository');
 const targetProfileWithLearningContentRepository = require('./target-profile-with-learning-content-repository');
 
 module.exports = {
-  async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
-    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
+  async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale }) {
+    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId, locale });
 
     const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 

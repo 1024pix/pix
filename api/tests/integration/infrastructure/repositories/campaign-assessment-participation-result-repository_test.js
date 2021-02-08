@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const campaignAssessmentParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository');
+const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Repository | Campaign Assessment Participation Result', () => {
 
@@ -26,6 +27,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           skillIds: ['skill1'],
           origin: 'Pix',
           nameFrFr: 'Compétence 1',
+          nameEnUs: 'English competence 1',
         }, {
           id: 'rec2',
           index: '1.2',
@@ -33,6 +35,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           skillIds: ['skill2'],
           origin: 'Pix',
           nameFrFr: 'Compétence 2',
+          nameEnUs: 'English competence 2',
+
         }],
         tubes: [{
           id: 'recTube1',
@@ -123,6 +127,71 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         expect(campaignAssessmentParticipationResult.isShared).to.equal(true);
         expect(campaignAssessmentParticipationResult.competenceResults.length).to.equal(2);
         expect(campaignAssessmentParticipationResult.competenceResults).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('When given locale is fr', () => {
+      const locale = FRENCH_SPOKEN;
+      beforeEach(() => {
+        campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          userId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+        }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        return databaseBuilder.commit();
+      });
+
+      it('returns french', async () => {
+        const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale });
+
+        expect(campaignAssessmentParticipationResult.competenceResults[0].name).to.equal('Compétence 1');
+      });
+    });
+
+    context('When given locale is en', () => {
+      const locale = ENGLISH_SPOKEN;
+      beforeEach(() => {
+        campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          userId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+        }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        return databaseBuilder.commit();
+      });
+
+      it('returns english', async () => {
+        const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale });
+
+        expect(campaignAssessmentParticipationResult.competenceResults[0].name).to.equal('English competence 1');
+      });
+    });
+
+    context('When no given locale', () => {
+      beforeEach(() => {
+        campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          userId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+        }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        return databaseBuilder.commit();
+      });
+
+      it('returns french', async () => {
+        const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
+
+        expect(campaignAssessmentParticipationResult.competenceResults[0].name).to.equal('Compétence 1');
       });
     });
   });
