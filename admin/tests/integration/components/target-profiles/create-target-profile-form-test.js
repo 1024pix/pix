@@ -26,13 +26,17 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
     onLoadFile = sinon.stub();
     onSubmit = sinon.stub();
+    const onSubmitWrapper = function(e) {
+      e.preventDefault();
+      onSubmit();
+    };
     onCancel = sinon.stub();
 
     this.set('targetProfile', targetProfile);
     this.set('isFileInvalid', isFileInvalid);
 
     this.set('onLoadFile', onLoadFile);
-    this.set('onSubmit', onSubmit);
+    this.set('onSubmit', onSubmitWrapper);
     this.set('onCancel', onCancel);
 
   });
@@ -42,12 +46,12 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
-                         @targetProfile={{this.targetProfile}}
-                         @isFileInvalid={{this.isFileInvalid}}
+      @targetProfile={{this.targetProfile}}
+      @isFileInvalid={{this.isFileInvalid}}
 
-                         @onLoadFile={{this.onLoadFile}}
-                         @onSubmit={{this.onSubmit}}
-                         @onCancel={{this.onCancel}}/>`);
+      @onLoadFile={{this.onLoadFile}}
+      @onSubmit={{this.onSubmit}}
+      @onCancel={{this.onCancel}}/>`);
 
     // then
     assert.contains('Nom * :');
@@ -65,12 +69,12 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
-                         @targetProfile={{this.targetProfile}}
-                         @isFileInvalid={{this.isFileInvalid}}
+      @targetProfile={{this.targetProfile}}
+      @isFileInvalid={{this.isFileInvalid}}
 
-                         @onLoadFile={{this.onLoadFile}}
-                         @onSubmit={{this.onSubmit}}
-                         @onCancel={{this.onCancel}}/>`);
+      @onLoadFile={{this.onLoadFile}}
+      @onSubmit={{this.onSubmit}}
+      @onCancel={{this.onCancel}}/>`);
 
     // then
     assert.contains('Le fichier Pix Editor n\'est pas au bon format.');
@@ -79,17 +83,14 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   test('it should call onSubmit when form is valid', async function(assert) {
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
-                         @targetProfile={{this.targetProfile}}
-                         @isFileInvalid={{this.isFileInvalid}}
+      @targetProfile={{this.targetProfile}}
+      @isFileInvalid={{this.isFileInvalid}}
 
-                         @onLoadFile={{this.onLoadFile}}
-                         @onSubmit={{this.onSubmit}}
-                         @onCancel={{this.onCancel}}/>`);
+      @onLoadFile={{this.onLoadFile}}
+      @onSubmit={{this.onSubmit}}
+      @onCancel={{this.onCancel}}/>`);
 
-    await triggerEvent(
-      'form',
-      'submit',
-    );
+    await triggerEvent('form', 'submit');
 
     // then
     assert.ok(onSubmit.called);
@@ -98,12 +99,12 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   test('it should call onCancel when form is cancel', async function(assert) {
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
-                         @targetProfile={{this.targetProfile}}
-                         @isFileInvalid={{this.isFileInvalid}}
+      @targetProfile={{this.targetProfile}}
+      @isFileInvalid={{this.isFileInvalid}}
 
-                         @onLoadFile={{this.onLoadFile}}
-                         @onSubmit={{this.onSubmit}}
-                         @onCancel={{this.onCancel}}/>`);
+      @onLoadFile={{this.onLoadFile}}
+      @onSubmit={{this.onSubmit}}
+      @onCancel={{this.onCancel}}/>`);
 
     await click('button[type="button"]');
 
@@ -114,17 +115,15 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   test('it should call onLoadFile when file is selected', async function(assert) {
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
-                         @targetProfile={{this.targetProfile}}
-                         @isFileInvalid={{this.isFileInvalid}}
+      @targetProfile={{this.targetProfile}}
+      @isFileInvalid={{this.isFileInvalid}}
 
-                         @onLoadFile={{this.onLoadFile}}
-                         @onSubmit={{this.onSubmit}}
-                         @onCancel={{this.onCancel}}/>`);
+      @onLoadFile={{this.onLoadFile}}
+      @onSubmit={{this.onSubmit}}
+      @onCancel={{this.onCancel}}/>`);
 
-    await triggerEvent(
-      '#skillsList',
-      'change',
-    );
+    await triggerEvent('#skillsList', 'change');
+
     // then
     assert.ok(onLoadFile.called);
   });
