@@ -8,6 +8,10 @@ export default class Content extends Component {
 
   @service currentUser;
 
+  get hasNothingToShow() {
+    return !this.hasCampaignParticipationOverviews && !this.hasStartedCompetences && !this.hasRecommendedCompetences;
+  }
+
   get hasCampaignParticipationOverviews() {
     const campaignParticipationOverviews = this.args.model.campaignParticipationOverviews;
     return campaignParticipationOverviews && campaignParticipationOverviews.length > 0;

@@ -225,7 +225,44 @@ describe('Integration | Component | Dashboard | Content', function() {
       await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
 
       // then
-      expect(find('.new-information')).not.to.exist;
+      expect(find('section[data-test-new-dashboard-info]')).not.to.exist;
+    });
+
+  });
+
+  describe('empty dashboard info rendering', function() {
+
+    it('should display Empty Dashboard Information if user has nothing to do', async function() {
+      // given
+      this.owner.register('service:currentUser', CurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(find('section[data-test-empty-dashboard]')).to.exist;
+    });
+
+    it('should not display Empty Dashboard Information on dashboard if user has competence to continue', async function() {
+      // given
+      this.owner.register('service:currentUser', HasSeenNewDashboardInformationCurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [
+          { id: 1, index: '1.1', isStarted: true },
+          { id: 2, index: '1.2', isStarted: true },
+        ],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(find('section[data-test-empty-dashboard]')).not.to.exist;
     });
 
   });
