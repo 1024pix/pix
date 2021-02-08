@@ -6,7 +6,19 @@ module.exports = {
 
   serialize(certificationCenters, meta) {
     return new Serializer('certification-center', {
-      attributes: ['id', 'name', 'type', 'externalId', 'createdAt'],
+      attributes: [
+        'id', 'name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships',
+      ],
+      certificationCenterMemberships: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        nullIfMissing: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/certification-centers/${parent.id}/certification-center-memberships`;
+          },
+        },
+      },
       meta,
     }).serialize(certificationCenters);
   },

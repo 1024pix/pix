@@ -19,7 +19,10 @@ describe('Acceptance | Controller | users-controller-get-certification-center-me
     beforeEach(() => {
       certificationCenter = databaseBuilder.factory.buildCertificationCenter({ name: 'certifCenter' });
       user = databaseBuilder.factory.buildUser();
-      certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId: certificationCenter.id, userId: user.id });
+      certificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId: certificationCenter.id,
+        userId: user.id,
+      });
       options = {
         method: 'GET',
         url: `/api/users/${user.id}/certification-center-memberships`,
@@ -68,11 +71,16 @@ describe('Acceptance | Controller | users-controller-get-certification-center-me
             {
               type: 'certificationCenterMemberships',
               id: certificationCenterMembership.id.toString(),
-              attributes: {},
+              attributes: {
+                'created-at': certificationCenterMembership.createdAt,
+              },
               relationships: {
                 'certification-center': {
                   data:
                     { type: 'certificationCenters', id: certificationCenter.id.toString() },
+                },
+                user: {
+                  data: null,
                 },
               },
             },

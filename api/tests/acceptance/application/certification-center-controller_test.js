@@ -1,8 +1,13 @@
 const _ = require('lodash');
+
 const {
-  expect, generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster, databaseBuilder, knex,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
+  knex,
 } = require('../../test-helper');
+
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Certification Center', () => {
@@ -403,6 +408,105 @@ describe('Acceptance | API | Certification Center', () => {
         expect(response.statusCode).to.equal(401);
       });
     });
+  });
+
+  describe('GET /api/certification-centers/{id}/certification-center-memberships', () => {
+
+    let certificationCenter;
+    let certificationCenterMembership1;
+    let certificationCenterMembership2;
+    let user1;
+    let user2;
+
+    beforeEach(async () => {
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      user1 = databaseBuilder.factory.buildUser();
+      user2 = databaseBuilder.factory.buildUser();
+      certificationCenterMembership1 = databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId: certificationCenter.id,
+        userId: user1.id,
+      });
+      certificationCenterMembership2 = databaseBuilder.factory.buildCertificationCenterMembership({
+        certificationCenterId: certificationCenter.id,
+        userId: user2.id,
+      });
+      await databaseBuilder.commit();
+
+      request = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(),
+        },
+        method: 'GET',
+        url: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
+      };
+    });
+
+    context('when certification center membership is linked to the certification center', () => {
+
+      it('should return 200 HTTP status', async () => {
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return certification center memberships', async () => {
+        // given
+        const expectedIncluded = [
+          {
+            id: certificationCenter.id.toString(),
+            type: 'certificationCenters',
+            attributes: {
+              name: certificationCenter.name,
+              type: certificationCenter.type,
+            },
+            relationships: {
+              sessions: {
+                links: {
+                  related: `/api/certification-centers/${certificationCenter.id}/sessions`,
+                },
+              },
+            },
+          },
+          {
+            id: user1.id.toString(),
+            type: 'users',
+            attributes: {
+              email: user1.email,
+              'first-name': user1.firstName,
+              'last-name': user1.lastName,
+            },
+          },
+          {
+            id: user2.id.toString(),
+            type: 'users',
+            attributes: {
+              email: user2.email,
+              'first-name': user2.firstName,
+              'last-name': user2.lastName,
+            },
+          },
+        ];
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.result.data[0].id)
+          .to.equal(certificationCenterMembership1.id.toString());
+        expect(response.result.data[0].attributes['created-at'])
+          .to.deep.equal(certificationCenterMembership1.createdAt);
+
+        expect(response.result.data[1].id)
+          .to.equal(certificationCenterMembership2.id.toString());
+        expect(response.result.data[1].attributes['created-at'])
+          .to.deep.equal(certificationCenterMembership2.createdAt);
+
+        expect(response.result.included).to.deep.equal(expectedIncluded);
+      });
+    });
+
   });
 
   function _buildSchoolingRegistrations(organization, ...students) {

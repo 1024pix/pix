@@ -2,7 +2,7 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-center-serializer');
 const CertificationCenter = require('../../../../../lib/domain/models/CertificationCenter');
 
-describe('Unit | Serializer | JSONAPI | certification-center-serializer', function() {
+describe('Unit | Serializer | JSONAPI | certification-center-serializer', () => {
 
   let certificationCenterId;
   let certificationCenterName;
@@ -18,9 +18,9 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
     certificationCenterDate = 'Some date';
   });
 
-  describe('#serialize', function() {
+  describe('#serialize', () => {
 
-    it('should convert a Certification Center model object into JSON API data', function() {
+    it('should convert a Certification Center model object into JSON API data', () => {
       // given
       const certificationCenter = new CertificationCenter({
         id: certificationCenterId.toString(),
@@ -40,6 +40,13 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
             'external-id': undefined,
             'created-at': certificationCenterDate,
           },
+          relationships: {
+            'certification-center-memberships': {
+              links: {
+                related: `/api/certification-centers/${certificationCenter.id}/certification-center-memberships`,
+              },
+            },
+          },
         },
       };
 
@@ -49,12 +56,11 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
       // then
       expect(serializedCertificationCenter).to.deep.equal(expectedSerializedCertificationCenter);
     });
-
   });
 
-  describe('#deserialize', function() {
+  describe('#deserialize', () => {
 
-    it('should convert JSON API certification center data into a Certification Center model object', function() {
+    it('should convert JSON API certification center data into a Certification Center model object', () => {
       // given
       const jsonApi = {
         data: {
