@@ -1,12 +1,13 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
+import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | routes/authenticated/campaign/participation-filters', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let store;
 
   hooks.beforeEach(function() {
@@ -42,14 +43,12 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
       });
       const campaign = store.createRecord('campaign', {
         id: 1,
-        divisions: [division],
       });
-
+      campaign.set('divisions', [division]);
       this.set('campaign', campaign);
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters @campaign={{campaign}} />`);
-
       // then
       assert.contains('Classes');
       assert.contains('d1');
@@ -67,8 +66,8 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
         id: 1,
         name: 'campagne 1',
         stages: [],
-        divisions: [division],
       });
+      campaign.set('divisions', [division]);
 
       const triggerFiltering = sinon.stub();
       this.set('campaign', campaign);
@@ -264,6 +263,77 @@ module('Integration | Component | routes/authenticated/campaign/participation-fi
 
         // then
         assert.ok(triggerFiltering.calledWith({ stages: ['stage1'] }));
+      });
+    });
+
+    module('display number of filtered participants as Pix filter banner details', function() {
+      test('it should display one filtered participant', async function(assert) {
+        // given
+        const badge = store.createRecord('badge');
+        const campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          badges: [badge],
+        });
+        const rowCount = 1;
+        this.set('campaign', campaign);
+        this.set('rowCount', rowCount);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters
+                            @campaign={{campaign}}
+                            @rowCount={{rowCount}}
+                          />`);
+
+        // then
+        assert.contains('1 participant');
+      });
+
+      test('it should display many filtered participant', async function(assert) {
+        // given
+        const badge = store.createRecord('badge');
+        const campaign = store.createRecord('campaign', {
+          type: 'ASSESSMENT',
+          badges: [badge],
+        });
+        const rowCount = 2;
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+        this.set('details', rowCount);
+
+        // when
+        await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters
+                            @campaign={{campaign}}
+                            @rowCount={{details}}
+                          />`);
+
+        // then
+        assert.contains('2 participants');
+      });
+
+      module('when there is a reset Filter button', function() {
+        test('it triggers the reset filters button when user has clicked', async function(assert) {
+          //given
+          const badge = store.createRecord('badge');
+          const campaign = store.createRecord('campaign', {
+            type: 'ASSESSMENT',
+            badges: [badge],
+          });
+          const resetFiltering = sinon.stub();
+          this.set('campaign', campaign);
+          this.set('resetFiltering', resetFiltering);
+
+          //when
+          await render(hbs`<Routes::Authenticated::Campaign::ParticipationFilters
+                            @campaign={{campaign}}
+                            @resetFiltering={{resetFiltering}}
+                          />`);
+          await clickByLabel('Effacer les filtres');
+
+          //then
+          assert.ok(resetFiltering.called);
+        });
       });
     });
   });
