@@ -29,6 +29,10 @@ export default function() {
   this.get('/admin/users/:id');
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
+  this.get('/certification-centers/:id/certification-center-memberships', (schema, request) => {
+    const certificationCenterId = request.params.id;
+    return schema.certificationCenterMemberships.where({ certificationCenterId });
+  });
   this.post('/certification-centers', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     const name = params.data.attributes.name;

@@ -8,13 +8,20 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
     it('should convert a Certification Center Membership model object into JSON API data', function() {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter();
-      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({ certificationCenter });
+      const user = domainBuilder.buildUser();
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+        certificationCenter,
+        user,
+      });
 
       const expectedSerializedCertificationCenter = {
         data: [
           {
-            attributes: {},
             id: certificationCenterMembership.id.toString(),
+            type: 'certificationCenterMemberships',
+            attributes: {
+              'created-at': certificationCenterMembership.createdAt,
+            },
             relationships: {
               'certification-center': {
                 data: {
@@ -22,17 +29,23 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
                   type: 'certificationCenters',
                 },
               },
+              user: {
+                data: {
+                  id: user.id.toString(),
+                  type: 'users',
+                },
+              },
             },
-            type: 'certificationCenterMemberships',
           },
         ],
         included: [
           {
+            id: certificationCenter.id.toString(),
+            type: 'certificationCenters',
             attributes: {
               name: certificationCenter.name,
               type: certificationCenter.type,
             },
-            id: certificationCenter.id.toString(),
             relationships: {
               sessions: {
                 links: {
@@ -40,7 +53,15 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
                 },
               },
             },
-            type: 'certificationCenters',
+          },
+          {
+            id: user.id.toString(),
+            type: 'users',
+            attributes: {
+              'first-name': user.firstName,
+              'last-name': user.lastName,
+              email: user.email,
+            },
           },
         ],
       };
@@ -51,7 +72,6 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
       // then
       expect(serializedCertificationCenter).to.deep.equal(expectedSerializedCertificationCenter);
     });
-
   });
 
 });

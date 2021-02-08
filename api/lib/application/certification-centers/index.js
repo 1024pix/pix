@@ -119,6 +119,28 @@ exports.register = async function(server) {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/certification-centers/{certificationCenterId}/certification-center-memberships',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            certificationCenterId: identifiersType.certificationCenterId,
+          }),
+        },
+        handler: certificationCenterController.findCertificationCenterMembershipsByCertificationCenter,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
+          '- Récupération de tous les membres d\'un centre de certification.\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
+        ],
+        tags: ['api', 'certification-center-membership'],
+      },
+    },
   ]);
 };
 
