@@ -10,6 +10,10 @@ export default function() {
   this.namespace = 'api';
 
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
+  this.get('/admin/sessions/to-publish', (schema, request) => {
+    const publishableSessions = schema.publishableSessions.all();
+    return publishableSessions;
+  });
   this.get('/admin/sessions/:id');
   this.get('/admin/sessions/:id/jury-certification-summaries', getJuryCertificationSummariesBySessionId);
   this.put('/admin/sessions/:id/results-sent-to-prescriber', (schema, request) => {
