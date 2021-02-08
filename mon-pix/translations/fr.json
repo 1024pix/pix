@@ -115,10 +115,12 @@
                 "started-at": "Commencé le {date}",
                 "finished-at": "Terminé le {date}",
                 "results": "{result} % de réussite",
+                "text-archived": "Parcours archivé par votre organisation.'<br>'Vos résultats n'ont pas pu être envoyés.",
                 "tag": {
                     "started": "En cours",
                     "completed": "À envoyer",
-                    "finished": "Terminé"
+                    "finished": "Terminé",
+                    "archived": "Archivé"
                 }
             }
         },

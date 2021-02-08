@@ -115,10 +115,12 @@
                 "started-at": "Started the {date}",
                 "finished-at": "Finished the {date}",
                 "results": "Success rate: {result}%",
+                "text-archived": "Your personalised test has been archived by your organisation.'<br>'Your results could not be submitted.",
                 "tag": {
                     "started": "In progress",
                     "completed": "To be submitted",
-                    "finished": "Finished"
+                    "finished": "Finished",
+                    "archived": "Archived"
                 }
             }
         },
