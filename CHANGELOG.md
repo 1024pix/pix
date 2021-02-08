@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.16.0 (08/02/2021)
+
+- [#2507](https://github.com/1024pix/pix/pull/2507) [FEATURE] Afficher la liste des membres d'un centre de certification dans Pix Admin (PIX-504).
+- [#2495](https://github.com/1024pix/pix/pull/2495) [FEATURE] Afficher un message quand le tableau de bord est vide (PIX-2081).
+- [#2505](https://github.com/1024pix/pix/pull/2505) [FEATURE] Affichage des compétences en anglais lorsque la langue saisie est "en" dans l'onglet des résultats collectifs (PIX-2098).
+- [#2499](https://github.com/1024pix/pix/pull/2499) [FEATURE] Obtenir la liste des sessions "sans problème" (PIX-2095)
+- [#2496](https://github.com/1024pix/pix/pull/2496) [FEATURE] Ajouter un bandeau Pix Certif pour la fonctionnalité d'envoi automatique des résultats (PIX-2087)
+- [#2518](https://github.com/1024pix/pix/pull/2518) [TECH] Empêcher le rechargement infini des tests dans Pix Admin
+- [#2512](https://github.com/1024pix/pix/pull/2512) [TECH] Génération des snapshots KE pour les données de seeds (dév/local/RA) (PIX-2119)
+
 ## v3.15.0 (04/02/2021)
 
 - [#2503](https://github.com/1024pix/pix/pull/2503) [BUGFIX] Le script dév/local de génération de campagnes avec participants ne fonctionne plus (PIX-2108)
