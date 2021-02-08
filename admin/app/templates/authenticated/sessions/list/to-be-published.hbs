@@ -1,1 +1,7 @@
-{{outlet}}
+{{#each @model as |publishableSession|}}
+  <p>{{publishableSession.id}}</p>
+  <p>{{publishableSession.certificationCenterName}}</p>
+  <p>{{format-date publishableSession.sessionDate}}</p>
+  <p>{{publishableSession.sessionTime}}</p>
+  <p>{{format-date publishableSession.finalizedAt}}</p>
+{{/each}}
