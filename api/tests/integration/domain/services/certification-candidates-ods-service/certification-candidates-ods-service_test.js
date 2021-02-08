@@ -18,6 +18,21 @@ describe('Integration | Services | extractCertificationCandidatesFromAttendanceS
     await databaseBuilder.commit();
   });
 
+  context('When attendance sheet is of version different than 1.4', () => {
+    it('should throw a CertificationCandidatesImportError', async () => {
+      // given
+      const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_ok_test.ods`;
+      const odsBuffer = await readFile(odsFilePath);
+
+      // when
+      const error = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromAttendanceSheet)({ sessionId, odsBuffer });
+
+      // then
+      expect(error).to.be.instanceOf(CertificationCandidatesImportError);
+      expect(error.message).to.equal('La version du document est inconnue.');
+    });
+  });
+
   context('When attendance sheet is of version 1.4', () => {
 
     it('should throw a CertificationCandidatesImportError if there is an error in the file', async () => {

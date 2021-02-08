@@ -8,7 +8,7 @@ const {
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../errors');
 
-const certificationCandidateValidationJoiSchema_v1_3 = Joi.object({
+const certificationCandidateValidationJoiSchema_v1_4 = Joi.object({
   firstName: Joi.string().required().empty(null),
   lastName: Joi.string().required().empty(null),
   birthCity: Joi.string().required().empty(null),
@@ -76,13 +76,12 @@ class CertificationCandidate {
     this.schoolingRegistrationId = schoolingRegistrationId;
   }
 
-  validate(version = '1.3') {
+  validate(version = '1.4') {
     const err = {};
     let usedSchema = null;
     switch (version) {
-      case '1.3':
       case '1.4':
-        usedSchema = certificationCandidateValidationJoiSchema_v1_3;
+        usedSchema = certificationCandidateValidationJoiSchema_v1_4;
         break;
       default:
         err.key = 'version';
