@@ -24,6 +24,14 @@
     }
   },
   "pages": {
+    "campaign": {
+      "filters": {
+        "actions": {
+          "clear": "Effacer les filtres"
+        },
+        "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}"
+      }
+    },
     "campaigns-list": {
       "action": {
         "archived": {

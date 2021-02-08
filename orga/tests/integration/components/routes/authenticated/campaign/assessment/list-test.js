@@ -319,8 +319,8 @@ module('Integration | Component | routes/authenticated/campaign/assessment/list'
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
-        divisions: [division],
       });
+      campaign.set('divisions', [division]);
 
       const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
       participations.meta = { rowCount: 1 };
