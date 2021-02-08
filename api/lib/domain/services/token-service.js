@@ -23,12 +23,20 @@ function createIdTokenForUserReconciliation(externalUser) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan });
 }
 
-function createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration }) {
+function createCertificationResultsByRecipientEmailLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration }) {
   return jsonwebtoken.sign({
     session_id: sessionId,
     result_recipient_email: resultRecipientEmail,
   }, settings.authentication.secret, {
     expiresIn: `${daysBeforeExpiration}d`,
+  });
+}
+
+function createCertificationResultsLinkToken({ sessionId }) {
+  return jsonwebtoken.sign({
+    session_id: sessionId,
+  }, settings.authentication.secret, {
+    expiresIn: '30d',
   });
 }
 
@@ -120,7 +128,8 @@ module.exports = {
   createAccessTokenFromUser,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,
-  createCertificationResultLinkToken,
+  createCertificationResultsByRecipientEmailLinkToken,
+  createCertificationResultsLinkToken,
   decodeIfValid,
   extractExternalUserFromIdToken,
   extractPayloadFromPoleEmploiIdToken,

@@ -78,7 +78,7 @@ describe('Unit | Service | MailService', () => {
       const certificationCenterName = 'Vincennes';
       const resultRecipientEmail = 'email1@example.net';
       const daysBeforeExpiration = 30;
-      const tokenServiceStub = sinon.stub(tokenService, 'createCertificationResultLinkToken');
+      const tokenServiceStub = sinon.stub(tokenService, 'createCertificationResultsByRecipientEmailLinkToken');
       tokenServiceStub.withArgs({ sessionId, resultRecipientEmail, daysBeforeExpiration }).returns('token-1');
       const link = 'https://pix.app.org/api/sessions/download-results/token-1';
       const expectedOptions = {
