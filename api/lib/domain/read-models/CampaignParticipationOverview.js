@@ -14,6 +14,7 @@ class CampaignParticipationOverview {
     assessmentState,
     campaignCode,
     campaignTitle,
+    campaignArchivedAt,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -26,6 +27,7 @@ class CampaignParticipationOverview {
     this.assessmentState = assessmentState;
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
+    this.campaignArchivedAt = campaignArchivedAt;
   }
 
   get masteryPercentage() {
