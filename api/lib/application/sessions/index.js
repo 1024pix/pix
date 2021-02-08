@@ -295,6 +295,23 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/admin/sessions/{id}/generate-results-download-link',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.generateSessionResultsDownloadLink,
+        tags: ['api', 'sessions'],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/sessions/download-results/{token}',
       config: {
         auth: false,

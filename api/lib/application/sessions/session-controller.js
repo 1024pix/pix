@@ -1,6 +1,7 @@
 const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
+const sessionResultsLinkService = require('../../domain/services/session-results-link-service');
 const sessionValidator = require('../../domain/validators/session-validator');
 const events = require('../../domain/events');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
@@ -135,6 +136,13 @@ module.exports = {
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${fileName}`);
+  },
+
+  async generateSessionResultsDownloadLink(request, h) {
+    const sessionId = request.params.id;
+    const sessionResultsLink = sessionResultsLinkService.generateResultsLink(sessionId);
+
+    return h.response({ sessionResultsLink });
   },
 
   async getSessionResultsToDownload(request, h) {
