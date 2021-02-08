@@ -42,16 +42,12 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
         context('The ODS file contains regular data', () => {
 
-          const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ok.ods';
-          const odsFilePath = `${__dirname}/${odsFileName}`;
-          let options;
-
-          beforeEach(async () => {
-            // given
-            options = await createRequest({ odsFilePath, user, sessionIdAllowed });
-          });
-
           it('should return an 204 status after success in importing the ods file', async () => {
+            // given
+            const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ok.ods';
+            const odsFilePath = `${__dirname}/${odsFileName}`;
+            const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+
             // when
             const response = await server.inject(options);
 
@@ -62,16 +58,12 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
 
         context('The ODS file contains birthdate with special format ( \'DD/MM/YYYY )', () => {
 
-          const odsFileName = 'files/import-certification-candidates-reports-categorization-test-special-birthdate-ok.ods';
-          const odsFilePath = `${__dirname}/${odsFileName}`;
-          let options;
-
-          beforeEach(async () => {
-            // given
-            options = await createRequest({ odsFilePath, user, sessionIdAllowed });
-          });
-
           it('should return an 204 status after success in importing the ods file', async () => {
+            // given
+            const odsFileName = 'files/import-certification-candidates-reports-categorization-test-special-birthdate-ok.ods';
+            const odsFilePath = `${__dirname}/${odsFileName}`;
+            const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+
             // when
             const response = await server.inject(options);
 
@@ -79,76 +71,59 @@ describe('Acceptance | Controller | session-controller-import-certification-cand
             expect(response.statusCode).to.equal(204);
           });
         });
-
       });
 
       context('The ODS file to extract is invalid and can\'t be imported', () => {
 
-        const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ko-invalid-file.ods';
-        const odsFilePath = `${__dirname}/${odsFileName}`;
-        let options;
-
-        beforeEach(async () => {
-          // given
-          options = await createRequest({ odsFilePath, user, sessionIdAllowed });
-        });
-
         it('should return 422 status after failing in importing the ods file', async () => {
+          // given
+          const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ko-invalid-file.ods';
+          const odsFilePath = `${__dirname}/${odsFileName}`;
+          const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+
           // when
           const response = await server.inject(options);
 
           // then
           expect(response.statusCode).to.equal(422);
         });
-
       });
-
     });
 
     context('The ODS file has been extracted but the data contained is invalid', () => {
 
-      const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ko-invalid-data.ods';
-      const odsFilePath = `${__dirname}/${odsFileName}`;
-      let options;
-
-      beforeEach(async () => {
-        // given
-        options = await createRequest({ odsFilePath, user, sessionIdAllowed });
-      });
-
       it('should return a 422 status after error in data validity checker', async () => {
+        // given
+        const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ko-invalid-data.ods';
+        const odsFilePath = `${__dirname}/${odsFileName}`;
+        const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(422);
       });
-
     });
 
     context('when at least one candidate is already linked to a user', () => {
 
-      const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ok.ods';
-      const odsFilePath = `${__dirname}/${odsFileName}`;
-      let options;
-
-      beforeEach(async () => {
+      it('should respond with a 400 when user cant import the candidates', async () => {
         // given
-        options = await createRequest({ odsFilePath, user, sessionIdAllowed });
+        const odsFileName = 'files/import-certification-candidates-reports-categorization-test-ok.ods';
+        const odsFilePath = `${__dirname}/${odsFileName}`;
+        const options = await createRequest({ odsFilePath, user, sessionIdAllowed });
 
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCandidate({ sessionId: sessionIdAllowed, userId });
-        return databaseBuilder.commit();
-      });
+        await databaseBuilder.commit();
 
-      it('should respond with a 400 when user cant import the candidates', async () => {
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(400);
       });
-
     });
 
   });

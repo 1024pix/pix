@@ -11,58 +11,6 @@ const CURRENT_ATTENDANCE_SHEET_VERSION = '1.4';
 //  - property -> Property name of the target object in which the value will be put
 //  - transformFn -> Transformation function through which the cell value will be processed into the final value
 
-// V1.3
-const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3 = [
-  {
-    header: 'Nom de naissance',
-    property: 'lastName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Prénom',
-    property: 'firstName',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Identifiant local',
-    property: 'externalId',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Temps majoré ?',
-    property: 'extraTimePercentage',
-    transformFn: _toNonZeroValueOrNull,
-  },
-  {
-    header: 'Date de naissance (format : jj/mm/aaaa)',
-    property: 'birthdate',
-    transformFn: (cellVal) => {
-      return convertDateValue({ dateString: cellVal, inputFormat: 'DD/MM/YYYY', outputFormat: 'YYYY-MM-DD' });
-    },
-  },
-  {
-    header: 'Commune de naissance',
-    property: 'birthCity',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Code du département de naissance',
-    property: 'birthProvinceCode',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Pays de naissance',
-    property: 'birthCountry',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-  {
-    header: 'Adresse e-mail de convocation',
-    property: 'email',
-    transformFn: _toNotEmptyTrimmedStringOrNull,
-  },
-];
-
-// In this version we add a property header: resultRecipientEmail
 // V1.4
 const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_4 = [
   {
@@ -121,11 +69,6 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_4 = [
 
 // ALL
 const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
-  '1.3': {
-    version: '1.3',
-    transformStruct: _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3,
-    headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_3),
-  },
   '1.4': {
     version: '1.4',
     transformStruct: _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_4,
