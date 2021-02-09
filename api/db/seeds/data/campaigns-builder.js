@@ -17,10 +17,10 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCampaign({
     id: 2,
-    name: 'Pro - Campagne d’évaluation PIC',
+    name: 'Pro - Campagne d’évaluation PIC - en cours',
     code: 'AZERTY456',
     type: 'ASSESSMENT',
-    title: 'Parcours recherche avancée',
+    title: 'Parcours en cours',
     customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
     organizationId: 1,
     creatorId: 2,
@@ -76,7 +76,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'PROFILES_COLLECTION',
     organizationId: 1,
     creatorId: 2,
-    idPixLabel: 'email',
+    idPixLabel: 'identifiant entreprise',
     title: null,
     customLandingPageText: null,
   });
@@ -133,11 +133,11 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCampaign({
     id: 11,
-    name: 'Parcours simplifié',
+    name: 'Pro - Med Num - Parcours simplifié',
     code: 'SIMPLIFIE',
     type: 'ASSESSMENT',
     title: 'Parcours simplifié',
-    organizationId: 1,
+    organizationId: 5,
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
     customLandingPageText: '',
@@ -146,10 +146,10 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCampaign({
     id: 12,
-    name: 'Pro - Campagne d’évaluation PIC 3',
+    name: 'Pro - Campagne d’évaluation PIC - Non partagé',
     code: 'AZERTY654',
     type: 'ASSESSMENT',
-    title: 'Parcours recherche avancée 3',
+    title: 'Parcours terminé non partagé',
     customLandingPageText: '',
     organizationId: 1,
     creatorId: 2,
