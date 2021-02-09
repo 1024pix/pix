@@ -48,8 +48,8 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
     const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
 
-    context('current version 1.3', () => {
-      const version = '1.3';
+    context('current version 1.4', () => {
+      const version = '1.4';
 
       const validAttributes = {
         firstName: 'Oren',
