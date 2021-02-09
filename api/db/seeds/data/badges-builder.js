@@ -2,7 +2,7 @@ const BASICS_BADGE_ID = 111;
 const TOOLS_BADGE_ID = 112;
 const MANIP_BADGE_ID = 113;
 const PRO_BASICS_BADGE_ID = 114;
-const TARGET_PROFILE_ID_FOR_BADGES = 984165;
+const PRO_TOOLS_BADGE_ID = 115;
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
 function badgesBuilder({ databaseBuilder }) {
@@ -10,6 +10,7 @@ function badgesBuilder({ databaseBuilder }) {
   _createToolsBadge(databaseBuilder);
   _createManipBadge(databaseBuilder);
   _createProfessionalBasicsBadge(databaseBuilder);
+  _createProfessionalToolsBadge(databaseBuilder);
 }
 
 function _createBasicsBadge(databaseBuilder) {
@@ -92,6 +93,20 @@ function _createProfessionalBasicsBadge(databaseBuilder) {
   _associateBadgeCriteria(databaseBuilder, basicsBadge);
 }
 
+function _createProfessionalToolsBadge(databaseBuilder) {
+  const toolsBadge = databaseBuilder.factory.buildBadge({
+    id: PRO_TOOLS_BADGE_ID,
+    altMessage: 'Vous avez validé le Vocabulaire et outils professionels du numérique.',
+    title: 'Vocabulaire et outils professionels du numérique',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/pro-recherche.svg',
+    key: 'Pro Tools',
+    message: 'Vous reconnaissez les éléments courants professionels du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
+    targetProfileId: 2,
+  });
+
+  _associateBadgeCriteria(databaseBuilder, toolsBadge);
+}
+
 function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name: 'Rechercher des informations sur internet',
@@ -142,4 +157,5 @@ module.exports = {
   TOOLS_BADGE_ID,
   MANIP_BADGE_ID,
   PRO_BASICS_BADGE_ID,
+  PRO_TOOLS_BADGE_ID,
 };
