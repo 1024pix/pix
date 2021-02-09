@@ -1,5 +1,7 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const Stage = require('../../../../lib/domain/models/Stage');
 const stageRepository = require('../../../../lib/infrastructure/repositories/stage-repository');
+const _ = require('lodash');
 
 describe('Integration | Repository | StageRepository', () => {
 
@@ -60,6 +62,40 @@ describe('Integration | Repository | StageRepository', () => {
       // then
       expect(stages.length).to.equal(2);
       expect(stages[0].threshold).to.equal(0);
+    });
+  });
+
+  describe('#create', () => {
+    let targetProfileId;
+
+    beforeEach(async () => {
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+
+      await databaseBuilder.commit();
+
+      targetProfileId = targetProfile.id;
+    });
+
+    afterEach(() => {
+      return knex('stages').delete();
+    });
+
+    it('create a stage on a target profile', async () => {
+      // given
+      const stageToSave = {
+        title: 'My title',
+        message: 'My message',
+        threshold: 42,
+        targetProfileId,
+      };
+
+      // when
+      const savedStage = await stageRepository.create(stageToSave);
+
+      // then
+      expect(savedStage).to.be.instanceof(Stage);
+      expect(savedStage.id).to.exist;
+      expect(savedStage).to.deep.include(_.pick(stageToSave, ['title', 'message', 'threshold']));
     });
   });
 });

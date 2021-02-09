@@ -136,6 +136,7 @@ module.exports = injectDependencies({
   createOrUpdateUserOrgaSettings: require('./create-or-update-user-orga-settings'),
   createPasswordResetDemand: require('./create-password-reset-demand'),
   createSession: require('./create-session'),
+  createStage: require('./create-stage'),
   createTargetProfile: require('./create-target-profile'),
   createUser: require('./create-user'),
   createUserFromPoleEmploi: require('./create-user-from-pole-emploi'),
