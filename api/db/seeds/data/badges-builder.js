@@ -4,6 +4,7 @@ const MANIP_BADGE_ID = 113;
 const PRO_BASICS_BADGE_ID = 114;
 const PRO_TOOLS_BADGE_ID = 115;
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
+const { TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID } = require('./target-profiles-builder');
 
 function badgesBuilder({ databaseBuilder }) {
   _createBasicsBadge(databaseBuilder);
@@ -28,7 +29,7 @@ function _createBasicsBadge(databaseBuilder) {
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/socle-de-base.svg',
     key: 'Basics',
     message: 'Bravo ! Vous maîtrisez quelques bases du numérique comme le vocabulaire, la manipulation basique ou l\'utilisation d\'outils',
-    targetProfileId: TARGET_PROFILE_ID_FOR_BADGES,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
   _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForBasicsBadge, basicsBadge);
@@ -50,7 +51,7 @@ function _createToolsBadge(databaseBuilder) {
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/pro-recherche.svg',
     key: 'Tools',
     message: 'Vous reconnaissez les éléments courants du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
-    targetProfileId: TARGET_PROFILE_ID_FOR_BADGES,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
   _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForToolsBadge, toolsBadge);
@@ -72,7 +73,7 @@ function _createManipBadge(databaseBuilder) {
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/office.svg',
     key: 'Manip',
     message: 'Vous maîtrisez les gestes de base : le clic, la saisie de texte et la navigation entre onglets d\'un navigateur WEB',
-    targetProfileId: TARGET_PROFILE_ID_FOR_BADGES,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
   });
 
   _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForManipBadge, manipBadge);
@@ -87,7 +88,7 @@ function _createProfessionalBasicsBadge(databaseBuilder) {
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/socle-de-base.svg',
     key: 'Pro Basics',
     message: 'Bravo ! Vous maîtrisez quelques bases  du numérique pour le monde professionnel !',
-    targetProfileId: 2,
+    targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
   });
 
   _associateBadgeCriteria(databaseBuilder, basicsBadge);
@@ -101,7 +102,7 @@ function _createProfessionalToolsBadge(databaseBuilder) {
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/pro-recherche.svg',
     key: 'Pro Tools',
     message: 'Vous reconnaissez les éléments courants professionels du numérique: le matériel, la messagerie, un document et un navigateur WEB.',
-    targetProfileId: 2,
+    targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
   });
 
   _associateBadgeCriteria(databaseBuilder, toolsBadge);
