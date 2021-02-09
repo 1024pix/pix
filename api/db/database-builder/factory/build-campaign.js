@@ -24,7 +24,7 @@ module.exports = function buildCampaign({
 } = {}) {
 
   if (type === Campaign.types.ASSESSMENT) {
-    targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile({ organizationId }).id : targetProfileId;
+    targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile({ ownerOrganizationId: organizationId }).id : targetProfileId;
   }
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;

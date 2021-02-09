@@ -15,7 +15,7 @@ function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
     id: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     name: 'PIC - Diagnostic Initial',
     isPublic: false,
-    organizationId: 5,
+    ownerOrganizationId: 5,
   });
 
   databaseBuilder.factory.buildTargetProfileShare({
@@ -43,7 +43,7 @@ function _buildTargetProfileOnCompetence(databaseBuilder) {
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg',
     isPublic: false,
-    organizationId: 1,
+    ownerOrganizationId: 1,
   });
 
   [
@@ -64,7 +64,7 @@ function _buildTargetProfileWithStagesAndBadges(databaseBuilder) {
     id: TARGET_PROFILE_STAGES_BADGES_ID,
     name: 'Parcours avec paliers & résultats thématiques',
     isPublic: true,
-    organizationId: null,
+    ownerOrganizationId: null,
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg',
   });
 
@@ -83,7 +83,7 @@ function _buildTargetProfileWithSimplifiedAccess(databaseBuilder) {
     id: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
     name: 'Accès simplifié',
     isPublic: true,
-    organizationId: 1,
+    ownerOrganizationId: 5,
     isSimplifiedAccess: true,
   });
 
