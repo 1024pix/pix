@@ -369,6 +369,7 @@
                         "hide": "Hide alternative instruction"
                     }
                 },
+                "external-link-title": "New window",
                 "file-download": {
                     "actions": {
                         "choose-type": "Select the type of file you would like to use",

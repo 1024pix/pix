@@ -369,6 +369,7 @@
                         "hide": "Cacher l'alternative textuelle"
                     }
                 },
+                "external-link-title": "Nouvelle fenêtre",
                 "file-download": {
                     "actions": {
                         "choose-type": "Choisissez le type de fichier que vous voulez utiliser",
