@@ -120,7 +120,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         await visit(`/sessions/${session.id}`);
 
         // then
-        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(4)');
+        const buttonSendResultsToCandidates = this.element.querySelector('.session-info__actions .row button:nth-child(5)');
         assert.equal(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
       });
 

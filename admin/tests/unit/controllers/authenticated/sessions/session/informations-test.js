@@ -206,4 +206,51 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       assert.equal(controller.isShowingAssignmentModal, false);
     });
   });
+
+  module('#copyResultsDownloadLink', function(hooks) {
+
+    hooks.afterEach(function() {
+      sinon.restore();
+    });
+
+    test('it should retrieve link from api and copy it', async (assert) => {
+      // given
+      const getDownloadLink = sinon.stub();
+      getDownloadLink.resolves('www.jeremypluquet.com');
+      controller.model = { getDownloadLink };
+
+      const writeTextStub = sinon.stub();
+      writeTextStub.returns();
+      sinon.stub(navigator, 'clipboard').value({
+        writeText: writeTextStub,
+      });
+      sinon.stub(window, 'setTimeout').returns();
+
+      // when
+      await controller.actions.copyResultsDownloadLink.call(controller);
+
+      // then
+      assert.ok(writeTextStub.calledWithExactly('www.jeremypluquet.com'));
+      assert.equal(controller.copyButtonText, 'Copié');
+      assert.ok(controller.isCopyButtonClicked);
+      assert.ok(window.setTimeout);
+    });
+
+    test('it should notify error when retrieving link fails', async (assert) => {
+      // given
+      const getDownloadLink = sinon.stub();
+      getDownloadLink.rejects('An error');
+      controller.model = { getDownloadLink };
+
+      sinon.stub(window, 'setTimeout').returns();
+
+      // when
+      await controller.actions.copyResultsDownloadLink.call(controller);
+
+      // then
+      assert.equal(controller.copyButtonText, 'Erreur !');
+      assert.ok(controller.isCopyButtonClicked);
+      assert.ok(window.setTimeout);
+    });
+  });
 });
