@@ -6,7 +6,6 @@ import Component from '@glimmer/component';
 
 export default class SkillReview extends Component {
 
-  @service intl
   @service router
   @service session;
   @service url

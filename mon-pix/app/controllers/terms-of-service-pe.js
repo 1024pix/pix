@@ -7,7 +7,6 @@ export default class TermsOfServicePeController extends Controller {
   queryParams = ['authenticationKey'];
 
   @service session;
-  @service store;
   @service url;
 
   @tracked authenticationKey = null;

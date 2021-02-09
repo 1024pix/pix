@@ -5,7 +5,6 @@ import get from 'lodash/get';
 export default class ResetPasswordRoute extends Route {
   @service errors;
   @service intl;
-  @service session;
 
   async model(params) {
     const passwordResetTemporaryKey = params.temporary_key;

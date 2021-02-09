@@ -14,7 +14,6 @@ export default class LoginForm extends Component {
   @inject session;
   @inject store;
   @inject router;
-  @inject currentUser;
   @inject intl;
 
   login = null;

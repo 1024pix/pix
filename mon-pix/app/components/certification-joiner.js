@@ -23,7 +23,6 @@ function _isMatchingReconciledStudentNotFoundError(err) {
 export default class CertificationJoiner extends Component {
   @service store;
   @service peeker;
-  @service currentUser;
 
   @tracked isLoading = false;
   @tracked errorMessage = null;

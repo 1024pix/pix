@@ -5,7 +5,6 @@ import Route from '@ember/routing/route';
 
 export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) {
   @service session;
-  @service store;
 
   @action
   async authenticate(login, password) {

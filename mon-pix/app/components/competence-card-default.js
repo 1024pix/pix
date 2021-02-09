@@ -4,8 +4,6 @@ import { action } from '@ember/object';
 
 export default class CompetenceCardDefault extends Component {
   @service currentUser;
-  @service store;
-  @service router;
   @service competenceEvaluation;
 
   get displayedLevel() {

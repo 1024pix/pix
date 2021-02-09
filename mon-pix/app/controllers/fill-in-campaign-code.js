@@ -5,7 +5,6 @@ import Controller from '@ember/controller';
 
 export default class FillInCampaignCodeController extends Controller {
 
-  @service store;
   @service intl;
   @service session;
   @service currentUser;

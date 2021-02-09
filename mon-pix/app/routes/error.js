@@ -1,10 +1,7 @@
-import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import get from 'lodash/get';
 
 export default class ErrorRoute extends Route {
-  @service session;
-
   hasUnauthorizedError(error) {
     const statusCode = get(error, 'errors[0].code');
     return statusCode === 401;

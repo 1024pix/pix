@@ -7,8 +7,6 @@ export default class JoinRestrictedCampaignController extends Controller {
   participantExternalId = null;
 
   @service session;
-  @service store;
-  @service intl;
   @service currentUser;
 
   @action

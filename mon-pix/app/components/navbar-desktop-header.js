@@ -4,7 +4,6 @@ import { tracked } from '@glimmer/tracking';
 import ENV from 'mon-pix/config/environment';
 
 export default class NavbarDesktopHeader extends Component {
-  @service router;
   @service session;
   @service intl;
 
