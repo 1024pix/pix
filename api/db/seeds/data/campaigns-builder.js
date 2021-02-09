@@ -1,46 +1,12 @@
 const { TARGET_PROFILE_PIC_DIAG_INITIAL_ID, TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID, TARGET_PROFILE_SIMPLIFIED_ACCESS_ID, TARGET_PROFILE_PIX_EMPLOI_CLEA_ID } = require('./target-profiles-builder');
 
 module.exports = function campaignsBuilder({ databaseBuilder }) {
+  _buildCampaignForSco(databaseBuilder);
+  _buildCampaignForSup(databaseBuilder);
+  _buildCampaignForPro(databaseBuilder);
+};
 
-  databaseBuilder.factory.buildCampaign({
-    id: 1,
-    name: 'Pro - Campagne d’évaluation 5.1',
-    code: 'AZERTY123',
-    type: 'ASSESSMENT',
-    organizationId: 1,
-    creatorId: 2,
-    targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
-    idPixLabel: 'identifiant entreprise',
-    title: null,
-    customLandingPageText: null,
-  });
-
-  databaseBuilder.factory.buildCampaign({
-    id: 2,
-    name: 'Pro - Campagne d’évaluation PIC - en cours',
-    code: 'AZERTY456',
-    type: 'ASSESSMENT',
-    title: 'Parcours en cours',
-    customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
-    organizationId: 1,
-    creatorId: 2,
-    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    idPixLabel: null,
-  });
-
-  databaseBuilder.factory.buildCampaign({
-    id: 3,
-    name: 'Sup - Campagne d’évaluation PIC',
-    code: 'AZERTY789',
-    type: 'ASSESSMENT',
-    organizationId: 2,
-    creatorId: 7,
-    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    title: null,
-    customLandingPageText: null,
-    idPixLabel: null,
-  });
-
+function _buildCampaignForSco(databaseBuilder) {
   databaseBuilder.factory.buildCampaign({
     id: 4,
     name: 'Sco - Collège - Campagne d’évaluation Badges',
@@ -52,33 +18,6 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
-  });
-
-  databaseBuilder.factory.buildCampaign({
-    id: 5,
-    name: 'Pro - Campagne Pix Emploi',
-    code: 'QWERTY789',
-    type: 'ASSESSMENT',
-    organizationId: 4,
-    creatorId: 3,
-    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
-    title: null,
-    customLandingPageText: null,
-    idPixLabel: 'identifiant pôle emploi',
-    externalIdHelpImageUrl: 'https://placekitten.com/g/500/300',
-    alternativeTextToExternalIdHelpImage: 'Votre identifiant est le nom du premier chaton',
-  });
-
-  databaseBuilder.factory.buildCampaign({
-    id: 6,
-    name: 'Pro - Campagne de collecte de profils',
-    code: 'SNAP123',
-    type: 'PROFILES_COLLECTION',
-    organizationId: 1,
-    creatorId: 2,
-    idPixLabel: 'identifiant entreprise',
-    title: null,
-    customLandingPageText: null,
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -118,6 +57,21 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     title: null,
     customLandingPageText: null,
   });
+}
+
+function _buildCampaignForSup(databaseBuilder) {
+  databaseBuilder.factory.buildCampaign({
+    id: 3,
+    name: 'Sup - Campagne d’évaluation PIC',
+    code: 'AZERTY789',
+    type: 'ASSESSMENT',
+    organizationId: 2,
+    creatorId: 7,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
+  });
 
   databaseBuilder.factory.buildCampaign({
     id: 10,
@@ -127,6 +81,61 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     organizationId: 2,
     creatorId: 7,
     idPixLabel: null,
+    title: null,
+    customLandingPageText: null,
+  });
+}
+
+function _buildCampaignForPro(databaseBuilder) {
+  databaseBuilder.factory.buildCampaign({
+    id: 1,
+    name: 'Pro - Campagne d’évaluation 5.1',
+    code: 'AZERTY123',
+    type: 'ASSESSMENT',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
+    idPixLabel: 'identifiant entreprise',
+    title: null,
+    customLandingPageText: null,
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 2,
+    name: 'Pro - Campagne d’évaluation PIC - en cours',
+    code: 'AZERTY456',
+    type: 'ASSESSMENT',
+    title: 'Parcours en cours',
+    customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    idPixLabel: null,
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 5,
+    name: 'Pro - Campagne Pix Emploi',
+    code: 'QWERTY789',
+    type: 'ASSESSMENT',
+    organizationId: 4,
+    creatorId: 3,
+    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: 'identifiant pôle emploi',
+    externalIdHelpImageUrl: 'https://placekitten.com/g/500/300',
+    alternativeTextToExternalIdHelpImage: 'Votre identifiant est le nom du premier chaton',
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 6,
+    name: 'Pro - Campagne de collecte de profils',
+    code: 'SNAP123',
+    type: 'PROFILES_COLLECTION',
+    organizationId: 1,
+    creatorId: 2,
+    idPixLabel: 'identifiant entreprise',
     title: null,
     customLandingPageText: null,
   });
@@ -156,4 +165,4 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: null,
   });
-};
+}
