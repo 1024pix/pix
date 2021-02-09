@@ -109,12 +109,25 @@
         Récupérer le fichier avant jury
       </button>
 
-      <button type="button" class="btn btn-primary btn--right" {{on 'click' this.downloadSessionResultFile}}>
+      <button type="button" class="btn btn-secondary btn--right" {{on 'click' this.downloadSessionResultFile}}>
         Exporter les résultats
       </button>
 
+      <div class="session-info__copy-button">
+        {{#if this.isCopyButtonClicked}}
+          <p class="session-info__tooltip">
+            {{this.copyButtonText}}
+          </p>
+        {{/if}}
+
+        <button type="button" class="btn btn-secondary btn--right" {{on 'click' this.copyResultsDownloadLink}}>
+          Copier le lien de téléchargement &nbsp;
+          <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
+        </button>
+      </div>
+
       {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
-        <button type="button" class="btn btn-primary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
+        <button type="button" class="btn btn-secondary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
           Résultats transmis au prescripteur
         </button>
       {{/if}}

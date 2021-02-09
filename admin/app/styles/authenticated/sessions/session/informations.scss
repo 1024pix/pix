@@ -5,6 +5,7 @@
     margin: inherit;
 
     .btn {
+      height: 36px;
       margin-right: 20px;
 
       &--right {
@@ -30,6 +31,31 @@
 
   &__actions {
     padding-top: 32px;
+  }
+
+  &__copy-button {
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    p {
+      background-color: $black;
+      border-radius: 5px;
+      color: $white;
+      padding: 5px 10px;
+      position: absolute;
+      top: calc(-23px + -10px + -10px);
+
+      &::before {
+        content: "";
+        position: absolute;
+        border-width: 5px;
+        border-style: solid;
+        border-color: $black transparent transparent transparent;
+        bottom: -10px;
+        left: calc(50% - 5px);
+      }
+    }
   }
 }
 
