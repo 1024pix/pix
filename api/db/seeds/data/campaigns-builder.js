@@ -1,3 +1,5 @@
+const { TARGET_PROFILE_PIC_DIAG_INITIAL_ID, TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID, TARGET_PROFILE_SIMPLIFIED_ACCESS_ID } = require('./target-profiles-builder');
+
 module.exports = function campaignsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCampaign({
@@ -7,7 +9,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'ASSESSMENT',
     organizationId: 1,
     creatorId: 2,
-    targetProfileId: 2,
+    targetProfileId: TARGET_PROFILE_ONE_COMPETENCE_ID,
     idPixLabel: 'identifiant entreprise',
     title: null,
     customLandingPageText: null,
@@ -22,7 +24,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
     organizationId: 1,
     creatorId: 2,
-    targetProfileId: 1,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: null,
   });
 
@@ -33,7 +35,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'ASSESSMENT',
     organizationId: 2,
     creatorId: 7,
-    targetProfileId: 1,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
@@ -46,7 +48,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'ASSESSMENT',
     organizationId: 3,
     creatorId: 4,
-    targetProfileId: 984165,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
     title: null,
     customLandingPageText: null,
     idPixLabel: null,
@@ -98,7 +100,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'ASSESSMENT',
     organizationId: 6,
     creatorId: 5,
-    targetProfileId: 984165,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
@@ -111,7 +113,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'ASSESSMENT',
     organizationId: 7,
     creatorId: 7,
-    targetProfileId: 984165,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
@@ -137,7 +139,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     title: 'Parcours simplifié',
     organizationId: 1,
     creatorId: 2,
-    targetProfileId: 100322,
+    targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
     customLandingPageText: '',
     idPixLabel: null,
   });
@@ -151,7 +153,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     customLandingPageText: '',
     organizationId: 1,
     creatorId: 2,
-    targetProfileId: 1,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: null,
   });
 };

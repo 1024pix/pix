@@ -1,8 +1,8 @@
-module.exports = function stagesBuilder({ databaseBuilder }) {
-  _buildStagesForTargetProfileId(databaseBuilder, 2);
+const { TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID } = require('./target-profiles-builder');
 
-  const targetProfileIdWithBadges = 984165;
-  _buildStagesForTargetProfileId(databaseBuilder, targetProfileIdWithBadges);
+module.exports = function stagesBuilder({ databaseBuilder }) {
+  _buildStagesForTargetProfileId(databaseBuilder, TARGET_PROFILE_ONE_COMPETENCE_ID);
+  _buildStagesForTargetProfileId(databaseBuilder, TARGET_PROFILE_STAGES_BADGES_ID);
 };
 
 function _buildStagesForTargetProfileId(databaseBuilder, targetProfileId) {
