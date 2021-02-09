@@ -28,12 +28,14 @@
             {{moment-format @campaignAssessmentParticipation.createdAt 'DD MMM YYYY'}}
           </div>
         </li>
-        <li class="panel-header-data__content">
-          <div class="label-text panel-header-data-content__label">Avancement</div>
-          <div class="value-text panel-header-data-content__value">
-            {{@campaignAssessmentParticipation.progression}}%
-          </div>
-        </li>
+        {{#unless @campaignAssessmentParticipation.isShared }}
+          <li class="panel-header-data__content">
+            <div class="label-text panel-header-data-content__label">Avancement</div>
+            <div class="value-text panel-header-data-content__value">
+              {{@campaignAssessmentParticipation.progression}}%
+            </div>
+          </li>
+        {{/unless}}
         <li class="panel-header-data__content">
           <div class="label-text panel-header-data-content__label">Envoyé le</div>
           {{#if @campaignAssessmentParticipation.sharedAt}}
