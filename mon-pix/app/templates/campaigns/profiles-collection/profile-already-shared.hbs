@@ -3,9 +3,9 @@
 
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
-  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner send-profile-header">
-    <img class="send-profile-header__image" src="{{rootURL}}/images/bees/fat-bee.svg" alt={{t "pages.profile-already-shared.first-title"}}>
+  <PixBlock @shadow="heavy" class="send-profile-header">
     <div class="send-profile-header__announcement">
+      <img class="send-profile-header__image" src="{{rootURL}}/images/bees/fat-bee.svg" alt={{t "pages.profile-already-shared.first-title"}}>
       <p class="send-profile-header__instruction">
         {{t "pages.profile-already-shared.explanation" organization=this.model.campaign.organizationName date=this.model.sharedProfile.sharedAt hour=this.model.sharedProfile.sharedAt htmlSafe=true}}
       </p>
@@ -17,12 +17,12 @@
       <HexagonScore @pixScore={{this.model.sharedProfile.pixScore}} />
       <div class="send-profile-header__profile__cards">
         <ProfileScorecards
-          class="send-profile-header__profile__cards"
-          @interactive={{false}}
-          @areasCode={{this.model.sharedProfile.areasCode}}
-          @scorecards={{this.model.sharedProfile.scorecards}}
+                class="send-profile-header__profile__cards"
+                @interactive={{false}}
+                @areasCode={{this.model.sharedProfile.areasCode}}
+                @scorecards={{this.model.sharedProfile.scorecards}}
         />
       </div>
     </div>
-  </div>
+  </PixBlock>
 </div>

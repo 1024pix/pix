@@ -70,9 +70,10 @@
 }
 
 .campaign-landing-page__start__custom-text {
+  border-top: 1px dashed $grey-22;
   width: 80%;
-  margin: auto;
-  padding: 5px;
+  margin-top: 50px;
+  padding: 50px 5px 5px 5px;
   font-family: $font-open-sans;
   font-size: 1rem;
   text-align: left;
@@ -163,6 +164,12 @@
 
   @include device-is('tablet') {
     flex-direction: row;
+  }
+
+  &--dashline {
+    border-top: 1px dashed $grey-22;
+    margin-top: 50px;
+    padding: 50px 10px 10px 10px;
   }
 }
 
