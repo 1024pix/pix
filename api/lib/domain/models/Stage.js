@@ -7,6 +7,7 @@ class Stage {
     threshold,
     prescriberTitle,
     prescriberDescription,
+    targetProfileId,
   } = {}) {
     this.id = id;
     this.title = title;
@@ -14,6 +15,7 @@ class Stage {
     this.threshold = threshold;
     this.prescriberTitle = prescriberTitle;
     this.prescriberDescription = prescriberDescription;
+    this.targetProfileId = targetProfileId;
   }
 
   getMinSkillsCountToReachStage(totalSkills) {
