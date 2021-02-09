@@ -48,6 +48,7 @@
   }
 
   &__begin-improvement {
+    border-top: 1px dashed $grey-22;
     padding: 30px;
     display: flex;
     flex-direction: row;
@@ -159,13 +160,9 @@
     }
   }
 
-  &__dash-line {
-    height: 1px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-image: linear-gradient(to right, transparent 50%, #BBBBBB 50%);
-    background-size: 10px 100%;
+  &__content {
+    border-top: 1px dashed $grey-22;
+    margin-top: 24px;
   }
 
   &__information {
@@ -278,8 +275,12 @@
 
 .skill-review__campaign-archived {
   position: relative;
-  top: -80px;
   text-align: center;
+  margin-bottom: 10px;
+}
+
+.skill-review__campaign-archived-image {
+  margin-top: -50px;
 }
 
 .skill-review__campaign-archived-text {
