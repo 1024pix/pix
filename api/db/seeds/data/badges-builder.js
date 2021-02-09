@@ -1,17 +1,36 @@
+const PIX_EMPLOI_CLEA_BADGE_ID = 100;
 const BASICS_BADGE_ID = 111;
 const TOOLS_BADGE_ID = 112;
 const MANIP_BADGE_ID = 113;
 const PRO_BASICS_BADGE_ID = 114;
 const PRO_TOOLS_BADGE_ID = 115;
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const { TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID } = require('./target-profiles-builder');
+const Badge = require('../../../lib/domain/models/Badge');
+const { skillIdsForBadgePartnerCompetences, TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID, TARGET_PROFILE_PIX_EMPLOI_CLEA_ID } = require('./target-profiles-builder');
 
 function badgesBuilder({ databaseBuilder }) {
+  _createPixEmploiCleaBadge(databaseBuilder);
   _createBasicsBadge(databaseBuilder);
   _createToolsBadge(databaseBuilder);
   _createManipBadge(databaseBuilder);
   _createProfessionalBasicsBadge(databaseBuilder);
   _createProfessionalToolsBadge(databaseBuilder);
+}
+
+function _createPixEmploiCleaBadge(databaseBuilder) {
+  const badge = databaseBuilder.factory.buildBadge({
+    id: PIX_EMPLOI_CLEA_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix Emploi.',
+    title: 'Pix Emploi - Clea',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/Pix-emploi.svg',
+    key: Badge.keys.PIX_EMPLOI_CLEA,
+    message: 'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
+      'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
+    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+  });
+
+  _associateBadgePartnerCompetences(databaseBuilder, skillIdsForBadgePartnerCompetences, badge);
+  _associateBadgeCriteria(databaseBuilder, badge);
 }
 
 function _createBasicsBadge(databaseBuilder) {
@@ -154,6 +173,7 @@ function _associateBadgeCriteria(databaseBuilder, badge) {
 
 module.exports = {
   badgesBuilder,
+  PIX_EMPLOI_CLEA_BADGE_ID,
   BASICS_BADGE_ID,
   TOOLS_BADGE_ID,
   MANIP_BADGE_ID,

@@ -1,4 +1,4 @@
-const { TARGET_PROFILE_PIC_DIAG_INITIAL_ID, TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID, TARGET_PROFILE_SIMPLIFIED_ACCESS_ID } = require('./target-profiles-builder');
+const { TARGET_PROFILE_PIC_DIAG_INITIAL_ID, TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID, TARGET_PROFILE_SIMPLIFIED_ACCESS_ID, TARGET_PROFILE_PIX_EMPLOI_CLEA_ID } = require('./target-profiles-builder');
 
 module.exports = function campaignsBuilder({ databaseBuilder }) {
 
@@ -61,7 +61,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     type: 'ASSESSMENT',
     organizationId: 4,
     creatorId: 3,
-    targetProfileId: 100321,
+    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
     title: null,
     customLandingPageText: null,
     idPixLabel: 'identifiant pôle emploi',
