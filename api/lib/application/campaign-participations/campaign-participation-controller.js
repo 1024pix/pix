@@ -8,6 +8,7 @@ const campaignAssessmentParticipationSerializer = require('../../infrastructure/
 const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
 
@@ -95,8 +96,9 @@ module.exports = {
   async getCampaignAssessmentParticipationResult(request) {
     const { userId } = request.auth.credentials;
     const { campaignId, campaignParticipationId } = request.params;
+    const locale = extractLocaleFromRequest(request);
 
-    const campaignAssessmentParticipationResult = await usecases.getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId });
+    const campaignAssessmentParticipationResult = await usecases.getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId, locale });
     return campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
   },
 };

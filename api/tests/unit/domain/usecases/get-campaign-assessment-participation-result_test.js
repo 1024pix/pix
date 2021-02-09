@@ -6,6 +6,7 @@ describe('Unit | UseCase | get-campaign-assessment-participation-result', () => 
 
   let campaignRepository, campaignAssessmentParticipationResultRepository;
   let userId, campaignId, campaignParticipationId;
+  const locale = 'fr';
 
   beforeEach(() => {
     campaignRepository = {
@@ -28,10 +29,10 @@ describe('Unit | UseCase | get-campaign-assessment-participation-result', () => 
     it('should get the campaignAssessmentParticipationResult', async () => {
       // given
       const expectedResult = Symbol('Result');
-      campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId.withArgs({ campaignId, campaignParticipationId }).resolves(expectedResult);
+      campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId.withArgs({ campaignId, campaignParticipationId, locale }).resolves(expectedResult);
 
       // when
-      const result = await getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationResultRepository });
+      const result = await getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationResultRepository, locale });
 
       // then
       expect(result).to.equal(expectedResult);
@@ -48,7 +49,7 @@ describe('Unit | UseCase | get-campaign-assessment-participation-result', () => 
 
     it('should throw UserNotAuthorizedToAccessEntity', async () => {
       // when
-      const result = await catchErr(getCampaignAssessmentParticipationResult)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationResultRepository });
+      const result = await catchErr(getCampaignAssessmentParticipationResult)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationResultRepository, locale });
 
       // then
       expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
