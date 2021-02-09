@@ -48,12 +48,14 @@ module.exports = {
   },
 
   async updateEmail(request, h) {
-    const { email } = request.payload.data.attributes;
     const userId = parseInt(request.params.id);
+    const authenticatedUserId = request.auth.credentials.userId;
+    const { email } = request.payload.data.attributes;
 
     await usecases.updateUserEmail({
       email,
       userId,
+      authenticatedUserId,
     });
 
     return h.response({}).code(204);
