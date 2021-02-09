@@ -6,6 +6,15 @@ const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationM
 function usersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildUser.withRawPassword({
+    id: 1,
+    firstName: 'Pix',
+    lastName: 'Aile',
+    email: 'userpix1@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
+  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_MASTER_ID,
     firstName: 'Pix',
     lastName: 'Master',
