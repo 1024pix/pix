@@ -15,6 +15,9 @@ module.exports = function(defaults) {
       exclude: ['png', 'svg'],
       extensions: ['js', 'css', 'jpg', 'gif', 'map'],
     },
+    autoprefixer: {
+      grid: 'autoplace',
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
