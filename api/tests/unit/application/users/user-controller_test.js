@@ -13,7 +13,6 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignParticipationOverviewSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
-const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
@@ -449,38 +448,6 @@ describe('Unit | Controller | user-controller', () => {
 
       // when
       const response = await userController.getMemberships(request, hFake);
-
-      // then
-      expect(response).to.deep.equal({});
-    });
-  });
-
-  describe('#getCertificationCenterMemberships', () => {
-    const userId = '1';
-
-    const request = {
-      auth: {
-        credentials: {
-          userId: userId,
-        },
-      },
-      params: {
-        id: userId,
-      },
-    };
-
-    beforeEach(() => {
-      sinon.stub(certificationCenterMembershipSerializer, 'serialize');
-      sinon.stub(usecases, 'getUserCertificationCenterMemberships');
-    });
-
-    it('should return serialized CertificationCenterMemberships', async function() {
-      // given
-      usecases.getUserCertificationCenterMemberships.withArgs({ userId }).resolves([]);
-      certificationCenterMembershipSerializer.serialize.withArgs([]).returns({});
-
-      // when
-      const response = await userController.getCertificationCenterMemberships(request, hFake);
 
       // then
       expect(response).to.deep.equal({});
