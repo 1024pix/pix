@@ -1,6 +1,5 @@
 const PIX_MASTER_ID = 199;
-
-const defaultPassword = 'pix123';
+const DEFAULT_PASSWORD = 'pix123';
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 function usersBuilder({ databaseBuilder }) {
@@ -10,7 +9,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Pix',
     lastName: 'Aile',
     email: 'userpix1@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -19,7 +18,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Pix',
     lastName: 'Master',
     email: 'pixmaster@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -28,7 +27,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Lance',
     lastName: 'Low',
     username: 'lance.low1234',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -83,4 +82,5 @@ function usersBuilder({ databaseBuilder }) {
 module.exports = {
   usersBuilder,
   PIX_MASTER_ID,
+  DEFAULT_PASSWORD,
 };

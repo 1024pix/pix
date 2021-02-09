@@ -1,14 +1,13 @@
 const Membership = require('../../../lib/domain/models/Membership');
+const { DEFAULT_PASSWORD } = require('./users-builder');
 
 module.exports = function organizationsSupBuilder({ databaseBuilder }) {
-  const defaultPassword = 'pix123';
-
   const supUser1 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 7,
     firstName: 'Tyrion',
     lastName: 'Lannister',
     email: 'sup.admin@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
   });
@@ -18,7 +17,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: 'Jaime',
     lastName: 'Lannister',
     email: 'sup.member@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -60,7 +59,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: 'Arya',
     lastName: 'Stark',
     email: 'arya.stark@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
   databaseBuilder.factory.buildSchoolingRegistration({
@@ -77,7 +76,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: 'Sansa',
     lastName: 'Stark',
     email: 'sansa.stark@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
 
@@ -96,7 +95,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: 'Bran',
     lastName: 'Stark',
     email: 'bran.stark@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
 
