@@ -9,22 +9,30 @@ const Membership = require('../lib/domain/models/Membership');
 
 const { knex } = require('../lib/infrastructure/bookshelf');
 
-async function getCertificationCenterWithoutMembershipIdByExternalId(externalId) {
-  const certificationCenter = await knex('certification-centers')
-    .first('certification-centers.id')
-    .leftJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id')
-    .whereNull('certification-center-memberships.id')
+async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
+  const certificationCenterIdWithMemberships = await knex('certification-centers')
+    .select('certification-centers.id', 'certification-center-memberships.userId')
+    .leftJoin('certification-center-memberships', 'certification-centers.id', 'certification-center-memberships.certificationCenterId')
     .where('certification-centers.externalId', '=', externalId);
 
-  return certificationCenter ? certificationCenter.id : null;
+  return { id: certificationCenterIdWithMemberships[0].id,
+    certificationCenterMemberships: _(certificationCenterIdWithMemberships)
+      .map((certificationCenterMembership) => certificationCenterMembership.userId)
+      .compact()
+      .value(),
+  };
 }
 
 async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
   const adminMemberships = await knex('memberships')
     .select('memberships.userId')
     .innerJoin('organizations', 'memberships.organizationId', 'organizations.id')
+    .innerJoin('users', 'users.id', 'memberships.userId')
     .where('organizationRole', Membership.roles.ADMIN)
-    .where('organizations.externalId', '=', externalId);
+    .whereNull('memberships.disabledAt')
+    .where('organizations.externalId', '=', externalId)
+    .where('users.firstName', '!~', 'prenom_.*\\d')
+    .where('users.lastName', '!~', 'nom_.*\\d');
 
   return adminMemberships.map((adminMembership) => adminMembership.userId);
 }
@@ -36,12 +44,15 @@ function buildCertificationCenterMemberships({ certificationCenterId, membership
 }
 
 async function fetchCertificationCenterMembershipsByExternalId(externalId) {
-  const certificationCenterId = await getCertificationCenterWithoutMembershipIdByExternalId(externalId);
-  if (!certificationCenterId) {
-    return [];
-  }
+  const certificationCenter = await getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId);
   const membershipUserIds = await getAdminMembershipsUserIdByOrganizationExternalId(externalId);
-  return buildCertificationCenterMemberships({ certificationCenterId, membershipUserIds });
+  const missingMemberships = _.filter(membershipUserIds, (userId) => {
+    return !certificationCenter.certificationCenterMemberships.includes(userId);
+  });
+  return buildCertificationCenterMemberships({
+    certificationCenterId: certificationCenter.id,
+    membershipUserIds: missingMemberships,
+  });
 }
 
 async function prepareDataForInsert(rawExternalIds) {
@@ -93,7 +104,7 @@ if (require.main === module) {
 }
 
 module.exports = {
-  getCertificationCenterWithoutMembershipIdByExternalId,
+  getCertificationCenterIdWithMembershipsUserIdByExternalId,
   getAdminMembershipsUserIdByOrganizationExternalId,
   buildCertificationCenterMemberships,
   fetchCertificationCenterMembershipsByExternalId,
