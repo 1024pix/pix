@@ -31,8 +31,7 @@ async function getAdminMembershipsUserIdByOrganizationExternalId(externalId) {
     .where('organizationRole', Membership.roles.ADMIN)
     .whereNull('memberships.disabledAt')
     .where('organizations.externalId', '=', externalId)
-    .where('users.firstName', '!~', 'prenom_.*\\d')
-    .where('users.lastName', '!~', 'nom_.*\\d');
+    .where(knex.raw('users.disabled IS FALSE'));
 
   return adminMemberships.map((adminMembership) => adminMembership.userId);
 }

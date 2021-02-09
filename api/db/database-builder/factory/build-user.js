@@ -62,6 +62,7 @@ const buildUser = function buildUser({
   hasSeenNewLevelInfo = false,
   hasSeenNewDashboardInfo = false,
   isAnonymous = false,
+  disabled = false,
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
@@ -75,7 +76,7 @@ const buildUser = function buildUser({
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
     hasSeenNewLevelInfo, isAnonymous,
-    createdAt, updatedAt,
+    createdAt, updatedAt, disabled,
   };
 
   return databaseBuffer.pushInsertable({

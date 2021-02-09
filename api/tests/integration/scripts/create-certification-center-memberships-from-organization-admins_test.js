@@ -113,7 +113,9 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       const anonymmizeUser = databaseBuilder.factory.buildUser({
         firstName: 'prenom_1234',
         lastName: 'nom_1234',
+        disabled: true,
       });
+
       databaseBuilder.factory.buildMembership({
         organizationId: organization.id,
         userId: anonymmizeUser.id,
@@ -124,6 +126,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
         firstName: 'pre_1234',
         lastName: 'no_1234',
       }).id;
+
       databaseBuilder.factory.buildMembership({
         organizationId: organization.id,
         userId: notAnonymizeUserId,
