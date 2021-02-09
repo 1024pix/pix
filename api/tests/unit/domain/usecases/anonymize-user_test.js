@@ -15,6 +15,7 @@ describe('Unit | UseCase | anonymize-user', () => {
       firstName: `prenom_${userId}`,
       lastName: `nom_${userId}`,
       email: `email_${userId}@example.net`,
+      disabled: true,
     };
 
     // when

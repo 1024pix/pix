@@ -7,6 +7,7 @@ module.exports = function anonymizeUser({
     firstName: `prenom_${userId}`,
     lastName: `nom_${userId}`,
     email: `email_${userId}@example.net`,
+    disabled: true,
   };
 
   return userRepository.updateUserDetailsForAdministration(userId, anonymizedUser);
