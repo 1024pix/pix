@@ -82,6 +82,22 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(find('.challenge-statement__instruction').textContent.trim())
         .to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix-infra.ovh pour valider cette épreuve');
     });
+
+    it('should add title "Nouvelle fenêtre" to external links', async function() {
+      // given
+      addAssessmentToContext(this, { id: '267845' });
+      addChallengeToContext(this, {
+        id: 'recigAYl5bl96WGXj',
+        instruction: 'Cliquer sur ce lien [lien 1](https://monlien1.com)',
+      });
+
+      // when
+      await renderChallengeStatement();
+
+      // then
+      expect(find('.challenge-statement__instruction').innerHTML).to.contain('title="Nouvelle fenêtre"');
+    });
+
   });
 
   /*
