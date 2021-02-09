@@ -9,6 +9,7 @@ const CERTIF_REGULAR_USER2_ID = 107;
 const CERTIF_REGULAR_USER3_ID = 108;
 const CERTIF_REGULAR_USER4_ID = 109;
 const CERTIF_REGULAR_USER5_ID = 110;
+const { DEFAULT_PASSWORD } = require('../users-builder');
 
 function certificationUsersBuilder({ databaseBuilder }) {
 
@@ -17,7 +18,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'SCO',
     lastName: 'Certification',
     email: 'certifsco@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -26,7 +27,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'PRO',
     lastName: 'Certification',
     email: 'certifpro@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -35,7 +36,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'SUP',
     lastName: 'Certification',
     email: 'certifsup@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -44,7 +45,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'NONE',
     lastName: 'Certification',
     email: 'certifnone@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -53,7 +54,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'AnneSuccess',
     lastName: 'Certif',
     email: 'certif-success@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -62,7 +63,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'AnneFailure',
     lastName: 'Certif',
     email: 'certif-failure@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -71,7 +72,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'AnneNormale1',
     lastName: 'Certif1',
     email: 'certif1@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -80,7 +81,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'AnneNormale2',
     lastName: 'Certif2',
     email: 'certif2@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -89,7 +90,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'AnneNormale3',
     lastName: 'Certif3',
     email: 'certif3@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -98,7 +99,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'AnneNormale4',
     lastName: 'Certif4',
     email: 'certif4@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -107,7 +108,7 @@ function certificationUsersBuilder({ databaseBuilder }) {
     firstName: 'AnneNormale5',
     lastName: 'Certif5',
     email: 'certif5@example.net',
-    rawPassword: 'pix123',
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 }

@@ -1,8 +1,8 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
+const { DEFAULT_PASSWORD } = require('./users-builder');
 
 module.exports = function organizationsProBuilder({ databaseBuilder }) {
-  const defaultPassword = 'pix123';
 
   /* PRIVATE COMPANY */
   const proUser1 = databaseBuilder.factory.buildUser.withRawPassword({
@@ -10,7 +10,7 @@ module.exports = function organizationsProBuilder({ databaseBuilder }) {
     firstName: 'Daenerys',
     lastName: 'Targaryen',
     email: 'pro.admin@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
   });
@@ -20,7 +20,7 @@ module.exports = function organizationsProBuilder({ databaseBuilder }) {
     firstName: 'Thorgo',
     lastName: 'Nudo',
     email: 'pro.member@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
   });
@@ -53,7 +53,7 @@ module.exports = function organizationsProBuilder({ databaseBuilder }) {
     firstName: 'Viserys',
     lastName: 'Targaryen',
     email: 'pro.invited@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 

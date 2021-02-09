@@ -1,9 +1,9 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
+const { DEFAULT_PASSWORD } = require('./users-builder');
 const MIDDLE_SCHOOL_ID = 3;
 
 module.exports = function organizationsScoBuilder({ databaseBuilder }) {
-  const defaultPassword = 'pix123';
   const SCO_EXTERNAL_ID = '1237457A';
 
   /* COLLEGE */
@@ -12,7 +12,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: 'John',
     lastName: 'Snow',
     email: 'sco.admin@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
   });
@@ -22,7 +22,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: 'Aemon',
     lastName: 'Targaryen',
     email: 'sco.member@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
     pixOrgaTermsOfServiceAccepted: true,
   });
@@ -55,7 +55,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: 'Mance',
     lastName: 'Rayder',
     email: 'sco.disabled@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
   }).id;
 
   databaseBuilder.factory.buildMembership({
@@ -83,7 +83,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: 'De Cambridge',
     email: null,
     username: 'george.decambridge2207',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
 
@@ -103,7 +103,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: 'Carter',
     email: 'blueivy.carter@example.net',
     username: 'blueivy.carter0701',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
 
@@ -122,7 +122,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: 'Lyanna',
     lastName: 'Mormont',
     email: 'mormont.lyanna@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: false,
   });
 

@@ -5,12 +5,13 @@ const {
   CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID,
 } = require('./certification/users');
 const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
+const { DEFAULT_PASSWORD } = require('./users-builder');
 
 module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   const buildUsers = (users) => users.map((user) => {
     return databaseBuilder.factory.buildUser.withRawPassword({
       ...user,
-      rawPassword: 'pix123',
+      rawPassword: DEFAULT_PASSWORD,
     });
   });
 
