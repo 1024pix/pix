@@ -1,7 +1,7 @@
 const updateUserEmail = require('../../../../lib/domain/usecases/update-user-email');
 const { AlreadyRegisteredEmailError, UserNotAuthorizedToUpdateEmailError } = require('../../../../lib/domain/errors');
 
-const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
+const { sinon, expect, catchErr } = require('../../../test-helper');
 
 describe('Unit | UseCase | update-user-email', () => {
 
@@ -110,26 +110,6 @@ describe('Unit | UseCase | update-user-email', () => {
     const userId = 1;
     const authenticatedUserId = 1;
     const newEmail = 'new_email@example.net';
-
-    // when
-    const error = await catchErr(updateUserEmail)({
-      userId,
-      authenticatedUserId,
-      email: newEmail,
-      userRepository,
-      schoolingRegistrationRepository,
-    });
-
-    // then
-    expect(error).to.be.an.instanceOf(UserNotAuthorizedToUpdateEmailError);
-  });
-
-  it('throw UserNotAuthorizedToUpdateEmailError if user is reconciled', async () => {
-    // given
-    const userId = 1;
-    const authenticatedUserId = 1;
-    const newEmail = 'new_email@example.net';
-    schoolingRegistrationRepository.findByUserId.resolves([domainBuilder.buildSchoolingRegistration()]);
 
     // when
     const error = await catchErr(updateUserEmail)({
