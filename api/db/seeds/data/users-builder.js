@@ -78,15 +78,6 @@ function usersBuilder({ databaseBuilder }) {
     lastTermsOfServiceValidatedAt: null,
   };
   databaseBuilder.factory.buildUser.withRawPassword(userWithLastTermsOfServiceNotValidated);
-
-  databaseBuilder.factory.buildUser.withRawPassword({
-    id: 200,
-    firstName: 'Pix',
-    lastName: 'Masteur',
-    rawPassword: defaultPassword,
-    email: 'pixmasteur@example.net',
-    cgu: true,
-  });
 }
 
 module.exports = {
