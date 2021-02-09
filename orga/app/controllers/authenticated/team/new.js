@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 
 export default class NewController extends Controller {
 
-  @service store;
   @service notifications;
 
   @tracked isLoading = false;

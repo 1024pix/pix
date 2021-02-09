@@ -4,7 +4,6 @@ import RSVP from 'rsvp';
 
 export default class NewRoute extends Route {
 
-  @service store;
   @service currentUser;
 
   model() {

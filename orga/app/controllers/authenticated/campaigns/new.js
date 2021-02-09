@@ -4,7 +4,6 @@ import Controller from '@ember/controller';
 
 export default class NewController extends Controller {
 
-  @service store;
   @service notifications;
 
   @action

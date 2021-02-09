@@ -1,6 +1,5 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-orga/config/environment';
 import debounce from 'lodash/debounce';
@@ -13,8 +12,6 @@ export default class ListController extends Controller {
   @tracked name = '';
   @tracked creatorName = '';
   @tracked status = null;
-
-  @service currentUser;
 
   get isArchived() {
     return this.status === 'archived';

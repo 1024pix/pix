@@ -9,9 +9,6 @@ export default class ListItems extends Component {
 
   @service currentUser;
   @service session;
-  @service store;
-  @service router;
-  @service notifications;
 
   @tracked student = null;
   @tracked isShowingAuthenticationMethodModal = false;
