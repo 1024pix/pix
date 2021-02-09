@@ -30,7 +30,8 @@
     }
   }
 
-  &__panel {
+  &__panel,
+  &__update-email {
     margin: 0 auto;
     max-width: 980px;
     position: relative;

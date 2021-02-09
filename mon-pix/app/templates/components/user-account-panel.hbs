@@ -10,28 +10,13 @@
   <div class="user-account-panel__item">
     <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.email'}}</span>
     <span class="user-account-panel-item__value" data-test-email>{{@user.email}}</span>
-    {{#unless this.isEmailEditionMode}}
-      <PixButton class="user-account-panel-item__button button" @triggerAction={{this.enableEmailEditionMode}} data-test-edit-email>
+      <PixButton
+              class="user-account-panel-item__button"
+              @triggerAction={{@enableEmailEditionMode}}
+              data-test-edit-email>
         {{t 'pages.user-account.account-panel.edit-button'}}
       </PixButton>
-    {{/unless}}
   </div>
-  {{#if this.isEmailEditionMode}}
-    <div class="user-account-panel__item">
-      <label class="form-textfield__label user-account-panel-item__label" for="new-email">
-        {{t 'pages.user-account.account-panel.new-email'}}
-      </label>
-      <Input id="new-email" @type="email" @value={{this.newEmail}} data-test-new-email />
-      <div class="user-account-panel-item__actions">
-        <PixButton class="user-account-panel-item__button button" type="button" @triggerAction={{this.disableEmailEditionMode}} data-test-cancel-email>
-          {{t 'common.actions.cancel'}}
-        </PixButton>
-        <PixButton class="user-account-panel-item__button button" type="submit" @triggerAction={{this.saveNewEmail}} data-test-submit-email>
-          {{t 'pages.user-account.account-panel.save-button'}}
-        </PixButton>
-      </div>
-    </div>
-  {{/if}}
   {{#if this.displayUsername}}
   <div class="user-account-panel__item">
     <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.username'}}</span>
