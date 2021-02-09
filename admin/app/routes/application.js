@@ -5,7 +5,6 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin) {
 
   @service currentUser;
-  @service notifications;
   @service url;
 
   routeAfterAuthentication = 'authenticated';

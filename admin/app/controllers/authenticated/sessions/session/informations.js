@@ -10,7 +10,6 @@ export default class IndexController extends Controller {
   @service sessionInfoService;
   @service notifications;
   @service currentUser;
-  @service notifications;
   @service fileSaver;
   @service session;
 

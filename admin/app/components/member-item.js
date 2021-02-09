@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { inject as service } from '@ember/service';
 
 const options = [
   { value: 'ADMIN', label: 'Administrateur' },
@@ -9,8 +8,6 @@ const options = [
 ];
 
 export default class MemberItem extends Component {
-
-  @service notifications;
 
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
