@@ -1,19 +1,28 @@
 .campaign-participation-overview-grid {
-  display: grid;
-  grid-gap: 20px;
-  padding-left: 0;
-  min-width: 0;
-  grid-template-columns: minmax(200px, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
 
   @include device-is('tablet') {
-    grid-template-columns: repeat(2, minmax(200px, 1fr));
-  }
-
-  @include device-is('desktop') {
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    flex-direction: row;
   }
 
   &__item {
     list-style-type: none;
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @include device-is('tablet') {
+      width: calc(50% - 10px);
+    }
+
+    @include device-is('desktop') {
+      width: calc(33% - 10px);
+    }
   }
 }
