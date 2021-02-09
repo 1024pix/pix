@@ -27,32 +27,32 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       await createAuthenticateSession({ userId: 1 });
     });
 
-    test('visiting /sessions/list/to-be-published', async function(assert) {      
+    test('visiting /sessions/list/to-be-published', async function(assert) {
       // when
       await visit('/sessions/list/to-be-published');
 
       // then
       assert.equal(currentURL(), '/sessions/list/to-be-published');
     });
-    
-    test('it should display sessions to publish informations', async function(assert) {      
+
+    test('it should display sessions to publish informations', async function(assert) {
       // given
-      const finalizedAt = new Date('2021-02-01T03:00:00Z');
       const sessionDate = new Date('2021-01-01');
       const sessionTime = '17:00:00';
+      const finalizedAt = new Date('2021-02-01T03:00:00Z');
       server.create('publishable-session', {
+        id: '1',
         certificationCenterName: 'Centre SCO des Anne-Étoiles',
         finalizedAt,
         sessionDate,
         sessionTime,
-        id: '1',
       });
       server.create('publishable-session', {
+        id: '2',
         certificationCenterName: 'Centre SUP et rieur',
         finalizedAt,
         sessionDate,
         sessionTime,
-        id: '2',
       });
 
       // when
@@ -63,9 +63,8 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       assert.contains('Centre SUP et rieur');
       assert.contains('1');
       assert.contains('2');
+      assert.contains('01/01/2021 à 17:00:00');
       assert.contains('01/02/2021');
-      assert.contains('01/01/2021');
-      assert.contains('17:00:00')
     });
   });
 });
