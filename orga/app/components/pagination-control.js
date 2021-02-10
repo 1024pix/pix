@@ -30,4 +30,14 @@ export default class PaginationControl extends Component {
   changePageSize(event) {
     this.router.replaceWith({ queryParams: { pageSize: event.target.value, pageNumber: 1 } });
   }
+
+  @action
+  goToNextPage() {
+    this.router.replaceWith({ queryParams: { pageNumber: this.nextPage } });
+  }
+
+  @action
+  goToPreviousPage() {
+    this.router.replaceWith({ queryParams: { pageNumber: this.previousPage } });
+  }
 }
