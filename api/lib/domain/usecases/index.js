@@ -107,7 +107,7 @@ module.exports = injectDependencies({
   addGarAuthenticationMethodToUser: require('./add-gar-authentication-method-to-user'),
   addTutorialEvaluation: require('./add-tutorial-evaluation'),
   addTutorialToUser: require('./add-tutorial-to-user'),
-  anonymizeUser: require('./anonymize-user'),
+  disableUser: require('./disable-user'),
   attachTargetProfilesToOrganization: require('./attach-target-profiles-to-organization'),
   attachOrganizationsToTargetProfile: require('./attach-organizations-to-target-profile'),
   archiveCampaign: require('./archive-campaign'),

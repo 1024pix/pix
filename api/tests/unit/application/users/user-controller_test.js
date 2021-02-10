@@ -780,7 +780,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#anonymizeUser', () => {
+  describe('#disableUser', () => {
 
     const userId = 1;
     const request = {
@@ -795,15 +795,15 @@ describe('Unit | Controller | user-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'anonymizeUser').resolves();
+      sinon.stub(usecases, 'disableUser').resolves();
     });
 
-    it('should call the anonymize user usecase', async () => {
+    it('should call the disable user usecase', async () => {
       // when
-      const response = await userController.anonymizeUser(request, hFake);
+      const response = await userController.disableUser(request, hFake);
 
       // then
-      expect(usecases.anonymizeUser).to.have.been.calledWith({ userId });
+      expect(usecases.disableUser).to.have.been.calledWith({ userId });
       expect(response.statusCode).to.equal(204);
     });
   });

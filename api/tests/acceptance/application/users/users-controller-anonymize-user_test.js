@@ -1,7 +1,7 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-anonymize-user', () => {
+describe('Acceptance | Controller | users-controller-disable-user', () => {
 
   let server;
   let user;
@@ -13,14 +13,14 @@ describe('Acceptance | Controller | users-controller-anonymize-user', () => {
     const pixMaster = await insertUserWithRolePixMaster();
     options = {
       method: 'POST',
-      url: `/api/admin/users/${user.id}/anonymize`,
+      url: `/api/admin/users/${user.id}/disable`,
       payload: {},
       headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
     };
     return databaseBuilder.commit();
   });
 
-  describe('POST /admin/users/:id/anonymize', () => {
+  describe('POST /admin/users/:id/disable', () => {
 
     it('should return 204', async () => {
       // when

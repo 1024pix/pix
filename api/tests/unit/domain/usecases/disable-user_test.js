@@ -1,17 +1,17 @@
 const { expect, sinon } = require('../../../test-helper');
-const anonymizeUser = require('../../../../lib/domain/usecases/anonymize-user');
+const disableUser = require('../../../../lib/domain/usecases/disable-user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | anonymize-user', () => {
+describe('Unit | UseCase | disable-user', () => {
 
   beforeEach(() => {
     sinon.stub(userRepository, 'updateUserDetailsForAdministration').resolves();
   });
 
-  it('should anonymize user', async () => {
+  it('should disable user', async () => {
     // given
     const userId = 1;
-    const expectedAnonymizedUser = {
+    const disabledUser = {
       firstName: `prenom_${userId}`,
       lastName: `nom_${userId}`,
       email: `email_${userId}@example.net`,
@@ -19,9 +19,9 @@ describe('Unit | UseCase | anonymize-user', () => {
     };
 
     // when
-    await anonymizeUser({ userId, userRepository });
+    await disableUser({ userId, userRepository });
 
     // then
-    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly(userId, expectedAnonymizedUser);
+    expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWithExactly(userId, disabledUser);
   });
 });

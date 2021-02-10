@@ -532,7 +532,7 @@ exports.register = async function(server) {
     },
     {
       method: 'POST',
-      path: '/api/admin/users/{id}/anonymize',
+      path: '/api/admin/users/{id}/disable',
       config: {
         validate: {
           params: Joi.object({
@@ -543,7 +543,7 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
-        handler: userController.anonymizeUser,
+        handler: userController.disableUser,
         notes: [
           '- Permet à un administrateur d\'anonymiser un utilisateur',
         ],

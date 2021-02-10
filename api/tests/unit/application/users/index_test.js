@@ -360,19 +360,19 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('POST /api/admin/users/{id}/anonymize', () => {
+  describe('POST /api/admin/users/{id}/disable', () => {
 
     const method = 'POST';
 
     beforeEach(() => {
-      sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(204));
+      sinon.stub(userController, 'disableUser').callsFake((request, h) => h.response({}).code(204));
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       httpTestServer = startServer();
     });
 
     it('should exist', async () => {
       // given
-      const url = '/api/admin/users/1/anonymize';
+      const url = '/api/admin/users/1/disable';
 
       // when
       const result = await httpTestServer.request(method, url);
@@ -383,7 +383,7 @@ describe('Unit | Router | user-router', () => {
 
     it('should return 400 when id is not a number', async () => {
       // given
-      const url = '/api/admin/users/wrongId/anonymize';
+      const url = '/api/admin/users/wrongId/disable';
 
       // when
       const result = await httpTestServer.request(method, url);

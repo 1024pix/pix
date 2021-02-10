@@ -226,9 +226,9 @@ module.exports = {
     return sharedProfileForCampaignSerializer.serialize(sharedProfileForCampaign);
   },
 
-  async anonymizeUser(request, h) {
+  async disableUser(request, h) {
     const userId = parseInt(request.params.id);
-    await usecases.anonymizeUser({ userId });
+    await usecases.disableUser({ userId });
     return h.response({}).code(204);
   },
 
