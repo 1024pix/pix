@@ -36,10 +36,14 @@
         <button id='save-organization-role' type="button" class="button button--thin" {{on 'click' (fn this.updateRoleOfMember @membership)}}>
           Enregistrer
         </button>
-        <button aria-label="Annuler" id='cancel-update-organization-role' type="button" class="button button--round-with-icon"
-          {{on 'click' this.cancelUpdateRoleOfMember}}>
-          <FaIcon @icon='times'></FaIcon>
-        </button>
+        <PixIconButton
+          @icon="times"
+          id='cancel-update-organization-role'
+          aria-label="Annuler"
+          @triggerAction={{this.cancelUpdateRoleOfMember}}
+          @withBackground={{false}}
+          @color="dark-grey"
+        />
       </div>
     </td>
   {{/if}}
