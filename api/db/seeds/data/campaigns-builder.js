@@ -165,4 +165,32 @@ function _buildCampaignForPro(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: null,
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 13,
+    name: 'Pro - Campagne d’évaluation PIC - Archivé partagé',
+    code: 'ARCHIVED1',
+    type: 'ASSESSMENT',
+    title: 'Parcours archivé partagé',
+    customLandingPageText: '',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    idPixLabel: null,
+    archivedAt: new Date('2020-01-02T15:00:34Z'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 14,
+    name: 'Pro - Campagne d’évaluation PIC - Archivé en cours',
+    code: 'ARCHIVED2',
+    type: 'ASSESSMENT',
+    title: 'Parcours archivé en cours',
+    customLandingPageText: '',
+    organizationId: 1,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    idPixLabel: null,
+    archivedAt: new Date('2020-01-01T15:00:34Z'),
+  });
 }
