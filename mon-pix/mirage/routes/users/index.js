@@ -26,6 +26,9 @@ export default function index(config) {
   config.patch('/users/:id/email', (schema, request) => {
     const body = JSON.parse(request.requestBody);
     const user = schema.users.find(request.params.id);
+    if (user.password !== body.data.attributes.password) {
+      return new Response(400);
+    }
     user.update({ email: body.data.attributes.email });
     return new Response(204);
   });

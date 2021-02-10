@@ -2,7 +2,7 @@
     <div class="user-account-update-email">
       <h3>{{t 'pages.user-account.account-update-email.title'}}</h3>
       <div class="user-account-update-email__informations">
-        <span>{{t 'pages.user-account.account-update-email.informations' htmlSafe=true}}</span>
+        <span>{{t 'pages.user-account.account-update-email.email-information' htmlSafe=true}}</span>
       </div>
       <form class="sign-form__body user-account-update-email__form">
         <div class="sign-form-body__input" data-test-new-email>
@@ -15,7 +15,6 @@
                        @autocomplete="off"
                        @require={{true}}/>
         </div>
-
         <div class="sign-form-body__input" data-test-new-email-confirmation>
           <FormTextfield @label="{{t 'pages.user-account.account-update-email.fields.new-email-confirmation.label'}}"
                        @textfieldName="newEmailConfirmation"
@@ -25,6 +24,19 @@
                        @validationStatus={{this.newEmailConfirmationValidation.status}}
                        @autocomplete="off"
                        @require={{true}}/>
+        </div>
+        <div class="user-account-update-email__informations">
+          <span>{{t 'pages.user-account.account-update-email.password-information'}}</span>
+        </div>
+        <div class="sign-form-body__input" data-test-password>
+          <FormTextfield @label="{{t 'pages.user-account.account-update-email.fields.password.label'}}"
+                         @textfieldName="password"
+                         @inputBindingValue={{this.password}}
+                         @onValidate={{this.validatePassword}}
+                         @validationMessage={{this.passwordValidation.message}}
+                         @validationStatus={{this.passwordValidation.status}}
+                         @autocomplete="off"
+                         @require={{true}}/>
         </div>
         {{#if this.errorMessage}}
         <div class="user-account-update-email__error">
@@ -43,6 +55,7 @@
           <PixButton
                   class="user-account-update-email-actions__button"
                   @type="submit"
+                  @isDisabled={{not this.isFormValid}}
                   @triggerAction={{this.onSubmit}}
                   data-test-submit-email>
           {{t 'pages.user-account.account-update-email.save-button'}}
