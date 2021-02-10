@@ -83,7 +83,7 @@ exports.seed = async (knex) => {
   await databaseBuilder.commit();
   await alterSequenceIfPG(knex);
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
-  await generateKnowledgeElementSnapshots(campaignParticipationData, 3);
+  await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
 };
 
 /**
