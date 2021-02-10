@@ -44,13 +44,13 @@
           @autocomplete="current-password"
           @required='true'
         />
-        <button type="button" aria-label="rendre le mot de passe lisible" class="input-password__icon" {{on 'click' this.togglePasswordVisibility}} >
-           {{#if this.isPasswordVisible}}
-             <div tabindex="-1" {{on 'mousedown' this.togglePasswordVisibility}}><FaIcon @icon='eye' @class="fa-fw input-password-icon__eye"></FaIcon></div>
-           {{else}}
-             <div tabindex="-1" {{on 'mousedown' this.togglePasswordVisibility}}><FaIcon @icon='eye-slash' @class="fa-fw input-password-icon__eye"></FaIcon></div>
-          {{/if}}
-        </button>
+        <PixIconButton
+          @icon="{{if this.isPasswordVisible 'eye' 'eye-slash'}}"
+          aria-label="rendre le mot de passe lisible"
+          @triggerAction={{this.togglePasswordVisibility}}
+          @withBackground={{false}}
+          @color="dark-grey"
+        />
       </div>
     </div>
 
