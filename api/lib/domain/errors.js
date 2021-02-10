@@ -432,6 +432,12 @@ class InvalidExternalUserTokenError extends DomainError {
   }
 }
 
+class InvalidPasswordForUpdateEmailError extends DomainError {
+  constructor(message = 'Le mot de passe que vous avez saisi est invalide.') {
+    super(message);
+  }
+}
+
 class InvalidResultRecipientTokenError extends DomainError {
   constructor(message = 'Le token de récupération des résultats de la session de certification est invalide.') {
     super(message);
@@ -748,6 +754,7 @@ module.exports = {
   InvalidCertificationReportForFinalization,
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
+  InvalidPasswordForUpdateEmailError,
   InvalidRecaptchaTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
