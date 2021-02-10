@@ -17,6 +17,40 @@
     </div>
   </section>
 
+  <section class="page-section mb_10">
+    <header class="page-section__header">
+      <h2 class="page-section__title">Ajouter un membre</h2>
+    </header>
+
+    <div class="certification-center__section">
+      <Input
+        id="userEmailToAdd"
+        @type="email"
+        @value={{this.userEmailToAdd}}
+        aria-label="Adresse e-mail"
+        class="form-field__text form-control"
+        placeholder="Adresse e-mail"
+        {{on "focusout" this.updateEmailErrorMessage}}
+      />
+
+      <PixButton
+        @triggerAction={{this.addCertificationCenterMembership}}
+        @backgroundColor="transparent"
+        @loading-color="grey"
+        @isDisabled={{this.isDisabled}}
+        class="btn btn-outline-default"
+        data-test-add-membership
+      >
+        Valider
+      </PixButton>
+    </div>
+    {{#if this.errorMessage}}
+      <div class="certification-center__section error">
+        {{this.errorMessage}}
+      </div>
+    {{/if}}
+  </section>
+
   <CertificationCenterMembershipsSection
     @certificationCenterMemberships={{@model.certificationCenterMemberships}}
   />
