@@ -15,15 +15,21 @@ describe('Acceptance | Controller | users-controller', () => {
     context('user is valid', () => {
 
       let user;
+      const password = 'password123';
 
       beforeEach(async () => {
         featureToggles.myAccount = true;
 
-        user = databaseBuilder.factory.buildUser({
+        user = databaseBuilder.factory.buildUser.withRawPassword({
           email: 'old_email@example.net',
+          rawPassword: password,
         });
 
         await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
       it('should return status 204 with user', async () => {
@@ -37,6 +43,7 @@ describe('Acceptance | Controller | users-controller', () => {
               type: 'users',
               attributes: {
                 'email': 'new_email@example.net',
+                'password': password,
               },
             },
           },
@@ -62,6 +69,7 @@ describe('Acceptance | Controller | users-controller', () => {
               type: 'users',
               attributes: {
                 'email': 'new_email@example.net',
+                'password': password,
               },
             },
           },
@@ -89,6 +97,7 @@ describe('Acceptance | Controller | users-controller', () => {
               type: 'users',
               attributes: {
                 'email': 'new_email@example.net',
+                'password': password,
               },
             },
           },
@@ -99,6 +108,38 @@ describe('Acceptance | Controller | users-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(403);
+      });
+
+      it('should return 400 if password does not match', async () => {
+
+        // given
+        user = databaseBuilder.factory.buildUser.withRawPassword({
+          email: 'john.doe@example.net',
+          rawPassword: password,
+        });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'PATCH',
+          url: `/api/users/${user.id}/email`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+          payload: {
+            data: {
+              type: 'users',
+              attributes: {
+                'email': 'new_email@example.net',
+                'password': 'foo',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(400);
       });
 
       it('should return 404 if FT_MY_ACCOUNT is not enabled', async () => {
@@ -114,6 +155,7 @@ describe('Acceptance | Controller | users-controller', () => {
               type: 'users',
               attributes: {
                 'email': 'new_email@example.net',
+                'password': password,
               },
             },
           },
