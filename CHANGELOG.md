@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.17.0 (10/02/2021)
+
+- [#2508](https://github.com/1024pix/pix/pull/2508) [FEATURE] Amélioration de la phrase sur le consentement dans la landing page pour un parcours (PIX-2109).
+- [#2521](https://github.com/1024pix/pix/pull/2521) [FEATURE]Affichage des compétences en anglais lorsque la langue saisie est "en" dans les résultats individuels d'une campagne d'évaluation (PIX-2099).
+- [#2511](https://github.com/1024pix/pix/pull/2511) [FEATURE] Permettre au script de création de membres de centre de certification d'ajouter de nouveaux membres (PIX-1948).
+- [#2519](https://github.com/1024pix/pix/pull/2519) [FEATURE] Bloquer l'import des candidats pour tous les formats d'ODS sauf la liste des candidats (PIX-2074) 
+- [#2520](https://github.com/1024pix/pix/pull/2520) [FEATURE] Ne plus afficher l'état d'avancement lorsque le participant a partagé ses résultats (PIX-2127).
+- [#2501](https://github.com/1024pix/pix/pull/2501) [FEATURE] Changer le contenu de la tooltip dans le modèle de liste des candidats (PIX-2085)
+- [#2526](https://github.com/1024pix/pix/pull/2526) [BUGFIX] Corriger la taille de l'abeille sur la page de partage de profil (PIX-2115)
+- [#2517](https://github.com/1024pix/pix/pull/2517) [TECH] Supprimer la route dépréciée users /{id}/certification-center-memberships. 
+
 ## v3.16.0 (08/02/2021)
 
 - [#2507](https://github.com/1024pix/pix/pull/2507) [FEATURE] Afficher la liste des membres d'un centre de certification dans Pix Admin (PIX-504).
