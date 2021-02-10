@@ -108,7 +108,7 @@ export default function() {
     return userUpdated;
   });
 
-  this.post('/admin/users/:id/anonymize', (schema, request) => {
+  this.post('/admin/users/:id/disable', (schema, request) => {
     const userId = request.params.id;
     const expectedUpdatedUser = {
       firstName: `prenom_${userId}`,

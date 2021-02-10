@@ -20,8 +20,8 @@ export default class UserAdapter extends ApplicationAdapter {
   }
 
   updateRecord(store, type, snapshot) {
-    if (snapshot.adapterOptions && snapshot.adapterOptions.anonymizeUser) {
-      const url = this.urlForUpdateRecord(snapshot.id) + '/anonymize';
+    if (snapshot.adapterOptions && snapshot.adapterOptions.disableUser) {
+      const url = this.urlForUpdateRecord(snapshot.id) + '/disable';
       return this.ajax(url, 'POST');
     }
 

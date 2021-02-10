@@ -42,12 +42,12 @@ module('Unit | Adapter | user', function(hooks) {
       adapter.ajax.restore();
     });
 
-    module('when anonymizeUser adapterOptions is passed', function() {
+    module('when disableUser adapterOptions is passed', function() {
 
-      test('should send a POST request to user anonymize endpoint', async function(assert) {
+      test('should send a POST request to user disable endpoint', async function(assert) {
         // given
-        const expectedUrl = 'http://localhost:3000/api/admin/users/123/anonymize';
-        const adapterOptions = { anonymizeUser: true };
+        const expectedUrl = 'http://localhost:3000/api/admin/users/123/disable';
+        const adapterOptions = { disableUser: true };
 
         // when
         await adapter.updateRecord(
