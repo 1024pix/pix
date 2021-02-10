@@ -88,14 +88,15 @@ describe('Integration | Component | ChallengeStatement', function() {
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
         id: 'recigAYl5bl96WGXj',
-        instruction: 'Cliquer sur ce lien [lien 1](https://monlien1.com)',
+        instruction: 'Cliquer sur les liens [lien 1](https://monlien1.com) et [lien 2](https://monlien2.com)',
       });
 
       // when
       await renderChallengeStatement();
 
       // then
-      expect(find('.challenge-statement__instruction').innerHTML).to.contain('title="Nouvelle fenêtre"');
+      const linkCount = find('.challenge-statement__instruction').innerHTML.match(/title="Nouvelle fenêtre"/g).length;
+      expect(linkCount).to.equal(2);
     });
 
   });
