@@ -203,7 +203,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
 
       // then
-      expect(targetProfile.badges).to.deep.equal([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
+      expect(targetProfile.badges).to.have.deep.members([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
     });
 
     it('should return target profile stages', async () => {
@@ -251,7 +251,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
 
       // then
-      expect(targetProfile.stages).to.deep.equal([ stage1, stage2 ]);
+      expect(targetProfile.stages).to.have.deep.members([ stage1, stage2 ]);
     });
 
     it('should return target profile filled with objects with appropriate translation', async () => {
@@ -527,7 +527,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
 
       // then
-      expect(targetProfile.stages).to.deep.equal([ stage1, stage2 ]);
+      expect(targetProfile.stages).to.have.deep.members([ stage1, stage2 ]);
     });
 
     it('should return target profile badges without imageUrl', async () => {
@@ -576,7 +576,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const targetProfile = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
 
       // then
-      expect(targetProfile.badges).to.deep.equal([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
+      expect(targetProfile.badges).to.have.deep.members([ { ...badge1, imageUrl: null }, { ...badge2, imageUrl: null } ]);
     });
 
     it('should return target profile filled with objects with appropriate translation', async () => {
