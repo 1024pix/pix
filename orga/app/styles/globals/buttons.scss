@@ -23,7 +23,7 @@
 
   &:disabled {
     background-color: $grey-30;
-    
+
     &:hover, &:active, &:focus {
       cursor: default;
       background-color: $grey-30;
@@ -96,50 +96,10 @@
   &--link {
     text-decoration: none;
   }
-
-  &--round-with-icon {
-    background-color: $white;
-    border-radius: 17px;
-    color: $grey-60;
-    font-size: 1.4rem;
-    height: 34px;
-    line-height: 34px;
-    padding: 1px 6px;
-    width: 34px;
-
-    &:hover {
-      background-color: $grey-10;
-    }
-
-    &:focus, &:active, &:visited {
-      background-color: $grey-20;
-    }
-  }
-
 }
 
 .loader-in-button {
   display: flex;
   background: url('/images/loader-white.svg') no-repeat center;
   background-size: 50px;
-}
-
-.icon-button {
-  color: $grey-60;
-  padding: 6px 8px;
-  border: none;
-  font-size: 1rem;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-
-  &:hover, &:active {
-    background-color: $grey-20;
-    border-radius: 16px;
-    transition: background-color 0.2s ease;
-  }
-
-  &--link {
-    text-decoration: none;
-  }
 }
