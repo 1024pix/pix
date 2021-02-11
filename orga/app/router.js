@@ -14,19 +14,19 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function() {
-  this.route('login', { path: 'connexion' });
-
-  this.route('join', { path: 'rejoindre' });
+  this.route('login', { path: '/connexion' });
+  this.route('logout');
+  this.route('not-found', { path: '/*path' });
+  this.route('join', { path: '/rejoindre' });
   this.route('join-request', { path: '/demande-administration-sco' });
   this.route('join-when-authenticated');
-
   this.route('terms-of-service', { path: '/cgu' });
 
-  this.route('authenticated', { path: '' }, function() {
-    this.route('sco-students', { path: 'eleves' }, function() {
+  this.route('authenticated', { path: '/' }, function() {
+    this.route('sco-students', { path: '/eleves' }, function() {
       this.route('list', { path: '/' });
     });
-    this.route('sup-students', { path: 'etudiants' }, function() {
+    this.route('sup-students', { path: '/etudiants' }, function() {
       this.route('list', { path: '/' });
     });
     this.route('team', { path: '/equipe' }, function() {
@@ -54,8 +54,4 @@ Router.map(function() {
       });
     });
   });
-
-  this.route('logout');
-
-  this.route('not-found', { path: '/*path' });
 });
