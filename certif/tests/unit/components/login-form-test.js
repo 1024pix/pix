@@ -16,12 +16,11 @@ module('Unit | Component | login-form', (hooks) => {
   let component;
 
   hooks.beforeEach(function() {
-    const sessionStub = Service.create({
-      authenticate: authenticateStub,
-    });
-
+    class SessionStub extends Service {
+      authenticate = authenticateStub;
+    }
+    this.owner.register('service:session', SessionStub);
     component = createGlimmerComponent('component:login-form');
-    component.session = sessionStub;
   });
 
   module('#authenticate', () => {
