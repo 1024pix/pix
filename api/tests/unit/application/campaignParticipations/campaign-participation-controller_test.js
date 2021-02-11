@@ -3,6 +3,7 @@ const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
 const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignAssessmentParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
+const campaignProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const events = require('../../../../lib/domain/events');
 const usecases = require('../../../../lib/domain/usecases');
@@ -10,6 +11,7 @@ const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-par
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
@@ -282,7 +284,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const campaignId = 123;
     const userId = 456;
     const campaignParticipationId = 789;
-    const locale = 'fr';
+    const locale = FRENCH_SPOKEN;
 
     beforeEach(() => {
       sinon.stub(usecases, 'getCampaignAssessmentParticipationResult');
@@ -304,6 +306,39 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
       // when
       const response = await campaignParticipationController.getCampaignAssessmentParticipationResult(request);
+
+      // then
+      expect(response).to.equal(expectedResults);
+    });
+  });
+
+  describe('#getCampaignProfile', () => {
+
+    const campaignId = 123;
+    const userId = 456;
+    const campaignParticipationId = 789;
+    const locale = FRENCH_SPOKEN;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getCampaignProfile');
+      sinon.stub(campaignProfileSerializer, 'serialize');
+    });
+
+    it('should call usecase and serializer with expected parameters', async () => {
+      // given
+      const campaignProfile = Symbol('campaignProfile');
+      const expectedResults = Symbol('results');
+      usecases.getCampaignProfile.withArgs({ userId, campaignId, campaignParticipationId, locale }).resolves(campaignProfile);
+      campaignProfileSerializer.serialize.withArgs(campaignProfile).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { campaignId, campaignParticipationId },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignParticipationController.getCampaignProfile(request);
 
       // then
       expect(response).to.equal(expectedResults);
