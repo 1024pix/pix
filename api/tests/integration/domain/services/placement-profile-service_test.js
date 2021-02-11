@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Service | Placement Profile Service', function() {
 
@@ -13,9 +14,11 @@ describe('Integration | Service | Placement Profile Service', function() {
       color: 'jaffa',
       name: 'Domaine 1',
       titleFr: '1. Domaine 1',
+      titleEn: '1. Area 1',
       competences: [{
         id: 'competenceRecordIdOne',
-        name: 'Construire un flipper',
+        nameFr: 'Construire un flipper',
+        nameEn: 'Build a pinball',
         index: '1.1',
         tubes: [{
           id: 'recCitation',
@@ -32,7 +35,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         }],
       }, {
         id: 'competenceRecordIdTwo',
-        name: 'Adopter un dauphin',
+        nameFr: 'Adopter un dauphin',
+        nameEn: 'Adopt a dolphin',
         index: '1.2',
         tubes: [{
           id: 'Remplir',
@@ -55,7 +59,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         }],
       }, {
         id: 'competenceRecordIdThree',
-        name: 'Se faire manger par un requin',
+        nameFr: 'Se faire manger par un requin',
+        nameEn: 'Getting eaten by a shark',
         index: '1.3',
         tubes: [{
           id: 'Requin',
@@ -186,6 +191,37 @@ describe('Integration | Service | Placement Profile Service', function() {
             pixScore: 0,
             estimatedLevel: 0,
           }]);
+      });
+
+      it('should return area and competence name according to given locale', async () => {
+        // when
+        const actualPlacementProfile = await placementProfileService.getPlacementProfile({
+          userId,
+          limitDate: new Date(),
+          isV2Certification,
+          locale: ENGLISH_SPOKEN,
+        });
+
+        // then
+        const competenceName = actualPlacementProfile.userCompetences.map((competence) => competence.name);
+        const areaTitle = actualPlacementProfile.userCompetences.map((competence) => competence.area.title);
+        expect(competenceName).to.have.members(['Build a pinball', 'Adopt a dolphin', 'Getting eaten by a shark']);
+        expect(areaTitle).to.have.members(['1. Area 1', '1. Area 1', '1. Area 1']);
+      });
+
+      it('should return area and competence name according to default locale', async () => {
+        // when
+        const actualPlacementProfile = await placementProfileService.getPlacementProfile({
+          userId,
+          limitDate: new Date(),
+          isV2Certification,
+        });
+
+        // then
+        const competenceName = actualPlacementProfile.userCompetences.map((competence) => competence.name);
+        const areaTitle = actualPlacementProfile.userCompetences.map((competence) => competence.area.title);
+        expect(competenceName).to.have.members(['Construire un flipper', 'Adopter un dauphin', 'Se faire manger par un requin']);
+        expect(areaTitle).to.have.members(['1. Domaine 1', '1. Domaine 1', '1. Domaine 1']);
       });
 
       describe('PixScore by competences', () => {
