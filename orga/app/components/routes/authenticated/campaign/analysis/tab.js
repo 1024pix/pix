@@ -8,7 +8,9 @@ export default class Tab extends Component {
 
   constructor() {
     super(...arguments);
-    this.sortedRecommendations = this.args.campaignTubeRecommendations.sortBy('averageScore');
+    this.sortedRecommendations = this.args.campaignTubeRecommendations
+      ? this.args.campaignTubeRecommendations.sortBy('averageScore')
+      : [];
   }
 
   @action
