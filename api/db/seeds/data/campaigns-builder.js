@@ -166,7 +166,7 @@ function _buildCampaignForPro(databaseBuilder) {
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    idPixLabel: null,
+    idPixLabel: 'identifiant entreprise',
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -179,7 +179,7 @@ function _buildCampaignForPro(databaseBuilder) {
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    idPixLabel: null,
+    idPixLabel: 'identifiant entreprise',
     archivedAt: new Date('2020-01-02T15:00:34Z'),
   });
 
@@ -193,7 +193,7 @@ function _buildCampaignForPro(databaseBuilder) {
     organizationId: PRO_COMPANY_ID,
     creatorId: 2,
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    idPixLabel: null,
+    idPixLabel: 'identifiant entreprise',
     archivedAt: new Date('2020-01-01T15:00:34Z'),
   });
 }
