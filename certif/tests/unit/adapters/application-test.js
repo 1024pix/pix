@@ -1,9 +1,26 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import Service from '@ember/service';
 import sinon from 'sinon';
 
 module('Unit | Adapters | ApplicationAdapter', function(hooks) {
   setupTest(hooks);
+
+  class SessionStub extends Service {
+    isAuthenticated = true;
+    data = {
+      authenticated: { access_token: 'someAccessToken' },
+    };
+  }
+
+  class AjaxQueueStub extends Service {
+    add = null;
+  }
+
+  hooks.beforeEach(async function() {
+    this.owner.register('service:session', SessionStub);
+    this.owner.register('service:ajaxQueue', AjaxQueueStub);
+  });
 
   test('should specify /api as the root url', function(assert) {
     // Given
@@ -21,7 +38,8 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       const applicationAdapter = this.owner.lookup('adapter:application');
 
       // When
-      applicationAdapter.session = { isAuthenticated: true, data: { authenticated: { access_token } } };
+      this.owner.lookup('service:session').set('isAuthenticated', true);
+      this.owner.lookup('service:session').set('data', { authenticated: { access_token } });
 
       // Then
       assert.equal(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
@@ -32,7 +50,7 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
       const applicationAdapter = this.owner.lookup('adapter:application');
 
       // When
-      applicationAdapter.session = {};
+      this.owner.lookup('service:session').set('isAuthenticated', false);
 
       // Then
       assert.notOk(applicationAdapter.headers['Authorization']);
@@ -43,13 +61,14 @@ module('Unit | Adapters | ApplicationAdapter', function(hooks) {
     test('should queue ajax calls', function(assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
-      applicationAdapter.ajaxQueue = { add: sinon.stub().resolves() };
+      const addStub = sinon.stub().resolves();
+      this.owner.lookup('service:ajaxQueue').set('add', addStub);
 
       // When
       applicationAdapter.findRecord(null, { modelName: 'user' }, 1);
 
       // Then
-      sinon.assert.calledOnce(applicationAdapter.ajaxQueue.add);
+      sinon.assert.calledOnce(addStub);
       assert.ok(applicationAdapter);
     });
   });
