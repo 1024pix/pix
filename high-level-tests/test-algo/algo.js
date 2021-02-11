@@ -11,14 +11,36 @@ const Answer = require('../../api/lib/domain/models/Answer');
 const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
 
-function answerTheChallenge({ challenge, allAnswers }) {
-  /** Answer the challenge **/
+function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId }) {
   const newAnswer = new Answer({ challengeId: challenge.id, result: AnswerStatus.OK });
 
-  return [...allAnswers, newAnswer];
+  const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {
+    return knowledgeElements
+      .filter((knowledgeElement) => knowledgeElement.status === status)
+      .map((knowledgeElement) => knowledgeElement.skillId)
+      .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
+  }
+
+  const newKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+    answer: newAnswer,
+    challenge,
+    previouslyFailedSkills: _getSkillsFilteredByStatus(allKnowledgeElements, targetSkills, KnowledgeElement.StatusType.INVALIDATED),
+    previouslyValidatedSkills: _getSkillsFilteredByStatus(allKnowledgeElements, targetSkills, KnowledgeElement.StatusType.VALIDATED),
+    targetSkills,
+    userId,
+  });
+
+  return { updatedAnswers : [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
 }
 
-async function _getChallenge({ answerRepository, knowledgeElementRepository, assessment, locale, knowledgeElements, lastAnswer, allAnswers }) {
+async function _getReferentiel({
+  assessment,
+  answerRepository,
+  challengeRepository,
+  knowledgeElementRepository,
+  skillRepository,
+  improvementService
+}) {
   const { targetSkills, challenges } = await dataFetcher.fetchForCompetenceEvaluations({
     assessment,
     answerRepository,
@@ -28,11 +50,24 @@ async function _getChallenge({ answerRepository, knowledgeElementRepository, ass
     improvementService,
   });
 
+  return { targetSkills, challenges };
+}
+
+async function _getChallenge({ answerRepository, knowledgeElementRepository, assessment, locale, knowledgeElements, allAnswers }) {
+  const { challenges, targetSkills } = await _getReferentiel({
+    assessment,
+    answerRepository,
+    challengeRepository,
+    knowledgeElementRepository,
+    skillRepository,
+    improvementService
+  });
+
   const result = smartRandom.getPossibleSkillsForNextChallenge({
     knowledgeElements,
     challenges,
     targetSkills,
-    lastAnswer,
+    lastAnswer: allAnswers[allAnswers.length - 1],
     allAnswers,
     locale,
   });
@@ -43,8 +78,10 @@ async function _getChallenge({ answerRepository, knowledgeElementRepository, ass
     locale: locale,
   });
 
-  console.log(challenge.id);
-  console.log(challenge.skills[0].name);
+  if(challenge) {
+    console.log(challenge.id);
+    console.log(challenge.skills[0].name);
+  }
 
   return { challenge, hasAssessmentEnded: result.hasAssessmentEnded };
 }
@@ -59,6 +96,7 @@ async function launch_test(argv) {
   const assessment = {
     id: null,
     competenceId,
+    userId: 1
   };
 
   const knowledgeElementRepository = {
@@ -71,7 +109,28 @@ async function launch_test(argv) {
   let isAssessmentOver = false;
 
   while(!isAssessmentOver) {
-    let { challenge, hasAssessmentEnded } = await _getChallenge({ answerRepository, knowledgeElementRepository, assessment, locale, knowledgeElements, lastAnswer, allAnswers });
+
+    let { challenge, hasAssessmentEnded } = await _getChallenge({
+      answerRepository,
+      knowledgeElementRepository,
+      assessment,
+      locale,
+      knowledgeElements,
+      lastAnswer,
+      allAnswers });
+
+    const { targetSkills } = await _getReferentiel({
+      assessment,
+      answerRepository,
+      challengeRepository,
+      knowledgeElementRepository,
+      skillRepository,
+      improvementService
+    });
+
+    let { updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({ challenge, allAnswers, userId: assessment.userId, allKnowledgeElements: knowledgeElements, targetSkills })
+    allAnswers = updatedAnswers;
+    knowledgeElements = updatedKnowledgeElements;
     isAssessmentOver = hasAssessmentEnded;
   }
 
