@@ -1,12 +1,17 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Route | authenticated/sessions/update', function(hooks) {
   setupTest(hooks);
   let route;
 
   hooks.beforeEach(function() {
+    class StoreStub extends Service {
+      findRecord = sinon.stub();
+    }
+    this.owner.register('service:store', StoreStub);
     route = this.owner.lookup('route:authenticated/sessions/update');
   });
 
@@ -14,7 +19,8 @@ module('Unit | Route | authenticated/sessions/update', function(hooks) {
     const session_id = 1;
 
     hooks.beforeEach(function() {
-      route.store.findRecord = sinon.stub().withArgs('session', session_id).resolves({});
+      const store = this.owner.lookup('service:store');
+      store.findRecord = sinon.stub().withArgs('session', session_id).resolves({});
     });
 
     test('it should return session with time', async function(assert) {
