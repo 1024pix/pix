@@ -1,7 +1,9 @@
+const _ = require('lodash');
 const { expect, mockLearningContent, databaseBuilder, catchErr } = require('../../../test-helper');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
+const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Repository | tutorial-repository', () => {
 
@@ -156,15 +158,16 @@ describe('Integration | Repository | tutorial-repository', () => {
 
   describe('#list', () => {
 
-    it('should return all tutorials', async () => {
+    it('should return all tutorials according to default locale', async () => {
       // given
-      const tutorialsList = [{
+      const frenchTutorials = [{
         duration: '00:00:54',
         format: 'video',
         link: 'https://tuto.fr',
         source: 'tuto.fr',
         title: 'tuto0',
         id: 'recTutorial0',
+        locale: 'fr-fr',
       }, {
         duration: '00:01:54',
         format: 'page',
@@ -172,8 +175,18 @@ describe('Integration | Repository | tutorial-repository', () => {
         source: 'tuto.com',
         title: 'tuto1',
         id: 'recTutorial1',
+        locale: 'fr-fr',
       }];
-      const learningContent = { tutorials: tutorialsList };
+      const englishTutorials = [{
+        duration: '00:01:54',
+        format: 'page',
+        link: 'https://tuto.uk',
+        source: 'tuto.uk',
+        title: 'tuto2',
+        id: 'recTutorial2',
+        locale: 'en-us',
+      }];
+      const learningContent = { tutorials: [...frenchTutorials, ...englishTutorials] };
       mockLearningContent(learningContent);
 
       // when
@@ -182,7 +195,41 @@ describe('Integration | Repository | tutorial-repository', () => {
       // then
       expect(tutorials).to.have.lengthOf(2);
       expect(tutorials[0]).to.be.instanceof(Tutorial);
-      expect(tutorials).to.deep.include.members(tutorialsList);
+      const expectedTutorials = frenchTutorials.map((tuto) => _.omit(tuto, 'locale'));
+      expect(tutorials).to.deep.include.members(expectedTutorials);
+    });
+
+    it('should return tutorials according to given locale', async () => {
+      // given
+      const locale = ENGLISH_SPOKEN;
+      const frenchTutorial = {
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.fr',
+        source: 'tuto.fr',
+        title: 'tuto0',
+        id: 'recTutorial0',
+        locale: 'fr-fr',
+      };
+      const englishTutorial = {
+        duration: '00:01:54',
+        format: 'page',
+        link: 'https://tuto.uk',
+        source: 'tuto.uk',
+        title: 'tuto1',
+        id: 'recTutorial1',
+        locale: 'en-us',
+      };
+      const learningContent = { tutorials: [frenchTutorial, englishTutorial] };
+      mockLearningContent(learningContent);
+
+      // when
+      const tutorials = await tutorialRepository.list({ locale });
+
+      // then
+      expect(tutorials).to.have.lengthOf(1);
+      const expectedTutorial = _.omit(englishTutorial, 'locale');
+      expect(tutorials[0]).to.deep.equal(expectedTutorial);
     });
   });
 });

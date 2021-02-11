@@ -4,6 +4,7 @@ const userTutorialRepository = require('./user-tutorial-repository');
 const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 const { NotFoundError } = require('../../domain/errors');
+const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
@@ -27,8 +28,10 @@ module.exports = {
     }
   },
 
-  async list() {
-    const tutorialData = await tutorialDatasource.list();
+  async list({ locale = FRENCH_FRANCE } = {}) {
+    let tutorialData = await tutorialDatasource.list();
+    const lang = _extractLangFromLocale(locale);
+    tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
     return _.map(tutorialData, _toDomain);
   },
 
