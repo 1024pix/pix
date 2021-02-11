@@ -17,10 +17,6 @@ Router.map(function() {
   this.route('login');
   this.route('logout');
 
-  // public routes
-  this.route('index');
-  this.route('about');
-
   this.route('authenticated', { path: '/' }, function() {
     this.route('organizations', function() {
       this.route('new');
