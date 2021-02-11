@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
+import Service from '@ember/service';
 
 module('Unit | Component | enrolled-candidates', function(hooks) {
   setupTest(hooks);
@@ -9,6 +10,10 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
   let component;
 
   hooks.beforeEach(function() {
+    class StoreStub extends Service {
+      createRecord = sinon.stub();
+    }
+    this.owner.register('service:store', StoreStub);
     component = createGlimmerComponent('component:enrolled-candidates');
   });
 
@@ -21,9 +26,8 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       const savableCandidate = _buildCandidate(
         { ...certificationCandidateData },
         { save: sinon.stub().resolves(), deleteRecord: sinon.stub().returns() });
-      const store = { createRecord: sinon.stub().returns(savableCandidate) };
+      this.owner.lookup('service:store').createRecord = sinon.stub().returns(savableCandidate);
 
-      component.store = store;
       component.args = {
         certificationCandidates: [],
         sessionId,
@@ -51,9 +55,8 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
       const savableCandidate = _buildCandidate(
         { ...certificationCandidateData },
         { save: sinon.stub().resolves(), deleteRecord: sinon.stub() });
-      const store = { createRecord: sinon.stub().returns(savableCandidate) };
+      this.owner.lookup('service:store').createRecord = sinon.stub().returns(savableCandidate);
 
-      component.store = store;
       component.args = {
         certificationCandidates: [_buildCandidate({
           ...certificationCandidateData,
