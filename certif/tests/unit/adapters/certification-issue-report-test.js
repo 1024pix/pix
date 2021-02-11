@@ -6,7 +6,7 @@ import sinon from 'sinon';
 module('Unit | Adapter | certification issue report', function(hooks) {
   setupTest(hooks);
 
-  test('it exists', async function(assert) {
+  test('it should return modified URL for createRecord', async function(assert) {
     // given
     const modelName = 'certification-issue-report';
     const certificationCourseId = 1;
