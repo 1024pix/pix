@@ -26,12 +26,13 @@
     justify-content: center;
     width: 100%;
     min-height: 50px;
+    max-height: 50px;
     margin-bottom: 12px;
     border-radius: 4px;
     background-color: $grey-10;
     font-size: 1.125rem;
     font-weight: $font-medium;
-    color: $grey-60
+    color: $grey-60;
   }
 
   &__action {
@@ -42,6 +43,14 @@
 
   &__see-more {
     padding: 0;
+  }
+
+  &__archived {
+    font-family: $font-open-sans;
+    font-size: 0.75rem;
+    font-weight: $font-normal;
+    text-align: center;
+    margin-bottom: 32px;
   }
 }
 

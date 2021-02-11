@@ -116,4 +116,53 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       expect(contains('20 % de réussite'));
     });
   });
+
+  describe('when card has "archived" status', function() {
+    context('when the participation doesn\'t have a mastery percentage', ()=> {
+      it('should render explanatory text', async function() {
+        // given
+        const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+          createdAt: '2020-01-01',
+          campaignArchivedAt: '2020-01-03',
+          assessmentState: 'completed',
+          campaignTitle: 'My campaign',
+          masteryPercentage: null,
+
+        });
+        this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+        // when
+        await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
+
+        // then
+        expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.archived'));
+        expect(find('.campaign-participation-overview-card-header__date').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }));
+        expect(contains('Parcours archivé par votre organisation. Vos résultats n\'ont pas pu être envoyés.'));
+        expect(contains(this.intl.t('pages.campaign-participation-overview.card.see-more'))).to.not.exist;
+      });
+    });
+
+    context('when the participation has a mastery percentage', ()=> {
+      it('should render the result with percentage', async function() {
+        // given
+        const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+          createdAt: '2020-01-01',
+          campaignArchivedAt: '2020-01-03',
+          assessmentState: 'completed',
+          campaignTitle: 'My campaign',
+          masteryPercentage: 56,
+        });
+        this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+        // when
+        await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
+
+        // then
+        expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.archived'));
+        expect(find('.campaign-participation-overview-card-header__date').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }));
+        expect(contains(this.intl.t('pages.campaign-participation-overview.card.see-more'))).to.not.exist;
+        expect(contains('56 % de réussite'));
+      });
+    });
+  });
 });
