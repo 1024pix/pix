@@ -2,8 +2,11 @@ const { expect, databaseBuilder, mockLearningContent, catchErr } = require('../.
 const CampaignProfileRepository = require('../../../../lib/infrastructure/repositories/campaign-profile-repository');
 const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Repository | CampaignProfileRepository', function() {
+  const locale = FRENCH_SPOKEN;
+
   describe('#findProfile', () => {
     context('campaign participation infos', () => {
       beforeEach(() => {
@@ -21,7 +24,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.externalId).to.equal('Friday the 13th');
         expect(campaignProfile.createdAt).to.deep.equal(new Date('2020-01-01'));
@@ -38,7 +41,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.campaignParticipationId).to.equal(campaignParticipation.id);
         expect(campaignProfile.campaignId).to.equal(campaignId);
@@ -54,7 +57,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.isShared).to.equal(true);
       });
@@ -74,7 +77,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.firstName).to.equal('John');
         expect(campaignProfile.lastName).to.equal('Shaft');
@@ -92,7 +95,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Greg', lastName: 'Duboire', organizationId }, { campaignId }).id;
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipationId);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId, locale });
 
         expect(campaignProfile.firstName).to.equal('Greg');
         expect(campaignProfile.lastName).to.equal('Duboire');
@@ -104,8 +107,8 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
           competences: [
-            { id: 'rec1', origin: 'Pix', areaId: 'recArea1' },
-            { id: 'rec2', origin: 'Pix', areaId: 'recArea1' },
+            { id: 'rec1', origin: 'Pix', areaId: 'recArea1', nameFrFr: 'French1', nameEnUs: 'English1' },
+            { id: 'rec2', origin: 'Pix', areaId: 'recArea1', nameFrFr: 'French2', nameEnUs: 'English2' },
             { id: 'rec3', origin: 'Other', areaId: 'recArea1' },
           ],
           skills: [{
@@ -133,9 +136,22 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.competencesCount).to.equal(2);
+      });
+
+      it('return the competences data according to given locale', async () => {
+        const campaignId = databaseBuilder.factory.buildCampaign().id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { campaignId, isShared: true }, false);
+
+        await databaseBuilder.commit();
+
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale: ENGLISH_SPOKEN });
+
+        const competenceNames = campaignProfile.competences.map((competence) => competence.name);
+        expect(competenceNames).to.have.members(['English1', 'English2']);
       });
 
       it('return the number of competences certifiable', async () => {
@@ -155,7 +171,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.certifiableCompetencesCount).to.equal(1);
       });
@@ -183,7 +199,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.pixScore).to.equal(80);
       });
@@ -211,7 +227,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         await databaseBuilder.commit();
 
-        const campaignProfile = await CampaignProfileRepository.findProfile(campaignId, campaignParticipation.id);
+        const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
         expect(campaignProfile.pixScore).to.equal(PIX_COUNT_BY_LEVEL);
         expect(campaignProfile.certifiableCompetencesCount).to.equal(1);
@@ -224,7 +240,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
       });
 
       it('throws an NotFoundError error', async () => {
-        const error = await catchErr(CampaignProfileRepository.findProfile)(1, 2);
+        const error = await catchErr(CampaignProfileRepository.findProfile)({ campaignId: 1, campaignParticipationId: 2, locale });
 
         expect(error).to.be.an.instanceof(NotFoundError);
         expect(error.message).to.equal('There is no campaign participation with the id "2"');
@@ -242,7 +258,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'John', lastName: 'Shaft' }, { id: 3, campaignId }, false).id;
 
         await databaseBuilder.commit();
-        const error = await catchErr(CampaignProfileRepository.findProfile)(2, campaignParticipationId);
+        const error = await catchErr(CampaignProfileRepository.findProfile)({ campaignId: 2, campaignParticipationId, locale });
 
         expect(error).to.be.an.instanceof(NotFoundError);
         expect(error.message).to.equal(`There is no campaign participation with the id "${campaignParticipationId}"`);
