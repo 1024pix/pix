@@ -1,16 +1,24 @@
 const PIX_MASTER_ID = 199;
-
-const defaultPassword = 'pix123';
+const DEFAULT_PASSWORD = 'pix123';
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 function usersBuilder({ databaseBuilder }) {
+
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: 1,
+    firstName: 'Pix',
+    lastName: 'Aile',
+    email: 'userpix1@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
 
   databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_MASTER_ID,
     firstName: 'Pix',
     lastName: 'Master',
     email: 'pixmaster@example.net',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -19,7 +27,7 @@ function usersBuilder({ databaseBuilder }) {
     firstName: 'Lance',
     lastName: 'Low',
     username: 'lance.low1234',
-    rawPassword: defaultPassword,
+    rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
 
@@ -69,18 +77,10 @@ function usersBuilder({ databaseBuilder }) {
     lastTermsOfServiceValidatedAt: null,
   };
   databaseBuilder.factory.buildUser.withRawPassword(userWithLastTermsOfServiceNotValidated);
-
-  databaseBuilder.factory.buildUser.withRawPassword({
-    id: 200,
-    firstName: 'Pix',
-    lastName: 'Masteur',
-    rawPassword: defaultPassword,
-    email: 'pixmasteur@example.net',
-    cgu: true,
-  });
 }
 
 module.exports = {
   usersBuilder,
   PIX_MASTER_ID,
+  DEFAULT_PASSWORD,
 };

@@ -1,5 +1,5 @@
 const { expect } = require('../../test-helper');
-const { MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
+const { SCO_MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
 
 const { knex } = require('../../../lib/infrastructure/bookshelf');
 const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/data/schooling-registration');
@@ -19,7 +19,7 @@ describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.
       // given
       const numberOfSchoolingRegistrationToCreate = 3;
       databaseBuilder.factory.buildOrganization({
-        id: MIDDLE_SCHOOL_ID,
+        id: SCO_MIDDLE_SCHOOL_ID,
         type: 'SCO',
         name: 'Collège The Night Watch',
         isManagingStudents: true,
