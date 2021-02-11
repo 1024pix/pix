@@ -231,5 +231,26 @@ describe('Integration | Repository | tutorial-repository', () => {
       const expectedTutorial = _.omit(englishTutorial, 'locale');
       expect(tutorials[0]).to.deep.equal(expectedTutorial);
     });
+
+    it('should not break or return tutorials without locale', async () => {
+      // given
+      const locale = ENGLISH_SPOKEN;
+      const tutorial = {
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.fr',
+        source: 'tuto.fr',
+        title: 'tuto0',
+        id: 'recTutorial0',
+      };
+      const learningContent = { tutorials: [tutorial] };
+      mockLearningContent(learningContent);
+
+      // when
+      const tutorials = await tutorialRepository.list({ locale });
+
+      // then
+      expect(tutorials).to.have.lengthOf(0);
+    });
   });
 });

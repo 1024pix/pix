@@ -58,7 +58,7 @@ async function _findByRecordIds({ ids, locale }) {
 }
 
 function _extractLangFromLocale(locale) {
-  return locale.split('-')[0];
+  return locale && locale.split('-')[0];
 }
 
 function _getUserTutorial(userTutorials, tutorial) {
