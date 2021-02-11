@@ -1,4 +1,4 @@
-const { MIDDLE_SCHOOL_ID } = require('../../db/seeds/data/organizations-sco-builder');
+const { SCO_MIDDLE_SCHOOL_ID } = require('../../db/seeds/data/organizations-sco-builder');
 const times = require('lodash/times');
 const faker = require('faker');
 const SchoolingRegistration = require('../../lib/domain/models/SchoolingRegistration');
@@ -12,7 +12,7 @@ function _buildSchoolingRegistration() {
     lastName: faker.name.lastName(),
     birthdate: faker.date.past(),
     division: faker.lorem.word(),
-    organizationId: MIDDLE_SCHOOL_ID,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
   });
 }
 

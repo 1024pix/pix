@@ -1,3 +1,6 @@
+const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
+const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
+
 const skillIdsForBadgePartnerCompetence1 = [
   'recMOy4S8XnaWblYI', 'recPG9ftlGZLiF0O6', 'recH1pcEWLBUCqXTm', 'recIDXphXbneOrbux', 'recclxUSbi0fvIWpd',
   'recLCYATl7TGrkZLh', 'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR',
@@ -62,16 +65,16 @@ function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
     id: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     name: 'PIC - Diagnostic Initial',
     isPublic: false,
-    ownerOrganizationId: 5,
+    ownerOrganizationId: PRO_MED_NUM_ID,
   });
 
   databaseBuilder.factory.buildTargetProfileShare({
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    organizationId: 1,
+    organizationId: PRO_COMPANY_ID,
   });
   databaseBuilder.factory.buildTargetProfileShare({
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
-    organizationId: 2,
+    organizationId: SUP_UNIVERSITY_ID,
   });
 
   [ 'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recMOy4S8XnaWblYI', 'recagUd44RPEWti0X', 'recrvTvLTUXEcUIV1',
@@ -90,7 +93,7 @@ function _buildTargetProfileOnCompetence(databaseBuilder) {
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
     imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/profil-cible/Illu_classe2.svg',
     isPublic: false,
-    ownerOrganizationId: 1,
+    ownerOrganizationId: PRO_COMPANY_ID,
   });
 
   [
@@ -130,7 +133,7 @@ function _buildTargetProfileWithSimplifiedAccess(databaseBuilder) {
     id: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
     name: 'Accès simplifié',
     isPublic: true,
-    ownerOrganizationId: 5,
+    ownerOrganizationId: PRO_MED_NUM_ID,
     isSimplifiedAccess: true,
   });
 
@@ -146,7 +149,7 @@ function _buildTargetProfilePixEmploiClea(databaseBuilder) {
     id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
     name: 'Pix emploi - Parcours complet',
     isPublic: false,
-    ownerOrganizationId: 4,
+    ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
   [...skillIdsForBadgePartnerCompetence1,

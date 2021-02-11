@@ -1,5 +1,5 @@
 const { expect } = require('../../test-helper');
-const { MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
+const { SCO_MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
 
 const { knex } = require('../../../lib/infrastructure/bookshelf');
 const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/data/schooling-registration');
@@ -22,7 +22,7 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
       const numberOfSchoolingRegistrationToCreate = numberOfDivisionsToCreate * numberOfStudentsPerDivision;
 
       databaseBuilder.factory.buildOrganization({
-        id: MIDDLE_SCHOOL_ID,
+        id: SCO_MIDDLE_SCHOOL_ID,
         type: 'SCO',
         name: 'Collège The Night Watch',
         isManagingStudents: true,
@@ -35,7 +35,7 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
       await databaseBuilder.commit();
 
       // when
-      await addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisionsToCreate, MIDDLE_SCHOOL_ID);
+      await addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisionsToCreate, SCO_MIDDLE_SCHOOL_ID);
       const numberOfCreatedSchoolingRegistrations = await _getNumberOfSchoolingRegistrations();
       const createdDivisions = await _getDistinctDivisions();
 

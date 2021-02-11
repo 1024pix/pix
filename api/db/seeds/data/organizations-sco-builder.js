@@ -1,9 +1,13 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const { DEFAULT_PASSWORD } = require('./users-builder');
-const MIDDLE_SCHOOL_ID = 3;
+const SCO_MIDDLE_SCHOOL_ID = 3;
+const SCO_HIGH_SCHOOL_ID = 6;
+const SCO_AGRI_ID = 7;
+const SCO_AGRI_CFA_ID = 8;
+const SCO_AEFE_ID = 9;
 
-module.exports = function organizationsScoBuilder({ databaseBuilder }) {
+function organizationsScoBuilder({ databaseBuilder }) {
   const SCO_EXTERNAL_ID = '1237457A';
 
   /* COLLEGE */
@@ -27,8 +31,8 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     pixOrgaTermsOfServiceAccepted: true,
   });
 
-  const middleSchool = databaseBuilder.factory.buildOrganization({
-    id: MIDDLE_SCHOOL_ID,
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_MIDDLE_SCHOOL_ID,
     type: 'SCO',
     name: 'Collège The Night Watch',
     isManagingStudents: true,
@@ -40,13 +44,13 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser2.id,
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     organizationRole: Membership.roles.MEMBER,
   });
 
@@ -60,7 +64,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: disabledUserId,
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     organizationRole: Membership.roles.MEMBER,
     disabledAt: new Date(),
   });
@@ -72,7 +76,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: 'Last',
     birthdate: '2010-10-10',
     division: '6E',
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: null,
     nationalStudentId: '123456789AB',
   });
@@ -92,7 +96,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: userWithUsername.lastName,
     birthdate: '2013-07-22',
     division: '3A',
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithUsername.id,
     nationalStudentId: '123123123A',
   });
@@ -112,7 +116,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: userWithEmailAndUsername.lastName,
     birthdate: '2012-01-07',
     division: '3A',
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithEmailAndUsername.id,
     nationalStudentId: '123123123B',
   });
@@ -131,7 +135,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: userWithEmail.lastName,
     birthdate: '2002-01-07',
     division: '5D',
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithEmail.id,
     nationalStudentId: '123123123C',
   });
@@ -156,14 +160,14 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     lastName: userWithGAR.lastName,
     birthdate: '2002-01-07',
     division: '5D',
-    organizationId: middleSchool.id,
+    organizationId: SCO_MIDDLE_SCHOOL_ID,
     userId: userWithGAR.id,
     nationalStudentId: '123123123D',
   });
 
   /* LYCEE */
-  const highSchool = databaseBuilder.factory.buildOrganization({
-    id: 6,
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_HIGH_SCHOOL_ID,
     type: 'SCO',
     name: 'Lycée The Night Watch',
     isManagingStudents: true,
@@ -175,13 +179,13 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
-    organizationId: highSchool.id,
+    organizationId: SCO_HIGH_SCHOOL_ID,
     organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser2.id,
-    organizationId: highSchool.id,
+    organizationId: SCO_HIGH_SCHOOL_ID,
     organizationRole: Membership.roles.MEMBER,
   });
 
@@ -191,7 +195,7 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithEmailAndUsername.firstName,
     lastName: userWithEmailAndUsername.lastName,
     birthdate: userWithEmailAndUsername.birtdate,
-    organizationId: highSchool.id,
+    organizationId: SCO_HIGH_SCHOOL_ID,
     nationalStudentId: schoolingRegistrationAssociated2.nationalStudentId,
     createdAt: new Date('2020-08-14'),
   });
@@ -202,14 +206,14 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     firstName: userWithUsername.firstName,
     lastName: userWithUsername.lastName,
     birthdate: userWithUsername.birthdate,
-    organizationId: highSchool.id,
+    organizationId: SCO_HIGH_SCHOOL_ID,
     nationalStudentId: schoolingRegistrationAssociated.nationalStudentId,
     createdAt: new Date('2020-08-14'),
   });
 
   /* AGRICULTURE */
-  const agriculture = databaseBuilder.factory.buildOrganization({
-    id: 7,
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_AGRI_ID,
     type: 'SCO',
     name: 'Lycée Agricole',
     isManagingStudents: true,
@@ -219,22 +223,22 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     provinceCode: '12',
   });
 
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: agriculture.id, tagId: 1 });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_ID, tagId: 1 });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
-    organizationId: agriculture.id,
+    organizationId: SCO_AGRI_ID,
     organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser2.id,
-    organizationId: agriculture.id,
+    organizationId: SCO_AGRI_ID,
     organizationRole: Membership.roles.MEMBER,
   });
 
   /* CFA AGRICULTURE */
-  const agricultureCFA = databaseBuilder.factory.buildOrganization({
+  databaseBuilder.factory.buildOrganization({
     id: 8,
     type: 'SCO',
     name: 'CFA Agricole',
@@ -245,24 +249,24 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     provinceCode: '12',
   });
 
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: agricultureCFA.id, tagId: 1 });
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: agricultureCFA.id, tagId: 5 });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_CFA_ID, tagId: 1 });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_CFA_ID, tagId: 5 });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
-    organizationId: agricultureCFA.id,
+    organizationId: SCO_AGRI_CFA_ID,
     organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser2.id,
-    organizationId: agricultureCFA.id,
+    organizationId: SCO_AGRI_CFA_ID,
     organizationRole: Membership.roles.MEMBER,
   });
 
   /* AEFE */
-  const AEFE = databaseBuilder.factory.buildOrganization({
-    id: 9,
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_AEFE_ID,
     type: 'SCO',
     name: 'AEFE',
     canCollectProfiles: true,
@@ -271,19 +275,27 @@ module.exports = function organizationsScoBuilder({ databaseBuilder }) {
     provinceCode: '12',
   });
 
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: AEFE.id, tagId: 6 });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AEFE_ID, tagId: 6 });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
-    organizationId: AEFE.id,
+    organizationId: SCO_AEFE_ID,
     organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
     userId: scoUser2.id,
-    organizationId: AEFE.id,
+    organizationId: SCO_AEFE_ID,
     organizationRole: Membership.roles.MEMBER,
   });
+}
+
+module.exports = {
+  organizationsScoBuilder,
+  SCO_MIDDLE_SCHOOL_ID,
+  SCO_HIGH_SCHOOL_ID,
+  SCO_AGRI_ID,
+  SCO_AGRI_CFA_ID,
+  SCO_AEFE_ID,
 };
 
-module.exports.MIDDLE_SCHOOL_ID = MIDDLE_SCHOOL_ID;
