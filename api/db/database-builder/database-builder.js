@@ -52,8 +52,14 @@ module.exports = class DatabaseBuilder {
   }
 
   async _emptyDatabase() {
+
     const query = 'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?';
     const resultSet = await this.knex.raw(query, [this.knex.client.database()]);
+
+    if (resultSet.rowCount === 0) {
+      throw new Error('Database has no tables to empty');
+    }
+
     const rows = resultSet.rows;
     const tableNames = _.map(rows, 'table_name');
     const tablesToDelete = _.without(tableNames,
