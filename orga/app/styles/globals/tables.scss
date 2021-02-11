@@ -100,10 +100,12 @@ th::first-letter {
     text-overflow: ellipsis;
   }
 
-  &--clickable {
-    cursor: pointer;
+  &--sort {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &--icon {
+    .pix-icon-button {
       margin-left: 8px;
     }
   }
@@ -111,11 +113,6 @@ th::first-letter {
   &--highlight {
     color: $grey-80;
   }
-}
-
-.column__icon {
-  font-size: 0.9rem;
-  color: inherit;
 }
 
 .table__row {

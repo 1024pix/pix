@@ -1,14 +1,15 @@
 <Table::Header @size={{@size}} @align={{@align}} aria-sort={{this.order}} ...attributes>
-  <span class={{unless @isDisabled "table__column--clickable"}} role={{unless @isDisabled "button"}} {{on "click" this.toggleSort}}>
+  <span class="table__column--sort">
     {{yield}}
     {{#unless @isDisabled}}
-      <span class="icon-button column__icon">
-        {{#if (eq this.order "asc")}}
-          <FaIcon @icon="arrow-up" />
-        {{else}}
-          <FaIcon @icon="arrow-down" />
-        {{/if}}
-      </span>
+      <PixIconButton
+        @icon="{{if (eq this.order "asc") 'arrow-up' 'arrow-down'}}"
+        @triggerAction={{this.toggleSort}}
+        @withBackground={{false}}
+        @size="small"
+        @color="dark-grey"
+        aria-label="Trier par pertinence"
+      />
     {{/unless}}
   </span>
 </Table::Header>
