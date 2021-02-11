@@ -9,11 +9,15 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 describe('Integration | Component | Dashboard | Content', function() {
   setupIntlRenderingTest();
 
+  const pixScore = 105;
   class CurrentUserStub extends Service {
     user = {
       firstName: 'Banana',
       email: 'banana.split@example.net',
       fullName: 'Banana Split',
+      profile: {
+        pixScore,
+      },
     }
   }
 
@@ -265,5 +269,23 @@ describe('Integration | Component | Dashboard | Content', function() {
       expect(find('section[data-test-empty-dashboard]')).not.to.exist;
     });
 
+  });
+
+  describe('user pix score rendering', function() {
+    it('should display user score', async function() {
+      // given
+      this.owner.register('service:currentUser', CurrentUserStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(find('.dashboard-content__score')).to.exist;
+      expect(find('.hexagon-score-content__pix-score').textContent).to.contains(pixScore);
+    });
   });
 });

@@ -1,12 +1,14 @@
 .badge-acquired-container {
   display: grid;
   grid-template-columns: 1fr;
+  grid-template-rows: auto;
   grid-column-gap: 32px;
   grid-row-gap: 24px;
   padding: 0 14px 48px;
 
   @include device-is('tablet') {
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
     grid-gap: 32px;
     padding: 0 0 48px;
   }
