@@ -1,14 +1,12 @@
 <div id="icon-trigger" class="dropdown" ...attributes>
-  <button 
-    type="button"
-    class="button button--round-with-icon {{@dropdownButtonClass}}"
-    aria-haspopup="listbox"
-    aria-expanded="{{this.display}}"
+  <PixIconButton
+    @icon={{@icon}}
     aria-label="Afficher les actions"
-    {{on 'click' this.toggle}}
-  >
-    <FaIcon @icon={{@icon}} />
-  </button>
+    class="{{@dropdownButtonClass}}"
+    @triggerAction={{this.toggle}}
+    @size="small"
+    @color="dark-grey"
+  />
   <Dropdown::Content @display={{this.display}} @close={{this.close}} class="{{@dropdownContentClass}}" aria-label="Actions">
     {{yield}}
   </Dropdown::Content>
