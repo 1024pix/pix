@@ -10,7 +10,7 @@ module.exports = {
   serialize(campaignParticipationOverview, meta) {
     return new Serializer('campaign-participation-overview',
       {
-        attributes: ['isShared', 'sharedAt', 'createdAt', 'organizationName', 'assessmentState', 'campaignCode', 'campaignTitle', 'masteryPercentage'],
+        attributes: ['isShared', 'sharedAt', 'createdAt', 'organizationName', 'assessmentState', 'campaignCode', 'campaignTitle', 'campaignArchivedAt', 'masteryPercentage'],
         meta,
       }).serialize(campaignParticipationOverview);
   },

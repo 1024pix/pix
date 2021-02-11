@@ -20,7 +20,7 @@ describe('Unit | Route | User-Tests', function() {
         userId: 1,
         'page[number]': 1,
         'page[size]': 100,
-        'filter[states]': ['ONGOING', 'TO_SHARE', 'ENDED'],
+        'filter[states]': ['ONGOING', 'TO_SHARE', 'ENDED', 'ARCHIVED'],
       }).returns(campaignParticipationOverviews);
 
       const route = this.owner.lookup('route:user-tests');

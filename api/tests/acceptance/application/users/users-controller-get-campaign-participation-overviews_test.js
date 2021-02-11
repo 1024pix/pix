@@ -59,6 +59,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
             'campaign-code': sharableCampaignParticipationElements.campaign.code,
             'campaign-title': sharableCampaignParticipationElements.campaign.title,
             'assessment-state': Assessment.states.COMPLETED,
+            'campaign-archived-at': null,
             'mastery-percentage': null,
           },
         }];
@@ -125,6 +126,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
               'campaign-code': startedCampaignParticipationElements.campaign.code,
               'campaign-title': startedCampaignParticipationElements.campaign.title,
               'assessment-state': Assessment.states.STARTED,
+              'campaign-archived-at': null,
               'mastery-percentage': null,
             },
           }];
@@ -156,6 +158,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
                 'campaign-code': sharableCampaignParticipationElements.campaign.code,
                 'campaign-title': sharableCampaignParticipationElements.campaign.title,
                 'assessment-state': Assessment.states.COMPLETED,
+                'campaign-archived-at': null,
                 'mastery-percentage': null,
               },
             }, {
@@ -169,6 +172,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
                 'campaign-code': startedCampaignParticipationElements.campaign.code,
                 'campaign-title': startedCampaignParticipationElements.campaign.title,
                 'assessment-state': Assessment.states.STARTED,
+                'campaign-archived-at': null,
                 'mastery-percentage': null,
               },
             }];

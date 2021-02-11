@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       assessmentState: 'started',
       campaignCode: '1234',
       campaignTitle: 'My campaign',
+      campaignArchivedAt: new Date('2021-01-01'),
     });
 
     let expectedSerializedCampaignParticipationOverview;
@@ -33,6 +34,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'assessment-state': 'started',
             'campaign-code': '1234',
             'campaign-title': 'My campaign',
+            'campaign-archived-at': new Date('2021-01-01'),
             'mastery-percentage': 50,
           },
         },
@@ -62,6 +64,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           assessmentState: 'started',
           campaignCode: '4567',
           campaignTitle: 'My campaign 1',
+          campaignArchivedAt: null,
         }),
         new CampaignParticipationOverview({
           id: 7,
@@ -72,6 +75,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           assessmentState: 'started',
           campaignCode: '4567',
           campaignTitle: 'My campaign 2',
+          campaignArchivedAt: null,
         }),
       ];
       const pagination = {
@@ -98,6 +102,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
               'organization-name': 'My organization 1',
               'shared-at': new Date('2018-02-07T17:15:44Z'),
               'mastery-percentage': null,
+              'campaign-archived-at': null,
             },
             id: '6',
             type: 'campaign-participation-overviews',
@@ -112,6 +117,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
               'organization-name': 'My organization 2',
               'shared-at': new Date('2018-02-10T17:30:44Z'),
               'mastery-percentage': null,
+              'campaign-archived-at': null,
             },
             id: '7',
             type: 'campaign-participation-overviews',

@@ -22,11 +22,20 @@ const INFO_BY_STATUSES = {
     actionClass: 'link campaign-participation-overview-card-content__see-more',
     dateText: 'pages.campaign-participation-overview.card.finished-at',
   },
+  archived: {
+    tagText: 'pages.campaign-participation-overview.card.tag.archived',
+    tagColor: 'grey-light',
+    dateText: 'pages.campaign-participation-overview.card.started-at',
+  },
 };
 
 export default class Card extends Component {
   get cardInfo() {
     const status = this.args.model.status;
-    return INFO_BY_STATUSES[status];
+    const infos = INFO_BY_STATUSES[status];
+    const masteryPercentage = this.args.model.masteryPercentage;
+    infos.hasMasteryPercentage = ![null, undefined].includes(masteryPercentage);
+    infos.masteryPercentage = masteryPercentage;
+    return infos;
   }
 }
