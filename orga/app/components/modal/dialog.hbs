@@ -12,9 +12,13 @@
         <h2 class="modal-header__title" id={{this.labelId}}>
           {{@title}}
         </h2>
-        <button class="modal-header__icon icon-button" aria-label="Fermer la fenêtre" type="button" {{on 'click' @close}}>
-          <FaIcon @icon='times'></FaIcon>
-        </button>
+        <PixIconButton
+          @icon="times"
+          aria-label="Fermer la fenêtre"
+          @triggerAction={{@close}}
+          @withBackground={{false}}
+          class="modal-header__icon"
+        />
       </div>
       <div>
         {{yield}}
