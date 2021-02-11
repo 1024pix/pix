@@ -3,15 +3,23 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 
-module.only('Unit | Route | authenticated/sessions/add-student', function(hooks) {
+module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
   setupTest(hooks);
+
   let route;
 
   module('#model', function(hooks) {
     const session_id = 1;
     const session = { id: session_id };
     const certificationCenterId = Symbol('certificationCenterId');
+    let queryStub;
+    let findRecordStub;
+
+    class CurrentServiceStub extends Service {
+      currentCertificationCenter = { id: certificationCenterId };
+    }
 
     const paginatedStudents = {
       data: [{ id: '1', firstName: 'Tom', lastName: 'Dupont', isEnrolled: true }],
@@ -24,22 +32,24 @@ module.only('Unit | Route | authenticated/sessions/add-student', function(hooks)
     };
 
     hooks.beforeEach(function() {
+      queryStub = sinon.stub();
+      findRecordStub = sinon.stub();
+      class StoreStub extends Service {
+        query = queryStub;
+        findRecord = findRecordStub;
+      }
+      this.owner.register('service:store', StoreStub);
+      this.owner.register('service:current-user', CurrentServiceStub);
       route = this.owner.lookup('route:authenticated/sessions/add-student');
     });
 
     test('it should return the session', async function(assert) {
       // given
       const divisions = [EmberObject.create({ name: '3A' }), EmberObject.create({ name: '3B' })];
-      const findRecordStub = sinon.stub();
       findRecordStub.withArgs('session', session_id).resolves(session);
-      route.store.findRecord = findRecordStub;
-      route.store.query = sinon.stub();
-      route.store.query.onCall(0).resolves([Symbol('a candidate')]);
-      route.store.query.onCall(1).resolves(divisions);
-      route.store.query.onCall(2).resolves(paginatedStudents);
-      route.currentUser = {
-        currentCertificationCenter: { id: certificationCenterId },
-      };
+      queryStub.onCall(0).resolves([Symbol('a candidate')]);
+      queryStub.onCall(1).resolves(divisions);
+      queryStub.onCall(2).resolves(paginatedStudents);
 
       const expectedModel = {
         certificationCenterDivisions: [
@@ -62,7 +72,7 @@ module.only('Unit | Route | authenticated/sessions/add-student', function(hooks)
       const actualModel = await route.model({ session_id, pageNumber: 1, pageSize: 1 });
 
       // then
-      sinon.assert.calledWith(route.store.query, 'student', {
+      sinon.assert.calledWith(queryStub, 'student', {
         filter: {
           certificationCenterId,
           sessionId: session.id,
