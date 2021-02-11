@@ -1,7 +1,8 @@
 const Membership = require('../../../lib/domain/models/Membership');
 const { DEFAULT_PASSWORD } = require('./users-builder');
+const SUP_UNIVERSITY_ID = 2;
 
-module.exports = function organizationsSupBuilder({ databaseBuilder }) {
+function organizationsSupBuilder({ databaseBuilder }) {
   const supUser1 = databaseBuilder.factory.buildUser.withRawPassword({
     id: 7,
     firstName: 'Tyrion',
@@ -21,8 +22,8 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
-  const supOrganization = databaseBuilder.factory.buildOrganization({
-    id: 2,
+  databaseBuilder.factory.buildOrganization({
+    id: SUP_UNIVERSITY_ID,
     type: 'SUP',
     name: 'Université du Lion',
     isManagingStudents: true,
@@ -34,13 +35,13 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: supUser1.id,
-    organizationId: supOrganization.id,
+    organizationId: SUP_UNIVERSITY_ID,
     organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildMembership({
     userId: supUser2.id,
-    organizationId: supOrganization.id,
+    organizationId: SUP_UNIVERSITY_ID,
     organizationRole: Membership.roles.MEMBER,
   });
 
@@ -49,7 +50,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: 'Joffrey',
     lastName: 'Baratheon',
     birthdate: '2000-02-28',
-    organizationId: supOrganization.id,
+    organizationId: SUP_UNIVERSITY_ID,
     userId: null,
     studentNumber: 'JAIMELESFRUITS123',
   });
@@ -66,7 +67,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: aryaStark.firstName,
     lastName: aryaStark.lastName,
     birthdate: '2005-03-28',
-    organizationId: supOrganization.id,
+    organizationId: SUP_UNIVERSITY_ID,
     userId: aryaStark.id,
     studentNumber: 'JAIMELESLEGUMES123',
   });
@@ -84,7 +85,7 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: sansaStark.firstName,
     lastName: sansaStark.lastName,
     birthdate: '2000-05-28',
-    organizationId: supOrganization.id,
+    organizationId: SUP_UNIVERSITY_ID,
     userId: sansaStark.id,
     isSupernumerary: true,
     studentNumber: null,
@@ -103,9 +104,14 @@ module.exports = function organizationsSupBuilder({ databaseBuilder }) {
     firstName: branStark.firstName,
     lastName: branStark.lastName,
     birthdate: '2000-05-28',
-    organizationId: supOrganization.id,
+    organizationId: SUP_UNIVERSITY_ID,
     userId: branStark.id,
     isSupernumerary: true,
     studentNumber: 'JAIMELESFECULENTS123',
   });
+}
+
+module.exports = {
+  organizationsSupBuilder,
+  SUP_UNIVERSITY_ID,
 };
