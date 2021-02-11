@@ -18,14 +18,12 @@ const { certificationSessionsBuilder } = require('./data/certification/certifica
 const { certificationUsersBuilder } = require('./data/certification/users');
 const certificationUserProfilesBuilder = require('./data/certification/user-profiles-builder');
 const certificationCenterMembershipsBuilder = require('./data/certification/certification-center-memberships-builder');
-const organizationsProBuilder = require('./data/organizations-pro-builder');
-const organizationsScoBuilder = require('./data/organizations-sco-builder');
-const organizationsSupBuilder = require('./data/organizations-sup-builder');
-const pixAileBuilder = require('./data/pix-aile-builder');
+const { organizationsProBuilder } = require('./data/organizations-pro-builder');
+const { organizationsScoBuilder } = require('./data/organizations-sco-builder');
+const { organizationsSupBuilder } = require('./data/organizations-sup-builder');
 const { badgesBuilder } = require('./data/badges-builder');
-const { pixEmploiTargetProfileBuilder } = require('./data/pix-emploi-target-profile-builder');
 const tagsBuilder = require('./data/tags-builder');
-const targetProfilesBuilder = require('./data/target-profiles-builder');
+const { targetProfilesBuilder } = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 const stagesBuilder = require('./data/stages-builder');
@@ -45,7 +43,6 @@ exports.seed = async (knex) => {
   // Users
   usersBuilder({ databaseBuilder });
   usersPixRolesBuilder({ databaseBuilder });
-  pixAileBuilder({ databaseBuilder });
 
   // Organizations
   tagsBuilder({ databaseBuilder });
@@ -55,8 +52,8 @@ exports.seed = async (knex) => {
 
   // Target Profiles
   targetProfilesBuilder({ databaseBuilder });
-  pixEmploiTargetProfileBuilder({ databaseBuilder });
   badgesBuilder({ databaseBuilder });
+  stagesBuilder({ databaseBuilder });
 
   // Certifications
   certificationCentersBuilder({ databaseBuilder });
@@ -75,7 +72,6 @@ exports.seed = async (knex) => {
   campaignParticipationsBuilder({ databaseBuilder });
   assessmentsBuilder({ databaseBuilder });
   answersBuilder({ databaseBuilder });
-  stagesBuilder({ databaseBuilder });
 
   // Éléments de parcours pour l'utilisateur Pix Aile
   buildPixAileProfile({ databaseBuilder });
