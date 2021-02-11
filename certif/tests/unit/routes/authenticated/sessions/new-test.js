@@ -1,22 +1,34 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Route | authenticated/sessions/new', function(hooks) {
   setupTest(hooks);
   let route;
 
   hooks.beforeEach(function() {
+    class StoreStub extends Service {
+      createRecord = sinon.stub();
+    }
+    class CurrentUserStub extends Service {
+      certificationPointOfContact = null;
+    }
+    this.owner.register('service:store', StoreStub);
+    this.owner.register('service:current-user', CurrentUserStub);
     route = this.owner.lookup('route:authenticated/sessions/new');
   });
 
   module('#model', function(hooks) {
     const createdSession = Symbol('newSession');
     const certificationCenterId = 123;
+    let store;
 
     hooks.beforeEach(function() {
-      route.store.createRecord = sinon.stub().resolves(createdSession);
-      route.currentUser = { certificationPointOfContact: { currentCertificationCenterId: certificationCenterId } };
+      store = this.owner.lookup('service:store');
+      store.createRecord = sinon.stub().resolves(createdSession);
+      const currentUser = this.owner.lookup('service:current-user');
+      currentUser.certificationPointOfContact = { currentCertificationCenterId: certificationCenterId };
     });
 
     test('it should return the recently created session', async function(assert) {
@@ -24,7 +36,7 @@ module('Unit | Route | authenticated/sessions/new', function(hooks) {
       const actualSession = await route.model();
 
       // then
-      sinon.assert.calledWith(route.store.createRecord, 'session', { certificationCenterId });
+      sinon.assert.calledWith(store.createRecord, 'session', { certificationCenterId });
       assert.equal(actualSession, createdSession);
     });
   });
