@@ -1,6 +1,7 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | UseCase | compute-campaign-analysis', () => {
 
@@ -11,6 +12,7 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
 
   const userId = 1;
   const campaignId = 'someCampaignId';
+  const locale = FRENCH_SPOKEN;
 
   beforeEach(() => {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
@@ -26,7 +28,7 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
       const tutorials = Symbol('tutorials');
       const campaignAnalysis = Symbol('analysis');
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-      targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId }).resolves(targetProfile);
+      targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId, locale }).resolves(targetProfile);
       tutorialRepository.list.resolves(tutorials);
       campaignAnalysisRepository.getCampaignAnalysis.withArgs(campaignId, targetProfile, tutorials).resolves(campaignAnalysis);
 
@@ -38,6 +40,7 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
         campaignAnalysisRepository,
         targetProfileWithLearningContentRepository,
         tutorialRepository,
+        locale,
       });
 
       // then
@@ -58,6 +61,7 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
         campaignRepository,
         campaignAnalysisRepository,
         targetProfileWithLearningContentRepository,
+        locale,
       });
 
       // then
