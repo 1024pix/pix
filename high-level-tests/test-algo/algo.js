@@ -19,7 +19,7 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
       .filter((knowledgeElement) => knowledgeElement.status === status)
       .map((knowledgeElement) => knowledgeElement.skillId)
       .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
-  }
+  };
 
   const newKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
     answer: newAnswer,
@@ -30,7 +30,7 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     userId,
   });
 
-  return { updatedAnswers : [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
+  return { updatedAnswers: [...allAnswers, newAnswer], updatedKnowledgeElements: [...allKnowledgeElements, ...newKnowledgeElements] };
 }
 
 async function _getReferentiel({
@@ -39,7 +39,7 @@ async function _getReferentiel({
   challengeRepository,
   knowledgeElementRepository,
   skillRepository,
-  improvementService
+  improvementService,
 }) {
   const { targetSkills, challenges } = await dataFetcher.fetchForCompetenceEvaluations({
     assessment,
@@ -53,16 +53,14 @@ async function _getReferentiel({
   return { targetSkills, challenges };
 }
 
-async function _getChallenge({ answerRepository, knowledgeElementRepository, assessment, locale, knowledgeElements, allAnswers }) {
-  const { challenges, targetSkills } = await _getReferentiel({
-    assessment,
-    answerRepository,
-    challengeRepository,
-    knowledgeElementRepository,
-    skillRepository,
-    improvementService
-  });
-
+async function _getChallenge({
+  challenges,
+  targetSkills,
+  assessment,
+  locale,
+  knowledgeElements,
+  allAnswers,
+}) {
   const result = smartRandom.getPossibleSkillsForNextChallenge({
     knowledgeElements,
     challenges,
@@ -78,7 +76,7 @@ async function _getChallenge({ answerRepository, knowledgeElementRepository, ass
     locale: locale,
   });
 
-  if(challenge) {
+  if (challenge) {
     console.log(challenge.id);
     console.log(challenge.skills[0].name);
   }
@@ -90,13 +88,12 @@ async function launch_test(argv) {
 
   const competenceId = argv.competenceId;
   const locale = argv.locale;
-  const lastAnswer = null;
   let allAnswers = [];
   let knowledgeElements = [];
   const assessment = {
     id: null,
     competenceId,
-    userId: 1
+    userId: 1,
   };
 
   const knowledgeElementRepository = {
@@ -108,29 +105,37 @@ async function launch_test(argv) {
 
   let isAssessmentOver = false;
 
-  while(!isAssessmentOver) {
+  const { challenges, targetSkills } = await _getReferentiel({
+    assessment,
+    answerRepository,
+    challengeRepository,
+    knowledgeElementRepository,
+    skillRepository,
+    improvementService,
+  });
 
-    let { challenge, hasAssessmentEnded } = await _getChallenge({
-      answerRepository,
-      knowledgeElementRepository,
+  while (!isAssessmentOver) {
+
+    const { challenge, hasAssessmentEnded } = await _getChallenge({
+      challenges,
+      targetSkills,
       assessment,
       locale,
       knowledgeElements,
-      lastAnswer,
-      allAnswers });
-
-    const { targetSkills } = await _getReferentiel({
-      assessment,
-      answerRepository,
-      challengeRepository,
-      knowledgeElementRepository,
-      skillRepository,
-      improvementService
+      allAnswers,
     });
 
-    let { updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({ challenge, allAnswers, userId: assessment.userId, allKnowledgeElements: knowledgeElements, targetSkills })
-    allAnswers = updatedAnswers;
-    knowledgeElements = updatedKnowledgeElements;
+    if (challenge) {
+      const { updatedAnswers, updatedKnowledgeElements } = answerTheChallenge({
+        challenge,
+        allAnswers,
+        userId: assessment.userId,
+        allKnowledgeElements: knowledgeElements,
+        targetSkills,
+      });
+      allAnswers = updatedAnswers;
+      knowledgeElements = updatedKnowledgeElements;
+    }
     isAssessmentOver = hasAssessmentEnded;
   }
 
@@ -139,5 +144,5 @@ async function launch_test(argv) {
 
 module.exports = {
   answerTheChallenge,
-  launch_test
-}
+  launch_test,
+};
