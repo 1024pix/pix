@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Route | authenticated/sessions/list', function(hooks) {
   setupTest(hooks);
@@ -9,6 +10,10 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
 
     test('it should return certification center sessions', async function(assert) {
       // given
+      class CurrentUserStub extends Service {
+        currentCertificationCenter;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
       const reloadedSessions = Symbol('Sessions');
       const reloadStub = sinon.stub().resolves(reloadedSessions);
       const expectedSessions = { reload: reloadStub };
