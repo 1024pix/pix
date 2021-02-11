@@ -16,7 +16,6 @@ export default class Router extends EmberRouter {
 Router.map(function() {
   this.route('login', { path: '/connexion' });
   this.route('logout');
-  this.route('not-found', { path: '/*path' });
   this.route('terms-of-service', { path: '/cgu' });
 
   this.route('authenticated', { path: '/' }, function() {
@@ -33,4 +32,5 @@ Router.map(function() {
     });
   });
 
+  this.route('not-found', { path: '/*path' });
 });
