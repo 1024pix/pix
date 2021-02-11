@@ -532,6 +532,9 @@
                 "subtitle": "Discover the skills recommended for you.",
                 "title": "Recommended skills"
             },
+            "score": {
+                "profile-link": "See my skills"
+            },
             "started-competences": {
                 "subtitle": "Continue your tests, find the most recent ones here.",
                 "title": "Resume testing a skill"

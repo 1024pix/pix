@@ -532,6 +532,9 @@
                 "subtitle": "Explorez les compétences recommandées pour vous.",
                 "title": "Compétences recommandées"
             },
+            "score": {
+                "profile-link": "Voir mes compétences"
+            },
             "started-competences": {
                 "subtitle": "Continuez vos tests de compétences, retrouvez les plus récents ici.",
                 "title": "Reprendre une compétence"

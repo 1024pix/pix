@@ -1,26 +1,40 @@
+$scorecard-width: 212px;
+
 .competence-card-list {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
 
   &__competence-card {
-    margin: 12px 0;
-  }
-}
+    margin-bottom: 37px;
 
-@include device-is('tablet') {
-
-  .competence-card-list {
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 37px;
-
-    &__competence-card {
-      margin: 0;
+    &:last-child {
+      margin-bottom: 0;
     }
   }
-}
 
-@include device-is('desktop') {
+  @include device-is('tablet') {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 
-  .competence-card-list {
-    grid-template-columns: repeat(4, 1fr);
+    &__competence-card {
+      margin-right: calc((100% - #{$scorecard-width} * 3) / 2);
+
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @include device-is('middle-desktop') {
+
+    &__competence-card, &__competence-card:nth-child(3n)  {
+      margin-right: calc((100% - #{$scorecard-width} * 4) / 3);
+
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+    }
   }
 }

@@ -266,4 +266,18 @@ describe('Unit | Component | Dashboard | Content', function() {
     });
 
   });
+
+  describe('#userScore', function() {
+    it('should return user score', function() {
+      // given
+      const pixScore = '68';
+      component.currentUser = EmberObject.create({ user: { profile: { pixScore } } });
+
+      // when
+      const result = component.userScore;
+
+      // then
+      expect(result).to.equal(pixScore);
+    });
+  });
 });

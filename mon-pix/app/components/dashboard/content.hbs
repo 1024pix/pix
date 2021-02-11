@@ -2,16 +2,36 @@
   <h1 class="sr-only">{{t 'pages.dashboard.title'}}</h1>
 
   {{#unless this.hasUserSeenNewDashboardInfo}}
-    <section class="dashboard-content__section" data-test-new-dashboard-info>
+    <section class="dashboard-content__banner" data-test-new-dashboard-info>
       <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
                       @image="/images/discovery_TDB_pix.svg"
                       @backgroundColorClass="new-information--blue-gradient-background"
                       @textColorClass="new-information--white-text"
-                      @closeaction={{this.closeInformationAboutNewDashboard}}/>
+                      @closeaction={{this.closeInformationAboutNewDashboard}}
+      />
     </section>
   {{/unless}}
 
-  {{#if this.hasNothingToShow}}
+  <section class="dashboard-content__score">
+    <div class="dashboard-content-score__wrapper">
+      <HexagonScore @pixScore={{this.userScore}} />
+      <LinkTo @route="profile" class="dashboard-content-score-wrapper__button">{{t 'pages.dashboard.score.profile-link'}}</LinkTo>
+    </div>
+  </section>
+
+  <section class="dashboard-content__main">
+    {{#unless this.hasUserSeenNewDashboardInfo}}
+      <section class="dashboard-content-main__banner">
+        <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
+                        @image="/images/discovery_TDB_pix.svg"
+                        @backgroundColorClass="new-information--blue-gradient-background"
+                        @textColorClass="new-information--white-text"
+                        @closeaction={{this.closeInformationAboutNewDashboard}}
+        />
+      </section>
+    {{/unless}}
+
+    {{#if this.hasNothingToShow}}
     <section class="dashboard-content__section" data-test-empty-dashboard>
       <div class="dashboard-content-section--with-button">
         <NewInformation @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
@@ -25,34 +45,41 @@
   {{/if}}
 
   {{#if this.hasCampaignParticipationOverviews}}
-    <section class="dashboard-content__section" data-test-campaign-participation-overviews>
-      <h2 class="dashboard-content-section__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
-      <p class="dashboard-content-section__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
+      <section class="dashboard-content-main__section" data-test-campaign-participation-overviews>
+        <h2 class="dashboard-content-main-section__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
+        <p class="dashboard-content-main-section__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
 
-      <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}}/>
-    </section>
-  {{/if}}
+        <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}}/>
+      </section>
+    {{/if}}
 
-  {{#if this.hasStartedCompetences}}
-    <section class="dashboard-content__section" data-test-started-competences>
-      <h2 class="dashboard-content-section__title">{{t 'pages.dashboard.started-competences.title'}}</h2>
-      <p class="dashboard-content-section__subtitle">{{t 'pages.dashboard.started-competences.subtitle'}}</p>
+    {{#if this.hasStartedCompetences}}
+      <section class="dashboard-content-main__section" data-test-started-competences>
+        <h2 class="dashboard-content-main-section__title">{{t 'pages.dashboard.started-competences.title'}}</h2>
+        <p class="dashboard-content-main-section__subtitle">{{t 'pages.dashboard.started-competences.subtitle'}}</p>
 
-      <CompetenceCard::List @scorecards={{this.startedCompetences}} />
-    </section>
-  {{/if}}
+        <CompetenceCard::List @scorecards={{this.startedCompetences}} />
+      </section>
+    {{/if}}
 
-  {{#if this.hasRecommendedCompetences}}
-    <section class="dashboard-content__section" data-test-recommended-competences>
-      <div class="dashboard-content-section--with-button">
-        <div>
-          <h2 class="dashboard-content-section__title">{{t 'pages.dashboard.recommended-competences.title'}}</h2>
-          <p class="dashboard-content-section__subtitle">{{t 'pages.dashboard.recommended-competences.subtitle'}}</p>
+    {{#if this.hasRecommendedCompetences}}
+      <section class="dashboard-content-main__section" data-test-recommended-competences>
+        <div class="dashboard-content-main-section--with-button">
+          <div>
+            <h2 class="dashboard-content-main-section__title">{{t 'pages.dashboard.recommended-competences.title'}}</h2>
+            <p class="dashboard-content-main-section__subtitle">{{t 'pages.dashboard.recommended-competences.subtitle'}}</p>
+          </div>
+          <LinkTo @route="profile" class="dashboard-content-main-section__button">{{t 'pages.dashboard.recommended-competences.profile-link'}}</LinkTo>
         </div>
-        <LinkTo @route="profile" class="dashboard-content-section__button">{{t 'pages.dashboard.recommended-competences.profile-link'}}</LinkTo>
-      </div>
 
-      <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
-    </section>
-  {{/if}}
+        <CompetenceCard::List @scorecards={{this.recommendedScorecards}} />
+      </section>
+    {{/if}}
+  </section>
+
+  <section class="dashboard-content__section dashboard-content__certif">
+    <!-- Rajout du bloc certif ultérieurement -->
+    <!-- Div ajoutée afin de créer le layout Grid CSS -->
+  </section>
+
 </section>
