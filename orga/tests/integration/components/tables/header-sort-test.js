@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | Tables | header-sort', function(hooks) {
@@ -32,18 +31,10 @@ module('Integration | Component | Tables | header-sort', function(hooks) {
       assert.dom('[data-icon="arrow-down"]').exists();
     });
 
-    test('should be clickable', async function(assert) {
-      // when
-      await render(hbs`<Table::HeaderSort @isDisabled={{false}}>Header</Table::HeaderSort>`);
-
-      // then
-      assert.dom('[role="button"]').exists();
-    });
-
     test('should inverse arrow on click', async function(assert) {
       // when
       await render(hbs`<Table::HeaderSort @isDisabled={{false}} @onSort={{this.onSort}}>Header</Table::HeaderSort>`);
-      await clickByLabel('Header');
+      await click('[aria-label="Trier par pertinence"]');
 
       // then
       assert.ok(onSortStub.calledWith('asc'));
@@ -57,16 +48,7 @@ module('Integration | Component | Tables | header-sort', function(hooks) {
       await render(hbs`<Table::HeaderSort @isDisabled={{true}}>Header</Table::HeaderSort>`);
 
       // then
-      assert.dom('[data-icon="arrow-up"]').doesNotExist();
-      assert.dom('[data-icon="arrow-down"]').doesNotExist();
-    });
-
-    test('should not be clickable', async function(assert) {
-      // when
-      await render(hbs`<Table::HeaderSort @isDisabled={{true}}>Header</Table::HeaderSort>`);
-
-      // then
-      assert.dom('[role="button"]').doesNotExist();
+      assert.dom('[aria-label="Trier par pertinence"]').doesNotExist();
     });
   });
 });
