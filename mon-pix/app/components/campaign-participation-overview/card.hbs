@@ -13,15 +13,20 @@
     </time>
   </header>
   <section class="campaign-participation-overview-card-content">
-    {{#if this.cardInfo.hasMasteryPercentage}}
+    {{#if (eq @model.status "finished") }}
       <p class="campaign-participation-overview-card-content__content">
         {{t 'pages.campaign-participation-overview.card.results' result=@model.masteryPercentage}}
       </p>
+    {{else if this.cardInfo.hasMasteryPercentage }}
+      <p class="campaign-participation-overview-card-content__content campaign-participation-overview-card-content--archived-result">
+        {{t 'pages.campaign-participation-overview.card.results' result=@model.masteryPercentage}}
+      </p>
     {{else if (eq @model.status "archived") }}
-      <p class="campaign-participation-overview-card-content__content campaign-participation-overview-card-content__archived">
+      <p class="campaign-participation-overview-card-content__content campaign-participation-overview-card-content--archived">
         {{t 'pages.campaign-participation-overview.card.text-archived' htmlSafe=true}}
       </p>
     {{/if}}
+
     {{#if (not-eq @model.status "archived")}}
       <LinkTo class="{{this.cardInfo.actionClass}} campaign-participation-overview-card-content__action"
               @route="campaigns.start-or-resume"
