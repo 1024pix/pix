@@ -18,6 +18,8 @@ const juryCertificationSummaryRepository = require('../../../../lib/infrastructu
 const jurySessionRepository = require('../../../../lib/infrastructure/repositories/jury-session-repository');
 const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
 const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
+const certificationResultsUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
+const tokenService = require('../../../../domain/services/token-service');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -425,6 +427,37 @@ describe('Unit | Controller | sessionController', () => {
       // then
       const expectedCsv = '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"';
       const expectedHeader = `attachment; filename=${fileName}`;
+      expect(response.source.trim()).to.deep.equal(expectedCsv.trim());
+      expect(response.headers['Content-Disposition']).to.equal(expectedHeader);
+    });
+  });
+
+  describe.only('#getSessionResultsByRecipientEmail ', () => {
+
+    it('should return csv content and fileName', async () => {
+      // given
+      const session = { id: 1, date: '2020/01/01', time: '12:00' };
+      sinon.stub(tokenService, 'extractResultRecipientEmailAndSessionId')
+        .withArgs('abcd1234')
+        .resolves({ sessionId: 1 });
+      sinon.stub(usecases, 'getSessionResults')
+        .withArgs({ sessionId: session.id })
+        .resolves({
+          session,
+          certificationResults: [],
+          fileName: '20200101_1200_resultats_session_1.csv',
+        });
+      sinon.stub(certificationResultsUtils, 'getCertificationResultsCsv')
+        .withArgs({ session, certificationResults: [] })
+        .resolves('csv content');
+
+      // when
+      const response = await sessionController
+        .getSessionResultsByRecipientEmail({ params: { token: 'abcd1234' } }, hFake);
+
+      // then
+      const expectedCsv = 'csv content';
+      const expectedHeader = 'attachment; filename=\'20200101_1200_resultats_session_1.csv\'';
       expect(response.source.trim()).to.deep.equal(expectedCsv.trim());
       expect(response.headers['Content-Disposition']).to.equal(expectedHeader);
     });
