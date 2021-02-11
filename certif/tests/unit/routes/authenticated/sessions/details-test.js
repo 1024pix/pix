@@ -1,12 +1,23 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Route | authenticated/sessions/details', function(hooks) {
   setupTest(hooks);
   let route;
 
   hooks.beforeEach(function() {
+    class StoreStub extends Service {
+      findRecord = sinon.stub();
+      query = sinon.stub();
+      peekRecord = sinon.stub();
+    }
+    class CurrentUserStub extends Service {
+      currentCertificationCenter = null;
+    }
+    this.owner.register('service:store', StoreStub);
+    this.owner.register('service:current-user', CurrentUserStub);
     route = this.owner.lookup('route:authenticated/sessions/details');
   });
 
@@ -14,22 +25,26 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
     const session_id = 1;
     const returnedSession = Symbol('session');
     const returnedCertifCandidates = [Symbol('certification-candidate')];
+    let store;
+    let currentUser;
 
     hooks.beforeEach(function() {
-      route.store.findRecord = sinon.stub().resolves(returnedSession);
-      route.store.query = sinon.stub().withArgs('certification-candidate', { sessionId: session_id }).resolves(returnedCertifCandidates);
+      store = this.owner.lookup('service:store');
+      currentUser = this.owner.lookup('service:current-user');
+      store.findRecord = sinon.stub().resolves(returnedSession);
+      store.query = sinon.stub().withArgs('certification-candidate', { sessionId: session_id }).resolves(returnedCertifCandidates);
     });
 
     test('it should return the session and the certification candidates', async function(assert) {
       // given
-      route.store.peekRecord = sinon.stub().returns({ certifPrescriptionSco: false });
-      route.currentUser = { currentCertificationCenter: { isScoManagingStudents: true } };
+      store.peekRecord = sinon.stub().returns({ certifPrescriptionSco: false });
+      currentUser.currentCertificationCenter = { isScoManagingStudents: true };
 
       // when
       const model = await route.model({ session_id });
 
       // then
-      sinon.assert.calledWith(route.store.findRecord, 'session', session_id);
+      sinon.assert.calledWith(store.findRecord, 'session', session_id);
       assert.equal(model.session, returnedSession);
       assert.equal(model.certificationCandidates, returnedCertifCandidates);
       assert.equal(model.shouldDisplayPrescriptionScoStudentRegistrationFeature, false);
@@ -43,8 +58,8 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
     ].forEach(({ isScoManagingStudents, certifPrescriptionSco, it }) =>
       test(it, async function(assert) {
         // given
-        route.store.peekRecord = sinon.stub().returns({ certifPrescriptionSco });
-        route.currentUser = { currentCertificationCenter: { isScoManagingStudents } };
+        store.peekRecord = sinon.stub().returns({ certifPrescriptionSco });
+        currentUser.currentCertificationCenter = { isScoManagingStudents };
 
         // when
         const model = await route.model({ session_id });
