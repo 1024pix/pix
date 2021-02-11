@@ -42,7 +42,7 @@
                   @clipboardText={{@student.email}}
                   @success={{this.clipboardSuccessEmail}}
                   {{ on 'mouseout' this.clipboardOutEmail}}
-                  @classNames="icon-button manage-authentication-window__clipboard-button">
+                  @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button">
                   <FaIcon @icon="copy" @prefix="far" />
                 </CopyButton>
               </PixTooltip>
@@ -89,7 +89,7 @@
                       @clipboardText={{@student.username}}
                       @success={{this.clipboardSuccessUsername}}
                       {{ on 'mouseout' this.clipboardOutUsername}}
-                      @classNames="icon-button manage-authentication-window__clipboard-button">
+                      @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button">
                       <FaIcon @icon="copy" @prefix="far" />
                     </CopyButton>
                   </PixTooltip>
@@ -127,7 +127,7 @@
                       @clipboardText={{this.generatedPassword}}
                       @success={{this.clipboardSuccessGeneratedPassword}}
                       {{on 'mouseout' this.clipboardOutGeneratedPassword}}
-                      @classNames="icon-button manage-authentication-window__clipboard-button">
+                      @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button">
                       <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
                     </CopyButton>
                   </PixTooltip>
