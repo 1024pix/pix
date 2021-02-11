@@ -45,11 +45,15 @@
     padding: 0;
   }
 
-  &__archived {
+  &--archived {
     font-family: $font-open-sans;
     font-size: 0.75rem;
     font-weight: $font-normal;
     text-align: center;
+    margin-bottom: 32px;
+  }
+
+  &--archived-result {
     margin-bottom: 32px;
   }
 }
