@@ -1,12 +1,22 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
   setupTest(hooks);
   let route;
 
   hooks.beforeEach(function() {
+    class StoreStub extends Service {
+      findRecord = sinon.stub();
+      peekRecord = sinon.stub();
+    }
+    class NotificationsStub extends Service {
+      error = sinon.stub();
+    }
+    this.owner.register('service:store', StoreStub);
+    this.owner.register('service:notifications', NotificationsStub);
     route = this.owner.lookup('route:authenticated/sessions/finalize');
   });
 
@@ -14,10 +24,12 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
     const session_id = 1;
     const returnedSession = Symbol('session');
     const featureToggles = { reportsCategorization: false };
+    let store;
 
     hooks.beforeEach(function() {
-      route.store.findRecord = sinon.stub().resolves(returnedSession);
-      route.store.peekRecord = sinon.stub().returns(featureToggles);
+      store = this.owner.lookup('service:store');
+      store.findRecord = sinon.stub().resolves(returnedSession);
+      store.peekRecord = sinon.stub().returns(featureToggles);
     });
 
     test('it should return the model with session and feature toggle', async function(assert) {
@@ -26,8 +38,8 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
 
       // then
       const expectedModel = { session: returnedSession, isReportsCategorizationFeatureToggleEnabled: false };
-      sinon.assert.calledWith(route.store.findRecord, 'session', session_id, { reload: true });
-      sinon.assert.calledWith(route.store.peekRecord, 'feature-toggle', 0);
+      sinon.assert.calledWith(store.findRecord, 'session', session_id, { reload: true });
+      sinon.assert.calledWith(store.peekRecord, 'feature-toggle', 0);
       assert.deepEqual(actualModel, expectedModel);
     });
   });
@@ -35,10 +47,11 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
   module('#afterModel', function(hooks) {
     const model = { session: {} };
     let transition;
+    let notifications;
 
     hooks.beforeEach(function() {
+      notifications = this.owner.lookup('service:notifications');
       transition = { abort: sinon.stub() };
-      route.notifications.error = sinon.stub();
     });
 
     module('when model is already finalized', function(hooks) {
@@ -61,7 +74,7 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
         await route.afterModel(model, transition);
 
         // then
-        sinon.assert.calledOnce(route.notifications.error);
+        sinon.assert.calledWith(notifications.error, 'Cette session a déjà été finalisée.');
         assert.ok(route);
       });
     });
@@ -86,7 +99,7 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
         await route.afterModel(model, transition);
 
         // then
-        sinon.assert.notCalled(route.notifications.error);
+        sinon.assert.notCalled(notifications.error);
         assert.ok(route);
       });
     });
