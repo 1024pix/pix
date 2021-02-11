@@ -50,25 +50,25 @@
 
       {{#if @campaignAssessmentParticipation.isShared}}
         <ul class="panel-header__data panel-header__data--highlight">
-          <li class="panel-header-data__content panel-header-data__content--horizontal">
-            {{#if this.displayBadges}}
-              <div aria-label="Résultats Thématiques" class="panel-header-data-content__badges">
-                <Badges @badges={{@campaignAssessmentParticipation.badges}}/>
-              </div>
-            {{/if}}
-            <div aria-label="Résultat" class="panel-header-data-content__progress-bar">
-              <ProgressBar @value={{@campaignAssessmentParticipation.masteryPercentage}}>
-                {{@campaignAssessmentParticipation.validatedSkillsCount}} / {{@campaignAssessmentParticipation.targetedSkillsCount}} ACQUIS
-              </ProgressBar>
-            </div>
-            {{#if @campaign.hasStages}}
-              <div aria-label="Paliers" class="panel-header-data-content__stages">
-                <StageStars @result={{@campaignAssessmentParticipation.masteryPercentage}} @stages={{@campaign.stages}}/>
-              </div>
-            {{else}}
-              <div class="value-text value-text--highlight panel-header-data-content__mastery-percentage">{{@campaignAssessmentParticipation.masteryPercentage}}%</div>
-            {{/if}}
+          {{#if this.displayBadges}}
+            <li aria-label="Résultats Thématiques" class="panel-header-data__content panel-header-data-content__badges">
+              <Badges @badges={{@campaignAssessmentParticipation.badges}}/>
+            </li>
+          {{/if}}
+          <li aria-label="Résultat" class="panel-header-data__content panel-header-data-content__progress-bar">
+            <ProgressBar @value={{@campaignAssessmentParticipation.masteryPercentage}}>
+              {{@campaignAssessmentParticipation.validatedSkillsCount}} / {{@campaignAssessmentParticipation.targetedSkillsCount}} ACQUIS
+            </ProgressBar>
           </li>
+          {{#if @campaign.hasStages}}
+            <li aria-label="Paliers" class="panel-header-data__content panel-header-data-content__stages">
+              <StageStars @result={{@campaignAssessmentParticipation.masteryPercentage}} @stages={{@campaign.stages}}/>
+            </li>
+          {{else}}
+            <li class="panel-header-data__content value-text value-text--highlight panel-header-data-content__mastery-percentage">
+              {{@campaignAssessmentParticipation.masteryPercentage}}%
+            </li>
+          {{/if}}
         </ul>
       {{/if}}
     </div>
