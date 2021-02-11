@@ -1,12 +1,12 @@
 import EmberRouter from '@ember/routing/router';
 import config from 'pix-admin/config/environment';
 
-class Router extends EmberRouter {
+export default class Router extends EmberRouter {
   location = config.locationType;
   rootURL = config.rootURL;
 
-  init() {
-    super.init(...arguments);
+  constructor() {
+    super(...arguments);
     this.on('routeDidChange', () => {
       window.scrollTo(0, 0);
     });
@@ -14,7 +14,6 @@ class Router extends EmberRouter {
 }
 
 Router.map(function() {
-  // authentication
   this.route('login');
   this.route('logout');
 
@@ -22,9 +21,7 @@ Router.map(function() {
   this.route('index');
   this.route('about');
 
-  // private routes
-  this.route('authenticated', { path: '' }, function() {
-    // all routes that require the session to be authenticated
+  this.route('authenticated', { path: '/' }, function() {
     this.route('organizations', function() {
       this.route('new');
       this.route('list');
@@ -73,5 +70,3 @@ Router.map(function() {
     this.route('tools');
   });
 });
-
-export default Router;
