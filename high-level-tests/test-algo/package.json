@@ -5,13 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "./tests/tests.sh"
+    "test-unit": "mocha ./tests/*.js",
+    "test-bash": "./tests/tests.sh"
   },
   "keywords": [],
   "author": "GIP Pix",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.3.0",
     "dotenv": "^8.2.0",
+    "mocha": "^8.2.1",
+    "sinon": "^9.2.4",
     "yargs": "^16.2.0"
   }
 }
