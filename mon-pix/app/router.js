@@ -50,6 +50,9 @@ Router.map(function() {
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('update-expired-password', { path: '/mise-a-jour-mot-de-passe-expire' });
+  this.route('terms-of-service', { path: '/cgu' });
+  this.route('login-pe', { path: '/connexion-pole-emploi' });
+  this.route('terms-of-service-pe', { path: '/cgu-pole-emploi' });
 
   this.route('certifications', function() {
     this.route('start', { path: '/' });
@@ -57,7 +60,7 @@ Router.map(function() {
     this.route('results', { path: '/:certification_number/results' });
   });
   this.route('shared-certification', { path: '/partage-certificat/:id' });
-  this.route('user-certifications', { path: 'mes-certifications' }, function() {
+  this.route('user-certifications', { path: '/mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
   });
   this.route('fill-in-certificate-verification-code', { path: '/verification-certificat' });
@@ -89,11 +92,5 @@ Router.map(function() {
     this.route('resume', { path: '/evaluer' });
   });
 
-  this.route('terms-of-service', { path: '/cgu' });
-
-  this.route('login-pe', { path: '/connexion-pole-emploi' });
-  this.route('terms-of-service-pe', { path: '/cgu-pole-emploi' });
-
-  // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
