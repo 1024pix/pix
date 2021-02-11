@@ -1,10 +1,12 @@
 <div class="campaign-details-page">
   <div class="campaign-details__header">
     <div class="campaign-details-header__headline">
-      <LinkTo aria-label="Retour" @route="authenticated.campaigns" class="icon-button campaign-details-header__return-button">
-        <FaIcon @icon='arrow-left'></FaIcon>
-      </LinkTo>
-      <h1 class="page__title page-title campaign-details-header__title">{{@campaign.name}}</h1>
+      <PreviousPageButton
+        @route="authenticated.campaigns"
+        @ariaLabel="Retour"
+      >
+        {{@campaign.name}}
+      </PreviousPageButton>
     </div>
 
     <div class="campaign-details-header__report">

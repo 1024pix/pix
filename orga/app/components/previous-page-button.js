@@ -7,6 +7,10 @@ export default class PreviousPageButton extends Component {
 
   @action
   goToPage() {
-    this.router.transitionTo(this.args.route, this.args.routeId);
+    if (this.args.routeId) {
+      this.router.transitionTo(this.args.route, this.args.routeId);
+    } else {
+      this.router.transitionTo(this.args.route);
+    }
   }
 }

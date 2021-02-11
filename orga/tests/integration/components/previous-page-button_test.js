@@ -27,17 +27,31 @@ module('Integration | Component | previous-page-button', function(hooks) {
     assert.contains('Coucou');
   });
 
-  test('it should transition to specified route', async function(assert) {
-    // given
-    this.route = 'someRoute';
-    this.routeId = 'someRouteId';
-    await render(hbs`<PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @ariaLabel="Une instruction"></PreviousPageButton>`);
+  module('when clicked on', function() {
+    test('it should transition to specified route with provided routeId param if any', async function(assert) {
+      // given
+      this.route = 'someRoute';
+      this.routeId = 'someRouteId';
+      await render(hbs`<PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @ariaLabel="Une instruction"></PreviousPageButton>`);
 
-    // when
-    await clickByLabel('Une instruction');
+      // when
+      await clickByLabel('Une instruction');
 
-    // then
-    assert.ok(transitionToStub.calledWith(this.route, this.routeId));
+      // then
+      assert.ok(transitionToStub.calledWith(this.route, this.routeId));
+    });
+
+    test('it should transition to specified route without any params if no routeId param provided', async function(assert) {
+      // given
+      this.route = 'someRoute';
+      this.routeId = 'someRouteId';
+      await render(hbs`<PreviousPageButton @route={{this.route}} @ariaLabel="Une instruction"></PreviousPageButton>`);
+
+      // when
+      await clickByLabel('Une instruction');
+
+      // then
+      assert.ok(transitionToStub.calledWith(this.route));
+    });
   });
-
 });
