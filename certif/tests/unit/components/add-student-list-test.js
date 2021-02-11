@@ -4,16 +4,19 @@ import ArrayProxy from '@ember/array/proxy';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 import times from 'lodash/times';
+import Service from '@ember/service';
 
 module('Unit | Component | add-student-list', function(hooks) {
   setupTest(hooks);
 
   let component;
-  let store;
 
   hooks.beforeEach(function() {
+    class StoreStub extends Service {
+      peekAll = sinon.stub().returns([]);
+    }
+    this.owner.register('service:store', StoreStub);
     component = createGlimmerComponent('component:add-student-list');
-    store = this.owner.lookup('service:store');
   });
 
   module('#computed hasCheckedSomething', function() {
@@ -114,7 +117,8 @@ module('Unit | Component | add-student-list', function(hooks) {
       component.args.studentList = [...unselectedStudents, ...selectedStudents];
       component.args.session = { id: sessionId, save: sinon.stub().resolves() };
       component.args.returnToSessionCandidates = sinon.spy();
-      sinon.stub(store, 'peekAll').withArgs('student').returns(selectedStudents);
+      const store = this.owner.lookup('service:store');
+      store.peekAll = sinon.stub().withArgs('student').returns(selectedStudents);
 
       // when
       await component.enrollStudents();
