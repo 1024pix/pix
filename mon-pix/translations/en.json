@@ -907,10 +907,6 @@
             "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
             "secondary": "You can continue answering after this, but the question will not be marked as correct."
         },
-        "time-gauge": {
-            "timeout-placeholder": "You've run out of time",
-            "remaining-time-placeholder": "There is still more time to complete the test"
-        },
         "tutorial": {
             "title": "Campaign tutorial",
             "next": "Next",
