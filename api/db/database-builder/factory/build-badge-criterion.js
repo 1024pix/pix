@@ -1,11 +1,10 @@
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildBadgeCriterion({
-  id,
+  id = databaseBuffer.getNextId(),
   scope = BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
-  threshold = faker.random.number(),
+  threshold = 50,
   badgeId,
   partnerCompetenceIds = [],
 } = {}) {
