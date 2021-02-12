@@ -58,8 +58,8 @@ describe('Unit | UseCase | find-students-for-enrollment', () => {
     it('should return all students, enrolled or enrollable, regarding a session', async () => {
       // given
       const sessionId = 3;
-      const enrolledStudent = domainBuilder.buildSchoolingRegistration({ organization, division: '3A' });
-      const enrollableStudents = _.times(5, () => domainBuilder.buildSchoolingRegistration({ organization }));
+      const enrolledStudent = domainBuilder.buildSchoolingRegistration({ id: 10, organization, division: '3A' });
+      const enrollableStudents = _.times(5, (iteration) => domainBuilder.buildSchoolingRegistration({ id: iteration, organization }));
       const certificationCandidates = [ domainBuilder.buildCertificationCandidate({ sessionId, schoolingRegistrationId: enrolledStudent.id }) ];
       schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
         .withArgs({ page: { number: 1, size: 10 }, filter: { divisions: ['3A'] }, organizationId: organization.id })
