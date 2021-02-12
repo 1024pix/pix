@@ -1,10 +1,9 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildResetPasswordDemand({
-  id,
-  email = faker.internet.exampleEmail().toLowerCase(),
-  temporaryKey = faker.random.alphaNumeric(9),
+  id = databaseBuffer.getNextId(),
+  email = 'example@example.net',
+  temporaryKey = 'ABCD12345',
   used = false,
 } = {}) {
 
