@@ -2,7 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  justify-content: space-between;
   padding: 0;
 
   @include device-is('tablet') {
@@ -18,11 +17,13 @@
     }
 
     @include device-is('tablet') {
-      width: calc(50% - 10px);
+      width: calc(50% - 16px);
+      margin: 8px;
     }
 
     @include device-is('desktop') {
-      width: calc(33% - 10px);
+      width: calc(33% - 16px);
+      margin: 8px;
     }
   }
 }
