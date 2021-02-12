@@ -1,4 +1,4 @@
-import { module, test } from 'qunit';
+import { module, test, only } from 'qunit';
 import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import moment from 'moment';
@@ -141,7 +141,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez modifier votre fichier et l’importer à nouveau.');
+          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.');
         });
 
         test('it should display a specific error message when importing is forbidden', async function(assert) {
