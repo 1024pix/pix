@@ -73,7 +73,8 @@ const buildLearningContent = function(learningContent) {
         areaId: area.id,
         origin: competence.origin || 'Pix',
         index: competence.index,
-        nameFrFr: competence.name,
+        nameFrFr: competence.nameFr || competence.name,
+        nameEnUs: competence.nameEn || competence.name,
       };
     });
     allCompetences.push(competences);

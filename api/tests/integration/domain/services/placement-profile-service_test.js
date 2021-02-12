@@ -1,138 +1,113 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
-
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const Competence = require('../../../../lib/domain/models/Competence');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const Skill = require('../../../../lib/domain/models/Skill');
+const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Service | Placement Profile Service', function() {
 
-  const userId = 63731;
-
-  function _createCompetence(id, index, name, areaCode) {
-    const competence = new Competence();
-    competence.id = id;
-    competence.index = index;
-    competence.name = name;
-    competence.area = { code: areaCode };
-
-    return competence;
-  }
-
-  function _createChallenge(id, competence, skills, testedSkill) {
-    const challenge = new Challenge();
-    challenge.id = id;
-    challenge.skills = skills;
-    challenge.competenceId = competence;
-    challenge.testedSkill = testedSkill;
-    return challenge;
-  }
-
-  const skillCitation4 = new Skill({ id: 10, name: '@citation4' });
-  const skillCollaborer4 = new Skill({ id: 20, name: '@collaborer4' });
-  const skillMoteur3 = new Skill({ id: 30, name: '@moteur3' });
-  const skillRecherche4 = new Skill({ id: 40, name: '@recherche4' });
-  const skillRemplir2 = new Skill({ id: 50, name: '@remplir2' });
-  const skillRemplir4 = new Skill({ id: 60, name: '@remplir4' });
-  const skillUrl3 = new Skill({ id: 70, name: '@url3' });
-  const skillWeb1 = new Skill({ id: 80, name: '@web1' });
-  const skillRequin5 = new Skill({ id: 110, name: '@requin5' });
-  const skillRequin8 = new Skill({ id: 120, name: '@requin8' });
-
-  const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper', '1');
-  const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin', '1');
-  const competenceRequin = _createCompetence('competenceRecordIdThree', '1.3', '1.3 Se faire manger par un requin', '1');
-
-  const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
-
-  const challengeForSkillCitation4 = _createChallenge('challengeRecordIdOne', competenceFlipper.id, [skillCitation4], '@citation4');
-  const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3], '@citation4');
-  const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
-  const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
-  const anotherChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4');
-
-  const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2], '@remplir2');
-  const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceDauphin.id, [skillRemplir4], '@remplir4');
-  const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceDauphin.id, [skillUrl3], '@url3');
-  const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceDauphin.id, [skillWeb1], '@web1');
-
-  const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
-  const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
-
-  const competences = [
-    competenceFlipper,
-    competenceDauphin,
-    competenceRequin,
-  ];
+  let userId, assessmentId;
 
   beforeEach(() => {
-    sinon.stub(challengeRepository, 'findOperative').resolves([
-      challengeForSkillCitation4,
-      anotherChallengeForSkillCitation4,
-      challengeForSkillCitation4AndMoteur3,
-      challengeForSkillCollaborer4,
-      challengeForSkillRecherche4,
-      challengeForSkillRemplir2,
-      challengeForSkillRemplir4,
-      challengeForSkillUrl3,
-      challengeForSkillWeb1,
-      challengeRecordWithoutSkills,
-      challengeForSkillRequin5,
-      challengeForSkillRequin8,
-    ]);
-    sinon.stub(competenceRepository, 'listPixCompetencesOnly').resolves(competences);
-    sinon.stub(skillRepository, 'list').resolves([
-      skillCitation4,
-      skillCollaborer4,
-      skillMoteur3,
-      skillRecherche4,
-      skillRemplir2,
-      skillRemplir4,
-      skillRequin5,
-      skillRequin8,
-      skillUrl3,
-      skillWeb1,
-    ]);
+    const learningContent = [{
+      id: 'areaOne',
+      code: '1',
+      color: 'jaffa',
+      name: 'Domaine 1',
+      titleFr: '1. Domaine 1',
+      titleEn: '1. Area 1',
+      competences: [{
+        id: 'competenceRecordIdOne',
+        nameFr: 'Construire un flipper',
+        nameEn: 'Build a pinball',
+        index: '1.1',
+        tubes: [{
+          id: 'recCitation',
+          skills: [{
+            id: 'recCitation4',
+            nom: '@citation4',
+            pixValue: 1,
+            challenges: [
+              'challengeRecordIdOne',
+              'challengeRecordIdTwo',
+              'challengeRecordIdTen',
+            ],
+          }],
+        }],
+      }, {
+        id: 'competenceRecordIdTwo',
+        nameFr: 'Adopter un dauphin',
+        nameEn: 'Adopt a dolphin',
+        index: '1.2',
+        tubes: [{
+          id: 'Remplir',
+          skills: [{
+            id: 'recRemplir2',
+            nom: '@remplir2',
+            pixValue: 1,
+            challenges: [
+              'challengeRecordIdOne',
+              'challengeRecordIdFive',
+            ],
+          }, {
+            id: 'recRemplir4',
+            nom: '@remplir4',
+            pixValue: 1,
+            challenges: [
+              'challengeRecordIdSix',
+            ],
+          }],
+        }],
+      }, {
+        id: 'competenceRecordIdThree',
+        nameFr: 'Se faire manger par un requin',
+        nameEn: 'Getting eaten by a shark',
+        index: '1.3',
+        tubes: [{
+          id: 'Requin',
+          skills: [{
+            id: 'recRequin5',
+            nom: '@requin5',
+            pixValue: 1,
+            challenges: [
+              'challengeRecordIdNine',
+            ],
+          }],
+        }],
+      }],
+    }];
+
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
+
+    userId = databaseBuilder.factory.buildUser().id;
+    assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+    return databaseBuilder.commit();
   });
 
   context('V1 Profile', () => {
     describe('#getPlacementProfile', () => {
 
-      const assessmentResult1 = new AssessmentResult({ level: 1, pixScore: 12 });
-      const assessmentResult2 = new AssessmentResult({ level: 2, pixScore: 23 });
-      const assessmentResult3 = new AssessmentResult({ level: 0, pixScore: 2 });
-      const assessment1 = new Assessment({
+      const assessment1 = databaseBuilder.factory.buildAssessment({
         id: 13,
         status: 'completed',
         competenceId: 'competenceRecordIdOne',
-        assessmentResults: [assessmentResult1],
       });
-      const assessment2 = new Assessment({
+      const assessment2 = databaseBuilder.factory.buildAssessment({
         id: 1637,
         status: 'completed',
         competenceId: 'competenceRecordIdTwo',
-        assessmentResults: [assessmentResult2],
       });
-      const assessment3 = new Assessment({
+      const assessment3 = databaseBuilder.factory.buildAssessment({
         id: 145,
         status: 'completed',
         competenceId: 'competenceRecordIdUnknown',
-        assessmentResults: [assessmentResult3],
       });
+      databaseBuilder.factory.buildAssessmentResult({ level: 1, pixScore: 12, assessmentId: assessment1.id });
+      databaseBuilder.factory.buildAssessmentResult({ level: 2, pixScore: 23, assessmentId: assessment2.id });
+      databaseBuilder.factory.buildAssessmentResult({ level: 0, pixScore: 2, assessmentId: assessment3.id });
 
       beforeEach(() => {
-        sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCompetenceByUser').resolves([
-          assessment1, assessment2, assessment3,
-        ]);
+        databaseBuilder.commit();
       });
 
       it('should load achieved assessments', async () => {
@@ -140,36 +115,15 @@ describe('Integration | Service | Placement Profile Service', function() {
         const limitDate = '2020-10-27 08:44:25';
 
         // when
-        await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification: false });
-
-        // then
-        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCompetenceByUser, userId, '2020-10-27 08:44:25');
-      });
-    });
-  });
-
-  context('V2 Profile', () => {
-    describe('#getPlacementProfile', () => {
-
-      it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
-        // given
-        sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-          .withArgs({ userId, limitDate: sinon.match.any }).resolves({});
-
-        // when
-        const actualPlacementProfile = await placementProfileService.getPlacementProfile({
-          userId,
-          limitDate: 'salut',
-        });
+        const actualPlacementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification: false });
 
         // then
         expect(actualPlacementProfile.userCompetences).to.deep.equal([
           {
             id: 'competenceRecordIdOne',
             index: '1.1',
-            area: { code: '1' },
-            name: '1.1 Construire un flipper',
+            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            name: 'Construire un flipper',
             skills: [],
             pixScore: 0,
             estimatedLevel: 0,
@@ -177,8 +131,8 @@ describe('Integration | Service | Placement Profile Service', function() {
           {
             id: 'competenceRecordIdTwo',
             index: '1.2',
-            area: { code: '1' },
-            name: '1.2 Adopter un dauphin',
+            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            name: 'Adopter un dauphin',
             skills: [],
             pixScore: 0,
             estimatedLevel: 0,
@@ -186,32 +140,107 @@ describe('Integration | Service | Placement Profile Service', function() {
           {
             id: 'competenceRecordIdThree',
             index: '1.3',
-            area: { code: '1' },
-            name: '1.3 Se faire manger par un requin',
+            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            name: 'Se faire manger par un requin',
+            skills: [],
+            pixScore: 0,
+            estimatedLevel: 0,
+          }]);
+      });
+    });
+  });
+
+  context('V2 Profile', () => {
+    const isV2Certification = true;
+    describe('#getPlacementProfile', () => {
+
+      it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
+        // when
+        const actualPlacementProfile = await placementProfileService.getPlacementProfile({
+          userId,
+          limitDate: '2020-10-27 08:44:25',
+          isV2Certification,
+        });
+
+        // then
+        expect(actualPlacementProfile.userCompetences).to.deep.equal([
+          {
+            id: 'competenceRecordIdOne',
+            index: '1.1',
+            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            name: 'Construire un flipper',
+            skills: [],
+            pixScore: 0,
+            estimatedLevel: 0,
+          },
+          {
+            id: 'competenceRecordIdTwo',
+            index: '1.2',
+            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            name: 'Adopter un dauphin',
+            skills: [],
+            pixScore: 0,
+            estimatedLevel: 0,
+          },
+          {
+            id: 'competenceRecordIdThree',
+            index: '1.3',
+            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            name: 'Se faire manger par un requin',
             skills: [],
             pixScore: 0,
             estimatedLevel: 0,
           }]);
       });
 
-      describe('PixScore by competences', () => {
+      it('should return area and competence name according to given locale', async () => {
+        // when
+        const actualPlacementProfile = await placementProfileService.getPlacementProfile({
+          userId,
+          limitDate: new Date(),
+          isV2Certification,
+          locale: ENGLISH_SPOKEN,
+        });
 
+        // then
+        const competenceName = actualPlacementProfile.userCompetences.map((competence) => competence.name);
+        const areaTitle = actualPlacementProfile.userCompetences.map((competence) => competence.area.title);
+        expect(competenceName).to.have.members(['Build a pinball', 'Adopt a dolphin', 'Getting eaten by a shark']);
+        expect(areaTitle).to.have.members(['1. Area 1', '1. Area 1', '1. Area 1']);
+      });
+
+      it('should return area and competence name according to default locale', async () => {
+        // when
+        const actualPlacementProfile = await placementProfileService.getPlacementProfile({
+          userId,
+          limitDate: new Date(),
+          isV2Certification,
+        });
+
+        // then
+        const competenceName = actualPlacementProfile.userCompetences.map((competence) => competence.name);
+        const areaTitle = actualPlacementProfile.userCompetences.map((competence) => competence.area.title);
+        expect(competenceName).to.have.members(['Construire un flipper', 'Adopter un dauphin', 'Se faire manger par un requin']);
+        expect(areaTitle).to.have.members(['1. Domaine 1', '1. Domaine 1', '1. Domaine 1']);
+      });
+
+      describe('PixScore by competences', () => {
         it('should assign pixScore and level to user competence based on knowledge elements', async () => {
           // given
-
-          const ke = domainBuilder.buildKnowledgeElement({
+          databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
-            skillId: skillRemplir2.id,
+            skillId: 'recRemplir2',
             earnedPix: 23,
+            userId,
+            assessmentId,
           });
-
-          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-            .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
+          await databaseBuilder.commit();
 
           // when
           const actualPlacementProfile = await placementProfileService.getPlacementProfile({
             userId,
-            limitDate: 'salut',
+            limitDate: new Date(),
+            isV2Certification,
           });
 
           // then
@@ -225,7 +254,14 @@ describe('Integration | Service | Placement Profile Service', function() {
             id: 'competenceRecordIdTwo',
             pixScore: 23,
             estimatedLevel: 2,
-            skills: [skillRemplir2],
+            skills: [{
+              competenceId: 'competenceRecordIdTwo',
+              id: 'recRemplir2',
+              name: '@remplir2',
+              pixValue: 1,
+              tubeId: 'Remplir',
+              tutorialIds: [],
+            }],
           });
           expect(actualPlacementProfile.userCompetences[2]).to.deep.include({
             id: 'competenceRecordIdThree',
@@ -237,30 +273,30 @@ describe('Integration | Service | Placement Profile Service', function() {
 
         it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
           // given
-          const inferredKe = domainBuilder.buildKnowledgeElement({
+          databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
-            skillId: skillRemplir2.id,
+            skillId: 'recRemplir2',
             earnedPix: 8,
             source: KnowledgeElement.SourceType.INFERRED,
+            userId,
+            assessmentId,
           });
 
-          const directKe = domainBuilder.buildKnowledgeElement({
+          databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
-            skillId: skillRemplir4.id,
+            skillId: 'recRemplir4',
             earnedPix: 9,
             source: KnowledgeElement.SourceType.DIRECT,
+            userId,
+            assessmentId,
           });
-
-          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-            .withArgs({
-              userId,
-              limitDate: sinon.match.any,
-            }).resolves({ 'competenceRecordIdTwo': [inferredKe, directKe] });
+          await databaseBuilder.commit();
 
           // when
           const actualPlacementProfile = await placementProfileService.getPlacementProfile({
             userId,
-            limitDate: 'salut',
+            limitDate: new Date(),
+            isV2Certification,
           });
 
           // then
@@ -269,19 +305,19 @@ describe('Integration | Service | Placement Profile Service', function() {
 
         context('when we dont want to limit pix score', () => {
           it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async () => {
-
-            const ke = domainBuilder.buildKnowledgeElement({
+            databaseBuilder.factory.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
               earnedPix: 64,
+              userId,
+              assessmentId,
             });
-
-            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-              .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke] });
+            await databaseBuilder.commit();
 
             // when
             const actualPlacementProfile = await placementProfileService.getPlacementProfile({
               userId,
-              limitDate: 'salut',
+              limitDate: new Date(),
+              isV2Certification,
               allowExcessPixAndLevels: true,
             });
 
@@ -297,19 +333,19 @@ describe('Integration | Service | Placement Profile Service', function() {
 
         context('when we want to limit pix score', () => {
           it('should limit pixScore to 40 and level to 5', async () => {
-
-            const ke = domainBuilder.buildKnowledgeElement({
+            databaseBuilder.factory.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
               earnedPix: 64,
+              userId,
+              assessmentId,
             });
-
-            sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-              .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke] });
+            await databaseBuilder.commit();
 
             // when
             const actualPlacementProfile = await placementProfileService.getPlacementProfile({
               userId,
-              limitDate: 'salut',
+              limitDate: new Date(),
+              isV2Certification,
               allowExcessPixAndLevels: false,
             });
 
@@ -324,30 +360,30 @@ describe('Integration | Service | Placement Profile Service', function() {
       });
 
       describe('Skills not found in learningContent', () => {
-
         it('should skip not found skills', async () => {
           // given
-
-          const kePointingToExistingSkill = domainBuilder.buildKnowledgeElement({
+          databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
-            skillId: skillRemplir2.id,
+            skillId: 'recRemplir2',
             earnedPix: 11,
+            userId,
+            assessmentId,
           });
 
-          const kePointingToMissingSkill = domainBuilder.buildKnowledgeElement({
+          databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
             skillId: 'missing skill id',
             earnedPix: 11,
+            userId,
+            assessmentId,
           });
-
-          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-            .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [
-              kePointingToExistingSkill, kePointingToMissingSkill] });
+          await databaseBuilder.commit();
 
           // when
           const actualPlacementProfile = await placementProfileService.getPlacementProfile({
             userId,
-            limitDate: 'salut',
+            limitDate: new Date(),
+            isV2Certification,
           });
 
           // then
@@ -361,7 +397,14 @@ describe('Integration | Service | Placement Profile Service', function() {
             id: 'competenceRecordIdTwo',
             pixScore: 22,
             estimatedLevel: 2,
-            skills: [skillRemplir2],
+            skills: [{
+              competenceId: 'competenceRecordIdTwo',
+              id: 'recRemplir2',
+              name: '@remplir2',
+              pixValue: 1,
+              tubeId: 'Remplir',
+              tutorialIds: [],
+            }],
           });
           expect(actualPlacementProfile.userCompetences[2]).to.deep.include({
             id: 'competenceRecordIdThree',
@@ -371,19 +414,34 @@ describe('Integration | Service | Placement Profile Service', function() {
           });
         });
       });
-
     });
   });
+
   describe('#getPlacementProfilesWithSnapshotting', () => {
+    const competences = [{
+      id: 'competenceRecordIdOne',
+      area: { id: 'areaOne', code: '1' },
+      name: 'Construire un flipper',
+      index: '1.1',
+      skillIds: ['recCitation4', 'recMoteur3', 'recRecherche4'],
+    }, {
+      id: 'competenceRecordIdTwo',
+      area: { id: 'areaOne', code: '1' },
+      name: 'Adopter un dauphin',
+      index: '1.2',
+      skillIds: ['recRemplir2', 'recRemplir4', 'recUrl3', 'recWeb1'],
+    }, {
+      id: 'competenceRecordIdThree',
+      area: { id: 'areaOne', code: '1' },
+      name: 'Se faire manger par un requin',
+      index: '1.3',
+      skillIds: ['recRequin5', 'recRequin8'],
+    }];
 
     it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
-      // given
-      sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
-        .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: {} });
-
       // when
       const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-        userIdsAndDates: { [userId]: 'someLimitDate' },
+        userIdsAndDates: { [userId]: new Date() },
         competences,
       });
 
@@ -392,8 +450,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         {
           id: 'competenceRecordIdOne',
           index: '1.1',
-          area: { code: '1' },
-          name: '1.1 Construire un flipper',
+          area: { id: 'areaOne', code: '1' },
+          name: 'Construire un flipper',
           skills: [],
           pixScore: 0,
           estimatedLevel: 0,
@@ -401,8 +459,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         {
           id: 'competenceRecordIdTwo',
           index: '1.2',
-          area: { code: '1' },
-          name: '1.2 Adopter un dauphin',
+          area: { id: 'areaOne', code: '1' },
+          name: 'Adopter un dauphin',
           skills: [],
           pixScore: 0,
           estimatedLevel: 0,
@@ -410,8 +468,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         {
           id: 'competenceRecordIdThree',
           index: '1.3',
-          area: { code: '1' },
-          name: '1.3 Se faire manger par un requin',
+          area: { id: 'areaOne', code: '1' },
+          name: 'Se faire manger par un requin',
           skills: [],
           pixScore: 0,
           estimatedLevel: 0,
@@ -422,18 +480,18 @@ describe('Integration | Service | Placement Profile Service', function() {
 
       it('should assign pixScore and level to user competence based on knowledge elements', async () => {
         // given
-        const ke = domainBuilder.buildKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
-          skillId: skillRemplir2.id,
+          skillId: 'recRemplir2',
           earnedPix: 23,
+          userId,
+          assessmentId,
         });
-
-        sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
-          .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { competenceRecordIdTwo: [ke] } });
+        await databaseBuilder.commit();
 
         // when
         const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-          userIdsAndDates: { [userId]: 'someLimitDate' },
+          userIdsAndDates: { [userId]: new Date() },
           competences,
         });
 
@@ -452,26 +510,28 @@ describe('Integration | Service | Placement Profile Service', function() {
 
       it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
         // given
-        const inferredKe = domainBuilder.buildKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
-          skillId: skillRemplir2.id,
+          skillId: 'recRemplir2',
           earnedPix: 8,
           source: KnowledgeElement.SourceType.INFERRED,
+          userId,
+          assessmentId,
         });
 
-        const directKe = domainBuilder.buildKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
-          skillId: skillRemplir4.id,
+          skillId: 'recRemplir4',
           earnedPix: 9,
           source: KnowledgeElement.SourceType.DIRECT,
+          userId,
+          assessmentId,
         });
-
-        sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
-          .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { 'competenceRecordIdTwo': [inferredKe, directKe] } });
+        await databaseBuilder.commit();
 
         // when
         const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-          userIdsAndDates: { [userId]: 'someLimitDate' },
+          userIdsAndDates: { [userId]: new Date() },
           competences,
         });
 
@@ -481,17 +541,17 @@ describe('Integration | Service | Placement Profile Service', function() {
 
       context('when we dont want to limit pix score', () => {
         it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async () => {
-          const ke = domainBuilder.buildKnowledgeElement({
+          databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,
+            userId,
+            assessmentId,
           });
-
-          sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
-            .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { competenceRecordIdOne: [ke] } });
+          await databaseBuilder.commit();
 
           // when
           const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-            userIdsAndDates: { [userId]: 'someLimitDate' },
+            userIdsAndDates: { [userId]: new Date() },
             competences,
             allowExcessPixAndLevels: true,
           });
@@ -508,17 +568,17 @@ describe('Integration | Service | Placement Profile Service', function() {
 
       context('when we want to limit pix score', () => {
         it('should limit pixScore to 40 and level to 5', async () => {
-          const ke = domainBuilder.buildKnowledgeElement({
+          databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,
+            userId,
+            assessmentId,
           });
-
-          sinon.stub(knowledgeElementRepository, 'findSnapshotGroupedByCompetencesForUsers')
-            .withArgs({ [userId]: sinon.match.any }).resolves({ [userId]: { competenceRecordIdOne: [ke] } });
+          await databaseBuilder.commit();
 
           // when
           const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
-            userIdsAndDates: { [userId]: 'someLimitDate' },
+            userIdsAndDates: { [userId]: new Date() },
             competences,
             allowExcessPixAndLevels: false,
           });
@@ -533,5 +593,4 @@ describe('Integration | Service | Placement Profile Service', function() {
       });
     });
   });
-
 });

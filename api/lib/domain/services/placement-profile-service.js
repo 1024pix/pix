@@ -10,8 +10,8 @@ const knowledgeElementRepository = require('../../infrastructure/repositories/kn
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const scoringService = require('./scoring/scoring-service');
 
-async function getPlacementProfile({ userId, limitDate, isV2Certification = true, allowExcessPixAndLevels = true }) {
-  const pixCompetences = await competenceRepository.listPixCompetencesOnly();
+async function getPlacementProfile({ userId, limitDate, isV2Certification = true, allowExcessPixAndLevels = true, locale }) {
+  const pixCompetences = await competenceRepository.listPixCompetencesOnly({ locale });
   if (isV2Certification) {
     return _generatePlacementProfileV2({ userId, profileDate: limitDate, competences: pixCompetences, allowExcessPixAndLevels });
   }

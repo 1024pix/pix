@@ -29,6 +29,7 @@ function _toDomain({ competenceData, areaDatas, locale }) {
       id: areaData.id,
       code: areaData.code,
       title: translatedAreaTitle,
+      name: areaData.name,
       color: areaData.color,
     }),
   });
