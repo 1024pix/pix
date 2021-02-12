@@ -1,10 +1,9 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildBadgePartnerCompetence({
-  id,
-  name = faker.random.word(),
+  id = databaseBuffer.getNextId(),
+  name = 'name',
   color = null,
   skillIds = [],
   badgeId,
@@ -12,8 +11,8 @@ module.exports = function buildBadgePartnerCompetence({
 
   if (_.isEmpty(skillIds)) {
     skillIds = [
-      'recABC' + faker.random.number(),
-      'recDEF' + faker.random.number(),
+      'recABC123',
+      'recDEF456',
     ];
   }
 
