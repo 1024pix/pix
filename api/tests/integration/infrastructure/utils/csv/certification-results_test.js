@@ -55,8 +55,8 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
         const expectedCreatedAt = '01/01/2020';
         const expectedResult = '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          `"${certifResult1.id}";"Lili";"${certifResult1.lastName}";"${expectedBirthDate}";"${certifResult1.birthplace}";${certifResult1.externalId};${certifResult1.pixScore};0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"\n` +
-          `"${certifResult2.id}";"Tom";"${certifResult2.lastName}";"${expectedBirthDate}";"${certifResult2.birthplace}";${certifResult2.externalId};"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"`;
+          `"${certifResult1.id}";"Lili";"${certifResult1.lastName}";"${expectedBirthDate}";"${certifResult1.birthplace}";"${certifResult1.externalId}";${certifResult1.pixScore};0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"\n` +
+          `"${certifResult2.id}";"Tom";"${certifResult2.lastName}";"${expectedBirthDate}";"${certifResult2.birthplace}";"${certifResult2.externalId}";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"`;
         expect(result).to.deep.equal(expectedResult);
       });
     });
@@ -110,9 +110,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
         const expectedBirthDate = '01/01/1990';
         const expectedCreatedAt = '01/01/2020';
         const expectedResult = '\uFEFF' +
-            '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Certification CléA numérique";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-            `"${certifResult1.id}";"Lili";"${certifResult1.lastName}";"${expectedBirthDate}";"${certifResult1.birthplace}";${certifResult1.externalId};"Non passée";${certifResult1.pixScore};0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"\n` +
-            `"${certifResult2.id}";"Tom";"${certifResult2.lastName}";"${expectedBirthDate}";"${certifResult2.birthplace}";${certifResult2.externalId};"Validée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"`;
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Certification CléA numérique";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          `"${certifResult1.id}";"Lili";"${certifResult1.lastName}";"${expectedBirthDate}";"${certifResult1.birthplace}";"${certifResult1.externalId}";"Non passée";${certifResult1.pixScore};0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"\n` +
+          `"${certifResult2.id}";"Tom";"${certifResult2.lastName}";"${expectedBirthDate}";"${certifResult2.birthplace}";"${certifResult2.externalId}";"Validée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;${session.id};"${session.certificationCenter}";"${expectedCreatedAt}"`;
         expect(result).to.deep.equal(expectedResult);
       });
     });
@@ -164,9 +164,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       const expectedBirthDate = '01/01/1990';
       const expectedCreatedAt = '01/01/2020';
       const expectedResult = '\uFEFF' +
-              '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Date de passage de la certification"\n' +
-              `"${certifResult1.id}";"Lili";"${certifResult1.lastName}";"${expectedBirthDate}";"${certifResult1.birthplace}";${certifResult1.externalId};${certifResult1.pixScore};0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${certifResult1.sessionId}";"${expectedCreatedAt}"\n` +
-              `"${certifResult2.id}";"Tom";"${certifResult2.lastName}";"${expectedBirthDate}";"${certifResult2.birthplace}";${certifResult2.externalId};"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${certifResult2.sessionId}";"${expectedCreatedAt}"`;
+        '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Date de passage de la certification"\n' +
+        `"${certifResult1.id}";"Lili";"${certifResult1.lastName}";"${expectedBirthDate}";"${certifResult1.birthplace}";"${certifResult1.externalId}";${certifResult1.pixScore};0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${certifResult1.sessionId}";"${expectedCreatedAt}"\n` +
+        `"${certifResult2.id}";"Tom";"${certifResult2.lastName}";"${expectedBirthDate}";"${certifResult2.birthplace}";"${certifResult2.externalId}";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${certifResult2.sessionId}";"${expectedCreatedAt}"`;
       expect(result).to.deep.equal(expectedResult);
     });
   });
