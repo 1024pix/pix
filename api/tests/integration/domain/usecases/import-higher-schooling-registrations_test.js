@@ -262,6 +262,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
             birthdate: '1970-01-01',
             isSupernumerary: true,
             createdAt: '2000-01-01',
+            nationalStudentId: null,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             organizationId: organization.id,
@@ -271,6 +272,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
             birthdate: '1970-01-01',
             isSupernumerary: true,
             createdAt: '2000-01-02',
+            nationalStudentId: null,
           });
 
           await databaseBuilder.commit();
@@ -306,6 +308,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
             birthdate: '1970-01-01',
             isSupernumerary: true,
             createdAt: '2000-01-01',
+            nationalStudentId: null,
           });
           databaseBuilder.factory.buildSchoolingRegistration({
             organizationId: organization.id,
@@ -316,6 +319,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
             email: 'old@example.net',
             isSupernumerary: true,
             createdAt: '2000-01-02',
+            nationalStudentId: null,
           });
 
           await databaseBuilder.commit();
@@ -353,6 +357,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           isSupernumerary: false,
           email: 'old.email@dva.com',
           createdAt: '2000-01-01',
+          nationalStudentId: null,
         });
         databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
@@ -363,6 +368,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           isSupernumerary: true,
           email: 'other.email@dva.com',
           createdAt: '2000-01-02',
+          nationalStudentId: null,
         });
 
         await databaseBuilder.commit();

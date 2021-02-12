@@ -623,7 +623,8 @@ describe('Acceptance | API | Certification Center', () => {
   });
 
   function _buildSchoolingRegistrations(organization, ...students) {
-    return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student }));
+    const AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-10-15';
+    return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student, updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR }));
   }
 
   function _buildUserWithCertificationCenterMemberShip(certificationCenterExternalId) {
