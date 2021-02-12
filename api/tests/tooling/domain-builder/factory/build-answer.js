@@ -1,16 +1,15 @@
-const faker = require('faker');
 const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 function buildAnswer({
-  id = faker.random.number(),
-  elapsedTime = faker.random.number(),
+  id = 123,
+  elapsedTime = null,
   result = AnswerStatus.OK,
   resultDetails = null,
   timeout = null,
   value = '1',
-  assessmentId = faker.random.number(),
-  challengeId = faker.random.uuid(),
+  assessmentId = 456,
+  challengeId = 'recChallenge123',
 } = {}) {
   return new Answer({
     id,
@@ -25,11 +24,11 @@ function buildAnswer({
 }
 
 buildAnswer.uncorrected = function({
-  elapsedTime = faker.random.number(),
-  timeout = faker.random.number(),
+  elapsedTime = 120,
+  timeout = 130,
   value = '1',
-  assessmentId = faker.random.number(),
-  challengeId = faker.random.uuid(),
+  assessmentId = 456,
+  challengeId = 'recChallenge123',
 } = {}) {
   return new Answer({
     elapsedTime,
