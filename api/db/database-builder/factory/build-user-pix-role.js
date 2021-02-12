@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 const buildUserPixRole = function buildUserPixRole({
-  id,
+  id = databaseBuffer.getNextId(),
   userId,
   pixRoleId,
 } = {}) {
