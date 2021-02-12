@@ -1,5 +1,3 @@
-const faker = require('faker');
-
 const User = require('../../../../lib/domain/models/User');
 
 const buildMembership = require('./build-membership');
@@ -8,10 +6,10 @@ const buildCertificationCenterMembership = require('./build-certification-center
 const buildAuthenticationMethod = require('./build-authentication-method');
 
 module.exports = function buildUser({
-  id = faker.random.number(),
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  email = faker.internet.exampleEmail().toLowerCase(),
+  id = 123,
+  firstName = 'Lorie',
+  lastName = 'MeilleureAmie',
+  email = 'jeseraila@example.net',
   username,
   cgu = true,
   lang = 'fr',
