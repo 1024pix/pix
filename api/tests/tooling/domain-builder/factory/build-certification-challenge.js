@@ -1,12 +1,11 @@
-const faker = require('faker');
 const buildSkill = require('./build-skill');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
 module.exports = function buildCertificationChallenge({
-  id = faker.random.number(),
-  challengeId = `rec${faker.random.uuid()}`,
-  competenceId = `rec${faker.random.uuid()}`,
-  courseId = faker.random.number(),
+  id = 123,
+  challengeId = 'recCHAL',
+  competenceId = 'recCOMP',
+  courseId = 456,
   associatedSkillId = buildSkill().id,
   associatedSkillName = buildSkill().name,
 } = {}) {

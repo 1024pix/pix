@@ -20,9 +20,9 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
 
     it('equals the number of challenges when no QROCMDep', () => {
       // given
-      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const challenge2 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const challenge3 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', type: 'QCM' });
       const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
       const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
       const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId });
@@ -40,8 +40,8 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
 
     it('counts QROCMDeps as double ', () => {
       // given
-      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ type: 'QROCM-dep' });
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
+      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QROCM-dep' });
       const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
       const qROCMDepAnswer2 = domainBuilder.buildAnswer({ challengeId: qROCMDepChallenge2.challengeId });
       const answerCollection = CompetenceAnswerCollectionForScoring.from({
@@ -73,9 +73,9 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
 
     it('equals 0 when no correct answers', () => {
       // given
-      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const challenge2 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const challenge3 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', type: 'QCM' });
       const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId, result: AnswerStatus.KO });
       const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId, result: AnswerStatus.KO });
       const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId, result: AnswerStatus.KO });
@@ -93,9 +93,9 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
 
     it('equals the number of answers when they are all correct', () => {
       // given
-      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const challenge2 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const challenge3 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', type: 'QCM' });
       const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId, result: AnswerStatus.OK });
       const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId, result: AnswerStatus.OK });
       const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId, result: AnswerStatus.OK });
@@ -113,8 +113,8 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
 
     it('counts QROCMDeps as 1 when partially correct', () => {
       // given
-      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ type: 'QROCM-dep' });
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
+      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QROCM-dep' });
       const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId, result: AnswerStatus.OK });
       const qROCMDepAnswer2 = domainBuilder.buildAnswer({ challengeId: qROCMDepChallenge2.challengeId, result: AnswerStatus.PARTIALLY });
       const answerCollection = CompetenceAnswerCollectionForScoring.from({
@@ -131,8 +131,8 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
 
     it('counts QROCMDeps as 2 when fully correct', () => {
       // given
-      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
-      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ type: 'QROCM-dep' });
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
+      const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QROCM-dep' });
       const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId, result: AnswerStatus.OK });
       const qROCMDepAnswer2 = domainBuilder.buildAnswer({ challengeId: qROCMDepChallenge2.challengeId, result: AnswerStatus.OK });
       const answerCollection = CompetenceAnswerCollectionForScoring.from({
@@ -149,8 +149,8 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
   });
 });
 
-function _buildDecoratedCertificationChallenge({ type }) {
-  const challenge = domainBuilder.buildCertificationChallenge();
+function _buildDecoratedCertificationChallenge({ challengeId, type }) {
+  const challenge = domainBuilder.buildCertificationChallenge({ challengeId });
   challenge.type = type; // TODO : CertificationChallenge are decorated with type in certification-result-service, find a better way.
   return challenge;
 }
