@@ -1,8 +1,7 @@
-const faker = require('faker');
 const Solution = require('../../../../lib/domain/models/Solution');
 
 module.exports = function buildSolution({
-  id = `rec${faker.random.uuid()}`,
+  id = 'recCHAL123',
   type = 'QCM',
   value = '1',
   isT1Enabled = false,
