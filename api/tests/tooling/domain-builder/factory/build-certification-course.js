@@ -1,40 +1,34 @@
-const faker = require('faker');
-const moment = require('moment');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const buildAssessment = require('./build-assessment');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-module.exports = function buildCertificationCourse(
-  {
-    id = faker.random.number(),
-    // attributes
-    firstName = faker.name.firstName(),
-    lastName = faker.name.lastName(),
-    birthplace = faker.address.city(),
-    birthdate = moment(faker.date.past(25)).format('YYYY-MM-DD'),
-    createdAt = faker.date.past(1),
-    completedAt = faker.date.recent(),
-    externalId = faker.random.uuid(),
-    examinerComment = faker.lorem.sentence(),
-    hasSeenEndTestScreen = false,
-    nbChallenges = faker.random.number(40),
-    isV2Certification = false,
-    isPublished = faker.random.boolean(),
-    verificationCode = `P-${faker.random.alphaNumeric(8).toUpperCase()}`,
-    // includes
-    acquiredPartnerCertifications = [],
-    assessment = buildAssessment({ certificationCourseId: this.id }),
-    challenges = [],
-    // references
-    userId = faker.random.number(),
-    sessionId = faker.random.number(),
-  } = {}) {
+module.exports = function buildCertificationCourse({
+  id = 123,
+  firstName = 'Gandhi',
+  lastName = 'Matmatah',
+  birthplace = 'Perpignan',
+  birthdate = '1985-01-20',
+  createdAt = new Date('2020-01-01'),
+  completedAt = new Date('2020-02-01'),
+  externalId = 'externalId',
+  examinerComment = 'A cassé le clavier',
+  hasSeenEndTestScreen = false,
+  nbChallenges = 15,
+  isV2Certification = false,
+  isPublished = false,
+  verificationCode = 'P-ABCD1234',
+  acquiredPartnerCertifications = [],
+  assessment = buildAssessment({ certificationCourseId: this.id }),
+  challenges = [],
+  userId = 456,
+  sessionId = 789,
+} = {}) {
 
   const certificationIssueReports = [];
   if (examinerComment && examinerComment !== '') {
     certificationIssueReports.push(
       new CertificationIssueReport({
-        id: faker.random.number(),
+        id: 159,
         certificationCourseId: id,
         category: CertificationIssueReportCategories.OTHER,
         description: examinerComment,
@@ -42,7 +36,7 @@ module.exports = function buildCertificationCourse(
     );
   }
 
-  const certificationCourse = new CertificationCourse({
+  return new CertificationCourse({
     id,
     firstName,
     lastName,
@@ -63,6 +57,4 @@ module.exports = function buildCertificationCourse(
     sessionId,
     userId,
   });
-
-  return certificationCourse;
 };
