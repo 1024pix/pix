@@ -3,7 +3,7 @@ require('dotenv').config();
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 
-const { launch_test } = require('./algo');
+const { launchTest } = require('./algo');
 
 async function index() {
   const argv = yargs(hideBin(process.argv))
@@ -20,10 +20,9 @@ async function index() {
     .demandOption(['competenceId'])
     .argv;
 
-  await launch_test(argv)
+  await launchTest(argv);
 
   process.exit(0);
 }
-
 
 index();
