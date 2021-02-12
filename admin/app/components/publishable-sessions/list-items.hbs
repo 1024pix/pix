@@ -1,0 +1,47 @@
+<div class="content-text content-text--small table-admin__wrapper session-list">
+  <table class="table-admin table-admin__auto-width">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Centre de certification</th>
+      <th>Date de session</th>
+      <th>Date de finalisation</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    {{#if @publishableSessions}}
+      <tbody>
+      {{#each @publishableSessions as |publishableSession|}}
+        <tr>
+          <td><LinkTo @route="authenticated.sessions.session" @model={{publishableSession.id}}> {{publishableSession.id}} </LinkTo></td>
+          <td>{{publishableSession.certificationCenterName}}</td>
+          <td>{{publishableSession.printableDateAndTime}}</td>
+          <td>{{publishableSession.printableFinalizationDate}}</td>
+          <td>
+            <PixButton
+              @triggerAction={{fn this.showConfirmModal publishableSession}}
+              @border="squircle-small"
+              class="publish-session-button"
+              aria-label="Publier la session numéro {{publishableSession.id}}"
+            >
+              <FaIcon @icon="paper-plane" />Publier
+            </PixButton>
+          </td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @publishableSessions}}
+    <div class="table__empty content-text">Aucun résultat</div>
+  {{/unless}}
+</div>
+
+<ConfirmPopup
+  @message='Souhaitez-vous publier la session ?'
+  @confirm={{this.publishSession}}
+  @cancel={{this.hideConfirmModal}}
+  @show={{this.shouldShowModal}}
+/>
