@@ -1,7 +1,7 @@
 const databaseBuffer = require('../database-buffer');
 
 const buildPixRole = function buildPixRole({
-  id,
+  id = databaseBuffer.getNextId(),
   name = 'PIX_MASTER',
 } = {}) {
 
