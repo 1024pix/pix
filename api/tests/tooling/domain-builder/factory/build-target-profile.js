@@ -1,15 +1,14 @@
-const faker = require('faker');
 const buildSkill = require('./build-skill');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 
 module.exports = function buildTargetProfile({
-  id = faker.random.number(),
-  name = faker.name.jobTitle(),
-  imageUrl = faker.internet.url(),
-  isPublic = faker.random.boolean(),
+  id = 123,
+  name = 'Profil cible super cool',
+  imageUrl = 'ImageURL',
+  isPublic = true,
   isSimplifiedAccess = false,
   skills = [buildSkill()],
-  ownerOrganizationId = faker.random.number(),
+  ownerOrganizationId = 456,
   outdated = false,
   stages = [],
   badges,

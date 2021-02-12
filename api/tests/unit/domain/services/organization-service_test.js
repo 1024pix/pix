@@ -19,9 +19,9 @@ describe('Unit | Service | OrganizationService', () => {
 
     beforeEach(() => {
       organizationId = 1;
-      targetProfilesOwnedByOrganization = [domainBuilder.buildTargetProfile({ organizationId, isPublic: false })];
-      targetProfileSharesWithOrganization = [domainBuilder.buildTargetProfile({ isPublic: false })];
-      publicTargetProfiles = [domainBuilder.buildTargetProfile({ isPublic: true })];
+      targetProfilesOwnedByOrganization = [domainBuilder.buildTargetProfile({ id: 1, organizationId, isPublic: false })];
+      targetProfileSharesWithOrganization = [domainBuilder.buildTargetProfile({ id: 2, isPublic: false })];
+      publicTargetProfiles = [domainBuilder.buildTargetProfile({ id: 3, isPublic: true })];
 
       const targetProfileShares = [{
         targetProfile: targetProfileSharesWithOrganization,
@@ -68,16 +68,16 @@ describe('Unit | Service | OrganizationService', () => {
     it('should return a list ordered by private profile before public profile and alphabetically', async () => {
       // given
       const targetProfilesOwnedByOrganization = [
-        domainBuilder.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
-        domainBuilder.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false }),
+        domainBuilder.buildTargetProfile({ id: 11, name: 'C owned profile', organizationId, isPublic: false }),
+        domainBuilder.buildTargetProfile({ id: 12, name: 'A owned profile', organizationId, isPublic: false }),
       ];
       const targetProfileSharesWithOrganization = [
-        domainBuilder.buildTargetProfile({ name: 'B shared profile', isPublic: false }),
-        domainBuilder.buildTargetProfile({ name: 'W shared profile', isPublic: false }),
+        domainBuilder.buildTargetProfile({ id: 13, name: 'B shared profile', isPublic: false }),
+        domainBuilder.buildTargetProfile({ id: 14, name: 'W shared profile', isPublic: false }),
       ];
       const publicTargetProfiles = [
-        domainBuilder.buildTargetProfile({ name: 'B Public profile', isPublic: true }),
-        domainBuilder.buildTargetProfile({ name: 'A Public profile', isPublic: true }),
+        domainBuilder.buildTargetProfile({ id: 15, name: 'B Public profile', isPublic: true }),
+        domainBuilder.buildTargetProfile({ id: 16, name: 'A Public profile', isPublic: true }),
       ];
       const targetProfileShares = [{
         targetProfile: targetProfileSharesWithOrganization,
