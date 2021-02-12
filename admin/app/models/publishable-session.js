@@ -3,16 +3,17 @@ import { memberAction } from 'ember-api-actions';
 
 export default class PublishableSessionModel extends Model {
   @attr() certificationCenterName;
-  @attr() sessionDate;
+  @attr('date-only') sessionDate;
   @attr() sessionTime;
   @attr() finalizedAt;
 
   get printableDateAndTime() {
-    return (new Date(this.sessionDate)).toLocaleDateString('fr-FR') + ' à ' + this.sessionTime;
+    const formattedSessionDate = this.sessionDate.split('-').reverse().join('/');
+    return formattedSessionDate + ' à ' + this.sessionTime;
   }
 
   get printableFinalizationDate() {
-    return (new Date(this.finalizedAt)).toLocaleDateString();
+    return (new Date(this.finalizedAt)).toLocaleDateString('fr-FR');
   }
 
   publish = memberAction({

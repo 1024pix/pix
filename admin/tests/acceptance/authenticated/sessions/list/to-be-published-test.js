@@ -37,7 +37,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
 
     test('it should display sessions to publish informations', async function(assert) {
       // given
-      const sessionDate = new Date('2021-01-01');
+      const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
       server.create('publishable-session', {
@@ -69,7 +69,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
 
     test('it should publish a session', async function(assert) {
       // given
-      const sessionDate = new Date('2021-01-01');
+      const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
       server.create('publishable-session', {
