@@ -25,6 +25,5 @@ module.exports = function buildFinalizedSession({
   return databaseBuffer.pushInsertable({
     tableName: 'finalized-sessions',
     values,
-    customIdKey: 'sessionId',
   });
 };
