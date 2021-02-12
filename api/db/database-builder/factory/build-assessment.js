@@ -1,4 +1,3 @@
-const faker = require('faker');
 const buildCertificationCourse = require('./build-certification-course');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
@@ -6,17 +5,17 @@ const Assessment = require('../../../lib/domain/models/Assessment');
 const _ = require('lodash');
 
 module.exports = function buildAssessment({
-  id,
+  id = databaseBuffer.getNextId(),
   courseId = 'recDefaultCourseId',
   certificationCourseId,
   userId,
-  type = null,
+  type = Assessment.types.COMPETENCE_EVALUATION,
   state = Assessment.states.COMPLETED,
   isImproving = false,
   competenceId = 'recCompetenceId',
   campaignParticipationId = null,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
 } = {}) {
 
   if (type !== Assessment.types.DEMO) {
