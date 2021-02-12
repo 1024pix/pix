@@ -1,19 +1,18 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 const buildOrganization = function buildOrganization({
-  id,
+  id = databaseBuffer.getNextId(),
   type = 'PRO',
-  name = faker.company.companyName(),
+  name = 'Observatoire de Pix',
   logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-  externalId = faker.lorem.word().toUpperCase(),
-  provinceCode = faker.random.alphaNumeric(3),
+  externalId = 'EXABC123',
+  provinceCode = '66',
   isManagingStudents = false,
   credit = 0,
   canCollectProfiles = false,
-  createdAt = faker.date.recent(),
-  updatedAt = faker.date.recent(),
-  email = faker.internet.exampleEmail(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
+  email = 'contact@example.net',
 } = {}) {
 
   const values = {
