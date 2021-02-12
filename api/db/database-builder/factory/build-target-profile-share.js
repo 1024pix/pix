@@ -1,14 +1,13 @@
 const buildOrganization = require('./build-organization');
 const buildTargetProfile = require('./build-target-profile');
 const databaseBuffer = require('../database-buffer');
-const faker = require('faker');
 const _ = require('lodash');
 
 module.exports = function buildTargetProfileShare({
-  id,
+  id = databaseBuffer.getNextId(),
   targetProfileId,
   organizationId,
-  createdAt = faker.date.recent(),
+  createdAt = new Date('2020-01-01'),
 } = {}) {
 
   targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile().id : targetProfileId;
