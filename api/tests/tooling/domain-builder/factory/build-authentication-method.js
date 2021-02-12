@@ -1,6 +1,4 @@
 /* eslint-disable no-sync */
-
-const faker = require('faker');
 const isUndefined = require('lodash/isUndefined');
 
 const encrypt = require('../../../../lib/domain/services/encryption-service');
@@ -9,7 +7,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 
 function _buildUser() {
   return new User({
-    id: faker.random.number(),
+    id: 456,
     firstName: 'Jean',
     lastName: 'Dupont',
     email: 'jean.dupont@example.net',
@@ -17,12 +15,12 @@ function _buildUser() {
 }
 
 const buildAuthenticationMethod = function({
-  id,
+  id = 123,
   identityProvider = AuthenticationMethod.identityProviders.GAR,
-  externalIdentifier = faker.random.uuid(),
-  userId,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  externalIdentifier = `externalId${id}`,
+  userId = 456,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
 } = {}) {
 
   userId = isUndefined(userId) ? _buildUser().id : userId;
@@ -40,14 +38,14 @@ const buildAuthenticationMethod = function({
 
 buildAuthenticationMethod.buildWithRawPassword = function({
   id,
-  rawPassword,
+  rawPassword = 'pix123',
   shouldChangePassword = false,
   userId,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
 } = {}) {
 
-  const password = isUndefined(rawPassword) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(rawPassword);
+  const password = encrypt.hashPasswordSync(rawPassword);
   userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
@@ -66,13 +64,13 @@ buildAuthenticationMethod.buildWithRawPassword = function({
 
 buildAuthenticationMethod.buildWithHashedPassword = function({
   id,
-  hashedPassword,
+  hashedPassword = 'hashedPassword',
   shouldChangePassword = false,
   userId,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
 } = {}) {
-  const password = isUndefined(hashedPassword) ? encrypt.hashPasswordSync(faker.internet.password()) : hashedPassword;
+  const password = hashedPassword;
   userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
@@ -91,13 +89,13 @@ buildAuthenticationMethod.buildWithHashedPassword = function({
 
 buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
   id,
-  externalIdentifier = faker.random.word(),
-  accessToken = faker.random.uuid(),
-  refreshToken = faker.random.uuid(),
-  expiredDate = faker.date.recent(),
+  externalIdentifier = `externalId${id}`,
+  accessToken = 'ABC456789',
+  refreshToken = 'ZFGEADZA789',
+  expiredDate = new Date('2022-01-01'),
   userId,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
 } = {}) {
 
   userId = isUndefined(userId) ? _buildUser().id : userId;

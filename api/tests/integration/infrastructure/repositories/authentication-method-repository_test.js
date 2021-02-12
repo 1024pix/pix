@@ -38,6 +38,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
           externalIdentifier: 'externalIdentifier',
           userId,
         });
+        delete authenticationMethod.id;
 
         // when
         const savedAuthenticationMethod = await authenticationMethodRepository.create({ authenticationMethod });
@@ -62,6 +63,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         await databaseBuilder.commit();
 
         const authenticationMethod = domainBuilder.buildAuthenticationMethod({ identityProvider, externalIdentifier, userId });
+        delete authenticationMethod.id;
 
         // when
         const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod });
@@ -81,6 +83,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         await databaseBuilder.commit();
 
         const authenticationMethod = domainBuilder.buildAuthenticationMethod({ identityProvider, externalIdentifier: 'externalIdentifier2', userId });
+        delete authenticationMethod.id;
 
         // when
         const error = await catchErr(authenticationMethodRepository.create)({ authenticationMethod });
