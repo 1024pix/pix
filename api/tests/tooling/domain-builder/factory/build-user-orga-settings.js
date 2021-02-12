@@ -1,4 +1,3 @@
-const faker = require('faker');
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const Organization = require('../../../../lib/domain/models/Organization');
 const User = require('../../../../lib/domain/models/User');
@@ -9,7 +8,7 @@ const User = require('../../../../lib/domain/models/User');
 
 function _buildUser() {
   return new User({
-    id: faker.random.number(),
+    id: 123,
     firstName: 'Jean',
     lastName: 'Dupont',
     email: 'jean.dupont@example.net',
@@ -18,7 +17,7 @@ function _buildUser() {
 
 function _buildOrganization() {
   return new Organization({
-    id: faker.random.number(),
+    id: 456,
     name: 'ACME',
     type: 'PRO',
     code: 'ABCD12',
@@ -28,12 +27,11 @@ function _buildOrganization() {
   });
 }
 
-module.exports = function buildUserOrgaSettings(
-  {
-    id = faker.random.number(),
-    currentOrganization = _buildOrganization(),
-    user = _buildUser(),
-  } = {}) {
+module.exports = function buildUserOrgaSettings({
+  id = 789,
+  currentOrganization = _buildOrganization(),
+  user = _buildUser(),
+} = {}) {
 
   const userOrgaSettings = new UserOrgaSettings({ id, currentOrganization, user });
 
