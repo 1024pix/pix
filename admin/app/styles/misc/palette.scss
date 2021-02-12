@@ -8,9 +8,9 @@ $white: #ffffff;
 $black: #07142E;
 // secondary
 $orga: #00DDFF;
-$pix-purple: #8A49FF;
+$pix-purple: #8845FF;
 // gradients app
-$pix-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
+$pix-gradient: linear-gradient(135deg, $pix-blue 0%, $pix-purple 100%);
 // light
 $grey-5: #FAFBFC;
 $grey-10: #F4F5F7;
