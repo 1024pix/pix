@@ -75,10 +75,10 @@ describe('Unit | Component | progress-bar', function() {
 
       // then
       expect(steps).to.deep.equal([
-        { stepnum: 1, status: 'active', background: htmlSafe('background: #507fff;') },
-        { stepnum: 2, status: 'active', background: htmlSafe('background: #6874ff;') },
-        { stepnum: 3, status: 'active', background: htmlSafe('background: #8069ff;') },
-        { stepnum: 4, status: '', background: htmlSafe('background: #985fff;') },
+        { stepnum: 1, status: 'active', background: htmlSafe('background: #4f5fff;') },
+        { stepnum: 2, status: 'active', background: htmlSafe('background: #6256ff;') },
+        { stepnum: 3, status: 'active', background: htmlSafe('background: #754dff;') },
+        { stepnum: 4, status: '', background: htmlSafe('background: #8845ff;') },
       ]);
     });
   });
