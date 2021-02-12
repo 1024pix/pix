@@ -1,17 +1,16 @@
-const faker = require('faker');
 const buildCampaign = require('./build-campaign');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildCampaignParticipation({
-  id,
+  id = databaseBuffer.getNextId(),
   campaignId,
   isShared = true,
-  createdAt = faker.date.past(),
-  sharedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  sharedAt = new Date('2020-01-02'),
   userId,
-  participantExternalId = faker.random.word(),
+  participantExternalId = 'participantExternalId',
   validatedSkillsCount,
 } = {}) {
 
