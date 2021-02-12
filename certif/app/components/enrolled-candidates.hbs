@@ -60,14 +60,12 @@
             {{/if}}
             Pays de naissance
           </th>
-          {{#if this.isResultRecipientEmailVisible}}
-            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <th>Adresse e-mail du destinataire des résultats</th>
-            {{/unless}}
-          {{/if}}
-            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <th>Adresse e-mail de convocation</th>
-            {{/unless}}
+          {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+            <th>Adresse e-mail du destinataire des résultats</th>
+          {{/unless}}
+          {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+            <th>Adresse e-mail de convocation</th>
+          {{/unless}}
           {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
             <th>Identifiant externe</th>
           {{/unless}}
@@ -93,14 +91,12 @@
             <td data-test-id='panel-candidate__birthCity__{{candidate.id}}'>{{candidate.birthCity}}</td>
             <td data-test-id='panel-candidate__birthProvinceCode__{{candidate.id}}'>{{candidate.birthProvinceCode}}</td>
             <td data-test-id='panel-candidate__birthCountry__{{candidate.id}}'>{{candidate.birthCountry}}</td>
-            {{#if this.isResultRecipientEmailVisible}}
-              {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
-              {{/unless}}
-            {{/if}}
-              {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
-              {{/unless}}
+            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+              <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
+            {{/unless}}
+            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+              <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
+            {{/unless}}
             {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
             {{/unless}}
