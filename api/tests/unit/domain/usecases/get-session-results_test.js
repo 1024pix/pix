@@ -10,9 +10,9 @@ describe('Unit | Domain | Use Cases | get-session-results', () => {
   const sessionId = sessionWith2Candidates.id;
   const certificationCourseRepository = {};
   const sessionRepositoryStub = {};
-  const certifCourse1 = domainBuilder.buildCertificationCourse();
-  const certifCourse2 = domainBuilder.buildCertificationCourse();
-  const certifCourse3 = domainBuilder.buildCertificationCourse();
+  const certifCourse1 = domainBuilder.buildCertificationCourse({ id: 1 });
+  const certifCourse2 = domainBuilder.buildCertificationCourse({ id: 2 });
+  const certifCourse3 = domainBuilder.buildCertificationCourse({ id: 3 });
 
   const cleaCertifications = [ 'acquired', 'rejected', 'not_passed'];
   const assessmentsIds = [ 1, 2, 3 ];
