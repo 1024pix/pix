@@ -1,5 +1,4 @@
 /* eslint-disable no-sync */
-const faker = require('faker');
 
 const isNil = require('lodash/isNil');
 const isUndefined = require('lodash/isUndefined');
@@ -20,6 +19,7 @@ const buildCertificationCenterMembership = require('./build-certification-center
 const PIX_MASTER_ROLE_ID = 1;
 
 function _buildPixAuthenticationMethod({
+  id = databaseBuffer.getNextId(),
   userId,
   rawPassword = 'Password123',
   shouldChangePassword,
@@ -29,6 +29,7 @@ function _buildPixAuthenticationMethod({
   const hashedPassword = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
+    id,
     userId,
     identityProvider: AuthenticationMethod.identityProviders.PIX,
     authenticationComplement: new AuthenticationMethod.PixAuthenticationComplement({
@@ -47,11 +48,11 @@ function _buildPixAuthenticationMethod({
 }
 
 const buildUser = function buildUser({
-  id,
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
   email,
-  username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
+  username = `${firstName}.${lastName}.${id}`,
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt = null,
@@ -65,7 +66,7 @@ const buildUser = function buildUser({
   updatedAt = new Date(),
 } = {}) {
 
-  email = isUndefined(email) ? faker.internet.exampleEmail(firstName, lastName).toLowerCase() : email || null;
+  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
     id, firstName, lastName, email, username,
@@ -83,10 +84,10 @@ const buildUser = function buildUser({
 };
 
 buildUser.withRawPassword = function buildUserWithRawPassword({
-  id,
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  email = faker.internet.exampleEmail().toLowerCase(),
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
+  email,
   username,
   cgu = true,
   lang = 'fr',
@@ -100,6 +101,8 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
+
+  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
     id, firstName, lastName, email, username,
@@ -126,10 +129,10 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
 };
 
 buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
-  id,
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  email = faker.internet.exampleEmail().toLowerCase(),
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
+  email,
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt,
@@ -143,6 +146,8 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
+
+  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
     id, firstName, lastName, email,
@@ -170,10 +175,10 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
 };
 
 buildUser.withMembership = function buildUserWithMemberships({
-  id,
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  email = faker.internet.exampleEmail().toLowerCase(),
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
+  email,
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt,
@@ -188,6 +193,8 @@ buildUser.withMembership = function buildUserWithMemberships({
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
+
+  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
     id, firstName, lastName, email,
@@ -221,11 +228,11 @@ buildUser.withMembership = function buildUserWithMemberships({
 };
 
 buildUser.withCertificationCenterMembership = function buildUserWithCertificationCenterMembership({
-  id,
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
+  id = databaseBuffer.getNextId(),
+  firstName = 'Billy',
+  lastName = 'TheKid',
   email,
-  username = firstName + '.' + lastName + faker.random.number({ min: 1000, max: 9999 }),
+  username = `${firstName}.${lastName}.${id}`,
   cgu = true,
   lang = 'fr',
   lastTermsOfServiceValidatedAt = null,
@@ -237,6 +244,8 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   updatedAt = new Date(),
   certificationCenterId = null,
 } = {}) {
+
+  email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const user = buildUser({
     id,
