@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
+import { visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -65,6 +65,36 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       assert.contains('2');
       assert.contains('01/01/2021 à 17:00:00');
       assert.contains('01/02/2021');
+    });
+
+    test('it should publish a session', async function(assert) {
+      // given
+      const sessionDate = new Date('2021-01-01');
+      const sessionTime = '17:00:00';
+      const finalizedAt = new Date('2021-02-01T03:00:00Z');
+      server.create('publishable-session', {
+        id: '1',
+        certificationCenterName: 'Centre SCO des Anne-Étoiles',
+        finalizedAt,
+        sessionDate,
+        sessionTime,
+      });
+      server.create('publishable-session', {
+        id: '2',
+        certificationCenterName: 'Centre SUP et rieur',
+        finalizedAt,
+        sessionDate,
+        sessionTime,
+      });
+      await visit('/sessions/list/to-be-published');
+      await click('[aria-label="Publier la session numéro 2"]');
+
+      // when
+      await click('.btn-primary');
+
+      // then
+      assert.contains('1');
+      assert.notContains('2');
     });
   });
 });
