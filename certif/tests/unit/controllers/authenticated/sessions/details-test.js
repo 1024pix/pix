@@ -1,8 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import config from 'pix-certif/config/environment';
-
 module('Unit | Controller | authenticated/sessions/details', function(hooks) {
   setupTest(hooks);
 
@@ -102,7 +100,6 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
     module('when the current user certification center does manage students', function() {
       test('should also return false', function(assert) {
         // given
-        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
         const controller = this.owner.lookup('controller:authenticated/sessions/details');
         controller.model = {
           shouldDisplayPrescriptionScoStudentRegistrationFeature: true,
@@ -116,10 +113,9 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
       });
     });
 
-    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is enabled and current user is if of type Sco and does not managing students', function() {
+    module('when current user is if of type Sco and does not managing students', function() {
       test('should return true', function(assert) {
         // given
-        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
         const controller = this.owner.lookup('controller:authenticated/sessions/details');
         controller.currentUser = {
           currentCertificationCenter: { isScoManagingStudents: false },
