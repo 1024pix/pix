@@ -58,6 +58,8 @@ export default function() {
 
   this.get('/admin/certifications/:id');
 
+  this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
+
   this.post('/organizations/:id/invitations', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     const email = params.data.attributes.email;
