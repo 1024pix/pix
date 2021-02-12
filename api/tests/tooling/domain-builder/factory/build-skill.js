@@ -1,13 +1,12 @@
-const faker = require('faker');
 const Skill = require('../../../../lib/domain/models/Skill');
 
 const buildSkill = function buildSkill({
-  id = `rec${faker.random.uuid()}`,
-  name = `${buildRandomTubeName()}${faker.random.number(8)}`,
-  pixValue = faker.random.number(4),
-  competenceId = `rec${faker.random.uuid()}`,
+  id = 'recSK123',
+  name = '@sau6',
+  pixValue = 3,
+  competenceId = 'recCOMP123',
   tutorialIds = [],
-  tubeId = `rec${faker.random.uuid()}`,
+  tubeId = 'recTUB123',
 } = {}) {
   return new Skill({
     id,
