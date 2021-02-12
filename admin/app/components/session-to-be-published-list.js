@@ -22,7 +22,7 @@ export default class SessionToBePublishedListComponent extends Component {
       title: 'Date de la finalisation',
     },
     {
-      component: 'certification/certification-info-published',
+      component: 'publish-session-button',
       useFilter: false,
       mayBeHidden: false,
       title: 'Publiée',
