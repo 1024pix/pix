@@ -1,12 +1,11 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildCertificationCenter({
-  id,
-  name = faker.company.companyName(),
+  id = databaseBuffer.getNextId(),
+  name = 'some name',
   type = 'SUP',
-  externalId = faker.random.alphaNumeric(8).toUpperCase(),
-  createdAt = faker.date.recent(),
+  externalId = 'EX123',
+  createdAt = new Date('2020-01-01'),
 } = {}) {
 
   const values = {
