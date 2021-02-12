@@ -21,11 +21,7 @@ describe('Integration | Component | pix logo', function() {
   });
 
   it('should have a textual alternative', function() {
-    expect(find('.pix-logo__image').getAttribute('alt')).to.equal('pix');
-  });
-
-  it('should have a title in the link', function() {
-    expect(find('.pix-logo__link').getAttribute('title')).to.equal('Page d\'accueil');
+    expect(find('.pix-logo__image').getAttribute('alt')).to.equal('Page d\'accueil de Pix');
   });
 
 });
