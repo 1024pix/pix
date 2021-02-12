@@ -1,6 +1,5 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const finalizedSessionRepository = require('../../../../lib/infrastructure/repositories/finalized-session-repository');
-const { knex } = require('../../../../db/knex-database-connection');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
 describe('Integration | Repository | Finalized-session', () => {
@@ -80,21 +79,29 @@ describe('Integration | Repository | Finalized-session', () => {
       await databaseBuilder.commit();
 
       // when
-      const result = await finalizedSessionRepository.updatePublishedAt({
+      await finalizedSessionRepository.updatePublishedAt({
         sessionId: finalizedSession.sessionId,
         publishedAt,
       });
 
       // then
-      expect(result).to.deep.equal({
-        sessionId: finalizedSession.sessionId,
-        finalizedAt: finalizedSession.finalizedAt,
-        certificationCenterName: finalizedSession.certificationCenterName,
-        sessionDate: finalizedSession.date,
-        sessionTime: finalizedSession.time,
-        isPublishable: finalizedSession.isPublishable,
-        publishedAt,
+      const { publishedAt: actualPublishedAt } = await knex.select('publishedAt').from('finalized-sessions').where({ sessionId: 1234 }).first();
+      expect(actualPublishedAt).to.deep.equal(publishedAt);
+    });
+
+    it('should not throw when trying to setup publishedAt date on non-existent finalized session', async () => {
+      // given
+      databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
+      await databaseBuilder.commit();
+
+      // when
+      const promise = finalizedSessionRepository.updatePublishedAt({
+        sessionId: 7894,
+        publishedAt: new Date(),
       });
+
+      // then
+      return expect(promise).to.be.fulfilled;
     });
   });
 
