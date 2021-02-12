@@ -20,9 +20,10 @@ $yellow-hover: darken($yellow, 8%);
 $light-blue: #388AFF;
 $pure-orange: #F45C00;
 $pole-emploi:#1B2E57;
+$purple: #8845FF;
 
 // gradients
-$default-gradient: linear-gradient(135deg, #388AFF 0%, #985FFF 100%);
+$default-gradient: linear-gradient(135deg, $blue 0%, $purple 100%);
 $green-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
 $pix-orga-old-gradient: linear-gradient(0deg, #0D7DC4 0%, #213371 100%);
 $yellow-gradient: linear-gradient(180deg, #FEDC41 0%, #F45C00 100%);
