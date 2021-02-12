@@ -1,6 +1,5 @@
 const buildCampaignParticipation = require('./build-campaign-participation');
 const isUndefined = require('lodash/isUndefined');
-const faker = require('faker');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 
 const buildPoleEmploiSending = function({
@@ -9,7 +8,7 @@ const buildPoleEmploiSending = function({
   isSuccessful = true,
   responseCode = '200',
   payload = null,
-  createdAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
 } = {}) {
 
   campaignParticipationId = isUndefined(campaignParticipationId) ? buildCampaignParticipation().id : campaignParticipationId;
