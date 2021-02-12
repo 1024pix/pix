@@ -1,4 +1,3 @@
-const faker = require('faker');
 const _ = require('lodash');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
@@ -9,12 +8,12 @@ const buildTargetProfile = require('./build-target-profile');
 const buildCampaignParticipation = require('./build-campaign-participation');
 
 function buildAssessment({
-  id = faker.random.number(),
+  id = 123,
   courseId = 'courseId',
   certificationCourseId = null,
   createdAt = new Date('1992-06-12T01:02:03Z'),
   updatedAt = new Date('1992-06-12T01:02:03Z'),
-  userId = faker.random.number(),
+  userId = 456,
   title = 'courseId',
   type = Assessment.types.CERTIFICATION,
   state = Assessment.states.COMPLETED,
@@ -45,16 +44,14 @@ function buildAssessment({
 }
 
 buildAssessment.ofTypeCampaign = function({
-  id = faker.random.number(),
-
+  id = 123,
   courseId = 'courseId',
   createdAt = new Date('1992-06-12T01:02:03Z'),
   updatedAt = new Date('1992-06-12T01:02:03Z'),
-  userId = faker.random.number(),
+  userId = 456,
   competenceId = null,
   state = Assessment.states.COMPLETED,
   isImproving = false,
-
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
@@ -96,23 +93,21 @@ buildAssessment.ofTypeCampaign = function({
 };
 
 buildAssessment.ofTypeCompetenceEvaluation = function({
-  id = faker.random.number(),
-
+  id = 123,
   courseId = 'courseId',
   createdAt = new Date('1992-06-12T01:02:03Z'),
   updatedAt = new Date('1992-06-12T01:02:03Z'),
-  userId = faker.random.number(),
+  userId = 456,
   state = Assessment.states.COMPLETED,
-  title = faker.lorem,
+  title = 'Titre',
   isImproving = false,
   campaignParticipationId = null,
-
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
   campaignParticipation = null,
-  competenceId = faker.random.number(),
+  competenceId = 789,
 } = {}) {
 
   return new Assessment({
