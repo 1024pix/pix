@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test-unit": "mocha ./tests/*.js",
-    "test-bash": "./tests/tests.sh"
+    "test-unit": "mocha  --exit ./tests/*.js",
+    "test-bash": "./tests/tests.sh",
+    "test": "npm run test-unit && npm run test-bash"
   },
   "keywords": [],
   "author": "GIP Pix",
