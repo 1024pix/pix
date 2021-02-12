@@ -1,23 +1,21 @@
-const faker = require('faker');
 const buildArea = require('./build-area');
 
-module.exports = function buildUserScorecard(
-  {
-    id = faker.random.uuid(),
-    // attributes
-    name = faker.random.word(),
-    description = faker.random.word(),
-    index = `${faker.random.number()}.${faker.random.number()}`,
-    competenceId = faker.random.uuid(),
-    earnedPix = `${faker.random.number()}`,
-    exactlyEarnedPix = null,
-    level = `${faker.random.number()}`,
-    pixScoreAheadOfNextLevel = `${faker.random.number()}`,
-    status = 'STARTED',
-    // relationships
-    area = buildArea(),
-    tutorials = [],
-  } = {}) {
+module.exports = function buildUserScorecard({
+  id = 'recCOMP123_789',
+  // attributes
+  name = 'Mener une troupe à la bataille',
+  description = 'description',
+  index = '2.3',
+  competenceId = 'recCOMP123',
+  earnedPix = 45,
+  exactlyEarnedPix = null,
+  level = 6,
+  pixScoreAheadOfNextLevel = 3,
+  status = 'STARTED',
+  // relationships
+  area = buildArea(),
+  tutorials = [],
+} = {}) {
 
   return {
     id,
