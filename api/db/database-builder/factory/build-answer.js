@@ -1,18 +1,17 @@
 const buildAssessment = require('./build-assessment');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
-const faker = require('faker');
 
 module.exports = function buildAnswer({
-  id,
-  value = faker.lorem.sentences(),
-  result = faker.lorem.words(),
+  id = databaseBuffer.getNextId(),
+  value = 'Some value for answer',
+  result = 'Some result for answer',
   assessmentId,
-  challengeId = `rec${faker.random.uuid()}`,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
-  timeout = faker.random.number(),
-  resultDetails = faker.lorem.sentences(),
+  challengeId = 'rec123ABC',
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
+  timeout = null,
+  resultDetails = 'Some result details for answer.',
   timeSpent = 30,
 } = {}) {
 
