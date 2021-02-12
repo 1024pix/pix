@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.18.0 (12/02/2021)
+
+- [#2541](https://github.com/1024pix/pix/pull/2541) [FEATURE] Changement de la couleur de la bannière (PIX-2033).
+- [#2531](https://github.com/1024pix/pix/pull/2531) [FEATURE] Afficher un lien de téléchargement des résultats d'une session dans Pix Admin (PIX-2042)
+- [#2498](https://github.com/1024pix/pix/pull/2498) [FEATURE] Ajout du Pix-score sur le tableau de bord (PIX-1660).
+- [#2506](https://github.com/1024pix/pix/pull/2506) [FEATURE] Ajout des cartes archivés dans la page 'mes-parcours' (Pix-2005)
+- [#2537](https://github.com/1024pix/pix/pull/2537) [BUGFIX] Corriger la marge dans les cartes de parcours (PIX-2006).
+- [#2534](https://github.com/1024pix/pix/pull/2534) [BUGFIX] Eviter l'échec du hook des seeds dans les RAs en évitant d'ouvrir plusieurs connexions à la BDD (PIX-2139)
+- [#2538](https://github.com/1024pix/pix/pull/2538) [TECH] Récupérer toutes les épreuves posées par l'algo et y répondre juste (PIX-2061).
+- [#2530](https://github.com/1024pix/pix/pull/2530) [TECH] Corriger et refactorer les seeds (PIX-2137).
+- [#2532](https://github.com/1024pix/pix/pull/2532) [TECH] Rendre les tests de target-profile-repository déterministes.
+- [#2529](https://github.com/1024pix/pix/pull/2529) [TECH] Ajouter un titre sur les liens externes dans les consignes (PIX-2124).
+
 ## v3.17.0 (10/02/2021)
 
 - [#2508](https://github.com/1024pix/pix/pull/2508) [FEATURE] Amélioration de la phrase sur le consentement dans la landing page pour un parcours (PIX-2109).
