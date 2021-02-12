@@ -1,15 +1,10 @@
-const faker = require('faker');
 const Course = require('../../../../lib/domain/models/Course');
 
 module.exports = function buildCourse({
-  id = `rec${faker.random.uuid()}`,
-
-  // attributes
-  description = faker.lorem.sentence(),
-  imageUrl = faker.internet.url(),
-  name = faker.lorem.word(),
-
-  // relationships
+  id = 'recCOUR123',
+  description = 'description',
+  imageUrl = 'imageURL',
+  name = 'name',
   assessment,
   challenges = [],
   competences = [],
