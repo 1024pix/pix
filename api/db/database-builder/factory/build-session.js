@@ -1,22 +1,20 @@
-const faker = require('faker');
 const buildCertificationCenter = require('./build-certification-center');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
-const moment = require('moment');
 
 module.exports = function buildSession({
-  id,
-  accessCode = faker.random.alphaNumeric(9),
-  address = faker.address.streetAddress(),
-  certificationCenter = faker.company.companyName(),
+  id = databaseBuffer.getNextId(),
+  accessCode = 'ACC123A',
+  address = '3 rue des églantines',
+  certificationCenter = 'Centre de certif Pix',
   certificationCenterId,
-  date = moment(faker.date.recent()).format('YYYY-MM-DD'),
-  description = faker.random.words(),
-  examiner = faker.name.findName(),
-  room = faker.random.alphaNumeric(9),
-  time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
+  date = '2020-01-15',
+  description = 'La session se déroule dans le jardin',
+  examiner = 'Ginette',
+  room = 'B315',
+  time = '15:30:00',
   examinerGlobalComment = '',
-  createdAt = faker.date.recent(),
+  createdAt = new Date('2020-01-01'),
   finalizedAt = null,
   resultsSentToPrescriberAt = null,
   publishedAt = null,
