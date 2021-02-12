@@ -19,11 +19,9 @@ module.exports = {
   },
 
   async updatePublishedAt({ sessionId, publishedAt }) {
-    const updatedFinalizedSession = await FinalizedSessionBookshelf
+    await FinalizedSessionBookshelf
       .where({ sessionId })
-      .save({ publishedAt }, { method: 'update' });
-
-    return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, updatedFinalizedSession);
+      .save({ publishedAt }, { method: 'update', require: false });
   },
 
   async findFinalizedSessionsToPublish() {
