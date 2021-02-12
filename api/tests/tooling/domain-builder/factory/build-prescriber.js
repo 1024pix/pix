@@ -1,5 +1,3 @@
-const faker = require('faker');
-
 const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const User = require('../../../../lib/domain/models/User');
@@ -12,15 +10,15 @@ const Prescriber = require('../../../../lib/domain/read-models/Prescriber');
 
 function _buildUser() {
   return new User({
-    id: faker.random.number(),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
+    id: 123,
+    firstName: 'Coucou',
+    lastName: 'Cémoi',
   });
 }
 
 function _buildOrganization() {
   return new Organization({
-    id: faker.random.number(),
+    id: 456,
     name: 'ACME',
     type: 'PRO',
     externalId: 'EXTID',
@@ -32,7 +30,7 @@ function _buildOrganization() {
 function _buildMemberships() {
   return [
     new Membership({
-      id: faker.random.number(),
+      id: 789,
       user: _buildUser(),
       organization: _buildOrganization(),
     }),
@@ -41,23 +39,22 @@ function _buildMemberships() {
 
 function _buildUserOrgaSettings() {
   return new UserOrgaSettings({
-    id: faker.random.number(),
+    id: 159,
     currentOrganization: _buildOrganization(),
     user: _buildUser(),
   });
 }
 
-module.exports = function buildPrescriber(
-  {
-    id = faker.random.number(),
-    firstName = faker.name.firstName(),
-    lastName = faker.name.lastName(),
-    pixOrgaTermsOfServiceAccepted = false,
-    lang = 'fr',
-    areNewYearSchoolingRegistrationsImported = false,
-    memberships = _buildMemberships(),
-    userOrgaSettings = _buildUserOrgaSettings(),
-  } = {}) {
+module.exports = function buildPrescriber({
+  id = 753,
+  firstName = 'Jean',
+  lastName = 'Forme',
+  pixOrgaTermsOfServiceAccepted = false,
+  lang = 'fr',
+  areNewYearSchoolingRegistrationsImported = false,
+  memberships = _buildMemberships(),
+  userOrgaSettings = _buildUserOrgaSettings(),
+} = {}) {
 
   return new Prescriber({
     id, firstName, lastName,
