@@ -94,8 +94,10 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     it('should support belongs-to-many relationships', async () => {
       //given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
-      databaseBuilder.factory.buildOrganizationTag({ organizationId });
-      databaseBuilder.factory.buildOrganizationTag({ organizationId });
+      const tagId1 = databaseBuilder.factory.buildTag({ name: 'Banane' }).id;
+      const tagId2 = databaseBuilder.factory.buildTag({ name: 'Dinde' }).id;
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId: tagId1 });
+      databaseBuilder.factory.buildOrganizationTag({ organizationId, tagId: tagId2 });
       await databaseBuilder.commit();
       const bookshelfObject = await BookshelfOrganization.where({ id: organizationId }).fetch({
         withRelated: ['tags'],
