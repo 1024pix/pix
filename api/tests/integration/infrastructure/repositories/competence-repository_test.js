@@ -101,8 +101,8 @@ describe('Integration | Repository | competence-repository', () => {
       const competenceId1 = 'recCompetenceId1';
       const competenceId2 = 'recCompetenceId2';
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competenceId1, earnedPix: 1, userId });
-      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competenceId2, earnedPix: 10, userId });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competenceId1, earnedPix: 1, userId, skillId: 'recS1' });
+      databaseBuilder.factory.buildKnowledgeElement({ competenceId: competenceId2, earnedPix: 10, userId, skillId: 'recS2' });
       await databaseBuilder.commit();
 
       // when
