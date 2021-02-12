@@ -3,9 +3,9 @@
   <div class="timeout-jauge-container">
     <div class="timeout-jauge-clock">
       {{#if hasFinished}}
-        <img class="svg-timeout-clock-red" src="/images/icon-timeout-red.svg" alt="{{t 'pages.time-gauge.timeout-placeholder'}}">
+        <img class="svg-timeout-clock-red" src="/images/icon-timeout-red.svg" alt="" role="none">
       {{else}}
-        <img class="svg-timeout-clock-black" src="/images/icon-timeout-black.svg" alt="{{t 'pages.time-gauge.remaining-time-placeholder'}}">
+        <img class="svg-timeout-clock-black" src="/images/icon-timeout-black.svg" alt="" role="presentation">
       {{/if}}
       <div>&nbsp;</div>
       <div class="timeout-jauge-remaining" data-spent="{{remainingSeconds}}">
