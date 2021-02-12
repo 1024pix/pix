@@ -5,6 +5,7 @@ import trim from 'lodash/trim';
 
 import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
+import { memberAction } from 'ember-api-actions';
 
 function _getNumberOf(juryCertificationSummaries, booleanFct) {
   return sumBy(
@@ -107,4 +108,13 @@ export default class Session extends Model {
   get displayStatus() {
     return statusToDisplayName[this.status];
   }
+
+  getDownloadLink = memberAction({
+    path: 'generate-results-download-link',
+    type: 'get',
+    urlType: 'findRecord',
+    after(response) {
+      return response.sessionResultsLink;
+    },
+  })
 }

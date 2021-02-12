@@ -74,7 +74,7 @@ function sendCertificationResultEmail({
 }) {
   const pixName = PIX_NAME_FR;
   const formatedSessionDate = moment(sessionDate).locale('fr').format('L');
-  const token = tokenService.createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+  const token = tokenService.createCertificationResultsByRecipientEmailLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
   const link = `${settings.domain.pixApp + settings.domain.tldOrg}/api/sessions/download-results/${token}`;
 
   const variables = {

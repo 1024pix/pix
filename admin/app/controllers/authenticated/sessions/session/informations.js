@@ -1,6 +1,5 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
@@ -10,7 +9,6 @@ export default class IndexController extends Controller {
   @service sessionInfoService;
   @service notifications;
   @service currentUser;
-  @service notifications;
   @service fileSaver;
   @service session;
 
@@ -18,12 +16,13 @@ export default class IndexController extends Controller {
 
   @tracked isShowingAssignmentModal = false;
 
-  @computed('sessionModel.status')
+  @tracked isCopyButtonClicked = false;
+  @tracked copyButtonText = 'Copié';
+
   get sessionStatusLabel() {
     return statusToDisplayName[this.sessionModel.status];
   }
 
-  @computed('currentUser.user', 'sessionModel.assignedCertificationOfficer.id')
   get isCurrentUserAssignedToSession() {
     const currentUserId = this.currentUser.user.get('id');
     const assignedCertificationOfficerId = this.sessionModel.assignedCertificationOfficer.get('id');
@@ -31,7 +30,6 @@ export default class IndexController extends Controller {
       && currentUserId === assignedCertificationOfficerId;
   }
 
-  @computed('sessionModel.assignedCertificationOfficer.id')
   get isAssigned() {
     return this.sessionModel.assignedCertificationOfficer.get('id') ? true : false;
   }
@@ -84,6 +82,32 @@ export default class IndexController extends Controller {
   @action
   async confirmAssignment() {
     await this._assignSessionToCurrentUser();
+  }
+
+  @action
+  async copyResultsDownloadLink() {
+    try {
+      const link = await this.sessionModel.getDownloadLink();
+      await navigator.clipboard.writeText(link);
+      this._displaySuccessTooltip();
+    } catch (err) {
+      this._displayErrorTooltip();
+    }
+    window.setTimeout(() => this._hideTooltip(), 2000);
+  }
+
+  _displaySuccessTooltip() {
+    this.copyButtonText = 'Copié';
+    this.isCopyButtonClicked = true;
+  }
+
+  _displayErrorTooltip() {
+    this.copyButtonText = 'Erreur !';
+    this.isCopyButtonClicked = true;
+  }
+
+  _hideTooltip() {
+    this.isCopyButtonClicked = false;
   }
 
   async _assignSessionToCurrentUser() {

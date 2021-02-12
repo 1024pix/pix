@@ -4,6 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { FINALIZED } from 'pix-admin/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import sinon from 'sinon';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -107,10 +108,27 @@ module('Acceptance | Session pages', function(hooks) {
 
         test('it shows all buttons', function(assert) {
           // then
-          assert.dom('.session-info__actions div button:first-child').hasText('M\'assigner la session');
-          assert.dom('.session-info__actions div button:nth-child(2)').hasText('Récupérer le fichier avant jury');
-          assert.dom('.session-info__actions div button:nth-child(3)').hasText('Exporter les résultats');
-          assert.dom('.session-info__actions div button:nth-child(4)').hasText('Résultats transmis au prescripteur');
+          assert.contains('M\'assigner la session');
+          assert.contains('Récupérer le fichier avant jury');
+          assert.contains('Exporter les résultats');
+          assert.contains('Copier le lien de téléchargement');
+          assert.contains('Résultats transmis au prescripteur');
+        });
+
+        module('copy link button', function() {
+          test('it should copy \'http://link-to-results.fr\' in navigator clipboard on click', async (assert) => {
+            // given
+
+            // We were unable to access clipboard in test environement so we used a stub
+            const writeTextStub = sinon.stub();
+            sinon.stub(navigator, 'clipboard').value({ writeText: writeTextStub.returns() });
+
+            // when
+            await click('.session-info__actions .session-info__copy-button button');
+
+            // then
+            assert.ok(writeTextStub.calledWithExactly('http://link-to-results.fr'));
+          });
         });
       });
     });

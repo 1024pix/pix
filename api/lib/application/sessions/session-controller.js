@@ -1,6 +1,7 @@
 const { BadRequestError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
+const sessionResultsLinkService = require('../../domain/services/session-results-link-service');
 const sessionValidator = require('../../domain/validators/session-validator');
 const events = require('../../domain/events');
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../domain/errors');
@@ -13,7 +14,7 @@ const juryCertificationSummaryRepository = require('../../infrastructure/reposit
 const jurySessionRepository = require('../../infrastructure/repositories/jury-session-repository');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const { getCertificationResultsCsv } = require('../../infrastructure/utils/csv/certification-results');
+const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet');
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
@@ -130,7 +131,25 @@ module.exports = {
   async getSessionResults(request, h) {
     const sessionId = request.params.id;
     const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
-    const csvResult = await getCertificationResultsCsv({ session, certificationResults });
+    const csvResult = await certificationResultUtils.getCertificationResultsCsv({ session, certificationResults });
+
+    return h.response(csvResult)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
+  },
+
+  async generateSessionResultsDownloadLink(request, h) {
+    const sessionId = request.params.id;
+    const sessionResultsLink = sessionResultsLinkService.generateResultsLink(sessionId);
+
+    return h.response({ sessionResultsLink });
+  },
+
+  async getSessionResultsToDownload(request, h) {
+    const token = request.params.token;
+    const { sessionId } = tokenService.extractSessionId(token);
+    const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
+    const csvResult = await certificationResultUtils.getCertificationResultsCsv({ session, certificationResults });
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
@@ -141,7 +160,7 @@ module.exports = {
     const token = request.params.token;
     const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);
     const { session, certificationResults, fileName } = await usecases.getSessionResultsByResultRecipientEmail({ sessionId, resultRecipientEmail });
-    const csvResult = await getCertificationResultsCsv({ session, certificationResults });
+    const csvResult = await certificationResultUtils.getCertificationResultsCsv({ session, certificationResults });
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')

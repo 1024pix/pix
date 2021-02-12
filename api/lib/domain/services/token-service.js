@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError } = require('../../domain/errors');
+const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError, InvalidSessionResultError } = require('../../domain/errors');
 const settings = require('../../config');
 
 function createAccessTokenFromUser(userId, source) {
@@ -23,10 +23,18 @@ function createIdTokenForUserReconciliation(externalUser) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan });
 }
 
-function createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration }) {
+function createCertificationResultsByRecipientEmailLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration }) {
   return jsonwebtoken.sign({
     session_id: sessionId,
     result_recipient_email: resultRecipientEmail,
+  }, settings.authentication.secret, {
+    expiresIn: `${daysBeforeExpiration}d`,
+  });
+}
+
+function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }) {
+  return jsonwebtoken.sign({
+    session_id: sessionId,
   }, settings.authentication.secret, {
     expiresIn: `${daysBeforeExpiration}d`,
   });
@@ -76,6 +84,17 @@ function extractResultRecipientEmailAndSessionId(token) {
   };
 }
 
+function extractSessionId(token) {
+  const decoded = getDecodedToken(token);
+  if (!decoded.session_id) {
+    throw new InvalidSessionResultError();
+  }
+
+  return {
+    sessionId: decoded.session_id,
+  };
+}
+
 function extractUserId(token) {
   const decoded = getDecodedToken(token);
   return decoded.user_id || null;
@@ -109,12 +128,14 @@ module.exports = {
   createAccessTokenFromUser,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,
-  createCertificationResultLinkToken,
+  createCertificationResultsByRecipientEmailLinkToken,
+  createCertificationResultsLinkToken,
   decodeIfValid,
   extractExternalUserFromIdToken,
   extractPayloadFromPoleEmploiIdToken,
   extractResultRecipientEmailAndSessionId,
   extractSamlId,
+  extractSessionId,
   extractTokenFromAuthChain,
   extractUserId,
   extractUserIdForCampaignResults,

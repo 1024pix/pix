@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 
 const { catchErr, expect } = require('../../../test-helper');
 
-const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError } = require('../../../../lib/domain/errors');
+const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError, InvalidSessionResultError } = require('../../../../lib/domain/errors');
 const settings = require('../../../../lib/config');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
@@ -163,6 +163,50 @@ describe('Unit | Domain | Service | Token Service', () => {
     });
   });
 
+  describe('#extractSessionId', () => {
+
+    it('should return the session id if the token is valid', () => {
+      // given
+      const token = jsonwebtoken.sign({
+        session_id: 12345,
+      }, settings.authentication.secret, { expiresIn: '30d' });
+
+      // when
+      const tokenData = tokenService.extractSessionId(token);
+
+      // then
+      expect(tokenData).to.deep.equal({
+        sessionId: 12345,
+      });
+    });
+
+    it('should throw if session id or result recipient email is missing', async () => {
+      // given
+      const invalidIdToken = jsonwebtoken.sign({
+      }, settings.authentication.secret, { expiresIn: '30d' });
+
+      // when
+      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidSessionResultError);
+    });
+
+    it('should throw if token is expired', async () => {
+      // given
+      const invalidIdToken = jsonwebtoken.sign({
+        session_id: 1234,
+      }, settings.authentication.secret, { expiresIn: '1' });
+
+      // when
+      setTimeout(async() => {}, 100);
+      const error = await catchErr(tokenService.extractSessionId)(invalidIdToken);
+
+      // then
+      expect(error).to.be.an.instanceof(InvalidSessionResultError);
+    });
+  });
+
   describe('#extractResultRecipientEmailAndSessionId', () => {
 
     it('should return the session id and result recipient email if the token is valid', () => {
@@ -248,7 +292,7 @@ describe('Unit | Domain | Service | Token Service', () => {
 
   });
 
-  describe('#createCertificationResultLinkToken', () => {
+  describe('#createCertificationResultsByRecipientEmailLinkToken', () => {
     it('should return a valid token with sessionId and resultRecipientEmail', () => {
       // given
       const sessionId = 'abcd1234';
@@ -260,7 +304,25 @@ describe('Unit | Domain | Service | Token Service', () => {
       };
 
       // when
-      const linkToken = tokenService.createCertificationResultLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+      const linkToken = tokenService.createCertificationResultsByRecipientEmailLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+
+      // then
+      const decodedToken = jsonwebtoken.verify(linkToken, settings.authentication.secret);
+      expect(omit(decodedToken, ['iat', 'exp'])).to.deep.equal(expectedTokenAttributes);
+    });
+  });
+
+  describe('#createCertificationResultsLinkToken', () => {
+    it('should return a valid token with sessionId and resultRecipientEmail', () => {
+      // given
+      const sessionId = 'abcd1234';
+      const daysBeforeExpiration = 30;
+      const expectedTokenAttributes = {
+        'session_id': 'abcd1234',
+      };
+
+      // when
+      const linkToken = tokenService.createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration });
 
       // then
       const decodedToken = jsonwebtoken.verify(linkToken, settings.authentication.secret);
