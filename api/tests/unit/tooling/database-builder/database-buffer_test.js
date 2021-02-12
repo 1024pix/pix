@@ -6,6 +6,19 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', () => {
     databaseBuffer.objectsToInsert = [];
   });
 
+  describe('#getNextId', () => {
+    it('should return next incremental id', () => {
+      // when
+      const idA = databaseBuffer.getNextId();
+      const idB = databaseBuffer.getNextId();
+      const idC = databaseBuffer.getNextId();
+
+      // then
+      expect(idB).to.equal(idA + 1);
+      expect(idC).to.equal(idB + 1);
+    });
+  });
+
   describe('#pushInsertable', () => {
 
     it('should add an object to insert', () => {
