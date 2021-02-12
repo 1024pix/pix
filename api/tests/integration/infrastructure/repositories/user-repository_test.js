@@ -1,5 +1,4 @@
 /* eslint-disable no-sync */
-const faker = require('faker');
 
 const each = require('lodash/each');
 const map = require('lodash/map');
@@ -28,9 +27,9 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   const userToInsert = {
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    email: faker.internet.exampleEmail().toLowerCase(),
+    firstName: 'Jojo',
+    lastName: 'LaFripouille',
+    email: 'jojo@example.net',
     cgu: true,
   };
 
@@ -684,8 +683,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // given
       const email = 'my-email-to-save@example.net';
       const user = domainBuilder.buildUser({
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        firstName: 'laura',
+        lastName: 'lune',
         email: email,
         cgu: true,
       });
@@ -702,8 +701,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // given
       const email = 'my-email-to-save@example.net';
       const user = domainBuilder.buildUser({
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        firstName: 'laura',
+        lastName: 'lune',
         email: email,
         cgu: true,
       });
@@ -766,8 +765,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     let secondUser;
 
     const secondUserToInsert = {
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      firstName: 'laura',
+      lastName: 'lune',
       email: 'alreadyexist@example.net',
       cgu: true,
       shouldChangePassword: false,
