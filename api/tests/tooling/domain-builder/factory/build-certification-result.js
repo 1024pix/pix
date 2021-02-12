@@ -1,23 +1,22 @@
-const faker = require('faker');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const { statuses: cleaStatuses } = require('../../../../lib/infrastructure/repositories/clea-certification-status-repository');
 const buildAssessmentResult = require('./build-assessment-result');
 
 module.exports = function buildCertificationResult({
-  id = faker.random.uuid(),
+  id = '123',
   lastAssessmentResult,
   certificationIssueReports = [],
-  firstName = faker.name.firstName(),
-  lastName = faker.name.lastName(),
-  birthplace = faker.address.city(),
-  birthdate = faker.date.past(),
-  externalId = faker.random.number(),
-  completedAt = faker.date.past(),
-  createdAt = faker.date.past(),
-  isPublished = faker.random.boolean(),
+  firstName = 'Malik',
+  lastName = 'Wayne',
+  birthplace = 'Perpignan',
+  birthdate = '2000-08-30',
+  externalId = 'externalId',
+  createdAt = new Date('2020-01-01'),
+  completedAt = new Date('2020-05-05'),
+  isPublished = true,
   isV2Certification = true,
-  cleaCertificationStatus = faker.random.objectElement(cleaStatuses),
-  hasSeenEndTestScreen = faker.random.boolean(),
+  cleaCertificationStatus = cleaStatuses.NOT_PASSED,
+  hasSeenEndTestScreen = true,
   assessmentId,
   sessionId,
 } = {}) {
