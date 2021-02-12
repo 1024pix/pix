@@ -84,7 +84,7 @@ async function _getChallenge({
   return { challenge, hasAssessmentEnded: result.hasAssessmentEnded };
 }
 
-async function launch_test(argv) {
+async function launchTest(argv) {
 
   const competenceId = argv.competenceId;
   const locale = argv.locale;
@@ -136,6 +136,7 @@ async function launch_test(argv) {
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;
     }
+
     isAssessmentOver = hasAssessmentEnded;
   }
 
@@ -144,5 +145,5 @@ async function launch_test(argv) {
 
 module.exports = {
   answerTheChallenge,
-  launch_test,
+  launchTest,
 };

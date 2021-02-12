@@ -1,0 +1,3 @@
+# https://eslint.org/docs/user-guide/configuring#eslintignore
+# .file are implicitly ignored, unless explicitly specified here
+node_modules/

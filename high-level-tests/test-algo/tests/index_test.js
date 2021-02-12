@@ -1,6 +1,6 @@
 const sinon = require('sinon');
-const chai = require('chai');
-const expect = chai.expect;
+const { expect } = require('chai');
+const { describe, beforeEach, afterEach, it } = require('mocha');
 const { answerTheChallenge } = require('../algo');
 const KnowledgeElement = require('../../../api/lib/domain/models/KnowledgeElement');
 
@@ -16,22 +16,22 @@ describe('#answerTheChallenge', () => {
     previousKE = [{ id: 1 }];
     challenge = { id: 'recId' };
     newKe = { id: 'KE-id' };
-    sinon.stub(KnowledgeElement, "createKnowledgeElementsForAnswer").returns([newKe]);
+    sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer').returns([newKe]);
   });
 
   afterEach(() => {
     sinon.restore();
-  })
+  });
 
   it('should return the list of answers with previous answer with the new one', () => {
     // when
     const result = answerTheChallenge({
-        challenge,
-        allAnswers: previousAnswers,
-        allKnowledgeElements: previousKE,
-        targetSkills: [],
-        userId: 1
-      });
+      challenge,
+      allAnswers: previousAnswers,
+      allKnowledgeElements: previousKE,
+      targetSkills: [],
+      userId: 1,
+    });
 
     // then
     expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
@@ -47,7 +47,7 @@ describe('#answerTheChallenge', () => {
       allAnswers: previousAnswers,
       allKnowledgeElements: previousKE,
       targetSkills: [],
-      userId: 1
+      userId: 1,
     });
 
     // then
