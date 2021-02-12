@@ -1,24 +1,22 @@
-const faker = require('faker');
 const buildSession = require('./build-session');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
-const moment = require('moment');
 
 module.exports = function buildCertificationCourse({
-  id,
-  lastName = faker.name.lastName(),
-  firstName = faker.name.firstName(),
-  birthdate = moment(faker.date.past(12)).format('YYYY-MM-DD'),
-  birthplace = faker.address.city(),
-  externalId = faker.random.uuid(),
+  id = databaseBuffer.getNextId(),
+  lastName = 'last-name',
+  firstName = 'first-name',
+  birthdate = '2001-05-21',
+  birthplace = 'Perpignan',
+  externalId = 'externalId',
   hasSeenEndTestScreen = false,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.recent(),
-  completedAt = faker.date.recent(),
-  isPublished = faker.random.boolean(),
-  verificationCode = `P-${faker.random.alphaNumeric(8).toUpperCase()}`,
-  isV2Certification = faker.random.boolean(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
+  completedAt = new Date('2020-03-01'),
+  isPublished = true,
+  verificationCode = `P-AB789TTY${id}`,
+  isV2Certification = true,
   userId,
   sessionId,
   maxReachableLevelOnCertificationDate = 5,
