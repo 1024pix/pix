@@ -1,7 +1,7 @@
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildBadgeAcquisition({
-  id,
+  id = databaseBuffer.getNextId(),
   badgeId,
   userId,
 } = {}) {
