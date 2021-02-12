@@ -19,6 +19,10 @@
     text-decoration: underline;
     color: $blue;
 
+    @include device-is('tablet') {
+      white-space: nowrap;
+    }
+
     &:active,
     &:focus,
     &:hover {
