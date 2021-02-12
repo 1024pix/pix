@@ -5,13 +5,21 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "./tests/tests.sh"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test-unit": "mocha  --exit ./tests/*.js",
+    "test-bash": "./tests/tests.sh",
+    "test": "npm run lint && npm run test-unit && npm run test-bash"
   },
   "keywords": [],
   "author": "GIP Pix",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.3.0",
     "dotenv": "^8.2.0",
+    "eslint": "^7.19.0",
+    "mocha": "^8.2.1",
+    "sinon": "^9.2.4",
     "yargs": "^16.2.0"
   }
 }
