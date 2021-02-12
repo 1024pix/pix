@@ -18,6 +18,10 @@ module.exports = {
     return values;
   },
 
+  getNextId() {
+    return this.nextId++;
+  },
+
   purge() {
     this.objectsToInsert = [];
   },
