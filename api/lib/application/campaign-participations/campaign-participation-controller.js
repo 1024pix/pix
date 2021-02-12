@@ -80,8 +80,9 @@ module.exports = {
   async getCampaignProfile(request) {
     const { userId } = request.auth.credentials;
     const { campaignId, campaignParticipationId } = request.params;
+    const locale = extractLocaleFromRequest(request);
 
-    const campaignProfile = await usecases.getCampaignProfile({ userId, campaignId, campaignParticipationId });
+    const campaignProfile = await usecases.getCampaignProfile({ userId, campaignId, campaignParticipationId, locale });
     return campaignProfileSerializer.serialize(campaignProfile);
   },
 

@@ -4,12 +4,12 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 const { knex } = require('../bookshelf');
 
 module.exports = {
-  async findProfile(campaignId, campaignParticipationId) {
+  async findProfile({ campaignId, campaignParticipationId, locale }) {
 
     const profile = await _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
     const { sharedAt, userId } = profile;
-    const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: sharedAt, allowExcessPixAndLevels: false });
+    const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: sharedAt, allowExcessPixAndLevels: false, locale });
 
     return new CampaignProfile({ ...profile, placementProfile });
   },
