@@ -1,16 +1,13 @@
 const _ = require('lodash');
-const faker = require('faker');
-
+const databaseBuffer = require('../database-buffer');
 const buildCertificationCenter = require('./build-certification-center');
 const buildUser = require('./build-user');
 
-const databaseBuffer = require('../database-buffer');
-
 module.exports = function buildCertificationCenterMembership({
-  id,
+  id = databaseBuffer.getNextId(),
   userId,
   certificationCenterId,
-  createdAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
