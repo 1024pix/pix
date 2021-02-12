@@ -1,14 +1,12 @@
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const faker = require('faker');
 
-module.exports = function buildCertificationCenter(
-  {
-    id = 1,
-    name = faker.company.companyName(),
-    type = faker.random.arrayElement(['SCO', 'PRO', 'SUP']),
-    externalId = faker.random.word() + faker.random.number(1, 100000),
-    createdAt = faker.date.recent(),
-  } = {}) {
+module.exports = function buildCertificationCenter({
+  id = 1,
+  name = 'name',
+  type = CertificationCenter.types.SUP,
+  externalId = 'externalId',
+  createdAt = new Date('2020-01-01'),
+} = {}) {
   return new CertificationCenter({
     id,
     name,
