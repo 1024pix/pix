@@ -1,4 +1,3 @@
-const faker = require('faker');
 const buildOrganization = require('./build-organization');
 const buildTargetProfile = require('./build-target-profile');
 const buildUser = require('./build-user');
@@ -7,18 +6,18 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildCampaign({
-  id,
-  name = faker.company.companyName(),
-  code = faker.random.alphaNumeric(9),
-  title = faker.random.word(),
-  idPixLabel = faker.random.word(),
+  id = databaseBuffer.getNextId(),
+  name = 'Name',
+  code = 'ABC456TTY',
+  title = 'Title',
+  idPixLabel = 'IdPixLabel',
   externalIdHelpImageUrl = null,
   alternativeTextToExternalIdHelpImage = null,
-  customLandingPageText = faker.lorem.text(),
+  customLandingPageText = 'Some landing page text ',
   isForAbsoluteNovice = false,
   archivedAt = null,
   type = 'ASSESSMENT',
-  createdAt = faker.date.recent(),
+  createdAt = new Date('2020-01-01'),
   organizationId,
   creatorId,
   targetProfileId,
