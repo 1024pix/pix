@@ -1,12 +1,12 @@
 <header class="page-header">
   <div class="page-title">Toutes les sessions</div>
   <nav class="navbar">
-    <LinkTo @route="authenticated.sessions.list" class="navbar-item">
+    <LinkTo @route="authenticated.sessions.list.all" class="navbar-item">
         Toutes les sessions
     </LinkTo>
-    {{!-- <LinkTo @route="authenticated.sessions.to-publish" class="navbar-item">
-        Sessions sans erreurs
-    </LinkTo> --}}
+    <LinkTo @route="authenticated.sessions.list.to-be-published" class="navbar-item">
+        Sessions à publier
+    </LinkTo>
   </nav>
 </header>
 
