@@ -1,11 +1,10 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildStage({
-  id,
-  message = faker.random.words(),
-  title = faker.random.words(),
-  threshold = 20,
+  id = databaseBuffer.getNextId(),
+  message = 'Courage !',
+  title = 'Encouragement, il en a bien besoin',
+  threshold = 10,
   targetProfileId,
   prescriberTitle,
   prescriberDescription,
