@@ -1,4 +1,5 @@
 import Model, { attr } from '@ember-data/model';
+import { memberAction } from 'ember-api-actions';
 
 export default class PublishableSessionModel extends Model {
   @attr() certificationCenterName;
@@ -13,4 +14,9 @@ export default class PublishableSessionModel extends Model {
   get printableFinalizationDate() {
     return (new Date(this.finalizedAt)).toLocaleDateString();
   }
+
+  publish = memberAction({
+    path: 'publish',
+    type: 'post',
+  })
 }
