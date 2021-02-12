@@ -1,16 +1,13 @@
-const faker = require('faker');
-const moment = require('moment');
 const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
 
-module.exports = function buildSCOCertificationCandidate(
-  {
-    id = faker.random.number(),
-    firstName = faker.name.firstName(),
-    lastName = faker.name.lastName(),
-    birthdate = moment(faker.date.past(10)).format('YYYY-MM-DD'),
-    sessionId = faker.random.number(),
-    schoolingRegistrationId = faker.random.number(),
-  } = {}) {
+module.exports = function buildSCOCertificationCandidate({
+  id = 123,
+  firstName = 'Myriam',
+  lastName = 'Meilleure',
+  birthdate = '2006-06-06',
+  sessionId = 456,
+  schoolingRegistrationId = 789,
+} = {}) {
 
   const scoCertificationCandidate = new SCOCertificationCandidate({
     id,
