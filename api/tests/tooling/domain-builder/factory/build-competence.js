@@ -1,15 +1,11 @@
-const faker = require('faker');
-
 const Competence = require('../../../../lib/domain/models/Competence');
 const buildArea = require('./build-area');
 
 module.exports = function buildCompetence({
-  id = faker.random.uuid(),
-  // attributes
-  name = faker.random.word(),
-  index = `${faker.random.number()}.${faker.random.number()}`,
-  description = faker.lorem.sentence(),
-  // relationships
+  id = 'recCOMP1',
+  name = 'Manger des fruits',
+  index = '1.1',
+  description = 'Teste les qualités de mangeage de fruits',
   area = buildArea(),
   skillIds = [],
   origin = 'Pix',
@@ -17,12 +13,10 @@ module.exports = function buildCompetence({
 
   return new Competence({
     id,
-    // attributes
     name,
     index,
     description,
     origin,
-    // relationships
     area,
     skillIds,
   });
