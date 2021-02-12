@@ -243,7 +243,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
         it('should update existing account with the new samlId', async () => {
           // given
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId, nationalStudentId: 'coucou' });
           const otherAccount = databaseBuilder.factory.buildUser(
             {
               firstName: firstName,
