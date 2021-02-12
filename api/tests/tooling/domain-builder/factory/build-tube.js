@@ -1,17 +1,15 @@
 const Tube = require('../../../../lib/domain/models/Tube');
-const faker = require('faker');
-
 const buildSkillCollection = require('./build-skill-collection');
 
 module.exports = function buildTube({
-  id = faker.random.uuid(),
+  id = 'recTube123',
   name = '@tubeName',
-  title = faker.random.word(),
-  description = faker.lorem.sentence(),
-  practicalTitle = faker.random.word(),
-  practicalDescription = faker.lorem.sentence(),
+  title = 'titre',
+  description = 'description',
+  practicalTitle = 'titre pratique',
+  practicalDescription = 'description pratique',
   skills = buildSkillCollection(),
-  competenceId = `rec${faker.random.uuid()}`,
+  competenceId = 'recCOMP123',
 } = {}) {
   return new Tube({
     id,
