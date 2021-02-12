@@ -1,16 +1,13 @@
 const { NotFoundError } = require('../errors');
 const Assessment = require('../models/Assessment');
 
-module.exports = async function getAssessment(
-  {
-    // arguments
-    assessmentId,
-    locale,
-    // dependencies
-    assessmentRepository,
-    competenceRepository,
-    courseRepository,
-  }) {
+module.exports = async function getAssessment({
+  assessmentId,
+  locale,
+  assessmentRepository,
+  competenceRepository,
+  courseRepository,
+}) {
   const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(assessmentId);
   if (!assessment) {
     throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
