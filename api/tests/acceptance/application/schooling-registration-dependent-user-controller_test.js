@@ -28,7 +28,7 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
     beforeEach(async () => {
       // given
       organization = databaseBuilder.factory.buildOrganization();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null, nationalStudentId: 'salut' });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
       await databaseBuilder.commit();
@@ -73,8 +73,12 @@ describe('Acceptance | Controller | Schooling-registration-dependent-user', () =
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const schoolingRegistrationAlreadyLinked = databaseBuilder.factory.buildSchoolingRegistration({
+            firstName: 'josé',
+            lastName: 'bové',
+            birthdate: '2020-01-01',
             organizationId: organization.id,
             userId,
+            nationalStudentId: 'coucou',
           });
           await databaseBuilder.commit();
 
