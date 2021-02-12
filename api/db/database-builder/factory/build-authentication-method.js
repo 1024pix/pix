@@ -1,18 +1,15 @@
-/* eslint-disable no-sync */
-const faker = require('faker');
 const isUndefined = require('lodash/isUndefined');
-
 const databaseBuffer = require('../database-buffer');
 const buildUser = require('./build-user');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 const buildAuthenticationMethod = function({
-  id,
+  id = databaseBuffer.getNextId(),
   identityProvider = AuthenticationMethod.identityProviders.GAR,
-  externalIdentifier = faker.random.word(),
+  externalIdentifier = 'externalId',
   userId,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
 } = {}) {
 
   userId = isUndefined(userId) ? buildUser().id : userId;
@@ -33,12 +30,12 @@ const buildAuthenticationMethod = function({
 };
 
 buildAuthenticationMethod.buildWithHashedPassword = function({
-  id,
+  id = databaseBuffer.getNextId(),
   hashedPassword = 'ABCDEF123',
   shouldChangePassword = false,
   userId,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
 } = {}) {
 
   userId = isUndefined(userId) ? buildUser().id : userId;
@@ -62,14 +59,14 @@ buildAuthenticationMethod.buildWithHashedPassword = function({
 };
 
 buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
-  id,
-  externalIdentifier = faker.random.word(),
-  accessToken = faker.random.uuid(),
-  refreshToken = faker.random.uuid(),
-  expiredDate = faker.date.recent(),
+  id = databaseBuffer.getNextId(),
+  externalIdentifier = 'externalId',
+  accessToken = 'ABC789',
+  refreshToken = 'DEF753',
+  expiredDate = new Date('2022-01-01'),
   userId,
-  createdAt = faker.date.past(),
-  updatedAt = faker.date.past(),
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
 } = {}) {
 
   userId = isUndefined(userId) ? buildUser().id : userId;
