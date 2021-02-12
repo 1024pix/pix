@@ -1,13 +1,11 @@
-const faker = require('faker');
 const Area = require('../../../../lib/domain/models/Area');
 
 module.exports = function buildArea({
-  id = faker.random.uuid(),
-  code = faker.random.number(),
-  title = faker.lorem.words(),
+  id = 'recArea123',
+  code = 5,
+  title = 'Super domaine',
   competences = [],
-  color = faker.lorem.word(),
-  // optional
+  color = 'red',
   name,
 } = {}) {
   name = name || `${code}. ${title}`;
