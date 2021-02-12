@@ -13,21 +13,21 @@ module('Integration | Component | routes/authenticated/publishable-sessions | li
     const firstSession = {
       id: '1',
       certificationCenterName: 'Centre SCO des Anne-Étoiles',
-      sessionDate: new Date('2021-01-01'),
+      sessionDate: '2021-01-01',
       sessionTime: '11:00:00',
       finalizedAt: new Date('2021-01-02T03:00:00Z'),
     };
     const secondSession = {
       id: '2',
       certificationCenterName: 'Pix Center',
-      sessionDate: new Date('2021-02-02'),
+      sessionDate: '2021-02-02',
       sessionTime: '12:00:00',
       finalizedAt: new Date('2021-02-03T03:00:00Z'),
     };
     const thirdSession = {
       id: '3',
       certificationCenterName: 'Hogwarts',
-      sessionDate: new Date('2021-03-03'),
+      sessionDate: '2021-03-03',
       sessionTime: '13:00:00',
       finalizedAt: new Date('2021-03-04T03:00:00Z'),
     };
@@ -59,7 +59,7 @@ module('Integration | Component | routes/authenticated/publishable-sessions | li
     const session = {
       id: '1',
       certificationCenterName: 'Centre SCO des Anne-Étoiles',
-      sessionDate: new Date('2021-01-01'),
+      sessionDate: '2021-01-01',
       sessionTime: '11:00:00',
       finalizedAt: new Date('2021-01-02T03:00:00Z'),
     };
@@ -78,7 +78,7 @@ module('Integration | Component | routes/authenticated/publishable-sessions | li
     const session = {
       id: '1',
       certificationCenterName: 'Centre SCO des Anne-Étoiles',
-      sessionDate: new Date('2021-01-01'),
+      sessionDate: '2021-01-01',
       sessionTime: '11:00:00',
       finalizedAt: new Date('2021-01-02T03:00:00Z'),
     };
