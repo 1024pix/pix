@@ -78,72 +78,34 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
           // then
           assert.ok(shouldDisplayDownloadButton);
         });
-
       });
 
-      module('when it should not display the CertifPrescriptionScoFeature', function() {
+      test('Should return true', function(assert) {
+        // given
+        const controller = this.owner.lookup('controller:authenticated/sessions/details');
+        controller.model = {
+          certificationCandidates: ['candidate1', 'candidate2'],
+          shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
+        };
 
-        test('should return false ', function(assert) {
-          // given
-          const controller = this.owner.lookup('controller:authenticated/sessions/details');
-          controller.model = {
-            certificationCandidates: ['candidate1', 'candidate2'],
-            shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
-          };
+        // when
+        const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
 
-          // when
-          const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
-
-          // then
-          assert.notOk(shouldDisplayDownloadButton);
-        });
-      });
-
-      module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is enabled', function() {
-        test('Should return true', function(assert) {
-          // given
-          config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
-          const controller = this.owner.lookup('controller:authenticated/sessions/details');
-          controller.model = {
-            certificationCandidates: ['candidate1', 'candidate2'],
-            shouldDisplayPrescriptionScoStudentRegistrationFeature: false,
-          };
-
-          // when
-          const shouldDisplayDownloadButton = controller.shouldDisplayDownloadButton;
-
-          // then
-          assert.ok(shouldDisplayDownloadButton);
-        });
+        // then
+        assert.ok(shouldDisplayDownloadButton);
       });
     });
   });
 
   module('#shouldDisplayResultRecipientInfoMessage', function() {
-    module('when the toggle FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is disabled', function() {
-      test('should return false', function(assert) {
-        // given
-        config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
-        const controller = this.owner.lookup('controller:authenticated/sessions/details');
-        controller.currentUser = {
-          currentCertificationCenter: { isScoManagingStudents: false },
-        };
-
-        // when
-        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
-
-        // then
-        assert.notOk(shouldDisplayResultRecipientInfoMessage);
-      });
-    });
 
     module('when the current user certification center does manage students', function() {
       test('should also return false', function(assert) {
         // given
         config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
         const controller = this.owner.lookup('controller:authenticated/sessions/details');
-        controller.currentUser = {
-          currentCertificationCenter: { isScoManagingStudents: true },
+        controller.model = {
+          shouldDisplayPrescriptionScoStudentRegistrationFeature: true,
         };
 
         // when
