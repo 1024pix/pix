@@ -1,5 +1,4 @@
-const faker = require('faker');
-
+const _ = require('lodash');
 const SCO_CERTIF_CENTER_ID = 1;
 const SCO_CERTIF_CENTER_NAME = 'Centre SCO des Anne-Étoiles';
 const PRO_CERTIF_CENTER_ID = 2;
@@ -38,9 +37,10 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
 
   for (let i = 0; i < 200; i++) {
+    const types = ['SCO', 'PRO', 'SUP'];
     databaseBuilder.factory.buildCertificationCenter({
-      name: `Centre ${faker.name.firstName()} ${faker.name.lastName()}`,
-      type: faker.random.arrayElement(['SCO', 'PRO', 'SUP']),
+      name: `Centre Certif Iteration ${i}`,
+      type: types[_.random(0, 2)],
     });
   }
 }
