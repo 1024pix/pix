@@ -1,6 +1,8 @@
-import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import RSVP from 'rsvp';
+
+import Route from '@ember/routing/route';
+import { action } from '@ember/object';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default class CertificationCentersGetRoute extends Route.extend(AuthenticatedRouteMixin) {
 
@@ -16,5 +18,10 @@ export default class CertificationCentersGetRoute extends Route.extend(Authentic
       certificationCenterMemberships,
       certificationCenter,
     });
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }
