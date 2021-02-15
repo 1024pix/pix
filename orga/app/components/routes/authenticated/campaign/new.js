@@ -18,10 +18,6 @@ export default class New extends Component {
     }
   }
 
-  get notWantIdPix() {
-    return !this.wantIdPix;
-  }
-
   get targetProfilesOptions() {
     if (!this.args.targetProfiles) return [];
     return this.args.targetProfiles.map((targetProfile) => {

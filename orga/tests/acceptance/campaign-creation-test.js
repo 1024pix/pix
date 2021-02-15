@@ -19,16 +19,16 @@ module('Acceptance | Campaign Creation', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  hooks.beforeEach(() => {
+    availableTargetProfiles = server.createList('target-profile', 2);
+  });
+
   test('it should not be accessible by an unauthenticated user', async function(assert) {
     // when
     await visit('/campagnes/creation');
 
     // then
     assert.equal(currentURL(), '/connexion');
-  });
-
-  hooks.beforeEach(() => {
-    availableTargetProfiles = server.createList('target-profile', 2);
   });
 
   module('when the prescriber is authenticated', (hooks) => {
@@ -49,31 +49,16 @@ module('Acceptance | Campaign Creation', function(hooks) {
     test('it should be accessible for an authenticated prescriber', async function(assert) {
       // then
       assert.equal(currentURL(), '/campagnes/creation');
-      assert.dom('.page__title').hasText('Création d\'une campagne');
-    });
-
-    test('it should not display gdpr footnote', async function(assert) {
-      // then
-      assert.dom('.new-item-form__gdpr-information').isNotVisible();
-    });
-
-    test('it should display gdpr footnote', async function(assert) {
-      // when
-      await clickByLabel('Demander un identifiant externe');
-
-      // then
-      assert.dom('.new-item-form__gdpr-information').isVisible();
-      assert.dom('.new-item-form__gdpr-information').hasText(
-        '* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.',
-      );
+      assert.contains('Création d\'une campagne');
     });
 
     test('it should allow to create a campaign of type ASSESSMENT by default and redirect to the newly created campaign', async function(assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
+
       await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await clickByLabel('Demander un identifiant externe');
+      await clickByLabel('Oui');
       await fillInByLabel('Libellé de l’identifiant', 'Mail Pro');
       await fillInByLabel('Titre du parcours', 'Savoir rechercher');
       await fillInByLabel('Texte de la page d\'accueil', 'Texte personnalisé');
@@ -100,7 +85,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/campagnes/creation');
-      assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
+      assert.contains('Une erreur est survenue. Veuillez réessayer ultérieurement.');
     });
   });
 
@@ -117,10 +102,10 @@ module('Acceptance | Campaign Creation', function(hooks) {
     test('it should allow to create a campaign of type ASSESSMENT and redirect to the newly created campaign', async function(assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
-      await clickByLabel('Choisir d\'évaluer les participants');
+      await clickByLabel('Évaluer les participants');
       await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await clickByLabel('Ne pas demander d\'identifiant externe');
+      await clickByLabel('Non');
 
       // when
       await clickByLabel('Créer la campagne');
@@ -134,9 +119,9 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
     test('it should allow to create a campaign of type PROFILES_COLLECTION and redirect to the newly created campaign', async function(assert) {
       // given
-      await clickByLabel('Choisir de collecter les profils Pix des participants');
+      await clickByLabel('Collecter les profils Pix des participants');
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
-      await clickByLabel('Ne pas demander d\'identifiant externe');
+      await clickByLabel('Non');
 
       // when
       await clickByLabel('Créer la campagne');
@@ -149,12 +134,12 @@ module('Acceptance | Campaign Creation', function(hooks) {
     test('it should create campaign if user changes type after filling the form', async function(assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
-      await clickByLabel('Choisir d\'évaluer les participants');
+      await clickByLabel('Évaluer les participants');
       await fillInByLabel('Que souhaitez-vous tester ?', expectedTargetProfileId);
       await fillInByLabel('Nom de la campagne', 'Ma Campagne');
       await fillInByLabel('Titre du parcours', 'Savoir rechercher');
-      await clickByLabel('Ne pas demander d\'identifiant externe');
-      await clickByLabel('Choisir de collecter les profils Pix des participants');
+      await clickByLabel('Non');
+      await clickByLabel('Collecter les profils Pix des participants');
 
       // when
       await clickByLabel('Créer la campagne');

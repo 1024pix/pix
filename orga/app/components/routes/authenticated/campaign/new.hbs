@@ -1,7 +1,7 @@
 <form {{on 'submit' @createCampaign}} class="form">
 
   <div class="form__field">
-    <label for="campaign-name" class="label">Nom de la campagne</label>
+    <label for="campaign-name" class="label">{{t 'pages.campaign-creation.name.label'}}</label>
     <Input
       @id="campaign-name"
       @name="campaign-name"
@@ -20,19 +20,15 @@
 
   {{#if this.currentUser.organization.canCollectProfiles}}
     <div class="form__field">
-      <label class="label">Quel est l'objectif de votre campagne ?</label>
-      <div class="form__sub-label" role="button">
-        <label>
-          <input aria-label="Choisir d'évaluer les participants" type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" class="radio-button" {{on "change" this.setCampaignGoal}}>
-          <span class="radio-button-span"></span>Évaluer les participants
-        </label>
+      <p class="label">{{t 'pages.campaign-creation.purpose.label'}}</p>
+      <div class="form__radio-button">
+        <input type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" {{on "change" this.setCampaignGoal}}>
+        <label for="assess-participants">{{t 'pages.campaign-creation.purpose.assessment'}}</label>
       </div>
 
-      <div class="form__sub-label" role="button">
-        <label>
-          <input aria-label="Choisir de collecter les profils Pix des participants" type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" class="radio-button" {{on "change" this.setCampaignGoal}}>
-          <span class="radio-button-span"></span>Collecter les profils Pix des participants
-        </label>
+      <div class="form__radio-button">
+        <input type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" {{on "change" this.setCampaignGoal}}>
+        <label for="collect-participants-profile">{{t 'pages.campaign-creation.purpose.profiles-collection'}}</label>
       </div>
 
       {{#each @campaign.errors.type as |error|}}
@@ -46,7 +42,7 @@
 
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
-      <label for="campaign-target-profile" class="label">Que souhaitez-vous tester ?</label>
+      <label for="campaign-target-profile" class="label">{{t 'pages.campaign-creation.target-profiles-list.label'}}</label>
       <SelectInput
         @id="campaign-target-profile"
         @onChange={{this.setSelectedTargetProfile}}
@@ -59,66 +55,51 @@
         </div>
       {{/each}}
       {{#if this.currentUser.isSCOManagingStudents}}
-        <p class="form__comment" id="campaign-target-profile-comment-label">
-          Si vous souhaitez avoir plus d'information, consultez
-          <a class="link"
-             href="https://cloud.pix.fr/s/3joGMGYWSpmHg5w"
-             target="_blank"
-             rel="noopener noreferrer"> la documentation correspondante</a>.
+        <p class="form__comment">
+          {{t 'pages.campaign-creation.target-profile-informations' htmlSafe=true}}
         </p>
       {{/if}}
     </div>
   {{/if}}
 
   <div class="form__field">
-    <div class="campaign-form_id-pix">
-      <div class="label">
-        <label for="id-pix-wanted-or-not">Souhaitez-vous demander un identifiant externe ?</label>
-      </div>
-      <div aria-label="Ne pas demander d'identifiant externe" id="doNotAskLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.doNotAskLabelIdPix}}>
-        <label>
-          <input type="radio" checked={{@notWantIdPix}} name="radio" class="radio-button">
-          <span class="radio-button-span"></span>Non
-        </label>
-      </div>
-      <div aria-label="Demander un identifiant externe" id="askLabelIdPix" class="form__sub-label" role="button" {{on 'click' this.askLabelIdPix}}>
-        <label>
-          <input type="radio" checked={{@wantIdPix}} name="radio" class="radio-button">
-          <span class="radio-button-span"></span>Oui
-        </label>
+    <p class="label">{{t 'pages.campaign-creation.external-id-label.question-label'}}</p>
+    <div class="form__radio-button">
+      <input type="radio" checked={{not this.wantIdPix}} id="no-external-id" name="external-id-label" {{on 'change' this.doNotAskLabelIdPix}}>
+      <label for="no-external-id">{{t 'pages.campaign-creation.no'}}</label>
+    </div>
+    <div class="form__radio-button">
+      <input type="radio" checked={{this.wantIdPix}} id="ask-external-id" name="external-id-label" {{on 'change' this.askLabelIdPix}}>
+      <label for="ask-external-id">{{t 'pages.campaign-creation.yes'}}</label>
+    </div>
+  </div>
+
+  {{#if this.wantIdPix}}
+    <div class="form__field">
+      <label for="external-id-label" class="label sr-only">{{t 'pages.campaign-creation.external-id-label.label'}}</label>
+      <Input
+        @id="external-id-label"
+        @name="external-id-label"
+        @type="text"
+        @class="input"
+        @maxlength="255"
+        @aria-required="true"
+        @value={{@campaign.idPixLabel}}
+      />
+      {{#each @campaign.errors.idPixLabel as |error|}}
+        <div class='form__error error-message'>
+          {{error.message}}
+        </div>
+      {{/each}}
+      <div class="form__information help-text">
+        {{t 'pages.campaign-creation.external-id-label.suggestion'}}
       </div>
     </div>
-
-    {{#if this.wantIdPix}}
-
-      <div class="form__field">
-        <Input
-          @id="id-pix-label"
-          @name="id-pix-label"
-          @type="text"
-          @class="input"
-          @maxlength="255"
-          aria-label="Libellé de l’identifiant"
-          @aria-required="true"
-          @placeholder="Libellé de l’identifiant"
-          @value={{@campaign.idPixLabel}}
-        />
-        {{#each @campaign.errors.idPixLabel as |error|}}
-          <div class='form__error error-message'>
-            {{error.message}}
-          </div>
-        {{/each}}
-        <div class="form__information help-text">
-          Exemple: "Numéro de l'étudiant" ou "Adresse e-mail professionnelle" *
-        </div>
-
-      </div>
-    {{/if}}
-  </div>
+  {{/if}}
 
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
-      <label for="campaign-title" class="label">Titre du parcours</label>
+      <label for="campaign-title" class="label">{{t 'pages.campaign-creation.test-title.label'}}</label>
       <Input
         @id="campaign-title"
         @name="campaign-title"
@@ -131,18 +112,18 @@
   {{/if}}
 
   <div class="form__field">
-    <label for="custom-landing-page-text" class="label">Texte de la page d'accueil</label>
+    <label for="custom-landing-page-text" class="label">{{t 'pages.campaign-creation.landing-page-text.label'}}</label>
     <Textarea @id="custom-landing-page-text" @name="custom-landing-page-text" @maxlength="350" @rows={{8}} @value={{@campaign.customLandingPageText}} class="textarea" />
   </div>
 
   <div class="form__validation">
-    <button class="button button--no-color" type="button" {{on 'click' @cancel}}>Annuler</button>
-    <button class="button" type="submit">Créer la campagne</button>
+    <button class="button button--no-color" type="button" {{on 'click' @cancel}}>{{t 'common.actions.cancel'}}</button>
+    <button class="button" type="submit">{{t 'pages.campaign-creation.actions.create'}}</button>
   </div>
 
  {{#if this.wantIdPix}}
    <div class="new-item-form__gdpr-information help-text">
-    * En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.
+    {{t 'pages.campaign-creation.legal-warning'}}
    </div>
  {{/if}}
 
