@@ -3,12 +3,12 @@ import { tracked } from '@glimmer/tracking';
 import { htmlSafe } from '@ember/string';
 import ENV from 'mon-pix/config/environment';
 
-const BLACK_JAUGE_ICON_PATH = '/images/icon-timeout-black.svg';
-const RED_JAUGE_ICON_PATH = '/images/icon-timeout-red.svg';
+const BLACK_GAUGE_ICON_PATH = '/images/icon-timeout-black.svg';
+const RED_GAUGE_ICON_PATH = '/images/icon-timeout-red.svg';
 
 const TICK_INTERVAL_IN_MILLISECONDS = 1000;
 
-export default class TimeoutJauge extends Component {
+export default class TimeoutGauge extends Component {
 
   @tracked remainingSeconds;
   _timer;
@@ -48,7 +48,7 @@ export default class TimeoutJauge extends Component {
     return this.remainingSeconds >= 0 ? this._formatToMinutesAndSeconds(this.remainingSeconds) : '0:00';
   }
 
-  get jaugeWidthStyle() {
+  get gaugeWidthStyle() {
     return htmlSafe(`width: ${this.percentageOfTimeout}%`);
   }
 
@@ -62,7 +62,7 @@ export default class TimeoutJauge extends Component {
   }
 
   get imageSource() {
-    return this._isTimedOut() ? RED_JAUGE_ICON_PATH : BLACK_JAUGE_ICON_PATH;
+    return this._isTimedOut() ? RED_GAUGE_ICON_PATH : BLACK_GAUGE_ICON_PATH;
   }
 
   _isTimedOut() {
