@@ -1,5 +1,16 @@
 {
   "current-lang": "fr",
+  "common": {
+    "pagination": {
+      "action": {
+        "next": "Aller à la page suivante",
+        "previous": "Aller à la page précédente",
+        "select-page-size": "Sélectionner une pagination"
+      },
+      "page-number": "Page {current} / {total}",
+      "result-by-page": "Voir"
+    }
+  },
   "navigation": {
     "main" : {
       "campaigns" : "Campagnes",
