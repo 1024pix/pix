@@ -96,6 +96,7 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules",
+    "cache:refresh": "node scripts/refresh-cache",
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test nyc --silent _mocha --recursive --exit --reporter dot tests && nyc report --reporter=lcovonly --report-dir=../coverage",
     "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:rename",
