@@ -72,7 +72,7 @@ export default class ChallengeStatement extends Component {
 
   _formatLink(instruction) {
     const externalLinkRegex = /(\[(.*?)\]\((.*?)\))+/g;
-    return instruction.replaceAll(externalLinkRegex, this._insertLinkTitle.bind(this));
+    return instruction.replace(externalLinkRegex, this._insertLinkTitle.bind(this));
   }
 
   _insertLinkTitle(markdownLink) {
