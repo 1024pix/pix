@@ -15,36 +15,7 @@ describe('Unit | Component | timeout-jauge-component ', function() {
 
   describe('#Test rendering Property', function() {
 
-    describe('#remainingSeconds', function() {
-      [
-        { allottedTime: new Date(), _elapsedTime: 0, expected: 0 },
-        { allottedTime: '  ', _elapsedTime: 0, expected: 0 },
-        { allottedTime: undefined, _elapsedTime: 0, expected: 0 },
-        { allottedTime: null, _elapsedTime: 0, expected: 0 },
-        { allottedTime: '0', _elapsedTime: 0, expected: 0 },
-        { allottedTime: '40', _elapsedTime: 0, expected: 40 },
-        { allottedTime: '70', _elapsedTime: 0, expected: 70 },
-        { allottedTime: '120', _elapsedTime: 0, expected: 120 },
-        { allottedTime: 150, _elapsedTime: 0, expected: 150 },
-        { allottedTime: '120', _elapsedTime: 60000, expected: 60 },
-        { allottedTime: '120', _elapsedTime: 90000, expected: 30 },
-        { allottedTime: '120', _elapsedTime: 120000, expected: 0 },
-        { allottedTime: '120', _elapsedTime: 150000, expected: -30 },
-      ].forEach((data) => {
-
-        it(`should return "${data.expected}" when allotting ${data.allottedTime} and _elapsedTime is ${data._elapsedTime}ms`, function() {
-          // given
-          component.args.allottedTime = data.allottedTime;
-          component._elapsedTime = data._elapsedTime;
-          // when
-          const remainingSeconds = component.remainingSeconds;
-          // then
-          expect(remainingSeconds).to.equal(data.expected);
-        });
-      });
-    });
-
-    describe('#remainingTime', function() {
+    describe('#formattedRemainingTime', function() {
       [
         { allottedTime: new Date(), _elapsedTime: 0, expected: '0:00' },
         { allottedTime: '  ', _elapsedTime: 0, expected: '0:00' },
@@ -66,9 +37,9 @@ describe('Unit | Component | timeout-jauge-component ', function() {
           component.args.allottedTime = data.allottedTime;
           component._elapsedTime = data._elapsedTime;
           // when
-          const remainingTime = component.remainingTime;
+          const formattedRemainingTime = component.formattedRemainingTime;
           // then
-          expect(remainingTime).to.equal(data.expected);
+          expect(formattedRemainingTime).to.equal(data.expected);
         });
       });
     });
