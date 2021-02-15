@@ -2,11 +2,7 @@
 <div class="timeout-jauge">
   <div class="timeout-jauge-container">
     <div class="timeout-jauge-clock">
-      {{#if hasFinished}}
-        <img class="svg-timeout-clock-red" src="/images/icon-timeout-red.svg" alt="" role="none">
-      {{else}}
-        <img class="svg-timeout-clock-black" src="/images/icon-timeout-black.svg" alt="" role="presentation">
-      {{/if}}
+      <img src={{this.getImageSource}} alt="" role="none">
       <div>&nbsp;</div>
       <div class="timeout-jauge-remaining" data-spent="{{remainingSeconds}}">
         {{remainingTime}}
