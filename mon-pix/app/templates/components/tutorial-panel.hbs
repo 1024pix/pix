@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-implicit-this  --}}
 <div class="tutorial-panel">
 
   {{#if this.shouldDisplayHintOrTuto}}
@@ -10,7 +9,7 @@
           <div class="tutorial-panel__hint-picto-container">
             <img src="{{this.rootURL}}/images/comparison-window/icon-lampe.svg"
                  alt=""
-                 role="none"
+                 role="presentation"
                  class="tutorial-panel__hint-picto">
           </div>
           <MarkdownToHtml @class="tutorial-panel__hint-content" @markdown={{@hint}} />
@@ -19,7 +18,7 @@
 
       {{#if this.shouldDisplayTutorial}}
         <div class="tutorial-panel__tutorials-container">
-          {{#each limitedTutorials as |tutorial|}}
+          {{#each this.limitedTutorials as |tutorial|}}
             <TutorialItem @tutorial={{tutorial}} />
           {{/each}}
         </div>

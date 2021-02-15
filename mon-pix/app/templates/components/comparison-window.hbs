@@ -9,11 +9,10 @@
 
     <div class="pix-modal-header comparison-window-header">
       <div class="comparison-window__title">
-        <div title="{{t this.resultItem.tooltip}}">
-          <img class="comparison-window__result-icon comparison-window__result-icon--{{this.resultItem.status}}"
-               src={{this.resultItemIcon}}
-               alt={{t this.resultItem.tooltip}}>
-        </div>
+        <img class="comparison-window__result-icon comparison-window__result-icon--{{this.resultItem.status}}"
+             src={{this.resultItemIcon}}
+             role="presentation"
+             alt="">
       </div>
       <h3 class="comparison-window__title-text">{{t this.resultItem.title}}</h3>
     </div>
