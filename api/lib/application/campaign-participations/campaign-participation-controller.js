@@ -72,8 +72,9 @@ module.exports = {
   async getAnalysis(request) {
     const { userId } = request.auth.credentials;
     const campaignParticipationId = request.params.id;
+    const locale = extractLocaleFromRequest(request);
 
-    const campaignAnalysis = await usecases.computeCampaignParticipationAnalysis({ userId, campaignParticipationId });
+    const campaignAnalysis = await usecases.computeCampaignParticipationAnalysis({ userId, campaignParticipationId, locale });
     return campaignAnalysisSerializer.serialize(campaignAnalysis);
   },
 
