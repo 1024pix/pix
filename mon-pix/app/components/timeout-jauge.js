@@ -12,6 +12,9 @@ import { set, computed } from '@ember/object';
 import round from 'lodash/round';
 import ENV from 'mon-pix/config/environment';
 
+const BLACK_JAUGE_ICON_PATH = '/images/icon-timeout-black.svg';
+const RED_JAUGE_ICON_PATH = '/images/icon-timeout-red.svg';
+
 // see http://stackoverflow.com/a/37770048/2595513
 function fmtMSS(s) {return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;}
 
@@ -63,6 +66,14 @@ export default Component.extend({
 
   hasFinished: computed('remainingSeconds', function() {
     return this.remainingSeconds <= 0;
+  }),
+
+  getImageSource: computed('hasFinished', function() {
+    if (this.hasFinished) {
+      return RED_JAUGE_ICON_PATH;
+    } else {
+      return BLACK_JAUGE_ICON_PATH;
+    }
   }),
 
   _start: function() {

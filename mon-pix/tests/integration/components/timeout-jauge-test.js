@@ -8,6 +8,9 @@ describe('Integration | Component | TimeoutJauge', function() {
 
   setupIntlRenderingTest();
 
+  const BLACK_JAUGE_ICON_PATH = '/images/icon-timeout-black.svg';
+  const RED_JAUGE_ICON_PATH = '/images/icon-timeout-red.svg';
+
   /* Rendering
   ----------------------------------------------------- */
   describe('Rendering', function() {
@@ -24,8 +27,8 @@ describe('Integration | Component | TimeoutJauge', function() {
       await render(hbs`{{timeout-jauge allotedTime=0}}`);
 
       // then
-      expect(find('.svg-timeout-clock-black')).to.not.exist;
-      expect(find('.svg-timeout-clock-red')).to.exist;
+      expect(find(`.timeout-jauge-clock img[src="${RED_JAUGE_ICON_PATH}"]`)).to.exist;
+      expect(find(`.timeout-jauge-clock img[src="${BLACK_JAUGE_ICON_PATH}"]`)).to.not.exist;
     });
 
     it('It renders a black clock if time is not over', async function() {
@@ -33,8 +36,8 @@ describe('Integration | Component | TimeoutJauge', function() {
       await render(hbs`{{timeout-jauge allotedTime=1}}`);
 
       // then
-      expect(find('.svg-timeout-clock-red')).to.not.exist;
-      expect(find('.svg-timeout-clock-black')).to.exist;
+      expect(find(`.timeout-jauge-clock img[src="${BLACK_JAUGE_ICON_PATH}"]`)).to.exist;
+      expect(find(`.timeout-jauge-clock img[src="${RED_JAUGE_ICON_PATH}"]`)).to.not.exist;
     });
 
   });
