@@ -46,7 +46,8 @@
 
         {{#if this.isUserAuthenticated}}
           <div class="fill-in-campaign-code__warning">
-            <span>{{this.warningMessage}}</span>&nbsp;<span class="link" {{action this.disconnect}}>{{t 'pages.fill-in-campaign-code.warning-message-logout'}}</span>
+            <span>{{this.warningMessage}}</span>
+            <a href="#" class="link" {{action this.disconnect}}>{{t 'pages.fill-in-campaign-code.warning-message-logout'}}</a>
           </div>
         {{/if}}
       </main>
