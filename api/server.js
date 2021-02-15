@@ -1,6 +1,7 @@
 // As early as possible in your application, require and configure dotenv.
 // https://www.npmjs.com/package/dotenv#usage
 require('dotenv').config();
+const validateEnvironmentVariables = require('./lib/infrastructure/validate-environement-variables');
 
 const Hapi = require('@hapi/hapi');
 
@@ -14,6 +15,8 @@ const security = require('./lib/infrastructure/security');
 const { handleFailAction } = require('./lib/validate');
 
 const createServer = async () => {
+
+  validateEnvironmentVariables();
 
   const server = new Hapi.server({
     compression: false,
