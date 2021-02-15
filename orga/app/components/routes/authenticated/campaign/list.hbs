@@ -4,25 +4,35 @@
       <table>
         <thead>
           <tr>
-            <th class="table__column table__column--wide">Campagnes</th>
-            <th class="table__column">Créé par</th>
-            <th class="table__column table__column--small">Créé le</th>
-            <th class="table__column table__column--small">Participants</th>
-            <th class="table__column table__column--small">Résultats reçus</th>
+            <th class="table__column table__column--wide">
+              {{t 'pages.campaigns-list.table.column.campaign'}}
+            </th>
+            <th class="table__column">
+              {{t 'pages.campaigns-list.table.column.created-by'}}
+            </th>
+            <th class="table__column table__column--small">
+              {{t 'pages.campaigns-list.table.column.created-on'}}
+            </th>
+            <th class="table__column table__column--small">
+              {{t 'pages.campaigns-list.table.column.participants'}}
+            </th>
+            <th class="table__column table__column--small">
+              {{t 'pages.campaigns-list.table.column.results'}}
+            </th>
           </tr>
           <tr>
             <Table::HeaderFilterInput
               @field="name"
               @value={{@nameFilter}}
-              @placeholder="Rechercher une campagne"
-              @ariaLabel="Rechercher une campagne"
+              @placeholder={{t 'pages.campaigns-list.table.filter.by-name'}}
+              @ariaLabel={{t 'pages.campaigns-list.table.filter.by-name'}}
               @triggerFiltering={{@triggerFiltering}}
             />
             <Table::HeaderFilterInput
               @field="creatorName"
               @value={{@creatorNameFilter}}
-              @placeholder="Rechercher un créateur"
-              @ariaLabel="Rechercher un créateur"
+              @placeholder={{t 'pages.campaigns-list.table.filter.by-creator'}}
+              @ariaLabel={{t 'pages.campaigns-list.table.filter.by-creator'}}
               @triggerFiltering={{@triggerFiltering}}
             />
             <Table::Header/>
@@ -44,7 +54,9 @@
         </tbody>
       </table>
       {{#if (eq @campaigns.length 0)}}
-        <div class="table__empty content-text">Aucune campagne</div>
+        <div class="table__empty content-text">
+          {{t 'pages.campaigns-list.table.empty'}}
+        </div>
       {{/if}}
     </div>
   </div>
