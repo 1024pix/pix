@@ -11,5 +11,38 @@
     "user-logged-menu": {
       "logout": "Se déconnecter"
     }
+  },
+  "pages": {
+    "campaigns-list": {
+      "action": {
+        "archived": {
+          "aria-label": "Afficher les campagnes archivées",
+          "label": "Archivées"
+        },
+        "create": "Créer une campagne",
+        "ongoing": {
+          "aria-label": "Afficher les campagnes actives",
+          "label": "Actives"
+        }
+      },
+      "no-campaign": {
+        "description": "Configurez et lancez votre première campagne. Vous pourrez ensuite inviter vos utilisateurs à rejoindre ce parcours.",
+        "title": "Créez votre première campagne"
+      },
+      "table": {
+        "column": {
+          "campaign": "Campagnes",
+          "created-by": "Créé par",
+          "created-on": "Créé le",
+          "participants": "Participants",
+          "results": "Résultats reçus"
+        },
+        "empty": "Aucune campagne",
+        "filter": {
+          "by-creator": "Rechercher un créateur",
+          "by-name": "Rechercher une campagne"
+        }
+      }
+    }
   }
 }

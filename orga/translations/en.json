@@ -11,5 +11,38 @@
     "user-logged-menu": {
       "logout": "Log out"
     }
+  },
+  "pages": {
+    "campaigns-list": {
+      "action": {
+        "archived": {
+          "aria-label": "Display archived campaigns",
+          "label": "Archived"
+        },
+        "create": "Create a campaign",
+        "ongoing": {
+          "aria-label": "Display ongoing campaigns",
+          "label": "Ongoing"
+        }
+      },
+      "no-campaign": {
+        "description": "Set up and launch your first campaign. Then, invite your users to join this personalised test.",
+        "title": "Create your first campaign"
+      },
+      "table": {
+        "column": {
+          "campaign": "Campaigns",
+          "created-by": "Created by",
+          "created-on": "Created on",
+          "participants": "Participants",
+          "results": "Results submitted"
+        },
+        "empty": "No campaign",
+        "filter": {
+          "by-creator": "Search a creator",
+          "by-name": "Search a campaign"
+        }
+      }
+    }
   }
 }
