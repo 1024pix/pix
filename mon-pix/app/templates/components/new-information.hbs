@@ -9,7 +9,9 @@
     <div class="new-information-content__text {{@textAlignment}} {{@textColorClass}}">
       {{{@information}}}
       {{#if @linkText}}
-        <LinkTo @route="{{@linkTo}}" class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+        {{#if (eq @linkDisplayType 'button')}}
+          <LinkTo @route="{{@linkTo}}" class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+        {{/if}}
       {{/if}}
     </div>
   </div>
