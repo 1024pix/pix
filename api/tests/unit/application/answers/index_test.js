@@ -24,8 +24,24 @@ describe('Unit | Router | answer-router', function() {
   describe('POST /api/answers', function() {
 
     it('should exist', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            value: 'test',
+            'elapsed-time': null,
+            result: null,
+            'result-details': null,
+            timeout: null,
+          },
+          relationships: {},
+          assessment: {},
+          challenge: {},
+          type: 'answers',
+        },
+      };
       // when
-      const result = await httpTestServer.request('POST', '/api/answers');
+      const result = await httpTestServer.request('POST', '/api/answers', payload);
 
       // then
       expect(result.statusCode).to.equal(201);

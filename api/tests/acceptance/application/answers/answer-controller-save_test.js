@@ -191,5 +191,27 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       });
 
     });
+
+    context('when the payload is empty', () => {
+      beforeEach(() => {
+        postAnswersOptions = {
+          method: 'POST',
+          url: '/api/answers',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload: {},
+        };
+        promise = server.inject(postAnswersOptions);
+      });
+
+      it('should return 400 HTTP status code', async () => {
+        // when
+        const response = await promise;
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+    });
+
   });
 });

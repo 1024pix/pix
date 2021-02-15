@@ -2,7 +2,6 @@ const Joi = require('joi');
 const answerController = require('./answer-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { NotFoundError } = require('../../domain/errors');
-
 exports.register = async function(server) {
   server.route([
     {
@@ -10,6 +9,23 @@ exports.register = async function(server) {
       path: '/api/answers',
       config: {
         auth: false,
+        validate: {
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                value: Joi.string().required(),
+                'elapsed-time': Joi.number().allow(null),
+                result: Joi.string().allow(null),
+                'result-details': Joi.string().allow(null),
+                timeout: Joi.number().allow(null),
+              }).required(),
+              relationships: Joi.object().required(),
+              assessment: Joi.object(),
+              challenge: Joi.object(),
+              type: Joi.string(),
+            }).required(),
+          }).required(),
+        },
         handler: answerController.save,
         tags: ['api', 'answers'],
         notes: [
