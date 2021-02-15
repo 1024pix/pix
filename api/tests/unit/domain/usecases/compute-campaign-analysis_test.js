@@ -29,7 +29,7 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
       const campaignAnalysis = Symbol('analysis');
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
       targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId, locale }).resolves(targetProfile);
-      tutorialRepository.list.resolves(tutorials);
+      tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
       campaignAnalysisRepository.getCampaignAnalysis.withArgs(campaignId, targetProfile, tutorials).resolves(campaignAnalysis);
 
       // when
