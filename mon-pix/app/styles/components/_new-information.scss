@@ -108,9 +108,24 @@
     }
   }
 
-  &-text__button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    display: inline-table;
+  &-text {
+
+    &__button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      display: inline-table;
+    }
+
+    &__link {
+      margin-top: 14px;
+      font-size: 0.875rem;
+      font-weight: $font-normal;
+      letter-spacing: 0.009rem;
+      line-height: 1.375rem;
+
+      .fa-arrow-right {
+        margin-right: 5px;
+      }
+    }
   }
 }

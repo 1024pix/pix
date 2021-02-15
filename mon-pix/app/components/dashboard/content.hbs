@@ -3,10 +3,12 @@
 
   {{#unless this.hasUserSeenNewDashboardInfo}}
     <section class="dashboard-content__banner" data-test-new-dashboard-info>
-      <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
+      <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
                       @image="/images/discovery_TDB_pix.svg"
                       @backgroundColorClass="new-information--blue-gradient-background"
                       @textColorClass="new-information--white-text"
+                      @linkText="{{t 'pages.dashboard.presentation.link.text'}}"
+                      @linkTo="{{t 'pages.dashboard.presentation.link.url'}}"
                       @closeaction={{this.closeInformationAboutNewDashboard}}
       />
     </section>
@@ -22,10 +24,12 @@
   <section class="dashboard-content__main">
     {{#unless this.hasUserSeenNewDashboardInfo}}
       <section class="dashboard-content-main__banner">
-        <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
+        <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
                         @image="/images/discovery_TDB_pix.svg"
                         @backgroundColorClass="new-information--blue-gradient-background"
                         @textColorClass="new-information--white-text"
+                        @linkText="{{t 'pages.dashboard.presentation.link.text'}}"
+                        @linkTo="{{t 'pages.dashboard.presentation.link.url'}}"
                         @closeaction={{this.closeInformationAboutNewDashboard}}
         />
       </section>
