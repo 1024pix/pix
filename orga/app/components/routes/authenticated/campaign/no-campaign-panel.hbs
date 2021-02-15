@@ -1,13 +1,18 @@
 <div class="no-campaign-panel">
   <div class="no-campaign-panel__explain-create-campaign">
-    <img src="{{this.rootURL}}/icons/icon-campagne-start.svg" alt="Vous pouvez créer des campagnes.">
-    <h1 class="page-title">Créez votre première campagne</h1>
+    <img src="{{this.rootURL}}/icons/icon-campagne-start.svg" alt="" role="none">
+    <h1 class="page-title">
+      {{t 'pages.campaigns-list.no-campaign.title'}}
+    </h1>
+
     <div class="no-campaign-panel__information-text information-text">
-      Configurez et lancez votre première campagne. Vous pourrez ensuite inviter vos utilisateurs à rejoindre ce parcours.
+      {{t 'pages.campaigns-list.no-campaign.description'}}
     </div>
 
     <div class="no-campaign-panel__link-to-create">
-      <LinkTo @route="authenticated.campaigns.new" class="button button--link">Créer une campagne</LinkTo>
+      <LinkTo @route="authenticated.campaigns.new" class="button button--link">
+        {{t 'pages.campaigns-list.action.create'}}
+      </LinkTo>
     </div>
   </div>
 </div>
