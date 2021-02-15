@@ -11,29 +11,44 @@ describe('Integration | Component | TimeoutJauge', function() {
   const BLACK_JAUGE_ICON_PATH = '/images/icon-timeout-black.svg';
   const RED_JAUGE_ICON_PATH = '/images/icon-timeout-red.svg';
 
-  /* Rendering
-  ----------------------------------------------------- */
-  describe('Rendering', function() {
-    it('It renders', async function() {
+  describe('Component rendering', function() {
+    it('renders', async function() {
       // when
-      await render(hbs`{{timeout-jauge }}`);
+      await render(hbs`<TimeoutJauge />`);
 
       // then
       expect(find('.timeout-jauge')).to.exist;
     });
 
-    it('It renders a red clock if time is over', async function() {
+    it('renders with given allotted time', async function() {
+      // given
+      this.set('allottedTime', 60);
+
       // when
-      await render(hbs`{{timeout-jauge allotedTime=0}}`);
+      await render(hbs`<TimeoutJauge @allottedTime={{this.allottedTime}} />`);
+
+      // then
+      expect(find('.timeout-jauge-remaining').textContent.trim()).to.equal('1:00');
+    });
+
+    it('renders a red clock if time is over', async function() {
+      // given
+      this.set('allottedTime', 0);
+
+      // when
+      await render(hbs`<TimeoutJauge @allottedTime={{this.allottedTime}} />`);
 
       // then
       expect(find(`.timeout-jauge-clock img[src="${RED_JAUGE_ICON_PATH}"]`)).to.exist;
       expect(find(`.timeout-jauge-clock img[src="${BLACK_JAUGE_ICON_PATH}"]`)).to.not.exist;
     });
 
-    it('It renders a black clock if time is not over', async function() {
+    it('renders a black clock if time is not over', async function() {
+      // given
+      this.set('allottedTime', 1);
+
       // when
-      await render(hbs`{{timeout-jauge allotedTime=1}}`);
+      await render(hbs`<TimeoutJauge @allottedTime={{this.allottedTime}} />`);
 
       // then
       expect(find(`.timeout-jauge-clock img[src="${BLACK_JAUGE_ICON_PATH}"]`)).to.exist;

@@ -1,14 +1,13 @@
-{{!-- template-lint-disable no-implicit-this no-curly-component-invocation --}}
 <div class="timeout-jauge">
   <div class="timeout-jauge-container">
     <div class="timeout-jauge-clock">
-      <img src={{this.getImageSource}} alt="" role="none">
+      <img src={{this.imageSource}} alt="" role="none">
       <div>&nbsp;</div>
-      <div class="timeout-jauge-remaining" data-spent="{{remainingSeconds}}">
-        {{remainingTime}}
+      <div class="timeout-jauge-remaining" data-spent="{{this.remainingSeconds}}">
+        {{this.remainingTime}}
       </div>
     </div>
-    <div class="timeout-jauge-progress" style={{jaugeWidthStyle}}>
+    <div class="timeout-jauge-progress" style={{this.jaugeWidthStyle}}>
     </div>
   </div>
 </div>
