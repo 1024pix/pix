@@ -1,3 +1,15 @@
 {
-  "current-lang": "fr"
+  "current-lang": "fr",
+  "navigation": {
+    "main" : {
+      "campaigns" : "Campagnes",
+      "documentation": "Documentation",
+      "students-sco" :"Élèves",
+      "students-sup" :"Étudiants",
+      "team" : "Équipe"
+    },
+    "user-logged-menu": {
+      "logout": "Se déconnecter"
+    }
+  }
 }
