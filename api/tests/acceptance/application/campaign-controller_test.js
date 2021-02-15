@@ -360,6 +360,7 @@ describe('Acceptance | API | Campaign Controller', () => {
                 source: 'covid-19',
                 link: 'www.liberez-moi.fr',
                 duration: '00:03:31',
+                locale: 'fr-fr',
               }],
             }, {
               id: 'recSkillId2',

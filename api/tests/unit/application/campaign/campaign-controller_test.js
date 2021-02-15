@@ -10,6 +10,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -317,14 +318,14 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     const campaignId = 1;
     const userId = 1;
-    const locale = 'fr';
+    const locale = FRENCH_SPOKEN;
 
     beforeEach(() => {
       sinon.stub(usecases, 'computeCampaignCollectiveResult');
       sinon.stub(campaignCollectiveResultSerializer, 'serialize');
     });
 
-    it('should return ok', async () => {
+    it('should return expected results', async () => {
       // given
       const campaignCollectiveResult = Symbol('campaignCollectiveResults');
       const expectedResults = Symbol('results');
@@ -365,13 +366,33 @@ describe('Unit | Application | Controller | Campaign', () => {
   });
 
   describe('#getAnalysis', () => {
-
     const campaignId = 1;
     const userId = 1;
+    const locale = FRENCH_SPOKEN;
 
     beforeEach(() => {
       sinon.stub(usecases, 'computeCampaignAnalysis');
       sinon.stub(campaignAnalysisSerializer, 'serialize');
+    });
+
+    it('should return expected results', async () => {
+      // given
+      const campaignAnalysis = Symbol('campaignAnalysis');
+      const expectedResults = Symbol('results');
+      usecases.computeCampaignAnalysis.withArgs({ userId, campaignId, locale }).resolves(campaignAnalysis);
+      campaignAnalysisSerializer.serialize.withArgs(campaignAnalysis).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: campaignId },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignController.getAnalysis(request);
+
+      // then
+      expect(response).to.equal(expectedResults);
     });
 
     it('should return an unauthorized error', async () => {
