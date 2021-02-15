@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.19.0 (15/02/2021)
+
+- [#2542](https://github.com/1024pix/pix/pull/2542) [FEATURE] Amélioration de l'a11y sur la page d'accès aux campagnes (PIX-1873).
+- [#2540](https://github.com/1024pix/pix/pull/2540) [FEATURE] Affichage des compétences en anglais lorsque la langue saisie est "en" dans les résultats individuels d'une campagne de collecte de profils (PIX-2114).
+- [#2551](https://github.com/1024pix/pix/pull/2551) [BUGFIX] Utiliser replace au lieu de replaceAll (PIX-2155).
+- [#2549](https://github.com/1024pix/pix/pull/2549) [BUGFIX] Une erreur floue s'affiche lorsqu'on publie une session sur PixAdmin (PIX-2154)
+
 ## v3.18.0 (12/02/2021)
 
 - [#2541](https://github.com/1024pix/pix/pull/2541) [FEATURE] Changement de la couleur de la bannière (PIX-2033).
