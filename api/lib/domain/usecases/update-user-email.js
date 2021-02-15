@@ -18,5 +18,5 @@ module.exports = async function updateUserEmail({
   }
 
   await userRepository.isEmailAvailable(email);
-  await userRepository.updateEmail({ id: userId, email });
+  await userRepository.updateEmail({ id: userId, email: email.toLowerCase() });
 };
