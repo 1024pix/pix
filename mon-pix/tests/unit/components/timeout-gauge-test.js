@@ -3,14 +3,14 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | timeout-jauge-component ', function() {
+describe('Unit | Component | timeout-gauge-component ', function() {
 
   setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = createGlimmerComponent('component:timeout-jauge');
+    component = createGlimmerComponent('component:timeout-gauge');
   });
 
   describe('#Test rendering Property', function() {
