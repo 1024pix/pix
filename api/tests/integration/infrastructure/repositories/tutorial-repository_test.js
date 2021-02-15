@@ -190,7 +190,7 @@ describe('Integration | Repository | tutorial-repository', () => {
       mockLearningContent(learningContent);
 
       // when
-      const tutorials = await tutorialRepository.list();
+      const tutorials = await tutorialRepository.list({});
 
       // then
       expect(tutorials).to.have.lengthOf(2);
