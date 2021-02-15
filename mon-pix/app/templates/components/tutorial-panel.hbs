@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-implicit-this  --}}
 <div class="tutorial-panel">
 
   {{#if this.shouldDisplayHintOrTuto}}
@@ -19,7 +18,7 @@
 
       {{#if this.shouldDisplayTutorial}}
         <div class="tutorial-panel__tutorials-container">
-          {{#each limitedTutorials as |tutorial|}}
+          {{#each this.limitedTutorials as |tutorial|}}
             <TutorialItem @tutorial={{tutorial}} />
           {{/each}}
         </div>
