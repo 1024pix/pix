@@ -180,7 +180,7 @@ module.exports = {
 
   isEmailAvailable(email) {
     return BookshelfUser
-      .where({ email: email.toLowerCase() })
+      .query((qb) => qb.where('email', 'ILIKE', email))
       .fetch()
       .then((user) => {
         if (user) {

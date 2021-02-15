@@ -739,10 +739,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     it('should reject an AlreadyRegisteredEmailError when email case insensitive already exists', async () => {
       // given
-      const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
+      const upperCaseEmail = 'TEST@example.net';
+      const lowerCaseEmail = 'test@example.net';
+      databaseBuilder.factory.buildUser({ email: upperCaseEmail });
+      await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(userRepository.isEmailAvailable)(uppercaseEmailAlreadyInDb);
+      const result = await catchErr(userRepository.isEmailAvailable)(lowerCaseEmail);
 
       // then
       expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);

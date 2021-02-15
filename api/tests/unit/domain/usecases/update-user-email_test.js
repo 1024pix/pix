@@ -40,6 +40,27 @@ describe('Unit | UseCase | update-user-email', () => {
     });
   });
 
+  it('should save email in lower case', async () => {
+    // given
+    const userId = 1;
+    const newEmail = 'EMAIl_IN_UPPER_CASE@example.net';
+    const newEmailInLowerCase = newEmail.toLowerCase();
+
+    // when
+    await updateUserEmail({
+      userId,
+      email: newEmail,
+      userRepository,
+      schoolingRegistrationRepository,
+    });
+
+    // then
+    expect(userRepository.updateEmail).to.have.been.calledWith({
+      id: userId,
+      email: newEmailInLowerCase,
+    });
+  });
+
   it('throw AlreadyRegisteredEmailError if email already exists', async () => {
     // given
     userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
