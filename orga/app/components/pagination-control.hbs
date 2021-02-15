@@ -1,8 +1,14 @@
 <div class="pagination-control content-text content-text--small">
   <div class="page-size">
-    <div class="page-size__label">Voir</div>
+    <div class="page-size__label">
+      {{t 'common.pagination.result-by-page'}}
+    </div>
     <div class="page-size__choice">
-      <select aria-label="Sélectionner une pagination" class="content-text content-text--small" {{on "change" this.changePageSize}}>
+      <select
+        aria-label={{t 'common.pagination.action.select-page-size'}}
+        class="content-text content-text--small"
+        {{on "change" this.changePageSize}}
+      >
         <option value="10" selected="{{if (eq this.pageSize 10) true}}">10</option>
         <option value="25" selected="{{if (eq this.pageSize 25) true}}">25</option>
         <option value="50" selected="{{if (eq this.pageSize 50) true}}">50</option>
@@ -14,7 +20,7 @@
   <div class="page-navigation">
     <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq this.currentPage 1) "page-navigation__arrow--disabled"}}">
       <LinkTo
-        aria-label="Aller à la page précédente"
+        aria-label={{t 'common.pagination.action.previous'}}
         @query={{hash pageNumber=this.previousPage}}
         @disabledWhen={{eq this.currentPage 1}}
         @replace={{true}}
@@ -24,11 +30,11 @@
       </LinkTo>
     </div>
     <div>
-      Page {{this.currentPage}} / {{this.pageCount}}
+      {{t 'common.pagination.page-number' current=this.currentPage total=this.pageCount}}
     </div>
     <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq this.currentPage this.pageCount) "page-navigation__arrow--disabled"}}">
       <LinkTo
-        aria-label="Aller à la page suivante"
+        aria-label={{t 'common.pagination.action.next'}}
         @query={{hash pageNumber=this.nextPage}}
         @disabledWhen={{eq this.currentPage this.pageCount}}
         @replace={{true}}
