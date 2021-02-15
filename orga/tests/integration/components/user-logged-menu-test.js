@@ -1,14 +1,13 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';
 import Service from '@ember/service';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | user-logged-menu', function(hooks) {
-
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let prescriber, organization, organization2, organization3;
 
