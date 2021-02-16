@@ -29,7 +29,8 @@ $scorecard-width: 212px;
 
   @include device-is('middle-desktop') {
 
-    &__competence-card, &__competence-card:nth-child(3n)  {
+    &__competence-card,
+    &__competence-card:nth-child(3n) {
       margin-right: calc((100% - #{$scorecard-width} * 4) / 3);
 
       &:nth-child(4n) {
