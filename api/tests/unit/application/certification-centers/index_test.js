@@ -9,19 +9,20 @@ const moduleUnderTest = require('../../../../lib/application/certification-cente
 
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 
-describe('Unit | Router | certification-center-router', function() {
+describe('Unit | Router | certification-center-router', () => {
 
   let httpTestServer;
 
   beforeEach(function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
-    sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
+    sinon.stub(certificationCenterController, 'createCertificationCenterMembershipByEmail').returns('ok');
     sinon.stub(certificationCenterController, 'findCertificationCenterMembershipsByCertificationCenter').returns('ok');
+    sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/divisions', function() {
+  describe('GET /api/certification-centers/{certificationCenterId}/divisions', () => {
 
     it('should reject an invalid certification center id', async () => {
       // when
@@ -32,7 +33,7 @@ describe('Unit | Router | certification-center-router', function() {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', function() {
+  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', () => {
 
     it('should reject unexpected filters ', async () => {
       // when
@@ -131,6 +132,53 @@ describe('Unit | Router | certification-center-router', function() {
     it('should reject an invalid certification-centers id', async () => {
       // when
       const result = await httpTestServer.request(method, '/api/certification-centers/invalid/certification-center-memberships');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', () => {
+
+    const method = 'POST';
+    const url = '/api/certification-centers/1/certification-center-memberships';
+    const email = 'user@example.net';
+    const payload = { email };
+
+    it('should return CREATED (200) when everything does as expected', async () => {
+      // when
+      const result = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(200);
+    });
+
+    it('should reject an user without PixMaster role', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster
+        .callsFake((request, h) => h.response().code(403).takeover());
+
+      // when
+      const result = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+    });
+
+    it('should reject an invalid certification-centers id', async () => {
+      // when
+      const result = await httpTestServer.request(method, '/api/certification-centers/invalid/certification-center-memberships');
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should reject an invalid email', async () => {
+      // given
+      payload.email = 'invalid email';
+
+      // when
+      const result = await httpTestServer.request(method, url, payload);
 
       // then
       expect(result.statusCode).to.equal(400);
