@@ -7,6 +7,8 @@ export default class Content extends Component {
   MAX_SCORECARDS_TO_DISPLAY = 4;
 
   @service currentUser;
+  @service url;
+  @service intl;
 
   get hasNothingToShow() {
     return !this.hasCampaignParticipationOverviews && !this.hasStartedCompetences && !this.hasRecommendedCompetences;
@@ -57,5 +59,12 @@ export default class Content extends Component {
   @action
   async closeInformationAboutNewDashboard() {
     await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewDashboardInfo: true } });
+  }
+
+  get newDashboardInfoLink() {
+    return {
+      text: this.url.isFrenchDomainExtension ? this.intl.t('pages.dashboard.presentation.link.text') : null,
+      url: this.url.isFrenchDomainExtension ? this.intl.t('pages.dashboard.presentation.link.url') : null,
+    };
   }
 }
