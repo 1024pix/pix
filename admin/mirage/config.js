@@ -15,7 +15,7 @@ export default function() {
     const publishableSessions = schema.publishableSessions.all();
     return publishableSessions;
   });
-  this.post('/admin/publishable-sessions/:id/publish', () => {
+  this.patch('/admin/sessions/:id/publish', () => {
     return new Response(200);
   });
   this.get('/admin/sessions/:id');

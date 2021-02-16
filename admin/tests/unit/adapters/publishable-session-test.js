@@ -14,4 +14,15 @@ module('Unit | Adapter | publishable session', function(hooks) {
       assert.ok(url.endsWith('api/admin/sessions/to-publish'));
     });
   });
+
+  module('#urlForUpdateRecord', function() {
+    test('should return /admin/sessions/:id', function(assert) {
+      // when
+      const adapter = this.owner.lookup('adapter:publishable-session');
+      const url = adapter.urlForUpdateRecord(123);
+
+      // then
+      assert.ok(url.endsWith('api/admin/sessions/123'));
+    });
+  });
 });

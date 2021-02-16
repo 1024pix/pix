@@ -6,4 +6,8 @@ export default class PublishableSessionAdapter extends ApplicationAdapter {
   urlForQuery() {
     return `${this.host}/${this.namespace}/sessions/to-publish`;
   }
+
+  urlForUpdateRecord(id) {
+    return `${this.host}/${this.namespace}/sessions/${id}`;
+  }
 }
