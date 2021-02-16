@@ -33,6 +33,10 @@ describe('Acceptance | API | Campaign Controller', () => {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.attributes.code).to.equal(campaign.code);
+      expect(response.result.data.attributes.type).to.equal(campaign.type);
+      expect(response.result.data.attributes.title).to.equal(campaign.title);
+      expect(response.result.data.attributes['is-for-absolute-novice']).to.equal(campaign.isForAbsoluteNovice);
+      expect(response.result.data.attributes['id-pix-label']).to.equal(campaign.idPixLabel);
     });
   });
 
