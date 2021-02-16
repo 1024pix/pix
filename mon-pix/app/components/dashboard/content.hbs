@@ -3,10 +3,12 @@
 
   {{#unless this.hasUserSeenNewDashboardInfo}}
     <section class="dashboard-content__banner" data-test-new-dashboard-info>
-      <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
+      <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
                       @image="/images/discovery_TDB_pix.svg"
                       @backgroundColorClass="new-information--blue-gradient-background"
                       @textColorClass="new-information--white-text"
+                      @linkText="{{this.newDashboardInfoLink.text}}"
+                      @linkTo="{{this.newDashboardInfoLink.url}}"
                       @closeaction={{this.closeInformationAboutNewDashboard}}
       />
     </section>
@@ -22,10 +24,12 @@
   <section class="dashboard-content__main">
     {{#unless this.hasUserSeenNewDashboardInfo}}
       <section class="dashboard-content-main__banner">
-        <NewInformation @information="{{t 'pages.dashboard.presentation' firstname=this.userFirstname}}"
+        <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
                         @image="/images/discovery_TDB_pix.svg"
                         @backgroundColorClass="new-information--blue-gradient-background"
                         @textColorClass="new-information--white-text"
+                        @linkText="{{this.newDashboardInfoLink.text}}"
+                        @linkTo="{{this.newDashboardInfoLink.url}}"
                         @closeaction={{this.closeInformationAboutNewDashboard}}
         />
       </section>
@@ -39,6 +43,7 @@
                         @backgroundColorClass="new-information--yellow-background"
                         @linkText={{t 'pages.dashboard.empty-dashboard.link-to-competences'}}
                         @linkTo="profile"
+                        @linkDisplayType="button"
                         @textColorClass="new-information--black-text"/>
       </div>
     </section>

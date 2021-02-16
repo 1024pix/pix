@@ -9,7 +9,16 @@
     <div class="new-information-content__text {{@textAlignment}} {{@textColorClass}}">
       {{{@information}}}
       {{#if @linkText}}
-        <LinkTo @route="{{@linkTo}}" class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+        {{#if (eq @linkDisplayType 'button')}}
+          <LinkTo @route="{{@linkTo}}" class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+        {{else}}
+          <a href="{{@linkTo}}"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="new-information-content-text__link {{@textColorClass}}">
+            <FaIcon @icon='arrow-right' /><span>{{@linkText}}</span>
+          </a>
+        {{/if}}
       {{/if}}
     </div>
   </div>
