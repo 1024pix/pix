@@ -526,7 +526,13 @@
                 "link-to-competences": "See my skills",
                 "message": "<h2>Congrats! You've finished all the skills recommended for you!</h2> <p> Want to continue your Pix experience? You can try some skills again. </p>"
             },
-            "presentation": "<h2>Hi {firstname}, welcome to your dashboard.</h2><p>Quickly and easily access all your tests in progress.<br>Follow the evolution of your Pix score and check if your profile is ready for certification.</p>",
+            "presentation": {
+                "link": {
+                    "text": "",
+                    "url": ""
+                },
+                "message": "<h2>Hi {firstname}, welcome to your dashboard.</h2><p>Quickly and easily access all your tests in progress.<br>Follow the evolution of your Pix score and check if your profile is ready for certification.</p>"
+            },
             "recommended-competences": {
                 "profile-link": "See all skills",
                 "subtitle": "Discover the skills recommended for you.",

@@ -232,6 +232,49 @@ describe('Integration | Component | Dashboard | Content', function() {
       expect(find('section[data-test-new-dashboard-info]')).not.to.exist;
     });
 
+    it('should display link on new dashboard banner when domain is pix.fr', async function() {
+      // given
+      class UrlStub extends Service {
+        get isFrenchDomainExtension() {
+          return true;
+        }
+      }
+      this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:url', UrlStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(find('.new-information')).to.exist;
+      expect(find('.new-information-content-text__link')).to.exist;
+    });
+
+    it('should hide link on new dashboard banner when domain is pix.org', async function() {
+      // given
+      class UrlStub extends Service {
+        get isFrenchDomainExtension() {
+          return false;
+        }
+      }
+      this.owner.register('service:currentUser', CurrentUserStub);
+      this.owner.register('service:url', UrlStub);
+      this.set('model', {
+        campaignParticipationOverviews: [],
+        scorecards: [],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}}/>`);
+
+      // then
+      expect(find('.new-information')).to.exist;
+      expect(find('.new-information-content-text__link')).not.to.exist;
+    });
   });
 
   describe('empty dashboard info rendering', function() {
