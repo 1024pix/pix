@@ -13,7 +13,7 @@ exports.register = async function(server) {
           payload: Joi.object({
             data: Joi.object({
               attributes: Joi.object({
-                value: Joi.string().required(),
+                value: Joi.string().allow('').allow(null),
                 'elapsed-time': Joi.number().allow(null),
                 result: Joi.string().allow(null),
                 'result-details': Joi.string().allow(null),
