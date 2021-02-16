@@ -93,15 +93,6 @@ describe('PATCH /api/admin/sessions/:id/unpublish', () => {
           expect(response.statusCode).to.equal(200);
         });
 
-        it('should return the serialized session with an untouched publishedAt date', async () => {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.result.data.attributes['published-at']).to.be.an.instanceOf(Date);
-          expect(response.result.data.attributes['published-at']).to.deep.equal(date);
-        });
-
         it('should update the isPublished field in certification course', async () => {
           // when
           await server.inject(options);
