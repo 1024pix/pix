@@ -24,19 +24,20 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
     );
     const assessment = await campaignAssessment.get('firstObject');
 
-    if (this._shouldShowTutorial(assessment)) {
+    if (this._shouldShowTutorial(assessment, campaign.isForAbsoluteNovice)) {
       return this.replaceWith('campaigns.assessment.tutorial', campaign.code);
     }
 
     this.replaceWith('assessments.resume', assessment.id);
   }
 
-  _shouldShowTutorial(assessment) {
+  _shouldShowTutorial(assessment, isCampaignForAbsoluteNovice) {
     return (
       !this.userHasJustConsultedTutorial
       && assessment.answers.length === 0
       && !assessment.isCompleted
       && !this.currentUser.user.hasSeenAssessmentInstructions
+      && !isCampaignForAbsoluteNovice
     );
   }
 }
