@@ -117,6 +117,7 @@
     }
 
     &__link {
+      display: none;
       margin-top: 14px;
       font-size: 0.875rem;
       font-weight: $font-normal;
@@ -125,6 +126,10 @@
 
       .fa-arrow-right {
         margin-right: 5px;
+      }
+
+      @include device-is('desktop') {
+        display: inline-table;
       }
     }
   }
