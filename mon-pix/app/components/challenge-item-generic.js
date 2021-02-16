@@ -51,10 +51,15 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   _getTimeout() {
-    if (!this.isTimedChallenge) {
+    if (this.isTimedChallenge) {
+      if (this.hasChallengeTimedOut) {
+        return -1 ;
+      } else {
+        return this.args.challenge.timer - this._elapsedTime;
+      }
+    } else {
       return null;
     }
-    return this.args.challenge.timer - this._elapsedTime;
   }
 
   _start() {
