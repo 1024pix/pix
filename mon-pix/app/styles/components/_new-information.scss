@@ -131,6 +131,11 @@
       @include device-is('desktop') {
         display: inline-table;
       }
+
+      &:focus span,
+      &:hover span {
+        border-bottom: 1px solid $white;
+      }
     }
   }
 }
