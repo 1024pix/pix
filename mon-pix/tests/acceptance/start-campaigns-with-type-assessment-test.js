@@ -156,6 +156,26 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         });
       });
 
+      context('When campaign does not have external id and is for absolute novice', function() {
+
+        beforeEach(async function() {
+          campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT, isForAbsoluteNovice: true });
+          await startCampaignByCode(campaign.code);
+          await fillIn('#firstName', prescritUser.firstName);
+          await fillIn('#lastName', prescritUser.lastName);
+          await fillIn('#email', prescritUser.email);
+          await fillIn('#password', prescritUser.password);
+          await click('#pix-cgu');
+          await click('.button');
+        });
+
+        it('should redirect to assessment after completion of external id', async function() {
+          // then
+          expect(currentURL()).to.not.contains('/didacticiel');
+          expect(currentURL()).to.contains('/assessments');
+        });
+      });
+
     });
 
     context('When user is logged in', function() {
@@ -287,6 +307,23 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           // then
           expect(currentURL()).to.contains('/didacticiel');
+        });
+      });
+
+      context('When campaign does not have external id and is for absolute novice', function() {
+
+        beforeEach(async function() {
+          campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT, isForAbsoluteNovice: true });
+          await visit(`campagnes/${campaign.code}`);
+        });
+
+        it('should redirect to assessment after completion of external id', async function() {
+          // when
+          await click('.campaign-landing-page__start-button');
+
+          // then
+          expect(currentURL()).to.not.contains('/didacticiel');
+          expect(currentURL()).to.contains('/assessments');
         });
       });
     });
