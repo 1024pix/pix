@@ -1,18 +1,20 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
+import Service from '@ember/service';
 
 module('Integration | Component | routes/authenticated/campaign/details/tab', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   let store;
+  class UrlStub extends Service {
+    campaignsRootUrl = 'root-url/';
+  }
 
   hooks.beforeEach(function() {
-    run(() => {
-      store = this.owner.lookup('service:store');
-    });
+    store = this.owner.lookup('service:store');
+    this.owner.register('service:url', UrlStub);
   });
 
   module('on TargetProfile display', function() {
@@ -30,7 +32,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').includesText('profil cible de la campagne 1');
+        assert.contains('profil cible de la campagne 1');
       });
     });
 
@@ -46,7 +48,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').doesNotHaveTextContaining('Profil cible');
+        assert.notContains('Profil cible');
       });
     });
   });
@@ -65,7 +67,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').includesText('idPixLabel');
+        assert.contains('idPixLabel');
       });
     });
 
@@ -82,7 +84,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Libellé de l\'identifiant');
+        assert.notContains('Libellé de l\'identifiant');
       });
     });
   });
@@ -98,7 +100,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
       await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
       // then
-      assert.dom('[aria-label="Détails de la campagne"]').includesText('/campagnes/1234');
+      assert.contains('root-url/1234');
     });
   });
 
@@ -117,7 +119,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').includesText('Mon titre de Campagne');
+        assert.contains('Mon titre de Campagne');
       });
     });
 
@@ -134,7 +136,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Titre du parcours');
+        assert.notContains('Titre du parcours');
       });
     });
   });
@@ -150,7 +152,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
       await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
       // then
-      assert.dom('[aria-label="Détails de la campagne"]').includesText('Archiver');
+      assert.contains('Archiver');
     });
   });
 
@@ -166,7 +168,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').includesText('Modifier');
+        assert.contains('Modifier');
       });
     });
 
@@ -181,7 +183,7 @@ module('Integration | Component | routes/authenticated/campaign/details/tab', fu
         await render(hbs`<Routes::Authenticated::Campaign::Details::Tab @campaign={{campaign}}/>`);
 
         // then
-        assert.dom('[aria-label="Détails de la campagne"]').doesNotContainText('Modifier');
+        assert.notContains('Modifier');
       });
     });
   });

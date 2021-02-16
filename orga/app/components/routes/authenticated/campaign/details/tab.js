@@ -8,8 +8,9 @@ export default class Tab extends Component {
   @service store;
   @service notifications;
   @service url;
+  @service intl;
 
-  @tracked tooltipText = 'Copier le lien direct';
+  @tracked tooltipText = this.intl.t('pages.campaign.details.actions.copy-link.copy');
 
   get campaignsRootUrl() {
     return `${this.url.campaignsRootUrl}${this.args.campaign.code}`;
@@ -17,12 +18,12 @@ export default class Tab extends Component {
 
   @action
   clipboardSuccess() {
-    this.tooltipText = 'Copié !';
+    this.tooltipText = this.intl.t('pages.campaign.details.actions.copy-link.copied');
   }
 
   @action
   clipboardOut() {
-    this.tooltipText = 'Copier le lien direct';
+    this.tooltipText = this.intl.t('pages.campaign.details.actions.copy-link.copy');
   }
 
   @action
@@ -31,7 +32,7 @@ export default class Tab extends Component {
       const campaign = this.store.peekRecord('campaign', campaignId);
       await campaign.archive();
     } catch (err) {
-      this.notifications.error('Une erreur est survenue');
+      this.notifications.error(this.intl.t('api-error-messages.global-error'));
     }
   }
 }
