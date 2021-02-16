@@ -17,25 +17,21 @@ describe('Unit | Component | timeout-gauge-component ', function() {
 
     describe('#formattedRemainingTime', function() {
       [
-        { allottedTime: new Date(), _elapsedTime: 0, expected: '0:00' },
-        { allottedTime: '  ', _elapsedTime: 0, expected: '0:00' },
-        { allottedTime: undefined, _elapsedTime: 0, expected: '0:00' },
-        { allottedTime: null, _elapsedTime: 0, expected: '0:00' },
-        { allottedTime: '0', _elapsedTime: 0, expected: '0:00' },
-        { allottedTime: '40', _elapsedTime: 0, expected: '0:40' },
-        { allottedTime: '70', _elapsedTime: 0, expected: '1:10' },
-        { allottedTime: '120', _elapsedTime: 0, expected: '2:00' },
-        { allottedTime: 150, _elapsedTime: 0, expected: '2:30' },
-        { allottedTime: '120', _elapsedTime: 60000, expected: '1:00' },
-        { allottedTime: '120', _elapsedTime: 90000, expected: '0:30' },
-        { allottedTime: '120', _elapsedTime: 120000, expected: '0:00' },
-        { allottedTime: '120', _elapsedTime: 150000, expected: '0:00' },
+        { allottedTime: new Date(), remainingSeconds: 0, expected: '0:00' },
+        { allottedTime: '  ', remainingSeconds: 0, expected: '0:00' },
+        { allottedTime: undefined, remainingSeconds: 0, expected: '0:00' },
+        { allottedTime: null, remainingSeconds: 0, expected: '0:00' },
+        { allottedTime: '0', remainingSeconds: 0, expected: '0:00' },
+        { allottedTime: 150, remainingSeconds: 120, expected: '2:00' },
+        { allottedTime: '120', remainingSeconds: 90, expected: '1:30' },
+        { allottedTime: '120', remainingSeconds: 60, expected: '1:00' },
+        { allottedTime: '120', remainingSeconds: 0, expected: '0:00' },
       ].forEach((data) => {
 
-        it(`should return "${data.expected}" when allotting ${data.allottedTime} and _elapsedTime is ${data._elapsedTime}ms`, function() {
+        it(`should return "${data.expected}" when allotting ${data.allottedTime}s and remainingSeconds is ${data.remainingSeconds}s`, function() {
           // given
           component.args.allottedTime = data.allottedTime;
-          component._elapsedTime = data._elapsedTime;
+          component.remainingSeconds = data.remainingSeconds;
           // when
           const formattedRemainingTime = component.formattedRemainingTime;
           // then
@@ -46,21 +42,20 @@ describe('Unit | Component | timeout-gauge-component ', function() {
 
     describe('#percentageOfTimeout', function() {
       [
-        { allottedTime: new Date(), _elapsedTime: 4000, expected: 0 },
-        { allottedTime: '  ', _elapsedTime: 4000, expected: 0 },
-        { allottedTime: undefined, _elapsedTime: 4000, expected: 0 },
-        { allottedTime: null, _elapsedTime: 4000, expected: 0 },
-        { allottedTime: '0', _elapsedTime: 4000, expected: 0 },
-        { allottedTime: '40', _elapsedTime: 4000, expected: 10 },
-        { allottedTime: '70', _elapsedTime: 35000, expected: 50 },
-        { allottedTime: '120', _elapsedTime: 120000, expected: 100 },
-        { allottedTime: 150, _elapsedTime: 225000, expected: 150 },
+        { allottedTime: new Date(), remainingSeconds: 40, expected: 0 },
+        { allottedTime: '  ', remainingSeconds: 40, expected: 0 },
+        { allottedTime: undefined, remainingSeconds: 40, expected: 0 },
+        { allottedTime: null, remainingSeconds: 40, expected: 0 },
+        { allottedTime: '0', remainingSeconds: 40, expected: 0 },
+        { allottedTime: '40', remainingSeconds: 40, expected: 0 },
+        { allottedTime: '70', remainingSeconds: 35, expected: 50 },
+        { allottedTime: '120', remainingSeconds: 0, expected: 100 },
       ].forEach((data) => {
 
-        it(`should return "${data.expected}" when allotting ${data.allottedTime} and _elapsedTime is ${data._elapsedTime}ms`, function() {
+        it(`should return ${data.expected}% when allotting ${data.allottedTime}s and remainingSeconds is ${data.remainingSeconds}s`, function() {
           // given
           component.args.allottedTime = data.allottedTime;
-          component._elapsedTime = data._elapsedTime;
+          component.remainingSeconds = data.remainingSeconds;
           // when
           const percentageOfTimeout = component.percentageOfTimeout;
           // then
