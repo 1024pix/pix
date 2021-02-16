@@ -5,6 +5,7 @@
   "current-lang": "fr",
   "common": {
     "actions": {
+      "back": "Retour",
       "cancel": "Annuler"
     },
     "pagination": {
@@ -21,8 +22,8 @@
     "main": {
       "campaigns": "Campagnes",
       "documentation": "Documentation",
-      "students-sco":"Élèves",
-      "students-sup":"Étudiants",
+      "students-sco": "Élèves",
+      "students-sup": "Étudiants",
       "team": "Équipe"
     },
     "user-logged-menu": {
@@ -31,11 +32,25 @@
   },
   "pages": {
     "campaign": {
+      "actions": {
+        "export-results": "Exporter les résultats (.csv)",
+        "unarchive": "Désarchiver la campagne"
+      },
+      "archived": "Campagne archivée",
+      "code": "Code",
       "filters": {
         "actions": {
           "clear": "Effacer les filtres"
         },
         "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}"
+      },
+      "participations-count": "Participants",
+      "shared-participations-count": "Profils reçus",
+      "tab": {
+        "collective-results": "Résultats collectifs",
+        "details": "Détails",
+        "participants": "Participants ({count})",
+        "review": "Analyse"
       }
     },
     "campaigns-list": {
