@@ -127,6 +127,7 @@ module.exports = injectDependencies({
   createUserAndReconcileToSchoolingRegistrationFromExternalUser: require('./create-user-and-reconcile-to-schooling-registration-from-external-user'),
   createCampaign: require('./create-campaign'),
   createCertificationCenterMembership: require('./create-certification-center-membership'),
+  createCertificationCenterMembershipByEmail: require('./create-certification-center-membership-by-email'),
   createMembership: require('./create-membership'),
   createOrganization: require('./create-organization'),
   createOrganizationInvitations: require('./create-organization-invitations'),
