@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.20.0 (16/02/2021)
+
+- [#2556](https://github.com/1024pix/pix/pull/2556) [FEATURE] Ajouter un lien à la bannière du TDB (PIX-2123).
+- [#2515](https://github.com/1024pix/pix/pull/2515) [FEATURE] Demander 2 fois la saisie de l’adresse e-mail pour la modifier dans la page "Mon compte" sur Pix App (PIX-2082).
+- [#2536](https://github.com/1024pix/pix/pull/2536) [FEATURE] Affichage des sujets et tutos en anglais lorsque la langue saisie est "en" dans l'analyse globale d'une campagne d'évaluation (PIX-2100).
+- [#2543](https://github.com/1024pix/pix/pull/2543) [FEATURE] Je veux des alt corrects pour les logo Pix qui me renvoie sur l'accueil (PIX-1837).
+- [#2564](https://github.com/1024pix/pix/pull/2564) [BUGFIX] Bloquer les réponses après lorsque le délais de réponse est dépassé (PIX-2171).
+- [#2563](https://github.com/1024pix/pix/pull/2563) [BUGFIX] Pouvoir envoyer une réponse vide quand le temps est passé (PIX-2170).
+- [#2544](https://github.com/1024pix/pix/pull/2544) [BUGFIX] Avoir une erreur 400 quand le format de réponse n'est pas le bon (PIX-2116).
+- [#2545](https://github.com/1024pix/pix/pull/2545) [BUGFIX] Gérer le retour à la ligne de l'icone nouvel onglet (PIX-2152).
+- [#2548](https://github.com/1024pix/pix/pull/2548) [TECH] Améliorer l'a11y de la page checkpoint (PIX-1863).
+- [#2546](https://github.com/1024pix/pix/pull/2546) [CLEANUP] Suppression du toggle d'envoi automatique des resultats (PIX-2153)
+- [#2555](https://github.com/1024pix/pix/pull/2555) [ORGA] Ajout de la langue anglaise sur le menu gauche, ainsi que la déconnexion (PIX-2160)
+
 ## v3.19.0 (15/02/2021)
 
 - [#2542](https://github.com/1024pix/pix/pull/2542) [FEATURE] Amélioration de l'a11y sur la page d'accès aux campagnes (PIX-1873).
