@@ -18,12 +18,20 @@ module('Integration | Component | previous-page-button', function(hooks) {
     this.owner.register('service:router', RouterStub);
   });
 
-  test('it should render button with yielded content', async function(assert) {
+  test('it should render previous page button', async function(assert) {
     // when
-    await render(hbs`<PreviousPageButton @ariaLabel="Une instruction">Coucou</PreviousPageButton>`);
+    await render(hbs`<PreviousPageButton @backButtonAriaLabel="Une instruction"/>`);
 
     // then
     assert.dom('[aria-label="Une instruction"]').exists();
+  });
+
+  test('it should render with yielded content', async function(assert) {
+    // when
+    await render(hbs`<PreviousPageButton aria-label="Nom de la campagne">Coucou</PreviousPageButton>`);
+
+    // then
+    assert.dom('[aria-label="Nom de la campagne"]').containsText('Coucou');
     assert.contains('Coucou');
   });
 
@@ -32,7 +40,7 @@ module('Integration | Component | previous-page-button', function(hooks) {
       // given
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
-      await render(hbs`<PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @ariaLabel="Une instruction"></PreviousPageButton>`);
+      await render(hbs`<PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel="Une instruction"></PreviousPageButton>`);
 
       // when
       await clickByLabel('Une instruction');
@@ -45,7 +53,7 @@ module('Integration | Component | previous-page-button', function(hooks) {
       // given
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
-      await render(hbs`<PreviousPageButton @route={{this.route}} @ariaLabel="Une instruction"></PreviousPageButton>`);
+      await render(hbs`<PreviousPageButton @route={{this.route}} @backButtonAriaLabel="Une instruction"></PreviousPageButton>`);
 
       // when
       await clickByLabel('Une instruction');

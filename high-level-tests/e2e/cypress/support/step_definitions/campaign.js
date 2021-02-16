@@ -39,7 +39,7 @@ when(`je recherche une campagne avec le nom {string}`, (campaignSearchName) => {
 });
 
 then(`je vois le détail de la campagne {string}`, (campaignName) => {
-  cy.get('.page__title').should('contain', campaignName);
+  cy.get('[aria-label="Nom de la campagne"]').contains(campaignName);
 });
 
 then(`je vois {int} participants`, (numberOfParticipants) => {

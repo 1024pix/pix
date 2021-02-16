@@ -31,7 +31,7 @@ module('Integration | Component | pagination-control', function(hooks) {
 
   test('it should display correct pagination', async function(assert) {
     // given
-    this.set('meta', getMetaForPage({ pageNumber: 1}));
+    this.set('meta', getMetaForPage({ pageNumber: 1 }));
 
     // when
     await render(hbs`<PaginationControl @pagination={{meta}}/>`);
