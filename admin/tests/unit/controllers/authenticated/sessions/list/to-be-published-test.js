@@ -12,12 +12,9 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       // given
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
       const publishMock = sinon.stub();
-      const unloadRecordMock = sinon.stub();
       publishMock.resolves();
-      unloadRecordMock.returns();
       const publishableSession = {
         publish: publishMock,
-        unloadRecord: unloadRecordMock,
       };
 
       // when
@@ -25,26 +22,6 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
 
       // then
       sinon.assert.called(publishMock);
-      assert.ok(true);
-    });
-
-    test('should unload published session', async function(assert) {
-      // given
-      const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
-      const publishMock = sinon.stub();
-      const unloadRecordMock = sinon.stub();
-      publishMock.resolves();
-      unloadRecordMock.returns();
-      const publishableSession = {
-        publish: publishMock,
-        unloadRecord: unloadRecordMock,
-      };
-
-      // when
-      await controller.send('publishSession', publishableSession);
-
-      // then
-      sinon.assert.called(unloadRecordMock);
       assert.ok(true);
     });
 
