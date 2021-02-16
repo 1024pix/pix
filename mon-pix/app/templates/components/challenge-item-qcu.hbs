@@ -1,8 +1,7 @@
 {{!-- template-lint-disable no-action --}}
 <article
     class="challenge-item"
-    data-challenge-id="{{@challenge.id}}"
-    {{will-destroy (action this.cancelTimer)}}>
+    data-challenge-id="{{@challenge.id}}">
 
   {{#if this.isTimedChallengeWithoutAnswer}}
     {{#unless this.hasUserConfirmedWarning}}
@@ -36,7 +35,8 @@
 
         {{#if this.displayTimer}}
           <div class="timeout-gauge-wrapper">
-            <TimeoutGauge @allottedTime={{@challenge.timer}} />
+            <TimeoutGauge @allottedTime={{@challenge.timer}}
+                          @updateChallengeTimedOut={{action "updateChallengeTimedOut"}}/>
           </div>
         {{/if}}
       </div>
