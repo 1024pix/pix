@@ -18,6 +18,7 @@ export default class PublishableSessionModel extends Model {
 
   publish = memberAction({
     path: 'publish',
-    type: 'post',
+    type: 'patch',
+    urlType: 'updateRecord',
   })
 }

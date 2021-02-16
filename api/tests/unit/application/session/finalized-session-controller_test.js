@@ -41,18 +41,4 @@ describe('Unit | Controller | finalized-session', () => {
     });
 
   });
-
-  describe('#publish', () => {
-    it('should publish session with given id', async () => {
-      // given
-      const request = { params: { sessionId: 1 } };
-      sinon.stub(usecases, 'publishSession');
-
-      // when
-      await finalizedSessionController.publish(request, hFake);
-
-      // then
-      expect(usecases.publishSession).to.be.calledWith({ sessionId: 1 });
-    });
-  });
 });

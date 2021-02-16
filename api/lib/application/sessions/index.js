@@ -71,23 +71,6 @@ exports.register = async (server) => {
       },
     },
     {
-      method: 'POST',
-      path: '/api/admin/publishable-sessions/{sessionId}/publish',
-      config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
-        validate: {
-          params: Joi.object({
-            sessionId: identifiersType.sessionId,
-          }),
-        },
-        handler: finalizedSessionController.publish,
-        tags: ['api', 'finalized-sessions'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/sessions/{id}/attendance-sheet',
       config: {

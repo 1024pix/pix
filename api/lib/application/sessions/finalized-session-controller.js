@@ -6,8 +6,4 @@ module.exports = {
     const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
     return finalizedSessionSerializer.serialize(finalizedSessionsToPublish);
   },
-  async publish(request, h) {
-    await usecases.publishSession({ sessionId: request.params.sessionId });
-    return h.response({}).code(200);
-  },
 };
