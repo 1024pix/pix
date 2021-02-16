@@ -3,8 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-import config from 'pix-certif/config/environment';
-
 module('Integration | Component | enrolled-candidates', function(hooks) {
   setupRenderingTest(hooks);
 
@@ -24,16 +22,6 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const BIRTH_COUNTRY_SELECTOR = 'panel-candidate__birthCountry__';
   const EMAIL_SELECTOR = 'panel-candidate__email__';
   const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
-
-  const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
-
-  hooks.before(() => {
-    config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = true;
-  });
-
-  hooks.after(() => {
-    config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = ft;
-  });
 
   test('it display candidates information', async function(assert) {
 

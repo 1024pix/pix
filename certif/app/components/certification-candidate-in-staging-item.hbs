@@ -69,7 +69,6 @@
         {{on 'input' (fn @updateCandidateData @candidateData 'birthCountry')}} >
     </div>
   </td>
-  {{#if this.isResultRecipientEmailVisible}}
   <td data-test-id='panel-candidate__result-recipient-email__add-staging'>
     <div class="certification-candidates-input-wrapper">
         <input
@@ -79,7 +78,6 @@
           {{on 'input' (fn @updateCandidateData @candidateData 'resultRecipientEmail')}} >
     </div>
   </td>
-  {{/if}}
   <td data-test-id='panel-candidate__email__add-staging'>
     <div class="certification-candidates-input-wrapper">
       <input

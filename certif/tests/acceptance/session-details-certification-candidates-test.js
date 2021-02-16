@@ -10,7 +10,6 @@ import {
 import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import config from 'pix-certif/config/environment';
 
 module('Acceptance | Session Details Certification Candidates', function(hooks) {
 
@@ -27,7 +26,6 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
   hooks.afterEach(function() {
     const notificationMessagesService = this.owner.lookup('service:notifications');
     notificationMessagesService.clearAll();
-    config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS = false;
   });
 
   module('When certificationPointOfContact is not logged in', function() {
@@ -61,10 +59,8 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         await visit(`/sessions/${session.id}/candidats`);
 
         // then
-        assert.dom('[data-test-id="attendance_sheet_download_button"]').exists();
-        assert.dom('[data-test-id="attendance_sheet_download_button"]').hasText('Télécharger (.ods)');
-        assert.dom('[data-test-id="attendance_sheet_upload_button"]').exists();
-        assert.dom('[data-test-id="attendance_sheet_upload_button"]').hasText('Importer (.ods)');
+        assert.contains('Télécharger (.ods)');
+        assert.contains('Importer (.ods)');
       });
 
       test('it should display a sentence when there is no certification candidates yet', async function(assert) {
@@ -73,7 +69,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
         // then
         assert.dom('table tbody').doesNotExist();
-        assert.dom('.table__empty').hasText('En attente de candidats');
+        assert.contains('En attente de candidats');
       });
     });
 
@@ -84,7 +80,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
       hooks.beforeEach(function() {
         sessionWithCandidates = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
-        candidates = server.createList('certification-candidate', 3, { sessionId: sessionWithCandidates.id, isLinked: false });
+        candidates = server.createList('certification-candidate', 3, { sessionId: sessionWithCandidates.id, isLinked: false, resultRecipientEmail: 'recipient@example.com' });
       });
 
       test('it should display the list of certification candidates', async function(assert) {
@@ -96,14 +92,15 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
         // then
         assert.dom('table tbody tr').exists({ count: 3 });
-        assert.dom(`[data-test-id="panel-candidate__lastName__${aCandidate.id}"]`).hasText(`${aCandidate.lastName}`);
-        assert.dom(`[data-test-id="panel-candidate__firstName__${aCandidate.id}"]`).hasText(`${aCandidate.firstName}`);
-        assert.dom(`[data-test-id="panel-candidate__birthdate__${aCandidate.id}"]`).hasText(`${moment(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
-        assert.dom(`[data-test-id="panel-candidate__birthCity__${aCandidate.id}"]`).hasText(`${aCandidate.birthCity}`);
-        assert.dom(`[data-test-id="panel-candidate__birthProvinceCode__${aCandidate.id}"]`).hasText(`${aCandidate.birthProvinceCode}`);
-        assert.dom(`[data-test-id="panel-candidate__birthCountry__${aCandidate.id}"]`).hasText(`${aCandidate.birthCountry}`);
-        assert.dom(`[data-test-id="panel-candidate__email__${aCandidate.id}"]`).hasText(`${aCandidate.email}`);
-        assert.dom(`[data-test-id="panel-candidate__externalId__${aCandidate.id}"]`).hasText(`${aCandidate.externalId}`);
+        assert.contains(`${aCandidate.lastName}`);
+        assert.contains(`${aCandidate.firstName}`);
+        assert.contains(`${moment(aCandidate.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY')}`);
+        assert.contains(`${aCandidate.birthCity}`);
+        assert.contains(`${aCandidate.birthProvinceCode}`);
+        assert.contains(`${aCandidate.birthCountry}`);
+        assert.contains(`${aCandidate.email}`);
+        assert.contains(`${aCandidate.resultRecipientEmail}`);
+        assert.contains(`${aCandidate.externalId}`);
       });
 
       module('on import', function() {
@@ -141,7 +138,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           await upload('#upload-attendance-sheet', file);
 
           // then
-          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez modifier votre fichier et l’importer à nouveau.');
+          assert.dom('[data-test-notification-message="error"]').hasText('Aucun candidat n’a été importé. Une erreur personnalisée Veuillez télécharger à nouveau le modèle de liste des candidats et l\'importer à nouveau.');
         });
 
         test('it should display a specific error message when importing is forbidden', async function(assert) {
