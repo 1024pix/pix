@@ -53,7 +53,9 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   @action
-  validateAnswer() {
+  validateAnswer(event) {
+    event.preventDefault();
+
     if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
 
       if (this._hasError() && !this.hasChallengeTimedOut) {
