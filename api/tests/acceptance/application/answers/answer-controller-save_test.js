@@ -213,5 +213,78 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
     });
 
+    context('when the answer is empty and timeout', () => {
+
+      beforeEach(() => {
+        // given
+        const learningContent = {
+          areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
+          competences: [{
+            id: 'recCompetence',
+            areaId: 'recArea1',
+            skillIds: ['recSkill1'],
+            origin: 'Pix',
+          }],
+          skills: [{
+            id: 'recSkill1',
+            name: '@recArea1_Competence1_Tube1_Skill1',
+            status: 'actif',
+            competenceId: 'recCompetence',
+          }],
+          challenges: [{
+            id: challengeId,
+            competenceId: 'recCompetence',
+            skillIds: ['recSkill1'],
+            status: 'validé',
+            solution: correctAnswer,
+            locales: ['fr-fr'],
+            type: 'QROC',
+          }],
+        };
+        mockLearningContent(learningContent);
+
+        postAnswersOptions = {
+          method: 'POST',
+          url: '/api/answers',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+          payload: {
+            data: {
+              type: 'answers',
+              attributes: {
+                value: '',
+                timeout: 25,
+                'elapsed-time': 100,
+              },
+              relationships: {
+                assessment: {
+                  data: {
+                    type: 'assessments',
+                    id: insertedAssessmentId,
+                  },
+                },
+                challenge: {
+                  data: {
+                    type: 'challenges',
+                    id: challengeId,
+                  },
+                },
+              },
+            },
+          },
+        };
+
+        // when
+        promise = server.inject(postAnswersOptions);
+      });
+
+      it('should return 201 HTTP status code', async () => {
+        // when
+        const response = await promise;
+
+        // then
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
   });
 });
