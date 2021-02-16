@@ -31,7 +31,7 @@
       />
     </div>
     <div>
-      {{t 'common.pagination.page-number' current=this.currentPage total=this.pageCount}}
+      {{t 'common.pagination.page-number' current=this.currentPage total=(if this.pageCount this.pageCount 1)}}
     </div>
     <div class="page-navigation__arrow page-navigation__arrow--next">
       <PixIconButton
@@ -41,8 +41,8 @@
         @withBackground={{false}}
         @size="small"
         @color="dark-grey"
-        disabled={{eq this.currentPage this.pageCount}}
-        aria-disabled="{{eq this.currentPage this.pageCount}}"
+        disabled={{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}
+        aria-disabled="{{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}"
       />
     </div>
   </div>
