@@ -946,10 +946,26 @@
                 "first-name": "First name",
                 "last-name": "Last name",
                 "email": "Email address",
-                "new-email": "New email address",
                 "username": "Username",
-                "edit-button": "Edit",
-                "save-button": "Save"
+                "edit-button": "Edit"
+            },
+            "account-update-email": {
+                "title": "",
+                "informations": "",
+                "save-button": "",
+                "fields": {
+                    "new-email": {
+                        "label": "Email address"
+                    },
+                    "new-email-confirmation": {
+                        "label": ""
+                    },
+                    "errors": {
+                        "wrong-format": "Your email address is invalid.",
+                        "mismatching": "",
+                        "unknown": ""
+                    }
+                }
             }
         },
         "user-tutorials": {

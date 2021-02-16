@@ -1,7 +1,7 @@
 const updateUserEmail = require('../../../../lib/domain/usecases/update-user-email');
 const { AlreadyRegisteredEmailError, UserNotAuthorizedToUpdateEmailError } = require('../../../../lib/domain/errors');
 
-const { sinon, expect, catchErr, domainBuilder } = require('../../../test-helper');
+const { sinon, expect, catchErr } = require('../../../test-helper');
 
 describe('Unit | UseCase | update-user-email', () => {
 
@@ -23,11 +23,13 @@ describe('Unit | UseCase | update-user-email', () => {
   it('should call updateEmail', async () => {
     // given
     const userId = 1;
+    const authenticatedUserId = 1;
     const newEmail = 'new_email@example.net';
 
     // when
     await updateUserEmail({
       userId,
+      authenticatedUserId,
       email: newEmail,
       userRepository,
       schoolingRegistrationRepository,
@@ -40,15 +42,40 @@ describe('Unit | UseCase | update-user-email', () => {
     });
   });
 
+  it('should save email in lower case', async () => {
+    // given
+    const userId = 1;
+    const authenticatedUserId = 1;
+    const newEmail = 'EMAIl_IN_UPPER_CASE@example.net';
+    const newEmailInLowerCase = newEmail.toLowerCase();
+
+    // when
+    await updateUserEmail({
+      userId,
+      authenticatedUserId,
+      email: newEmail,
+      userRepository,
+      schoolingRegistrationRepository,
+    });
+
+    // then
+    expect(userRepository.updateEmail).to.have.been.calledWith({
+      id: userId,
+      email: newEmailInLowerCase,
+    });
+  });
+
   it('throw AlreadyRegisteredEmailError if email already exists', async () => {
     // given
     userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
     const userId = 1;
+    const authenticatedUserId = 1;
     const newEmail = 'new_email@example.net';
 
     // when
     const error = await catchErr(updateUserEmail)({
       userId,
+      authenticatedUserId,
       email: newEmail,
       userRepository,
       schoolingRegistrationRepository,
@@ -58,15 +85,16 @@ describe('Unit | UseCase | update-user-email', () => {
     expect(error).to.be.an.instanceOf(AlreadyRegisteredEmailError);
   });
 
-  it('throw UserNotAuthorizedToUpdateEmailError if user has not email', async () => {
+  it('throw UserNotAuthorizedToUpdateEmailError if the authenticated user try to change the email of an other user', async () => {
     // given
-    userRepository.get.resolves({});
     const userId = 1;
+    const authenticatedUserId = 2;
     const newEmail = 'new_email@example.net';
 
     // when
     const error = await catchErr(updateUserEmail)({
       userId,
+      authenticatedUserId,
       email: newEmail,
       userRepository,
       schoolingRegistrationRepository,
@@ -76,15 +104,17 @@ describe('Unit | UseCase | update-user-email', () => {
     expect(error).to.be.an.instanceOf(UserNotAuthorizedToUpdateEmailError);
   });
 
-  it('throw UserNotAuthorizedToUpdateEmailError if user is reconciled', async () => {
+  it('throw UserNotAuthorizedToUpdateEmailError if user has not email', async () => {
     // given
+    userRepository.get.resolves({});
     const userId = 1;
+    const authenticatedUserId = 1;
     const newEmail = 'new_email@example.net';
-    schoolingRegistrationRepository.findByUserId.resolves([domainBuilder.buildSchoolingRegistration()]);
 
     // when
     const error = await catchErr(updateUserEmail)({
       userId,
+      authenticatedUserId,
       email: newEmail,
       userRepository,
       schoolingRegistrationRepository,
