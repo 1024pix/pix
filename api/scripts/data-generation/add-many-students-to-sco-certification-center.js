@@ -1,23 +1,32 @@
+const _ = require('lodash');
 const { SCO_MIDDLE_SCHOOL_ID } = require('../../db/seeds/data/organizations-sco-builder');
-const times = require('lodash/times');
-const faker = require('faker');
 const SchoolingRegistration = require('../../lib/domain/models/SchoolingRegistration');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain/errors');
 const { knex } = require('../../lib/infrastructure/bookshelf');
 const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
 
-function _buildSchoolingRegistration() {
+function _buildSchoolingRegistration(iteration) {
+  const birthdates = [
+    '2001-01-05',
+    '2002-11-15',
+    '1995-06-25',
+  ];
+  const divisions = [
+    '5eme',
+    '4eme',
+    '3eme',
+  ];
   return new SchoolingRegistration({
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    birthdate: faker.date.past(),
-    division: faker.lorem.word(),
+    firstName: `someFirstName${iteration}`,
+    lastName: `someLastName${iteration}`,
+    birthdate: birthdates[_.random(0, 2)],
+    division: divisions[_.random(0, 2)],
     organizationId: SCO_MIDDLE_SCHOOL_ID,
   });
 }
 
 async function addManyStudentsToScoCertificationCenter(numberOfStudents) {
-  const manyStudents = times(numberOfStudents, _buildSchoolingRegistration);
+  const manyStudents = _.times(numberOfStudents, _buildSchoolingRegistration);
   try {
     await knex
       .batchInsert('schooling-registrations', manyStudents)
