@@ -15,6 +15,10 @@ export default class TimeoutGauge extends Component {
 
   constructor() {
     super(...arguments);
+
+    const allottedTimeInSeconds = this.args.allottedTime;
+    this.remainingSeconds = this._isNumeric(allottedTimeInSeconds) ? allottedTimeInSeconds : 0;
+
     this._startTimer();
   }
 
@@ -25,9 +29,6 @@ export default class TimeoutGauge extends Component {
 
   _startTimer() {
     if (ENV.APP.isTimerCountdownEnabled) {
-      const allottedTimeInSeconds = this.args.allottedTime;
-      this.remainingSeconds = this._isNumeric(allottedTimeInSeconds) ? allottedTimeInSeconds : 0;
-
       this._timer = setInterval(() => {
         this.remainingSeconds = this.remainingSeconds - 1;
 
