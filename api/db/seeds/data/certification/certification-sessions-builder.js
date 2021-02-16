@@ -59,6 +59,15 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     finalizedAt: new Date('2020-04-15T15:00:34Z'),
   });
 
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId: NO_PROBLEM_FINALIZED_SESSION_ID,
+    certificationCenterName: certificationCenter,
+    isPublishable: true,
+    publishedAt: null,
+    date, time,
+    finalizedAt: new Date('2020-04-15T15:00:34Z'),
+  });
+
   databaseBuilder.factory.buildSession({
     id: PROBLEMS_FINALIZED_SESSION_ID,
     certificationCenter, certificationCenterId, address, room, examiner, date, time,
@@ -67,6 +76,15 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     assignedCertificationOfficerId: PIX_MASTER_ID,
+  });
+
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId: PROBLEMS_FINALIZED_SESSION_ID,
+    certificationCenterName: certificationCenter,
+    isPublishable: false,
+    publishedAt: null,
+    date, time,
+    finalizedAt: new Date('2020-05-05T15:00:34Z'),
   });
 
   databaseBuilder.factory.buildSession({
@@ -84,6 +102,15 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     certificationCenter, certificationCenterId, address, room, examiner, date, time,
     description: 'Session publiée',
     accessCode: 'ANNE08',
+    finalizedAt: new Date('2020-05-05T15:00:34Z'),
+    publishedAt: new Date('2020-06-05T15:00:34Z'),
+  });
+
+  databaseBuilder.factory.buildFinalizedSession({
+    sessionId: PUBLISHED_SESSION_ID,
+    certificationCenterName: certificationCenter,
+    isPublishable: true,
+    date, time,
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     publishedAt: new Date('2020-06-05T15:00:34Z'),
   });

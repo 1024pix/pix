@@ -2,12 +2,12 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/list', function(hooks) {
+module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
   setupTest(hooks);
   let route;
 
   hooks.beforeEach(function() {
-    route = this.owner.lookup('route:authenticated/sessions/list');
+    route = this.owner.lookup('route:authenticated/sessions/list/all');
   });
 
   module('#model', function(hooks) {
@@ -259,6 +259,5 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
         assert.equal(controller.resultsSentToPrescriberAt, 'someValue');
       });
     });
-
   });
 });

@@ -1,3 +1,4 @@
+import { Response } from 'ember-cli-mirage';
 import { createMembership } from './handlers/memberships';
 import { attachTargetProfiles, attachTargetProfileToOrganizations, getOrganizationTargetProfiles, findPaginatedTargetProfileOrganizations, updateTargetProfileName } from './handlers/target-profiles';
 import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
@@ -10,6 +11,13 @@ export default function() {
   this.namespace = 'api';
 
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
+  this.get('/admin/sessions/to-publish', (schema) => {
+    const publishableSessions = schema.publishableSessions.all();
+    return publishableSessions;
+  });
+  this.patch('/admin/sessions/:id/publish', () => {
+    return new Response(200);
+  });
   this.get('/admin/sessions/:id');
   this.get('/admin/sessions/:id/jury-certification-summaries', getJuryCertificationSummariesBySessionId);
   this.put('/admin/sessions/:id/results-sent-to-prescriber', (schema, request) => {
