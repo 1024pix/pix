@@ -28,7 +28,9 @@ module.exports = {
   // TODO use _toDomain()
   getByEmail(email) {
     return BookshelfUser
-      .where({ email: email.toLowerCase() })
+      .query((qb) => {
+        qb.where('email', 'ILIKE', email);
+      })
       .fetch({ require: true })
       .then((bookshelfUser) => {
         return bookshelfUser.toDomainEntity();
