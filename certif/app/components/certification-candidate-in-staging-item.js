@@ -5,13 +5,9 @@ import { action } from '@ember/object';
 import { computed } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-import config from 'pix-certif/config/environment';
-
 const firstOf20thCentury = -2206310961000;
 
 export default class CertificationCandidateInStagingItem extends Component {
-
-  isResultRecipientEmailVisible = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
   birthProvinceCodePattern = '^[0-9][A,a,B,b,0-9][0-9]?$'
 

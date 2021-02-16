@@ -6,96 +6,41 @@
       </div>
       <div class="panel-actions__header-title">Ajouter des candidats</div>
     </div>
-    {{#if this.isResultRecipientEmailVisible}}
-      <div class="panel-actions__action-row">
-        <div class="panel-actions__action-icon">
-          <FaIcon @icon="file-download" />
-        </div>
-        <div class="panel-actions__description">
-          <div class="panel-actions__title">Télécharger le modèle de liste des candidats</div>
-          <div class="panel-actions__subtitle">Pour ajouter des candidats à la session, renseignez leurs informations (Nom, Prénom, …) dans ce document.
-            <br> Lors du premier téléchargement, le modèle de liste des candidats est vide. Il contiendra ensuite les informations des candidats ajoutés à la session.
-          </div>
-        </div>
-        <div class="panel-actions__button">
-          <a data-test-id="attendance_sheet_download_button"
-            class="button button--link button--with-icon"
-            href="{{@session.urlToDownloadCandidatesImportTemplate}}" target="_blank" rel="noopener noreferrer" download>
-            Télécharger (.ods)<FaIcon @icon='file-download' />
-          </a>
+    <div class="panel-actions__action-row">
+      <div class="panel-actions__action-icon">
+        <FaIcon @icon="file-download" />
+      </div>
+      <div class="panel-actions__description">
+        <div class="panel-actions__title">Télécharger le modèle de liste des candidats</div>
+        <div class="panel-actions__subtitle">Pour ajouter des candidats à la session, renseignez leurs informations (Nom, Prénom, …) dans ce document.
+          <br> Lors du premier téléchargement, le modèle de liste des candidats est vide. Il contiendra ensuite les informations des candidats ajoutés à la session.
         </div>
       </div>
-    {{else}}
-      <div class="panel-actions__action-row">
-        <div class="panel-actions__action-icon">
-          <FaIcon @icon="file-download" />
-        </div>
-        <div class="panel-actions__description">
-          <div class="panel-actions__title">
-            {{#if @isReportsCategorizationFeatureToggleEnabled}}
-              Télécharger la feuille d'émargement
-            {{else}}
-              Télécharger le PV de session
-            {{/if}}
-          </div>
-          <div class="panel-actions__subtitle">Renseignez les informations des candidats (Nom, Prénom, &#x2026;)
-            <br>
-            {{#if @isReportsCategorizationFeatureToggleEnabled}}
-              Lors du premier téléchargement, la feuille d'émargement est vide. Elle contiendra ensuite les informations des candidats ajoutés à la session.
-            {{else}}
-              Lors du premier téléchargement, le PV de session est vide. Il contiendra ensuite les informations des candidats ajoutés à la session.
-            {{/if}}
-          </div>
-        </div>
-        <div class="panel-actions__button">
-          <a data-test-id="attendance_sheet_download_button"
-            class="button button--link button--with-icon"
-            href="{{@session.urlToDownloadAttendanceSheet}}" target="_blank" rel="noopener noreferrer" download>
-            Télécharger (.ods)<FaIcon @icon='file-download' />
-          </a>
-        </div>
+      <div class="panel-actions__button">
+        <a class="button button--link button--with-icon"
+          href="{{@session.urlToDownloadCandidatesImportTemplate}}" target="_blank" rel="noopener noreferrer" download>
+          Télécharger (.ods)<FaIcon @icon='file-download' />
+        </a>
       </div>
-    {{/if}}
+    </div>
     <div class="panel-actions__action-row">
       {{#if @importAllowed}}
         <div class="panel-actions__action-icon">
           <FaIcon @icon="cloud-upload-alt" />
         </div>
         <div class="panel-actions__description">
-          {{#if this.isResultRecipientEmailVisible}}
-            <div class="panel-actions__title">Importer la liste des candidats</div>
-            <div class="panel-actions__subtitle">
-              Sélectionnez la liste des candidats préalablement remplie.
-              <br>
-              <strong>
-                Attention, tout nouvel import efface la liste des candidats existante.
-              </strong>
-            </div>
-          {{else}}
-            <div class="panel-actions__title">
-              {{#if @isReportsCategorizationFeatureToggleEnabled}}
-                Importer la feuille d'émargement
-              {{else}}
-                Importer le PV de session
-              {{/if}}
-            </div>
-            <div class="panel-actions__subtitle">
-              {{#if @isReportsCategorizationFeatureToggleEnabled}}
-                Sélectionnez la feuille d'émargement préalablement remplie.
-              {{else}}
-                Sélectionnez le PV de session préalablement rempli.
-              {{/if}}
-              <br>
-              <strong>
-                Attention, tout nouvel import efface la liste des candidats existante.
-              </strong>
-            </div>
-          {{/if}}
+          <div class="panel-actions__title">Importer la liste des candidats</div>
+          <div class="panel-actions__subtitle">
+            Sélectionnez la liste des candidats préalablement remplie.
+            <br>
+            <strong>
+              Attention, tout nouvel import efface la liste des candidats existante.
+            </strong>
+          </div>
         </div>
         <div class="panel-actions__button">
           <FileUpload @name="file-upload" @for="upload-attendance-sheet" @accept=".ods" @multiple={{false}} @onfileadd={{this.importCertificationCandidates}}>
-            <span data-test-id="attendance_sheet_upload_button"
-                  class="button button--with-icon"
+            <span class="button button--with-icon"
                   role="button"
                   tabindex="0">
               Importer (.ods)<FaIcon @icon='cloud-upload-alt' />
