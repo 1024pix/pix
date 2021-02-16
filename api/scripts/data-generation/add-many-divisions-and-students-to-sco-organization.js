@@ -1,27 +1,41 @@
-const times = require('lodash/times');
-const flatMap = require('lodash/flatMap');
-const faker = require('faker');
+const _ = require('lodash');
+const randomString = require('randomstring');
 const SchoolingRegistration = require('../../lib/domain/models/SchoolingRegistration');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain/errors');
 const { knex } = require('../../lib/infrastructure/bookshelf');
 
-function _buildSchoolingRegistration(division, organizationId) {
+function _buildSchoolingRegistration(division, organizationId, iteration) {
+  const birthdates = [
+    '2001-01-05',
+    '2002-11-15',
+    '1995-06-25',
+  ];
   return new SchoolingRegistration({
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    birthdate: faker.date.past(),
+    firstName: `someFirstName${iteration}`,
+    lastName: `someLastName${iteration}`,
+    birthdate: birthdates[_.random(0, 2)],
     division,
     organizationId,
   });
 }
 
 async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisions, organizationId) {
-  const divisions = times(numberOfDivisions, () => faker.random.alphaNumeric(5));
+  const divisions = [];
+  for (let i = 0; i < numberOfDivisions; ++i) {
+    const letters = randomString.generate({ length: 2, charset: 'alphabetic', capitalization: 'uppercase', readable: true });
+    const numbers = randomString.generate({ length: 1, charset: 'numeric', readable: true });
+
+    const generatedDivision = letters.concat(numbers);
+    if (_.find(divisions, (division) => division === generatedDivision)) {
+      --i;
+    } else {
+      divisions.push(generatedDivision);
+    }
+  }
   const numberOfStudentsPerDivision = 30;
 
-  const manyStudents = flatMap(divisions, (division) => {
-    const students = times(numberOfStudentsPerDivision, () => _buildSchoolingRegistration(division, organizationId));
-    return students;
+  const manyStudents = _.flatMap(divisions, (division) => {
+    return _.times(numberOfStudentsPerDivision, (iteration) => _buildSchoolingRegistration(division, organizationId, iteration));
   });
 
   try {
