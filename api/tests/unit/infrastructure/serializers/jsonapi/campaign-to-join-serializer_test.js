@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', () => {
             'is-archived': campaignToJoin.isArchived,
             'is-restricted': campaignToJoin.isRestricted,
             'is-simplified-access': campaignToJoin.isSimplifiedAccess,
+            'is-for-absolute-novice': campaignToJoin.isForAbsoluteNovice,
             'organization-is-pole-emploi': campaignToJoin.organizationIsPoleEmploi,
             'organization-name': campaignToJoin.organizationName,
             'organization-type': campaignToJoin.organizationType,
