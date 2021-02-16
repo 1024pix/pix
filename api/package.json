@@ -36,7 +36,6 @@
     "csv-parse": "^4.12.0",
     "dezalgo": "^1.0.3",
     "dotenv": "^8.2.0",
-    "faker": "^4.1.0",
     "fast-levenshtein": "^3.0.0",
     "file-type": "^16.0.1",
     "good": "^8.1.2",
