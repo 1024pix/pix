@@ -33,8 +33,13 @@ module.exports = {
 
   async save(userId, certificationCenterId) {
     try {
-      const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({ userId, certificationCenterId })
-        .save();
+      const newCertificationCenterMembership = await new BookshelfCertificationCenterMembership({
+        userId,
+        certificationCenterId,
+      })
+        .save()
+        .then((model) => model.fetch({ withRelated: ['user', 'certificationCenter'] }));
+
       return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCenterMembership, newCertificationCenterMembership);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
