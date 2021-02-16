@@ -53,6 +53,21 @@
         "review": "Review"
       }
     },
+    "campaign-details": {
+      "actions": {
+        "edit": "Edit",
+        "archive": "Archive",
+        "copy-link": {
+          "copied": "Copied!",
+          "copy": "Copy direct link"
+        }
+      },
+      "direct-link": "Direct link",
+      "external-user-id-label": "External user ID label",
+      "landing-page-text": "Text to display on the starting page",
+      "personalised-test-title": "Title of the personalised test",
+      "target-profile": "Target profile"
+    },
     "campaigns-list": {
       "action": {
         "archived": {

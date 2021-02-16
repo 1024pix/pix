@@ -53,6 +53,21 @@
         "review": "Analyse"
       }
     },
+    "campaign-details": {
+      "actions": {
+        "archive": "Archiver",
+        "copy-link": {
+          "copied": "Copié !",
+          "copy": "Copier le lien direct"
+        },
+        "edit": "Modifier"
+      },
+      "direct-link": "Lien direct",
+      "external-user-id-label": "Libellé de l'identifiant",
+      "landing-page-text": "Texte de la page d'accueil",
+      "personalised-test-title": "Titre du parcours",
+      "target-profile": "Profil cible"
+    },
     "campaigns-list": {
       "action": {
         "archived": {
