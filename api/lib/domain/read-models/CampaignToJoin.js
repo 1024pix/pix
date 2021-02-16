@@ -11,6 +11,7 @@ class CampaignToJoin {
     alternativeTextToExternalIdHelpImage,
     archivedAt,
     type,
+    isForAbsoluteNovice,
     organizationId,
     organizationName,
     organizationType,
@@ -32,6 +33,7 @@ class CampaignToJoin {
     this.archivedAt = archivedAt;
     this.isRestricted = organizationIsManagingStudents;
     this.isSimplifiedAccess = targetProfileIsSimplifiedAccess;
+    this.isForAbsoluteNovice = isForAbsoluteNovice;
     this.organizationId = organizationId;
     this.organizationName = organizationName;
     this.organizationType = organizationType;
