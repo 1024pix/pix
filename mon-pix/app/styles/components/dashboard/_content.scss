@@ -23,14 +23,6 @@
 
     grid-area: score;
     margin-bottom: 20px;
-
-    &:first-of-type {
-      padding-top: 0;
-
-      .dashboard-content-score__wrapper {
-        margin-top: 0;
-      }
-    }
   }
 
   &__main {
