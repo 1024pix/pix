@@ -10,7 +10,6 @@ export default class SessionToBePublishedController extends Controller {
   async publishSession(publishableSession) {
     try {
       await publishableSession.publish();
-      publishableSession.unloadRecord();
     } catch (err) {
       const finalErr = get(err, 'errors[0].detail', err);
       this.notifications.error(finalErr);

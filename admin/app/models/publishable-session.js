@@ -20,5 +20,8 @@ export default class PublishableSessionModel extends Model {
     path: 'publish',
     type: 'patch',
     urlType: 'updateRecord',
+    after() {
+      this.unloadRecord();
+    },
   })
 }
