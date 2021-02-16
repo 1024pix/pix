@@ -946,10 +946,26 @@
                 "first-name": "Prénom",
                 "last-name": "Nom",
                 "email": "Adresse e-mail",
-                "new-email": "Nouvelle adresse e-mail",
                 "username": "Identifiant",
-                "edit-button": "Modifier",
-                "save-button": "Enregistrer"
+                "edit-button": "Modifier"
+            },
+            "account-update-email": {
+                "title": "Modification de votre adresse e-mail",
+                "informations": "Cette adresse e-mail doit être valide en cas de mot de passe oublié. '<br>' Elle sera votre nouvelle adresse de connexion.",
+                "save-button": "Confirmer",
+                "fields": {
+                    "new-email": {
+                        "label": "Adresse e-mail"
+                    },
+                    "new-email-confirmation": {
+                        "label": "Confirmation de l'adresse e-mail"
+                    },
+                    "errors": {
+                        "wrong-format": "Votre adresse e-mail n’est pas valide.",
+                        "mismatching": "Les deux adresses e-mail ne sont pas identiques. Veuillez vérifier votre saisie.",
+                        "unknown": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
+                    }
+                }
             }
         },
         "user-tutorials": {

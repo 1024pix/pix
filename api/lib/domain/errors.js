@@ -67,7 +67,7 @@ class AssessmentResultNotCreatedError extends DomainError {
 }
 
 class AlreadyRegisteredEmailError extends DomainError {
-  constructor(message = 'Cet email est déjà utilisé.') {
+  constructor(message = 'Cette adresse e-mail est déjà utilisée.') {
     super(message);
   }
 }

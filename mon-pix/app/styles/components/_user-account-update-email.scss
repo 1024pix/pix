@@ -1,0 +1,42 @@
+.user-account-update-email {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 0 60px 0;
+
+  &__informations {
+    padding-top: 12px;
+    text-align: center;
+    color: $grey-90;
+    font-family: $font-open-sans;
+    line-height: 1.75rem;
+  }
+
+  &__form {
+    padding-top: 30px;
+  }
+
+  &__actions {
+    padding-top: 30px;
+    width: 100%;
+    max-width: 449px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__error {
+    padding-top: 30px;
+    color: $red;
+  }
+}
+
+.user-account-update-email-actions {
+
+  &__button {
+    min-width: 120px;
+  }
+}
+
+abbr.mandatory-mark {
+  text-decoration: none;
+}

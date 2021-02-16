@@ -92,7 +92,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', () => {
 
     // then
     expect(error).to.be.instanceOf(AlreadyRegisteredEmailError);
-    expect(error.message).to.equal('Cet email est déjà utilisé.');
+    expect(error.message).to.equal('Cette adresse e-mail est déjà utilisée.');
   });
 
 });
