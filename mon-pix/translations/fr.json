@@ -953,7 +953,8 @@
             },
             "account-update-email": {
                 "title": "Modification de votre adresse e-mail",
-                "informations": "Cette adresse e-mail doit être valide en cas de mot de passe oublié. '<br>' Elle sera votre nouvelle adresse de connexion.",
+                "email-information": "Cette adresse e-mail doit être valide en cas de mot de passe oublié. '<br>' Elle sera votre nouvelle adresse de connexion.",
+                "password-information": "Saisissez votre mot de passe pour confirmer",
                 "save-button": "Confirmer",
                 "fields": {
                     "new-email": {
@@ -962,10 +963,15 @@
                     "new-email-confirmation": {
                         "label": "Confirmation de l'adresse e-mail"
                     },
+                    "password": {
+                        "label": "Mot de passe"
+                    },
                     "errors": {
-                        "wrong-format": "Votre adresse e-mail n’est pas valide.",
-                        "mismatching": "Les deux adresses e-mail ne sont pas identiques. Veuillez vérifier votre saisie.",
-                        "unknown": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
+                        "wrong-email-format": "Votre adresse e-mail n’est pas valide.",
+                        "mismatching-email": "Les deux adresses e-mail ne sont pas identiques. Veuillez vérifier votre saisie.",
+                        "empty-password": "Votre mot de passe ne peut pas être vide.",
+                        "invalid-password": "Le mot de passe que vous avez saisi est invalide.",
+                        "unknown-error": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
                     }
                 }
             }

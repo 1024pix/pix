@@ -46,6 +46,7 @@ describe('Acceptance | User account page', function() {
       await click('button[data-test-edit-email]');
       await fillIn('#newEmail', newEmail);
       await fillIn('#newEmailConfirmation', newEmail);
+      await fillIn('#password', user.password);
       await click('button[data-test-submit-email]');
 
       // then

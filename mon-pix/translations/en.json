@@ -953,7 +953,8 @@
             },
             "account-update-email": {
                 "title": "",
-                "informations": "",
+                "email-information": "",
+                "password-information": "",
                 "save-button": "",
                 "fields": {
                     "new-email": {
@@ -962,10 +963,15 @@
                     "new-email-confirmation": {
                         "label": ""
                     },
+                    "password": {
+                        "label": "Password"
+                    },
                     "errors": {
-                        "wrong-format": "Your email address is invalid.",
-                        "mismatching": "",
-                        "unknown": ""
+                        "wrong-email-format": "Your email address is invalid.",
+                        "mismatching-email": "",
+                        "empty-password": "Your password can't be empty.",
+                        "invalid-password": "",
+                        "unknown-error": ""
                     }
                 }
             }

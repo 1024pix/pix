@@ -17,9 +17,11 @@ export default class UserAccountController extends Controller {
   }
 
   @action
-  async saveNewEmail(newEmail) {
+  async saveNewEmail(newEmail, password) {
     this.model.email = newEmail.trim().toLowerCase();
+    this.model.password = password;
     await this.model.save({ adapterOptions: { updateEmail: true } });
+    this.model.password = null;
     this.disableEmailEditionMode();
   }
 }
