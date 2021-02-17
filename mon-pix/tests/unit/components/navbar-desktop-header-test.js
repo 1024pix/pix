@@ -8,6 +8,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
   setupTest();
   const sessionStubResolve = Service.create({ isAuthenticated: true });
   const sessionStubReject = Service.create({ isAuthenticated: false });
+  const currentUserStub = Service.create({ user: {} });
 
   let component;
 
@@ -15,6 +16,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
     beforeEach(function() {
       component = createGlimmerComponent('component:navbar-desktop-header');
       component.session = sessionStubResolve;
+      component.currentUser = currentUserStub;
     });
 
     context('#isUserLogged', function() {
@@ -31,6 +33,24 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
 
         // then
         expect(component.menu).to.deep.equal(expectedMenu);
+      });
+    });
+
+    context('#showHeaderMenuItem', () => {
+      it('should return true, when logged user is not anonymous', () => {
+        // given
+        currentUserStub.user.isAnonymous = false;
+
+        // then
+        expect(component.showHeaderMenuItem).to.be.true;
+      });
+
+      it('should return false, when logged user is anonymous', () => {
+        // given
+        currentUserStub.user.isAnonymous = true;
+
+        // then
+        expect(component.showHeaderMenuItem).to.be.false;
       });
     });
   });
@@ -60,6 +80,13 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
         expect(component.menu).to.have.lengthOf(expectedMenu.length);
         expect(component.menu[0].link).to.equal(expectedMenu[0].link);
         expect(component.menu[1].link).to.equal(expectedMenu[1].link);
+      });
+    });
+
+    context('#showHeaderMenuItem', () => {
+      it('should return false', () => {
+        // then
+        expect(component.showHeaderMenuItem).to.be.false;
       });
     });
   });

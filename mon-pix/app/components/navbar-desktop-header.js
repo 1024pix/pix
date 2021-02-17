@@ -7,6 +7,7 @@ export default class NavbarDesktopHeader extends Component {
   @service router;
   @service session;
   @service intl;
+  @service currentUser;
 
   @tracked isUserLogged = this.session.isAuthenticated;
 
@@ -27,5 +28,9 @@ export default class NavbarDesktopHeader extends Component {
 
   get showDashboard() {
     return ENV.APP.FT_DASHBOARD;
+  }
+
+  get showHeaderMenuItem() {
+    return this.isUserLogged && !this.currentUser.user.isAnonymous;
   }
 }
