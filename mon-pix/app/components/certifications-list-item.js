@@ -1,40 +1,36 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
+import Component from '@glimmer/component';
 
-import Component from '@ember/component';
-import { classNames, classNameBindings } from '@ember-decorators/component';
-import { computed } from '@ember/object';
-import classic from 'ember-classic-decorator';
-
-const { and, or, not, equal } = computed;
-
-@classic
-@classNames('certifications-list-item')
-@classNameBindings(
-  'certification.isPublished:certifications-list-item__published-item:certifications-list-item__unpublished-item',
-  'isClickable:certifications-list-item__clickable:certifications-list-item__not-clickable',
-)
 export default class CertificationsListItem extends Component {
-  certification = null;
+  get isNotValidated() {
+    return !this.isValidated;
+  }
 
-  @equal('certification.status', 'validated')
-  isValidated;
+  get isValidated() {
+    return this.args.certification.get('status') === 'validated';
+  }
 
-  @not('isValidated')
-  isNotValidated;
+  get isNotPublished() {
+    return !this.isPublished;
+  }
 
-  @not('certification.isPublished')
-  isNotPublished;
+  get isPublished() {
+    const certification = this.args.certification;
+    return certification && certification.get('isPublished');
+  }
 
-  @and('isNotValidated', 'certification.isPublished')
-  isPublishedAndRejected;
+  get isPublishedAndRejected() {
+    return this.isPublished && this.isNotValidated;
+  }
 
-  @and('isValidated', 'certification.isPublished')
-  isPublishedAndValidated;
+  get isPublishedAndValidated() {
+    return this.isPublished && this.isValidated;
+  }
 
-  @and('isNotValidated', 'certification.{isPublished,commentForCandidate}')
-  shouldDisplayComment;
+  get shouldDisplayComment() {
+    return this.isPublishedAndRejected && this.args.certification.get('commentForCandidate');
+  }
 
-  @or('shouldDisplayComment', 'isPublishedAndValidated')
-  isClickable;
+  get isClickable() {
+    return this.shouldDisplayComment || this.isPublishedAndValidated;
+  }
 }

@@ -20,7 +20,7 @@ describe('Integration | Component | certifications list item', function() {
   const COMMENT_CELL_SELECTOR = '.certifications-list-item__row-comment-cell';
 
   it('renders', async function() {
-    await render(hbs`{{certifications-list-item certification=certification}}`);
+    await render(hbs`<CertificationsListItem />`);
     expect(find('.certifications-list-item__row-presentation')).to.exist;
   });
 
@@ -39,7 +39,7 @@ describe('Integration | Component | certifications list item', function() {
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{certifications-list-item certification=certification}}`);
+      await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
     });
 
     // then
@@ -70,7 +70,7 @@ describe('Integration | Component | certifications list item', function() {
         this.set('certification', certification);
 
         // when
-        await render(hbs`{{certifications-list-item certification=certification}}`);
+        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
       });
 
       // then
@@ -114,7 +114,7 @@ describe('Integration | Component | certifications list item', function() {
         this.set('certification', certification);
 
         // when
-        await render(hbs`{{certifications-list-item certification=certification}}`);
+        await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
       });
 
       // then
@@ -133,7 +133,6 @@ describe('Integration | Component | certifications list item', function() {
       });
 
       it('should show comment for candidate panel when clicked on row', async function() {
-
         await click(CERTIFICATION_CELL_SELECTOR);
 
         expect(find(COMMENT_CELL_SELECTOR)).to.exist;
@@ -157,7 +156,7 @@ describe('Integration | Component | certifications list item', function() {
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{certifications-list-item certification=certification}}`);
+      await render(hbs`<CertificationsListItem @certification={{this.certification}}/>`);
     });
 
     // then
