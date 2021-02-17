@@ -209,6 +209,7 @@ exports.register = async function(server) {
               type: Joi.string().valid('users').required(),
               attributes: {
                 email: Joi.string().email().required(),
+                password: Joi.string().required(),
               },
             },
           }),

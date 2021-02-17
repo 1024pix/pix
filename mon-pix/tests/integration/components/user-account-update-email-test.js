@@ -10,17 +10,6 @@ describe('Integration | Component | User account update email', () => {
   setupIntlRenderingTest();
 
   context('when editing e-mail', function() {
-    let user;
-    beforeEach(function() {
-      // given
-      user = {
-        firstName: 'John',
-        lastName: 'DOE',
-        email: 'john.doe@example.net',
-        username: 'john.doe0101',
-      };
-      this.set('user', user);
-    });
 
     it('should display save and cancel button', async function() {
       // when
@@ -37,6 +26,7 @@ describe('Integration | Component | User account update email', () => {
         // given
         const disableEmailEditionMode = sinon.stub();
         this.set('disableEmailEditionMode', disableEmailEditionMode);
+
         await render(hbs`<UserAccountUpdateEmail @disableEmailEditionMode={{this.disableEmailEditionMode}} />`);
 
         // when
@@ -55,14 +45,14 @@ describe('Integration | Component | User account update email', () => {
           // given
           const wrongEmail = 'wrongEmail';
 
-          await render(hbs`<UserAccountUpdateEmail @user={{this.user}} />`);
+          await render(hbs`<UserAccountUpdateEmail />`);
 
           // when
           await fillIn('#newEmail', wrongEmail);
           await triggerEvent('#newEmail', 'blur');
 
           // then
-          expect(find('#validationMessage-newEmail').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-format'));
+          expect(find('#validationMessage-newEmail').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
         });
       });
 
@@ -72,14 +62,14 @@ describe('Integration | Component | User account update email', () => {
           // given
           const wrongEmail = 'wrongEmail';
 
-          await render(hbs`<UserAccountUpdateEmail @user={{this.user}} />`);
+          await render(hbs`<UserAccountUpdateEmail />`);
 
           // when
           await fillIn('#newEmailConfirmation', wrongEmail);
           await triggerEvent('#newEmailConfirmation', 'blur');
 
           // then
-          expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-format'));
+          expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
         });
       });
 
@@ -90,7 +80,7 @@ describe('Integration | Component | User account update email', () => {
           const newEmail = 'new-email@example.net';
           const newEmailConfirmation = 'new-email-confirmation@example.net';
 
-          await render(hbs`<UserAccountUpdateEmail @user={{this.user}} />`);
+          await render(hbs`<UserAccountUpdateEmail />`);
 
           // when
           await fillIn('#newEmail', newEmail);
@@ -98,8 +88,36 @@ describe('Integration | Component | User account update email', () => {
           await triggerEvent('#newEmailConfirmation', 'blur');
 
           // then
-          expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.mismatching'));
+          expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.mismatching-email'));
         });
+      });
+
+      context('in password input', function() {
+
+        it('should display an empty password error message when focus-out', async function() {
+          // given
+          const newEmail = 'newEmail@example.net';
+          const emptyPassword = '';
+
+          await render(hbs`<UserAccountUpdateEmail />`);
+
+          // when
+          await fillIn('#newEmail', newEmail);
+          await fillIn('#newEmailConfirmation', newEmail);
+          await fillIn('#password', emptyPassword);
+          await triggerEvent('#password', 'blur');
+
+          // then
+          expect(find('#validationMessage-password').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'));
+        });
+      });
+
+      it('should disable the confirm button if the form is not valid', async function() {
+        // when
+        await render(hbs`<UserAccountUpdateEmail />`);
+
+        // then
+        expect(find('button[data-test-submit-email]')).to.have.attr('disabled');
       });
     });
 
@@ -108,51 +126,39 @@ describe('Integration | Component | User account update email', () => {
       it('should call save new email method', async function() {
         // given
         const newEmail = 'newEmail@example.net';
+        const password = 'password';
+
         const saveNewEmail = sinon.stub();
         this.set('saveNewEmail', saveNewEmail);
 
-        await render(hbs`<UserAccountUpdateEmail @user={{this.user}} @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillIn('#newEmail', newEmail);
         await fillIn('#newEmailConfirmation', newEmail);
+        await fillIn('#password', password);
         await click('button[data-test-submit-email]');
 
         // then
         sinon.assert.calledWith(saveNewEmail, newEmail);
       });
 
-      it('should display wrong format error if response status is 422', async function() {
-        // given
-        const newEmail = 'newEmail@example.net';
-        const saveNewEmail = sinon.stub();
-        this.set('saveNewEmail', saveNewEmail);
-        saveNewEmail.rejects({ errors: [{ status: '422' }] });
-
-        await render(hbs`<UserAccountUpdateEmail @user={{this.user}} @saveNewEmail={{this.saveNewEmail}} />`);
-
-        // when
-        await fillIn('#newEmail', newEmail);
-        await fillIn('#newEmailConfirmation', newEmail);
-        await click('button[data-test-submit-email]');
-
-        // then
-        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-format'));
-      });
-
       it('should display error message from server if response status is 400 or 403', async function() {
         // given
         const newEmail = 'newEmail@example.net';
+        const password = 'password';
         const expectedErrorMessage = 'An error message';
+
         const saveNewEmail = sinon.stub();
         this.set('saveNewEmail', saveNewEmail);
         saveNewEmail.rejects({ errors: [{ status: '400', detail: expectedErrorMessage }] });
 
-        await render(hbs`<UserAccountUpdateEmail @user={{this.user}} @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillIn('#newEmail', newEmail);
         await fillIn('#newEmailConfirmation', newEmail);
+        await fillIn('#password', password);
         await click('button[data-test-submit-email]');
 
         // then
@@ -162,19 +168,64 @@ describe('Integration | Component | User account update email', () => {
       it('should display default error message if response status is unknown', async function() {
         // given
         const newEmail = 'newEmail@example.net';
+        const password = 'password';
+
         const saveNewEmail = sinon.stub();
         this.set('saveNewEmail', saveNewEmail);
         saveNewEmail.rejects({});
 
-        await render(hbs`<UserAccountUpdateEmail @user={{this.user}} @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillIn('#newEmail', newEmail);
         await fillIn('#newEmailConfirmation', newEmail);
+        await fillIn('#password', password);
         await click('button[data-test-submit-email]');
 
         // then
-        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.unknown'));
+        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.unknown-error'));
+      });
+
+      it('should display wrong email format error if response status is 422', async function() {
+        // given
+        const newEmail = 'newEmail@example.net';
+        const password = 'password';
+
+        const saveNewEmail = sinon.stub();
+        this.set('saveNewEmail', saveNewEmail);
+        saveNewEmail.rejects({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] });
+
+        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+
+        // when
+        await fillIn('#newEmail', newEmail);
+        await fillIn('#newEmailConfirmation', newEmail);
+        await fillIn('#password', password);
+        await click('button[data-test-submit-email]');
+
+        // then
+        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
+      });
+
+      it('should display empty password error if response status is 422', async function() {
+        // given
+        const newEmail = 'newEmail@example.net';
+        const password = 'password';
+
+        const saveNewEmail = sinon.stub();
+        this.set('saveNewEmail', saveNewEmail);
+        saveNewEmail.rejects({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] });
+
+        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+
+        // when
+        await fillIn('#newEmail', newEmail);
+        await fillIn('#newEmailConfirmation', newEmail);
+        await fillIn('#password', password);
+        await click('button[data-test-submit-email]');
+
+        // then
+        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'));
       });
     });
   });
