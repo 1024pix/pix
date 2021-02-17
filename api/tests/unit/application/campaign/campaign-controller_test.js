@@ -222,6 +222,10 @@ describe('Unit | Application | Controller | Campaign', () => {
   });
 
   describe('#getById', () => {
+
+    const campaignId = 1;
+    const userId = 1;
+
     let request, campaign;
 
     beforeEach(() => {
@@ -248,19 +252,20 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       queryParamsUtils.extractParameters.withArgs({}).returns({});
       tokenService.createTokenForCampaignResults.withArgs(request.auth.credentials.userId).returns('token');
+      usecases.getCampaign.resolves(campaign);
     });
 
     it('should return the campaign', async () => {
       // given
       const expectedResult = Symbol('ok');
       const tokenForCampaignResults = 'token';
-      usecases.getCampaign.withArgs({ campaignId: campaign.id }).resolves(campaign);
       campaignReportSerializer.serialize.withArgs(campaign, {}, { tokenForCampaignResults }).returns(expectedResult);
 
       // when
       const response = await campaignController.getById(request, hFake);
 
       // then
+      expect(usecases.getCampaign).calledWith({ campaignId, userId });
       expect(response).to.deep.equal(expectedResult);
     });
   });
