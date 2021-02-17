@@ -8,8 +8,8 @@ describe('Integration | Component | TimeoutGauge', function() {
 
   setupIntlRenderingTest();
 
-  const BLACK_GAUGE_ICON_PATH = '/images/icon-timeout-black.svg';
-  const RED_GAUGE_ICON_PATH = '/images/icon-timeout-red.svg';
+  const BLACK_GAUGE_ICON_PATH = '/images/icons/icon-timeout-black.svg';
+  const RED_GAUGE_ICON_PATH = '/images/icons/icon-timeout-red.svg';
 
   describe('Component rendering', function() {
     it('renders', async function() {
