@@ -31,14 +31,45 @@ module('Acceptance | authenticated/certifications/certification/profile', functi
 
     test('it should display certification id', async function(assert) {
       // given
-      const certification = this.server.create('certification');
-      this.server.create('certified-profile', { id: certification.id });
+      this.server.create('certification', { id: 123 });
+      const certifiedArea = this.server.create('certified-area', {
+        id: 'idArea1',
+        name: 'area1',
+      });
+      const certifiedCompetence = this.server.create('certified-competence', {
+        id: 'idCompetence1',
+        name: 'competence1',
+        areaId: 'idArea1',
+      });
+      const certifiedTube = this.server.create('certified-tube', {
+        id: 'idTube1',
+        name: 'tube1',
+        competenceId: 'idCompetence1',
+      });
+      const certifiedSkillInCertificationTest = this.server.create('certified-skill', {
+        id: 'idSkill1',
+        name: 'skill1',
+        tubeId: 'idTube1',
+        hasBeenAskedInCertif: true,
+      });
+      this.server.create('certified-profile', {
+        id: 123,
+        userId: 456,
+        certifiedAreas: [certifiedArea],
+        certifiedCompetences: [certifiedCompetence],
+        certifiedTubes: [certifiedTube],
+        certifiedSkills: [certifiedSkillInCertificationTest],
+      });
 
       // when
-      await visit(`/certifications/${certification.id}/profile`);
+      await visit('/certifications/123/profile');
 
       // then
-      assert.contains(certification.id);
+      assert.contains('ID du compte Pix du candidat: 456');
+      assert.contains('ID de la certification du candidat: 123');
+      assert.contains('area1');
+      assert.contains('competence1');
+      assert.contains('tube1');
     });
   });
 });

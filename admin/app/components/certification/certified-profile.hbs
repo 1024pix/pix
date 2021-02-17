@@ -1,0 +1,47 @@
+{{#each this.certifiedCompetenceList as |certifiedCompetence|}}
+  <section class="page-section mb_10 competence">
+    <span class="competence__border competence__border--{{certifiedCompetence.certifiedArea.color}}"></span>
+    <div>
+      <header class="competence__header">
+        <h2 class="competence__title">{{certifiedCompetence.name}}</h2>
+        <sub class="competence__subtitle">{{certifiedCompetence.certifiedArea.name}}</sub>
+      </header>
+      <table class="table-admin">
+        <thead>
+          <tr>
+            <th class="table__column table__column--wide">Sujet</th>
+            {{#each this.difficultyLevels as |difficultyLevel|}}
+              <th class="table__column table__column--small table__column--center">Niveau {{difficultyLevel}}</th>
+            {{/each}}
+          </tr>
+        </thead>
+        <tbody>
+        {{#each certifiedCompetence.certifiedTubes as |certifiedTube|}}
+          <tr>
+            <td>{{certifiedTube.name}}</td>
+            {{#each certifiedTube.certifiedSkills as |certifiedSkill|}}
+              <td class="table__column--center skill-column">
+                {{#if certifiedSkill.hasBeenAskedInCertif}}
+                  <PixTooltip @text={{concat certifiedSkill.id ' ' certifiedSkill.name}} @position='bottom'>
+                    <FaIcon @icon="check-double" class="skill-column--tested-in-certif" aria-label={{certifiedSkill.name}} />
+                  </PixTooltip>
+                {{else if certifiedSkill}}
+                  <PixTooltip @text={{concat certifiedSkill.id ' ' certifiedSkill.name}} @position='bottom'>
+                    <FaIcon @icon="check" class="skill-column--check" aria-label={{certifiedSkill.name}} />
+                  </PixTooltip>
+                {{else}}
+                  <FaIcon @icon="times" class="skill-column--uncheck" />
+                {{/if}}
+              </td>
+            {{/each}}
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{{else}}
+  <section class="page-section mb_10">
+    <div class="table__empty content-text">Profil certifié vide.</div>
+  </section>
+{{/each}}
