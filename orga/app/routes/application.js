@@ -14,8 +14,10 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
   @service url;
   @service intl;
   @service moment;
+  @service featureToggles;
 
-  beforeModel(transition) {
+  async beforeModel(transition) {
+    await this.featureToggles.load();
     const lang = transition.to.queryParams.lang;
     return this._getUserAndLocale(lang);
   }
