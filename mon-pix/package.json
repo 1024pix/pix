@@ -27,7 +27,7 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
-    "lint:scss": "stylelint app/styles/*.scss app/styles/**/*.scss",
+    "lint:scss": "stylelint app/styles/*.scss 'app/styles/**/*.scss'",
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
