@@ -4,7 +4,7 @@
   {{#unless this.hasUserSeenNewDashboardInfo}}
     <section class="dashboard-content__banner" data-test-new-dashboard-info>
       <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
-                      @image="/images/discovery_TDB_pix.svg"
+                      @image="/images/illustrations/discovery_TDB_pix.svg"
                       @backgroundColorClass="new-information--blue-gradient-background"
                       @textColorClass="new-information--white-text"
                       @linkText="{{this.newDashboardInfoLink.text}}"
@@ -25,7 +25,7 @@
     {{#unless this.hasUserSeenNewDashboardInfo}}
       <section class="dashboard-content-main__banner">
         <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
-                        @image="/images/discovery_TDB_pix.svg"
+                        @image="/images/illustrations/discovery_TDB_pix.svg"
                         @backgroundColorClass="new-information--blue-gradient-background"
                         @textColorClass="new-information--white-text"
                         @linkText="{{this.newDashboardInfoLink.text}}"
@@ -39,7 +39,7 @@
     <section class="dashboard-content__section" data-test-empty-dashboard>
       <div class="dashboard-content-section--with-button">
         <NewInformation @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
-                        @image="/images/fusee.png"
+                        @image="/images/illustrations/fusee.png"
                         @backgroundColorClass="new-information--yellow-background"
                         @linkText={{t 'pages.dashboard.empty-dashboard.link-to-competences'}}
                         @linkTo="profile"
