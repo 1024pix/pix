@@ -1,5 +1,8 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError,
+  UserNotAuthorizedToAccessEntityError,
+} = require('../../../../lib/domain/errors');
 const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
 describe('Unit | UseCase | get-campaign', () => {
@@ -8,11 +11,13 @@ describe('Unit | UseCase | get-campaign', () => {
   const stages = Symbol('stages');
 
   const campaignId = 1;
+  const userId = 1;
   const campaign = {
     id: campaignId,
     name: 'My campaign',
   };
 
+  let campaignRepository;
   let campaignReportRepository;
   let stageRepository;
   let badgeRepository;
@@ -20,6 +25,9 @@ describe('Unit | UseCase | get-campaign', () => {
   beforeEach(() => {
     badgeRepository = {
       findByCampaignId: sinon.stub(),
+    };
+    campaignRepository = {
+      checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
     };
     campaignReportRepository = {
       get: sinon.stub(),
@@ -29,6 +37,7 @@ describe('Unit | UseCase | get-campaign', () => {
     };
 
     badgeRepository.findByCampaignId.resolves(badges);
+    campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
     campaignReportRepository.get.resolves(campaign);
     stageRepository.findByCampaignId.resolves(stages);
   });
@@ -37,20 +46,26 @@ describe('Unit | UseCase | get-campaign', () => {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
+      userId,
       badgeRepository,
+      campaignRepository,
       campaignReportRepository,
       stageRepository,
     });
 
     // then
     expect(resultCampaign.name).to.equal(campaign.name);
+    expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign)
+      .calledWith(campaignId, userId);
   });
 
   it('should get campaign stages', async () => {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
+      userId,
       badgeRepository,
+      campaignRepository,
       campaignReportRepository,
       stageRepository,
     });
@@ -63,7 +78,9 @@ describe('Unit | UseCase | get-campaign', () => {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
+      userId,
       badgeRepository,
+      campaignRepository,
       campaignReportRepository,
       stageRepository,
     });
@@ -76,12 +93,32 @@ describe('Unit | UseCase | get-campaign', () => {
     // when
     const error = await catchErr(getCampaign)({
       campaignId: 'invalid Campaign Id',
+      userId,
       badgeRepository,
+      campaignRepository,
       campaignReportRepository,
       stageRepository,
     });
 
     // then
     expect(error).to.be.instanceOf(NotFoundError);
+  });
+
+  it('should throw UserNotAuthorizedToAccessEntityError when user does not belong to organization\'s campaign', async () => {
+    // given
+    campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
+
+    // when
+    const error = await catchErr(getCampaign)({
+      campaignId,
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
+
+    // then
+    return expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
   });
 });
