@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.21.0 (17/02/2021)
+
+- [#2558](https://github.com/1024pix/pix/pull/2558) [FEATURE] Traduction de la page de création de campagne (PIX-2143).
+- [#2522](https://github.com/1024pix/pix/pull/2522) [FEATURE] Voir le nombre de participants et supprimer les filtres dans la bannière de filtres (PIX-2056).
+- [#2539](https://github.com/1024pix/pix/pull/2539) [FEATURE] Ajouter la saisie du mot de passe pour le changement d'adresse e-mail sur Pix App (PIX-1745).
+- [#2557](https://github.com/1024pix/pix/pull/2557) [FEATURE] Traduction de la liste des campagnes dans Pix Orga (PIX-2142).
+- [#2554](https://github.com/1024pix/pix/pull/2554) [FEATURE] Affichage des sujets et tutos en anglais lorsque la langue saisie est "en" dans l'analyse individuelle d'une campagne d'évaluation (PIX-2101).
+- [#2562](https://github.com/1024pix/pix/pull/2562) [FEATURE] Ne pas afficher le didacticiel pour une campagne simplifiée pour des novices (PIX-2130).
+- [#2527](https://github.com/1024pix/pix/pull/2527) [FEATURE] Afficher la liste des sessions à publier (PIX-2095)
+- [#2567](https://github.com/1024pix/pix/pull/2567) [BUGFIX] Corriger un problème d'affichage des tables dans Pix Admin (PIX-2179)
+- [#2533](https://github.com/1024pix/pix/pull/2533) [TECH] Mettre le composant PixIconButton partout dans PixOrga (PIX-2138).
+- [#2565](https://github.com/1024pix/pix/pull/2565) [TECH] Ajuster l'appel au linter stylelint.
+- [#2553](https://github.com/1024pix/pix/pull/2553) [TECH] Corriger le flaky test sur PUT /api/schooling-registration-user-associations/possibilities de l'API (PIX-2157).
+- [#2547](https://github.com/1024pix/pix/pull/2547) [A11Y] Suppression de tag 'alt' inutile (PIX-1895).
+- [#2561](https://github.com/1024pix/pix/pull/2561) [API] Corriger le flaky test du script create-certification-center-memberships-from-organization-admins_test.js (PIX-2169).
+
 ## v3.20.0 (16/02/2021)
 
 - [#2556](https://github.com/1024pix/pix/pull/2556) [FEATURE] Ajouter un lien à la bannière du TDB (PIX-2123).
