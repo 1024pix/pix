@@ -17,20 +17,14 @@ describe('Unit | Component | timeout-gauge-component ', function() {
 
     describe('#formattedRemainingTime', function() {
       [
-        { allottedTime: new Date(), remainingSeconds: 0, expected: '0:00' },
-        { allottedTime: '  ', remainingSeconds: 0, expected: '0:00' },
-        { allottedTime: undefined, remainingSeconds: 0, expected: '0:00' },
-        { allottedTime: null, remainingSeconds: 0, expected: '0:00' },
-        { allottedTime: '0', remainingSeconds: 0, expected: '0:00' },
-        { allottedTime: 150, remainingSeconds: 120, expected: '2:00' },
-        { allottedTime: '120', remainingSeconds: 90, expected: '1:30' },
-        { allottedTime: '120', remainingSeconds: 60, expected: '1:00' },
-        { allottedTime: '120', remainingSeconds: 0, expected: '0:00' },
+        { remainingSeconds: 0, expected: '0:00' },
+        { remainingSeconds: 120, expected: '2:00' },
+        { remainingSeconds: 90, expected: '1:30' },
+        { remainingSeconds: 60, expected: '1:00' },
       ].forEach((data) => {
 
         it(`should return "${data.expected}" when allotting ${data.allottedTime}s and remainingSeconds is ${data.remainingSeconds}s`, function() {
           // given
-          component.args.allottedTime = data.allottedTime;
           component.remainingSeconds = data.remainingSeconds;
           // when
           const formattedRemainingTime = component.formattedRemainingTime;
