@@ -641,23 +641,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await click('#pix-cgu');
           await click('.button');
         });
-
       });
-
-      context('When campaign does not have external id but a participant external id is set in the url', function() {
-        beforeEach(async function() {
-          campaign = server.create('campaign');
-          await startCampaignByCodeAndExternalId(campaign.code);
-          await fillIn('#firstName', prescritUser.firstName);
-          await fillIn('#lastName', prescritUser.lastName);
-          await fillIn('#email', prescritUser.email);
-          await fillIn('#password', prescritUser.password);
-          await click('#pix-cgu');
-          await click('.button');
-        });
-
-      });
-
     });
 
     context('When user is logged in', function() {
