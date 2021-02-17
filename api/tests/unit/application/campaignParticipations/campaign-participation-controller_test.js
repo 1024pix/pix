@@ -1,8 +1,9 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
-const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignAssessmentParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
+const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const events = require('../../../../lib/domain/events');
@@ -339,6 +340,38 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
       // when
       const response = await campaignParticipationController.getCampaignProfile(request);
+
+      // then
+      expect(response).to.equal(expectedResults);
+    });
+  });
+
+  describe('#getAnalysis', () => {
+
+    const userId = 456;
+    const campaignParticipationId = 789;
+    const locale = FRENCH_SPOKEN;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'computeCampaignParticipationAnalysis');
+      sinon.stub(campaignAnalysisSerializer, 'serialize');
+    });
+
+    it('should call usecase and serializer with expected parameters', async () => {
+      // given
+      const campaignAnalysis = Symbol('campaignAnalysis');
+      const expectedResults = Symbol('results');
+      usecases.computeCampaignParticipationAnalysis.withArgs({ userId, campaignParticipationId, locale }).resolves(campaignAnalysis);
+      campaignAnalysisSerializer.serialize.withArgs(campaignAnalysis).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: campaignParticipationId },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignParticipationController.getAnalysis(request);
 
       // then
       expect(response).to.equal(expectedResults);
