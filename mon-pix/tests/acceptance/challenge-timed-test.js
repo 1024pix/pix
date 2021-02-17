@@ -30,7 +30,7 @@ describe('Acceptance | Timed challenge', () => {
       });
 
       it('should ensure the challenge does not automatically start', async () => {
-        expect(find('.timeout-jauge')).to.not.exist;
+        expect(find('.timeout-gauge')).to.not.exist;
       });
     });
 
@@ -58,7 +58,7 @@ describe('Acceptance | Timed challenge', () => {
         });
 
         it('should start the timer', () => {
-          expect(find('.timeout-jauge')).to.exist;
+          expect(find('.timeout-gauge')).to.exist;
         });
 
       });
@@ -88,7 +88,7 @@ describe('Acceptance | Timed challenge', () => {
         });
 
         it('should not display the timer', () => {
-          expect(find('.timeout-jauge')).to.not.exist;
+          expect(find('.timeout-gauge')).to.not.exist;
         });
 
       });
