@@ -23,7 +23,7 @@ describe('Unit | Component | timeout-gauge-component ', function() {
         { remainingSeconds: 60, expected: '1:00' },
       ].forEach((data) => {
 
-        it(`should return "${data.expected}" when allotting ${data.allottedTime}s and remainingSeconds is ${data.remainingSeconds}s`, function() {
+        it(`should return "${data.expected}" when remainingSeconds is ${data.remainingSeconds}s`, function() {
           // given
           component.remainingSeconds = data.remainingSeconds;
           // when
