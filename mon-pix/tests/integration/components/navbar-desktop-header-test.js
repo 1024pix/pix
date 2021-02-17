@@ -66,6 +66,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
         }
       }
       this.owner.register('service:session', sessionService);
+      class currentUserService extends Service {
+        user = { isAnonymous: false }
+      }
+      this.owner.register('service:currentUser', currentUserService);
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>}`);
     });
@@ -126,6 +130,10 @@ describe('Integration | Component | navbar-desktop-header', function() {
         }
       }
       this.owner.register('service:session', sessionService);
+      class currentUserService extends Service {
+        user = { isAnonymous: false }
+      }
+      this.owner.register('service:currentUser', currentUserService);
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>}`);
     });
@@ -156,6 +164,52 @@ describe('Integration | Component | navbar-desktop-header', function() {
         }
       }
       this.owner.register('service:session', sessionService);
+
+      setBreakpoint('desktop');
+      await render(hbs`<NavbarDesktopHeader/>`);
+    });
+
+    it('should be rendered', function() {
+      // then
+      expect(find('.navbar-desktop-header__container')).to.exist;
+    });
+
+    it('should display the Pix logo', function() {
+      // then
+      expect(find('.navbar-desktop-header-logo')).to.exist;
+      expect(find('.pix-logo')).to.exist;
+    });
+
+    it('should not display the navigation menu', function() {
+      // then
+      expect(find('.navbar-desktop-header-container__menu')).to.not.exist;
+    });
+
+    it('should not display link to signup page', function() {
+      // then
+      expect(find('.navbar-menu-signup-link')).to.not.exist;
+    });
+
+    it('should not display link to login page', function() {
+      // then
+      expect(find('.navbar-menu-signin-link')).to.not.exist;
+    });
+
+    it('should not display the join campaign link', function() {
+      expect(contains('J\'ai un code')).not.to.exist;
+    });
+  });
+
+  context('when logged user is anonymous', function() {
+    beforeEach(async function() {
+      class sessionService extends Service {
+        isAuthenticated = true
+      }
+      this.owner.register('service:session', sessionService);
+      class currentUserService extends Service {
+        user = { isAnonymous: true }
+      }
+      this.owner.register('service:currentUser', currentUserService);
 
       setBreakpoint('desktop');
       await render(hbs`<NavbarDesktopHeader/>`);
