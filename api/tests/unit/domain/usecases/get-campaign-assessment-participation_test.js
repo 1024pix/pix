@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getCampaignAssessmentParticipation = require('../../../../lib/domain/usecases/get-campaign-assessment-participation');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 
 describe('Unit | UseCase | get-campaign-assessment-participation', () => {
@@ -67,12 +67,12 @@ describe('Unit | UseCase | get-campaign-assessment-participation', () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('should throw UserNotAuthorizedToAccessEntity', async () => {
+    it('should throw UserNotAuthorizedToAccessEntityError', async () => {
       // when
       const result = await catchErr(getCampaignAssessmentParticipation)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignAssessmentParticipationRepository, badgeAcquisitionRepository });
 
       // then
-      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 });

@@ -1,5 +1,5 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const findTutorials = require('../../../../lib/domain/usecases/find-tutorials');
@@ -219,7 +219,7 @@ describe('Unit | UseCase | find-tutorials', () => {
     });
 
     context('And user asks for a scorecard that do not belongs to him', () => {
-      it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
+      it('should reject a "UserNotAuthorizedToAccessEntityError" domain error', () => {
         // given
         const unauthorizedUserId = 42;
 
@@ -235,7 +235,7 @@ describe('Unit | UseCase | find-tutorials', () => {
         });
 
         // then
-        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
+        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntityError);
       });
     });
   });

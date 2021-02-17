@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 
@@ -65,8 +65,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           locale,
         });
       });
-      it('should throw a UserNotAuthorizedToAccessEntity error', () => {
-        expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      it('should throw a UserNotAuthorizedToAccessEntityError error', () => {
+        expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
       });
     });
 

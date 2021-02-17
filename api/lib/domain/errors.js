@@ -626,7 +626,7 @@ class UserNotAuthorizedToUpdateEmailError extends DomainError {
   }
 }
 
-class UserNotAuthorizedToAccessEntity extends DomainError {
+class UserNotAuthorizedToAccessEntityError extends DomainError {
   constructor(message = 'User is not authorized to access ressource') {
     super(message);
   }
@@ -790,7 +790,7 @@ module.exports = {
   UserAlreadyLinkedToCandidateInSessionError,
   UserCantBeCreatedError,
   UserCouldNotBeReconciledError,
-  UserNotAuthorizedToAccessEntity,
+  UserNotAuthorizedToAccessEntityError,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToCreateResourceError,

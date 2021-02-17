@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const getCampaignParticipationResult = require('../../../../lib/domain/usecases/get-campaign-participation-result');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-campaign-participation-result', () => {
 
@@ -170,7 +170,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       });
 
       // then
-      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 });

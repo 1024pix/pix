@@ -1,6 +1,6 @@
 const { expect, catchErr, databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCase | find-paginated-campaign-assessment-participation-summaries', () => {
 
@@ -15,7 +15,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       await databaseBuilder.commit();
     });
 
-    it('should throw a UserNotAuthorizedToAccessEntity error', async () => {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async () => {
       // when
       const error = await catchErr(useCases.findPaginatedCampaignAssessmentParticipationSummaries)({
         userId: user.id,
@@ -23,7 +23,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
       expect(error.message).to.equal('User does not belong to an organization that owns the campaign');
     });
   });

@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const { computeCampaignCollectiveResult } = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | compute-campaign-collective-result', () => {
   const userId = 1;
@@ -50,7 +50,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('it should throw an UserNotAuthorizedToAccessEntity error', async () => {
+    it('it should throw an UserNotAuthorizedToAccessEntityError error', async () => {
       // when
       const result = await catchErr(computeCampaignCollectiveResult)({
         userId,
@@ -62,7 +62,7 @@ describe('Unit | UseCase | compute-campaign-collective-result', () => {
       });
 
       // then
-      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 

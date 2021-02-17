@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getSchoolingRegistrationsCsvTemplate = require('../../../../lib/domain/usecases/get-schooling-registrations-csv-template');
 const _ = require('lodash');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
 
@@ -46,7 +46,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({ userId, organizationId, membershipRepository });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({ userId, organizationId, membershipRepository });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 
@@ -103,7 +103,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({ userId, organizationId, membershipRepository });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 
@@ -117,7 +117,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({ userId, organizationId, membershipRepository });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 
@@ -130,7 +130,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({ userId, organizationId, membershipRepository });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 
@@ -143,7 +143,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({ userId, organizationId, membershipRepository });
 
       // then
-      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 

@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 
 module.exports = async function getCampaignParticipation({
   campaignParticipationId,
@@ -15,5 +15,5 @@ module.exports = async function getCampaignParticipation({
     return campaignParticipation;
   }
 
-  throw new UserNotAuthorizedToAccessEntity('User does not have access to campaign participation');
+  throw new UserNotAuthorizedToAccessEntityError('User does not have access to campaign participation');
 };
