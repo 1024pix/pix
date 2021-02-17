@@ -171,8 +171,8 @@ module('Integration | Component | routes/authenticated/campaign/profile/list', f
         id: 1,
         name: 'campagne 1',
         stages: [],
-        divisions: [division],
       });
+      campaign.set('divisions', [division]);
 
       const profiles = [{ firstName: 'John', lastName: 'Doe', isShared: true }];
       profiles.meta = { rowCount: 1 };

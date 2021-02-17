@@ -1,7 +1,9 @@
-<Routes::Authenticated::Campaign::ParticipationFilters 
+<Routes::Authenticated::Campaign::ParticipationFilters
   @campaign={{@campaign}}
   @selectedDivisions={{@selectedDivisions}}
   @triggerFiltering={{@triggerFiltering}}
+  @rowCount={{@profiles.meta.rowCount}}
+  @resetFiltering={{@resetFiltering}}
 />
 
 <div class="panel">
@@ -67,4 +69,3 @@
 {{#if @profiles}}
   <PaginationControl @pagination={{@profiles.meta}}/>
 {{/if}}
-

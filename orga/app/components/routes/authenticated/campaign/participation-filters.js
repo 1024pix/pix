@@ -37,8 +37,12 @@ export default class ParticipationFilters extends Component {
     this.args.triggerFiltering({ badges });
   }
 
+  get isDivisionsLoaded() {
+    return this.args.campaign.divisions.content.isLoaded;
+  }
+
   get displayDivisionFilter() {
-    return this.currentUser.isSCOManagingStudents;
+    return this.isDivisionsLoaded && this.currentUser.isSCOManagingStudents;
   }
 
   get divisionOptions() {

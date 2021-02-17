@@ -63,4 +63,23 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessments', funct
       });
     });
   });
+
+  module('resetFiltering', function() {
+    test('reset the filters', function(assert) {
+      //given
+      controller.set('pageNumber', 1);
+      controller.set('divisions', ['3eme']);
+      controller.set('badges', ['badge1']);
+      controller.set('stages', ['stage1']);
+
+      //when
+      controller.resetFiltering();
+
+      //then
+      assert.deepEqual(controller.pageNumber, null);
+      assert.deepEqual(controller.divisions, []);
+      assert.deepEqual(controller.badges, []);
+      assert.deepEqual(controller.stages, []);
+    });
+  });
 });

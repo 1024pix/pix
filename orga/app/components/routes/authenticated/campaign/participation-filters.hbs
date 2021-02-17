@@ -1,5 +1,12 @@
 {{#if this.displayFilters }}
-  <PixFilterBanner @title="Filtres" class="participant-filter-banner" aria-label="Filtres sur les participations">
+  <PixFilterBanner
+    @title="Filtres"
+    class="participant-filter-banner"
+    aria-label="Filtres sur les participations"
+    @details={{t 'pages.campaign.filters.participations-count' count=@rowCount}}
+    @clearFiltersLabel={{t 'pages.campaign.filters.actions.clear'}}
+    @onClearFilters={{@resetFiltering}}
+    >
     {{#if this.displayDivisionFilter }}
       <PixMultiSelect
         @id="division"

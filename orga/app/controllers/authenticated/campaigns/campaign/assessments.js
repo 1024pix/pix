@@ -23,4 +23,12 @@ export default class AssessmentsController extends Controller {
     this.badges = filters.badges || this.badges;
     this.stages = filters.stages || this.stages;
   }
+
+  @action
+  resetFiltering() {
+    this.pageNumber = null;
+    this.divisions = [];
+    this.badges = [];
+    this.stages = [];
+  }
 }
