@@ -31,6 +31,27 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
+  describe('#findByRecordIds', () => {
+
+    it('should return an array of skill data objects', async function() {
+      // given
+      const rawSkill1 = { id: 'recSkill1', status: 'actif' };
+      const rawSkill2 = { id: 'recSkill2', status: 'archivé' };
+      const rawSkill3 = { id: 'recSkill3', status: 'actif' };
+      const rawSkill4 = { id: 'recSkill4', status: 'périmé' };
+
+      const records = [rawSkill1, rawSkill2, rawSkill3, rawSkill4];
+      sinon.stub(lcms, 'getCurrentContent').resolves({ skills: records });
+
+      // when
+      const foundSkills = await skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
+
+      // then
+      expect(foundSkills).to.be.an('array');
+      expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
+    });
+  });
+
   describe('#findActive', () => {
 
     it('should query LCMS skills', async () => {
