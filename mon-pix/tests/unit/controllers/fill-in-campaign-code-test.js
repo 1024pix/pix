@@ -114,6 +114,22 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
         expect(firstTitle).to.equal(expectedFirstTitle);
       });
     });
+
+    context('When user is anonymous', () => {
+
+      it('should return the not connected first title', () => {
+        // given
+        sessionStub.isAuthenticated = true;
+        currentUserStub.user.isAnonymous = true;
+        const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-not-connected');
+
+        // when
+        const firstTitle = controller.firstTitle;
+
+        // then
+        expect(firstTitle).to.equal(expectedFirstTitle);
+      });
+    });
   });
 
   describe('get isUserAuthenticated', () => {
@@ -127,6 +143,44 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
 
       // then
       expect(isUserAuthenticated).to.equal(sessionStub.isAuthenticated);
+    });
+  });
+
+  describe('get showWarningMessage', () => {
+
+    it('should return true if user is authenticated and not anonymous', () => {
+      // given
+      sessionStub.isAuthenticated = true;
+      currentUserStub.user.isAnonymous = false;
+
+      // when
+      const showWarningMessage = controller.showWarningMessage;
+
+      // then
+      expect(showWarningMessage).to.be.true;
+    });
+
+    it('should return false if user is not authenticated', () => {
+      // given
+      sessionStub.isAuthenticated = false;
+
+      // when
+      const showWarningMessage = controller.showWarningMessage;
+
+      // then
+      expect(showWarningMessage).to.be.false;
+    });
+
+    it('should return false if user is authenticated and anonymous', () => {
+      // given
+      sessionStub.isAuthenticated = true;
+      currentUserStub.user.isAnonymous = true;
+
+      // when
+      const showWarningMessage = controller.showWarningMessage;
+
+      // then
+      expect(showWarningMessage).to.be.false;
     });
   });
 
