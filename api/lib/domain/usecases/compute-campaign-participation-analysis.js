@@ -1,15 +1,15 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
-module.exports = async function computeCampaignParticipationAnalysis(
-  {
-    userId,
-    campaignParticipationId,
-    campaignParticipationRepository,
-    campaignRepository,
-    campaignAnalysisRepository,
-    targetProfileWithLearningContentRepository,
-    tutorialRepository,
-  } = {}) {
+module.exports = async function computeCampaignParticipationAnalysis({
+  userId,
+  campaignParticipationId,
+  campaignParticipationRepository,
+  campaignRepository,
+  campaignAnalysisRepository,
+  targetProfileWithLearningContentRepository,
+  tutorialRepository,
+  locale,
+} = {}) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
   const campaignId = campaignParticipation.campaignId;
   const hasUserAccessToResult = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
@@ -22,8 +22,8 @@ module.exports = async function computeCampaignParticipationAnalysis(
     return null;
   }
 
-  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId });
-  const tutorials = await tutorialRepository.list();
+  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId, locale });
+  const tutorials = await tutorialRepository.list({ locale });
 
   return campaignAnalysisRepository.getCampaignParticipationAnalysis(campaignId, campaignParticipation, targetProfileWithLearningContent, tutorials);
 };

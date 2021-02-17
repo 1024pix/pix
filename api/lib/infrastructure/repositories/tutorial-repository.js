@@ -28,7 +28,7 @@ module.exports = {
     }
   },
 
-  async list({ locale = FRENCH_FRANCE } = {}) {
+  async list({ locale = FRENCH_FRANCE }) {
     let tutorialData = await tutorialDatasource.list();
     const lang = _extractLangFromLocale(locale);
     tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);

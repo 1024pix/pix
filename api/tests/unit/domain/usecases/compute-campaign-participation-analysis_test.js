@@ -1,6 +1,7 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
 
@@ -14,6 +15,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
   const campaignId = 'someCampaignId';
   const campaignParticipationId = 'campaignParticipationId';
   let campaignParticipation;
+  const locale = FRENCH_SPOKEN;
 
   beforeEach(() => {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
@@ -35,8 +37,8 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
         campaignParticipation.userId = userId;
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-        targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId }).resolves(targetProfile);
-        tutorialRepository.list.resolves(tutorials);
+        targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId, locale }).resolves(targetProfile);
+        tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
         campaignAnalysisRepository.getCampaignParticipationAnalysis
           .withArgs(campaignId, campaignParticipation, targetProfile, tutorials).resolves(campaignParticipationAnalysis);
 
@@ -49,6 +51,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
           campaignParticipationRepository,
           targetProfileWithLearningContentRepository,
           tutorialRepository,
+          locale,
         });
 
         // then
@@ -73,6 +76,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
           campaignParticipationRepository,
           targetProfileWithLearningContentRepository,
           tutorialRepository,
+          locale,
         });
 
         // then
@@ -97,6 +101,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', () => {
         campaignAnalysisRepository,
         targetProfileWithLearningContentRepository,
         tutorialRepository,
+        locale,
       });
 
       // then
