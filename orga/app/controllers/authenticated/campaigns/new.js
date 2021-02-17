@@ -6,6 +6,7 @@ export default class NewController extends Controller {
 
   @service store;
   @service notifications;
+  @service intl;
 
   @action
   createCampaign(event) {
@@ -16,7 +17,7 @@ export default class NewController extends Controller {
       .catch((errorResponse) => {
         errorResponse.errors.forEach((error) => {
           if (error.status === '500') {
-            return this.notifications.sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
+            return this.notifications.sendError(this.intl.t('api-errors.global'));
           }
         });
       });

@@ -10,7 +10,7 @@
   &__field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
+    margin-bottom: 16px;
   }
 
   &__validation {
@@ -31,6 +31,13 @@
   &__comment {
     font-weight: 400;
     font-style: italic;
+  }
+
+  &__radio-button {
+    margin-bottom: 16px;
+    input[type=radio] {
+      margin-right: 16px;
+    }
   }
 }
 
@@ -123,24 +130,42 @@
   font-size: 0.75rem;
 }
 
-.radio-button {
-  -ms-transform: scale(0.0);
-  -webkit-transform: scale(0.0);
-  transform: scale(0.0);
+input[type=radio]::before,
+input[type=radio]:checked::after {
+  display: block;
+  position: relative;
+  content: '';
+  border-radius: 100%;
 }
 
-.radio-button-span {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin: 10px 20px 11px 0px;
-  border-radius: 50%;
-  vertical-align: middle;
-  box-shadow: 0 0 0 2px $grey-20;
-  border: 4px solid $grey-10;
+input[type=radio]::before {
+  height: 17px;
+  width: 17px;
+  top: -3px;
+  left: -5px;
+  border: solid 2px $grey-30;
+  border-radius: 10px;
+  background-color: $white;
 }
 
-.radio-button:checked + .radio-button-span {
-  box-shadow: 0 0 0 2px $blue;
+input[type=radio]:checked::after {
+  height: 9px;
+  width: 9px;
+  top: -18px;
+  left: 1px;
   background-color: $blue;
+}
+
+input[type=radio]:checked::before {
+  border-color: $blue;
+}
+
+input[type=radio]:focus::before,
+input[type=radio]:hover::before {
+  box-shadow: 0 0 0 8px rgba($blue, 0.1);
+  border-color: $blue;
+}
+
+input[type=radio]:active::before {
+  box-shadow: 0 0 0 8px rgba($blue, 0.3);
 }

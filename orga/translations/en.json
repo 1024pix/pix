@@ -1,6 +1,12 @@
 {
+  "api-errors": {
+    "global": "An error occurred. Please try again later."
+  },
   "current-lang": "en",
   "common": {
+    "actions": {
+      "cancel": "Cancel"
+    },
     "pagination": {
       "action": {
         "next": "Go to next page",
@@ -12,12 +18,12 @@
     }
   },
   "navigation": {
-    "main" : {
-      "campaigns" : "Campaigns",
+    "main": {
+      "campaigns": "Campaigns",
       "documentation": "Documentation",
-      "students-sco" :"Students",
-      "students-sup" :"Students",
-      "team" : "Team"
+      "students-sco": "Students",
+      "students-sup": "Students",
+      "team": "Team"
     },
     "user-logged-menu": {
       "logout": "Log out"
@@ -62,6 +68,38 @@
           "by-name": "Search a campaign"
         }
       }
+    },
+    "campaign-creation": {
+      "actions": {
+        "create": "Create a campaign"
+      },
+      "external-id-label": {
+        "question-label": "Do you need an external user ID?",
+        "label": "external user ID label",
+        "suggestion": "Example : \"Student Number\" or \"Email address\" *"
+      },
+      "landing-page-text": {
+        "label": "Text to display on the starting page"
+      },
+      "legal-warning": "*In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), and as data controller, please be careful not to ask for significant or identifying personal data unless it is absolutely necessary. Asking for social security numbers, as well as any sensitive data, is strictly prohibited.",
+      "name": {
+        "label": "Name of the campaign"
+      },
+      "no": "No",
+      "purpose": {
+        "assessment": "Assess participants",
+        "label": "What is the purpose of your campaign?",
+        "profiles-collection": "Collect the participants' Pix profiles"
+      },
+      "target-profile-informations": "If you want more information, see <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> the corresponding documentation</a>.",
+      "target-profiles-list": {
+        "label": "What would you like to test?"
+      },
+      "test-title": {
+        "label": "Title of the personalised test"
+      },
+      "title": "Create a campaign",
+      "yes": "Yes"
     }
   }
 }
