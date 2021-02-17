@@ -1,13 +1,14 @@
 <div class="previous-page-button">
-  <LinkTo
-    @route={{@route}}
-    @model={{@routeId}}
-    class="icon-button previous-page-button__return-button"
-    aria-label={{@ariaLabel}}
-  >
-    <FaIcon @icon='arrow-left'></FaIcon>
-  </LinkTo>
-  <h1 class="back-title">
+  <PixIconButton
+    @icon="arrow-left"
+    aria-label={{@backButtonAriaLabel}}
+    class="previous-page-button__return-button"
+    @triggerAction={{this.goToPage}}
+    @withBackground={{false}}
+    @size="small"
+    @color="dark-grey"
+  />
+  <h1 class="back-title" ...attributes>
     {{yield}}
   </h1>
 </div>

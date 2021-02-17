@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import clickByLabel from '../../../../../../helpers/extended-ember-test-helpers/click-by-label';
+import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign/analysis/tab', function(hooks) {
@@ -60,14 +59,14 @@ module('Integration | Component | routes/authenticated/campaign/analysis/tab', f
     });
 
     test('it should order by recommendation asc', async function(assert) {
-      await clickByLabel('Pertinence');
+      await click('[aria-label="Trier par pertinence"]');
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube B');
     });
 
     test('it should order by recommendation desc', async function(assert) {
-      await clickByLabel('Pertinence');
-      await clickByLabel('Pertinence');
+      await click('[aria-label="Trier par pertinence"]');
+      await click('[aria-label="Trier par pertinence"]');
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
     });
