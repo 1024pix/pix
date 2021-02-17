@@ -3,6 +3,8 @@ const certificationCourseService = require('../../domain/services/certification-
 const certificationResultSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-serializer');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
+const certifiedProfileRepository = require('../../infrastructure/repositories/certified-profile-repository');
+const certifiedProfileSerializer = require('../../infrastructure/serializers/jsonapi/certified-profile-serializer');
 const usecases = require('../../domain/usecases');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
@@ -46,5 +48,11 @@ module.exports = {
     const certificationCourse = await usecases.getCertificationCourse({ userId, certificationCourseId });
 
     return certificationCourseSerializer.serialize(certificationCourse);
+  },
+
+  async getCertifiedProfile(request) {
+    const certificationCourseId = request.params.id;
+    const certifiedProfile = await certifiedProfileRepository.get(certificationCourseId);
+    return certifiedProfileSerializer.serialize(certifiedProfile);
   },
 };
