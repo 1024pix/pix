@@ -22,4 +22,19 @@ module('Unit | Controller | authenticated/campaigns/campaign/profiles', function
       assert.deepEqual(controller.pageNumber, null);
     });
   });
+
+  module('resetFiltering', function() {
+    test('reset the divisions', function(assert) {
+      //given
+      controller.set('pageNumber', 1);
+      controller.set('divisions', ['3eme']);
+
+      //when
+      controller.resetFiltering();
+
+      //then
+      assert.deepEqual(controller.divisions, []);
+      assert.deepEqual(controller.pageNumber, null);
+    });
+  });
 });

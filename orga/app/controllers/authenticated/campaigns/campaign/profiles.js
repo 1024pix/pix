@@ -13,9 +13,15 @@ export default class ProfilesController extends Controller {
     this.transitionToRoute('authenticated.campaigns.profile', campaignId, campaignParticipationId);
   }
 
- @action
+  @action
   triggerFiltering(filters) {
     this.pageNumber = null;
     this.divisions = filters.divisions;
+  }
+
+  @action
+  resetFiltering() {
+    this.pageNumber = null;
+    this.divisions = [];
   }
 }
