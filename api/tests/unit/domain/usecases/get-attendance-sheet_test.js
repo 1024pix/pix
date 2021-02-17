@@ -9,7 +9,7 @@ const writeOdsUtils = require('../../../../lib/infrastructure/utils/ods/write-od
 const readOdsUtils = require('../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const sessionXmlService = require('../../../../lib/domain/services/session-xml-service');
 const _ = require('lodash');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
 
@@ -139,7 +139,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
       });
 
       it('should return an error when user does not have access', () => {
-        expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+        expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
       });
     });
 

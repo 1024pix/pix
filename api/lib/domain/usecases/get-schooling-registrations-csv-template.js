@@ -1,5 +1,5 @@
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const SchoolingRegistrationParser = require('../../infrastructure/serializers/csv/schooling-registration-parser');
 
@@ -12,7 +12,7 @@ module.exports = async function getSchoolingRegistrationsCsvTemplate({
   const [membership] = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization: true });
 
   if (!_isAdminOrganizationManagingStudent(membership)) {
-    throw new UserNotAuthorizedToAccessEntity('User is not allowed to download csv template.');
+    throw new UserNotAuthorizedToAccessEntityError('User is not allowed to download csv template.');
   }
 
   const { isSup, isSco, isAgriculture } = membership.organization;
@@ -22,7 +22,7 @@ module.exports = async function getSchoolingRegistrationsCsvTemplate({
   } else if (isSco && isAgriculture) {
     header = _getCsvColumns(SchoolingRegistrationParser.COLUMNS);
   } else {
-    throw new UserNotAuthorizedToAccessEntity('User organization is not allowed to download csv template.');
+    throw new UserNotAuthorizedToAccessEntityError('User organization is not allowed to download csv template.');
   }
 
   //Create HEADER of CSV

@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 const Scorecard = require('../models/Scorecard');
 const KnowledgeElement = require('../models/KnowledgeElement');
 const _ = require('lodash');
@@ -16,7 +16,7 @@ module.exports = async function findTutorials({
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
 
   if (parseInt(authenticatedUserId) !== parseInt(userId)) {
-    throw new UserNotAuthorizedToAccessEntity();
+    throw new UserNotAuthorizedToAccessEntityError();
   }
 
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });

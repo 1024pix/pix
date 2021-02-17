@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const findAnswerByAssessment = require('../../../../lib/domain/usecases/find-answer-by-assessment');
-const { UserNotAuthorizedToAccessEntity, EntityValidationError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
 
@@ -62,7 +62,7 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', () => {
       const result = await catchErr(findAnswerByAssessment)({ assessmentId, userId: userId + 1, answerRepository, assessmentRepository });
 
       // then
-      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 

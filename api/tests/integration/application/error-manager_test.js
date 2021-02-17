@@ -188,8 +188,8 @@ describe('Integration | API | Controller Error', () => {
   context('403 Forbidden', () => {
     const FORBIDDEN_ERROR = 403;
 
-    it('responds Forbidden when a UserNotAuthorizedToAccessEntity error occurs', async () => {
-      routeHandler.throws(new DomainErrors.UserNotAuthorizedToAccessEntity());
+    it('responds Forbidden when a UserNotAuthorizedToAccessEntityError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.UserNotAuthorizedToAccessEntityError());
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(FORBIDDEN_ERROR);

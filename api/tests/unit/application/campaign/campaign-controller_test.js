@@ -8,7 +8,7 @@ const campaignCollectiveResultSerializer = require('../../../../lib/infrastructu
 
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
@@ -348,7 +348,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return an unauthorized error', async () => {
       // given
-      const error = new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
+      const error = new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign participation');
       const request = {
         params: { id: campaignId },
         auth: {
@@ -361,7 +361,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const errorCatched = await catchErr(campaignController.getCollectiveResult)(request);
 
       // then
-      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntity);
+      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntityError);
     });
 
   });
@@ -398,7 +398,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return an unauthorized error', async () => {
       // given
-      const error = new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
+      const error = new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
       const request = {
         params: { id: campaignId },
         auth: {
@@ -411,7 +411,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const errorCatched = await catchErr(campaignController.getAnalysis)(request);
 
       // then
-      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntity);
+      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntityError);
     });
   });
 

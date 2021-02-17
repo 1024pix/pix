@@ -79,7 +79,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.UserAlreadyExistsWithAuthenticationMethodError) {
     return new HttpErrors.ConflictError(error.message);
   }
-  if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntity) {
+  if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntityError) {
     return new HttpErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdateResourceError) {

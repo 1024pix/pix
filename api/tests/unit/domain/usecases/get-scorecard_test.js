@@ -1,5 +1,5 @@
 const { sinon, expect } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 
@@ -82,7 +82,7 @@ describe('Unit | UseCase | get-scorecard', () => {
     });
 
     context('And user asks for a scorecard that do not belongs to him', () => {
-      it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
+      it('should reject a "UserNotAuthorizedToAccessEntityError" domain error', () => {
         // given
         const unauthorizedUserId = 42;
         scorecardService.computeScorecard.resolves({});
@@ -95,7 +95,7 @@ describe('Unit | UseCase | get-scorecard', () => {
         });
 
         // then
-        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
+        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntityError);
       });
     });
   });

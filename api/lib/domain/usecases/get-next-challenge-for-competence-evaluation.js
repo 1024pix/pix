@@ -1,5 +1,8 @@
 /* eslint-disable no-unused-vars */
-const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../errors');
+const {
+  AssessmentEndedError,
+  UserNotAuthorizedToAccessEntityError,
+} = require('../errors');
 
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
@@ -37,6 +40,6 @@ module.exports = async function getNextChallengeForCompetenceEvaluation({
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {
   if (assessment.userId !== userId) {
-    throw new UserNotAuthorizedToAccessEntity();
+    throw new UserNotAuthorizedToAccessEntityError();
   }
 }
