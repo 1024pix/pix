@@ -11,7 +11,7 @@ describe('Integration | Component | progression-gauge', function() {
 
     it('should render component', async function() {
       // when
-      await render(hbs`{{progression-gauge}}`);
+      await render(hbs`<ProgressionGauge/>`);
 
       // then
       expect(this.element.querySelector('.progression-gauge')).to.exist;
@@ -23,7 +23,7 @@ describe('Integration | Component | progression-gauge', function() {
       this.set('total', total);
 
       // when
-      await render(hbs`{{progression-gauge total=total}}`);
+      await render(hbs`<ProgressionGauge @total={{this.total}}/>`);
 
       // then
       expect(this.element.querySelector('.progression-gauge').getAttribute('style')).to.equal(`width: ${total}%`);
@@ -32,10 +32,12 @@ describe('Integration | Component | progression-gauge', function() {
     it('should display given value in progression', async function() {
       // given
       const value = '60';
+      const total = '70';
       this.set('value', value);
+      this.set('total', total);
 
       // when
-      await render(hbs`{{progression-gauge value=value total=70}}`);
+      await render(hbs`<ProgressionGauge @value={{this.value}} @total={{this.total}}/>`);
 
       // then
       expect(this.element.querySelector('.progression-gauge__marker').getAttribute('style')).to.equal(`width: ${value}%`);
