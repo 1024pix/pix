@@ -137,6 +137,7 @@ module.exports = (function() {
       isLivretScolaireSandboxApiEnabled: isFeatureEnabled(process.env.FT_IS_LIVRET_SCOLAIRE_SANDBOX_API_ENABLED),
       reportsCategorization: isFeatureEnabled(process.env.FT_REPORTS_CATEGORISATION),
       myAccount: isFeatureEnabled(process.env.FT_MY_ACCOUNT),
+      isCertificationResultsInOrgaEnabled: isFeatureEnabled(process.env.FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED),
     },
 
     infra: {
@@ -181,6 +182,7 @@ module.exports = (function() {
     config.featureToggles.certifPrescriptionSco = false;
     config.featureToggles.reportsCategorization = false;
     config.featureToggles.isLivretScolaireSandboxApiEnabled = false;
+    config.featureToggles.isCertificationResultsInOrgaEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
