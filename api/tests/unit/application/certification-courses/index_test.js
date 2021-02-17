@@ -20,6 +20,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
     sinon.stub(certificationCoursesController, 'computeResult').returns('ok');
     sinon.stub(certificationCoursesController, 'save').returns('ok');
     sinon.stub(certificationCoursesController, 'get').returns('ok');
+    sinon.stub(certificationCoursesController, 'getCertifiedProfile').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -29,6 +30,17 @@ describe('Unit | Application | Certifications Course | Route', function() {
     it('should exist', async () => {
       // when
       const response = await httpTestServer.request('GET', '/api/admin/certifications/1234/details');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('GET /api/admin/certifications/{id}/certified-profile', () => {
+
+    it('should exist', async () => {
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/certifications/1234/certified-profile');
 
       // then
       expect(response.statusCode).to.equal(200);

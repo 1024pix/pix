@@ -31,6 +31,27 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
+      path: '/api/admin/certifications/{id}/certified-profile',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        handler: certificationCourseController.getCertifiedProfile,
+        tags: ['api'],
+        notes: [
+          'Cette route est utilisé par Pix Admin',
+          'Elle permet de récupérer le profil certifié pour une certification donnée',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/admin/certifications/{id}',
       config: {
         validate: {
