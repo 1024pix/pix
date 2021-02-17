@@ -1,14 +1,14 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | routes/authenticated/campaign/new', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let receivedCampaign;
 
   hooks.beforeEach(function() {
@@ -31,10 +31,10 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
     // then
-    assert.dom('#campaign-name').exists();
+    assert.contains('Nom de la campagne');
     assert.dom('button[type="submit"]').exists();
-    assert.dom('#campaign-name').hasAttribute('maxLength', '255');
-    assert.dom('#custom-landing-page-text').hasAttribute('maxLength', '350');
+    assert.dom('input[type=text]').hasAttribute('maxLength', '255');
+    assert.dom('textarea').hasAttribute('maxLength', '350');
   });
 
   module('when user cannot create campaign of type PROFILES_COLLECTION', function() {
@@ -47,8 +47,8 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('#campaign-title').exists();
-      assert.dom('#campaign-target-profile').exists();
+      assert.contains('Titre du parcours');
+      assert.contains('Que souhaitez-vous tester ?');
     });
 
     test('it should not contain field to select campaign type', async function(assert) {
@@ -59,8 +59,8 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('#assess-participants').doesNotExist();
-      assert.dom('#collect-participants-profile').doesNotExist();
+      assert.notContains('Évaluer les participants');
+      assert.notContains('Collecter les profils Pix des participants');
     });
   });
 
@@ -76,11 +76,11 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await clickByLabel('Choisir d\'évaluer les participants');
+      await clickByLabel('Évaluer les participants');
 
       // then
-      assert.dom('#campaign-title').exists();
-      assert.dom('#campaign-target-profile').exists();
+      assert.contains('Titre du parcours');
+      assert.contains('Que souhaitez-vous tester ?');
     });
   });
 
@@ -96,15 +96,15 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
-      await clickByLabel('Choisir de collecter les profils Pix des participants');
+      await clickByLabel('Collecter les profils Pix des participants');
 
       // then
-      assert.dom('#campaign-title').doesNotExist();
-      assert.dom('#campaign-target-profile').doesNotExist();
+      assert.notContains('Titre du parcours');
+      assert.notContains('Que souhaitez-vous tester ?');
     });
   });
 
-  module('when user‘s organization is SCO and is managing student', function() {
+  module('when user‘s organization is SCO and is managing student and user is creating an assessment campaign', function() {
 
     test('it should display comment for target profile selection', async function(assert) {
       // given
@@ -119,11 +119,11 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('#campaign-target-profile-comment-label').exists();
+      assert.dom('a[href="https://cloud.pix.fr/s/3joGMGYWSpmHg5w"]').hasText('la documentation correspondante');
     });
   });
 
-  module('when user‘s organization is not (SCO and managing student)', function() {
+  module('when user‘s organization is not (SCO and managing student) user is creating an assessment campaign', function() {
 
     test('it should not display comment for target profile selection', async function(assert) {
       // given
@@ -138,25 +138,48 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('#campaign-target-profile-comment-label').doesNotExist();
+      assert.dom('a[href="https://cloud.pix.fr/s/3joGMGYWSpmHg5w"]').doesNotExist();
     });
   });
 
-  module('when organization is a type SCO and user is creating an assessment campaign', function() {
-    test('it should display documentation of school paths', async function(assert) {
-      // given
-      class CurrentUserStub extends Service {
-        organization = EmberObject.create();
-        isSCOManagingStudents = true;
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
+  module('when user has not chosen yet to ask or not an external user ID', function() {
+    test('it should not display gdpr footnote', async function(assert) {
+      //given
       this.campaign = EmberObject.create({});
 
       // when
       await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
 
       // then
-      assert.dom('a[href="https://cloud.pix.fr/s/3joGMGYWSpmHg5w"]').exists();
+      assert.notContains('* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.');
+    });
+  });
+
+  module('when user choose not to ask an external user ID', function() {
+    test('it should not display gdpr footnote either', async function(assert) {
+      //given
+      this.campaign = EmberObject.create({});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await clickByLabel('No');
+
+      // then
+      assert.notContains('* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.');
+    });
+  });
+
+  module('when user choose to ask an external user ID', function() {
+    test('it should display gdpr footnote', async function(assert) {
+      //given
+      this.campaign = EmberObject.create({});
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await clickByLabel('Oui');
+
+      // then
+      assert.contains('* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.');
     });
   });
 
