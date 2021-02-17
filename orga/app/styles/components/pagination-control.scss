@@ -49,15 +49,6 @@
   align-items: center;
 
   &__arrow {
-    &--disabled .icon-button{
-      color: $grey-22;
-      cursor: default;
-
-      &.icon-button:hover, &.icon-button:active {
-        background-color: transparent;
-      }
-    }
-
     &--previous {
       margin-right: 8px;
     }

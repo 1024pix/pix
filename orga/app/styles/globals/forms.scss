@@ -101,29 +101,6 @@
       display: none;
     }
   }
-
-  &__icon {
-    height: 20px;
-    width: 38px;
-    display: flex;
-    border: none;
-    background: none;
-    padding: 0;
-  }
-
-  &-icon {
-    &__eye {
-      color: $grey-60;
-      transition: .5s;
-      font-size: 1.1rem;
-      margin-top: 2px;
-
-      &:hover {
-        color: $grey-100;
-        cursor: pointer;
-      }
-    }
-  }
 }
 
 .textarea {

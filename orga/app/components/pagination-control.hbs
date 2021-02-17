@@ -18,30 +18,32 @@
     </div>
   </div>
   <div class="page-navigation">
-    <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq this.currentPage 1) "page-navigation__arrow--disabled"}}">
-      <LinkTo
+    <div class="page-navigation__arrow page-navigation__arrow--previous">
+      <PixIconButton
+        @icon="arrow-left"
         aria-label={{t 'common.pagination.action.previous'}}
-        @query={{hash pageNumber=this.previousPage}}
-        @disabledWhen={{eq this.currentPage 1}}
-        @replace={{true}}
-        class="icon-button icon-button--link"
-      >
-        <FaIcon @icon='arrow-left'></FaIcon>
-      </LinkTo>
+        @triggerAction={{this.goToPreviousPage}}
+        @withBackground={{false}}
+        @size="small"
+        @color="dark-grey"
+        disabled={{eq this.currentPage 1}}
+        aria-disabled="{{eq this.currentPage 1}}"
+      />
     </div>
     <div>
-      {{t 'common.pagination.page-number' current=this.currentPage total=this.pageCount}}
+      {{t 'common.pagination.page-number' current=this.currentPage total=(if this.pageCount this.pageCount 1)}}
     </div>
-    <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq this.currentPage this.pageCount) "page-navigation__arrow--disabled"}}">
-      <LinkTo
+    <div class="page-navigation__arrow page-navigation__arrow--next">
+      <PixIconButton
+        @icon="arrow-right"
         aria-label={{t 'common.pagination.action.next'}}
-        @query={{hash pageNumber=this.nextPage}}
-        @disabledWhen={{eq this.currentPage this.pageCount}}
-        @replace={{true}}
-        class="icon-button icon-button--link"
-      >
-        <FaIcon @icon='arrow-right'></FaIcon>
-      </LinkTo>
+        @triggerAction={{this.goToNextPage}}
+        @withBackground={{false}}
+        @size="small"
+        @color="dark-grey"
+        disabled={{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}
+        aria-disabled="{{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}"
+      />
     </div>
   </div>
 </div>
