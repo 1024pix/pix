@@ -42,14 +42,21 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.modelFor('campaigns');
   }
 
+  async _findOngoingCampaignParticipation(campaign) {
+    const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', {
+      campaignId: campaign.id,
+      userId: this.currentUser.user.id,
+    });
+    this._updateStateFrom({ ongoingCampaignParticipation });
+  }
+
   async redirect(campaign) {
     if (campaign.isArchived) {
       this.isLoading = false;
       return;
     }
 
-    const ongoingCampaignParticipation = await this.store.queryRecord('campaignParticipation', { campaignId: campaign.id, userId: this.currentUser.user.id });
-    this._updateStateFrom({ ongoingCampaignParticipation });
+    await this._findOngoingCampaignParticipation(campaign);
 
     if (this._shouldVisitLandingPageAsLoggedUser) {
       return this.replaceWith('campaigns.campaign-landing-page', campaign);
@@ -60,16 +67,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (this._shouldStartCampaignParticipation) {
-      try {
-        const campaignParticipation = await this.store.createRecord('campaign-participation', { campaign, participantExternalId: this.state.participantExternalId }).save();
-        this._updateStateFrom({ ongoingCampaignParticipation: campaignParticipation });
-      } catch (err) {
-        if (get(err, 'errors[0].status') === 403) {
-          this.session.invalidate();
-          return this.transitionTo('campaigns.start-or-resume', campaign);
-        }
-        return this.send('error', err, this.transitionTo('campaigns.start-or-resume'));
-      }
+      await this._createCampaignParticipation(campaign);
     }
 
     if (campaign.isProfilesCollection) {
@@ -144,7 +142,29 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this.replaceWith('campaigns.campaign-landing-page', campaign, { queryParams: transition.to.queryParams });
     }
 
+    if (this._shouldNotVisitLandingPageAsNovice) {
+      await this._findOngoingCampaignParticipation(campaign);
+
+      if (this._shouldStartCampaignParticipation) {
+        await this._createCampaignParticipation(campaign);
+      }
+      return this.replaceWith('campaigns.assessment.start-or-resume', campaign);
+    }
+
     super.beforeModel(...arguments);
+  }
+
+  async _createCampaignParticipation(campaign) {
+    try {
+      const campaignParticipation = await this.store.createRecord('campaign-participation', { campaign, participantExternalId: this.state.participantExternalId }).save();
+      this._updateStateFrom({ ongoingCampaignParticipation: campaignParticipation });
+    } catch (err) {
+      if (get(err, 'errors[0].status') === 403) {
+        this.session.invalidate();
+        return this.transitionTo('campaigns.start-or-resume', campaign);
+      }
+      return this.send('error', err, this.transitionTo('campaigns.start-or-resume'));
+    }
   }
 
   _resetState() {
@@ -163,6 +183,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       externalUser: null,
       isCampaignPoleEmploi: false,
       isUserLoggedInPoleEmploi: false,
+      isCampaignForNoviceUser: false,
     };
   }
 
@@ -185,6 +206,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
       isUserLoggedInPoleEmploi: get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
+      isCampaignForNoviceUser: get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser),
     };
   }
 
@@ -208,6 +230,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldStartCampaignParticipation() {
     return !this.state.doesUserHaveOngoingParticipation;
+  }
+
+  get _shouldNotVisitLandingPageAsNovice() {
+    return this.state.isCampaignForNoviceUser;
   }
 
   _handleQueryParamBoolean(value, defaultValue) {
