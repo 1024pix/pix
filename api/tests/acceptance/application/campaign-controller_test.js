@@ -788,4 +788,53 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.result.data[0].attributes.name).to.equal(division);
     });
   });
+
+  describe('GET /api/campaigns/{id}', () => {
+
+    const options = {
+      headers: { authorization: null },
+      method: 'GET',
+      url: null,
+    };
+
+    let campaign;
+    let userId;
+
+    beforeEach(async () => {
+      campaign = databaseBuilder.factory.buildCampaign();
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({
+        organizationId: campaign.organizationId,
+        userId,
+      });
+
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+      options.url = `/api/campaigns/${campaign.id}`;
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return the campaign by id', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data.id).to.equal(campaign.id.toString());
+      expect(response.result.data.attributes.name).to.equal(campaign.name);
+    });
+
+    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async () => {
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+      options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });
