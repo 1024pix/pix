@@ -9,7 +9,7 @@ describe('Integration | Component | navbar desktop menu', function() {
 
   it('should be rendered', async function() {
     // when
-    await render(hbs`{{navbar-desktop-menu}}`);
+    await render(hbs`<NavbarDesktopMenu/>`);
 
     // then
     expect(find('.navbar-desktop-menu')).to.exist;
