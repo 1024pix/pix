@@ -1,6 +1,11 @@
 const { NotFoundError } = require('../../domain/errors');
 
-module.exports = async function getCampaign({ campaignId, badgeRepository, campaignReportRepository, stageRepository }) {
+module.exports = async function getCampaign({
+  campaignId,
+  badgeRepository,
+  campaignReportRepository,
+  stageRepository,
+}) {
   const integerCampaignId = parseInt(campaignId);
   if (!Number.isFinite(integerCampaignId)) {
     throw new NotFoundError(`Campaign not found for ID ${campaignId}`);
