@@ -19,6 +19,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
   });
 
   describe('POST /api/schooling-registration-user-associations/', () => {
+
     let organization;
     let campaign;
     let options;
@@ -35,14 +36,19 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
       };
 
       user = databaseBuilder.factory.buildUser();
-      organization = databaseBuilder.factory.buildOrganization({ identityProvider: 'SCO' });
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null, studentNumber: '123A' });
+      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        userId: null,
+        studentNumber: '123A',
+      });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
 
       await databaseBuilder.commit();
     });
 
     context('associate user with firstName, lastName and birthdate', () => {
+
       it('should return an 200 status after having successfully associated user to schoolingRegistration', async () => {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
@@ -733,16 +739,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
   });
 
   describe('GET /api/schooling-registration-user-associations/', () => {
+
     let options;
-    let server;
     let user;
     let organization;
     let schoolingRegistration;
     let campaignCode;
 
     beforeEach(async () => {
-      server = await createServer();
-
       organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id }).code;
       user = databaseBuilder.factory.buildUser();
@@ -838,21 +842,30 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
   });
 
   describe('PUT /api/schooling-registration-user-associations/possibilities', () => {
+
     let options;
-    let server;
     let user;
     let organization;
     let schoolingRegistration;
     let campaignCode;
 
     beforeEach(async () => {
-      server = await createServer();
-
-      organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
-      campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id }).code;
+      organization = databaseBuilder.factory.buildOrganization({
+        isManagingStudents: true,
+        type: 'SCO',
+      });
+      campaignCode = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+      }).code;
       user = databaseBuilder.factory.buildUser();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: null });
+      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userId: null,
+      });
       await databaseBuilder.commit();
+
       options = {
         method: 'PUT',
         url: '/api/schooling-registration-user-associations/possibilities',
@@ -921,7 +934,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             username: null,
             email: 'john.harry@example.net',
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: userWithEmailOnly.id });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            userId: userWithEmailOnly.id,
+          });
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -956,7 +972,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             username: 'john.harry0702',
             email: null,
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: userWithUsernameOnly.id });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            userId: userWithUsernameOnly.id,
+          });
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -991,9 +1010,16 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
             username: null,
             email: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithEmailOnly.id });
+          databaseBuilder.factory.buildAuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            externalIdentifier: '12345678',
+            userId: userWithEmailOnly.id,
+          });
 
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            userId: null,
+          });
           schoolingRegistration.userId = userWithEmailOnly.id;
           await databaseBuilder.commit();
 
@@ -1022,15 +1048,21 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
           expect(response.statusCode).to.equal(409);
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
-
       });
 
       context('when schoolingRegistration is already associated in others organizations', () => {
 
         it('should respond with a 409 - Conflict', async () => {
           // given
-          const schoolingRegistrationAlreadyMatched = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, firstName: user.firstName, lastName: user.lastName, userId: user.id });
+          const schoolingRegistrationAlreadyMatched = databaseBuilder.factory.buildSchoolingRegistration({
+            birthdate: '2005-05-15',
+            firstName: user.firstName,
+            lastName: user.lastName,
+            organizationId: organization.id,
+            userId: user.id,
+          });
           await databaseBuilder.commit();
+
           options.payload.data.attributes['first-name'] = schoolingRegistrationAlreadyMatched.firstName;
           options.payload.data.attributes['last-name'] = schoolingRegistrationAlreadyMatched.lastName;
           options.payload.data.attributes.birthdate = schoolingRegistrationAlreadyMatched.birthdate;
@@ -1186,7 +1218,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
     });
   });
 
-  describe('DELETE /api/schooling-registration-user-associations/', () => {
+  describe('DELETE /api/schooling-registration-user-associations', () => {
+
     it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async () => {
       const organization = databaseBuilder.factory.buildOrganization();
       const user = databaseBuilder.factory.buildUser();
@@ -1249,6 +1282,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
   });
 
   describe('PATCH /api/organizations/organizationId/schooling-registration-user-associations/schoolingRegistrationId', () => {
+
     let organizationId;
     const studentNumber = '54321';
     let schoolingRegistrationId;
@@ -1287,7 +1321,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', (
         // then
         expect(response.statusCode).to.equal(204);
       });
-
     });
   });
 });
