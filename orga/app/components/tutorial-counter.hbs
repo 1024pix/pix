@@ -1,7 +1,5 @@
 <div class="table__column--center">
-  {{#if (eq @tutorials.length 1)}}
-    1 tuto
-  {{else if (gt @tutorials.length 1)}}
-    {{@tutorials.length }} tutos
+  {{#if (gt @tutorials.length 0)}}
+    {{t 'pages.campaign-review.tube-recommendations.tutorial-total' count=@tutorials.length}}
   {{/if}}
 </div>
