@@ -59,10 +59,10 @@
             </div>
           {{else}}
             {{#if @model.campaignParticipation.campaign.isForAbsoluteNovice}}
-              <LinkTo @route="logout"
-                      class="skill-review-share__back-to-home link" data-link-to-sign-up>
+              <a href="#" {{on "click" this.redirectForNoviceCampaign}}
+                      class="skill-review-share__back-to-home link" data-link-to-continue-pix>
                 {{t 'pages.skill-review.actions.continue'}}
-              </LinkTo>
+              </a>
             {{else}}
               <CampaignShareButton
                       @isShared={{@model.campaignParticipation.isShared}}
