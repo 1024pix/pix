@@ -110,6 +110,17 @@ describe('Integration | Component | User account update email', () => {
           // then
           expect(find('#validationMessage-password').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'));
         });
+
+        it('should have the autocomplete attribute set to "new-password" in order to prevent the web browsers to autocomplete the password and email fields', async () => {
+          // given
+          const expectedAutocompleteValue = 'new-password';
+
+          // when
+          await render(hbs`<UserAccountUpdateEmail />`);
+
+          // then
+          expect(find('#password').autocomplete).to.equal(expectedAutocompleteValue);
+        });
       });
 
       it('should disable the confirm button if the form is not valid', async function() {
