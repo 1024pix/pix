@@ -61,7 +61,6 @@ module.exports = function(environment) {
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
-      FT_DASHBOARD: _isFeatureEnabled(process.env.FT_DASHBOARD) || false,
       FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU: process.env.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU || false,
       FRENCH_NEW_LEVEL_MESSAGE: process.env.FRENCH_NEW_LEVEL_MESSAGE || '',
       ENGLISH_NEW_LEVEL_MESSAGE: process.env.ENGLISH_NEW_LEVEL_MESSAGE || '',
@@ -182,7 +181,6 @@ module.exports = function(environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.GOOGLE_RECAPTCHA_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
     ENV.RECAPTCHA_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-    ENV.APP.FT_DASHBOARD = false;
   }
 
   if (environment === 'production') {
