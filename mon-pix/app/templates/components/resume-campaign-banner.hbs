@@ -1,15 +1,8 @@
-{{!-- template-lint-disable no-implicit-this  --}}
 <div class="resume-campaign-banner">
-{{#if campaignParticipationState}}
+{{#if this.campaignParticipationState}}
   <div class="resume-campaign-banner__container">
-    {{#if campaignParticipationState.isTypeAssessment}}
-      <ResumeCampaignBannerAssessment
-        @isCompleted={{campaignParticipationState.assessment.isCompleted}}
-        @title={{campaignParticipationState.title}}
-        @code={{campaignParticipationState.code}}
-      />
-    {{else}}
-      <ResumeCampaignBannerCollectProfile @code={{campaignParticipationState.code}} />
+    {{#if this.campaignParticipationState.isProfilesCollection}}
+      <ResumeCampaignBannerCollectProfile @code={{this.campaignParticipationState.code}} />
     {{/if}}
   </div>
 {{/if}}
