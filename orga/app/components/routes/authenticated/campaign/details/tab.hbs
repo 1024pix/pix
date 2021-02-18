@@ -1,19 +1,19 @@
-<div class="panel panel--strong-shadow campaign-details-container" aria-label="Détails de la campagne">
+<div class="panel panel--strong-shadow campaign-details-container">
   <div class="campaign-details-row">
     {{#if @campaign.isTypeAssessment}}
       <div class="campaign-details-content">
-        <h4 class="label-text campaign-details-content__label">Profil cible</h4>
+        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-details.target-profile'}}</h4>
         <p class="content-text campaign-details-content__text">{{@campaign.targetProfileName}}</p>
       </div>
     {{/if}}
     {{#if @campaign.idPixLabel}}
       <div class="campaign-details-content">
-        <h4 class="label-text campaign-details-content__label">Libellé de l'identifiant</h4>
+        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-details.external-user-id-label'}}</h4>
         <p class="content-text campaign-details-content__text">{{@campaign.idPixLabel}}</p>
       </div>
     {{/if}}
     <div class="campaign-details-content">
-      <h4 class="label-text campaign-details-content__label">Lien direct</h4>
+      <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-details.direct-link'}}</h4>
       <div class="campaign-details-content__clipboard">
         <p class="content-text campaign-details-content__text">{{this.campaignsRootUrl}}</p>
         {{#if (is-clipboard-supported)}}
@@ -38,7 +38,7 @@
   {{#if @campaign.isTypeAssessment}}
     <div class="campaign-details-row">
       <div class="campaign-details-content campaign-details-content--single">
-        <h4 class="label-text campaign-details-content__label">Titre du parcours</h4>
+        <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-details.personalised-test-title'}}</h4>
         <p class="content-text campaign-details-content__text">{{@campaign.title}}</p>
       </div>
     </div>
@@ -46,7 +46,7 @@
 
   <div class="campaign-details-row">
     <div class="campaign-details-content campaign-details-content--single">
-      <h4 class="label-text campaign-details-content__label">Texte de la page d'accueil</h4>
+      <h4 class="label-text campaign-details-content__label">{{t 'pages.campaign-details.landing-page-text'}}</h4>
       <p class="content-text campaign-details-content__text">
         <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
       </p>
@@ -60,9 +60,8 @@
             @route="authenticated.campaigns.update"
             @model={{@campaign.id}}
             class="button button--grey button--regular button--link campaign-details-content__update-button"
-            aria-label="Modifier"
           >
-            Modifier
+            {{t 'pages.campaign-details.actions.edit'}}
           </LinkTo>
         </div>
         <div class="campaign-details-content campaign-details-content--button campaign-details--button campaign-details-content--left">
@@ -70,9 +69,8 @@
             type="button"
             {{on 'click' (fn this.archiveCampaign @campaign.id)}}
             class="button button--grey button--regular button--link"
-            aria-label="Archiver"
           >
-            Archiver
+            {{t 'pages.campaign-details.actions.archive'}}
           </button>
         </div>
       </div>
