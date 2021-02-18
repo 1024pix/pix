@@ -157,7 +157,7 @@ module.exports = function(environment) {
     }
 
     ENV.APP.IS_POLE_EMPLOI_ENABLED = true;
-    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat.pole-emploi.fr';
+    ENV['ember-simple-auth-oidc'].host = 'https://authentification-candidat-r.pe-qvr.fr';
     ENV['ember-simple-auth-oidc'].afterLogoutUri = 'http://localhost:8080/';
   }
 
