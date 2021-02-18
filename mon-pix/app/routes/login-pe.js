@@ -35,6 +35,8 @@ export default class LoginPeRoute extends Route {
         queryParams.code,
         queryParams.state,
       );
+    } else if (queryParams.error) {
+      return this.replaceWith('login');
     }
 
     return this._handleRedirectRequest();
