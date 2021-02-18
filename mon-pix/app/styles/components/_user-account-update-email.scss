@@ -36,11 +36,36 @@
 
 .user-account-update-email-actions {
 
-  &__button {
+  &__cancel-button {
+    min-width: 120px;
+
+    &:hover {
+      border-color: $grey-90;
+      background-color: $grey-10;
+    }
+
+    &:active {
+      border-color: $grey-90;
+      background-color: $grey-20;
+    }
+  }
+
+  &__confirm-button {
     min-width: 120px;
   }
 }
 
 abbr.mandatory-mark {
   text-decoration: none;
+}
+
+.confirm-button-enabled {
+
+  &:hover {
+    background-color: $blue-hover;
+  }
+
+  &:active {
+    background-color: darken($blue, 8%);
+  }
 }
