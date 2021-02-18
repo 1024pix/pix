@@ -1,4 +1,4 @@
-class StudentForEnrollement {
+class StudentForEnrollment {
   constructor(
     {
       id,
@@ -19,7 +19,7 @@ class StudentForEnrollement {
   static fromStudentsAndCertificationCandidates({ student, certificationCandidates }) {
     const isEnrolled = certificationCandidates.some((candidate) => candidate.schoolingRegistrationId === student.id);
 
-    return new StudentForEnrollement({
+    return new StudentForEnrollment({
       id: student.id,
       firstName: student.firstName,
       lastName: student.lastName,
@@ -31,4 +31,4 @@ class StudentForEnrollement {
 
 }
 
-module.exports = StudentForEnrollement;
+module.exports = StudentForEnrollment;

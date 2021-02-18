@@ -3,7 +3,7 @@ const { EntityValidationError } = require('../errors');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
-const certificationCenterlidationJoiSchema = Joi.object({
+const certificationCenterSchema = Joi.object({
 
   name: Joi.string()
     .max(255)
@@ -35,7 +35,7 @@ const certificationCenterlidationJoiSchema = Joi.object({
 module.exports = {
 
   validate(certificationCenter) {
-    const { error } = certificationCenterlidationJoiSchema.validate(certificationCenter, validationConfiguration);
+    const { error } = certificationCenterSchema.validate(certificationCenter, validationConfiguration);
     if (error) {
       throw EntityValidationError.fromJoiErrors(error.details);
     }

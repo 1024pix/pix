@@ -110,9 +110,9 @@ function _findTubeByName(tubes, tubeName) {
   return tubes.find((tube) => tube.name === tubeName);
 }
 
-function _skillNotTestedYet(knowledgesElements) {
+function _skillNotTestedYet(knowledgeElements) {
   return (skill) => {
-    const skillsAlreadyTested = _.map(knowledgesElements, 'skillId');
+    const skillsAlreadyTested = _.map(knowledgeElements, 'skillId');
     return !skillsAlreadyTested.includes(skill.id);
   };
 }

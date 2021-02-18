@@ -30,7 +30,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         'campaign-participations.sharedAt',
         'campaign-participations.isShared',
         'campaign-participations.participantExternalId',
-        'assessments.state AS assessementState',
+        'assessments.state AS assessmentState',
         _assessmentRankByCreationDate(),
       ])
         .from('campaign-participations')

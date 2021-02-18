@@ -198,7 +198,7 @@ class UserNotAuthorizedToGenerateUsernamePasswordError extends DomainError {
 }
 
 class CertificationCourseUpdateError extends DomainError {
-  constructor(message = 'Echec lors la création ou de la mise à jour du test de certification.') {
+  constructor(message = 'Échec lors la création ou de la mise à jour du test de certification.') {
     super(message);
   }
 }
@@ -244,13 +244,13 @@ class InvalidCertificationCandidate extends DomainError {
 }
 
 class InvalidCertificationReportForFinalization extends DomainError {
-  constructor(message = 'Echec lors de la validation du certification course') {
+  constructor(message = 'Échec lors de la validation du certification course') {
     super(message);
   }
 }
 
 class InvalidCertificationIssueReportForSaving extends DomainError {
-  constructor(message = 'Echec lors de la validation du signalement') {
+  constructor(message = 'Échec lors de la validation du signalement') {
     super(message);
   }
 }
@@ -410,7 +410,7 @@ class CsvParsingError extends DomainError {
 
 class EntityValidationError extends DomainError {
   constructor({ invalidAttributes }) {
-    super('Echec de validation de l\'entité.');
+    super('Échec de validation de l\'entité.');
     this.invalidAttributes = invalidAttributes;
   }
 
