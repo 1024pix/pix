@@ -31,6 +31,43 @@
     }
   },
   "pages": {
+    "assessment-individual-results": {
+      "badges": "Résultats Thématiques",
+      "mastery-percentage": "Résultat",
+      "progression": "Avancement",
+      "result": {
+        "label": "Résultat",
+        "value": "{count} / {total} ACQUIS"
+      },
+      "stages": {
+        "label": "Paliers",
+        "value": "{count} étoiles sur {total}"
+      },
+      "tab": {
+        "results": "Résultats",
+        "review": "Analyse"
+      },
+      "table": {
+        "title": "Résultats par compétence",
+        "column": {
+          "competences": "Compétences ({count, plural, =0 {-} other {{count}}})",
+          "results": {
+            "label": "Résultats",
+            "explanation-begin": "Ce participant a validé ",
+            "explanation-end": " de la compétence {competence}."
+          },
+          "totalSkills": "Acquis évalués",
+          "validatedSkills": "Acquis validés"
+        },
+        "empty": "En attente de résultats"
+      }
+    },
+    "campaign-individual-results": {
+      "campaign-name": "Nom de la campagne",
+      "not-shared": "Non disponible",
+      "shared-date": "Envoyé le",
+      "start-date": "Commencé le"
+    },
     "campaign": {
       "actions": {
         "export-results": "Exporter les résultats (.csv)",
