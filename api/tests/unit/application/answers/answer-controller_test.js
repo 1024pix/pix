@@ -28,6 +28,7 @@ describe('Unit | Controller | answer-controller', () => {
     const resultDetails = null;
     const value = 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"';
     const elapsedTime = 1000;
+    const locale = 'fr-fr';
 
     let request;
     let deserializedAnswer;
@@ -61,6 +62,9 @@ describe('Unit | Controller | answer-controller', () => {
 
     beforeEach(() => {
       request = {
+        headers: {
+          'accept-language': locale,
+        },
         payload: {
           data: {
             attributes: {
@@ -112,7 +116,8 @@ describe('Unit | Controller | answer-controller', () => {
         createdAnswer = domainBuilder.buildAnswer({ assessmentId });
         answerSerializer.serialize.returns(serializedAnswer);
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
-        requestResponseUtils.extractUserIdFromRequest.returns(userId);
+        requestResponseUtils.extractUserIdFromRequest.withArgs(request).returns(userId);
+        requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
 
         // when
         response = await answerController.save(request, hFake);
@@ -121,7 +126,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should call the usecase to save the answer', () => {
         // then
         expect(usecases.correctAnswerThenUpdateAssessment)
-          .to.have.been.calledWith({ answer: deserializedAnswer, userId });
+          .to.have.been.calledWith({ answer: deserializedAnswer, userId, locale });
       });
 
       it('should serialize the answer', () => {
