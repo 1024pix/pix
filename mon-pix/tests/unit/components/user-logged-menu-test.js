@@ -37,37 +37,6 @@ describe('Unit | Component | User logged Menu', function() {
     });
   });
 
-  describe('canDisplayLinkToProfile', function() {
-
-    it('should be false if the current route is /profil', function() {
-      // given
-      const component = this.owner.lookup('component:user-logged-menu');
-      component.set('routing', Service.create({
-        currentRouteName: 'profile',
-      }));
-
-      // when
-      const result = component.get('canDisplayLinkToProfile');
-
-      // then
-      expect(result).to.be.false;
-    });
-
-    it('should be true otherwise', function() {
-      // given
-      const component = this.owner.lookup('component:user-logged-menu');
-      component.set('routing', Service.create({
-        currentRouteName: 'other',
-      }));
-
-      // when
-      const result = component.get('canDisplayLinkToProfile');
-
-      // then
-      expect(result).to.be.true;
-    });
-  });
-
   describe('displayedIdentifier', function() {
 
     it('should return user\'s email if not undefined', function() {
