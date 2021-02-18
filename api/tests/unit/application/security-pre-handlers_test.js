@@ -9,6 +9,8 @@ const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
 
+const config = require('../../../lib/config');
+
 describe('Unit | Application | SecurityPreHandlers', () => {
 
   describe('#checkUserIsAuthenticated', () => {
@@ -678,6 +680,44 @@ describe('Unit | Application | SecurityPreHandlers', () => {
         // then
         expect(response.statusCode).to.equal(403);
         expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkIsCertificationResultsInOrgaToggleEnabled', () => {
+
+    const ft = config.featureToggles.isCertificationResultsInOrgaEnabled;
+
+    afterEach(() => {
+      config.featureToggles.isCertificationResultsInOrgaEnabled = ft;
+    });
+
+    context('when FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED is enabled', () => {
+
+      it('it returns true', () => {
+        // given
+        const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
+        config.featureToggles.isCertificationResultsInOrgaEnabled = true;
+
+        // when
+        const response = securityPreHandlers.checkIsCertificationResultsInOrgaToggleEnabled(request, hFake);
+
+        //then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('when FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED is not enabled', () => {
+
+      it('should forbid resource access', async () => {
+        // given
+        const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
+
+        // when
+        const response = await securityPreHandlers.checkIsCertificationResultsInOrgaToggleEnabled(request, hFake);
+
+        //then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
