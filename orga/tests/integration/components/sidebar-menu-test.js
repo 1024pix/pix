@@ -90,4 +90,20 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     // then
     assert.dom('.sidebar-menu__documentation-item').doesNotExist();
   });
+
+  test('it should display Certification menu in the sidebar-menu', async function(assert) {
+    // given
+    class CurrentUserStub extends Service {
+      organization = {};
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+    const intl = this.owner.lookup('service:intl');
+    intl.setLocale(['fr', 'fr']);
+
+    // when
+    await render(hbs`<SidebarMenu />`);
+
+    // then
+    assert.contains('Certification');
+  });
 });
