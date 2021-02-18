@@ -15,12 +15,20 @@ export default class ChallengeItemGeneric extends Component {
   @tracked _elapsedTime = null;
 
   _timer = null;
+  _pageBeforeUnloadListener = null;
+  _pageUnloadListener = null;
+  _hasAnswerBeenRecorded = false;
 
   constructor() {
     super(...arguments);
     if (!this.isTimedChallenge) {
       this._start();
     }
+  }
+
+  willDestroy() {
+    super.willDestroy(...arguments);
+    this._removeEventListeners();
   }
 
   cancelTimer() {
@@ -96,6 +104,7 @@ export default class ChallengeItemGeneric extends Component {
       this.errorMessage = null;
       this.hasUserConfirmedWarning = false;
       this.isValidateButtonEnabled = false;
+      this._hasAnswerBeenRecorded = true;
 
       return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this._elapsedTime)
         .finally(() => this.isValidateButtonEnabled = true);
@@ -113,6 +122,7 @@ export default class ChallengeItemGeneric extends Component {
       this.errorMessage = null;
       this.hasUserConfirmedWarning = false;
       this.isSkipButtonEnabled = false;
+      this._hasAnswerBeenRecorded = true;
 
       return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._elapsedTime)
         .finally(() => this.isSkipButtonEnabled = true);
@@ -123,5 +133,29 @@ export default class ChallengeItemGeneric extends Component {
   setUserConfirmation() {
     this._start();
     this.hasUserConfirmedWarning = true;
+    this._addQuitTimedChallengeListeners();
+  }
+
+  _addQuitTimedChallengeListeners() {
+    this._pageBeforeUnloadListener = (event) => {
+      event.preventDefault();
+    };
+    this._pageUnloadListener = (event) => {
+      event.preventDefault();
+      if (!this._hasAnswerBeenRecorded) {
+        this.skipChallenge();
+      }
+    };
+    window.addEventListener('beforeunload', this._pageBeforeUnloadListener);
+    window.addEventListener('unload', this._pageUnloadListener);
+  }
+
+  _removeEventListeners() {
+    if (this._pageBeforeUnloadListener) {
+      window.removeEventListener('beforeunload', this._pageBeforeUnloadListener);
+    }
+    if (this._pageUnloadListener) {
+      window.removeEventListener('unload', this._pageUnloadListener);
+    }
   }
 }
