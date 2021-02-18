@@ -1,7 +1,6 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import ENV from 'mon-pix/config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import {
   click,
@@ -127,14 +126,6 @@ describe('Integration | Component | user logged menu', function() {
     });
 
     describe('Link to "My tests"', () => {
-      beforeEach(async function() {
-        ENV.APP.FT_DASHBOARD = true;
-      });
-
-      afterEach(function() {
-        ENV.APP.FT_DASHBOARD = false;
-      });
-
       describe('when user has at least one participation', () => {
         beforeEach(function() {
           class currentUserService extends Service {
@@ -153,18 +144,6 @@ describe('Integration | Component | user logged menu', function() {
 
           // then
           expect(contains('Mes parcours')).to.exist;
-        });
-
-        it('should not display link to user tests if feature disabled', async function() {
-          // given
-          ENV.APP.FT_DASHBOARD = false;
-
-          // when
-          await render(hbs`<UserLoggedMenu/>`);
-          await click('.logged-user-name');
-
-          // then
-          expect(contains('Mes parcours')).to.not.exist;
         });
       });
 

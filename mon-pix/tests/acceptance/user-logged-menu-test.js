@@ -6,7 +6,6 @@ import findByLabel from '../helpers/find-by-label';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import ENV from 'mon-pix/config/environment';
 
 describe('Acceptance | User account', function() {
   setupApplicationTest();
@@ -15,14 +14,9 @@ describe('Acceptance | User account', function() {
 
   beforeEach(async function() {
     //given
-    ENV.APP.FT_DASHBOARD = true;
     server.create('campaign-participation-overview', { assessmentState: 'completed' });
     user = server.create('user', 'withEmail', 'campaignParticipations');
     await authenticateByEmail(user);
-  });
-
-  afterEach(function() {
-    ENV.APP.FT_DASHBOARD = false;
   });
 
   describe('When in profile', function() {
