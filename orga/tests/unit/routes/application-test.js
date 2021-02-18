@@ -83,6 +83,10 @@ module('Unit | Route | application', function(hooks) {
       saveStub = sinon.stub().resolves();
       prescriber = store.createRecord('prescriber', { id: 1, lang: 'en' });
       prescriber.save = saveStub;
+      class FeatureTogglesMock extends Service {
+        load = sinon.stub();
+      }
+      this.owner.register('service:feature-toggles', FeatureTogglesMock);
     });
 
     test('should set the locales', async function(assert) {
@@ -154,6 +158,23 @@ module('Unit | Route | application', function(hooks) {
       const currentUserStub = Service.create({ load: loadStub, prescriber });
       const route = this.owner.lookup('route:application');
       route.set('currentUser', currentUserStub);
+
+      // when
+      await route.beforeModel(transition);
+
+      // then
+      assert.ok(loadStub.called);
+    });
+
+    test('it should load feature toggles', async function(assert) {
+      // given
+      const transition = { to: { queryParams: {} } };
+      const currentUserStub = Service.create({ load: sinon.stub(), prescriber });
+      const route = this.owner.lookup('route:application');
+      route.set('currentUser', currentUserStub);
+      const featureTogglesService = this.owner.lookup('service:feature-toggles');
+      const loadStub = sinon.stub();
+      featureTogglesService.load = loadStub;
 
       // when
       await route.beforeModel(transition);
