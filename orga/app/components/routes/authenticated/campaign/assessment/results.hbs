@@ -2,17 +2,17 @@
   <table>
     <thead>
     <tr>
-      <th class="table__column--wide">Compétences ({{if @displayResults @campaignAssessmentParticipationResult.sortedCompetenceResults.length '-' }})</th>
-      <th class="table__column--wide">Résultats</th>
-      <th class="table__column--small">Acquis validés</th>
-      <th class="table__column--small">Acquis évalués</th>
+      <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.competences' count=@campaignAssessmentParticipationResult.sortedCompetenceResults.length}}</th>
+      <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.results.label'}}</th>
+      <th class="table__column--small">{{t 'pages.assessment-individual-results.table.column.validatedSkills'}}</th>
+      <th class="table__column--small">{{t 'pages.assessment-individual-results.table.column.totalSkills'}}</th>
     </tr>
     </thead>
 
     {{#if @displayResults}}
       <tbody>
       {{#each @campaignAssessmentParticipationResult.sortedCompetenceResults as |competenceResult|}}
-        <tr aria-label="Résultats par compétence">
+        <tr aria-label={{t 'pages.assessment-individual-results.table.title'}}>
           <td class="competences-col__name">
             <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
             <span>
@@ -21,7 +21,7 @@
           </td>
           <td>
             <ProgressionGauge @total={{competenceResult.totalSkillsCountPercentage}} @value={{competenceResult.validatedSkillsCountPercentage}}>
-              <p class="sr-only">Ce participant a validé </p>{{competenceResult.validatedSkillsCountPercentage}}%<p class="sr-only"> de la compétence {{competenceResult.name}}.</p>
+              <span class="sr-only">{{t 'pages.assessment-individual-results.table.column.results.explanation-begin'}}</span>{{competenceResult.validatedSkillsCountPercentage}}%<span class="sr-only">{{t 'pages.assessment-individual-results.table.column.results.explanation-end' competence=competenceResult.name}}</span>
             </ProgressionGauge>
           </td>
           <td>{{competenceResult.validatedSkillsCount}}</td>
@@ -32,6 +32,6 @@
     {{/if}}
   </table>
   {{#unless @displayResults}}
-    <div class="table__empty content-text">En attente de résultats</div>
+    <div class="table__empty content-text">{{t 'pages.assessment-individual-results.table.empty'}}</div>
   {{/unless}}
 </div>
