@@ -5,6 +5,7 @@
   "current-lang": "en",
   "common": {
     "actions": {
+      "back": "Back",
       "cancel": "Cancel"
     },
     "pagination": {
@@ -31,12 +32,41 @@
   },
   "pages": {
     "campaign": {
+      "actions": {
+        "export-results": "Export the results (.csv)",
+        "unarchive": "Unarchive the campaign"
+      },
+      "archived": "Archived campaign",
+      "code": "Code",
       "filters": {
         "actions": {
           "clear": "Clear filters"
         },
         "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}"
+      },
+      "participations-count": "Participants",
+      "shared-participations-count": "Profiles submitted",
+      "tab": {
+        "collective-results": "Collective results",
+        "details": "Details",
+        "participants": "Participants ({count})",
+        "review": "Review"
       }
+    },
+    "campaign-details": {
+      "actions": {
+        "edit": "Edit",
+        "archive": "Archive",
+        "copy-link": {
+          "copied": "Copied!",
+          "copy": "Copy direct link"
+        }
+      },
+      "direct-link": "Direct link",
+      "external-user-id-label": "External user ID label",
+      "landing-page-text": "Text to display on the starting page",
+      "personalised-test-title": "Title of the personalised test",
+      "target-profile": "Target profile"
     },
     "campaigns-list": {
       "action": {
