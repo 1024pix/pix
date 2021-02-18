@@ -71,7 +71,7 @@ describe('Integration | UseCases | getAttendanceSheet', () => {
       await unlink(actualOdsFilePath);
     });
 
-    it('should aa an attendance sheet with session data, certification candidates data prefilled', async () => {
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
       // when
       sinon.stub(featureToggles, 'reportsCategorization').value(true);
       const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository });
