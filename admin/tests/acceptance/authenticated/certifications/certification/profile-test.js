@@ -29,15 +29,16 @@ module('Acceptance | authenticated/certifications/certification/profile', functi
       await createAuthenticateSession({ userId: 1 });
     });
 
-    test('it should display hello', async function(assert) {
+    test('it should display certification id', async function(assert) {
       // given
       const certification = this.server.create('certification');
+      this.server.create('certified-profile', { id: certification.id });
 
       // when
       await visit(`/certifications/${certification.id}/profile`);
 
       // then
-      assert.contains('hello');
+      assert.contains(certification.id);
     });
   });
 });

@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 export default class AuthenticatedCertificationsCertificationProfileRoute extends Route {
 
   model() {
-    return 'hello';
+    const { certification_id } = this.paramsFor('authenticated.certifications.certification');
+    return this.store.findRecord('certified-profile', certification_id);
   }
 }
