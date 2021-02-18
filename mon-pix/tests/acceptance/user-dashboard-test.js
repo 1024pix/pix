@@ -44,14 +44,6 @@ describe('Acceptance | User dashboard page', function() {
   describe('campaign-participation-overviews', function() {
     describe('when user is doing a campaign of type assessment', function() {
 
-      beforeEach(async function() {
-        await authenticateByEmail(user);
-      });
-
-      afterEach(async function() {
-        await invalidateSession();
-      });
-
       context('when user has not completed the campaign', () => {
         let uncompletedCampaign;
         let uncompletedCampaignParticipationOverview;
@@ -72,6 +64,11 @@ describe('Acceptance | User dashboard page', function() {
             createdAt: new Date('2020-04-20T04:05:06Z'),
             isShared: false,
           });
+          await authenticateByEmail(user);
+        });
+
+        afterEach(async function() {
+          await invalidateSession();
         });
 
         it('should display a card with a resume button', async function() {
@@ -111,6 +108,12 @@ describe('Acceptance | User dashboard page', function() {
             createdAt: new Date('2020-04-20T04:05:06Z'),
             isShared: false,
           });
+          await authenticateByEmail(user);
+
+        });
+
+        afterEach(async function() {
+          await invalidateSession();
         });
 
         it('should display a card with a share button', async function() {

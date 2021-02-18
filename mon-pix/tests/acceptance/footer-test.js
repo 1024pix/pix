@@ -34,7 +34,7 @@ describe('Acceptance | Footer', function() {
 
     it('should contain link to pix.fr/aide', async function() {
       // when
-      await visit('/profil');
+      await visit('/');
 
       // then
       expect(find('.footer-navigation__item:nth-child(1)').getAttribute('href')).to.equal('https://pix.fr/aide');
@@ -42,7 +42,7 @@ describe('Acceptance | Footer', function() {
 
     it('should contain link to pix.fr/accessibilite', async function() {
       // when
-      await visit('/profil');
+      await visit('/');
 
       // then
       expect(find('.footer-navigation__item:nth-child(2)').getAttribute('href')).to.equal('https://pix.fr/accessibilite');

@@ -8,7 +8,7 @@ describe('Unit | Route | index', function() {
 
   describe('model', function() {
 
-    it('should redirect to /profil', async function() {
+    it('should redirect to /accueil', async function() {
       // Given
       const route = this.owner.lookup('route:index');
       route.replaceWith = sinon.spy();
@@ -17,7 +17,7 @@ describe('Unit | Route | index', function() {
       await route.redirect();
 
       // Then
-      sinon.assert.calledWith(route.replaceWith, 'profile');
+      sinon.assert.calledWith(route.replaceWith, 'user-dashboard');
     });
   });
 });

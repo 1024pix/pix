@@ -256,7 +256,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('.skill-review__campaign-archived')).not.to.exist;
       });
 
-      it('should redirect to home/profil page on click', async function() {
+      it('should redirect to default page on click', async function() {
         // given
         await visit(`/campagnes/${campaign.code}`);
         await click('.campaign-tutorial__ignore-button');
@@ -267,7 +267,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await click('.skill-review-share__back-to-home');
 
         // then
-        expect(currentURL()).to.equal('/profil');
+        expect(currentURL()).to.equal('/accueil');
       });
     });
   });
@@ -283,7 +283,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       });
     });
 
-    it('should redirect to home/profil page on click when user is connected', async function() {
+    it('should redirect to default page on click when user is connected', async function() {
       // given
       await authenticateByEmail(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
@@ -291,7 +291,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       await click('a[data-link-to-continue-pix]');
 
       // then
-      expect(currentURL()).to.equal('/profil');
+      expect(currentURL()).to.equal('/accueil');
     });
 
     it('should redirect to sign up page on click when user is not connected', async function() {
