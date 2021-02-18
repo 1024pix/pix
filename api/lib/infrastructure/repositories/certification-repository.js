@@ -90,7 +90,7 @@ module.exports = {
     }
     await CertificationCourseBookshelf
       .where({ sessionId })
-      .save({ isPublished: true }, { method: 'update' });
+      .save({ isPublished: true }, { method: 'update', require: false });
   },
 
   async unpublishCertificationCoursesBySessionId(sessionId) {
