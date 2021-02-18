@@ -7,7 +7,6 @@ import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
 import { contains } from '../../helpers/contains';
-import ENV from 'mon-pix/config/environment';
 
 describe('Integration | Component | navbar-desktop-header', function() {
 
@@ -104,46 +103,6 @@ describe('Integration | Component | navbar-desktop-header', function() {
     });
 
     it('should display the navigation menu with expected elements', function() {
-      // then
-      expect(find('.navbar-desktop-header-container__menu')).to.exist;
-      expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
-      expect(contains('Profil')).to.exist;
-      expect(contains('Certification')).to.exist;
-      expect(contains('Mes tutos')).to.exist;
-      expect(contains('J\'ai un code')).to.exist;
-    });
-  });
-
-  context('when dashboard feature toggle is enabled', function() {
-    const originalDashboardFeatureState = ENV.APP.FT_DASHBOARD;
-
-    beforeEach(async function() {
-      ENV.APP.FT_DASHBOARD = true;
-      class sessionService extends Service {
-        isAuthenticated = true
-        data = {
-          authenticated: {
-            token: 'access_token',
-            userId: 1,
-            source: 'pix',
-          },
-        }
-      }
-      this.owner.register('service:session', sessionService);
-      class currentUserService extends Service {
-        user = { isAnonymous: false }
-      }
-      this.owner.register('service:currentUser', currentUserService);
-      setBreakpoint('desktop');
-      await render(hbs`<NavbarDesktopHeader/>}`);
-    });
-
-    afterEach(function() {
-      ENV.APP.FT_DASHBOARD = originalDashboardFeatureState;
-    });
-
-    it('should display the navigation menu with expected elements', function() {
-
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
       expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(5);
