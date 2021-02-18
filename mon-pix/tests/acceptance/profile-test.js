@@ -7,8 +7,6 @@ import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import Service from '@ember/service';
-import sinon from 'sinon';
 
 describe('Acceptance | Profile', function() {
   setupApplicationTest();
@@ -71,113 +69,11 @@ describe('Acceptance | Profile', function() {
       expect(currentURL()).to.equal(`/competences/${scorecard.competenceId}/details`);
     });
 
-    context('when user is doing a campaign of type assessment', function() {
-      context('when user has not completed the campaign', () => {
-
-        it('should display accessibility information in the banner button', async function() {
-          // given
-          const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
-          server.create('campaign-participation',
-            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
-
-          // when
-          await visit('/competences');
-          const button = find('.resume-campaign-banner__button');
-          const a11yText = button.firstChild.textContent;
-
-          // then
-          expect(a11yText).to.equal('Continuer votre parcours');
-        });
-
-        it('should display a resume campaign banner for a campaign with no title', async function() {
-          // given
-          const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
-          server.create('campaign-participation',
-            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
-
-          // when
-          await visit('/competences');
-
-          // then
-          expect(find('.resume-campaign-banner__container')).to.exist;
-          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
-        });
-
-        it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
-          // given
-          const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle', type: 'ASSESSMENT' });
-          server.create('campaign-participation',
-            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
-
-          // when
-          await visit('/competences');
-
-          // then
-          expect(find('.resume-campaign-banner__container')).to.exist;
-          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
-        });
-
-        context('when the campaign belongs to a POLE EMPLOI organization', () => {
-          it('should redirect to Pole Emploi authentication form when user click on resume button', async function() {
-            // given
-            const replaceLocationStub = sinon.stub().resolves();
-            this.owner.register('service:location', Service.extend({
-              replace: replaceLocationStub,
-            }));
-            const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT', organizationIsPoleEmploi: true });
-            server.create('campaign-participation',
-              { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
-
-            // when
-            await visit('/competences');
-            await click('.resume-campaign-banner__button');
-
-            // then
-            sinon.assert.called(replaceLocationStub);
-            expect(currentURL()).to.equal('/connexion-pole-emploi');
-          });
-        });
-      });
-
-      context('when user has completed the campaign but not shared', () => {
-
-        it('should display a resume campaign banner for a campaign with no title', async function() {
-          // given
-          const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
-          const campaignParticipation = server.create('campaign-participation',
-            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
-          campaignParticipation.assessment.update({ state: 'completed' });
-
-          // when
-          await visit('/competences');
-
-          // then
-          expect(find('.resume-campaign-banner__container')).to.exist;
-          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
-        });
-
-        it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
-          // given
-          const campaign = server.create('campaign', { isArchived: false, title: 'SomeTitle', type: 'ASSESSMENT' });
-          const campaignParticipation = server.create('campaign-participation',
-            { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
-          campaignParticipation.assessment.update({ state: 'completed' });
-
-          // when
-          await visit('/competences');
-
-          // then
-          expect(find('.resume-campaign-banner__container')).to.exist;
-          expect(find('.resume-campaign-banner__button').lastChild).to.exist;
-        });
-      });
-    });
-
     context('when user is doing a campaign of type collect profile', function() {
       context('when user has not shared the collect profile campaign', () => {
         it('should display accessibility information in the banner', async function() {
           // given
-          const campaign = server.create('campaign', { isArchived: false, type: 'ASSESSMENT' });
+          const campaign = server.create('campaign', { isArchived: false, type: 'PROFILES_COLLECTION' });
           server.create('campaign-participation',
             { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
