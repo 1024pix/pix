@@ -85,6 +85,7 @@ const categorySchemas = {
 };
 
 const categoryCodeWithRequiredAction = {
+  [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',
   [CertificationIssueReportCategories.OTHER]: 'A2',
   [CertificationIssueReportCategories.FRAUD]: 'C6',
 };
