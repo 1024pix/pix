@@ -9,7 +9,7 @@
       </p>
     </div>
   {{/if}}
-  
+
   {{#if this.showMyTestsLink}}
     <LinkTo @route="user-tests" class="navbar-burger-menu-user-info__item">
       {{t 'navigation.user.tests'}}
@@ -30,19 +30,12 @@
 </div>
 
 <div class="navbar-burger-menu navbar-burger-menu__navigation">
-  {{#if this.showDashboard}}
-    <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
-      {{t 'navigation.main.dashboard'}}
-    </LinkTo>
-    <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
-      {{t 'navigation.main.skills'}}
-    </LinkTo>
-
-  {{else}}
-    <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
-      {{t 'navigation.main.profile'}}
-    </LinkTo>
-  {{/if}}
+  <LinkTo @route="user-dashboard" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.dashboard'}}
+  </LinkTo>
+  <LinkTo @route="profile" class="navbar-burger-menu-navigation__item">
+    {{t 'navigation.main.skills'}}
+  </LinkTo>
 
   <LinkTo @route="certifications" class="navbar-burger-menu-navigation__item">
     {{t 'navigation.main.start-certification'}}
