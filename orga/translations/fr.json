@@ -53,6 +53,38 @@
         "review": "Analyse"
       }
     },
+    "campaign-creation": {
+      "actions": {
+        "create": "Créer la campagne"
+      },
+      "external-id-label": {
+        "question-label": "Souhaitez-vous demander un identifiant externe ?",
+        "label": "Libellé de l’identifiant",
+        "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
+      },
+      "landing-page-text": {
+        "label": "Texte de la page d'accueil"
+      },
+      "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
+      "name": {
+        "label": "Nom de la campagne"
+      },
+      "no": "Non",
+      "purpose": {
+        "assessment": "Évaluer les participants",
+        "label": "Quel est l'objectif de votre campagne ?",
+        "profiles-collection": "Collecter les profils Pix des participants"
+      },
+      "target-profile-informations": "Si vous souhaitez avoir plus d'information, consulter <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> la documentation correspondante</a>.",
+      "target-profiles-list": {
+        "label": "Que souhaitez-vous tester ?"
+      },
+      "test-title": {
+        "label": "Titre du parcours"
+      },
+      "title": "Création d'une campagne",
+      "yes": "Oui"
+    },
     "campaign-details": {
       "actions": {
         "archive": "Archiver",
@@ -98,38 +130,6 @@
           "by-name": "Rechercher une campagne"
         }
       }
-    },
-    "campaign-creation": {
-      "actions": {
-        "create": "Créer la campagne"
-      },
-      "external-id-label": {
-        "question-label": "Souhaitez-vous demander un identifiant externe ?",
-        "label": "Libellé de l’identifiant",
-        "suggestion": "Exemple: \"Numéro de l'étudiant\" ou \"Adresse e-mail professionnelle\" *"
-      },
-      "landing-page-text": {
-        "label": "Texte de la page d'accueil"
-      },
-      "legal-warning": "* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.",
-      "name": {
-        "label": "Nom de la campagne"
-      },
-      "no": "Non",
-      "purpose": {
-        "assessment": "Évaluer les participants",
-        "label": "Quel est l'objectif de votre campagne ?",
-        "profiles-collection": "Collecter les profils Pix des participants"
-      },
-      "target-profile-informations": "Si vous souhaitez avoir plus d'information, consulter <a class=\"link\" href=\"https://cloud.pix.fr/s/3joGMGYWSpmHg5w\" target=\"_blank\" rel=\"noopener noreferrer\"> la documentation correspondante</a>.",
-      "target-profiles-list": {
-        "label": "Que souhaitez-vous tester ?"
-      },
-      "test-title": {
-        "label": "Titre du parcours"
-      },
-      "title": "Création d'une campagne",
-      "yes": "Oui"
     }
   }
 }
