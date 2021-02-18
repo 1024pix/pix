@@ -31,6 +31,43 @@
     }
   },
   "pages": {
+    "assessment-individual-results": {
+      "badges": "Thematic results",
+      "mastery-percentage": "Result",
+      "progression": "Progression",
+      "result": {
+        "label": "Result",
+        "value": "{count} / {total} ITEMS"
+      },
+      "stages": {
+        "label": "Steps",
+        "value": "{count} out of {total} stars"
+      },
+      "tab": {
+        "results": "Results",
+        "review": "Review"
+      },
+      "table": {
+        "title": "Results by skill",
+        "column": {
+          "competences": "Skills ({count, plural, =0 {-} other {{count}}})",
+          "results": {
+            "label": "Results",
+            "explanation-begin": "This participant has validated ",
+            "explanation-end": " of the skill {competence}."
+          },
+          "totalSkills": "Items tested",
+          "validatedSkills": "Items successfully completed"
+        },
+        "empty": "Results pending"
+      }
+    },
+    "campaign-individual-results": {
+      "campaign-name": "Name of the campaign",
+      "not-shared": "Not available",
+      "shared-date": "Sent on",
+      "start-date": "Started on"
+    },
     "campaign": {
       "actions": {
         "export-results": "Export the results (.csv)",
