@@ -106,4 +106,53 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
     });
   });
+  context('When campaign is for Absolute Novice', function() {
+    beforeEach(async function() {
+      // Given
+      const campaignParticipation = {
+        campaignParticipation: {
+          id: 8654,
+          isShared: false,
+          save: sinon.stub().rejects(),
+          set: sinon.stub().resolves(),
+          rollbackAttributes: sinon.stub(),
+          campaign: {
+            isForAbsoluteNovice: true,
+          },
+          campaignParticipationResult: {
+            masteryPercentage: 90,
+            totalSkillsCount: 5,
+            testedSkillsCount: 3,
+            validatedSkillsCount: 3,
+            stageCount: 2,
+            get: sinon.stub().returns([]),
+          },
+        },
+      };
+
+      this.set('campaignParticipation', campaignParticipation);
+      this.set('assessmentId', 'BADGES123');
+      this.set('acquiredBadges', null);
+
+      // When
+      await render(hbs`<Routes::Campaigns::Assessment::SkillReview
+          @model={{campaignParticipation}}
+          @assessmentId={{assessmentId}}
+          @acquiredBadges={{acquiredBadge}}
+         />`);
+    });
+
+    it('should show a link to main page instead of the shared button ', function() {
+      // Then
+      expect(find('.skill-review-share__button')).to.not.exist;
+      expect(find('a[data-link-to-continue-pix]')).to.exist;
+    });
+
+    it('should not show competence results ', function() {
+      // Then
+      expect(find('.skill-review-result__content')).to.not.exist;
+      expect(find('.skill-review-result__information')).to.not.exist;
+    });
+
+  });
 });
