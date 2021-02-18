@@ -24,16 +24,16 @@ describe('Acceptance | Profile', function() {
       await authenticateByEmail(user);
     });
 
-    it('can visit /profil', async function() {
+    it('can visit /competences', async function() {
       // when
-      await visit('/profil');
+      await visit('/competences');
 
       // then
-      expect(currentURL()).to.equal('/profil');
+      expect(currentURL()).to.equal('/competences');
     });
 
     it('should display pixscore', async function() {
-      await visit('/profil');
+      await visit('/competences');
 
       // then
       expect(find('.hexagon-score-content__pix-score').textContent).to.contains(user.profile.pixScore);
@@ -41,7 +41,7 @@ describe('Acceptance | Profile', function() {
 
     it('should display scorecards classified accordingly to each area', async function() {
       // when
-      await visit('/profil');
+      await visit('/competences');
 
       // then
       user.scorecards.models.forEach((scorecard) => {
@@ -61,7 +61,7 @@ describe('Acceptance | Profile', function() {
 
     it('should link to competence-details page on click on level circle', async function() {
       // given
-      await visit('/profil');
+      await visit('/competences');
 
       // when
       await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__link');
@@ -81,7 +81,7 @@ describe('Acceptance | Profile', function() {
             { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
-          await visit('/');
+          await visit('/competences');
           const button = find('.resume-campaign-banner__button');
           const a11yText = button.firstChild.textContent;
 
@@ -96,7 +96,7 @@ describe('Acceptance | Profile', function() {
             { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
-          await visit('/');
+          await visit('/competences');
 
           // then
           expect(find('.resume-campaign-banner__container')).to.exist;
@@ -110,7 +110,7 @@ describe('Acceptance | Profile', function() {
             { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
-          await visit('/');
+          await visit('/competences');
 
           // then
           expect(find('.resume-campaign-banner__container')).to.exist;
@@ -129,7 +129,7 @@ describe('Acceptance | Profile', function() {
               { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
             // when
-            await visit('/');
+            await visit('/competences');
             await click('.resume-campaign-banner__button');
 
             // then
@@ -149,7 +149,7 @@ describe('Acceptance | Profile', function() {
           campaignParticipation.assessment.update({ state: 'completed' });
 
           // when
-          await visit('/');
+          await visit('/competences');
 
           // then
           expect(find('.resume-campaign-banner__container')).to.exist;
@@ -164,7 +164,7 @@ describe('Acceptance | Profile', function() {
           campaignParticipation.assessment.update({ state: 'completed' });
 
           // when
-          await visit('/');
+          await visit('/competences');
 
           // then
           expect(find('.resume-campaign-banner__container')).to.exist;
@@ -182,7 +182,7 @@ describe('Acceptance | Profile', function() {
             { campaign, user, isShared: false, createdAt: new Date('2020-04-20T04:05:06Z') });
 
           // when
-          await visit('/');
+          await visit('/competences');
           const button = find('.resume-campaign-banner__button');
           const a11yText = button.firstChild.textContent;
 
@@ -199,7 +199,7 @@ describe('Acceptance | Profile', function() {
           campaignParticipation.assessment.update({ state: 'completed' });
 
           // when
-          await visit('/');
+          await visit('/competences');
 
           // then
           expect(find('.resume-campaign-banner__container')).to.exist;
@@ -212,7 +212,7 @@ describe('Acceptance | Profile', function() {
   describe('Not authenticated cases', function() {
     it('should redirect to home, when user is not authenticated', async function() {
       // when
-      await visit('/profil');
+      await visit('/competences');
       expect(currentURL()).to.equal('/connexion');
     });
 

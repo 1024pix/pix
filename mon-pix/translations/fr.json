@@ -514,9 +514,6 @@
                 "you-have-reached-level": "Vous avez atteint"
             }
         },
-        "competences": {
-            "title": "Compétences"
-        },
         "dashboard": {
             "title": "Accueil",
             "campaigns": {
@@ -697,7 +694,7 @@
             }
         },
         "profile": {
-            "title": "Votre profil",
+            "title": "Compétences",
             "accessibility": {
                 "title": "Votre profil Pix",
                 "user-score": "Votre nombre de Pix",
@@ -1093,7 +1090,6 @@
             "dashboard": "Accueil",
             "help": "Aide",
             "link-help": "https://pix.fr/aide",
-            "profile": "Profil",
             "skills": "Compétences",
             "start-certification": "Certification",
             "tutorials":  "Mes tutos"
@@ -1108,9 +1104,9 @@
         },
         "user": {
             "account": "Mon compte",
-            "tests": "Mes parcours",
             "certifications": "Mes certifications",
-            "sign-out": "Se déconnecter"
+            "sign-out": "Se déconnecter",
+            "tests": "Mes parcours"
         }
     }
 }

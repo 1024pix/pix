@@ -32,7 +32,7 @@ describe('Acceptance | Profile | Start competence', function() {
       server.create('competence-evaluation', { user, competenceId, assessment });
 
       // when
-      await visit('/profil');
+      await visit('/competences');
       await setBreakpoint('tablet');
       await click(`.rounded-panel-body__areas:nth-child(${firstScorecard.area.code}) .rounded-panel-body__competence-card:nth-child(${competenceNumber}) .competence-card__button`);
 
