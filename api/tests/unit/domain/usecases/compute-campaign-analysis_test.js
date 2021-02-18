@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const { computeCampaignAnalysis } = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | UseCase | compute-campaign-analysis', () => {
@@ -53,7 +53,7 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('it should throw an UserNotAuthorizedToAccessEntity error', async () => {
+    it('it should throw an UserNotAuthorizedToAccessEntityError error', async () => {
       // when
       const result = await catchErr(computeCampaignAnalysis)({
         userId,
@@ -65,7 +65,7 @@ describe('Unit | UseCase | compute-campaign-analysis', () => {
       });
 
       // then
-      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 

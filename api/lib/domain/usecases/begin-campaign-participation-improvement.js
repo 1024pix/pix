@@ -1,5 +1,8 @@
 const Assessment = require('../models/Assessment');
-const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const {
+  AlreadySharedCampaignParticipationError,
+  UserNotAuthorizedToAccessEntityError,
+} = require('../../domain/errors');
 
 module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipationId,
@@ -9,7 +12,7 @@ module.exports = async function beginCampaignParticipationImprovement({
 }) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {});
   if (campaignParticipation.userId !== userId) {
-    throw new UserNotAuthorizedToAccessEntity();
+    throw new UserNotAuthorizedToAccessEntityError();
   }
 
   if (campaignParticipation.isShared) {

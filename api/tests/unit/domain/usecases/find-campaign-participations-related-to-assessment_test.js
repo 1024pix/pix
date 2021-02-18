@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const findCampaignParticipationsRelatedToAssessment = require('../../../../lib/domain/usecases/find-campaign-participations-related-to-assessment');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-campaign-participations-related-to-assessment', () => {
 
@@ -43,8 +43,8 @@ describe('Unit | UseCase | find-campaign-participations-related-to-assessment', 
 
         requestErr = await catchErr(findCampaignParticipationsRelatedToAssessment)({ userId, assessmentId, campaignParticipationRepository, assessmentRepository });
       });
-      it('should throw a UserNotAuthorizedToAccessEntity error', () => {
-        expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      it('should throw a UserNotAuthorizedToAccessEntityError error', () => {
+        expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
       });
     });
   });

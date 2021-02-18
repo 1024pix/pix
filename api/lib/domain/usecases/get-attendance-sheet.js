@@ -3,7 +3,7 @@ const moment = require('moment');
 const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const sessionXmlService = require('../services/session-xml-service');
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 const { featureToggles } = require('../../config');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
@@ -15,7 +15,7 @@ module.exports = async function getAttendanceSheet({ userId, sessionId, sessionR
 
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
-    throw new UserNotAuthorizedToAccessEntity('User is not allowed to access session.');
+    throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
   const [ stringifiedXml, session ] = await Promise.all([

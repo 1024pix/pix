@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getCampaignProfile = require('../../../../lib/domain/usecases/get-campaign-profile');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | UseCase | get-campaign-profile', () => {
@@ -48,12 +48,12 @@ describe('Unit | UseCase | get-campaign-profile', () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('should throw UserNotAuthorizedToAccessEntity', async () => {
+    it('should throw UserNotAuthorizedToAccessEntityError', async () => {
       // when
       const result = await catchErr(getCampaignProfile)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignProfileRepository, locale });
 
       // then
-      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 });

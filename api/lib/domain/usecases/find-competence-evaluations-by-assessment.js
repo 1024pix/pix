@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 
 module.exports = async function findCompetenceEvaluationsByAssessment({
   userId,
@@ -7,7 +7,7 @@ module.exports = async function findCompetenceEvaluationsByAssessment({
   competenceEvaluationRepository,
 }) {
   if (!(await assessmentRepository.ownedByUser({ id: assessmentId, userId }))) {
-    throw new UserNotAuthorizedToAccessEntity('User does not have an access to this competence evaluation');
+    throw new UserNotAuthorizedToAccessEntityError('User does not have an access to this competence evaluation');
   }
 
   return competenceEvaluationRepository.findByAssessmentId(assessmentId);

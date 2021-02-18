@@ -1,18 +1,33 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError,
+  UserNotAuthorizedToAccessEntityError,
+} = require('../../../../lib/domain/errors');
 const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
 describe('Unit | UseCase | get-campaign', () => {
 
-  let campaign;
+  const badges = Symbol('badges');
+  const stages = Symbol('stages');
+
+  const campaignId = 1;
+  const userId = 1;
+  const campaign = {
+    id: campaignId,
+    name: 'My campaign',
+  };
+
+  let campaignRepository;
   let campaignReportRepository;
   let stageRepository;
   let badgeRepository;
 
   beforeEach(() => {
-    campaign = {
-      id: '1',
-      name: 'My campaign',
+    badgeRepository = {
+      findByCampaignId: sinon.stub(),
+    };
+    campaignRepository = {
+      checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
     };
     campaignReportRepository = {
       get: sinon.stub(),
@@ -20,57 +35,90 @@ describe('Unit | UseCase | get-campaign', () => {
     stageRepository = {
       findByCampaignId: sinon.stub(),
     };
-    badgeRepository = {
-      findByCampaignId: sinon.stub(),
-    };
+
+    badgeRepository.findByCampaignId.resolves(badges);
+    campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
+    campaignReportRepository.get.resolves(campaign);
+    stageRepository.findByCampaignId.resolves(stages);
   });
 
   it('should get the campaign', async () => {
-    // given
-    campaignReportRepository.get.withArgs(parseInt(campaign.id)).resolves(campaign);
-    stageRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves();
-
     // when
-    const resultCampaign = await getCampaign({ campaignId: campaign.id, badgeRepository, campaignReportRepository, stageRepository });
+    const resultCampaign = await getCampaign({
+      campaignId,
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
 
     // then
     expect(resultCampaign.name).to.equal(campaign.name);
+    expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign)
+      .calledWith(campaignId, userId);
   });
 
   it('should get campaign stages', async () => {
-    // given
-    const stages = Symbol('stages');
-    campaignReportRepository.get.withArgs(parseInt(campaign.id)).resolves(campaign);
-    stageRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves(stages);
-
     // when
-    const resultCampaign = await getCampaign({ campaignId: campaign.id, badgeRepository, campaignReportRepository, stageRepository });
+    const resultCampaign = await getCampaign({
+      campaignId,
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
 
     // then
     expect(resultCampaign.stages).to.equal(stages);
   });
 
   it('should get campaign badges', async () => {
-    // given
-    const badges = Symbol('badges');
-    campaignReportRepository.get.withArgs(parseInt(campaign.id)).resolves(campaign);
-    badgeRepository.findByCampaignId.withArgs(parseInt(campaign.id)).resolves(badges);
-
     // when
-    const resultCampaign = await getCampaign({ campaignId: campaign.id, badgeRepository, campaignReportRepository, stageRepository });
+    const resultCampaign = await getCampaign({
+      campaignId,
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
 
     // then
     expect(resultCampaign.badges).to.equal(badges);
   });
 
   it('should throw a Not found error when the campaign is searched with a not valid ID', async () => {
-    // given
-    const invalidCampaignId = 'abc';
-
     // when
-    const error = await catchErr(getCampaign)({ campaignId: invalidCampaignId, campaignReportRepository });
+    const error = await catchErr(getCampaign)({
+      campaignId: 'invalid Campaign Id',
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
 
     // then
-    return expect(error).to.be.instanceOf(NotFoundError);
+    expect(error).to.be.instanceOf(NotFoundError);
+  });
+
+  it('should throw UserNotAuthorizedToAccessEntityError when user does not belong to organization\'s campaign', async () => {
+    // given
+    campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
+
+    // when
+    const error = await catchErr(getCampaign)({
+      campaignId,
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
+
+    // then
+    return expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
   });
 });
