@@ -85,7 +85,7 @@ module.exports = {
       resultDetails: null,
     };
 
-    // TODO: remonter l'appel de l'adaptation dans le controlleur
+    // TODO: remonter l'appel de l'adaptation dans le controller
     response.result = AnswerStatusJsonApiAdapter.adapt(answerStatus);
     response.resultDetails = resultDetails;
     return response;

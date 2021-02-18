@@ -89,7 +89,7 @@ exports.register = async (server) => {
 
     /**
      * This endpoint does nothing and exists only because it is required by
-     * Ember Simpl Auth addon, for OAuth 2 "Password Grant" strategy.
+     * Ember Simple Auth addon, for OAuth 2 "Password Grant" strategy.
      */
     {
       method: 'POST',

@@ -268,7 +268,7 @@ exports.register = async function(server) {
             id: identifiersType.userId,
           }),
         },
-        handler: userController.accepPixLastTermsOfService,
+        handler: userController.acceptPixLastTermsOfService,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur a accepté les dernières Conditions Générales d\'Utilisation de Pix App\n' +
@@ -478,7 +478,7 @@ exports.register = async function(server) {
         handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Cette route réinitilise le niveau d\'un utilisateur donné (**userId**) pour une compétence donnée (**competenceId**)',
+          '- Cette route réinitialise le niveau d\'un utilisateur donné (**userId**) pour une compétence donnée (**competenceId**)',
           '- Cette route retourne les nouvelles informations de niveau de la compétence',
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],

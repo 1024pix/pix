@@ -455,7 +455,7 @@ exports.register = async (server) => {
         handler: sessionController.assignCertificationOfficer,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
-          '- Assigne la session à un membre du pôle certifification (certification-officer)',
+          '- Assigne la session à un membre du pôle certification (certification-officer)',
         ],
         tags: ['api', 'session', 'assignment'],
       },
@@ -481,7 +481,7 @@ exports.register = async (server) => {
         ],
         handler: sessionController.enrollStudentsToSession,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiésr**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Dans le cadre du SCO, inscrit un élève à une session de certification',
         ],
         tags: ['api', 'sessions', 'certification-candidates'],

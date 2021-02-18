@@ -14,7 +14,7 @@ exports.register = async function(server) {
         auth: 'jwt',
         handler: certificationController.getCertificationsByOrganizationUAI,
         notes: [
-          '- **API for LSU/LSL qui nécessite une authentification de type client credentiel grant**\n' +
+          '- **API for LSU/LSL qui nécessite une authentification de type client credential grant**\n' +
           '- Récupération des résultats de certifications pour une organisation. Les résultats sont accompagnés du référentiel des compétences',
         ],
         response: {

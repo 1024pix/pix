@@ -231,7 +231,7 @@ describe('Unit | Controller | user-controller', () => {
       userSerializer.serialize.withArgs({}).returns(stubSerializedObject);
 
       // when
-      const response = await userController.accepPixLastTermsOfService(request);
+      const response = await userController.acceptPixLastTermsOfService(request);
 
       // then
       expect(response).to.be.equal(stubSerializedObject);

@@ -46,7 +46,7 @@ module.exports = {
       filter.divisions = [filter.divisions];
     }
 
-    const { data, pagination } = await usecases.findStudentsForEnrollement({
+    const { data, pagination } = await usecases.findStudentsForEnrollment({
       certificationCenterId,
       sessionId,
       page,

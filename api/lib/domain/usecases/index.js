@@ -166,7 +166,7 @@ module.exports = injectDependencies({
   findPaginatedFilteredUsers: require('./find-paginated-filtered-users'),
   findPendingOrganizationInvitations: require('./find-pending-organization-invitations'),
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
-  findStudentsForEnrollement: require('./find-students-for-enrollement'),
+  findStudentsForEnrollment: require('./find-students-for-enrollment'),
   findTargetProfileBadges: require('./find-target-profile-badges'),
   findTutorials: require('./find-tutorials'),
   findUserCampaignParticipationOverviews: require('./find-user-campaign-participation-overviews'),

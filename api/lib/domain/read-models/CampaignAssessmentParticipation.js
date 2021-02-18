@@ -9,7 +9,7 @@ class CampaignAssessmentParticipation {
     campaignParticipationId,
     campaignId,
     participantExternalId,
-    assessementState,
+    assessmentState,
     sharedAt,
     isShared,
     createdAt,
@@ -28,7 +28,7 @@ class CampaignAssessmentParticipation {
     this.isShared = isShared;
     this.createdAt = createdAt;
     this.targetedSkillsCount = targetedSkillsCount;
-    this.progression = this._computeProgression(assessementState, testedSkillsCount);
+    this.progression = this._computeProgression(assessmentState, testedSkillsCount);
     this.badges = badges;
 
     if (this.isShared) {
@@ -45,8 +45,8 @@ class CampaignAssessmentParticipation {
     }
   }
 
-  _computeProgression(assessementState, testedSkillsCount) {
-    if (assessementState === Assessment.states.COMPLETED) return 100;
+  _computeProgression(assessmentState, testedSkillsCount) {
+    if (assessmentState === Assessment.states.COMPLETED) return 100;
     return Math.round(testedSkillsCount * 100 / this.targetedSkillsCount);
   }
 
