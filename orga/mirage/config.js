@@ -314,4 +314,7 @@ export default function() {
     return student.update({ email: null });
   });
 
+  this.get('feature-toggles', (schema) => {
+    return schema.featureToggles.findOrCreateBy({ id: 0 });
+  });
 }
