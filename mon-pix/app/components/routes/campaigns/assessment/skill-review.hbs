@@ -99,7 +99,9 @@
     {{/if}}
   {{/if}}
 
-  <main class="skill-review-result__content">
+  {{#unless @model.campaignParticipation.campaign.isForAbsoluteNovice}}
+
+    <main class="skill-review-result__content">
     <div class="skill-review-result__table-header">
       <h2 class="skill-review-result__subtitle">
         {{t 'pages.skill-review.details.title'}}
@@ -124,5 +126,5 @@
       {{t 'pages.skill-review.information'}}
     </div>
   </div>
-
+  {{/unless}}
 </PixBlock>
