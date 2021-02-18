@@ -154,5 +154,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       expect(find('.skill-review-result__information')).to.not.exist;
     });
 
+    it('should not show competence results ', function() {
+      // Then
+      expect(find('.skill-review-result__content')).to.not.exist;
+      expect(find('.skill-review-result__information')).to.not.exist;
+    });
+
   });
 });
