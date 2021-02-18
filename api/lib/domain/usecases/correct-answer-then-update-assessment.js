@@ -10,6 +10,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   {
     answer,
     userId,
+    locale,
     answerRepository,
     assessmentRepository,
     challengeRepository,
@@ -80,6 +81,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     competenceEvaluationRepository,
     knowledgeElementRepository,
     scorecardBeforeAnswer,
+    locale,
   });
 
   return answerSaved;
@@ -131,6 +133,7 @@ async function _addLevelUpInformation(
     competenceEvaluationRepository,
     knowledgeElementRepository,
     scorecardBeforeAnswer,
+    locale,
   }) {
   answerSaved.levelup = {};
 
@@ -144,6 +147,7 @@ async function _addLevelUpInformation(
     competenceRepository,
     competenceEvaluationRepository,
     knowledgeElementRepository,
+    locale,
   });
 
   if (scorecardBeforeAnswer.level < scorecardAfterAnswer.level) {

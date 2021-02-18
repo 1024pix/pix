@@ -8,7 +8,8 @@ module.exports = {
   async save(request, h) {
     const answer = answerSerializer.deserialize(request.payload);
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId });
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
+    const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId, locale });
 
     return h.response(answerSerializer.serialize(createdAnswer)).created();
   },
