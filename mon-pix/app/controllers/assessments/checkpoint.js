@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default class CheckpointController extends Controller {
-  queryParams = ['finalCheckpoint', 'newLevel'];
+  queryParams = ['finalCheckpoint', 'newLevel', 'competenceLeveled'];
 
   @service intl;
   @service currentUser;
@@ -14,6 +14,7 @@ export default class CheckpointController extends Controller {
   @tracked finalCheckpoint = false;
   @tracked isShowingModal = false;
   @tracked newLevel = null;
+  @tracked competenceLeveled = null;
 
   get showLevelup() {
     return this.model.showLevelup && this.newLevel;
