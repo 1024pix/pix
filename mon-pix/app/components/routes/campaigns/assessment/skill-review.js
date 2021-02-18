@@ -9,6 +9,7 @@ export default class SkillReview extends Component {
   @service intl
   @service router
   @service session;
+  @service currentUser;
   @service url
 
   @tracked displayErrorMessage = false;
@@ -81,4 +82,13 @@ export default class SkillReview extends Component {
     return window.location.replace(this.url.homeUrl);
   }
 
+  @action
+  async redirectForNoviceCampaign() {
+    if (this.currentUser.user.isAnonymous) {
+      await this.session.invalidate();
+      this.router.transitionTo('inscription');
+    } else {
+      this.router.transitionTo('index');
+    }
+  }
 }
