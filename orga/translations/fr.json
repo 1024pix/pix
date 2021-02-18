@@ -167,6 +167,24 @@
           "by-name": "Rechercher une campagne"
         }
       }
+    },
+    "campaign-review": {
+      "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
+      "header": {
+        "title": "Analyse par sujet",
+        "relevance": "Pertinence",  
+        "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})"
+      },
+      "title": "Recommandation de sujets à travailler",
+      "tube-recommendations": {
+        "name": "Tutoriel",
+        "recommended-tutorial": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix",
+        "show-tutorial": "Afficher la liste des tutos",
+        "subject": "Sujet",
+        "tutorial-source": "Par {source}",
+        "tutorial-total":"{count, plural, =1 {1 tuto} other {{count} tutos}}"
+      },
+      "waiting-results": "En attente de résultats"
     }
   }
 }
