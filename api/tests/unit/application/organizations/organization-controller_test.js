@@ -612,4 +612,15 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(response.headers['Content-Disposition']).to.equal('attachment; filename=modele-import.csv');
     });
   });
+
+  describe('#downloadCertificationResults', () => {
+    it('should return a response with an empty CSV', async () => {
+      // given
+      const response = await organizationController.downloadCertificationResults(request, hFake);
+
+      // then
+      expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
+      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=20190428_0242_resultats_NomDeLaClasse.csv');
+    });
+  });
 });

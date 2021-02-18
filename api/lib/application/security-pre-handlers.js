@@ -6,6 +6,7 @@ const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecase
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
+const config = require('../config');
 const Organization = require('../../lib/domain/models/Organization');
 const boom = require('boom');
 
@@ -132,6 +133,15 @@ async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
+function checkIsCertificationResultsInOrgaToggleEnabled(request, h) {
+  const isCertificationResultsInOrgaEnabled = config.featureToggles.isCertificationResultsInOrgaEnabled;
+  if (isCertificationResultsInOrgaEnabled) {
+    return h.response(true);
+  }
+
+  return _replyWithAuthorizationError(h);
+}
+
 async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
@@ -221,6 +231,7 @@ module.exports = {
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
+  checkIsCertificationResultsInOrgaToggleEnabled,
   checkUserIsAuthenticated,
   checkUserIsAdminInOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
