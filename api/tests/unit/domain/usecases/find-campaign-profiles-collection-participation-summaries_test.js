@@ -1,7 +1,7 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const findCampaignProfilesCollectionParticipationSummaries = require('../../../../lib/domain/usecases/find-campaign-profiles-collection-participation-summaries');
 const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', () => {
 
@@ -49,7 +49,7 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
     });
 
-    it('should throw a UserNotAuthorizedToAccessEntity error', async () => {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async () => {
       const requestErr = await catchErr(findCampaignProfilesCollectionParticipationSummaries)({
         userId,
         campaignId,
@@ -57,7 +57,7 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
         campaignProfilesCollectionParticipationSummaryRepository,
       });
 
-      expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+      expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
 });

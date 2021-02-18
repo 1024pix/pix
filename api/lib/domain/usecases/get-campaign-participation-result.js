@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 
 module.exports = async function getCampaignParticipationResult({
   userId,
@@ -32,6 +32,6 @@ async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaign
   );
 
   if (!campaignParticipationBelongsToUser && !userIsMemberOfCampaignOrganization) {
-    throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
+    throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign participation');
   }
 }

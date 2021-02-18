@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { beginCampaignParticipationImprovement } = require('../../../../lib/domain/usecases');
-const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
 
@@ -28,7 +28,7 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', () => {
     const error = await catchErr(beginCampaignParticipationImprovement)({ campaignParticipationId, userId, ...dependencies });
 
     // then
-    expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
+    expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
   });
 
   it('should throw an error if the campaign participation is shared', async () => {

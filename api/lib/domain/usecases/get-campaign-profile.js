@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 
 module.exports = async function getCampaignProfile({
   userId,
@@ -9,7 +9,7 @@ module.exports = async function getCampaignProfile({
   locale,
 }) {
   if (!(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId))) {
-    throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
+    throw new UserNotAuthorizedToAccessEntityError('User does not belong to an organization that owns the campaign');
   }
 
   return campaignProfileRepository.findProfile({ campaignId, campaignParticipationId, locale });

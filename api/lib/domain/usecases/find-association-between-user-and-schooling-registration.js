@@ -1,4 +1,7 @@
-const { CampaignCodeError, UserNotAuthorizedToAccessEntity } = require('../errors');
+const {
+  CampaignCodeError,
+  UserNotAuthorizedToAccessEntityError,
+} = require('../errors');
 
 module.exports = async function findAssociationBetweenUserAndSchoolingRegistration({
   authenticatedUserId,
@@ -8,7 +11,7 @@ module.exports = async function findAssociationBetweenUserAndSchoolingRegistrati
   schoolingRegistrationRepository,
 }) {
   if (authenticatedUserId !== requestedUserId) {
-    throw new UserNotAuthorizedToAccessEntity();
+    throw new UserNotAuthorizedToAccessEntityError();
   }
 
   const campaign = await campaignRepository.getByCode(campaignCode);
