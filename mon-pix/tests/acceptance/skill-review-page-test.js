@@ -271,6 +271,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       });
     });
   });
+
   context('when campaign is for Novice and isSimplifiedAccess', async function() {
     let campaignForNovice, anonymousUser;
 
@@ -286,7 +287,6 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       // given
       await authenticateByEmail(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
-      await click('.campaign-landing-page__start-button');
       await click('.checkpoint__continue-button');
       await click('a[data-link-to-continue-pix]');
 
@@ -299,7 +299,6 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       await authenticateByGAR(anonymousUser);
 
       await visit(`/campagnes/${campaignForNovice.code}`);
-      await click('.campaign-landing-page__start-button');
       await click('.checkpoint__continue-button');
       await click('a[data-link-to-continue-pix]');
 

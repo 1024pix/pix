@@ -156,23 +156,16 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         });
       });
 
-      context('When campaign does not have external id and is for absolute novice', function() {
+      context('When campaign does not require external id and is for absolute novice', function() {
 
         beforeEach(async function() {
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT, isForAbsoluteNovice: true });
-          await startCampaignByCode(campaign.code);
-          await fillIn('#firstName', prescritUser.firstName);
-          await fillIn('#lastName', prescritUser.lastName);
-          await fillIn('#email', prescritUser.email);
-          await fillIn('#password', prescritUser.password);
-          await click('#pix-cgu');
-          await click('.button');
+          await visit(`/campagnes/${campaign.code}`);
         });
 
-        it('should redirect to assessment after completion of external id', async function() {
+        it('should redirect to signup page when starting a campaign', async function() {
           // then
-          expect(currentURL()).to.not.contains('/didacticiel');
-          expect(currentURL()).to.contains('/assessments');
+          expect(currentURL()).to.contains('/inscription');
         });
       });
 
@@ -317,10 +310,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await visit(`campagnes/${campaign.code}`);
         });
 
-        it('should redirect to assessment after completion of external id', async function() {
-          // when
-          await click('.campaign-landing-page__start-button');
-
+        it('should redirect to assessment when starting a campaign', async function() {
           // then
           expect(currentURL()).to.not.contains('/didacticiel');
           expect(currentURL()).to.contains('/assessments');

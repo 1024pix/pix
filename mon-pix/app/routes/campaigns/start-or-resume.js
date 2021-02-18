@@ -22,6 +22,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     if (this._shouldResetState(campaign.code)) {
       this._resetState();
     }
+
     this._updateStateFrom({ campaign, queryParams: transition.to.queryParams, session: this.session });
 
     if (this._shouldVisitPoleEmploiLoginPage) {
@@ -54,15 +55,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this.replaceWith('campaigns.campaign-landing-page', campaign, { queryParams: transition.to.queryParams });
     }
 
-    if (this._shouldNotVisitLandingPageAsNovice) {
-      await this._findOngoingCampaignParticipation(campaign);
-
-      if (this._shouldStartCampaignParticipation) {
-        await this._createCampaignParticipation(campaign);
-      }
-      return this.replaceWith('campaigns.assessment.start-or-resume', campaign);
-    }
-
     super.beforeModel(...arguments);
   }
 
@@ -79,7 +71,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
     await this._findOngoingCampaignParticipation(campaign);
 
-    if (this._shouldVisitLandingPageAsLoggedUser) {
+    if (this._shouldVisitLandingPageAsLoggedUser && !campaign.isForAbsoluteNovice) {
       return this.replaceWith('campaigns.campaign-landing-page', campaign);
     }
 
@@ -120,7 +112,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _updateStateFrom({ campaign = {}, queryParams = {}, ongoingCampaignParticipation = null, session }) {
     const hasUserCompletedRestrictedCampaignAssociation = this._handleQueryParamBoolean(queryParams.associationDone, this.state.hasUserCompletedRestrictedCampaignAssociation);
-    const hasUserSeenLandingPage = this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
+    const isCampaignForNoviceUser = get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser)
+    const hasUserSeenLandingPage = isCampaignForNoviceUser ? true : this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
     const hasUserSeenJoinPage = this._handleQueryParamBoolean(queryParams.hasUserSeenJoinPage, this.state.hasUserSeenJoinPage);
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
@@ -137,7 +130,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
       isUserLoggedInPoleEmploi: get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
-      isCampaignForNoviceUser: get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser),
+      isCampaignForNoviceUser,
     };
   }
 
@@ -230,10 +223,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   get _shouldStartCampaignParticipation() {
     return !this.state.doesUserHaveOngoingParticipation;
-  }
-
-  get _shouldNotVisitLandingPageAsNovice() {
-    return this.state.isCampaignForNoviceUser;
   }
 
   _handleQueryParamBoolean(value, defaultValue) {
