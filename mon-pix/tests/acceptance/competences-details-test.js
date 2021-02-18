@@ -54,7 +54,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       expect(find('.scorecard-details-content-left__description').textContent).to.contain(scorecardWithPoints.description);
     });
 
-    it('should transition to /profil when the user clicks on return', async () => {
+    it('should transition to /competences when the user clicks on return', async () => {
       // given
       await visit(`/competences/${scorecardWithPoints.description}/details`);
 
@@ -62,7 +62,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       await click('.pix-return-to');
 
       // then
-      expect(currentURL()).to.equal('/profil');
+      expect(currentURL()).to.equal('/competences');
     });
 
     context('when the scorecard has 0 points because it was not started yet', () => {

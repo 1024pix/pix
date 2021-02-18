@@ -514,9 +514,6 @@
                 "you-have-reached-level": "You reached"
             }
         },
-        "competences": {
-            "title": "Skills"
-        },
         "dashboard": {
             "title": "Homepage",
             "campaigns": {
@@ -697,7 +694,7 @@
             }
         },
         "profile": {
-            "title": "Your profile",
+            "title": "Skills",
             "accessibility": {
                 "title": "Your Pix profile",
                 "user-score": "Your Pix score",
@@ -1093,7 +1090,6 @@
             "dashboard": "Home",
             "help": "Help",
             "link-help": "https://pix.org/en-gb/faq-pix",
-            "profile": "Profile",
             "skills": "Skills",
             "start-certification": "Certification",
             "tutorials": "My tutorials"
@@ -1105,9 +1101,9 @@
         "pix": "Pix",
         "user": {
             "account": "My account",
-            "tests": "My personalised tests",
             "certifications": "My certifications",
-            "sign-out": "Log out"
+            "sign-out": "Log out",
+            "tests": "My personalised tests"
         },
         "user-logged-menu": {
             "details": "Check my details"
