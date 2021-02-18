@@ -1,6 +1,7 @@
 const { expect, knex, databaseBuilder, mockLearningContent, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
+const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Acceptance | Controller | answer-controller-save', () => {
 
@@ -17,10 +18,12 @@ describe('Acceptance | Controller | answer-controller-save', () => {
     let promise;
     const correctAnswer = 'correct';
     const challengeId = 'a_challenge_id';
+    const competenceId = 'recCompetence';
 
     beforeEach(async () => {
       const assessment = databaseBuilder.factory.buildAssessment({
         type: 'COMPETENCE_EVALUATION',
+        competenceId: competenceId,
       });
       insertedAssessmentId = assessment.id;
       userId = assessment.userId;
@@ -28,31 +31,36 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('answers').delete();
+    afterEach(async () => {
+      await knex('knowledge-elements').delete();
+      await knex('answers').delete();
     });
 
     context('when the user is linked to the assessment', () => {
 
-      beforeEach(() => {
+      beforeEach(async () => {
         // given
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
           competences: [{
-            id: 'recCompetence',
+            id: competenceId,
             areaId: 'recArea1',
             skillIds: ['recSkill1'],
             origin: 'Pix',
+            nameFrFr: 'Nom de la competence FR',
+            nameEnUs: 'Nom de la competence EN',
+            statue: 'active',
           }],
           skills: [{
             id: 'recSkill1',
             name: '@recArea1_Competence1_Tube1_Skill1',
             status: 'actif',
-            competenceId: 'recCompetence',
+            competenceId: competenceId,
+            pixValue: '5',
           }],
           challenges: [{
             id: challengeId,
-            competenceId: 'recCompetence',
+            competenceId: competenceId,
             skillIds: ['recSkill1'],
             status: 'validé',
             solution: correctAnswer,
@@ -91,13 +99,11 @@ describe('Acceptance | Controller | answer-controller-save', () => {
           },
         };
 
-        // when
-        promise = server.inject(postAnswersOptions);
       });
 
       it('should return 201 HTTP status code', async () => {
         // when
-        const response = await promise;
+        const response = await server.inject(postAnswersOptions);
 
         // then
         expect(response.statusCode).to.equal(201);
@@ -105,7 +111,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
       it('should return application/json', async () => {
         // when
-        const response = await promise;
+        const response = await server.inject(postAnswersOptions);
 
         // then
         const contentType = response.headers['content-type'];
@@ -114,7 +120,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
       it('should add a new answer into the database', async () => {
         // when
-        await promise;
+        await server.inject(postAnswersOptions);
 
         // then          .
         const afterAnswersNumber = await BookshelfAnswer.count();
@@ -122,8 +128,10 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       });
 
       it('should return persisted answer', async () => {
+        // when
+        const response = await server.inject(postAnswersOptions);
+
         // then
-        const response = await promise;
         const answer = response.result.data;
 
         const model = await BookshelfAnswer.where({ id: answer.id }).fetch();
@@ -143,6 +151,31 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(answer.attributes['result-details']).to.equal(model.get('resultDetails'));
         expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
         expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
+      });
+
+      [
+        { locale: FRENCH_FRANCE, expectedCompetenceName: 'Nom de la competence FR' },
+        { locale: ENGLISH_SPOKEN, expectedCompetenceName: 'Nom de la competence EN' },
+      ].forEach((testCase) => {
+        it(`should return competence name in locale=${testCase.locale} when user levelup`, async () => {
+          // given
+          databaseBuilder.factory.buildKnowledgeElement({
+            earnedPix: 7,
+            skillId: 'recSkill2',
+            userId,
+            competenceId: competenceId,
+          });
+          await databaseBuilder.commit();
+          postAnswersOptions.headers['accept-language'] = testCase.locale;
+
+          // when
+          const response = await server.inject(postAnswersOptions);
+
+          // then
+          const levelup = response.result.included[0].attributes;
+
+          expect(levelup['competence-name']).to.equal(testCase.expectedCompetenceName);
+        });
       });
     });
 
