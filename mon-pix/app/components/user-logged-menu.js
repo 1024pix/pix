@@ -24,13 +24,6 @@ export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin)
   keyboardActivated = true;
   _canDisplayMenu = false;
 
-  @computed('routing.currentRouteName')
-  get canDisplayLinkToProfile() {
-    const currentRouteName = this.routing.currentRouteName;
-
-    return currentRouteName !== 'profile';
-  }
-
   @computed('currentUser.user.email')
   get displayedIdentifier() {
     return this.currentUser.user.email ? this.currentUser.user.email : this.currentUser.user.username;
