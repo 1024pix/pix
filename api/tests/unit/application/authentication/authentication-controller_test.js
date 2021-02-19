@@ -200,7 +200,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
   });
 
-  describe('#authenticateApplication', () => {
+  describe('#authenticateApplicationLivretScolaire', () => {
 
     const access_token = 'jwt.access.token';
 
@@ -226,12 +226,12 @@ describe('Unit | Application | Controller | Authentication', () => {
 
     it('should return an OAuth 2 token response', async () => {
       // given
-      sinon.stub(usecases, 'authenticateApplication')
+      sinon.stub(usecases, 'authenticateApplicationLivretScolaire')
         .withArgs({ clientId: client_id, clientSecret: client_secret, scope })
         .resolves(access_token);
 
       // when
-      const response = await authenticationController.authenticateApplication(request, hFake);
+      const response = await authenticationController.authenticateApplicationLivretScolaire(request, hFake);
 
       // then
       const expectedResponseResult = {
