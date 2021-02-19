@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.22.0 (19/02/2021)
+
+- [#2586](https://github.com/1024pix/pix/pull/2586) [FEATURE] Marquer le signalement 'Problème technique' en tant que signalement impactant (PIX-2058)
+- [#2574](https://github.com/1024pix/pix/pull/2574) [FEATURE] Ne pas afficher le lien de partage pour les campagnes pour débutant (PIX-2131).
+- [#2570](https://github.com/1024pix/pix/pull/2570) [FEATURE] Déconnecter un utilisateur anonyme lorsqu'il accède à une campagne à accès simplifié (PIX-2097).
+- [#2560](https://github.com/1024pix/pix/pull/2560) [FEATURE] Traduction de la page de détails d'une campagne (PIX-2144).
+- [#2580](https://github.com/1024pix/pix/pull/2580) [BUGFIX] Affichage du nom de la compétence dans les notifications de gain de niveau (PIX-2172).
+- [#2569](https://github.com/1024pix/pix/pull/2569) [BUGFIX] Pôle-emploi - Corriger la gestion du refus d'un demandeur d'emploi, interdisant PIX d'utiliser ses données (PIX-2165).
+- [#2573](https://github.com/1024pix/pix/pull/2573) [BUGFIX] Dans Pix Orga, interdire l'accès à la page de détail d'une campagne, à un utilisateur qui n'est pas membre de organisation liée (PIX-2183).
+- [#2585](https://github.com/1024pix/pix/pull/2585) [TECH] Correction dans le nom des onglets des fichiers ODS de PixCertif (PIX-2075)
+- [#2587](https://github.com/1024pix/pix/pull/2587) [TECH] Ignorer l'indisponibilité temporaire de martinfowler.com.
+- [#2550](https://github.com/1024pix/pix/pull/2550) [TECH] Empêcher le démarrage de l'API si la configuration est incorrecte.
+- [#2576](https://github.com/1024pix/pix/pull/2576) [TECH] Ajouter le feature toggle sur la récupération des résultats de certif SCO sur Pix Orga (pix-2180)
+- [#2572](https://github.com/1024pix/pix/pull/2572) [A11Y] Ajouter une exception à la règle no-duplicate-landmark-elements du linter (PIX-2187).
+
 ## v3.21.0 (17/02/2021)
 
 - [#2558](https://github.com/1024pix/pix/pull/2558) [FEATURE] Traduction de la page de création de campagne (PIX-2143).
