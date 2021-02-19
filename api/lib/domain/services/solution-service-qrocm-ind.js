@@ -35,7 +35,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
     const solutionVariants = solutions[answerKey];
     if (enabledTreatments.includes('t3')) {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
-    } else {
+    } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
     }
   });
