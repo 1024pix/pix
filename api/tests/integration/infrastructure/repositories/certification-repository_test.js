@@ -199,6 +199,22 @@ describe('Integration | Repository | Certification ', () => {
 
       await Promise.all(sessionWithStartedAndErrorCertifCourseIds.map(async (id) => expect((await get(id)).isPublished).to.be.false));
     });
+
+    it('does nothing when there are no certification courses', async () => {
+      // given
+      const sessionWithNoCertificationCourses = databaseBuilder.factory.buildSession({
+        certificationCenterId,
+        certificationCenter,
+        finalizedAt: new Date('2020-01-01'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const publicationPromise = certificationRepository.publishCertificationCoursesBySessionId(sessionWithNoCertificationCourses.id);
+
+      // then
+      await expect(publicationPromise).not.to.be.rejected;
+    });
   });
 
   describe('#unpublishCertificationCoursesBySessionId', () => {
