@@ -1,6 +1,6 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const { featureToggles } = require('../../../../lib/config');
+const config = require('../../../../lib/config');
 
 describe('Acceptance | Controller | users-controller', () => {
 
@@ -18,7 +18,7 @@ describe('Acceptance | Controller | users-controller', () => {
       const password = 'password123';
 
       beforeEach(async () => {
-        featureToggles.myAccount = true;
+        sinon.stub(config.featureToggles, 'myAccount').value(true);
 
         user = databaseBuilder.factory.buildUser.withRawPassword({
           email: 'old_email@example.net',
@@ -144,7 +144,7 @@ describe('Acceptance | Controller | users-controller', () => {
 
       it('should return 404 if FT_MY_ACCOUNT is not enabled', async () => {
         // given
-        featureToggles.myAccount = false;
+        sinon.stub(config.featureToggles, 'myAccount').value(false);
 
         const options = {
           method: 'PATCH',

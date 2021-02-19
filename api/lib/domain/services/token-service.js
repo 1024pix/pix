@@ -9,6 +9,14 @@ function createAccessTokenFromUser(userId, source) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
+function createAccessTokenFromApplication(clientId, source, scope, secret = settings.authentication.secret, expiresIn = settings.authentication.tokenLifespan) {
+  return jsonwebtoken.sign({
+    client_id: clientId,
+    source,
+    scope,
+  }, secret, { expiresIn });
+}
+
 function createTokenForCampaignResults(userId) {
   return jsonwebtoken.sign({
     access_id: userId,
@@ -58,9 +66,9 @@ function decodeIfValid(token) {
   });
 }
 
-function getDecodedToken(token) {
+function getDecodedToken(token, secret = settings.authentication.secret) {
   try {
-    return jsonwebtoken.verify(token, settings.authentication.secret);
+    return jsonwebtoken.verify(token, secret);
   }
   catch (err) {
     return false;
@@ -100,6 +108,11 @@ function extractUserId(token) {
   return decoded.user_id || null;
 }
 
+function extractClientId(token, secret = settings.authentication.secret) {
+  const decoded = getDecodedToken(token, secret);
+  return decoded.client_id || null;
+}
+
 function extractUserIdForCampaignResults(token) {
   const decoded = getDecodedToken(token);
   return decoded.access_id || null;
@@ -126,11 +139,13 @@ async function extractPayloadFromPoleEmploiIdToken(idToken) {
 
 module.exports = {
   createAccessTokenFromUser,
+  createAccessTokenFromApplication,
   createTokenForCampaignResults,
   createIdTokenForUserReconciliation,
   createCertificationResultsByRecipientEmailLinkToken,
   createCertificationResultsLinkToken,
   decodeIfValid,
+  getDecodedToken,
   extractExternalUserFromIdToken,
   extractPayloadFromPoleEmploiIdToken,
   extractResultRecipientEmailAndSessionId,
@@ -138,5 +153,6 @@ module.exports = {
   extractSessionId,
   extractTokenFromAuthChain,
   extractUserId,
+  extractClientId,
   extractUserIdForCampaignResults,
 };

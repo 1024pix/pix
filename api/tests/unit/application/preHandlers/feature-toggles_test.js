@@ -10,7 +10,7 @@ describe('Unit | Pre-handler | Feature Toggles', () => {
     });
     it('returns true whenever the certif prescription SCO toggle is enabled', async () => {
       // given
-      featureToggles.certifPrescriptionSco = true;
+      sinon.stub(featureToggles, 'certifPrescriptionSco').value(true);
 
       // when
       const isAccessGranted = await featureTogglesPreHandler.isCertifPrescriptionSCOEnabled();
@@ -21,7 +21,7 @@ describe('Unit | Pre-handler | Feature Toggles', () => {
 
     it('throws whenever the certif prescription SCO toggle is disabled', async () => {
       // given
-      featureToggles.certifPrescriptionSco = false;
+      sinon.stub(featureToggles, 'certifPrescriptionSco').value(false);
 
       // when
       const error = await catchErr(featureTogglesPreHandler.isCertifPrescriptionSCOEnabled)();

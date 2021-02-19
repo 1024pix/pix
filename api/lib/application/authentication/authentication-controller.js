@@ -3,6 +3,7 @@ const { BadRequestError } = require('../http-errors');
 
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
+const { livretScolaireAuthentication } = require('../../config');
 
 const get = require('lodash/get');
 
@@ -75,4 +76,21 @@ module.exports = {
 
     return h.response(response).code(200);
   },
+
+  async authenticateApplicationLivretScolaire(request, h) {
+    const { client_id: clientId, client_secret: clientSecret, scope } = request.payload;
+
+    const accessToken = await usecases.authenticateApplicationLivretScolaire({ clientId, clientSecret, scope });
+
+    return h.response({
+      token_type: 'bearer',
+      access_token: accessToken,
+      client_id: tokenService.extractClientId(accessToken, livretScolaireAuthentication.secret),
+    })
+      .code(200)
+      .header('Content-Type', 'application/json;charset=UTF-8')
+      .header('Cache-Control', 'no-store')
+      .header('Pragma', 'no-cache');
+  },
+
 };
