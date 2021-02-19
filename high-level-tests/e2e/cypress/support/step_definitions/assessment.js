@@ -41,3 +41,7 @@ then(`j'ai bien répondu à {string}`, (challenge) => {
   cy.contains('.result-item', challenge).find('.result-item__icon svg')
     .should('have.class', 'fa-check-circle').and('have.class', 'result-item__icon--green');
 });
+
+then(`je vois que l'épreuve a déjà été répondue`, () => {
+  cy.get('.challenge-actions__already-answered').should('exist');
+});
