@@ -12,6 +12,8 @@ const plugins = require('./lib/plugins');
 const swaggers = require('./lib/swaggers');
 const config = require('./lib/config');
 const security = require('./lib/infrastructure/security');
+const securityLivretScolaire = require('./lib/infrastructure/security-livret-scolaire');
+
 const { handleFailAction } = require('./lib/validate');
 
 const createServer = async () => {
@@ -42,7 +44,11 @@ const createServer = async () => {
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
 
   server.auth.scheme('jwt-access-token', security.scheme);
+  server.auth.scheme('jwt', securityLivretScolaire.scheme);
+
+  server.auth.strategy('jwt', 'jwt');
   server.auth.strategy('default', 'jwt-access-token');
+
   server.auth.default('default');
 
   const configuration = [].concat(plugins, routes);

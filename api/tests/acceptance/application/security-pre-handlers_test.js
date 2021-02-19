@@ -37,7 +37,7 @@ describe('Acceptance | Application | SecurityPreHandlers', () => {
         errors: [{
           code: 401,
           title: 'Unauthorized access',
-          detail: 'Missing or invalid access token in request auhorization headers.',
+          detail: 'Missing or invalid access token in request authorization headers.',
         }],
       };
       expect(response.statusCode).to.equal(401);

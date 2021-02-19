@@ -1,24 +1,37 @@
 const {
   expect,
   databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  generateValidRequestAuthorizationHeaderForApplication,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { buildValidatedPublishedCertificationData, mockLearningContentCompetences } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
-const config = require('../../../../lib/config');
+const { buildOrganization, buildValidatedPublishedCertificationData, mockLearningContentCompetences } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
 
 describe('Acceptance | API | Certifications', () => {
 
   let server, options;
+  const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
+  const OSMOSE_SCOPE = 'organizations-certifications-result';
+  const OSMOSE_SOURCE = 'osmose';
 
   describe('GET /api/organizations/:id/certifications', () => {
     const pixScore = 400;
     const uai = '789567AA';
     const type = Assessment.types.CERTIFICATION;
     const verificationCode = 'P-123498NN';
+    let organizationId;
 
     const referentialCompetences = {
       'data': [
+        {
+          'id': '1.1',
+          'type': 'competences',
+        },
+        {
+          'id': '1.2',
+          'type': 'competences',
+        },
         {
           'id': '2.1',
           'type': 'competences',
@@ -39,18 +52,48 @@ describe('Acceptance | API | Certifications', () => {
           'id': '3.2',
           'type': 'competences',
         },
-        {
-          'id': '1.1',
-          'type': 'competences',
-        },
-        {
-          'id': '1.2',
-          'type': 'competences',
-        },
       ],
     };
 
     const referentialIncludedData = [
+      {
+        'attributes': {
+          'name': 'Information et données',
+        },
+        'id': '1',
+        'relationships': {},
+        'type': 'areas',
+      },
+      {
+        'attributes': {
+          'name': 'Mener une recherche et une veille d’information',
+        },
+        'id': '1.1',
+        'relationships': {
+          'area': {
+            'data': {
+              'id': '1',
+              'type': 'areas',
+            },
+          },
+        },
+        'type': 'competences',
+      },
+      {
+        'attributes': {
+          'name': 'Gérer des données',
+        },
+        'id': '1.2',
+        'relationships': {
+          'area': {
+            'data': {
+              'id': '1',
+              'type': 'areas',
+            },
+          },
+        },
+        'type': 'competences',
+      },
       {
         'attributes': {
           'name': 'Communication et collaboration',
@@ -142,48 +185,13 @@ describe('Acceptance | API | Certifications', () => {
         },
         'type': 'competences',
       },
-      {
-        'attributes': {
-          'name': 'Information et données',
-        },
-        'id': '1',
-        'relationships': {},
-        'type': 'areas',
-      },
-      {
-        'attributes': {
-          'name': 'Mener une recherche et une veille d’information',
-        },
-        'id': '1.1',
-        'relationships': {
-          'area': {
-            'data': {
-              'id': '1',
-              'type': 'areas',
-            },
-          },
-        },
-        'type': 'competences',
-      },
-      {
-        'attributes': {
-          'name': 'Gérer des données',
-        },
-        'id': '1.2',
-        'relationships': {
-          'area': {
-            'data': {
-              'id': '1',
-              'type': 'areas',
-            },
-          },
-        },
-        'type': 'competences',
-      },
+
     ];
 
     beforeEach(() => {
+      organizationId = buildOrganization(uai).id;
       mockLearningContentCompetences();
+
     });
 
     context('when the given uai is correct', () => {
@@ -191,15 +199,16 @@ describe('Acceptance | API | Certifications', () => {
       it('should return 200 HTTP status code with the certifications results and referential of competences', async () => {
 
         // given
-        config.featureToggles.isLivretScolaireSandboxApiEnabled = true;
         server = await createServer();
         const { schoolingRegistration, session, certificationCourse }
-          = buildValidatedPublishedCertificationData({ uai, verificationCode, type, pixScore, competenceMarks: [ { code: '1.1', level: 6 }, { code: '5.2', level: 4 }] });
+          = buildValidatedPublishedCertificationData({ organizationId, verificationCode, type, pixScore, competenceMarks: [ { code: '1.1', level: 6 }, { code: '5.2', level: 4 }] });
         await databaseBuilder.commit();
 
         options = {
           method: 'GET',
           url: `/api/organizations/${uai}/certifications`,
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(OSMOSE_CLIENT_ID, OSMOSE_SOURCE, OSMOSE_SCOPE) },
+
         };
 
         // when
@@ -250,11 +259,11 @@ describe('Acceptance | API | Certifications', () => {
       it('should return 200 HTTP status code with the referential of competences only', async () => {
 
         // given
-        config.featureToggles.isLivretScolaireSandboxApiEnabled = true;
         server = await createServer();
         options = {
           method: 'GET',
           url: '/api/organizations/9999/certifications',
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(OSMOSE_CLIENT_ID, OSMOSE_SOURCE, OSMOSE_SCOPE) },
         };
 
         // when
@@ -280,17 +289,16 @@ describe('Acceptance | API | Certifications', () => {
       });
     });
 
-    context('when the feature toggle is disabled', () => {
+    context('when the access token is generated by password credential grant to authenticate end user', () => {
 
-      it('should return unauthorized status ', async () => {
-
-        config.featureToggles.isLivretScolaireSandboxApiEnabled = false;
-        server = await createServer();
+      it('should return unauthorized status code', async () => {
 
         // given
+        server = await createServer();
         options = {
           method: 'GET',
-          url: `/api/organizations/${uai}/certifications`,
+          url: '/api/organizations/9999/certifications',
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
         };
 
         // when
@@ -298,6 +306,46 @@ describe('Acceptance | API | Certifications', () => {
 
         // then
         expect(response.statusCode).to.equal(401);
+      });
+    });
+
+    context('when the access token is generated by client credential grant with the wrong client id', () => {
+
+      it('should return unauthorized status code', async () => {
+
+        // given
+        server = await createServer();
+        options = {
+          method: 'GET',
+          url: '/api/organizations/9999/certifications',
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication('') },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+
+    context('when the access token is generated by client credential grant with wrong livret scolaire scope', () => {
+
+      it('should return Forbidden access status code', async () => {
+
+        // given
+        server = await createServer();
+        options = {
+          method: 'GET',
+          url: '/api/organizations/9999/certifications',
+          headers: { authorization: generateValidRequestAuthorizationHeaderForApplication(OSMOSE_CLIENT_ID, OSMOSE_SOURCE) },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

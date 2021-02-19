@@ -292,6 +292,15 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Le niveau maximum est déjà atteint pour cette compétence.');
       expect(responseTitle(response)).to.equal('ImproveCompetenceEvaluationForbidden');
     });
+
+    it('responds Forbidden when a ApplicationScopeNotAllowedError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ApplicationScopeNotAllowedError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(FORBIDDEN_ERROR);
+      expect(responseDetail(response)).to.equal('The scope is not allowed.');
+      expect(responseTitle(response)).to.equal('Forbidden');
+    });
   });
 
   context('400 Bad Request', () => {
@@ -568,6 +577,22 @@ describe('Integration | API | Controller Error', () => {
 
       expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
       expect(responseDetail(response)).to.equal('L\'utilisateur ne peut pas être créé');
+    });
+
+    it('responds Unauthorized when a ApplicationWithInvalidClientSecretError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ApplicationWithInvalidClientSecretError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal('The client secret is invalid.');
+    });
+
+    it('responds Unauthorized when a ApplicationWithInvalidClientIdError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.ApplicationWithInvalidClientIdError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
+      expect(responseDetail(response)).to.equal('The client ID is invalid.');
     });
   });
 

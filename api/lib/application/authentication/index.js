@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');
+const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc');
+const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc');
 
 exports.register = async (server) => {
   server.route([
@@ -22,6 +24,44 @@ exports.register = async (server) => {
         },
         handler: AuthenticationController.authenticateUser,
         tags: ['api'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/application/token',
+      config: {
+        auth: false,
+        payload: {
+          allow: 'application/x-www-form-urlencoded',
+        },
+        plugins: {
+          'hapi-swagger': {
+            payloadType: 'form',
+            produces: ['application/json'],
+            consumes: ['application/x-www-form-urlencoded'],
+          },
+        },
+        validate: {
+          payload: Joi.object().required().keys({
+            grant_type: Joi.string().valid('client_credentials').required().description('Grant type should be \'client_credentials\''),
+            client_id: Joi.string().required().description('Client identification'),
+            client_secret: Joi.string().required().description('Client secret for the corresponding identification'),
+            scope: Joi.string().required().description('Scope to access data'),
+          }).label('AuthorizationPayload'),
+        },
+        notes: [
+          '- **API pour récupérer le token à partir d\'un client ID et client secret**\n',
+        ],
+        response: {
+          failAction: 'log',
+          status: {
+            200: responseAuthenticationObjectDoc,
+            401: responseErrorObjectDoc,
+            403: responseErrorObjectDoc,
+          },
+        },
+        handler: AuthenticationController.authenticateApplicationLivretScolaire,
+        tags: ['api', 'authorization-server'],
       },
     },
 

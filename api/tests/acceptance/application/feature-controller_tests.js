@@ -1,6 +1,5 @@
 const { expect } = require('../../test-helper');
 
-const { featureToggles } = require('../../../lib/config');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | feature-toggle-controller', () => {
@@ -20,14 +19,12 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
 
     it('should return 200 with feature toggles', async () => {
       // given
-      featureToggles.isPoleEmploiEnabled = false;
       const expectedData = {
         data: {
           id: '0',
           attributes: {
             'certif-prescription-sco': false,
             'reports-categorization': false,
-            'is-livret-scolaire-sandbox-api-enabled': false,
             'is-pole-emploi-enabled': false,
             'my-account': false,
             'is-certification-results-in-orga-enabled': false,

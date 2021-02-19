@@ -24,6 +24,24 @@ class AlreadyExistingMembershipError extends DomainError {
   }
 }
 
+class ApplicationWithInvalidClientIdError extends DomainError {
+  constructor(message = 'The client ID or secret are invalid.') {
+    super(message);
+  }
+}
+
+class ApplicationWithInvalidClientSecretError extends DomainError {
+  constructor(message = 'The client secret is invalid.') {
+    super(message);
+  }
+}
+
+class ApplicationScopeNotAllowedError extends DomainError {
+  constructor(message = 'The scope is invalid.') {
+    super(message);
+  }
+}
+
 class AuthenticationMethodNotFoundError extends DomainError {
   constructor(message = 'Authentication method not found.') {
     super(message);
@@ -720,6 +738,9 @@ module.exports = {
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
   AlreadySharedCampaignParticipationError,
+  ApplicationWithInvalidClientIdError,
+  ApplicationWithInvalidClientSecretError,
+  ApplicationScopeNotAllowedError,
   ArchivedCampaignError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
