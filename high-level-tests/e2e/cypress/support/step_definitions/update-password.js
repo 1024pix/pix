@@ -8,7 +8,3 @@ given(`je remplis le formulaire avec un nouveau mot de passe`, () => {
 then(`je suis redirigé vers la page de mise à jour de mot de passe`, () => {
   cy.url().should('include', '/mise-a-jour-mot-de-passe-expire');
 });
-
-then(`je suis redirigé sur mon profil`, () => {
-  cy.url().should('include', '/profil');
-});

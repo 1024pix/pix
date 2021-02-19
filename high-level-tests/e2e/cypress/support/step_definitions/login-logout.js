@@ -42,8 +42,15 @@ when(`j'attends {int} ms`, (duration) => {
 });
 
 // Then
+then(`je suis redirigé vers la page d'accueil de {string}`, (firstName) => {
+  cy.url().should('include', '/accueil');
+  cy.get('.logged-user-name').should((userName) => {
+    expect(userName.text()).to.contains(firstName);
+  });
+});
+
 then(`je suis redirigé vers le profil de {string}`, (firstName) => {
-  cy.url().should('include', '/profil');
+  cy.url().should('include', '/competences');
   cy.get('.logged-user-name').should((userName) => {
     expect(userName.text()).to.contains(firstName);
   });
