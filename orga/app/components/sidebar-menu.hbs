@@ -5,12 +5,12 @@
     </span>
     {{t 'navigation.main.campaigns' }}
   </LinkTo>
-  <div class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
+  <LinkTo @route="authenticated.certification" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
     <span class="sidebar--padding-right sidebar--item-icon">
         <FaIcon @icon="award" />
     </span>
     {{t 'navigation.main.certification' }}
-  </div>
+  </LinkTo>
   {{#if this.currentUser.isSCOManagingStudents}}
     <LinkTo @route="authenticated.sco-students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
       <span class="sidebar--padding-right sidebar--item-icon">

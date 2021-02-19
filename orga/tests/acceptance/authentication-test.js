@@ -224,9 +224,10 @@ module('Acceptance | authentication', function(hooks) {
         // when
         await visit('/');
         // then
-        assert.dom('.sidebar-menu a').exists({ count: 2 });
+        assert.dom('.sidebar-menu a').exists({ count: 3 });
         assert.dom('.sidebar-menu').containsText('Campagnes');
         assert.dom('.sidebar-menu').containsText('Équipe');
+        assert.dom('.sidebar-menu').containsText('Certification');
         assert.dom('.sidebar-menu a:first-child').hasClass('active');
       });
 
@@ -240,7 +241,7 @@ module('Acceptance | authentication', function(hooks) {
         // then
         assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
         assert.dom('.sidebar-menu').containsText('Équipe');
-        assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
+        assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
         assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
       });
 
@@ -284,8 +285,9 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-menu a').exists({ count: 4 });
+          assert.dom('.sidebar-menu a').exists({ count: 5 });
           assert.dom('.sidebar-menu').containsText('Campagnes');
+          assert.dom('.sidebar-menu').containsText('Certification');
           assert.dom('.sidebar-menu').containsText('Équipe');
           assert.dom('.sidebar-menu').containsText('Élèves');
           assert.dom('.sidebar-menu a:first-child ').hasClass('active');
@@ -299,10 +301,27 @@ module('Acceptance | authentication', function(hooks) {
 
           // then
           assert.dom('.sidebar-menu').containsText('Campagnes');
+          assert.dom('.sidebar-menu').containsText('Certification');
+          assert.dom('.sidebar-menu').containsText('Équipe');
+          assert.dom('.sidebar-menu').containsText('Élèves');
+          assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
+          assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+        });
+
+        test('should redirect to certification page', async function(assert) {
+          await visit('/');
+
+          // when
+          await clickByLabel('Certification');
+
+          // then
+          assert.dom('.sidebar-menu').containsText('Campagnes');
+          assert.dom('.sidebar-menu').containsText('Certification');
           assert.dom('.sidebar-menu').containsText('Équipe');
           assert.dom('.sidebar-menu').containsText('Élèves');
           assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+          assert.contains('Vous pouvez exporter les résultats de certification de toutes les classes au format csv.');
         });
 
         test('should have resources link', async function(assert) {
@@ -334,8 +353,9 @@ module('Acceptance | authentication', function(hooks) {
         await visit('/');
 
         // then
-        assert.dom('.sidebar-menu a').exists({ count: 1 });
+        assert.dom('.sidebar-menu a').exists({ count: 2 });
         assert.dom('.sidebar-menu').containsText('Campagnes');
+        assert.dom('.sidebar-menu').containsText('Certification');
         assert.dom('.sidebar-menu a:first-child ').hasClass('active');
       });
 
@@ -379,8 +399,9 @@ module('Acceptance | authentication', function(hooks) {
           await visit('/');
 
           // then
-          assert.dom('.sidebar-menu a').exists({ count: 3 });
+          assert.dom('.sidebar-menu a').exists({ count: 4 });
           assert.dom('.sidebar-menu').containsText('Campagnes');
+          assert.dom('.sidebar-menu').containsText('Certification');
           assert.dom('.sidebar-menu').containsText('Élèves');
           assert.dom('.sidebar-menu a:first-child ').hasClass('active');
         });

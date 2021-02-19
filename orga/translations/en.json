@@ -68,6 +68,10 @@
       "shared-date": "Sent on",
       "start-date": "Started on"
     },
+    "certifications": {
+      "description": "You can export the certification results for all classes in a csv file.",
+      "title": "My certifications"
+    },
     "campaign": {
       "actions": {
         "export-results": "Export the results (.csv)",
