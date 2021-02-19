@@ -98,7 +98,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isCampaignSimplifiedAccess: false,
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
-      hasUserSeenLandingPage: false,
+      shouldDisplayLandingPage: true,
       isUserLogged: false,
       doesUserHaveOngoingParticipation: false,
       doesCampaignAskForExternalId: false,
@@ -112,9 +112,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
   _updateStateFrom({ campaign = {}, queryParams = {}, ongoingCampaignParticipation = null, session }) {
     const hasUserCompletedRestrictedCampaignAssociation = this._handleQueryParamBoolean(queryParams.associationDone, this.state.hasUserCompletedRestrictedCampaignAssociation);
-    const isCampaignForNoviceUser = get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser)
-    const hasUserSeenLandingPage = isCampaignForNoviceUser ? true : this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, this.state.hasUserSeenLandingPage);
+    const isCampaignForNoviceUser = get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser);
     const hasUserSeenJoinPage = this._handleQueryParamBoolean(queryParams.hasUserSeenJoinPage, this.state.hasUserSeenJoinPage);
+    const hasUserNotSeenLandingPage = queryParams.hasUserSeenLandingPage == null ? null : !queryParams.hasUserSeenLandingPage;
+    const shouldDisplayLandingPage = isCampaignForNoviceUser ? false : this._handleQueryParamBoolean(hasUserNotSeenLandingPage, this.state.shouldDisplayLandingPage);
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
@@ -122,7 +123,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isCampaignForSCOOrganization: get(campaign, 'organizationType') === 'SCO',
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,
-      hasUserSeenLandingPage,
+      shouldDisplayLandingPage,
       isUserLogged: this.session.isAuthenticated,
       doesUserHaveOngoingParticipation: Boolean(ongoingCampaignParticipation),
       doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
@@ -192,7 +193,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   get _shouldJoinSimplifiedCampaignAsAnonymous() {
-    return this.state.hasUserSeenLandingPage
+    return !this.state.shouldDisplayLandingPage
       && this.state.isCampaignSimplifiedAccess
       && !this.state.isUserLogged;
   }
@@ -204,13 +205,13 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   get _shouldVisitLandingPageAsVisitor() {
-    return !this.state.hasUserSeenLandingPage
+    return this.state.shouldDisplayLandingPage
       && !this.state.isCampaignRestricted
       && !this.state.isUserLogged;
   }
 
   get _shouldVisitLandingPageAsLoggedUser() {
-    return !this.state.hasUserSeenLandingPage
+    return this.state.shouldDisplayLandingPage
       && this.state.isUserLogged
       && !this.state.doesUserHaveOngoingParticipation;
   }
