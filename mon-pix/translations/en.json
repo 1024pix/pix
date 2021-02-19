@@ -958,7 +958,7 @@
                 "save-button": "",
                 "fields": {
                     "new-email": {
-                        "label": "Email address"
+                        "label": ""
                     },
                     "new-email-confirmation": {
                         "label": ""

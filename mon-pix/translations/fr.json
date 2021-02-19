@@ -958,7 +958,7 @@
                 "save-button": "Confirmer",
                 "fields": {
                     "new-email": {
-                        "label": "Adresse e-mail"
+                        "label": "Nouvelle adresse e-mail"
                     },
                     "new-email-confirmation": {
                         "label": "Confirmation de l'adresse e-mail"
