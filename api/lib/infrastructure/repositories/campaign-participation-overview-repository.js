@@ -2,6 +2,8 @@ const { knex } = require('../bookshelf');
 const Assessment = require('../../domain/models/Assessment');
 const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
 const { fetchPage } = require('../utils/knex-utils');
+const targetProfileWithLearningContentRepository = require('../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository.js');
+const bluebird = require('bluebird');
 
 module.exports = {
 
@@ -13,7 +15,8 @@ module.exports = {
     }
 
     const { results, pagination } = await fetchPage(queryBuilder, page);
-    const campaignParticipationOverviews = _toReadModel(results);
+
+    const campaignParticipationOverviews = await _toReadModel(results);
 
     return {
       campaignParticipationOverviews,
@@ -50,7 +53,7 @@ function _findByUserId({ userId }) {
     .from('campaign-participation-overviews')
     .orderByRaw(_computeCampaignParticipationOrder())
     .orderByRaw(_sortEndedBySharedAt())
-    .orderBy('assessmentCreatedAt', 'DESC');
+    .orderBy('createdAt', 'DESC');
 }
 
 function _computeCampaignParticipationState() {
@@ -86,7 +89,7 @@ function _sortEndedBySharedAt() {
   return `
   CASE
     WHEN "participationState" = 'ENDED' THEN "sharedAt"
-    ELSE "assessmentCreatedAt"
+    ELSE "createdAt"
   END DESC`;
 }
 
@@ -95,7 +98,13 @@ function _filterByStates(queryBuilder, states) {
 }
 
 function _toReadModel(campaignParticipationOverviews) {
-  return campaignParticipationOverviews.map((data) => {
-    return new CampaignParticipationOverview(data);
-  });
+  return bluebird.mapSeries(campaignParticipationOverviews,
+    async(data) => {
+      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: data.targetProfileId });
+
+      return new CampaignParticipationOverview({
+        ...data,
+        targetProfile,
+      });
+    });
 }
