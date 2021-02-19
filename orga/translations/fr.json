@@ -68,6 +68,10 @@
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
     },
+    "certifications": {
+      "description": "Vous pouvez exporter les résultats de certification de toutes les classes au format csv.",
+      "title": "Mes certifications"
+    },
     "campaign": {
       "actions": {
         "export-results": "Exporter les résultats (.csv)",
