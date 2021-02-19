@@ -322,6 +322,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'LINK_NOT_WORKING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'IMAGE_NOT_DISPLAYING', questionNumber: 42 },
         { certificationCourseId: 42, category: 'IN_CHALLENGE', subcategory: 'EMBED_NOT_WORKING', questionNumber: 42 },
+        { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
       ].forEach((certificationIssueReportDTO) => {
         it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isActionRequired to true`, () => {
           expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isActionRequired).to.be.true;
@@ -332,7 +333,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'CANDIDATE_INFORMATIONS_CHANGES', subcategory: 'EXTRA_TIME_PERCENTAGE', description: 'toto' },
         { certificationCourseId: 42, category: 'LATE_OR_LEAVING', subcategory: 'SIGNATURE_ISSUE' },
         { certificationCourseId: 42, category: 'CONNECTION_OR_END_SCREEN' },
-        { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
       ].forEach((certificationIssueReportDTO) => {
         it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isActionRequired to false`, () => {
           expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isActionRequired).to.be.false;
