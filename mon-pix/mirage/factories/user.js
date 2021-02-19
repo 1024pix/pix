@@ -149,6 +149,9 @@ export default Factory.extend({
   lang() {
     return 'fr';
   },
+  isAnonymous() {
+    return false;
+  },
   shouldChangePassword: trait({
     shouldChangePassword: true,
   }),
