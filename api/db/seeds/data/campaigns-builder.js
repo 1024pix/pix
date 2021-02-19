@@ -196,4 +196,17 @@ function _buildCampaignForPro(databaseBuilder) {
     idPixLabel: 'identifiant entreprise',
     archivedAt: new Date('2020-01-01T15:00:34Z'),
   });
+  databaseBuilder.factory.buildCampaign({
+    id: 15,
+    name: 'Pro - Campagne d’évaluation PIC - Archivé partagé avec paliers',
+    code: 'ARCHIVED3',
+    type: 'ASSESSMENT',
+    title: 'Parcours archivé avec paliers',
+    customLandingPageText: '',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    idPixLabel: 'identifiant entreprise',
+    archivedAt: new Date('2020-01-01T15:00:34Z'),
+  });
 }
