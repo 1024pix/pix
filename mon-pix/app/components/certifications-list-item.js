@@ -6,7 +6,7 @@ export default class CertificationsListItem extends Component {
   }
 
   get isValidated() {
-    return this.args.certification.get('status') === 'validated';
+    return this.args.certification.status === 'validated';
   }
 
   get isNotPublished() {
@@ -15,7 +15,7 @@ export default class CertificationsListItem extends Component {
 
   get isPublished() {
     const certification = this.args.certification;
-    return certification && certification.get('isPublished');
+    return certification && certification.isPublished;
   }
 
   get isPublishedAndRejected() {
@@ -27,7 +27,7 @@ export default class CertificationsListItem extends Component {
   }
 
   get shouldDisplayComment() {
-    return this.isPublishedAndRejected && this.args.certification.get('commentForCandidate');
+    return this.isPublishedAndRejected && this.args.certification.commentForCandidate;
   }
 
   get isClickable() {
