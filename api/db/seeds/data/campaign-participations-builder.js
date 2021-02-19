@@ -96,6 +96,8 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   participateComplexAssessmentCampaign(12, users[0], 'COMPLETED', false);
   participateComplexAssessmentCampaign(13, users[0], 'COMPLETED', true);
   participateComplexAssessmentCampaign(14, users[0], 'STARTED', false);
+  participateComplexAssessmentCampaign(3, users[0], 'COMPLETED', true);
+  participateComplexAssessmentCampaign(15, users[0], 'COMPLETED', true);
 
   usersNotCompleted.forEach((user) => participateToCampaignOfTypeProfilesCollection(user.id, false));
   usersNotShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(user.id, false));
