@@ -1,3 +1,4 @@
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -16,8 +17,16 @@ describe('Integration | Component | User account panel', () => {
       lastName: 'DOE',
       email: 'john.doe@example.net',
       username: 'john.doe0101',
+      lang: 'fr',
     };
     this.set('user', user);
+
+    class UrlStub extends Service {
+      get isFrenchDomainExtension() {
+        return false;
+      }
+    }
+    this.owner.register('service:url', UrlStub);
 
     // when
     await render(hbs`<UserAccountPanel @user={{this.user}} />`);
@@ -27,6 +36,7 @@ describe('Integration | Component | User account panel', () => {
     expect(find('span[data-test-lastName]').textContent).to.include(user.lastName);
     expect(find('span[data-test-email]').textContent).to.include(user.email);
     expect(find('span[data-test-username]').textContent).to.include(user.username);
+    expect(find('select[data-test-lang] > option[selected]').textContent).to.include('Français');
   });
 
   it('should call Enable Email Edition method', async function() {
@@ -54,6 +64,50 @@ describe('Integration | Component | User account panel', () => {
 
       // then
       expect(find('span[data-test-username]')).to.not.exist;
+    });
+  });
+
+  context('when domain is pix.fr', function() {
+
+    it('should not display language selector', async function() {
+      // given
+      const user = {};
+
+      class UrlStub extends Service {
+        get isFrenchDomainExtension() {
+          return true;
+        }
+      }
+      this.set('user', user);
+      this.owner.register('service:url', UrlStub);
+
+      // when
+      await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+
+      // then
+      expect(find('select[data-test-lang]')).to.not.exist;
+    });
+  });
+
+  context('when domain is pix.org', function() {
+
+    it('should display language selector', async function() {
+      // given
+      const user = {};
+
+      class UrlStub extends Service {
+        get isFrenchDomainExtension() {
+          return false;
+        }
+      }
+      this.set('user', user);
+      this.owner.register('service:url', UrlStub);
+
+      // when
+      await render(hbs`<UserAccountPanel @user={{this.user}} />`);
+
+      // then
+      expect(find('select[data-test-lang]')).to.exist;
     });
   });
 });
