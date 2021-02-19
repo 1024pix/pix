@@ -27,6 +27,7 @@ module.exports = {
   async findFinalizedSessionsToPublish() {
     const publishableFinalizedSessions = await FinalizedSessionBookshelf
       .where({ isPublishable: true, publishedAt: null })
+      .orderBy('finalizedAt')
       .fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
