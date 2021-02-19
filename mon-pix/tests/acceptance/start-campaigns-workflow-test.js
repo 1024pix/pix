@@ -63,6 +63,32 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           // then
           expect(find('.fill-in-campaign-code__start-button').textContent).to.contains('Commencer');
         });
+
+        context('When is a simplified access campaign', function() {
+
+          beforeEach(function() {
+            campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
+          });
+
+          it('should redirect to landing page', async function() {
+            // when
+            await visit(`/campagnes/${campaign.code}`);
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should redirect to tutorial page after starting campaign', async function() {
+            // when
+            await visit(`/campagnes/${campaign.code}`);
+            await click('button[type="submit"]');
+            await fillIn('#id-pix-label', 'vu');
+            await click('button[type="submit"]');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          });
+        });
       });
 
       context('When campaign code exists', function() {
@@ -615,23 +641,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await click('#pix-cgu');
           await click('.button');
         });
-
       });
-
-      context('When campaign does not have external id but a participant external id is set in the url', function() {
-        beforeEach(async function() {
-          campaign = server.create('campaign');
-          await startCampaignByCodeAndExternalId(campaign.code);
-          await fillIn('#firstName', prescritUser.firstName);
-          await fillIn('#lastName', prescritUser.lastName);
-          await fillIn('#email', prescritUser.email);
-          await fillIn('#password', prescritUser.password);
-          await click('#pix-cgu');
-          await click('.button');
-        });
-
-      });
-
     });
 
     context('When user is logged in', function() {
@@ -881,6 +891,33 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           // then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
+
+      });
+    });
+
+    context('When user is logged as anonymous and campaign is simplified access', () => {
+
+      beforeEach(async () => {
+        campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
+        await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
+      });
+
+      it('should replace previous connected anonymous user', async function() {
+        // given
+        const session = currentSession();
+        const previousUserId = session.data.authenticated['user_id'];
+
+        // when
+        await visit('/campagnes');
+        await fillIn('#campaign-code', campaign.code);
+        await click('.fill-in-campaign-code__start-button');
+        await click('button[type="submit"]');
+
+        const currentUserId = session.data.authenticated['user_id'];
+
+        // then
+        expect(currentUserId).to.be.finite;
+        expect(previousUserId).not.to.equal(currentUserId);
       });
     });
 

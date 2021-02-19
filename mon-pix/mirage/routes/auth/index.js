@@ -45,6 +45,7 @@ export default function index(config) {
     const createdUser = schema.users.create({
       firstName: '',
       lastName: '',
+      isAnonymous: true,
     });
 
     return {
