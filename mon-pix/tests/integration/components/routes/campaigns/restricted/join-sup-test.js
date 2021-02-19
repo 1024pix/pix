@@ -7,7 +7,7 @@ import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering'
 import { click, fillIn, render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
-import { contains } from '../../../../../helpers/contains';
+import { clickByLabel } from '../../../../../helpers/click-by-label';
 
 describe('Integration | Component | routes/campaigns/restricted/join-sup', function() {
   setupIntlRenderingTest();
@@ -63,7 +63,7 @@ describe('Integration | Component | routes/campaigns/restricted/join-sup', funct
 
       await fillIn('#studentNumber', '1234');
       await click('[type="submit"]');
-      await click(contains('Modifier le numéro étudiant'));
+      await clickByLabel('Modifier le numéro étudiant');
 
       // then
       expect(find('#studentNumber').disabled).to.be.false;

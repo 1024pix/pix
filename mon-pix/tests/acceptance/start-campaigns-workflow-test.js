@@ -10,6 +10,7 @@ import { Response } from 'ember-cli-mirage';
 
 import visit from '../helpers/visit';
 import { contains } from '../helpers/contains';
+import { clickByLabel } from '../helpers/click-by-label';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
@@ -394,12 +395,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           it('should be redirect to join page after login', async () => {
             // given
             await visit(`/campagnes/${campaign.code}`);
-
             // when
-            await click(contains('connectez-vous à votre compte'));
+            await clickByLabel('connectez-vous à votre compte');
             await fillIn('#login', prescritUser.email);
             await fillIn('#password', prescritUser.password);
-            await click(contains('Je me connecte'));
+
+            await clickByLabel('Je me connecte');
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
@@ -809,7 +810,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await fillIn('#dayOfBirth', '01');
           await fillIn('#monthOfBirth', '01');
           await fillIn('#yearOfBirth', '2000');
-          await click(contains('C\'est parti !'));
+          await clickByLabel('C\'est parti !');
 
           // then
           expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
