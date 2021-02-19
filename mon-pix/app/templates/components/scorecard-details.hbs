@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation no-invalid-interactive --}}
 <div>
   <div class="scorecard-details__header">
     <PixReturnTo @route="profile">{{t 'navigation.back-to-profile'}}</PixReturnTo>
@@ -25,7 +24,7 @@
             <div class="competence-card__congrats">
               <div class="competence-card__level competence-card__level--congrats">
                 <span class="score-label competence-card__score-label--congrats">{{t 'common.level'}}</span>
-                <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{level}}</span>
+                <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{this.level}}</span>
               </div>
             </div>
           {{else}}
@@ -35,7 +34,7 @@
                          @thicknessClass="circle--thick">
               <div class="competence-card__level">
                 <span class="score-label">{{t 'common.level'}}</span>
-                <span class="score-value">{{replace-zero-by-dash level}}</span>
+                <span class="score-value">{{replace-zero-by-dash this.level}}</span>
               </div>
             </CircleChart>
           {{/if}}
@@ -64,7 +63,7 @@
             </div>
           {{else}}
             <PixButton class="button button--big button--thin button--round button--link button--green scorecard-details__improve-button"
-              @triggerAction={{action "improveCompetenceEvaluation"}} @loading-color="white">
+              @triggerAction={{this.improveCompetenceEvaluation}} @loading-color="white">
                 {{t 'pages.competence-details.actions.improve.label'}}<span class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name }}</span>
             </PixButton>
             <span class="scorecard-details__improving-text">{{t 'pages.competence-details.actions.improve.improvingText' }}</span>
@@ -85,7 +84,7 @@
         </LinkTo>
       {{/if}}
       {{#if this.displayResetButton}}
-        <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}} type="button">
+        <button class="link link--underline scorecard-details__reset-button" {{on 'click' this.openModal}} type="button">
           {{t 'pages.competence-details.actions.reset.label'}}
           <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
         </button>
@@ -120,10 +119,10 @@
 </div>
 {{#if this.showResetModal}}
   <PixModal @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide">
-    <div class="pix-modal__close-link" aria-label="{{t 'common.actions.close'}}" {{action "closeModal"}}>
+    <button class="pix-modal__close-link" type="button" aria-label="{{t 'common.actions.close'}}" {{on 'click' this.closeModal}}>
       <span>{{t 'common.actions.close'}}</span>
       <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
-    </div>
+    </button>
 
     <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding" {{on-key 'Escape' this.closeModal}}>
       <div class="pix-modal-header">
@@ -145,8 +144,12 @@
       </div>
 
       <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <button class="button button--big button--extra-thin button--red" {{action "reset"}} type="button">{{t 'pages.competence-details.actions.reset.label'}}</button>
-        <button class="button button--regular button--extra-thin button--grey" {{action "closeModal"}} type="button">{{t 'common.actions.cancel'}}</button>
+        <button class="button button--big button--extra-thin button--red" {{on 'click' this.reset}} type="button">
+          {{t 'pages.competence-details.actions.reset.label'}}
+        </button>
+        <button class="button button--regular button--extra-thin button--grey" {{on 'click' this.closeModal}} type="button">
+          {{t 'common.actions.cancel'}}
+        </button>
       </div>
     </div>
   </PixModal>
