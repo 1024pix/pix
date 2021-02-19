@@ -1,29 +1,13 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-/* eslint ember/no-private-routing-service: 0 */
-/* eslint ember/require-computed-property-dependencies: 0 */
-
-import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember/object';
-import { on } from '@ember-decorators/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
-import {
-  EKMixin as EmberKeyboardMixin,
-  keyDown,
-} from 'ember-keyboard';
+import { tracked } from '@glimmer/tracking';
+import Component from '@glimmer/component';
 
-@classic
-@classNames('logged-user-details')
-export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin) {
+export default class UserLoggedMenu extends Component {
   @service currentUser;
-  @service('-routing') routing;
 
-  keyboardActivated = true;
-  _canDisplayMenu = false;
+  @tracked canDisplayMenu = false;
 
-  @computed('currentUser.user.email')
   get displayedIdentifier() {
     return this.currentUser.user.email ? this.currentUser.user.email : this.currentUser.user.username;
   }
@@ -32,18 +16,13 @@ export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin)
     return this.currentUser.user.hasAssessmentParticipations;
   }
 
-  @on(keyDown('Escape'))
-  closeOnEsc() {
-    this.set('_canDisplayMenu', false);
-  }
-
   @action
   toggleUserMenu() {
-    this.toggleProperty('_canDisplayMenu');
+    this.canDisplayMenu = !this.canDisplayMenu;
   }
 
   @action
   closeMenu() {
-    this.set('_canDisplayMenu', false);
+    this.canDisplayMenu = false;
   }
 }
