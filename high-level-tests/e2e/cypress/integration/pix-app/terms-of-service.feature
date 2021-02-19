@@ -10,7 +10,7 @@ Fonctionnalité: Validation des CGU
     Alors je suis redirigé vers la page "/cgu"
     Lorsque j'accepte les CGU de Pix
     Et je clique sur "Je continue"
-    Alors je suis redirigé vers la page "/profil"
+    Alors je suis redirigé vers la page d'accueil de "Joffrey"
     Lorsque je me déconnecte
     Et je me connecte avec le compte "user-who-must-validate-the-last-terms-of-service@example.net"
-    Alors je suis redirigé vers la page "/profil"
+    Alors je suis redirigé vers la page d'accueil de "Joffrey"

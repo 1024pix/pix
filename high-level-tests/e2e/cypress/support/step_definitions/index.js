@@ -38,10 +38,6 @@ given('je vais sur Pix Certif', () => {
   cy.visitCertif('/');
 });
 
-given('j\'accède à mon profil', () => {
-  cy.visitMonPix('/profil');
-});
-
 given('je vais sur la page {string}', (pathname) => {
   cy.visitMonPix(pathname);
 });
