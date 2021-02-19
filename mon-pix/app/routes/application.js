@@ -43,10 +43,10 @@ export default Route.extend(ApplicationRouteMixin, {
 
     await this.featureToggles.load().catch();
 
-    const lang = transition.to.queryParams.lang;
+    const locale = transition.to.queryParams.lang;
 
     await this._loadCurrentUser();
-    await this._handleLanguage(lang);
+    await this._handleLanguage(locale);
   },
 
   async sessionAuthenticated() {
@@ -70,21 +70,22 @@ export default Route.extend(ApplicationRouteMixin, {
   // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
   sessionInvalidated() {},
 
-  async _handleLanguage(lang = null) {
+  async _handleLanguage(locale = null) {
 
-    if (lang && this.currentUser.user) {
-      this.currentUser.user.lang = lang;
-      await this.currentUser.user.save({ adapterOptions: { lang } });
+    const defaultLocale = 'fr';
+
+    if (locale && this.currentUser.user) {
+      this.currentUser.user.lang = locale;
+      await this.currentUser.user.save({ adapterOptions: { lang: locale } });
+      await this._setLocale(this.currentUser.user.lang, defaultLocale);
+    } else if (this.currentUser.user) {
+      await this._setLocale(this.currentUser.user.lang, defaultLocale);
+    } else {
+      await this._setLocale(locale, defaultLocale);
     }
-    await this._setLocale(lang);
   },
 
-  _setLocale(lang = null) {
-    const defaultLocale = 'fr';
-    let locale = lang || defaultLocale;
-    if (this.currentUser.user) {
-      locale = this.currentUser.user.lang || defaultLocale;
-    }
+  _setLocale(locale, defaultLocale) {
     this.intl.setLocale([locale, defaultLocale]);
     this.moment.setLocale(locale);
   },
@@ -99,5 +100,4 @@ export default Route.extend(ApplicationRouteMixin, {
     delete this.session.data.externalUser;
     return this.session.invalidate();
   },
-
 });
