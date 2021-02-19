@@ -83,7 +83,7 @@
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.0.2",
     "ember-intl": "^5.5.1",
-    "ember-keyboard": "^5.0.0",
+    "ember-keyboard": "^6.0.2",
     "ember-load-initializers": "^2.1.2",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-mocha": "^0.16.2",

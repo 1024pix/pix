@@ -36,6 +36,10 @@ module.exports = function(environment) {
       },
     },
 
+    emberKeyboard: {
+      disableInputsInitializer: true,
+    },
+
     'ember-simple-auth-oidc': {
       afterLogoutUri: process.env.POLE_EMPLOI_AFTER_LOGOUT_URI,
       authEndpoint: '/connexion/oauth2/authorize',
