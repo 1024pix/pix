@@ -113,11 +113,11 @@ describe('Integration | Repository | Finalized-session', () => {
 
     context('when there are publishable sessions', () => {
 
-      it('finds a list of publishable finalized session', async () => {
+      it('finds a list of publishable finalized session order by finalization date', async () => {
         // given
-        const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
-        const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
-        const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
+        const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2020-01-01') });
+        const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2019-01-01') });
+        const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2021-01-01') });
 
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null }),
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' }),
@@ -129,16 +129,7 @@ describe('Integration | Repository | Finalized-session', () => {
 
         // then
         expect(result).to.have.lengthOf(3);
-        expect(result).to.deep.equal([
-          {
-            sessionId: publishableFinalizedSession1.sessionId,
-            finalizedAt: publishableFinalizedSession1.finalizedAt,
-            certificationCenterName: publishableFinalizedSession1.certificationCenterName,
-            sessionDate: publishableFinalizedSession1.date,
-            sessionTime: publishableFinalizedSession1.time,
-            isPublishable: publishableFinalizedSession1.isPublishable,
-            publishedAt: null,
-          },
+        expect(result).to.have.deep.ordered.members([
           {
             sessionId: publishableFinalizedSession2.sessionId,
             finalizedAt: publishableFinalizedSession2.finalizedAt,
@@ -146,6 +137,15 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionDate: publishableFinalizedSession2.date,
             sessionTime: publishableFinalizedSession2.time,
             isPublishable: publishableFinalizedSession2.isPublishable,
+            publishedAt: null,
+          },
+          {
+            sessionId: publishableFinalizedSession1.sessionId,
+            finalizedAt: publishableFinalizedSession1.finalizedAt,
+            certificationCenterName: publishableFinalizedSession1.certificationCenterName,
+            sessionDate: publishableFinalizedSession1.date,
+            sessionTime: publishableFinalizedSession1.time,
+            isPublishable: publishableFinalizedSession1.isPublishable,
             publishedAt: null,
           },
           {
