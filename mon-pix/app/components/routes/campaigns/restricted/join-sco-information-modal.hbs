@@ -1,5 +1,5 @@
 {{!-- template-lint-disable no-action no-invalid-interactive --}}
-<PixModal @containerClass="join-error-modal" @onClose={{action @closeModal}}>
+<PixModal @containerClass="join-error-modal">
   <div class="join-error-modal__header">
     <div class="join-error-modal-header__title">
       <h1 class="join-error-modal-header-title__text">{{t 'pages.join.sco.login-information-title'}}</h1>
@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <div class="join-error-modal__body">
+  <div class="join-error-modal__body" {{on-key 'Escape' @closeModal}}>
     <div class="join-error-modal-body__message" aria-live="polite">{{this.message}}</div>
   </div>
 

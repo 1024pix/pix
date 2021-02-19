@@ -119,14 +119,13 @@
   {{/if}}
 </div>
 {{#if this.showResetModal}}
-  <PixModal @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide" @onClose={{action "closeModal"}}>
+  <PixModal @containerClass="scorecard-details__reset-modal pix-modal-dialog--wide">
     <div class="pix-modal__close-link" aria-label="{{t 'common.actions.close'}}" {{action "closeModal"}}>
       <span>{{t 'common.actions.close'}}</span>
       <FaIcon @icon="times-circle" class="logged-user-menu__icon"></FaIcon>
     </div>
 
-
-    <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
+    <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding" {{on-key 'Escape' this.closeModal}}>
       <div class="pix-modal-header">
         <h1 class="pix-modal-header__title pix-modal-header__title--thin">{{t 'pages.competence-details.actions.reset.modal.title'}}</h1>
         <h2 class="pix-modal-header__subtitle">{{@scorecard.name}}</h2>

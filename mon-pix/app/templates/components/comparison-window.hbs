@@ -1,11 +1,11 @@
-<PixModal @class="comparison-window-modal" @onClose={{@closeComparisonWindow}}>
+<PixModal @class="comparison-window-modal">
 
   <button type="button" class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{on "click" @closeComparisonWindow}}>
     <span>{{t "common.actions.close"}}</span>
     <FaIcon @icon="times-circle" class="logged-user-menu__icon" aria-hidden="true"></FaIcon>
   </button>
 
-  <div class="pix-modal__container comparison-window">
+  <div class="pix-modal__container comparison-window" {{on-key 'Escape' @closeComparisonWindow}}>
 
     <div class="pix-modal-header comparison-window-header">
       <div class="comparison-window__title">
