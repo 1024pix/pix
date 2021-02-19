@@ -1,7 +1,7 @@
 import { click, find, findAll, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -270,5 +270,42 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(currentURL()).to.equal('/profil');
       });
     });
+  });
+  context('when campaign is for Novice and isSimplifiedAccess', async function() {
+    let campaignForNovice, anonymousUser;
+
+    beforeEach(function() {
+      campaignForNovice = server.create('campaign', { isForAbsoluteNovice: true, isSimplifiedAccess: true });
+      campaignParticipation = server.create('campaign-participation', { campaign });
+      anonymousUser = server.create('user', 'withEmail', {
+        isAnonymous: true,
+      });
+    });
+
+    it('should redirect to home/profil page on click when user is connected', async function() {
+      // given
+      await authenticateByEmail(user);
+      await visit(`/campagnes/${campaignForNovice.code}`);
+      await click('.campaign-landing-page__start-button');
+      await click('.checkpoint__continue-button');
+      await click('a[data-link-to-continue-pix]');
+
+      // then
+      expect(currentURL()).to.equal('/profil');
+    });
+
+    it('should redirect to sign up page on click when user is not connected', async function() {
+      // given
+      await authenticateByGAR(anonymousUser);
+
+      await visit(`/campagnes/${campaignForNovice.code}`);
+      await click('.campaign-landing-page__start-button');
+      await click('.checkpoint__continue-button');
+      await click('a[data-link-to-continue-pix]');
+
+      // then
+      expect(currentURL()).to.equal('/inscription');
+    });
+
   });
 });

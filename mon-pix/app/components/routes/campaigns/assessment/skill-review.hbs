@@ -58,10 +58,17 @@
                       'pages.profile.resume-campaign-banner.actions.resume'}}</LinkTo>
             </div>
           {{else}}
-            <CampaignShareButton
-                    @isShared={{@model.campaignParticipation.isShared}}
-                    @shareCampaignParticipation={{this.shareCampaignParticipation}}
-            />
+            {{#if @model.campaignParticipation.campaign.isForAbsoluteNovice}}
+              <a href="#" {{on "click" this.redirectForNoviceCampaign}}
+                      class="skill-review-share__back-to-home link" data-link-to-continue-pix>
+                {{t 'pages.skill-review.actions.continue'}}
+              </a>
+            {{else}}
+              <CampaignShareButton
+                      @isShared={{@model.campaignParticipation.isShared}}
+                      @shareCampaignParticipation={{this.shareCampaignParticipation}}
+              />
+            {{/if}}
           {{/if}}
         </div>
       </div>
@@ -92,7 +99,9 @@
     {{/if}}
   {{/if}}
 
-  <main class="skill-review-result__content">
+  {{#unless @model.campaignParticipation.campaign.isForAbsoluteNovice}}
+
+    <main class="skill-review-result__content">
     <div class="skill-review-result__table-header">
       <h2 class="skill-review-result__subtitle">
         {{t 'pages.skill-review.details.title'}}
@@ -117,5 +126,5 @@
       {{t 'pages.skill-review.information'}}
     </div>
   </div>
-
+  {{/unless}}
 </PixBlock>
