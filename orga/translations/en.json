@@ -67,14 +67,26 @@
         "empty": "Results pending"
       }
     },
+    "assessment-participants-list": {
+      "table": {
+        "column": {
+          "badges": "Thematic results",
+          "first-name": "First name",
+          "last-name": "Last name",
+          "results": {
+            "label": "Results",
+            "on-hold": "Pending",
+            "under-test": "Testing in progress"
+          }
+        },
+        "empty": "No participants",
+        "row-title": "Participant"
+      }
+    },
     "campaign-individual-results": {
       "campaign-name": "Name of the campaign",
       "shared-date": "Sent on",
       "start-date": "Started on"
-    },
-    "certifications": {
-      "description": "You can export the certification results for all classes in a csv file.",
-      "title": "My certifications"
     },
     "campaign": {
       "actions": {
@@ -87,7 +99,17 @@
         "actions": {
           "clear": "Clear filters"
         },
-        "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}"
+        "aria-label": "Filters on participations",
+        "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
+        "title": "Filters",
+        "type": {
+          "badges": "Thematic results",
+          "divisions": {
+            "empty": "No class",
+            "title": "Class"
+          },
+          "stages": "Success rate"
+        }
       },
       "participations-count": "Participants",
       "shared-participations-count": "Profiles submitted",
@@ -132,12 +154,12 @@
     },
     "campaign-details": {
       "actions": {
-        "edit": "Edit",
         "archive": "Archive",
         "copy-link": {
           "copied": "Copied!",
           "copy": "Copy direct link"
-        }
+        },
+        "edit": "Edit"
       },
       "direct-link": "Direct link",
       "external-user-id-label": "External user ID label",
@@ -189,7 +211,7 @@
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following subjects, sorted by relevance ({bubble}).",
       "header": {
         "title": "Review by subject",
-        "relevance": "Relevance",  
+        "relevance": "Relevance",
         "subjects": "Subjects ({count, plural, =0 {-} other {{count}}})"
       },
       "title": "Recommendations of subjects to focus on",
@@ -199,9 +221,13 @@
         "show-tutorial": "Show all tutorials",
         "subject": "Subject",
         "tutorial-source": "By {source}",
-        "tutorial-total":"{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
+        "tutorial-total": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
       },
       "waiting-results": "Waiting results"
+    },
+    "certifications": {
+      "description": "You can export the certification results for all classes in a csv file.",
+      "title": "My certifications"
     }
   }
 }

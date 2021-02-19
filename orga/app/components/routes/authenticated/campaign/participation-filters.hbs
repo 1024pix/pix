@@ -1,8 +1,8 @@
 {{#if this.displayFilters }}
   <PixFilterBanner
-    @title="Filtres"
+    @title={{t 'pages.campaign.filters.title'}}
     class="participant-filter-banner"
-    aria-label="Filtres sur les participations"
+    aria-label={{t 'pages.campaign.filters.aria-label'}}
     @details={{t 'pages.campaign.filters.participations-count' count=@rowCount}}
     @clearFiltersLabel={{t 'pages.campaign.filters.actions.clear'}}
     @onClearFilters={{@resetFiltering}}
@@ -10,11 +10,11 @@
     {{#if this.displayDivisionFilter }}
       <PixMultiSelect
         @id="division"
-        @title="Classes"
-        @placeholder="Classes"
+        @title={{t 'pages.campaign.filters.type.divisions.title'}}
+        @placeholder={{t 'pages.campaign.filters.type.divisions.title'}}
         @isSearchable={{true}}
         @showOptionsOnInput={{true}}
-        @emptyMessage="Pas de classe"
+        @emptyMessage={{t 'pages.campaign.filters.type.divisions.empty'}}
         @onSelect={{this.onSelectDivision}}
         @selected={{@selectedDivisions}}
         @options={{this.divisionOptions}} as |option|
@@ -25,7 +25,7 @@
     {{#if this.displayStagesFilter }}
       <PixMultiSelect
         @id="stage"
-        @title="Paliers"
+        @title={{t 'pages.campaign.filters.type.stages'}}
         @onSelect={{this.onSelectStage}}
         @selected={{@selectedStages}}
         @options={{this.stageOptions}} as |stage|
@@ -36,7 +36,7 @@
     {{#if this.displayBadgesFilter }}
       <PixMultiSelect
         @id="badge"
-        @title="Thématiques"
+        @title={{t 'pages.campaign.filters.type.badges'}}
         @onSelect={{this.onSelectBadge}}
         @selected={{@selectedBadges}}
         @options={{this.badgeOptions}} as |badge|
