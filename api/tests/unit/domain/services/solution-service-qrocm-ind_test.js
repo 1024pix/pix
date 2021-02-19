@@ -76,6 +76,19 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       const expected = { 'phrase1': true, 'phrase2': true, 'phrase3': false };
       expect(actual).to.deep.equal(expected);
     });
+
+    it('should do nothing if there is no solutions for one input but answers', () => {
+      // given
+      const answers = { 'phrase1': 'Le silence est d\'ours', 'phrase2': 'facebook', 'phraseSansSolution': 'lasagne' };
+      const solutions = { 'phrase1': ['Le silence est d\'or'], 'phrase2': ['facebook'] };
+      const enabledTreatments = [];
+
+      // when
+      const result = service._compareAnswersAndSolutions(answers, solutions, enabledTreatments);
+
+      // then
+      expect(result).to.deep.equal({ 'phrase1': false, 'phrase2': true });
+    });
   });
 
   describe('#_formatResult', function() {
