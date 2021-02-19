@@ -98,7 +98,5 @@ describe('Unit | Route | application', function() {
       sinon.assert.called(saveStub);
       sinon.assert.calledWith(saveStub, { adapterOptions: { lang: 'en' } });
     });
-
   });
-
 });
