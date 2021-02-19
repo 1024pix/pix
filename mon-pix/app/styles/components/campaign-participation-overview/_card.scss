@@ -35,6 +35,10 @@
     color: $grey-60;
   }
 
+  &__content-archived {
+    margin-bottom: 32px;
+  }
+
   &__action {
     padding: 11px 16px;
     font-size: 0.825rem;
@@ -50,11 +54,14 @@
     font-size: 0.75rem;
     font-weight: $font-normal;
     text-align: center;
-    margin-bottom: 32px;
   }
 
-  &--archived-result {
-    margin-bottom: 32px;
+  svg {
+    width: 24px;
+  }
+
+  .pix-stars__unacquired {
+    fill: $grey-20;
   }
 }
 
