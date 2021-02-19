@@ -49,7 +49,7 @@ describe('Unit | Route | application', function() {
     expect(currentUserStub.called).to.be.true;
   });
 
-  describe('#_getUserAndLocal', function() {
+  describe('#_handleLanguage', function() {
     it('should set locales from users', async function() {
       // given
       const user = {
@@ -66,7 +66,7 @@ describe('Unit | Route | application', function() {
       route.set('intl', intlStub);
 
       // when
-      await route._getUserAndLocal();
+      await route._handleLanguage();
 
       // then
       sinon.assert.called(setLocaleStub);
@@ -92,7 +92,7 @@ describe('Unit | Route | application', function() {
       route.set('intl', intlStub);
 
       // when
-      await route._getUserAndLocal('en');
+      await route._handleLanguage('en');
 
       // then
       sinon.assert.called(saveStub);

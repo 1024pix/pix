@@ -44,12 +44,16 @@ export default Route.extend(ApplicationRouteMixin, {
     await this.featureToggles.load().catch();
 
     const lang = transition.to.queryParams.lang;
-    return this._getUserAndLocal(lang);
+
+    await this._loadCurrentUser();
+    await this._handleLanguage(lang);
   },
 
   async sessionAuthenticated() {
     const _super = this._super;
-    await this._getUserAndLocal();
+
+    await this._loadCurrentUser();
+    await this._handleLanguage();
 
     const nextURL = this.session.data.nextURL;
     if (nextURL && get(this.session, 'data.authenticated.source') === 'pole_emploi_connect') {
@@ -66,14 +70,13 @@ export default Route.extend(ApplicationRouteMixin, {
   // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
   sessionInvalidated() {},
 
-  async _getUserAndLocal(lang = null) {
-    const currentUser = await this._loadCurrentUser();
+  async _handleLanguage(lang = null) {
+
     if (lang && this.currentUser.user) {
       this.currentUser.user.lang = lang;
       await this.currentUser.user.save({ adapterOptions: { lang } });
     }
     await this._setLocale(lang);
-    return currentUser;
   },
 
   _setLocale(lang = null) {
