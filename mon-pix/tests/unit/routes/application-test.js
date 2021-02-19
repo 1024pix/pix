@@ -173,6 +173,30 @@ describe('Unit | Route | application', function() {
             sinon.assert.called(saveStub);
             sinon.assert.calledWith(saveStub, { adapterOptions: { lang: 'en' } });
           });
+
+          it('should ignore locale switch when is neither "fr" nor "en"', async function() {
+            // given
+            const saveStub = sinon.stub().rejects({ errors: [{ status: '400' }] });
+            const rollbackAttributesStub = sinon.stub().resolves();
+
+            const user = {
+              lang: 'fr',
+              save: saveStub,
+              rollbackAttributes: rollbackAttributesStub,
+            };
+            const loadStub = sinon.stub().resolves(user);
+            const currentUserStub = Service.create({ load: loadStub, user });
+
+            route.set('session', { isAuthenticated: true });
+            route.set('currentUser', currentUserStub);
+            route.set('currentDomain', { getExtension() { return 'org'; } });
+
+            // when
+            await route._handleLanguage('bouh');
+
+            // then
+            sinon.assert.called(rollbackAttributesStub);
+          });
         });
       });
 

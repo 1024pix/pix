@@ -85,8 +85,18 @@ export default Route.extend(ApplicationRouteMixin, {
     if (isUserConnected) {
       if (locale) {
         this.currentUser.user.lang = locale;
-        await this.currentUser.user.save({ adapterOptions: { lang: locale } });
-        await this._setLocale(locale, defaultLocale);
+        try {
+          await this.currentUser.user.save({ adapterOptions: { lang: this.currentUser.user.lang } });
+          await this._setLocale(this.currentUser.user.lang, defaultLocale);
+        } catch (error) {
+          const status = get(error, 'errors[0].status');
+          if (status === '400') {
+            this.currentUser.user.rollbackAttributes();
+            await this._setLocale(this.currentUser.user.lang, defaultLocale);
+          } else {
+            throw error;
+          }
+        }
       } else {
         await this._setLocale(this.currentUser.user.lang, defaultLocale);
       }
