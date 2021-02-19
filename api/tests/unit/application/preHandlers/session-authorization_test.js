@@ -19,11 +19,6 @@ describe('Unit | Pre-handler | Session Authorization', () => {
       sinon.stub(sessionAuthorizationService, 'isAuthorizedToAccessSession');
     });
 
-    it('should be a function', () => {
-      // then
-      expect(SessionAuthorization.verify).to.be.a('function');
-    });
-
     context('when user has access to session', () => {
 
       it('should reply with true', async () => {

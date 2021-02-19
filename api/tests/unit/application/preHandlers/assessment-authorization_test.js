@@ -19,11 +19,6 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
       sinon.stub(assessmentRepository, 'getByAssessmentIdAndUserId');
     });
 
-    it('should be a function', () => {
-      // then
-      expect(AssessmentAuthorization.verify).to.be.a('function');
-    });
-
     it('should get userId from token', () => {
       // given
       tokenService.extractTokenFromAuthChain.returns('VALID_TOKEN');
