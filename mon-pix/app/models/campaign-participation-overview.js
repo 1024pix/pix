@@ -12,17 +12,13 @@ export default class CampaignParticipationOverviews extends Model {
   @attr('string') campaignTitle;
   @attr('date') campaignArchivedAt;
   @attr('number') masteryPercentage;
+  @attr('number') totalStagesCount;
+  @attr('number') validatedStagesCount;
 
   get status() {
-    if (this.campaignArchivedAt) return 'archived';
-    if (this.isShared) return 'finished';
-
-    return this.assessmentState;
-  }
-
-  get date() {
-    if (this.status === 'finished') return this.sharedAt;
-
-    return this.createdAt;
+    if (this.campaignArchivedAt) return 'ARCHIVED';
+    else if (this.isShared) return 'ENDED';
+    else if (this.assessmentState === 'completed') return 'TO_SHARE';
+    else return 'ONGOING';
   }
 }
