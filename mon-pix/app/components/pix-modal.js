@@ -2,14 +2,9 @@
 /* eslint ember/no-component-lifecycle-hooks: 0 */
 /* eslint ember/require-tagless-components: 0 */
 
-import { on } from '@ember/object/evented';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
-import {
-  EKMixin as EmberKeyboardMixin,
-  keyUp,
-} from 'ember-keyboard';
 
-export default ModalDialog.extend(EmberKeyboardMixin, {
+export default ModalDialog.extend({
 
   wrapperClassNames: ['pix-modal-wrapper'],
   overlayClassNames: ['pix-modal-overlay'],
@@ -19,11 +14,6 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
   wrapperClass: 'centered-scrolling-wrapper',
   overlayClass: 'centered-scrolling-overlay',
   containerClass: 'centered-scrolling-container',
-
-  init() {
-    this._super(...arguments);
-    this.set('keyboardActivated', true);
-  },
 
   didRender() {
     this._super(...arguments);
@@ -36,10 +26,6 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
     document.body.classList.remove('centered-modal-showing');
     this._super(...arguments);
   },
-
-  closeOnEsc: on(keyUp('Escape'), function() {
-    this.onClose();
-  }),
 
   // The block below fix a warning when closing a modal by clicking on the overlay.
   // It is copied from the original implementation of ember-modal-dialog, found in v3.0.0-beta.1.
