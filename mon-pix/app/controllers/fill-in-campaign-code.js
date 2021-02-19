@@ -19,7 +19,7 @@ export default class FillInCampaignCodeController extends Controller {
   }
 
   get firstTitle() {
-    return this.isUserAuthenticated
+    return this.isUserAuthenticated && !this.currentUser.user.isAnonymous
       ? this.intl.t('pages.fill-in-campaign-code.first-title-connected', { firstName: this.currentUser.user.firstName })
       : this.intl.t('pages.fill-in-campaign-code.first-title-not-connected');
   }
@@ -29,6 +29,10 @@ export default class FillInCampaignCodeController extends Controller {
       firstName: this.currentUser.user.firstName,
       lastName: this.currentUser.user.lastName,
     });
+  }
+
+  get showWarningMessage() {
+    return this.isUserAuthenticated && !this.currentUser.user.isAnonymous;
   }
 
   @action

@@ -86,9 +86,15 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   get _shouldJoinSimplifiedCampaignAsAnonymous() {
-    return this.state.hasUserSeenLandingPage
-      && this.state.isCampaignSimplifiedAccess
-      && !this.state.isUserLogged;
+    return this.state.isCampaignSimplifiedAccess
+      && !this.state.isUserLogged
+      && this.state.hasUserSeenLandingPage;
+  }
+
+  get _shouldDisconnectAnonymousUser() {
+    return this.state.isUserLogged
+      && this.currentUser.user.isAnonymous
+      && !this.state.participantExternalId;
   }
 
   _shouldResetState(campaignCode) {
@@ -121,6 +127,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
         return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
       }
       return this.replaceWith('campaigns.restricted.join', campaign);
+    }
+
+    if (this._shouldDisconnectAnonymousUser) {
+      await this.session.invalidate();
+      this.state.isUserLogged = false;
     }
 
     if (this._shouldJoinSimplifiedCampaignAsAnonymous) {
