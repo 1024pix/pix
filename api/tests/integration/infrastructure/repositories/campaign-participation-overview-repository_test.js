@@ -1,32 +1,48 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const { campaignParticipationOverviewFactory } = databaseBuilder.factory;
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const campaignParticipationOverviewRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-overview-repository');
 const _ = require('lodash');
 
+let userId;
+
 describe('Integration | Repository | Campaign Participation Overview', () => {
-  let userId;
+  let targetProfile;
 
   beforeEach(async () => {
     userId = databaseBuilder.factory.buildUser().id;
+    const learningContent = [{
+      id: 'recArea1',
+      competences: [{
+        id: 'recCompetence1',
+        tubes: [{
+          id: 'recTube1',
+          skills: [{
+            id: 'recSkillId1',
+          }],
+        }],
+      }],
+    }];
+    const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+    mockLearningContent(learningContentObjects);
+    targetProfile = databaseBuilder.factory.buildTargetProfile();
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkillId1' });
+    databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id });
     await databaseBuilder.commit();
   });
 
   describe('#findByUserIdWithFilters', () => {
-
     context('when there is no filter', () => {
-
       it('retrieves information about campaign participation, campaign and organization', async () => {
-        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({ name: 'Organization ABCD' });
-        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ title: 'Campaign ABCD', code: 'ABCD', archivedAt: new Date('2020-01-03'), organizationId, targetProfileId });
-        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-01-02'), validatedSkillsCount: 12 });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ title: 'Campaign ABCD', code: 'ABCD', archivedAt: new Date('2020-01-03'), organizationId, targetProfileId: targetProfile.id });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-01-02'), validatedSkillsCount: 1 });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.STARTED });
         await databaseBuilder.commit();
 
         const { campaignParticipationOverviews: [campaignParticipation] } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
 
-        expect(campaignParticipation).to.deep.equal({
+        expect(campaignParticipation).to.deep.include({
           id: participationId,
           createdAt: new Date('2020-01-01'),
           sharedAt: new Date('2020-01-02'),
@@ -36,15 +52,21 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
           campaignArchivedAt: new Date('2020-01-03'),
           organizationName: 'Organization ABCD',
           assessmentState: Assessment.states.STARTED,
-          validatedSkillsCount: 12,
-          targetProfileId,
-          totalSkillsCount: undefined,
+          targetProfileId: targetProfile.id,
+          totalSkillsCount: 1,
+          validatedSkillsCount: 1,
+          masteryPercentage: 100,
+          totalStagesCount: 1,
+          validatedStagesCount: 1,
+
         });
       });
 
       it('should retrieve all campaign participation of the user', async () => {
-        const { id: participation1Id } = campaignParticipationOverviewFactory.build({ userId });
-        const { id: participation2Id } = campaignParticipationOverviewFactory.build({ userId });
+        const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: campaign2Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: participation1Id } = campaignParticipationOverviewFactory.build({ userId, campaignId: campaign1Id });
+        const { id: participation2Id } = campaignParticipationOverviewFactory.build({ userId, campaignId: campaign2Id });
         campaignParticipationOverviewFactory.build();
         await databaseBuilder.commit();
 
@@ -55,8 +77,10 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       it('should retrieve only campaign participation that have an assessment', async () => {
-        const { id: participation1Id } = campaignParticipationOverviewFactory.build({ userId });
-        const { id: participation2Id } = campaignParticipationOverviewFactory.build({ userId });
+        const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: campaign2Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: participation1Id } = campaignParticipationOverviewFactory.build({ userId, campaignId: campaign1Id });
+        const { id: participation2Id } = campaignParticipationOverviewFactory.build({ userId, campaignId: campaign2Id });
         databaseBuilder.factory.buildCampaignParticipation({ userId });
         await databaseBuilder.commit();
 
@@ -67,7 +91,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       it('retrieves information about the most recent assessment of campaign participation', async () => {
-        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.ABORTED, createdAt: new Date('2020-01-01') });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.STARTED, createdAt: new Date('2020-01-02') });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.COMPLETED, createdAt: new Date('2020-01-03') });
@@ -79,8 +104,8 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       it('retrieves pagination information', async () => {
-        const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-01') });
-        campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-02') });
+        const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, createdAt: new Date('2020-01-01'), targetProfileSkills: ['recSkillId1'] });
+        campaignParticipationOverviewFactory.buildOnGoing({ userId, createdAt: new Date('2020-01-02'), targetProfileSkills: ['recSkillId1'] });
         await databaseBuilder.commit();
         const page = { number: 2, size: 1 };
 
@@ -107,11 +132,14 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       let archivedParticipation;
 
       beforeEach(async () => {
-        onGoingParticipation = campaignParticipationOverviewFactory.build({ userId, assessmentState: Assessment.states.STARTED, sharedAt: null });
-        toShareParticipation = campaignParticipationOverviewFactory.build({ userId, assessmentState: Assessment.states.COMPLETED, sharedAt: null });
-        endedParticipation = campaignParticipationOverviewFactory.build({ userId, sharedAt: new Date('2020-01-02') });
-        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ archivedAt: new Date('2020-01-02') });
-        archivedParticipation = campaignParticipationOverviewFactory.build({ userId, sharedAt: null, campaignId });
+        const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: campaign2Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: campaign3Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+        const { id: campaign4Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id, archivedAt: new Date('2020-01-02') });
+        onGoingParticipation = campaignParticipationOverviewFactory.build({ userId, assessmentState: Assessment.states.STARTED, sharedAt: null, campaignId: campaign1Id });
+        toShareParticipation = campaignParticipationOverviewFactory.build({ userId, assessmentState: Assessment.states.COMPLETED, sharedAt: null, campaignId: campaign2Id });
+        endedParticipation = campaignParticipationOverviewFactory.build({ userId, sharedAt: new Date('2020-01-02'), campaignId: campaign3Id });
+        archivedParticipation = campaignParticipationOverviewFactory.build({ userId, sharedAt: null, campaignId: campaign4Id });
 
         await databaseBuilder.commit();
       });
@@ -169,10 +197,10 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
     context('order', () => {
       context('when all campaign participation have different status', ()=> {
         it('orders all campaign participation by status', async () => {
-          const { id: participationArchived } = campaignParticipationOverviewFactory.buildArchived({ userId });
-          const { id: participationEndedId } = campaignParticipationOverviewFactory.buildEnded({ userId });
-          const { id: participationOnGoingId } = campaignParticipationOverviewFactory.buildOnGoing({ userId });
-          const { id: participationToShareId } = campaignParticipationOverviewFactory.buildToShare({ userId });
+          const { id: participationArchived } = campaignParticipationOverviewFactory.buildArchived({ userId, targetProfileSkills: ['recSkillId1'] });
+          const { id: participationEndedId } = campaignParticipationOverviewFactory.buildEnded({ userId, targetProfileSkills: ['recSkillId1'] });
+          const { id: participationOnGoingId } = campaignParticipationOverviewFactory.buildOnGoing({ userId, targetProfileSkills: ['recSkillId1'] });
+          const { id: participationToShareId } = campaignParticipationOverviewFactory.buildToShare({ userId, targetProfileSkills: ['recSkillId1'] });
           await databaseBuilder.commit();
 
           const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
@@ -183,9 +211,9 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       context('when there are campaign participation with the same status', () => {
-        it('orders all campaign participation by assessment creation date', async () => {
-          const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-01') });
-          const { id: newestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, assessmentCreatedAt: new Date('2020-01-02') });
+        it('orders all campaign participation by participation creation date', async () => {
+          const { id: oldestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, createdAt: new Date('2020-01-01'), targetProfileSkills: ['recSkillId1'] });
+          const { id: newestParticipation } = campaignParticipationOverviewFactory.buildOnGoing({ userId, createdAt: new Date('2020-01-02'), targetProfileSkills: ['recSkillId1'] });
           await databaseBuilder.commit();
 
           const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
@@ -196,10 +224,10 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       context('when there are several campaign participation with the status ended', () => {
-        it('orders campaign participation by sharing date then assessment creation date', async () => {
-          const { id: firstParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-01'), assessmentCreatedAt: new Date('2020-01-04') });
-          const { id: secondParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-02'), assessmentCreatedAt: new Date('2020-01-02') });
-          const { id: lastParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-02'), assessmentCreatedAt: new Date('2020-01-03') });
+        it('orders campaign participation by sharing date then participation creation date', async () => {
+          const { id: firstParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-01'), createdAt: new Date('2020-01-04'), targetProfileSkills: ['recSkillId1'] });
+          const { id: secondParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-02'), createdAt: new Date('2020-01-02'), targetProfileSkills: ['recSkillId1'] });
+          const { id: lastParticipation } = campaignParticipationOverviewFactory.buildEnded({ userId, sharedAt: new Date('2020-01-02'), createdAt: new Date('2020-01-03'), targetProfileSkills: ['recSkillId1'] });
 
           await databaseBuilder.commit();
 
@@ -211,10 +239,10 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
       });
 
       context('when there are several campaign participation with the status archived', () => {
-        it('orders campaign participation by assessment creation date', async () => {
-          const { id: firstParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: new Date('2020-01-01'), assessmentCreatedAt: new Date('2020-01-04') });
-          const { id: lastParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: new Date('2020-01-02'), assessmentCreatedAt: new Date('2020-01-02') });
-          const { id: secondParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: null, assessmentCreatedAt: new Date('2020-01-03') });
+        it('orders campaign participation by participation creation date', async () => {
+          const { id: firstParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: new Date('2020-01-01'), createdAt: new Date('2020-01-04'), targetProfileSkills: ['recSkillId1'] });
+          const { id: lastParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: new Date('2020-01-02'), createdAt: new Date('2020-01-02'), targetProfileSkills: ['recSkillId1'] });
+          const { id: secondParticipation } = campaignParticipationOverviewFactory.buildArchived({ userId, sharedAt: null, createdAt: new Date('2020-01-03'), targetProfileSkills: ['recSkillId1'] });
 
           await databaseBuilder.commit();
 
