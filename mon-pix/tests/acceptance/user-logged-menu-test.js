@@ -1,7 +1,8 @@
 import { click, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentication';
-import { contains } from '../helpers/contains';
+import { clickByLabel } from '../helpers/click-by-label';
+import findByLabel from '../helpers/find-by-label';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -28,7 +29,7 @@ describe('Acceptance | User account', function() {
     it('should open tests page when click on menu', async function() {
       // when
       await click('.logged-user-name');
-      await click(contains('Mes parcours'));
+      await clickByLabel('Mes parcours');
 
       // then
       expect(currentURL()).to.equal('/mes-parcours');
@@ -37,7 +38,7 @@ describe('Acceptance | User account', function() {
     it('should open certifications page when click on menu', async function() {
       // when
       await click('.logged-user-name');
-      await click(contains('Mes certifications'));
+      await clickByLabel('Mes certifications');
 
       // then
       expect(currentURL()).to.equal('/mes-certifications');
@@ -46,8 +47,7 @@ describe('Acceptance | User account', function() {
     it('should contain link to pix.fr/aide', async function() {
       // when
       await click('.logged-user-name');
-      const helplink = contains('Aide').getAttribute('href');
-
+      const helplink = findByLabel('Aide').getAttribute('href');
       // then
       expect(helplink).to.equal('https://pix.fr/aide');
     });
