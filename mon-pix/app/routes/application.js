@@ -16,6 +16,7 @@ export default Route.extend(ApplicationRouteMixin, {
   moment: service(),
   headData: service(),
   featureToggles: service(),
+  currentDomain: service(),
 
   activate() {
     this.splash.hide();
@@ -72,14 +73,23 @@ export default Route.extend(ApplicationRouteMixin, {
 
   async _handleLanguage(locale = null) {
 
+    const isUserConnected = this.session.isAuthenticated;
+    const domain = this.currentDomain.getExtension();
     const defaultLocale = 'fr';
 
-    if (locale && this.currentUser.user) {
-      this.currentUser.user.lang = locale;
-      await this.currentUser.user.save({ adapterOptions: { lang: locale } });
-      await this._setLocale(this.currentUser.user.lang, defaultLocale);
-    } else if (this.currentUser.user) {
-      await this._setLocale(this.currentUser.user.lang, defaultLocale);
+    if (domain === 'fr') {
+      await this._setLocale(defaultLocale, defaultLocale);
+      return;
+    }
+
+    if (isUserConnected) {
+      if (locale) {
+        this.currentUser.user.lang = locale;
+        await this.currentUser.user.save({ adapterOptions: { lang: locale } });
+        await this._setLocale(locale, defaultLocale);
+      } else {
+        await this._setLocale(this.currentUser.user.lang, defaultLocale);
+      }
     } else {
       await this._setLocale(locale, defaultLocale);
     }
