@@ -115,7 +115,7 @@ module.exports = injectDependencies({
   authenticateAnonymousUser: require('./authenticate-anonymous-user'),
   authenticatePoleEmploiUser: require('./authenticate-pole-emploi-user'),
   authenticateUser: require('./authenticate-user'),
-  authenticateApplication: require('./authenticate-application'),
+  authenticateApplicationLivretScolaire: require('./authenticate-application-livret-scolaire'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
   completeAssessment: require('./complete-assessment'),
   computeCampaignAnalysis: require('./compute-campaign-analysis'),

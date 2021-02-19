@@ -8,7 +8,6 @@ const { find } = require('lodash');
 const { graviteeRegisterApplicationsCredentials, livretScolaireAuthentication } = require('../../config');
 
 function _checkClientId(application, clientId) {
-
   if (!application || application.clientId !== clientId) {
     throw new ApplicationWithInvalidClientIdError('The client ID is invalid.');
   }
@@ -26,7 +25,7 @@ function _checkAppScope(application, scope) {
   }
 }
 
-module.exports = async function authenticateApplication({
+module.exports = async function authenticateApplicationLivretScolaire({
   clientId,
   clientSecret,
   scope,

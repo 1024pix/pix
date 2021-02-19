@@ -77,10 +77,10 @@ module.exports = {
     return h.response(response).code(200);
   },
 
-  async authenticateApplication(request, h) {
+  async authenticateApplicationLivretScolaire(request, h) {
     const { client_id: clientId, client_secret: clientSecret, scope } = request.payload;
 
-    const accessToken = await usecases.authenticateApplication({ clientId, clientSecret, scope });
+    const accessToken = await usecases.authenticateApplicationLivretScolaire({ clientId, clientSecret, scope });
 
     return h.response({
       token_type: 'bearer',
