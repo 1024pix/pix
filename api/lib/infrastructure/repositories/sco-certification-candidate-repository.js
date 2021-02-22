@@ -22,6 +22,19 @@ module.exports = {
 
     await knex.batchInsert('certification-candidates', candidatesToBeEnrolledDTOs);
   },
+
+  async findIdsByOrganizationIdAndDivision({ organizationId, division }) {
+    const rows = await knex
+      .select(['certification-candidates.id'])
+      .from('certification-candidates')
+      .join('schooling-registrations', 'schooling-registrations.id', 'certification-candidates.schoolingRegistrationId')
+      .where('schooling-registrations.organizationId', '=', organizationId)
+      .whereRaw('LOWER("schooling-registrations"."division") LIKE ?', `${division.toLowerCase()}`)
+      .orderBy('certification-candidates.lastName', 'ASC')
+      .orderBy('certification-candidates.firstName', 'ASC');
+
+    return rows.map((row) => row.id);
+  },
 };
 
 function _scoCandidateToDTOForSession(sessionId) {
