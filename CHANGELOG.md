@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.23.0 (22/02/2021)
+
+- [#2568](https://github.com/1024pix/pix/pull/2568) [FEATURE] Rattacher un utilisateur à un centre de certification dans Pix Admin (PIX-503).
+- [#2581](https://github.com/1024pix/pix/pull/2581) [FEATURE] Créer la route de récupération des résultats de certif pour orga (PIX-2191)
+- [#2577](https://github.com/1024pix/pix/pull/2577) [FEATURE] ABCDiag - Ne pas afficher la landing page pour les campagnes “ForAbsoluteNovice” (PIX-2129).
+- [#2579](https://github.com/1024pix/pix/pull/2579) [FEATURE] Désactiver la saisie automatique des champs dans le formulaire de changement d'e-mail de Pix App (PIX-2189).
+- [#2358](https://github.com/1024pix/pix/pull/2358) [FEATURE] Sécuriser l'API pour le livret scolaire (PIX-1937).
+- [#2590](https://github.com/1024pix/pix/pull/2590) [FEATURE] Trier la liste des sessions sans problème par date de finalisation ascendante dans PixAdmin (PIX-2207)
+- [#2582](https://github.com/1024pix/pix/pull/2582) [BUGFIX] Corrige la publication de sessions sans certifications
+- [#2594](https://github.com/1024pix/pix/pull/2594) [TECH] Supprimer des tests inutiles.
+- [#2588](https://github.com/1024pix/pix/pull/2588) [TECH] Améliorer l'orthographe pour prévenir les bugs.
+- [#2552](https://github.com/1024pix/pix/pull/2552) [TECH] Rafraîchir le cache en ligne de commande.
+- [#2389](https://github.com/1024pix/pix/pull/2389) [CLEANUP] Glimmerizer des composants Pix APP (PIX-2186).
+
 ## v3.22.0 (19/02/2021)
 
 - [#2586](https://github.com/1024pix/pix/pull/2586) [FEATURE] Marquer le signalement 'Problème technique' en tant que signalement impactant (PIX-2058)
