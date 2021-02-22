@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', () => {
     context('when state is COMPLETED', () => {
       it('should return 100', () => {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
-          assessementState: Assessment.states.COMPLETED,
+          assessmentState: Assessment.states.COMPLETED,
         });
 
         expect(campaignAssessmentParticipation.progression).equal(100);

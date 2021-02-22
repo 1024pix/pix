@@ -52,7 +52,7 @@ exports.register = async (server) => {
             }),
         },
         notes: [
-          '- Cette route permet d\'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRENOM**',
+          '- Cette route permet d\'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRÉNOM**',
         ],
         tags: ['api', 'invitations', 'SCO'],
       },
