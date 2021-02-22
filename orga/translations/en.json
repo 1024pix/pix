@@ -120,6 +120,20 @@
         "review": "Review"
       }
     },
+    "campaign-collective-results": {
+      "average": "Average results",
+      "table": {
+        "column": {
+          "competences": "Skills ({count})",
+          "results": "Results",
+          "tested-items": "Items tested",
+          "validated-items": "Items successfully completed"
+        },
+        "empty": "Results pending",
+        "row-title": "Skill",
+        "title": "Collective results by skill"
+      }
+    },
     "campaign-creation": {
       "actions": {
         "create": "Create a campaign"
