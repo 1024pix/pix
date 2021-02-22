@@ -458,7 +458,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(certifCourse));
     });
 
-    it('returns only the certification course that is linked to the candidate sessions', async () => {
+    it('returns only the certification course that is linked to the candidate\'s session', async () => {
       const aSessionId = databaseBuilder.factory.buildSession().id;
       const anotherSessionId = databaseBuilder.factory.buildSession().id;
       const userId = databaseBuilder.factory.buildUser().id;
