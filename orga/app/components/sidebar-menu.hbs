@@ -7,11 +7,11 @@
   </LinkTo>
   {{#if this.featureToggles.isCertificationResultsInOrgaEnabled}}
     {{#if this.currentUser.isSCOManagingStudents}}
-      <LinkTo @route="authenticated.certification" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
+      <LinkTo @route="authenticated.certifications" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
         <span class="sidebar--padding-right sidebar--item-icon">
             <FaIcon @icon="award" />
         </span>
-        {{t 'navigation.main.certification' }}
+        {{t 'navigation.main.certifications' }}
       </LinkTo>
     {{/if}}
   {{/if}}

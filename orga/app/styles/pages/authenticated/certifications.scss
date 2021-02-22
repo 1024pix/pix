@@ -1,8 +1,8 @@
-.certification-layout {
+.certifications-layout {
   display: flex;
 }
 
-.certification-page {
+.certifications-page {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -28,7 +28,7 @@
   }
 }
 
-.certification-page-header {
+.certifications-page-header {
 
   &__add-member-button {
     margin-top: 20px;
