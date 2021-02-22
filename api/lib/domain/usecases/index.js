@@ -207,6 +207,7 @@ module.exports = injectDependencies({
   getPrescriber: require('./get-prescriber'),
   getPrivateCertificate: require('./certificate/get-private-certificate'),
   getProgression: require('./get-progression'),
+  getScoCertificationResultsByDivision: require('./get-sco-certification-results-by-division'),
   getSchoolingRegistrationsCsvTemplate: require('./get-schooling-registrations-csv-template'),
   getScorecard: require('./get-scorecard'),
   getSession: require('./get-session'),

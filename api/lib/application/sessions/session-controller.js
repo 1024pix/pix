@@ -129,7 +129,7 @@ module.exports = {
   async getSessionResults(request, h) {
     const sessionId = request.params.id;
     const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
-    const csvResult = await certificationResultUtils.getCertificationResultsCsv({ session, certificationResults });
+    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
@@ -147,7 +147,7 @@ module.exports = {
     const token = request.params.token;
     const { sessionId } = tokenService.extractSessionId(token);
     const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
-    const csvResult = await certificationResultUtils.getCertificationResultsCsv({ session, certificationResults });
+    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
@@ -158,7 +158,7 @@ module.exports = {
     const token = request.params.token;
     const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);
     const { session, certificationResults, fileName } = await usecases.getSessionResultsByResultRecipientEmail({ sessionId, resultRecipientEmail });
-    const csvResult = await certificationResultUtils.getCertificationResultsCsv({ session, certificationResults });
+    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
