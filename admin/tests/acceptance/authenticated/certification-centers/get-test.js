@@ -1,7 +1,14 @@
 import moment from 'moment';
 
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import {
+  click,
+  currentURL,
+  fillIn,
+  findAll,
+  triggerEvent,
+  visit,
+} from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
@@ -76,4 +83,77 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.contains(certificationCenterMembership1.user.email);
     assert.contains(expectedDate1);
   });
+
+  module('To add certification center membership', function() {
+
+    test('should display elements to add certification center membership', async function(assert) {
+      // when
+      await visit(`/certification-centers/${certificationCenter.id}`);
+
+      // then
+      assert.contains('Ajouter un membre');
+      assert.dom('[placeholder="Adresse e-mail"]').exists();
+      assert.dom('button').hasText('Valider');
+      assert.dom('.error').notExists;
+    });
+
+    test('should disable button if email is empty or contains only spaces', async function(assert) {
+      // given
+      const spacesEmail = ' ';
+      await visit(`/certification-centers/${certificationCenter.id}`);
+
+      // when
+      await fillIn('#userEmailToAdd', spacesEmail);
+      await triggerEvent('#userEmailToAdd', 'focusout');
+
+      // then
+      assert.dom('button[data-test-add-membership]')
+        .hasAttribute('disabled');
+    });
+
+    test('should display error message and disable button if email is invalid', async function(assert) {
+      // given
+      await visit(`/certification-centers/${certificationCenter.id}`);
+
+      // when
+      await fillIn('#userEmailToAdd', 'an invalid email');
+      await triggerEvent('#userEmailToAdd', 'focusout');
+
+      // then
+      assert.contains('L\'adresse e-mail saisie n\'est pas valide.');
+      assert.dom('button[data-test-add-membership]')
+        .hasAttribute('disabled');
+    });
+
+    test('should enable button and not display error message if email is valid', async function(assert) {
+      // given
+      await visit(`/certification-centers/${certificationCenter.id}`);
+
+      // when
+      await fillIn('#userEmailToAdd', 'test@example.net');
+      await triggerEvent('#userEmailToAdd', 'focusout');
+
+      // then
+      assert.dom('button[data-test-add-membership]')
+        .hasNoAttribute('disabled');
+      assert.dom('.error').notExists;
+    });
+
+    test('should display new certification-center-membership', async function(assert) {
+      // given
+      const email = 'test@example.net';
+      await visit(`/certification-centers/${certificationCenter.id}`);
+      await fillIn('#userEmailToAdd', email);
+      await triggerEvent('#userEmailToAdd', 'focusout');
+
+      // when
+      await click('button[data-test-add-membership]');
+
+      // then
+      const foundElement = findAll('td[data-test-user-email]')
+        .find((element) => element.innerText.includes(email));
+      assert.ok(foundElement);
+    });
+  });
+
 });
