@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const hashInt = require('hash-int');
-const UNEXISTING_ITEM = null;
+const NON_EXISTING_ITEM = null;
 const VALIDATED_STATUSES = ['validé', 'validé sans test', 'pré-validé'];
 
 module.exports = {
   pickChallenge({ skills, randomSeed, locale }) {
     if (skills.length === 0) {
-      return UNEXISTING_ITEM;
+      return NON_EXISTING_ITEM;
     }
     const keyForSkill = Math.abs(hashInt(randomSeed));
     const keyForChallenge = Math.abs(hashInt(randomSeed + 1));

@@ -87,7 +87,7 @@ module.exports = {
     return userDetailsForAdminSerializer.serialize(updatedUser);
   },
 
-  async accepPixLastTermsOfService(request) {
+  async acceptPixLastTermsOfService(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
     const updatedUser = await usecases.acceptPixLastTermsOfService({

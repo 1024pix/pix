@@ -1,11 +1,11 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const StudentForEnrollement = require('../../../../lib/domain/read-models/StudentForEnrollement');
+const StudentForEnrollment = require('../../../../lib/domain/read-models/StudentForEnrollment');
 
-const findStudentsForEnrollement = require('../../../../lib/domain/usecases/find-students-for-enrollement');
+const findStudentsForEnrollment = require('../../../../lib/domain/usecases/find-students-for-enrollment');
 
-describe('Unit | UseCase | find-students-for-enrollement', () => {
+describe('Unit | UseCase | find-students-for-enrollment', () => {
 
   const certificationCenterId = 1;
   const userId = 'userId';
@@ -38,7 +38,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
         organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenterId).rejects(new NotFoundError());
 
         // when
-        const studentsFounds = await findStudentsForEnrollement({
+        const studentsFounds = await findStudentsForEnrollment({
           userId,
           certificationCenterId,
           page: { size: 10, number: 1 },
@@ -70,7 +70,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
       certificationCandidateRepository.findBySessionId.withArgs(sessionId).resolves(certificationCandidates);
 
       // when
-      const studentsFounds = await findStudentsForEnrollement({
+      const studentsFounds = await findStudentsForEnrollment({
         userId,
         certificationCenterId,
         sessionId,
@@ -82,8 +82,8 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
       });
 
       // then
-      const expectedEnrolledStudent = new StudentForEnrollement({ ...enrolledStudent, isEnrolled: true });
-      const exepectedEnrollableStudents = enrollableStudents.map((student) => new StudentForEnrollement({ ...student, isEnrolled: false }));
+      const expectedEnrolledStudent = new StudentForEnrollment({ ...enrolledStudent, isEnrolled: true });
+      const exepectedEnrollableStudents = enrollableStudents.map((student) => new StudentForEnrollment({ ...student, isEnrolled: false }));
       const expectedStudents = [ expectedEnrolledStudent, ...exepectedEnrollableStudents ];
       expect(studentsFounds).to.be.deep.equal({
         data: expectedStudents,
@@ -102,7 +102,7 @@ describe('Unit | UseCase | find-students-for-enrollement', () => {
           });
 
         // when
-        const studentsFounds = await findStudentsForEnrollement({
+        const studentsFounds = await findStudentsForEnrollment({
           userId,
           certificationCenterId,
           page: { number: 1, size: 10 },

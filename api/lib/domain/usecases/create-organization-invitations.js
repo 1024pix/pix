@@ -5,8 +5,8 @@ const organizationInvitationService = require('../../domain/services/organizatio
 module.exports = async function createOrganizationInvitations({
   organizationRepository, organizationInvitationRepository, organizationId, emails, locale,
 }) {
-  const trimedEmails = emails.map((email) => email.trim());
-  const uniqueEmails = [...new Set(trimedEmails)];
+  const trimmedEmails = emails.map((email) => email.trim());
+  const uniqueEmails = [...new Set(trimmedEmails)];
 
   return bluebird.mapSeries(uniqueEmails, (email) => {
     return organizationInvitationService.createOrganizationInvitation({

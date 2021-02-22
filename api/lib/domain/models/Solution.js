@@ -7,7 +7,7 @@ class Solution {
 
   /**
    *
-   * @param id: id de la ligne Epreuve du référentiel dont est extraite l'information de la Solution
+   * @param id: id de la ligne Épreuve du référentiel dont est extraite l'information de la Solution
    * @param isT1Enabled: T1 - Espaces, casse & accents
    * @param isT2Enabled: T2 - Ponctuation
    * @param isT3Enabled: T3 - Distance d'édition

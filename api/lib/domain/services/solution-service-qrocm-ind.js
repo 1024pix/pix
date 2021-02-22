@@ -19,7 +19,7 @@ function _applyTreatmentsToAnswers(answers, enabledTreatments) {
   });
 }
 
-function _areApproximatevelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants) {
+function _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants) {
   let smallestLevenshteinDistance = answer.length;
   solutionVariants.forEach((variant) => {
     const levenshteinDistance = levenshtein.get(answer, variant);
@@ -34,7 +34,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
   _.map(answers, (answer, answerKey) => {
     const solutionVariants = solutions[answerKey];
     if (enabledTreatments.includes('t3')) {
-      results[answerKey] = _areApproximatevelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
+      results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
     } else {
       results[answerKey] = solutionVariants.includes(answer);
     }
