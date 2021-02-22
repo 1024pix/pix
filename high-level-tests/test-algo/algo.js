@@ -5,6 +5,7 @@ const smartRandom = require('../../api/lib/domain/services/smart-random/smart-ra
 const dataFetcher = require('../../api/lib/domain/services/smart-random/data-fetcher');
 const challengeRepository = require('../../api/lib/infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../api/lib/infrastructure/repositories/skill-repository');
+const targetProfileRepository = require('../../api/lib/infrastructure/repositories/target-profile-repository');
 const improvementService = require('../../api/lib/domain/services/improvement-service');
 const pickChallengeService = require('../../api/lib/domain/services/pick-challenge-service');
 const Answer = require('../../api/lib/domain/models/Answer');
@@ -35,22 +36,44 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
 
 async function _getReferentiel({
   assessment,
+  targetProfileId,
   answerRepository,
   challengeRepository,
   knowledgeElementRepository,
   skillRepository,
   improvementService,
+  targetProfileRepository,
 }) {
-  const { targetSkills, challenges } = await dataFetcher.fetchForCompetenceEvaluations({
-    assessment,
-    answerRepository,
-    challengeRepository,
-    knowledgeElementRepository,
-    skillRepository,
-    improvementService,
-  });
+  if (targetProfileId) {
 
-  return { targetSkills, challenges };
+    const targetProfile = await targetProfileRepository.get(targetProfileId);
+    const targetProfileRepositoryStub = {
+      getByCampaignParticipationId: () => {
+        return targetProfile;
+      },
+    };
+
+    const { targetSkills, challenges } = await dataFetcher.fetchForCampaigns({
+      assessment,
+      answerRepository,
+      targetProfileRepository: targetProfileRepositoryStub,
+      challengeRepository,
+      knowledgeElementRepository,
+      improvementService,
+    });
+
+    return { targetSkills, challenges };
+  } else {
+    const { targetSkills, challenges } = await dataFetcher.fetchForCompetenceEvaluations({
+      assessment,
+      answerRepository,
+      challengeRepository,
+      knowledgeElementRepository,
+      skillRepository,
+      improvementService,
+    });
+    return { targetSkills, challenges };
+  }
 }
 
 async function _getChallenge({
@@ -86,10 +109,11 @@ async function _getChallenge({
 
 async function launchTest(argv) {
 
-  const competenceId = argv.competenceId;
-  const locale = argv.locale;
+  const { competenceId, targetProfileId, locale } = argv;
+
   let allAnswers = [];
   let knowledgeElements = [];
+
   const assessment = {
     id: null,
     competenceId,
@@ -107,11 +131,13 @@ async function launchTest(argv) {
 
   const { challenges, targetSkills } = await _getReferentiel({
     assessment,
+    targetProfileId,
     answerRepository,
     challengeRepository,
     knowledgeElementRepository,
     skillRepository,
     improvementService,
+    targetProfileRepository,
   });
 
   while (!isAssessmentOver) {
@@ -146,4 +172,5 @@ async function launchTest(argv) {
 module.exports = {
   answerTheChallenge,
   launchTest,
+  _getReferentiel,
 };
