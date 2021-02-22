@@ -94,9 +94,16 @@ module('Integration | Component | sidebar-menu', function(hooks) {
   test('it should display Certification menu in the sidebar-menu', async function(assert) {
     // given
     class CurrentUserStub extends Service {
-      organization = {};
+      organization = Object.create({ id: 1, type: 'SCO' });
+      isSCOManagingStudents = true;
     }
+
+    class FeatureToggleStub extends Service {
+      isCertificationResultsInOrgaEnabled = true;
+    }
+
     this.owner.register('service:current-user', CurrentUserStub);
+    this.owner.register('service:feature-toggles', FeatureToggleStub);
     const intl = this.owner.lookup('service:intl');
     intl.setLocale(['fr', 'fr']);
 
