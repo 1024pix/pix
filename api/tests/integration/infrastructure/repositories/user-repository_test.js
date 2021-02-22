@@ -112,6 +112,19 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         // then
         expect(user.email).to.equal(userInDb.email);
       });
+
+      it('should return a domain user when email match (case insensitive)', async () => {
+        // given
+        const mixCaseEmail = 'USER@example.net';
+        databaseBuilder.factory.buildUser({ email: mixCaseEmail });
+        await databaseBuilder.commit();
+
+        // when
+        const foundUser = await userRepository.getByEmail(mixCaseEmail.toLowerCase());
+
+        // then
+        expect(foundUser).to.exist;
+      });
     });
 
     describe('#getBySamlId', () => {
@@ -1344,6 +1357,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   });
 
   describe('#updateHasSeenNewDashboardInfoToTrue', () => {
+
     let userId;
 
     beforeEach(() => {
@@ -1358,7 +1372,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // then
       expect(actualUser.hasSeenNewDashboardInfo).to.be.true;
     });
-
   });
 
 });

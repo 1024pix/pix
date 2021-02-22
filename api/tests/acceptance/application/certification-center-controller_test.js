@@ -506,7 +506,120 @@ describe('Acceptance | API | Certification Center', () => {
         expect(response.result.included).to.deep.equal(expectedIncluded);
       });
     });
+  });
 
+  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', () => {
+
+    let certificationCenterId;
+    let email;
+
+    beforeEach(async () => {
+      email = 'user@example.net';
+
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildUser({ email });
+
+      request = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(),
+        },
+        method: 'POST',
+        url: `/api/certification-centers/${certificationCenterId}/certification-center-memberships`,
+        payload: { email },
+      };
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('certification-center-memberships').delete();
+    });
+
+    it('should return 201 HTTP status', async () => {
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    context('when user is not PixMaster', () => {
+
+      it('should return 403 HTTP status code ', async () => {
+        // given
+        request.headers.authorization = generateValidRequestAuthorizationHeader(1111);
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when user is not authenticated', () => {
+
+      it('should return 401 HTTP status code', async () => {
+        // given
+        request.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+
+    context('when certification center does not exist', () => {
+
+      it('should return 404 HTTP status code', async () => {
+        // given
+        request.url = '/api/certification-centers/1/certification-center-memberships';
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when user\'s email does not exist', () => {
+
+      it('should return 404 HTTP status code', async () => {
+        // given
+        request.payload.email = 'notexist@example.net';
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
+    context('when user is already member of the certification center', () => {
+
+      it('should return 412 HTTP status code', async () => {
+        // given
+        email = 'alreadyExist@example.net';
+        const userId = databaseBuilder.factory.buildUser({ email }).id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          certificationCenterId,
+          userId,
+        });
+        request.payload.email = email;
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(request);
+
+        // then
+        expect(response.statusCode).to.equal(412);
+      });
+    });
   });
 
   function _buildSchoolingRegistrations(organization, ...students) {

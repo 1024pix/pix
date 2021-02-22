@@ -42,10 +42,18 @@ module('Integration | Component | certification-center-memberships-section', fun
 
   test('it should display a list of certification center memberships', async function(assert) {
     // given
-    const user1 = EmberObject.create({ firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
-    const user2 = EmberObject.create({ firstName: 'Froufrou', lastName: 'Le froussard', email: 'froufrou@lefroussard.fr' });
+    const user1 = EmberObject.create({
+      firstName: 'Jojo',
+      lastName: 'La Gringue',
+      email: 'jojo@example.net',
+    });
+    const user2 = EmberObject.create({
+      firstName: 'Froufrou',
+      lastName: 'Le froussard',
+      email: 'froufrou@example.net',
+    });
     const certificationCenterMembership1 = EmberObject.create({ id: 1, user: user1 });
-    const certificationCenterMembership2 = EmberObject.create({ id: 1, user: user2 });
+    const certificationCenterMembership2 = EmberObject.create({ id: 2, user: user2 });
     const certificationCenterMemberships = [certificationCenterMembership1, certificationCenterMembership2];
     this.set('certificationCenterMemberships', certificationCenterMemberships);
 

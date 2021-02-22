@@ -72,4 +72,15 @@ module.exports = {
 
     return certificationCenterMembershipSerializer.serialize(certificationCenterMemberships);
   },
+
+  async createCertificationCenterMembershipByEmail(request, h) {
+    const certificationCenterId = parseInt(request.params.certificationCenterId);
+    const { email } = request.payload;
+
+    const certificationCenterMembership = await usecases.createCertificationCenterMembershipByEmail({
+      certificationCenterId,
+      email,
+    });
+    return h.response(certificationCenterMembershipSerializer.serialize(certificationCenterMembership)).created();
+  },
 };

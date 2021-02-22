@@ -35,6 +35,7 @@ export default function() {
     return schema.users.find(userId);
   });
   this.get('/admin/users/:id');
+
   this.get('/certification-centers');
   this.get('/certification-centers/:id');
   this.get('/certification-centers/:id/certification-center-memberships', (schema, request) => {
@@ -48,6 +49,19 @@ export default function() {
     const externalId = params.data.attributes.externalId;
 
     return schema.certificationCenters.create({ name, type, externalId });
+  });
+  this.post('/certification-centers/:id/certification-center-memberships', (schema, request) => {
+    const certificationCenterId = request.params.id;
+    const params = JSON.parse(request.requestBody);
+    const { email } = params;
+    const certificationCenter = schema.certificationCenters.findBy({ id: certificationCenterId });
+    const user = schema.users.create({ email });
+
+    return schema.certificationCenterMemberships.create({
+      certificationCenter,
+      createdAt: new Date(),
+      user,
+    });
   });
 
   this.post('/memberships', createMembership);

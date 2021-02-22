@@ -148,4 +148,34 @@ describe('Unit | Controller | certifications-center-controller', () => {
     });
   });
 
+  describe('#createCertificationCenterMembershipByEmail', () => {
+
+    const certificationCenterId = 1;
+    const email = 'user@example.net';
+
+    const request = {
+      params: { certificationCenterId },
+      payload: { email },
+    };
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'createCertificationCenterMembershipByEmail');
+      sinon.stub(certificationCenterMembershipSerializer, 'serialize');
+
+      usecases.createCertificationCenterMembershipByEmail.resolves();
+      certificationCenterMembershipSerializer.serialize.returns('ok');
+    });
+
+    it('should call usecase and serializer and return 201 HTTP code', async () => {
+      // when
+      const response = await certificationCenterController.createCertificationCenterMembershipByEmail(request, hFake);
+
+      // then
+      expect(usecases.createCertificationCenterMembershipByEmail)
+        .calledWith({ certificationCenterId, email });
+      expect(response.source).to.equal('ok');
+      expect(response.statusCode).to.equal(201);
+    });
+  });
+
 });
