@@ -5,10 +5,10 @@ const lcms = require('../../../lib/infrastructure/lcms');
 describe('Unit | Infrastructure | LCMS', () => {
   describe('#getCurrentContent', () => {
 
-    it('calls LCMS API to get learning content release', async () => {
+    it('calls LCMS API to get learning content latest release', async () => {
       // given
       const lcmsCall = nock('https://lcms-test.pix.fr/api')
-        .get('/current-content')
+        .get('/releases/latest')
         .matchHeader('Authorization', 'Bearer test-api-key')
         .reply(200);
 
@@ -23,9 +23,9 @@ describe('Unit | Infrastructure | LCMS', () => {
       // given
       const learningContent = { models: [{ id: 'recId' }] };
       nock('https://lcms-test.pix.fr/api')
-        .get('/current-content')
+        .get('/releases/latest')
         .matchHeader('Authorization', 'Bearer test-api-key')
-        .reply(200, learningContent);
+        .reply(200, { content: learningContent });
 
       // when
       const response = await lcms.getCurrentContent();
@@ -37,7 +37,7 @@ describe('Unit | Infrastructure | LCMS', () => {
     it('rejects when learning content release failed to get', async () => {
       // given
       nock('https://lcms-test.pix.fr/api')
-        .get('/current-content')
+        .get('/releases/latest')
         .matchHeader('Authorization', 'Bearer test-api-key')
         .reply(500);
 

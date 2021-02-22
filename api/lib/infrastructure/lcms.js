@@ -3,10 +3,10 @@ const { lcms } = require('../config');
 
 module.exports = {
   async getCurrentContent() {
-    const response = await axios.get('/current-content', {
+    const response = await axios.get('/releases/latest', {
       baseURL: lcms.url,
       headers: { Authorization: `Bearer ${lcms.apiKey}` },
     });
-    return response.data;
+    return response.data.content;
   },
 };
