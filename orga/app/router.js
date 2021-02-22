@@ -53,7 +53,7 @@ Router.map(function() {
         this.route('profiles', { path: '/profils' });
       });
     });
-    this.route('certification');
+    this.route('certifications');
   });
 
   this.route('logout');

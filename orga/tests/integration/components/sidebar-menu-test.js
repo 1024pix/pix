@@ -91,7 +91,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     assert.dom('.sidebar-menu__documentation-item').doesNotExist();
   });
 
-  test('it should display Certification menu in the sidebar-menu', async function(assert) {
+  test('it should display Certifications menu in the sidebar-menu', async function(assert) {
     // given
     class CurrentUserStub extends Service {
       organization = Object.create({ id: 1, type: 'SCO' });
@@ -111,6 +111,6 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     await render(hbs`<SidebarMenu />`);
 
     // then
-    assert.contains('Certification');
+    assert.contains('Certifications');
   });
 });

@@ -307,18 +307,18 @@ module('Acceptance | authentication', function(hooks) {
 
         module('When featureToggle isCertificationResultsInOrgaEnabled is enabled', function() {
 
-          test('should redirect to certification page', async function(assert) {
+          test('should redirect to certifications page', async function(assert) {
             // given
             server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: true });
 
             await visit('/');
 
             // when
-            await clickByLabel('Certification');
+            await clickByLabel('Certifications');
 
             // then
             assert.dom('.sidebar-menu').containsText('Campagnes');
-            assert.dom('.sidebar-menu').containsText('Certification');
+            assert.dom('.sidebar-menu').containsText('Certifications');
             assert.dom('.sidebar-menu').containsText('Équipe');
             assert.dom('.sidebar-menu').containsText('Élèves');
             assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
