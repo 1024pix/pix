@@ -391,7 +391,8 @@
                 "qrocm": "Pour valider, veuillez remplir tous les champs réponse. Sinon, passez."
             },
             "timed" : {
-                "cannot-answer": "Le temps imparti est écoulé."
+                "cannot-answer": "Le temps imparti est écoulé.",
+                "page-refresh-warning": "Vous n'avez pas finalisé l'épreuve et êtes sur le point de rafraichir la page. Souhaitez-vous continuer?"
             }
         },
         "checkpoint": {

@@ -1,5 +1,6 @@
 import { action } from '@ember/object';
 import { cancel, later } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
@@ -7,6 +8,7 @@ import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeItemGeneric extends Component {
 
+  @service intl;
   @tracked isValidateButtonEnabled = true;
   @tracked isSkipButtonEnabled = true;
   @tracked hasUserConfirmedWarning = false;
@@ -139,6 +141,7 @@ export default class ChallengeItemGeneric extends Component {
   _addQuitTimedChallengeListeners() {
     this._pageBeforeUnloadListener = (event) => {
       event.preventDefault();
+      event.returnValue = this.intl.t('pages.challenge.timed.page-refresh-warning');
     };
     this._pageUnloadListener = async (event) => {
       event.preventDefault();

@@ -391,7 +391,8 @@
                 "qroc-number": "Please enter a number, or skip the question."
             },
             "timed": {
-                "cannot-answer": "You've run out of time."
+                "cannot-answer": "You've run out of time.",
+                "page-refresh-warning": ""
             }
         },
         "checkpoint": {
