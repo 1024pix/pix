@@ -1,20 +1,12 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import Component from '@glimmer/component';
 
-@classic
 export default class ProgressionGauge extends Component {
-  @computed('total')
   get totalGaugeStyle() {
-    return htmlSafe(`width: ${this.total}%`);
+    return htmlSafe(`width: ${this.args.total}%`);
   }
 
-  @computed('value')
   get valueGaugeStyle() {
-    return htmlSafe(`width: ${this.value}%`);
+    return htmlSafe(`width: ${this.args.value}%`);
   }
 }

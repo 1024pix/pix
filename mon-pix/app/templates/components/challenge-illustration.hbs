@@ -1,11 +1,13 @@
-{{!-- template-lint-disable no-action --}}
-{{#if this.displayPlaceholder}}
-  <div class="challenge-illustration__placeholder" aria-label="{{t 'pages.challenge.illustration.placeholder'}}">
-    <FaIcon @icon='image'></FaIcon>
-  </div>
-{{/if}}
+<div class="challenge-illustration">
+  {{#if this.displayPlaceholder}}
+    <div class="challenge-illustration__placeholder" aria-label="{{t 'pages.challenge.illustration.placeholder'}}">
+      <FaIcon @icon='image'></FaIcon>
+    </div>
+  {{/if}}
 
-<img src="{{this.src}}"
-     alt="{{this.alt}}"
-     class="challenge-illustration__loaded-image {{this.hiddenClass}}"
-     onload={{action 'onImageLoaded'}}>
+  <img src="{{@src}}"
+       alt="{{@alt}}"
+       class="challenge-illustration__loaded-image {{this.hiddenClass}}"
+       {{on "load" this.onImageLoaded}}>
+
+</div>

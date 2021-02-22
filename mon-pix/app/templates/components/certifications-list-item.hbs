@@ -1,86 +1,87 @@
 {{!-- template-lint-disable link-href-attributes --}}
-{{#if this.isPublishedAndRejected}}
-  <CpPanel as |panel|>
-    <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
+<div class="certifications-list-item {{if this.isPublished 'certifications-list-item__published-item' 'certifications-list-item__unpublished-item'}}
+  {{if this.isClickable 'certifications-list-item__clickable' 'certifications-list-item__not-clickable'}}">
 
+  {{#if this.isPublishedAndRejected}}
+    <CpPanel as |panel|>
+      <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
+
+        <div class="certifications-list-item__cell">
+          {{format-date @certification.date format='L'}}
+        </div>
+
+        <div class="certifications-list-item__cell-double-width">
+          <img src="/images/icons/icon-croix.svg" alt="" role="presentation" class="certifications-list-item__cross-img">
+          {{t "pages.certifications-list.statuses.fail.title"}}
+        </div>
+        <div class="certifications-list-item__cell-pix-score"></div>
+
+        <div class="certifications-list-item__cell-certification-center">
+          {{@certification.certificationCenter}}
+        </div>
+
+        <div class="certifications-list-item__cell-detail">
+          {{#if this.shouldDisplayComment}}
+            <button type="button">{{t "pages.certifications-list.statuses.fail.action"}}</button>
+          {{/if}}
+        </div>
+      </panel.toggle>
+
+      {{#if this.shouldDisplayComment}}
+        <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
+          <div class="certifications-list-item__row-comment-cell">
+            {{@certification.commentForCandidate}}
+          </div>
+        </panel.body>
+      {{/if}}
+
+    </CpPanel>
+  {{/if}}
+
+  {{#if this.isPublishedAndValidated}}
+    <LinkTo @route="user-certifications.get" @model={{@certification.id}} class="certifications-list-item__row-presentation">
       <div class="certifications-list-item__cell">
-        {{format-date this.certification.date format='L'}}
+        {{format-date @certification.date format='L'}}
       </div>
 
       <div class="certifications-list-item__cell-double-width">
-        <img src="/images/icons/icon-croix.svg" alt="" role="none" class="certifications-list-item__cross-img">
-        {{t "pages.certifications-list.statuses.fail.title"}}
+        <img src="/images/icons/icon-check-vert.svg" alt="" role="presentation" class="certifications-list-item__green-check-img">
+        {{t "pages.certifications-list.statuses.success.title"}}
+      </div>
+      <div class="certifications-list-item__cell-pix-score">
+        <div class="certifications-list-item__pix-score">
+          <span>{{ @certification.pixScore }}</span>
+        </div>
+      </div>
+
+      <div class="certifications-list-item__cell-certification-center">
+        {{@certification.certificationCenter}}
+      </div>
+
+      <div class="certifications-list-item__cell-detail">
+        <a>{{t "pages.certifications-list.statuses.success.action"}}</a>
+      </div>
+    </LinkTo>
+  {{/if}}
+
+  {{#if this.isNotPublished}}
+    <div class="certifications-list-item__row-presentation">
+      <div class="certifications-list-item__cell">
+        {{format-date @certification.date format='L'}}
+      </div>
+
+      <div class="certifications-list-item__cell-double-width">
+        <img src="/images/sablier.svg" alt="" role="presentation" class="certifications-list-item__hourglass-img">
+        {{t "pages.certifications-list.statuses.not-published.title"}}
       </div>
       <div class="certifications-list-item__cell-pix-score"></div>
 
       <div class="certifications-list-item__cell-certification-center">
-        {{this.certification.certificationCenter}}
+        {{@certification.certificationCenter}}
       </div>
 
       <div class="certifications-list-item__cell-detail">
-        {{#if this.shouldDisplayComment}}
-          <button type="button">{{t "pages.certifications-list.statuses.fail.action"}}</button>
-        {{/if}}
-      </div>
-    </panel.toggle>
-
-    {{#if this.shouldDisplayComment}}
-      <panel.body @class="certifications-list-item__row-comment" @role="tabpanel">
-        <div class="certifications-list-item__row-comment-cell">
-          {{this.certification.commentForCandidate}}
-        </div>
-      </panel.body>
-    {{/if}}
-
-  </CpPanel>
-{{/if}}
-
-{{#if this.isPublishedAndValidated}}
-  <LinkTo @route="user-certifications.get" @model={{this.certification.id}} class="certifications-list-item__row-presentation">
-    <div class="certifications-list-item__cell">
-      {{format-date this.certification.date format='L'}}
-    </div>
-
-    <div class="certifications-list-item__cell-double-width">
-      <img src="/images/icons/icon-check-vert.svg" alt="" role="none" class="certifications-list-item__green-check-img">
-      {{t "pages.certifications-list.statuses.success.title"}}
-    </div>
-    <div class="certifications-list-item__cell-pix-score">
-      <div class="certifications-list-item__pix-score">
-        <span>{{ this.certification.pixScore }}</span>
       </div>
     </div>
-
-    <div class="certifications-list-item__cell-certification-center">
-      {{this.certification.certificationCenter}}
-    </div>
-
-    <div class="certifications-list-item__cell-detail">
-      <a>{{t "pages.certifications-list.statuses.success.action"}}</a>
-    </div>
-  </LinkTo>
-{{/if}}
-
-{{#if this.isNotPublished}}
-  <div class="certifications-list-item__row-presentation">
-    <div class="certifications-list-item__cell">
-      {{format-date this.certification.date format='L'}}
-    </div>
-
-    <div class="certifications-list-item__cell-double-width">
-      <img src="/images/sablier.svg" alt="" role="none" class="certifications-list-item__hourglass-img">
-      {{t "pages.certifications-list.statuses.not-published.title"}}
-    </div>
-    <div class="certifications-list-item__cell-pix-score"></div>
-
-    <div class="certifications-list-item__cell-certification-center">
-      {{this.certification.certificationCenter}}
-    </div>
-
-    <div class="certifications-list-item__cell-detail">
-    </div>
-  </div>
-{{/if}}
-
-
-
+  {{/if}}
+</div>

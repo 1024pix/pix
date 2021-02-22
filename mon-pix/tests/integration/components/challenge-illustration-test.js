@@ -21,7 +21,7 @@ describe('Integration | Component | challenge-illustration', function() {
 
   it('renders', async function() {
     // when
-    await render(hbs`{{challenge-illustration}}`);
+    await render(hbs`<ChallengeIllustration/>`);
 
     // then
     expect(find('.challenge-illustration')).to.exist;
@@ -33,7 +33,7 @@ describe('Integration | Component | challenge-illustration', function() {
     this.set('alt', IMG_ALT);
 
     // when
-    await render(hbs`{{challenge-illustration src=src alt=alt}}`);
+    await render(hbs`<ChallengeIllustration @src={{this.src}} @alt={{this.alt}}/>`);
 
     // then
     expect(findImageElement()).to.exist;
