@@ -80,6 +80,15 @@ module.exports = {
     return membershipSerializer.serialize(memberships, pagination);
   },
 
+  async downloadCertificationResults(_request, h) {
+    const csvResult = '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n';
+    const fileName = '20190428_0242_resultats_NomDeLaClasse.csv';
+
+    return h.response(csvResult)
+      .header('Content-Type', 'text/csv;charset=utf-8')
+      .header('Content-Disposition', `attachment; filename=${fileName}`);
+  },
+
   async findTargetProfiles(request) {
     const requestedOrganizationId = parseInt(request.params.id);
 

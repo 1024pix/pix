@@ -132,6 +132,33 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}/certification-results',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkIsCertificationResultsInOrgaToggleEnabled,
+            assign: 'isCertificationResultsInOrgaEnabled',
+          },
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganizationManagingStudents,
+            assign: 'belongsToOrganizationManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.downloadCertificationResults,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les certifications liées à l\'organisation sous forme de fichier CSV.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
         handler: organizationController.findTargetProfiles,
