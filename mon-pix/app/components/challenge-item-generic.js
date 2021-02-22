@@ -30,7 +30,7 @@ export default class ChallengeItemGeneric extends Component {
 
   willDestroy() {
     super.willDestroy(...arguments);
-    this._removeEventListeners();
+    // this._removeEventListeners();
   }
 
   cancelTimer() {
@@ -126,7 +126,7 @@ export default class ChallengeItemGeneric extends Component {
       this.isSkipButtonEnabled = false;
       this._hasAnswerBeenRecorded = true;
 
-      return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._elapsedTime)
+      return await this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._elapsedTime)
         .finally(() => this.isSkipButtonEnabled = true);
     }
   }
@@ -143,14 +143,15 @@ export default class ChallengeItemGeneric extends Component {
       event.preventDefault();
       event.returnValue = this.intl.t('pages.challenge.timed.page-refresh-warning');
     };
-    this._pageUnloadListener = async (event) => {
-      event.preventDefault();
+    this._pageUnloadListener = async () => {
       if (!this._hasAnswerBeenRecorded) {
-        await this.skipChallenge();
+        setTimeout(async () => {
+          await this.skipChallenge();
+        }, 1000);
       }
     };
     window.addEventListener('beforeunload', this._pageBeforeUnloadListener);
-    window.addEventListener('unload', this._pageUnloadListener);
+    window.addEventListener('pagehide', this._pageUnloadListener);
   }
 
   _removeEventListeners() {
@@ -158,7 +159,7 @@ export default class ChallengeItemGeneric extends Component {
       window.removeEventListener('beforeunload', this._pageBeforeUnloadListener);
     }
     if (this._pageUnloadListener) {
-      window.removeEventListener('unload', this._pageUnloadListener);
+      window.removeEventListener('pagehide', this._pageUnloadListener);
     }
   }
 }
