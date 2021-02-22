@@ -1,4 +1,4 @@
-<PixModal @class="comparison-window-modal">
+<PixModal @class="comparison-window-modal" @onClickOverlay={{@closeComparisonWindow}}>
 
   <button type="button" class="pix-modal__close-link" aria-label={{t "common.actions.close"}} {{on "click" @closeComparisonWindow}}>
     <span>{{t "common.actions.close"}}</span>
