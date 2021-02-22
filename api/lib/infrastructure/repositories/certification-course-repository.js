@@ -98,6 +98,19 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, bookshelfCertificationCourses);
   },
 
+  async findCertificationCoursesByCandidateIds({ candidateIds }) {
+    const bookshelfCertificationCourses = await CertificationCourseBookshelf
+      .query((qb) => {
+        qb.join('certification-candidates', function() {
+          this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' })
+            .andOn({ 'certification-candidates.userId': 'certification-courses.userId' });
+        });
+        qb.whereIn('certification-candidates.id', candidateIds);
+      })
+      .fetchAll();
+    return bookshelfToDomainConverter.buildDomainObjects(CertificationCourseBookshelf, bookshelfCertificationCourses);
+  },
+
   async findBySessionIdAndUserIds({ sessionId, userIds }) {
     const bookshelfCertificationCourses = await CertificationCourseBookshelf
       .where({ sessionId })
