@@ -1081,9 +1081,13 @@
         "back-to-profile": "Return to profile",
         "footer": {
             "a11y": "Accessibility",
+            "eula": "Terms and conditions",
             "help-center": "Help center",
             "link-a11y": "https://pix.org/en-gb/accessibility",
-            "link-help-center": "https://pix.org/en-gb/faq-pix"
+            "link-eula": "https://pix.org/en-gb/terms-and-conditions",
+            "link-protection-policy": "https://pix.org/en-gb/personal-data-protection-policy",
+            "link-help-center": "https://pix.org/en-gb/faq-pix",
+            "protection-policy": "Personal data protection policy"
         },
         "main": {
             "code": "I have a code",

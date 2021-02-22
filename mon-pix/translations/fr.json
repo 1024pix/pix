@@ -1081,9 +1081,13 @@
         "back-to-profile": "Revenir au profil",
         "footer": {
             "a11y": "Accessibilité",
+            "eula": "CGU",
             "help-center": "Centre d'aide",
             "link-a11y": "https://pix.fr/accessibilite",
-            "link-help-center": "https://pix.fr/aide"
+            "link-eula": "https://pix.fr/conditions-generales-d-utilisation",
+            "link-protection-policy": "https://pix.fr/politique-protection-donnees-personnelles-app",
+            "link-help-center": "https://pix.fr/aide",
+            "protection-policy": "Politique de protection des données"
         },
         "main": {
             "code": "J'ai un code",
