@@ -21,5 +21,8 @@
     "mocha": "^8.2.1",
     "sinon": "^9.2.4",
     "yargs": "^16.2.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-mocha": "^8.0.0"
   }
 }
