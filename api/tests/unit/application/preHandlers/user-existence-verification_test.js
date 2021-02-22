@@ -18,11 +18,6 @@ describe('Unit | Pre-handler | User Verification', () => {
       sinon.stub(errorSerializer, 'serialize');
     });
 
-    it('should be a function', () => {
-      // then
-      expect(userVerification.verifyById).to.be.a('function');
-    });
-
     describe('When user exist', () => {
 
       it('should passthrough to handler', async () => {

@@ -83,11 +83,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should be a function', () => {
-        // then
-        expect(userRepository.getByEmail).to.be.a('function');
-      });
-
       it('should handle a rejection, when user id is not found', async () => {
         // given
         const emailThatDoesNotExist = '10093';
