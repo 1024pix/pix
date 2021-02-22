@@ -117,7 +117,7 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   @action
-  skipChallenge() {
+  async skipChallenge() {
     if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
       this.errorMessage = null;
       this.hasUserConfirmedWarning = false;
@@ -130,20 +130,20 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   @action
-  setUserConfirmation() {
+  async setUserConfirmation() {
     this._start();
     this.hasUserConfirmedWarning = true;
-    this._addQuitTimedChallengeListeners();
+    await this._addQuitTimedChallengeListeners();
   }
 
   _addQuitTimedChallengeListeners() {
     this._pageBeforeUnloadListener = (event) => {
       event.preventDefault();
     };
-    this._pageUnloadListener = (event) => {
+    this._pageUnloadListener = async (event) => {
       event.preventDefault();
       if (!this._hasAnswerBeenRecorded) {
-        this.skipChallenge();
+        await this.skipChallenge();
       }
     };
     window.addEventListener('beforeunload', this._pageBeforeUnloadListener);
