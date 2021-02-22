@@ -2,13 +2,13 @@
 
   <div class="participant-results-content__summary">
     <div class="participant-content participant-content--large participant-content--wide">
-      <div class="label-text participant-content__label-text">Acquis validés</div>
+      <div class="label-text participant-content__label-text">{{t 'pages.campaign-collective-results.table.column.validated-items'}}</div>
       <div class="content-text content-text--big">
         {{ @campaignCollectiveResult.averageValidatedSkillsSum }}
       </div>
     </div>
     <div class="participant-content participant-content--large participant-content--wide">
-      <div class="label-text participant-content__label-text">Acquis évalués</div>
+      <div class="label-text participant-content__label-text">{{t 'pages.campaign-collective-results.table.column.tested-items'}}</div>
       <div class="content-text content-text--big">
         {{ @campaignCollectiveResult.totalSkills }}
       </div>
@@ -16,8 +16,8 @@
   </div>
 
   <div class="participant-content participant-results-content">
-    <div aria-label="Moyenne des résultats" class="participant-results-content__score">
-      <div class="content-text content-text--big content-text--bold">Résultat</div>
+    <div aria-label={{t 'pages.campaign-collective-results.average'}} class="participant-results-content__score">
+      <div class="content-text content-text--big content-text--bold">{{t 'pages.campaign-collective-results.table.column.results'}}</div>
       <div class="participant-results-content__circle-chart">
         <CircleChart @value={{@campaignCollectiveResult.averageResult}}>
           <span class="participant-results-content__circle-chart-value">
@@ -32,13 +32,13 @@
 <div class="panel panel--light-shadow participant-results__details content-text content-text--small">
 
 
-  <table aria-label="Résultats collectifs par compétence">
+  <table aria-label={{t 'pages.campaign-collective-results.table.title'}}>
     <thead>
     <tr>
-      <th class="table__column--wide">Compétences ({{if @sharedParticipationsCount @campaignCollectiveResult.campaignCompetenceCollectiveResults.length '-' }})</th>
-      <th class="table__column--wide">Résultats</th>
-      <th class="table__column--small">Acquis validés</th>
-      <th class="table__column--small">Acquis évalués</th>
+      <th class="table__column--wide">{{this.campaignCollectiveResultLabel}}</th>
+      <th class="table__column--wide">{{t 'pages.campaign-collective-results.table.column.results'}}</th>
+      <th class="table__column--small">{{t 'pages.campaign-collective-results.table.column.validated-items'}}</th>
+      <th class="table__column--small">{{t 'pages.campaign-collective-results.table.column.tested-items'}}</th>
     </tr>
     </thead>
 
@@ -46,7 +46,7 @@
 
       <tbody>
       {{#each @campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
-        <tr aria-label="Compétence">
+        <tr aria-label={{t 'pages.campaign-collective-results.table.row-title'}}>
           <td class="competences-col__name">
             <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
             <span>
@@ -67,7 +67,7 @@
   </table>
 
   {{#unless @sharedParticipationsCount }}
-    <div class="table__empty content-text">En attente de résultats</div>
+    <div class="table__empty content-text">{{t 'pages.campaign-collective-results.table.empty'}}</div>
   {{/unless}}
 
 </div>

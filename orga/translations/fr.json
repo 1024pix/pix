@@ -120,6 +120,20 @@
         "review": "Analyse"
       }
     },
+    "campaign-collective-results": {
+      "average": "Moyenne des résultats",
+      "table": {
+        "column": {
+          "competences": "Compétences ({count})",
+          "results": "Résultat",
+          "tested-items": "Acquis évalués",
+          "validated-items": "Acquis validés"
+        },
+        "empty": "En attente de résultats",
+        "row-title": "Compétence",
+        "title": "Résultats collectifs par compétence"
+      }
+    },
     "campaign-creation": {
       "actions": {
         "create": "Créer la campagne"
