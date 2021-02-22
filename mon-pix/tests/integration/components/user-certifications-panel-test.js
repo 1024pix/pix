@@ -9,7 +9,7 @@ describe('Integration | Component | user certifications panel', function() {
   setupIntlRenderingTest();
 
   it('renders', async function() {
-    await render(hbs`{{user-certifications-panel}}`);
+    await render(hbs`<UserCertificationsPanel />`);
     expect(find('.user-certifications-panel')).to.exist;
   });
 
@@ -17,7 +17,7 @@ describe('Integration | Component | user certifications panel', function() {
 
     it('should render a panel which indicate there is no certifications', async function() {
       // when
-      await render(hbs`{{user-certifications-panel}}`);
+      await render(hbs`<UserCertificationsPanel />`);
 
       // then
       expect(find('.user-certifications-panel__no-certification-panel')).to.exist;
@@ -44,7 +44,7 @@ describe('Integration | Component | user certifications panel', function() {
       this.set('certifications', certifications);
 
       // when
-      await render(hbs`{{user-certifications-panel certifications=certifications}}`);
+      await render(hbs`<UserCertificationsPanel @certifications={{this.certifications}}/>`);
 
       // then
       expect(find('.user-certifications-panel__certifications-list')).to.exist;

@@ -1,16 +1,7 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import Component from '@ember/component';
-import { classNames } from '@ember-decorators/component';
+import Component from '@glimmer/component';
 import { trySet, action } from '@ember/object';
-import classic from 'ember-classic-decorator';
 
-@classic
-@classNames('challenge-illustration')
 export default class ChallengeIllustration extends Component {
-  src = null;
-  alt = null;
   hiddenClass = 'challenge-illustration__loaded-image--hidden';
   displayPlaceholder = true;
 
