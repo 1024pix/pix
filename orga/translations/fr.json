@@ -181,6 +181,23 @@
       "personalised-test-title": "Titre du parcours",
       "target-profile": "Profil cible"
     },
+    "profiles-list": {
+      "table": {
+        "column": {
+          "certifiable": "Certifiable",
+          "competences-certifiables": "Comp. certifiables",
+          "first-name": "Nom",
+          "last-name": "Prénom",
+          "pix-score": "Score Pix",
+          "sending-date": {
+            "label": "Date d'envoi",
+            "on-hold": "En attente"
+          }
+        },
+        "empty": "En attente de profils",
+        "row-title": "Profil"
+      }
+    },
     "campaigns-list": {
       "action": {
         "archived": {
