@@ -1,7 +1,8 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 const { describe, beforeEach, afterEach, it } = require('mocha');
-const { answerTheChallenge } = require('../algo');
+const { answerTheChallenge, _getReferentiel } = require('../algo');
+const DataFetcher = require('../../../api/lib/domain/services/smart-random/data-fetcher');
 const KnowledgeElement = require('../../../api/lib/domain/models/KnowledgeElement');
 
 describe('#answerTheChallenge', () => {
@@ -54,5 +55,75 @@ describe('#answerTheChallenge', () => {
     expect(result.updatedKnowledgeElements).lengthOf(previousKE.length + 1);
     expect(result.updatedKnowledgeElements[0]).to.deep.equal(previousKE[0]);
     expect(result.updatedKnowledgeElements[1]).to.deep.equal(newKe);
+  });
+});
+
+describe('#_getReferentiel', () => {
+  it('should return skills and challenges from a given targetProfile', async () => {
+    // given
+    const targetProfileId = 1;
+    const answerRepository = {};
+    const assessment = {};
+    const challengeRepository = {};
+    const knowledgeElementRepository = {};
+    const skillRepository = {};
+    const improvementService = {};
+    const targetProfileRepository = {
+      get: () => {},
+    };
+
+    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
+    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
+
+    sinon.stub(DataFetcher, 'fetchForCampaigns').returns({ targetSkills: expectedSkills, challenges: expectedChallenges });
+
+    // when
+    const result = await _getReferentiel({
+      assessment,
+      targetProfileId,
+      answerRepository,
+      challengeRepository,
+      knowledgeElementRepository,
+      skillRepository,
+      improvementService,
+      targetProfileRepository,
+    });
+
+    // then
+    expect(expectedSkills).to.be.deep.equal(result.targetSkills);
+    expect(expectedChallenges).to.be.deep.equal(result.challenges);
+  });
+
+  it('should return skills and challenges from a given assessment', async () => {
+    // given
+    const assessment = { competenceId: 1 };
+    const targetProfileId = null;
+    const answerRepository = {};
+    const challengeRepository = {};
+    const knowledgeElementRepository = {};
+    const skillRepository = {};
+    const improvementService = {};
+    const targetProfileRepository = {};
+
+    const expectedSkills = [{ id: 'recSkill1' }, { id: 'recSkill2' }, { id: 'recSkill3' }];
+    const expectedChallenges = [{ id: 'recChallenge1' }, { id: 'recChallenge2' }, { id: 'recChallenge3' }];
+
+    sinon.stub(DataFetcher, 'fetchForCompetenceEvaluations').returns({ targetSkills: expectedSkills, challenges: expectedChallenges });
+
+    // when
+    const result = await _getReferentiel({
+      assessment,
+      targetProfileId,
+      answerRepository,
+      challengeRepository,
+      knowledgeElementRepository,
+      skillRepository,
+      improvementService,
+      targetProfileRepository,
+    });
+
+    // then
+    expect(expectedSkills).to.be.deep.equal(result.targetSkills);
+    expect(expectedChallenges).to.be.deep.equal(result.challenges);
   });
 });

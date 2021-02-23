@@ -11,13 +11,19 @@ async function index() {
       type: 'string',
       description: 'L\'id de la compétence',
     })
+    .option('targetProfileId', {
+      type: 'number',
+      description: 'L\'id du target profile',
+    })
     .option('locale', {
       type: 'string',
       description: 'Locale du challenge désiré',
       choices: ['fr', 'fr-fr', 'en'],
       default: 'fr',
     })
-    .demandOption(['competenceId'])
+    .check((argv) => {
+      return Boolean(argv.competenceId || argv.targetProfileId);
+    })
     .argv;
 
   await launchTest(argv);
