@@ -64,7 +64,6 @@
     },
     "campaign-individual-results": {
       "campaign-name": "Nom de la campagne",
-      "not-shared": "Non disponible",
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
     },
