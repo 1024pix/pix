@@ -409,6 +409,24 @@ module('Acceptance | authentication', function(hooks) {
       });
     });
 
+    test('should redirect to main page when trying to access /certifications URL', async function(assert) {
+      // given
+      const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
+
+      await authenticateSession({
+        user_id: user.id,
+        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
+      });
+
+      // when
+      await visit('/certifications');
+
+      // then
+      assert.equal(currentURL(), '/campagnes');
+    });
+
   });
 
 });
