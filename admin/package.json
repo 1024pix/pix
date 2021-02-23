@@ -90,7 +90,9 @@
     "eslint-plugin-node": "^11.1.0",
     "faker": "^5.1.0",
     "file-saver": "^2.0.2",
+    "husky": "^4.3.8",
     "json2csv": "^4.5.4",
+    "lint-staged": "^10.5.4",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.20",
     "npm-run-all": "^4.1.5",
@@ -103,5 +105,14 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint",
+    "*.hbs": "ember-template-lint"
   }
 }
