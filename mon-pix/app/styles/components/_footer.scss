@@ -72,60 +72,69 @@
   }
 }
 
-.footer-social-medias-item__icon {
-  font-size: 1rem;
-  color: $grey-70;
+.footer-social-medias-item {
+
+  &__icon {
+    font-size: 1rem;
+    color: $grey-70;
+  }
 }
 
-.footer-social-medias__item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: $grey-20;
-  border-radius: 4.2px;
-  width: 30px;
-  height: 30px;
-  margin: 0 10px 0 0;
-  letter-spacing: 0.008rem;
-  font-size: 0.75rem;
-  font-family: $font-roboto;
+.footer-social-medias {
 
-  &:active,
-  &:focus,
-  &:hover {
-    text-decoration: none;
-    cursor: pointer;
-    background-color: $grey-70;
-    transition: background-color 0.2s ease;
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $grey-20;
+    border-radius: 4.2px;
+    width: 30px;
+    height: 30px;
+    margin: 0 10px 0 0;
+    letter-spacing: 0.008rem;
+    font-size: 0.75rem;
+    font-family: $font-roboto;
 
-    & > .footer-social-medias-item__icon {
-      color: $grey-5;
+    &:active,
+    &:focus,
+    &:hover {
       text-decoration: none;
+      cursor: pointer;
+      background-color: $grey-70;
+      transition: background-color 0.2s ease;
+
+      & > .footer-social-medias-item__icon {
+        color: $grey-5;
+        text-decoration: none;
+      }
     }
   }
 }
 
-.footer-navigation__item {
-  margin: 0 10px 0 0;
-  color: $grey-60;
-  font-size: 0.875rem;
-  font-family: $font-roboto;
-  letter-spacing: 0.009rem;
+.footer-navigation {
 
-  &.active {
-    text-decoration: none;
-    color: $blue;
-  }
+  &__item {
+    margin: 0 10px 0 0;
+    color: $grey-60;
+    font-size: 0.875rem;
+    font-family: $font-roboto;
+    letter-spacing: 0.009rem;
 
-  &:focus {
-    text-decoration: none;
-    color: $grey-50;
-  }
+    &.active {
+      text-decoration: none;
+      color: $blue;
+    }
 
-  &:hover {
-    text-decoration: none;
-    cursor: pointer;
-    color: $blue;
+    &:focus {
+      text-decoration: none;
+      color: $grey-50;
+    }
+
+    &:hover {
+      text-decoration: none;
+      cursor: pointer;
+      color: $blue;
+    }
   }
 }
 
