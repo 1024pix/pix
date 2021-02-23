@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.24.0 (23/02/2021)
+
+- [#2603](https://github.com/1024pix/pix/pull/2603) [FEATURE] Ne pas afficher "Envoyé le" lorsque que la campagne n'est pas partagé ( PIX-2149)
+- [#2583](https://github.com/1024pix/pix/pull/2583) [FEATURE] Suppression du feature toggle "Accueil & Mes parcours" et suppression du bandeau de reprise de campagne d'évaluation (PIX-2150).
+- [#2584](https://github.com/1024pix/pix/pull/2584) [FEATURE] Traduction de la page d'analyse d'une campagne d'évaluation dans Pix Orga (PIX-2147).
+- [#2575](https://github.com/1024pix/pix/pull/2575) [FEATURE] Ajouter les paliers sur les carte archivées et Terminées (Pix-2006)
+- [#2578](https://github.com/1024pix/pix/pull/2578) [FEATURE] Traduction de la page de résultats individuels d'une campagne d'évaluation (PIX-2148).
+- [#2595](https://github.com/1024pix/pix/pull/2595) [FEATURE] Permettre à un utilisateur connecté à app.pix.org de changer sa langue sur la page "Mon compte" (PIX-1176).
+- [#2599](https://github.com/1024pix/pix/pull/2599) [TECH] Pouvoir tester l'algo sur un profil cible (PIX-2062).
+- [#2609](https://github.com/1024pix/pix/pull/2609) [BUG] Correction d'un flaky test dans CampaignController (PIX-2223)
+
 ## v3.23.0 (22/02/2021)
 
 - [#2568](https://github.com/1024pix/pix/pull/2568) [FEATURE] Rattacher un utilisateur à un centre de certification dans Pix Admin (PIX-503).
