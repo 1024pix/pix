@@ -80,10 +80,11 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
     assert.dom(`a[href="/campagnes/${campaign.id}/evaluations/${campaignAssessmentParticipation.id}/analyse"]`).hasText('Analyse');
   });
 
-  module('shared at', function() {
-    module('when the sharing date is present', function() {
+  module('is shared', function() {
+    module('when participant has shared results', function() {
       test('it displays the sharing date', async function(assert) {
         const campaignAssessmentParticipation = {
+          isShared: true,
           sharedAt: '2020-01-02',
         };
 
@@ -94,12 +95,16 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
 
         await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
 
+        assert.contains('Envoyé le');
         assert.contains('02 janv. 2020');
       });
     });
-    module('when the sharing date is not present', function() {
-      test('it displays "non disponible"', async function(assert) {
-        const campaignAssessmentParticipation = {};
+
+    module('when participant has not shared results', function() {
+      test('it does not displays the sharing date', async function(assert) {
+        const campaignAssessmentParticipation = {
+          isShared: false,
+        };
 
         const campaign = {};
 
@@ -108,7 +113,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
 
         await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
 
-        assert.contains('Non disponible');
+        assert.notContains('Envoyé le');
       });
     });
   });
@@ -146,7 +151,7 @@ module('Integration | Component | routes/authenticated/campaign/assessment/detai
 
         await render(hbs`<Routes::Authenticated::Campaign::Assessment::Details @campaignAssessmentParticipation={{campaignAssessmentParticipation}} @campaign={{campaign}} />`);
 
-        assert.dom('li').exists({ count: 3 });
+        assert.dom('li').exists({ count: 2 });
       });
     });
   });
