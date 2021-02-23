@@ -10,7 +10,10 @@ export default class InformationBanner extends Component {
   }
 
   get displayNewYearCampaignsBanner() {
-    return this.currentUser.isSCOManagingStudents &&
-      !this.currentUser.isAgriculture;
+    return this.currentUser.isSCOManagingStudents;
+  }
+
+  get documentationLink() {
+    return this.currentUser.isAgriculture ? 'https://view.genial.ly/6034cdf633f5220dc1eb101d' : 'https://view.genial.ly/5fda0b5aebe82c0d17f177ea';
   }
 }
