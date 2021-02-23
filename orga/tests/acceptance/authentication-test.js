@@ -305,6 +305,28 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
         });
 
+        module('When feature toggle for exporting certification results is enabled', function() {
+
+          test('should redirect to certifications page', async function(assert) {
+            // given
+            server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: true });
+
+            await visit('/');
+
+            // when
+            await clickByLabel('Certifications');
+
+            // then
+            assert.dom('.sidebar-menu').containsText('Campagnes');
+            assert.dom('.sidebar-menu').containsText('Certifications');
+            assert.dom('.sidebar-menu').containsText('Équipe');
+            assert.dom('.sidebar-menu').containsText('Élèves');
+            assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
+            assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+            assert.contains('Vous pouvez exporter les résultats de certification de toutes les classes au format csv.');
+          });
+        });
+
         test('should have resources link', async function(assert) {
           // given
           await visit('/');
@@ -385,6 +407,24 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-menu a:first-child ').hasClass('active');
         });
       });
+    });
+
+    test('should redirect to main page when trying to access /certifications URL', async function(assert) {
+      // given
+      const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
+
+      await authenticateSession({
+        user_id: user.id,
+        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
+      });
+
+      // when
+      await visit('/certifications');
+
+      // then
+      assert.equal(currentURL(), '/campagnes');
     });
 
   });

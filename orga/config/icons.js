@@ -6,6 +6,7 @@ module.exports = function() {
       'arrow-left',
       'arrow-right',
       'arrow-up',
+      'award',
       'bullhorn',
       'chevron-down',
       'chevron-up',
