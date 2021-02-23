@@ -91,7 +91,7 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     assert.dom('.sidebar-menu__documentation-item').doesNotExist();
   });
 
-  test('it should display Certifications menu in the sidebar-menu', async function(assert) {
+  test('it should display Certifications menu in the sidebar-menu when FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED is true and user is SCOManagingStudents', async function(assert) {
     // given
     class CurrentUserStub extends Service {
       organization = Object.create({ id: 1, type: 'SCO' });
@@ -112,5 +112,28 @@ module('Integration | Component | sidebar-menu', function(hooks) {
 
     // then
     assert.contains('Certifications');
+  });
+
+  test('it should hide Certification menu in the sidebar-menu', async function(assert) {
+    // given
+    class CurrentUserStub extends Service {
+      organization = Object.create({ id: 1, type: 'SCO' });
+      isSCOManagingStudents = true;
+    }
+
+    class FeatureToggleStub extends Service {
+      isCertificationResultsInOrgaEnabled = false;
+    }
+
+    this.owner.register('service:current-user', CurrentUserStub);
+    this.owner.register('service:feature-toggles', FeatureToggleStub);
+    const intl = this.owner.lookup('service:intl');
+    intl.setLocale(['fr', 'fr']);
+
+    // when
+    await render(hbs`<SidebarMenu />`);
+
+    // then
+    assert.notContains('Certification');
   });
 });

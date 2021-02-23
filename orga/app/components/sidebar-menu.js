@@ -24,4 +24,8 @@ export default class SidebarMenu extends Component {
 
     return null;
   }
+
+  get shouldDisplayCertificationsEntry() {
+    return this.featureToggles.isCertificationResultsInOrgaEnabled && this.currentUser.isSCOManagingStudents;
+  }
 }
