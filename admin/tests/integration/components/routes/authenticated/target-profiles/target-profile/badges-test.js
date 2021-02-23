@@ -7,7 +7,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
 
   setupRenderingTest(hooks);
 
-  test('it should display the header and an empty list', async function(assert) {
+  test('it should display the badges title and an empty list', async function(assert) {
     // when
     await render(hbs`<TargetProfiles::Badges/>`);
 
