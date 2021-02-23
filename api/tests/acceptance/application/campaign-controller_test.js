@@ -708,8 +708,8 @@ describe('Acceptance | API | Campaign Controller', () => {
 
   describe('GET /api/campaigns/{id}/assessment-participations', () => {
 
-    const participant1 = { firstName: 'John', lastName: 'McClane', id: 12 };
-    const participant2 = { firstName: 'John', lastName: 'McClane', id: 13 };
+    const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
+    const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
 
     let campaign;
     let userId;
