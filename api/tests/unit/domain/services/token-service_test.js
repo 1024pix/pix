@@ -292,6 +292,43 @@ describe('Unit | Domain | Service | Token Service', () => {
 
   });
 
+  describe('test GitGuardian', () => {
+
+    const cert_priv = '-----BEGIN RSA PRIVATE KEY-----+MIIBOwIBAAJBAKiFxJe2P2iTKbaQHE43rmcF6GSQZ9qRHa2pRE2wy/dxobRSgJHp+ZQLtwNPg47I5o4msBLzcLXLv20rpzpE0lykCAwEAAQJBAKcywNA800Bv8czdwhegivpQFDfiRgfGPonUDJ6AMH24tGuixsBBRBSMU03DnIALnxa8gea05Ok0Mj20w44m+0fkCIQDgk8smSUeIlfjwx5nkOws3NwKEy9J9OC7quShGHA/ZOwIhAMAaIU8C9/j8fJbPQ5RWbovvx11EM99PLtnOJch6xarrAiBLbdiB14MLQTQHy0LJAXvW48cYy0y7+ei9n7yCzy6EXGQIgG1ecxhI2GUpWsWBuzf4/XcuTJMNAXth2Yqnk1tQirmECIQDaMfCajZIYsW9/ACx+6RObYVzpnczr0qdUgx/4hEvwFg==-----END RSA PRIVATE KEY-----';
+
+    function generateIdToken(payload) {
+      return jsonwebtoken.sign({
+        ...payload,
+      }, cert_priv, { algorithm: 'RS256' });
+    }
+
+    const given_name = 'givenName';
+    const family_name = 'familyName';
+    const nonce = 'bb041272-d6e6-457c-99fb-ff1aa02217fd';
+    const idIdentiteExterne = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
+
+    it('should return given_name, family_name, nonce, idIdentiteExterne', async () => {
+      // given
+      const idToken = generateIdToken({
+        given_name, family_name, nonce, idIdentiteExterne,
+      });
+
+      const expectedPayload = {
+        given_name,
+        family_name,
+        nonce,
+        idIdentiteExterne,
+      };
+
+      // when
+      const payload = await tokenService.extractPayloadFromPoleEmploiIdToken(idToken);
+
+      // then
+      expect(payload).to.deep.equal(expectedPayload);
+    });
+
+  });
+
   describe('#createCertificationResultsByRecipientEmailLinkToken', () => {
     it('should return a valid token with sessionId and resultRecipientEmail', () => {
       // given

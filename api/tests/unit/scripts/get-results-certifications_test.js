@@ -46,6 +46,19 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result).to.have.property('url', '/api/sessions/12');
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
+
+    it('test git guardian', () => {
+      // given
+      const sessionId = 12;
+      const baseUrl = 'http://localhost:3000';
+      const authToken = 'jwt.tokken';
+      // when
+      const result = getResultsCertifications.buildSessionRequest(baseUrl, authToken, sessionId);
+      // then
+      expect(result).to.have.property('json', true);
+      expect(result).to.have.property('url', '/api/sessions/12');
+      expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
+    });
   });
 
   describe('toCSVRow', () => {

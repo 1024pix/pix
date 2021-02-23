@@ -87,7 +87,7 @@ then(`je vois que le sujet {string} est {string}`, (tubeName, recommendationLeve
 });
 
 when(`je retourne au détail de la campagne`, () => {
-  cy.get('[aria-label="Retourner au détail de la campagne"]').click();
+  cy.get('[aria-label="Retour"]').click();
 });
 
 when('je clique sur le bouton "Associer"', () => {
