@@ -12,7 +12,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     await render(hbs`<TargetProfiles::Badges/>`);
 
     // then
-    assert.contains('Clés de lecture');
-    assert.contains('Aucune clé de lecture associée');
+    assert.contains('Résultats thématiques');
+    assert.contains('Aucun résultat thématique associé');
   });
 });

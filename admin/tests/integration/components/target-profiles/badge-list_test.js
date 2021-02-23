@@ -39,7 +39,7 @@ module('Integration | Component | TargetProfiles::BadgeList', function(hooks) {
     assert.equal(find('tbody tr td:nth-child(3)').textContent, 'My key');
     assert.equal(find('tbody tr td:nth-child(4)').textContent, 'My title');
     assert.equal(find('tbody tr td:nth-child(5)').textContent, 'My message');
-    assert.notContains('Aucune clé de lecture associée');
+    assert.notContains('Aucun résultat thématique associé');
   });
 
   test('it should display a message when empty', async function(assert) {
@@ -51,6 +51,6 @@ module('Integration | Component | TargetProfiles::BadgeList', function(hooks) {
 
     // then
     assert.dom('table').doesNotExist();
-    assert.contains('Aucune clé de lecture associée');
+    assert.contains('Aucun résultat thématique associé');
   });
 });
