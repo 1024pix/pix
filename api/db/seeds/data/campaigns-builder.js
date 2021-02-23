@@ -196,4 +196,30 @@ function _buildCampaignForPro(databaseBuilder) {
     idPixLabel: 'identifiant entreprise',
     archivedAt: new Date('2020-01-01T15:00:34Z'),
   });
+  databaseBuilder.factory.buildCampaign({
+    id: 15,
+    name: 'Pro - Campagne d’évaluation PIC - Archivé partagé avec paliers',
+    code: 'ARCHIVED3',
+    type: 'ASSESSMENT',
+    title: 'Parcours archivé avec paliers',
+    customLandingPageText: '',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_STAGES_BADGES_ID,
+    idPixLabel: 'identifiant entreprise',
+    archivedAt: new Date('2020-01-01T15:00:34Z'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 16,
+    name: 'Pro - Campagne d’évaluation PIC - Terrminé & partagé.',
+    code: 'FINISHED3',
+    type: 'ASSESSMENT',
+    title: 'Parcours terminé partagé',
+    customLandingPageText: '',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+    idPixLabel: 'identifiant entreprise',
+  });
 }

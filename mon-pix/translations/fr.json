@@ -121,7 +121,8 @@
                     "completed": "À envoyer",
                     "finished": "Terminé",
                     "archived": "Archivé"
-                }
+                },
+                "stages": "{count} { count, plural, =0 {étoile} =1 {étoile} other {étoiles} } sur {total}"
             }
         },
         "certificate": {

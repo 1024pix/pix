@@ -1,6 +1,6 @@
 import { click, fillIn } from '@ember/test-helpers';
 import visit from './visit';
-import { contains } from './contains';
+import { clickByLabel } from './click-by-label';
 
 export async function startCampaignByCode(campaignCode) {
   await visit(`/campagnes/${campaignCode}`);
@@ -25,16 +25,16 @@ export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExte
 
 export async function resumeCampaignOfTypeProfilesCollectionByCode(campaignCode, hasExternalParticipantId) {
   await visit(`/campagnes/${campaignCode}`);
-  await click(contains('C\'est parti !'));
+  await clickByLabel('C\'est parti !');
   if (hasExternalParticipantId) {
     await fillIn('#id-pix-label', 'monmail@truc.fr');
-    await click(contains('Continuer'));
+    await clickByLabel('Continuer');
   }
 }
 
 export async function completeCampaignOfTypeProfilesCollectionByCode(campaignCode) {
   await visit(`/campagnes/${campaignCode}`);
-  await click(contains('J\'envoie mon profil'));
+  await clickByLabel('J\'envoie mon profil');
 }
 
 export async function completeCampaignOfTypeAssessmentByCode(campaignCode) {
