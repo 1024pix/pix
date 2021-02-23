@@ -1,22 +1,17 @@
-<h4 class="campaign-details-analysis campaign-details-analysis__header">Recommandation de sujets à travailler</h4>
+<h4 class="campaign-details-analysis campaign-details-analysis__header">{{t 'pages.campaign-review.title'}}</h4>
 
 <p class="campaign-details-analysis campaign-details-analysis__text">
-  En fonction du référentiel testé et des résultats de la campagne,
-  Pix vous recommande ces sujets à travailler, classés par degré de pertinence (
-  <svg height="10" width="10">
-    <circle cx="5" cy="5" r="5" class="campaign-details-analysis recommendation-indicator__bubble" />
-  </svg>
-  )
+  {{this.description}}
 </p>
 
 <div class="panel panel--light-shadow content-text content-text--small campaign-details-table">
 
-  <table aria-label="Analyse par sujet">
+  <table aria-label={{t 'pages.campaign-review.header.title'}}>
     <thead>
       <tr>
-        <Table::Header @size="wide"> Sujets ({{if @displayAnalysis this.sortedRecommendations.length '-' }})</Table::Header>
+        <Table::Header @size="wide">{{t 'pages.campaign-review.header.subjects' count=this.sortedRecommendations.length}}</Table::Header>
         <Table::HeaderSort @size="small" @align="center" @onSort={{this.sortRecommendationOrder}} @isDisabled={{not
-          @displayAnalysis}}>Pertinence </Table::HeaderSort>
+          @displayAnalysis}}>{{t 'pages.campaign-review.header.relevance'}} </Table::HeaderSort>
         <Table::Header @size="small" @align="center" />
         <Table::Header @size="small" />
       </tr>
@@ -33,6 +28,6 @@
   </table>
 
   {{#unless @displayAnalysis }}
-    <div class="table__empty content-text">En attente de résultats</div>
+    <div class="table__empty content-text">{{t 'pages.campaign-review.waiting-results'}}</div>
   {{/unless}}
 </div>
