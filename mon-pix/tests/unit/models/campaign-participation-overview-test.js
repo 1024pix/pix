@@ -14,18 +14,18 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
   describe('#status', () => {
     context('when the campaign is not archived', function() {
       context('when the assessment state is "started"', () => {
-        it('should return the status "started"', function() {
+        it('should return the status "ONGOING"', function() {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             assessmentState: 'started',
           });
           // when / then
-          expect(model.status).to.equal('started');
+          expect(model.status).to.equal('ONGOING');
         });
       });
 
-      context('when the assessment state is "completed, the participation is not shared"', () => {
-        it('should return the status "completed"', function() {
+      context('when the assessment state is "completed" and the participation is not shared"', () => {
+        it('should return the status "TO_SHARE"', function() {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             assessmentState: 'completed',
@@ -33,12 +33,12 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
             campaignArchivedAt: null,
           });
           // when / then
-          expect(model.status).to.equal('completed');
+          expect(model.status).to.equal('TO_SHARE');
         });
       });
 
-      context('when the assessment state is "completed and the participation is shared"', () => {
-        it('should return the status "finished"', function() {
+      context('when the assessment state is "completed" and the participation is shared"', () => {
+        it('should return the status "ENDED"', function() {
           // given
           const model = store.createRecord('campaign-participation-overview', {
             assessmentState: 'completed',
@@ -46,7 +46,7 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
             isShared: true,
           });
           // when / then
-          expect(model.status).to.equal('finished');
+          expect(model.status).to.equal('ENDED');
         });
       });
     });
@@ -60,44 +60,8 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
           campaignArchivedAt: new Date('2021-01-01'),
         });
         // when / then
-        expect(model.status).to.equal('archived');
+        expect(model.status).to.equal('ARCHIVED');
       });
-    });
-  });
-
-  describe('#date', function() {
-    it('should return the starting date when the status is "started"', function() {
-      // given
-      const model = store.createRecord('campaign-participation-overview', {
-        assessmentState: 'started',
-        createdAt: '2020-12-10T15:16:20.109Z',
-      });
-
-      // when / then
-      expect(model.date).to.equal('2020-12-10T15:16:20.109Z');
-    });
-
-    it('should return the starting date when the status is "completed"', function() {
-      // given
-      const model = store.createRecord('campaign-participation-overview', {
-        assessmentState: 'completed',
-        createdAt: '2020-12-10T15:16:20.109Z',
-      });
-
-      // when / then
-      expect(model.date).to.equal('2020-12-10T15:16:20.109Z');
-    });
-
-    it('should return the sharing date when the status is "finished"', function() {
-      // given
-      const model = store.createRecord('campaign-participation-overview', {
-        assessmentState: 'completed',
-        isShared: true,
-        sharedAt: '2020-12-18T15:16:20.109Z',
-      });
-
-      // when / then
-      expect(model.date).to.equal('2020-12-18T15:16:20.109Z');
     });
   });
 });

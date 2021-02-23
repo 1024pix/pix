@@ -121,7 +121,8 @@
                     "completed": "To be submitted",
                     "finished": "Finished",
                     "archived": "Archived"
-                }
+                },
+                "stages": "{count} { count, plural, =0 {star} =1 {star} other {stars} } out of {total}"
             }
         },
         "certificate": {

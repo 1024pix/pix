@@ -1,7 +1,5 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
+const { sinon, domainBuilder } = require('../../../test-helper');
 const findUserCampaignParticipationOverviews = require('../../../../lib/domain/usecases/find-user-campaign-participation-overviews');
-const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
-
 describe('Unit | UseCase | find-user-campaign-participation-overviews', () => {
 
   let campaignParticipationOverviewRepository;
@@ -85,60 +83,6 @@ describe('Unit | UseCase | find-user-campaign-participation-overviews', () => {
         userId,
         states: ['ONGOING'],
       });
-    });
-  });
-
-  context('when it returns shared participations', () => {
-    it('should compute the totalSkillsCount from targetProfile', async () => {
-      // given
-      const userId = 1;
-      const campaignParticipationOverviews = [
-        new CampaignParticipationOverview({ isShared: true, targetProfileId: 1, validatedSkillsCount: 1 }),
-      ];
-      campaignParticipationOverviewRepository = {
-        findByUserIdWithFilters: sinon.stub().resolves({
-          campaignParticipationOverviews,
-          pagination: {},
-        }),
-      };
-
-      // when
-      const { campaignParticipationOverviews: overviews } = await findUserCampaignParticipationOverviews({
-        userId,
-        campaignParticipationOverviewRepository,
-        targetProfileWithLearningContentRepository,
-      });
-
-      // then
-      expect(overviews[0].validatedSkillsCount).equal(1);
-      expect(overviews[0].totalSkillsCount).equal(1);
-    });
-  });
-
-  context('when it returns not shared participations', () => {
-    it('should not compute the totalSkillsCount', async () => {
-      // given
-      const userId = 1;
-      const campaignParticipationOverviews = [
-        new CampaignParticipationOverview({ isShared: false, targetProfileId: 1 }),
-      ];
-      campaignParticipationOverviewRepository = {
-        findByUserIdWithFilters: sinon.stub().resolves({
-          campaignParticipationOverviews,
-          pagination: {},
-        }),
-      };
-
-      // when
-      const { campaignParticipationOverviews: overviews } = await findUserCampaignParticipationOverviews({
-        userId,
-        campaignParticipationOverviewRepository,
-        targetProfileWithLearningContentRepository,
-      });
-
-      // then
-      expect(overviews[0].validatedSkillsCount).to.not.exist;
-      expect(overviews[0].totalSkillsCount).to.not.exist;
     });
   });
 });
