@@ -45,7 +45,6 @@ async function _getReferentiel({
   targetProfileRepository,
 }) {
   if (targetProfileId) {
-
     const targetProfile = await targetProfileRepository.get(targetProfileId);
     const targetProfileRepositoryStub = {
       getByCampaignParticipationId: () => {
