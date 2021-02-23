@@ -23,4 +23,18 @@
     <span class="user-account-panel-item__value" data-test-username>{{@user.username}}</span>
   </div>
   {{/if}}
+  {{#if this.displayLanguageSwitch}}
+    <div class="user-account-panel__item">
+      <span class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.account-panel.lang'}}</span>
+        <div class="user-account-panel-item__select">
+          <PixSelect
+            class="user-account-panel-item__value"
+            @options={{this.options}}
+            @onChange={{this.onChangeLang}}
+            @selectedOption={{@user.lang}}
+            data-test-lang
+          />
+        </div>
+    </div>
+  {{/if}}
 </PixBlock>

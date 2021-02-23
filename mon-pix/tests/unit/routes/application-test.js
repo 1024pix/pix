@@ -3,7 +3,7 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
@@ -49,56 +49,206 @@ describe('Unit | Route | application', function() {
     expect(currentUserStub.called).to.be.true;
   });
 
-  describe('#_getUserAndLocal', function() {
-    it('should set locales from users', async function() {
-      // given
-      const user = {
-        lang: 'en',
-      };
-      const load = sinon.stub().resolves(user);
-      const currentUserStub = Service.create({ load, user });
-      const setLocaleStub = sinon.stub();
-      const intlStub = Service.create({
-        setLocale: setLocaleStub,
+  describe('#__handleLanguage', function() {
+
+    let intlSetLocaleStub;
+    let momentSetLocaleStub;
+    let intlStub;
+    let momentStub;
+    let route;
+
+    beforeEach(function() {
+      intlSetLocaleStub = sinon.stub();
+      momentSetLocaleStub = sinon.stub();
+
+      intlStub = Service.create({
+        setLocale: intlSetLocaleStub,
       });
-      const route = this.owner.lookup('route:application');
-      route.set('currentUser', currentUserStub);
+      momentStub = Service.create({
+        setLocale: momentSetLocaleStub,
+      });
+
+      route = this.owner.lookup('route:application');
       route.set('intl', intlStub);
-
-      // when
-      await route._getUserAndLocal();
-
-      // then
-      sinon.assert.called(setLocaleStub);
-      sinon.assert.calledWith(setLocaleStub, ['en', 'fr']);
+      route.set('moment', momentStub);
     });
 
-    it('should update users when there is a params', async function() {
-      // given
-      const saveStub = sinon.stub().resolves();
+    describe('when user is not connected', function() {
 
-      const user = {
-        lang: 'en',
-        save: saveStub,
-      };
-      const loadStub = sinon.stub().resolves(user);
-      const currentUserStub = Service.create({ load: loadStub, user });
-      const setLocaleStub = sinon.stub();
-      const intlStub = Service.create({
-        setLocale: setLocaleStub,
+      describe('when domain is pix.org', function() {
+
+        it('should update locale', async function() {
+          // given
+          route.set('currentDomain', { getExtension() { return 'org'; } });
+
+          // when
+          await route._handleLanguage('en');
+
+          // then
+          sinon.assert.called(intlSetLocaleStub);
+          sinon.assert.called(momentSetLocaleStub);
+          sinon.assert.calledWith(intlSetLocaleStub, ['en', 'fr']);
+          sinon.assert.calledWith(momentSetLocaleStub, 'en');
+        });
+
+        it('should ignore locale switch when is neither "fr" nor "en"', async function() {
+          // given
+          route.set('currentDomain', { getExtension() { return 'org'; } });
+
+          // when
+          await route._handleLanguage('bouh');
+
+          // then
+          sinon.assert.called(intlSetLocaleStub);
+          sinon.assert.called(momentSetLocaleStub);
+          sinon.assert.calledWith(intlSetLocaleStub, ['bouh', 'fr']);
+        });
       });
-      const route = this.owner.lookup('route:application');
-      route.set('currentUser', currentUserStub);
-      route.set('intl', intlStub);
 
-      // when
-      await route._getUserAndLocal('en');
+      describe('when domain is pix.fr', function() {
 
-      // then
-      sinon.assert.called(saveStub);
-      sinon.assert.calledWith(saveStub, { adapterOptions: { lang: 'en' } });
+        it('should keep locale in "fr"', async function() {
+          // given
+          route.set('currentDomain', { getExtension() { return 'fr'; } });
+
+          // when
+          await route._handleLanguage('en');
+
+          // then
+          sinon.assert.called(intlSetLocaleStub);
+          sinon.assert.called(momentSetLocaleStub);
+          sinon.assert.calledWith(intlSetLocaleStub, ['fr', 'fr']);
+          sinon.assert.calledWith(momentSetLocaleStub, 'fr');
+        });
+      });
     });
 
+    describe('when user is connected', function() {
+
+      describe('when domain is pix.org', function() {
+
+        it('should set locale from user', async function() {
+          // given
+          const user = {
+            lang: 'fr',
+          };
+          const load = sinon.stub().resolves(user);
+          const currentUserStub = Service.create({ load, user });
+
+          route.set('session', { isAuthenticated: true });
+          route.set('currentUser', currentUserStub);
+          route.set('currentDomain', { getExtension() { return 'org'; } });
+
+          // when
+          await route._handleLanguage();
+
+          // then
+          sinon.assert.called(intlSetLocaleStub);
+          sinon.assert.called(momentSetLocaleStub);
+          sinon.assert.calledWith(intlSetLocaleStub, ['fr', 'fr']);
+          sinon.assert.calledWith(momentSetLocaleStub, 'fr');
+        });
+
+        describe('when user change locale', function() {
+
+          it('should save user locale', async function() {
+            // given
+            const saveStub = sinon.stub().resolves();
+
+            const user = {
+              lang: 'fr',
+              save: saveStub,
+            };
+            const loadStub = sinon.stub().resolves(user);
+            const currentUserStub = Service.create({ load: loadStub, user });
+
+            route.set('session', { isAuthenticated: true });
+            route.set('currentUser', currentUserStub);
+            route.set('currentDomain', { getExtension() { return 'org'; } });
+
+            // when
+            await route._handleLanguage('en');
+
+            // then
+            sinon.assert.called(saveStub);
+            sinon.assert.calledWith(saveStub, { adapterOptions: { lang: 'en' } });
+          });
+
+          it('should ignore locale switch when is neither "fr" nor "en"', async function() {
+            // given
+            const saveStub = sinon.stub().rejects({ errors: [{ status: '400' }] });
+            const rollbackAttributesStub = sinon.stub().resolves();
+
+            const user = {
+              lang: 'fr',
+              save: saveStub,
+              rollbackAttributes: rollbackAttributesStub,
+            };
+            const loadStub = sinon.stub().resolves(user);
+            const currentUserStub = Service.create({ load: loadStub, user });
+
+            route.set('session', { isAuthenticated: true });
+            route.set('currentUser', currentUserStub);
+            route.set('currentDomain', { getExtension() { return 'org'; } });
+
+            // when
+            await route._handleLanguage('bouh');
+
+            // then
+            sinon.assert.called(rollbackAttributesStub);
+          });
+        });
+      });
+
+      describe('when domain is pix.fr', function() {
+
+        it('should ignore locale from user', async function() {
+          // given
+          const user = {
+            lang: 'en',
+          };
+          const load = sinon.stub().resolves(user);
+          const currentUserStub = Service.create({ load, user });
+
+          route.set('session', { isAuthenticated: true });
+          route.set('currentUser', currentUserStub);
+          route.set('currentDomain', { getExtension() { return 'fr'; } });
+
+          // when
+          await route._handleLanguage();
+
+          // then
+          sinon.assert.called(intlSetLocaleStub);
+          sinon.assert.called(momentSetLocaleStub);
+          sinon.assert.calledWith(intlSetLocaleStub, ['fr', 'fr']);
+          sinon.assert.calledWith(momentSetLocaleStub, 'fr');
+        });
+
+        describe('when user change locale', function() {
+
+          it('should not save user locale', async function() {
+            // given
+            const saveStub = sinon.stub().resolves();
+
+            const user = {
+              lang: 'fr',
+              save: saveStub,
+            };
+            const loadStub = sinon.stub().resolves(user);
+            const currentUserStub = Service.create({ load: loadStub, user });
+
+            route.set('session', { isAuthenticated: true });
+            route.set('currentUser', currentUserStub);
+            route.set('currentDomain', { getExtension() { return 'fr'; } });
+
+            // when
+            await route._handleLanguage('en');
+
+            // then
+            sinon.assert.notCalled(saveStub);
+          });
+        });
+      });
+    });
   });
-
 });

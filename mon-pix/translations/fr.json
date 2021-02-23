@@ -949,7 +949,16 @@
                 "last-name": "Nom",
                 "email": "Adresse e-mail",
                 "username": "Identifiant",
-                "edit-button": "Modifier"
+                "lang": "Langues",
+                "edit-button": "Modifier",
+                "fields": {
+                    "select": {
+                        "labels": {
+                            "french": "Français",
+                            "english": "Anglais"
+                        }
+                    }
+                }
             },
             "account-update-email": {
                 "title": "Modification de votre adresse e-mail",

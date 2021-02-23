@@ -27,6 +27,7 @@ module.exports = function() {
       'thumbs-up',
       'times',
       'times-circle',
+      'chevron-down',
     ],
     'free-regular-svg-icons': [
       'bookmark',
