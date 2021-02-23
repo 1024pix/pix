@@ -3,8 +3,8 @@
    <PreviousPageButton
      @route="authenticated.campaigns.campaign.assessments"
      @routeId={{@campaign.id}}
-     @backButtonAriaLabel="Retourner au détail de la campagne"
-     aria-label="Nom de la campagne"
+     @backButtonAriaLabel={{t 'common.actions.back'}}
+     aria-label={{t 'pages.campaign-individual-results.campaign-name'}}
    >
     {{@campaign.name}}
    </PreviousPageButton>
@@ -24,27 +24,27 @@
           </li>
         {{/if}}
         <li class="panel-header-data__content">
-          <div class="label-text panel-header-data-content__label">Commencé le</div>
+          <div class="label-text panel-header-data-content__label">{{t 'pages.campaign-individual-results.start-date'}}</div>
           <div class="value-text panel-header-data-content__value">
             {{moment-format @campaignAssessmentParticipation.createdAt 'DD MMM YYYY'}}
           </div>
         </li>
         {{#unless @campaignAssessmentParticipation.isShared }}
           <li class="panel-header-data__content">
-            <div class="label-text panel-header-data-content__label">Avancement</div>
+            <div class="label-text panel-header-data-content__label">{{t 'pages.assessment-individual-results.progression'}}</div>
             <div class="value-text panel-header-data-content__value">
               {{@campaignAssessmentParticipation.progression}}%
             </div>
           </li>
         {{/unless}}
         <li class="panel-header-data__content">
-          <div class="label-text panel-header-data-content__label">Envoyé le</div>
+          <div class="label-text panel-header-data-content__label">{{t 'pages.campaign-individual-results.shared-date'}}</div>
           {{#if @campaignAssessmentParticipation.sharedAt}}
             <div class="value-text panel-header-data-content__value">
               {{moment-format @campaignAssessmentParticipation.sharedAt 'DD MMM YYYY'}}
             </div>
           {{else}}
-            <div class="value-text panel-header-data-content__value">Non disponible</div>
+            <div class="value-text panel-header-data-content__value">{{t 'pages.campaign-individual-results.not-shared'}}</div>
           {{/if}}
         </li>
       </ul>
@@ -52,17 +52,17 @@
       {{#if @campaignAssessmentParticipation.isShared}}
         <ul class="panel-header__data panel-header__data--highlight">
           {{#if this.displayBadges}}
-            <li aria-label="Résultats Thématiques" class="panel-header-data__content panel-header-data-content__badges">
+            <li aria-label={{t 'pages.assessment-individual-results.badges'}} class="panel-header-data__content panel-header-data-content__badges">
               <Badges @badges={{@campaignAssessmentParticipation.badges}}/>
             </li>
           {{/if}}
-          <li aria-label="Résultat" class="panel-header-data__content panel-header-data-content__progress-bar">
+          <li aria-label={{t 'pages.assessment-individual-results.result.label'}} class="panel-header-data__content panel-header-data-content__progress-bar">
             <ProgressBar @value={{@campaignAssessmentParticipation.masteryPercentage}}>
-              {{@campaignAssessmentParticipation.validatedSkillsCount}} / {{@campaignAssessmentParticipation.targetedSkillsCount}} ACQUIS
+              {{t 'pages.assessment-individual-results.result.value' count=@campaignAssessmentParticipation.validatedSkillsCount total=@campaignAssessmentParticipation.targetedSkillsCount}}
             </ProgressBar>
           </li>
           {{#if @campaign.hasStages}}
-            <li aria-label="Paliers" class="panel-header-data__content panel-header-data-content__stages">
+            <li aria-label={{t 'pages.assessment-individual-results.stages.label'}} class="panel-header-data__content panel-header-data-content__stages">
               <StageStars @result={{@campaignAssessmentParticipation.masteryPercentage}} @stages={{@campaign.stages}}/>
             </li>
           {{else}}
@@ -78,10 +78,10 @@
   <div class="panel campaign-details__controls">
     <nav class="navbar campaign-details-controls__navbar-tabs">
       <LinkTo @route="authenticated.campaigns.assessment.results" class="navbar-item" @models={{array @campaign.id @campaignAssessmentParticipation.id}}>
-        Résultats
+        {{t 'pages.assessment-individual-results.tab.results'}}
       </LinkTo>
       <LinkTo @route="authenticated.campaigns.assessment.analysis" class="navbar-item" @models={{array @campaign.id @campaignAssessmentParticipation.id}}>
-        Analyse
+        {{t 'pages.assessment-individual-results.tab.review'}}
       </LinkTo>
     </nav>
   </div>

@@ -33,7 +33,7 @@ module('Acceptance | Campaign Profile', function(hooks) {
 
     // when
     await visit('/campagnes/1/profils/1');
-    await clickByLabel('Retourner au détail de la campagne');
+    await clickByLabel('Retour');
 
     // then
     assert.equal(currentURL(), '/campagnes/1/profils');
