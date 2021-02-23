@@ -305,7 +305,7 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
         });
 
-        module('When featureToggle isCertificationResultsInOrgaEnabled is enabled', function() {
+        module('When feature toggle for exporting certification results is enabled', function() {
 
           test('should redirect to certifications page', async function(assert) {
             // given

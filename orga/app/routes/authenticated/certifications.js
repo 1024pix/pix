@@ -6,7 +6,7 @@ export default class AuthenticatedCertificationsRoute extends Route {
   @service featureToggles;
 
   beforeModel() {
-    if(!(this.featureToggles.isCertificationResultsInOrgaEnabled && this.currentUser.isSCOManagingStudents)) {
+    if (!(this.featureToggles.isCertificationResultsInOrgaEnabled && this.currentUser.isSCOManagingStudents)) {
       this.replaceWith('application');
     }
   }

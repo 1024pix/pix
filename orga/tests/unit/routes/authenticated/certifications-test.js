@@ -6,7 +6,7 @@ import sinon from 'sinon';
 module('Unit | Route | authenticated/certifications', function(hooks) {
   setupTest(hooks);
 
-  module('beforeModel', function(){
+  module('beforeModel', function() {
     test('should redirect to application when featureToggles.isCertificationResultsInOrgaEnabled is false', function(assert) {
       // given
       class CurrentUserStub extends Service {
