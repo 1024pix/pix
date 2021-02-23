@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
@@ -8,7 +8,7 @@ import EmberObject from '@ember/object';
 
 module('Integration | Component | routes/authenticated/campaign/update', function(hooks) {
 
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
     this.campaign = EmberObject.create({ isTypeAssessment: true });
