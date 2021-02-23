@@ -46,7 +46,7 @@ module('Acceptance | Campaign Participants Results', function(hooks) {
     test('it could return on list of participants', async function(assert) {
       // when
       await visit('/campagnes/1/evaluations/1');
-      await clickByLabel('Retourner au détail de la campagne');
+      await clickByLabel('Retour');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/evaluations');
