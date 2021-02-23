@@ -32,14 +32,12 @@
           <div class="label-text panel-header-data-content__label">Commencé le</div>
           <div class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.createdAt 'DD MMM YYYY'}}</div>
         </li>
-        <li class="panel-header-data__content">
-          <div class="label-text panel-header-data-content__label">Envoyé le</div>
-          {{#if @campaignProfile.sharedAt}}
-            <div class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.sharedAt 'DD MMM YYYY'}}</div>
-          {{else}}
-            <div class="value-text panel-header-data-content__value">Non disponible</div>
-          {{/if}}
-        </li>
+        {{#if @campaignProfile.isShared}}
+          <li class="panel-header-data__content">
+            <div class="label-text panel-header-data-content__label">Envoyé le</div>
+              <div class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.sharedAt 'DD MMM YYYY'}}</div>
+          </li>
+        {{/if}}
       </ul>
 
       {{#if @campaignProfile.isShared}}
