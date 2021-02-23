@@ -1,5 +1,5 @@
 <div class="update-campaign-page">
-  <h1 class="page__title page-title">Modification d'une campagne</h1>
+  <h1 class="page__title page-title">{{ t 'pages.campaign-modification.title' }}</h1>
   <h2 class="page-sub-title">{{@subTitle}}</h2>
 
   <form {{on 'submit' @update}} class="campaign-creation-form">
@@ -35,8 +35,8 @@
     </div>
 
     <div class="form__validation">
-      <button class="button button--no-color" type="button" {{on 'click' (fn @cancel @campaign.id)}}>Annuler</button>
-      <button class="button" type="submit">Modifier</button>
+      <button class="button button--no-color" type="button" {{on 'click' (fn @cancel @campaign.id)}}>{{t 'common.actions.cancel'}}</button>
+      <button class="button" type="submit">{{t 'pages.campaign-modification.actions.edit'}}</button>
     </div>
   </form>
 </div>

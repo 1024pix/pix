@@ -172,6 +172,12 @@
         }
       }
     },
+    "campaign-modification" : {
+      "actions": {
+        "edit": "Modifier"
+      },
+      "title": "Modification d'une campagne"
+    },
     "campaign-review": {
       "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
       "header": {
