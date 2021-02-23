@@ -21,6 +21,7 @@
   "navigation": {
     "main": {
       "campaigns": "Campagnes",
+      "certifications": "Certifications",
       "documentation": "Documentation",
       "students-sco": "Élèves",
       "students-sup": "Étudiants",
@@ -66,6 +67,10 @@
       "campaign-name": "Nom de la campagne",
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
+    },
+    "certifications": {
+      "description": "Vous pouvez exporter les résultats de certification de toutes les classes au format csv.",
+      "title": "Mes certifications"
     },
     "campaign": {
       "actions": {

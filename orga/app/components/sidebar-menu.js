@@ -3,6 +3,7 @@ import Component from '@glimmer/component';
 
 export default class SidebarMenu extends Component {
   @service currentUser;
+  @service featureToggles;
 
   get documentationUrl() {
     if (this.currentUser.isSCOManagingStudents && this.currentUser.isAgriculture) {
@@ -22,5 +23,9 @@ export default class SidebarMenu extends Component {
     }
 
     return null;
+  }
+
+  get shouldDisplayCertificationsEntry() {
+    return this.featureToggles.isCertificationResultsInOrgaEnabled && this.currentUser.isSCOManagingStudents;
   }
 }
