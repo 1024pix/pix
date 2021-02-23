@@ -1,8 +1,8 @@
 {{#if this.canShowCredit}}
   <div class="organization-credit-info">
-    <span class="organization-credit-info__label">{{this.credit}}</span>
+    <span class="organization-credit-info__label">{{t 'pages.credits.number' count=this.currentUser.organization.credit}}</span>
     <PixTooltip
-      @text={{this.tooltipContent}}
+      @text={{t 'pages.credits.tooltip-text' htmlSafe=true}}
       @position='bottom-left'
       @isWide={{true}}
       @isLight={{true}}>
