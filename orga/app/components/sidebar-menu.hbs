@@ -5,15 +5,13 @@
     </span>
     {{t 'navigation.main.campaigns' }}
   </LinkTo>
-  {{#if this.featureToggles.isCertificationResultsInOrgaEnabled}}
-    {{#if this.currentUser.isSCOManagingStudents}}
-      <LinkTo @route="authenticated.certifications" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
-        <span class="sidebar--padding-right sidebar--item-icon">
-            <FaIcon @icon="award" />
-        </span>
-        {{t 'navigation.main.certifications' }}
-      </LinkTo>
-    {{/if}}
+  {{#if this.shouldDisplayCertificationsEntry}}
+    <LinkTo @route="authenticated.certifications" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
+      <span class="sidebar--padding-right sidebar--item-icon">
+          <FaIcon @icon="award" />
+      </span>
+      {{t 'navigation.main.certifications' }}
+    </LinkTo>
   {{/if}}
   {{#if this.currentUser.isSCOManagingStudents}}
     <LinkTo @route="authenticated.sco-students" class="sidebar-menu__item sidebar--padding-left sidebar--padding-right">
