@@ -6,8 +6,6 @@ const {
   UserNotFoundError, MissingOrInvalidCredentialsError, ForbiddenAccess, UserShouldChangePasswordError,
 } = require('../../../../lib/domain/errors');
 
-const config = require('../../../../lib/config');
-
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
 const appMessages = require('../../../../lib/domain/constants');
 
@@ -153,33 +151,6 @@ describe('Unit | Application | UseCase | authenticate-user', () => {
       authenticationService.getUserByUsernameAndPassword.resolves(user);
 
       const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
-
-      // when
-      const error = await catchErr(authenticateUser)({
-        username: userEmail,
-        password,
-        scope,
-        tokenService,
-        certificationCenterMembershipRepository,
-        userRepository,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(ForbiddenAccess);
-      expect(error.message).to.be.equal(expectedErrorMessage);
-    });
-
-    it('rejects an error when scope is pix-certif and the user is from sco and the feature toggle is activated', async () => {
-      // given
-      const expectedErrorMessage = appMessages.PIX_CERTIF.USER_SCO_BLOCKED_CERTIFICATION_MSG;
-      sinon.stub(config.featureToggles, 'certifPrescriptionSco').value(false);
-
-      const scope = appMessages.PIX_CERTIF.SCOPE;
-      const user = domainBuilder.buildUser({ email: userEmail });
-      const certificationCenterSCO = domainBuilder.buildCertificationCenter({ type: 'SCO' });
-      const certificationCenterMembershipSco = domainBuilder.buildCertificationCenterMembership({ userId: user.id, certificationCenter: certificationCenterSCO });
-      certificationCenterMembershipRepository.findByUserId.withArgs(user.id).resolves([ certificationCenterMembershipSco ]);
-      authenticationService.getUserByUsernameAndPassword.resolves(user);
 
       // when
       const error = await catchErr(authenticateUser)({
