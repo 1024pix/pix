@@ -76,3 +76,6 @@ api/scripts/extractions
 
 # Visual regression snapshots
 high-level-tests/e2e/cypress/snapshots/actual/**
+
+# Secrets
+api/secrets
