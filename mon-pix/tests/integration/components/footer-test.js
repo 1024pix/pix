@@ -26,8 +26,8 @@ describe('Integration | Component | Footer', function() {
     // then
     expect(findAll('.footer-navigation__item')).to.have.lengthOf(4);
     expect(contains(this.intl.t('navigation.footer.a11y'))).to.exist;
+    expect(contains(this.intl.t('navigation.footer.data-protection-policy'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.eula'))).to.exist;
-    expect(contains(this.intl.t('navigation.footer.protection-policy'))).to.exist;
     expect(contains(this.intl.t('navigation.footer.help-center'))).to.exist;
   });
 
