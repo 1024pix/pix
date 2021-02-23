@@ -18,6 +18,8 @@
 
   &__label {
     min-width: 200px;
+    display: flex;
+    align-items: center;
   }
 
   &__value {
@@ -30,8 +32,14 @@
     color: $blue;
     padding: 0 20px;
 
-    &:hover {
+    &:hover,
+    &:active,
+    &:focus {
       background-color: transparent;
     }
+  }
+
+  &__select {
+    width: 165px;
   }
 }

@@ -45,7 +45,7 @@
         {{/if}}
         <div class="user-account-update-email__actions">
           <PixButton
-                  class="user-account-update-email-actions__button"
+                  class="user-account-update-email-actions__cancel-button"
                   @type="button"
                   @triggerAction={{@disableEmailEditionMode}}
                   @backgroundColor="transparent"
@@ -53,7 +53,7 @@
           {{t 'common.actions.cancel'}}
           </PixButton>
           <PixButton
-                  class="user-account-update-email-actions__button"
+                  class="user-account-update-email-actions__confirm-button {{if this.isFormValid 'confirm-button-enabled'}}"
                   @type="submit"
                   @isDisabled={{not this.isFormValid}}
                   @triggerAction={{this.onSubmit}}

@@ -16,6 +16,7 @@ export default Route.extend(ApplicationRouteMixin, {
   moment: service(),
   headData: service(),
   featureToggles: service(),
+  currentDomain: service(),
 
   activate() {
     this.splash.hide();
@@ -43,13 +44,17 @@ export default Route.extend(ApplicationRouteMixin, {
 
     await this.featureToggles.load().catch();
 
-    const lang = transition.to.queryParams.lang;
-    return this._getUserAndLocal(lang);
+    const locale = transition.to.queryParams.lang;
+
+    await this._loadCurrentUser();
+    await this._handleLanguage(locale);
   },
 
   async sessionAuthenticated() {
     const _super = this._super;
-    await this._getUserAndLocal();
+
+    await this._loadCurrentUser();
+    await this._handleLanguage();
 
     const nextURL = this.session.data.nextURL;
     if (nextURL && get(this.session, 'data.authenticated.source') === 'pole_emploi_connect') {
@@ -66,22 +71,41 @@ export default Route.extend(ApplicationRouteMixin, {
   // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
   sessionInvalidated() {},
 
-  async _getUserAndLocal(lang = null) {
-    const currentUser = await this._loadCurrentUser();
-    if (lang && this.currentUser.user) {
-      this.currentUser.user.lang = lang;
-      await this.currentUser.user.save({ adapterOptions: { lang } });
+  async _handleLanguage(locale = null) {
+
+    const isUserConnected = this.session.isAuthenticated;
+    const domain = this.currentDomain.getExtension();
+    const defaultLocale = 'fr';
+
+    if (domain === 'fr') {
+      await this._setLocale(defaultLocale, defaultLocale);
+      return;
     }
-    await this._setLocale(lang);
-    return currentUser;
+
+    if (isUserConnected) {
+      if (locale) {
+        this.currentUser.user.lang = locale;
+        try {
+          await this.currentUser.user.save({ adapterOptions: { lang: this.currentUser.user.lang } });
+          await this._setLocale(this.currentUser.user.lang, defaultLocale);
+        } catch (error) {
+          const status = get(error, 'errors[0].status');
+          if (status === '400') {
+            this.currentUser.user.rollbackAttributes();
+            await this._setLocale(this.currentUser.user.lang, defaultLocale);
+          } else {
+            throw error;
+          }
+        }
+      } else {
+        await this._setLocale(this.currentUser.user.lang, defaultLocale);
+      }
+    } else {
+      await this._setLocale(locale, defaultLocale);
+    }
   },
 
-  _setLocale(lang = null) {
-    const defaultLocale = 'fr';
-    let locale = lang || defaultLocale;
-    if (this.currentUser.user) {
-      locale = this.currentUser.user.lang || defaultLocale;
-    }
+  _setLocale(locale, defaultLocale) {
     this.intl.setLocale([locale, defaultLocale]);
     this.moment.setLocale(locale);
   },
@@ -96,5 +120,4 @@ export default Route.extend(ApplicationRouteMixin, {
     delete this.session.data.externalUser;
     return this.session.invalidate();
   },
-
 });

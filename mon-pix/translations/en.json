@@ -949,7 +949,16 @@
                 "last-name": "Last name",
                 "email": "Email address",
                 "username": "Username",
-                "edit-button": "Edit"
+                "lang": "",
+                "edit-button": "Edit",
+                "fields": {
+                    "select": {
+                        "labels": {
+                            "french": "French",
+                            "english": "English"
+                        }
+                    }
+                }
             },
             "account-update-email": {
                 "title": "",
