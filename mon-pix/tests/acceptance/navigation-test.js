@@ -23,12 +23,12 @@ describe('Acceptance | Navbar', function() {
 
     [
       {
-        initialRoute: '/certifications', initialNavigationItem: 1,
-        expectedRoute: '/profil', targetedNavigationItem: 0,
+        initialRoute: '/certifications', initialNavigationItem: 2,
+        expectedRoute: '/accueil', targetedNavigationItem: 0,
       },
       {
-        initialRoute: '/profil', initialNavigationItem: 0,
-        expectedRoute: '/certifications', targetedNavigationItem: 1,
+        initialRoute: '/accueil', initialNavigationItem: 0,
+        expectedRoute: '/certifications', targetedNavigationItem: 2,
       },
     ].forEach((userNavigation) => {
       it(`should redirect from "${userNavigation.initialRoute}" to "${userNavigation.expectedRoute}"`, async function() {

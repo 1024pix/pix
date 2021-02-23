@@ -21,7 +21,7 @@ describe('Acceptance | Update Expired Password', function() {
     await authenticateByUsername(userShouldChangePassword);
   });
 
-  it('should land on profile page when password is successfully updated', async function() {
+  it('should land on default page when password is successfully updated', async function() {
     // given
     await fillIn('#password', 'newPass12345!');
 
@@ -29,7 +29,7 @@ describe('Acceptance | Update Expired Password', function() {
     await click('.button');
 
     // then
-    expect(currentURL()).to.equal('/profil');
+    expect(currentURL()).to.equal('/accueil');
   });
 
   it('should display validation error message when update password fails with http 400 error', async function() {

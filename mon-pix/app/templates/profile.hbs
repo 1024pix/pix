@@ -1,8 +1,4 @@
-{{#if this.isDashboardEnabled}}
-  {{page-title (t 'pages.competences.title')}}
-{{else}}
-  {{page-title (t 'pages.profile.title')}}
-{{/if}}
+{{page-title (t 'pages.profile.title')}}
 
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>

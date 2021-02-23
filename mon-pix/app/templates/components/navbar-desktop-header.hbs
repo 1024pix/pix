@@ -14,24 +14,16 @@
     {{#if this.showHeaderMenuItem}}
       <nav class="navbar-desktop-header-container__menu">
         <ul class="navbar-desktop-header-menu__list">
-          {{#if this.showDashboard}}
-            <li class="navbar-desktop-header-menu__item">
-              <LinkTo @route="user-dashboard" class="navbar-desktop-header-menu__link">
-                {{t 'navigation.main.dashboard'}}
-              </LinkTo>
-            </li>
-            <li class="navbar-desktop-header-menu__item">
-              <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
-                {{t 'navigation.main.skills'}}
-              </LinkTo>
-            </li>
-          {{else}}
-            <li class="navbar-desktop-header-menu__item">
-              <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
-                {{t 'navigation.main.profile'}}
-              </LinkTo>
-            </li>
-          {{/if}}
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="user-dashboard" class="navbar-desktop-header-menu__link">
+              {{t 'navigation.main.dashboard'}}
+            </LinkTo>
+          </li>
+          <li class="navbar-desktop-header-menu__item">
+            <LinkTo @route="profile" class="navbar-desktop-header-menu__link">
+              {{t 'navigation.main.skills'}}
+            </LinkTo>
+          </li>
           <li class="navbar-desktop-header-menu__item">
             <LinkTo @route="certifications" class="navbar-desktop-header-menu__link">
               {{t 'navigation.main.start-certification'}}
