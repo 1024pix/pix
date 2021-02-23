@@ -56,13 +56,13 @@ describe('Acceptance | competences results', function() {
       });
     });
 
-    it('should display a return link to profil', async function() {
+    it('should display a return link to competences', async function() {
       // when
       await visit(`/competences/${competenceId}/resultats/${assessmentId}`);
 
       // then
       expect(find('.pix-return-to')).to.exist;
-      expect(find('.pix-return-to').getAttribute('href')).to.equal('/profil');
+      expect(find('.pix-return-to').getAttribute('href')).to.equal('/competences');
     });
 
     context('When user obtained 0 pix', async function() {

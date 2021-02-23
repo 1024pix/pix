@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import ENV from 'mon-pix/config/environment';
 
 export default class NavbarDesktopHeader extends Component {
   @service router;
@@ -24,10 +23,6 @@ export default class NavbarDesktopHeader extends Component {
 
   get _isExternalUser() {
     return this.session.get('data.externalUser');
-  }
-
-  get showDashboard() {
-    return ENV.APP.FT_DASHBOARD;
   }
 
   get showHeaderMenuItem() {

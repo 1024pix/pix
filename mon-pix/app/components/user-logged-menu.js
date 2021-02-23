@@ -9,7 +9,6 @@ import { on } from '@ember-decorators/object';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import classic from 'ember-classic-decorator';
-import ENV from 'mon-pix/config/environment';
 import {
   EKMixin as EmberKeyboardMixin,
   keyDown,
@@ -24,20 +23,13 @@ export default class UserLoggedMenu extends Component.extend(EmberKeyboardMixin)
   keyboardActivated = true;
   _canDisplayMenu = false;
 
-  @computed('routing.currentRouteName')
-  get canDisplayLinkToProfile() {
-    const currentRouteName = this.routing.currentRouteName;
-
-    return currentRouteName !== 'profile';
-  }
-
   @computed('currentUser.user.email')
   get displayedIdentifier() {
     return this.currentUser.user.email ? this.currentUser.user.email : this.currentUser.user.username;
   }
 
   get showMyTestsLink() {
-    return ENV.APP.FT_DASHBOARD && this.currentUser.user.hasAssessmentParticipations;
+    return this.currentUser.user.hasAssessmentParticipations;
   }
 
   @on(keyDown('Escape'))

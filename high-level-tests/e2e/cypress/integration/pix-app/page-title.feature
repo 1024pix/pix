@@ -9,8 +9,8 @@ Fonctionnalité: Titre des pages
     Étant donné que tous les comptes sont créés
     Et je vais sur Pix
     Et je suis connecté à Pix en tant que "Daenerys Targaryen"
-    Lorsque j'accède à mon profil
-    Alors je vois le titre de la page "Votre profil | Pix"
+    Lorsque je clique sur "Compétences"
+    Alors je vois le titre de la page "Compétences | Pix"
 
   Scénario: j'accède à la page compétence
     Étant donné que tous les comptes sont créés

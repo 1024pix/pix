@@ -3,21 +3,20 @@ import Component from '@glimmer/component';
 
 export default class ResumeCampaignBanner extends Component {
 
-  get unsharedCampaignParticipations() {
-    return this.args.campaignParticipations.filter((campaignParticipation) => campaignParticipation.isShared === false);
+  get unsharedProfileCollectionCampaignParticipations() {
+    return this.args.campaignParticipations.filter((campaignParticipation) => campaignParticipation.isShared === false
+      && campaignParticipation.campaign.get('isProfilesCollection'));
   }
 
-  get lastUnsharedCampaignParticipation() {
-    return _maxBy(this.unsharedCampaignParticipations, 'createdAt');
+  get participationToContinue() {
+    return _maxBy(this.unsharedProfileCollectionCampaignParticipations, 'createdAt');
   }
 
   get campaignParticipationState() {
-    if (this.lastUnsharedCampaignParticipation) {
+    if (this.participationToContinue) {
       return {
-        title: this.lastUnsharedCampaignParticipation.campaign.get('title'),
-        code: this.lastUnsharedCampaignParticipation.campaign.get('code'),
-        isTypeAssessment: this.lastUnsharedCampaignParticipation.campaign.get('isAssessment'),
-        assessment: this.lastUnsharedCampaignParticipation.assessment,
+        code: this.participationToContinue.campaign.get('code'),
+        isProfilesCollection: this.participationToContinue.campaign.get('isProfilesCollection'),
       };
     }
 

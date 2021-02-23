@@ -216,7 +216,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               await fillCertificationStarter({ accessCode: 'ABCD12' });
 
               await click('.challenge-actions__action-skip');
-              await visit('/profil');
+              await visit('/');
               // when
               await visit(`/certifications/${certificationCourse.id}`);
 

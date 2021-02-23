@@ -7,8 +7,6 @@ Fonctionnalité: Tutoriels utilisateur
   Scénario: Je n'ai pas sauvegardé de tutoriel
     Étant donné que je vais sur Pix
     Lorsque je me connecte avec le compte "daenerys.targaryen@pix.fr"
-    Alors je suis redirigé vers le profil de "Daenerys"
-    Et la page "Profil" est correctement affichée
     Lorsque je vais sur la page "/mes-tutos"
     Alors je vois le titre de la page "Mes tutos | Pix"
     Et la page mes-tutos est vide
@@ -18,8 +16,7 @@ Fonctionnalité: Tutoriels utilisateur
   Scénario: Je sauvegarde un tutoriel depuis la page de compétence puis le retire
     Étant donné que je vais sur Pix
     Lorsque je me connecte avec le compte "daenerys.targaryen@pix.fr"
-    Alors je suis redirigé vers le profil de "Daenerys"
-    Et la page "Profil" est correctement affichée
+    Lorsque je clique sur "Compétences"
     Lorsque je clique sur le rond de niveau de la compétence "Mathématiques"
     Alors la page "Compétence non commencée" est correctement affichée
     Lorsque je clique sur "Commencer"
