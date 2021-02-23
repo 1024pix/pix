@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
@@ -12,7 +12,7 @@ class CurrentUserStub extends Service {
 }
 
 module('Integration | Component | organization-credit-info', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let currentUserStub;
 
   hooks.beforeEach(function() {
@@ -33,7 +33,7 @@ module('Integration | Component | organization-credit-info', function(hooks) {
     // when
     await render(hbs`<OrganizationCreditInfo />`);
     const displayedCredit = document.querySelector('.organization-credit-info__label').textContent;
-    const expectedCredit = currentUserStub.organization.credit.toLocaleString() + ' crédits';
+    const expectedCredit = '10 000 crédits';
 
     // then
     assert.contains(expectedCredit);
