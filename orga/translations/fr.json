@@ -19,6 +19,10 @@
     }
   },
   "navigation": {
+    "credits": {
+      "number":"{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
+      "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
+    },
     "main": {
       "campaigns": "Campagnes",
       "certifications": "Certifications",
@@ -198,10 +202,6 @@
         "tutorial-total":"{count, plural, =1 {1 tuto} other {{count} tutos}}"
       },
       "waiting-results": "En attente de résultats"
-    },
-    "credits": {
-      "number":"{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
-      "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
     }
   }
 }
