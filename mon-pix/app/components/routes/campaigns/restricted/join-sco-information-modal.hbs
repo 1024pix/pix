@@ -1,15 +1,14 @@
-{{!-- template-lint-disable no-action no-invalid-interactive --}}
-<PixModal @containerClass="join-error-modal" @onClose={{action @closeModal}}>
+<PixModal @containerClass="join-error-modal" @onClickOverlay={{@closeModal}}>
   <div class="join-error-modal__header">
     <div class="join-error-modal-header__title">
       <h1 class="join-error-modal-header-title__text">{{t 'pages.join.sco.login-information-title'}}</h1>
     </div>
-    <div class="join-error-modal-header__close" aria-label={{t "common.actions.close"}} {{on 'click' @closeModal}}>
+    <button class="join-error-modal-header__close" type="button" aria-label={{t "common.actions.close"}} {{on 'click' @closeModal}}>
       <img src="/images/icons/icon-croix.svg" alt={{t 'common.actions.close'}} class="join-error-modal-header-close__icon">
-    </div>
+    </button>
   </div>
 
-  <div class="join-error-modal__body">
+  <div class="join-error-modal__body" {{on-key 'Escape' @closeModal}}>
     <div class="join-error-modal-body__message" aria-live="polite">{{this.message}}</div>
   </div>
 
@@ -21,7 +20,9 @@
       <button class="button {{if this.displayContinueButton "button--grey"}}" type="button" {{on 'click' this.goToHome}}>
         {{t 'common.actions.quit'}}</button>
       {{#if this.displayContinueButton}}
-        <button class="button" type="button" aria-label={{t 'pages.join.sco.continue-with-pix'}} {{on 'click' this.goToCampaignConnectionForm}}>{{t 'pages.join.sco.continue-with-pix'}}</button>
+        <button class="button" type="button" aria-label={{t 'pages.join.sco.continue-with-pix'}} {{on 'click' this.goToCampaignConnectionForm}}>
+          {{t 'pages.join.sco.continue-with-pix'}}
+        </button>
       {{/if}}
     {{/if}}
   </div>

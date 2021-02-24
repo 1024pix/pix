@@ -2,38 +2,38 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | User logged Menu', function() {
 
   setupTest();
+  let component;
 
-  describe('action#toggleUserMenu', function() {
+  beforeEach(function() {
+    component = createGlimmerComponent('component:user-logged-menu');
+  });
+
+  describe('#toggleUserMenu', function() {
     it('should return true, when user details is clicked', function() {
       // given
-      const component = this.owner.lookup('component:user-logged-menu');
+      component.canDisplayMenu = false;
 
       // when
-      component.send('toggleUserMenu');
-      // then
-      expect(component.get('_canDisplayMenu')).to.equal(true);
-    });
-
-    it('should return false as default value', function() {
-      // when
-      const component = this.owner.lookup('component:user-logged-menu');
+      component.toggleUserMenu();
 
       // then
-      expect(component.get('_canDisplayMenu')).to.equal(false);
+      expect(component.canDisplayMenu).to.equal(true);
     });
 
-    it('should return false, when _canDisplayMenu was previously true', function() {
+    it('should return false, when canDisplayMenu was previously true', function() {
       // given
-      const component = this.owner.lookup('component:user-logged-menu');
+      component.canDisplayMenu = true;
+
       // when
-      component.send('toggleUserMenu');
-      component.send('toggleUserMenu');
+      component.toggleUserMenu();
+
       // then
-      expect(component.get('_canDisplayMenu')).to.equal(false);
+      expect(component.canDisplayMenu).to.equal(false);
     });
   });
 
@@ -41,55 +41,50 @@ describe('Unit | Component | User logged Menu', function() {
 
     it('should return user\'s email if not undefined', function() {
       // given
-      const component = this.owner.lookup('component:user-logged-menu');
-      component.set('currentUser', Service.create({
+      component.currentUser = Service.create({
         user: {
           email: 'email@example.net',
         },
-      }));
+      });
 
       // then
-      expect(component.get('displayedIdentifier')).to.equal('email@example.net');
+      expect(component.displayedIdentifier).to.equal('email@example.net');
     });
 
     it('should return user\'s username if not undefined and no email defined', function() {
       // given
-      const component = this.owner.lookup('component:user-logged-menu');
-      component.set('currentUser', Service.create({
+      component.currentUser = Service.create({
         user: {
           username: 'my username',
         },
-      }));
+      });
 
       // then
-      expect(component.get('displayedIdentifier')).to.equal('my username');
+      expect(component.displayedIdentifier).to.equal('my username');
     });
 
     it('should return user\'s email if email and username are defined', function() {
       // given
-      const component = this.owner.lookup('component:user-logged-menu');
-      component.set('currentUser', Service.create({
+      component.currentUser = Service.create({
         user: {
           email: 'email@example.net',
           username: 'my username',
         },
-      }));
+      });
 
       // then
-      expect(component.get('displayedIdentifier')).to.equal('email@example.net');
+      expect(component.displayedIdentifier).to.equal('email@example.net');
     });
 
     it('should return undefined if no email or username are defined', function() {
       // given
-      const component = this.owner.lookup('component:user-logged-menu');
-      component.set('currentUser', Service.create({
+      component.currentUser = Service.create({
         user: {
-
         },
-      }));
+      });
 
       // then
-      expect(component.get('displayedIdentifier')).to.equal(undefined);
+      expect(component.displayedIdentifier).to.equal(undefined);
     });
   });
 });
