@@ -2,7 +2,7 @@
   <h1 class="page__title page-title">{{ t 'pages.campaign-modification.title' }}</h1>
   <h2 class="page-sub-title">{{@subTitle}}</h2>
 
-  <form {{on 'submit' @update}} class="campaign-creation-form">
+  <form class="campaign-creation-form">
     <div class="form__field">
       <label for="campaign-name" class="label">{{ t 'pages.campaign-modification.campaign-name' }}</label>
       <Input
@@ -35,9 +35,12 @@
     </div>
 
     <div class="form__validation">
-      <button class="button button--no-color" type="button" {{on 'click' (fn @cancel @campaign.id)}}>{{t 'common.actions.cancel'}}</button>
-      <button class="button" type="submit">{{t 'pages.campaign-modification.actions.edit'}}</button>
+      <PixButton @triggerAction={{fn @cancel @campaign.id}} class="button button--no-color">
+        {{ t 'common.actions.cancel' }}
+      </PixButton>
+      <PixButton @type="submit" @triggerAction={{@update}} class="button">
+        {{t 'pages.campaign-modification.actions.edit'}}
+      </PixButton>
     </div>
   </form>
 </div>
-
