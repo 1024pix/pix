@@ -35,7 +35,7 @@
         {{#if this.displayTimer}}
           <div class="timeout-gauge-wrapper">
             <TimeoutGauge @allottedTime={{@challenge.timer}}
-                          @updateChallengeTimedOut={{this.updateChallengeTimedOut}} />
+                          @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}} />
           </div>
         {{/if}}
       </div>
