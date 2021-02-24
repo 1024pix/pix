@@ -77,8 +77,7 @@ module.exports = function(environment) {
 
     matomo: {},
 
-    formBuilderLinkUrlReportsCategorisation: 'https://form-eu.123formbuilder.com/41052/form',
-    formBuilderLinkUrlNoReportsCategorisation: 'https://eu.123formbuilder.com/form-29080/certification-depot-du-pv-de-session-scanne',
+    formBuilderLinkUrl: 'https://form-eu.123formbuilder.com/41052/form',
     urlToDownloadSessionIssueReportSheet: 'https://cloud.pix.fr/s/B76yA8ip9Radej9/download',
   };
 

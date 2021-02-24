@@ -54,208 +54,76 @@ module('Acceptance | Session Finalization', function(hooks) {
 
     module('When certificationPointOfContact click on "Finaliser" button', function() {
 
-      let finalizeController;
-
-      module('when reportsCategorization toggle is on', function() {
-
-        module('when there is no certification issue reports', function() {
-          test('it should show "Ajouter ?" button', async function(assert) {
+      module('when there is no certification issue reports', function() {
+        test('it should show "Ajouter ?" button', async function(assert) {
           // given
-            const expectedText = 'Ajouter ?';
-            server.create('feature-toggle', { id: 0, reportsCategorization: true });
-            const certificationReportsWithoutIssueReport = server.create('certification-report', { certificationCourseId: 1 });
-            const certificationReports = [certificationReportsWithoutIssueReport];
-            session.update({ certificationReports });
+          const expectedText = 'Ajouter ?';
+          const certificationReportsWithoutIssueReport = server.create('certification-report', { certificationCourseId: 1 });
+          const certificationReports = [certificationReportsWithoutIssueReport];
+          session.update({ certificationReports });
 
-            // when
-            await visit(`/sessions/${session.id}/finalisation`);
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
 
-            // then
-            assert.dom('[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link').hasText(expectedText);
-          });
-        });
-
-        module('when we add a certification issue report', function() {
-          test('it should show "Ajouter / modifier" button', async function(assert) {
-            // given
-            const expectedTextWithIssueReport = 'Ajouter / modifier';
-            const expectedTextWithoutIssueReport = 'Ajouter ?';
-            const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
-            const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 = '[data-test-id="finalization-report-certification-issue-reports_2"] .button--showed-as-link';
-            const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-category-other';
-            const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-category-other';
-            const VALIDATE_CERTIFICATION_ISSUE_REPORT = '.add-issue-report-modal__actions .button.button--extra-thin';
-            server.create('feature-toggle', { id: 0, reportsCategorization: true });
-
-            const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', { certificationCourseId: 1 });
-            const certificationReportsWithCertificationIssueReport = server.create('certification-report', { certificationCourseId: 2 });
-
-            const certificationReports = [certificationReportsWithCertificationIssueReport, certificationReportsWithoutCertificationIssueReport];
-            session.update({ certificationReports });
-
-            // when
-            await visit(`/sessions/${session.id}/finalisation`);
-            await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2);
-            await click(RADIO_BTN_OF_TYPE_OTHER);
-            await fillIn(TEXT_AREA_OF_TYPE_OTHER, 'Coucou');
-            await click(VALIDATE_CERTIFICATION_ISSUE_REPORT);
-
-            // then
-            assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1).hasText(expectedTextWithoutIssueReport);
-            assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2).hasText(expectedTextWithIssueReport);
-          });
-        });
-
-        module('when we delete a certification issue report', function() {
-          test('it should show the remaining count of issue reports', async function(assert) {
-            // given
-            const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
-
-            server.create('feature-toggle', { id: 0, reportsCategorization: true });
-
-            const certificationReport = server.create('certification-report', { certificationCourseId: 1 });
-            const certificationIssueReport1 = server.create('certification-issue-report', { certificationReportId: certificationReport.id });
-            const certificationIssueReport2 = server.create('certification-issue-report', { certificationReportId: certificationReport.id });
-
-            const certificationIssueReports = [certificationIssueReport1, certificationIssueReport2];
-            certificationReport.update({ certificationIssueReports });
-            session.update({ certificationReports: [certificationReport] });
-
-            // when
-            await visit(`/sessions/${session.id}/finalisation`);
-            await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1);
-            await click('button[aria-label="Supprimer le signalement"]');
-            await click('button[aria-label="Fermer"]');
-
-            // then
-            assert.contains('1 signalement');
-          });
+          // then
+          assert.dom('[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link').hasText(expectedText);
         });
       });
 
-      module('when reportsCategorization toggle is off', function(hooks) {
-
-        hooks.beforeEach(function() {
-          finalizeController = this.owner.lookup('controller:authenticated.sessions.finalize');
-          return visit(`/sessions/${session.id}/finalisation`);
-        });
-
-        test('it should allow the certificationPointOfContact to comment the session in textarea', async function(assert) {
+      module('when we add a certification issue report', function() {
+        test('it should show "Ajouter / modifier" button', async function(assert) {
           // given
-          const expectedComment = 'You are a wizard Harry!';
-          const expectedIndicator = expectedComment.length + ' / 500';
+          const expectedTextWithIssueReport = 'Ajouter / modifier';
+          const expectedTextWithoutIssueReport = 'Ajouter ?';
+          const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
+          const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 = '[data-test-id="finalization-report-certification-issue-reports_2"] .button--showed-as-link';
+          const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-category-other';
+          const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-category-other';
+          const VALIDATE_CERTIFICATION_ISSUE_REPORT = '.add-issue-report-modal__actions .button.button--extra-thin';
+
+          const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', { certificationCourseId: 1 });
+          const certificationReportsWithCertificationIssueReport = server.create('certification-report', { certificationCourseId: 2 });
+
+          const certificationReports = [certificationReportsWithCertificationIssueReport, certificationReportsWithoutCertificationIssueReport];
+          session.update({ certificationReports });
 
           // when
-          await fillIn('#examiner-global-comment', 'You are a wizard Harry!');
+          await visit(`/sessions/${session.id}/finalisation`);
+          await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2);
+          await click(RADIO_BTN_OF_TYPE_OTHER);
+          await fillIn(TEXT_AREA_OF_TYPE_OTHER, 'Coucou');
+          await click(VALIDATE_CERTIFICATION_ISSUE_REPORT);
 
           // then
-          assert.equal(finalizeController.session.examinerGlobalComment, expectedComment);
-          assert.dom('#examiner-global-comment + p').hasText(expectedIndicator);
+          assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1).hasText(expectedTextWithoutIssueReport);
+          assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2).hasText(expectedTextWithIssueReport);
         });
+      });
 
-        test('it checks the hasSeenEndTestScreen checkbox', async function(assert) {
-          const certificationReport = await _checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
+      module('when we delete a certification issue report', function() {
+        test('it should show the remaining count of issue reports', async function(assert) {
+          // given
+          const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
 
-          assert.equal(certificationReport.hasSeenEndTestScreen, true);
-        });
+          const certificationReport = server.create('certification-report', { certificationCourseId: 1 });
+          const certificationIssueReport1 = server.create('certification-issue-report', { certificationReportId: certificationReport.id });
+          const certificationIssueReport2 = server.create('certification-issue-report', { certificationReportId: certificationReport.id });
 
-        test('it checks all the checkboxes that can be checked using the check all options', async function(assert) {
-          const certificationReports = finalizeController.session.certificationReports.toArray();
-          const certificationReportA = certificationReports[0];
-          const certificationReportB = certificationReports[1];
-          await click('.session-finalization-reports-informations-step__checker');
+          const certificationIssueReports = [certificationIssueReport1, certificationIssueReport2];
+          certificationReport.update({ certificationIssueReports });
+          session.update({ certificationReports: [certificationReport] });
 
-          assert.equal(certificationReportA.hasSeenEndTestScreen, true);
-          assert.equal(certificationReportB.hasSeenEndTestScreen, true);
-        });
-
-        test('it should open the confirm modal', async function(assert) {
-        // when
-          await click('[data-test-id="finalize__button"]');
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
+          await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1);
+          await click('button[aria-label="Supprimer le signalement"]');
+          await click('button[aria-label="Fermer"]');
 
           // then
-          assert.equal(finalizeController.showConfirmModal, true);
-          assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
+          assert.contains('1 signalement');
         });
-
-        module('when confirm modal is open', function(hooks) {
-          hooks.beforeEach(function() {
-            return click('[data-test-id="finalize__button"]');
-          });
-
-          test('it should close the modal on "fermer" cross click', async function(assert) {
-          // when
-            await click('[data-test-id="finalize-session-modal__close-cross"]');
-
-            // then
-            assert.equal(finalizeController.showConfirmModal, false);
-            assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
-          });
-
-          test('it should display the number of unchecked options (all)', async function(assert) {
-            assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 2 candidat(s)');
-          });
-
-          test('it should close the modal on cancel button click', async function(assert) {
-          // when
-            await click('[data-test-id="finalize-session-modal__cancel-button"]');
-
-            // then
-            assert.equal(finalizeController.showConfirmModal, false);
-            assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
-          });
-
-          test('it should close the modal on confirm button click', async function(assert) {
-          // when
-            await click('[data-test-id="finalize-session-modal__confirm-button"]');
-
-            // then
-            assert.equal(finalizeController.showConfirmModal, false);
-          });
-
-          test('it should redirect to session details page on confirm button click', async function(assert) {
-          // when
-            await click('[data-test-id="finalize-session-modal__confirm-button"]');
-
-            // then
-            assert.equal(currentURL(), `/sessions/${session.id}`);
-          });
-
-          test('it should show a success notification on session details page', async function(assert) {
-          // when
-            await click('[data-test-id="finalize-session-modal__confirm-button"]');
-
-            // then
-            assert.dom('[data-test-notification-message="success"]').exists();
-            assert.dom('[data-test-notification-message="success"]').hasText('Les informations de la session ont été transmises avec succès.');
-          });
-
-        });
-
-        module('when confirm modal is open with one checked option', function(hooks) {
-          hooks.beforeEach(async function(assert) {
-            await _checkFirstHasSeenEndTestScreenOption(finalizeController, assert);
-            return click('[data-test-id="finalize__button"]');
-          });
-
-          test('it should display the number of unchecked options (one)', async function(assert) {
-            assert.dom('.app-modal-body__contextual').hasText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
-          });
-        });
-
       });
     });
-
   });
 });
-
-async function _checkFirstHasSeenEndTestScreenOption(finalizeController, assert) {
-  const certificationReports = finalizeController.session.certificationReports.toArray();
-  const certificationReport = certificationReports[0];
-  const id = certificationReport.certificationCourseId;
-  assert.equal(certificationReport.hasSeenEndTestScreen, false);
-  const checkboxSelector = `[data-test-id="finalization-report-has-seen-end-test-screen_${id}"]`;
-  await click(checkboxSelector);
-  return certificationReport;
-}
 

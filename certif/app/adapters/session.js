@@ -16,7 +16,6 @@ export default class SessionAdapter extends ApplicationAdapter {
     if (snapshot.adapterOptions) {
       if (snapshot.adapterOptions.finalization) {
         const model = snapshot.record;
-        const mustIncludeFormerExaminerComment = snapshot.adapterOptions.isReportsCategorizationFeatureToggleEnabled !== true;
         const data = {
           data: {
             attributes: {
@@ -24,17 +23,11 @@ export default class SessionAdapter extends ApplicationAdapter {
             },
             included: model.certificationReports
               .map((certificationReport) => {
-                const certificationReportDTO = {
+                return {
                   type: 'certification-reports',
                   id: certificationReport.get('id'),
                   attributes: { ...certificationReport.toJSON() },
                 };
-                if (mustIncludeFormerExaminerComment) {
-                  certificationReportDTO.attributes.examinerComment = certificationReport.firstIssueReportDescription
-                    ? certificationReport.firstIssueReportDescription
-                    : null;
-                }
-                return certificationReportDTO;
               }),
           },
         };

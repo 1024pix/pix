@@ -1,47 +1,33 @@
 <div class="session-finalization-examiner-global-comment-step">
-  {{#if @isReportsCategorizationFeatureToggleEnabled}}
-    <div class="session-finalization-examiner-global-comment-step__header-container">
-      <div>
-        <label for="session-finalization-examiner-global-comment-step-no-problem-encountered">
-          <input
-            type="radio"
-            id="session-finalization-examiner-global-comment-step-no-problem-encountered"
-            name="session-finalization-examiner-global-comment"
-            checked="true"
-            aria-label="Ne déclarer aucun incident"
-            {{on "change" (fn this.toggleDisplayExaminerGlobalCommentTextArea false)}}
-          >
-            Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1.
-        </label>
-      </div>
-
-      <div>
-        <label for="session-finalization-examiner-global-comment-step-problem-encountered">
-          <input
-            type="radio"
-            id="session-finalization-examiner-global-comment-step-problem-encountered"
-            name="session-finalization-examiner-global-comment"
-            aria-label="Signaler un incident"
-            {{on "change" (fn this.toggleDisplayExaminerGlobalCommentTextArea true)}}
-          >
-          Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble
-        </label>
-      </div>
-    </div>
-    {{#if this.displayExaminerGlobalCommentTextArea}}
-      <PixTextarea
-        @id="examiner-global-comment"
-        {{on 'input' @updateExaminerGlobalComment}}
-        @value={{@session.examinerGlobalComment}}
-        @maxlength={{@examinerGlobalCommentMaxLength}}
-        class="session-finalization-examiner-global-comment-step__textarea" />
-    {{/if}}
-  {{else}}
-    <div class="session-finalization-examiner-global-comment-step__header-container">
-      <label for="examiner-global-comment" class="session-finalization-examiner-global-comment-step__label">
-        Vous pouvez indiquer un commentaire global sur cette session, par exemple si vous avez rencontré un problème technique qui a impacté le déroulement de la session.
+  <div class="session-finalization-examiner-global-comment-step__header-container">
+    <div>
+      <label for="session-finalization-examiner-global-comment-step-no-problem-encountered">
+        <input
+          type="radio"
+          id="session-finalization-examiner-global-comment-step-no-problem-encountered"
+          name="session-finalization-examiner-global-comment"
+          checked="true"
+          aria-label="Ne déclarer aucun incident"
+          {{on "change" (fn this.toggleDisplayExaminerGlobalCommentTextArea false)}}
+        >
+          Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1.
       </label>
     </div>
+
+    <div>
+      <label for="session-finalization-examiner-global-comment-step-problem-encountered">
+        <input
+          type="radio"
+          id="session-finalization-examiner-global-comment-step-problem-encountered"
+          name="session-finalization-examiner-global-comment"
+          aria-label="Signaler un incident"
+          {{on "change" (fn this.toggleDisplayExaminerGlobalCommentTextArea true)}}
+        >
+        Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble
+      </label>
+    </div>
+  </div>
+  {{#if this.displayExaminerGlobalCommentTextArea}}
     <PixTextarea
       @id="examiner-global-comment"
       {{on 'input' @updateExaminerGlobalComment}}
