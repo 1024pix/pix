@@ -86,8 +86,8 @@ export default class ChallengeItemQroc extends ChallengeItemGeneric {
     this.errorMessage = null;
   }
 
-  removeEventListener() {
-    this.cancelTimer();
+  @action
+  removeEmbedAutoEventListener() {
     window.removeEventListener('message', this.postMessageHandler);
   }
 

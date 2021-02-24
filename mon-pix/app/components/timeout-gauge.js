@@ -33,6 +33,7 @@ export default class TimeoutGauge extends Component {
         this.remainingSeconds = this.remainingSeconds - 1;
 
         if (this._isTimedOut()) {
+          this.args.setChallengeAsTimedOut();
           this._stopTimer();
         }
       }, TICK_INTERVAL_IN_MILLISECONDS);
