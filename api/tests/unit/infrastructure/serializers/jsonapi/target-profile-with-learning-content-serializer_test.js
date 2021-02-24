@@ -32,6 +32,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             outdated: targetProfileWithLearningContent.outdated,
             'is-public': targetProfileWithLearningContent.isPublic,
             'owner-organization-id': targetProfileWithLearningContent.ownerOrganizationId,
+            'image-url': targetProfileWithLearningContent.imageUrl,
             'created-at': targetProfileWithLearningContent.createdAt,
           },
           relationships: {
