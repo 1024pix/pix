@@ -65,7 +65,6 @@ export default class ChallengeItemGeneric extends Component {
       }
 
       this.errorMessage = null;
-      this.hasUserConfirmedWarning = false;
       this.isValidateButtonEnabled = false;
 
       return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this._elapsedTime)
@@ -82,7 +81,6 @@ export default class ChallengeItemGeneric extends Component {
   skipChallenge() {
     if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
       this.errorMessage = null;
-      this.hasUserConfirmedWarning = false;
       this.isSkipButtonEnabled = false;
 
       return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._elapsedTime)
