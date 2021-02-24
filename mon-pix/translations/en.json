@@ -947,7 +947,7 @@
                 "last-name": "Last name",
                 "email": "Email address",
                 "username": "Username",
-                "lang": "",
+                "lang": "Languages",
                 "edit-button": "Edit",
                 "fields": {
                     "select": {
@@ -959,26 +959,26 @@
                 }
             },
             "account-update-email": {
-                "title": "",
-                "email-information": "",
-                "password-information": "",
-                "save-button": "",
+                "title": "Change your email address",
+                "email-information": "Please provide a valid email address: it will be used to reset your password if you forget it. '<br>'This will change the email address you use to log in.",
+                "password-information": "Enter your password to confirm",
+                "save-button": "Confirm",
                 "fields": {
                     "new-email": {
-                        "label": ""
+                        "label": "New email address"
                     },
                     "new-email-confirmation": {
-                        "label": ""
+                        "label": "Confirm your email address"
                     },
                     "password": {
                         "label": "Password"
                     },
                     "errors": {
                         "wrong-email-format": "Your email address is invalid.",
-                        "mismatching-email": "",
+                        "mismatching-email": "The email addresses you entered do not match. Please check your entry for spelling errors.",
                         "empty-password": "Your password can't be empty.",
-                        "invalid-password": "",
-                        "unknown-error": ""
+                        "invalid-password": "There was an error in the password entered.",
+                        "unknown-error": "An error has occured. Please try again or contact the support."
                     }
                 }
             }
