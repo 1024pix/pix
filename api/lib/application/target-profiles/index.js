@@ -192,6 +192,27 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/target-profiles/{id}/stages',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.findByTargetProfileId,
+        tags: ['api', 'target-profiles', 'stages'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer les paliers attachés au profil cible',
+        ],
+      },
+    },
   ]);
 };
 

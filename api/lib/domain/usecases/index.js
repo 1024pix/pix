@@ -172,6 +172,7 @@ module.exports = injectDependencies({
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
   findStudentsForEnrollment: require('./find-students-for-enrollment'),
   findTargetProfileBadges: require('./find-target-profile-badges'),
+  findTargetProfileStages: require('./find-target-profile-stages'),
   findTutorials: require('./find-tutorials'),
   findUserCampaignParticipationOverviews: require('./find-user-campaign-participation-overviews'),
   findUserTutorials: require('./find-user-tutorials'),
