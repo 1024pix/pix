@@ -176,6 +176,9 @@
       "actions": {
         "edit": "Edit"
       },
+      "campaign-name": "Name of the campaign",
+      "landing-page-text": "Text to display on the starting page",
+      "personalised-test-title": "Title of the personalised test",
       "title": "Edit a campaign"
     },
     "campaign-review": {

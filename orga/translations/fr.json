@@ -176,6 +176,9 @@
       "actions": {
         "edit": "Modifier"
       },
+      "campaign-name": "Nom de la campagne",
+      "landing-page-text": "Texte de la page d'accueil",
+      "personalised-test-title": "Titre du parcours",
       "title": "Modification d'une campagne"
     },
     "campaign-review": {
