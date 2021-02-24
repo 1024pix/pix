@@ -14,6 +14,7 @@ class TargetProfileWithLearningContent {
     areas = [],
     badges = [],
     stages = [],
+    imageUrl,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -27,6 +28,7 @@ class TargetProfileWithLearningContent {
     this.areas = areas;
     this.badges = badges;
     this.stages = _.sortBy(stages, 'threshold');
+    this.imageUrl = imageUrl;
   }
 
   get skillNames() {
