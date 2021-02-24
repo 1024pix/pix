@@ -3,10 +3,8 @@ const bluebird = require('bluebird');
 
 const Bookshelf = require('../bookshelf');
 const CertificationReport = require('../../domain/models/CertificationReport');
-const { CertificationIssueReportCategories } = require('../../domain/models/CertificationIssueReportCategory');
 
 const CertificationCourseBookshelf = require('../data/certification-course');
-const CertificationIssueReportBookshelf = require('../data/certification-issue-report');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const { CertificationCourseUpdateError } = require('../../domain/errors');
 
@@ -48,13 +46,4 @@ async function _finalize({ certificationReport, transaction = undefined }) {
 
   await new CertificationCourseBookshelf({ id: certificationReport.certificationCourseId })
     .save({ hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen }, saveOptions);
-
-  // Remove this behavior when FT_REPORTS_CATEGORISATION is removed
-  if (certificationReport.examinerComment) {
-    await new CertificationIssueReportBookshelf({
-      certificationCourseId: certificationReport.certificationCourseId,
-      description: certificationReport.examinerComment,
-      category: CertificationIssueReportCategories.OTHER,
-    }).save(null, { transacting: transaction });
-  }
 }

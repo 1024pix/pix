@@ -5,8 +5,7 @@ const { stat } = require('fs').promises;
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
 
-// TODO : to promote as only test file for this route acceptance test when FT_REPORTS_CATEGORISATION will be removed
-describe('Acceptance | Controller | session-controller-import-certification-candidates-from-attendance-sheet (reportsCategorization)', () => {
+describe('Acceptance | Controller | session-controller-import-certification-candidates-from-attendance-sheet', () => {
 
   let server;
 
