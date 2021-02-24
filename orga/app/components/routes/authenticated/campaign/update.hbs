@@ -1,10 +1,10 @@
 <div class="update-campaign-page">
-  <h1 class="page__title page-title">Modification d'une campagne</h1>
+  <h1 class="page__title page-title">{{ t 'pages.campaign-modification.title' }}</h1>
   <h2 class="page-sub-title">{{@subTitle}}</h2>
 
-  <form {{on 'submit' @update}} class="campaign-creation-form">
+  <form class="campaign-creation-form">
     <div class="form__field">
-      <label for="campaign-name" class="label">Nom de la campagne</label>
+      <label for="campaign-name" class="label">{{ t 'pages.campaign-modification.campaign-name' }}</label>
       <Input
         @id="campaign-name"
         @name="campaign-name"
@@ -17,7 +17,7 @@
 
     {{#if @campaign.isTypeAssessment}}
       <div class="form__field">
-        <label for="campaign-title" class="label">Titre du parcours</label>
+        <label for="campaign-title" class="label">{{ t 'pages.campaign-modification.personalised-test-title' }}</label>
         <Input
           @id="campaign-title"
           @name="campaign-title"
@@ -30,14 +30,17 @@
     {{/if}}
 
     <div class="form__field">
-      <label for="campaign-custom-landing-page-text" class="label">Texte de la page d'accueil</label>
+      <label for="campaign-custom-landing-page-text" class="label">{{ t 'pages.campaign-modification.landing-page-text' }}</label>
       <Textarea @id="campaign-custom-landing-page-text" @name="campaign-custom-landing-page-text" @maxlength="350" @rows={{8}} @value={{@campaign.customLandingPageText}} class="textarea" />
     </div>
 
     <div class="form__validation">
-      <button class="button button--no-color" type="button" {{on 'click' (fn @cancel @campaign.id)}}>Annuler</button>
-      <button class="button" type="submit">Modifier</button>
+      <PixButton @triggerAction={{fn @cancel @campaign.id}} class="button button--no-color">
+        {{ t 'common.actions.cancel' }}
+      </PixButton>
+      <PixButton @type="submit" @triggerAction={{@update}} class="button">
+        {{t 'pages.campaign-modification.actions.edit'}}
+      </PixButton>
     </div>
   </form>
 </div>
-

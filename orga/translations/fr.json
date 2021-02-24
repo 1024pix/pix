@@ -172,6 +172,15 @@
         }
       }
     },
+    "campaign-modification" : {
+      "actions": {
+        "edit": "Modifier"
+      },
+      "campaign-name": "Nom de la campagne",
+      "landing-page-text": "Texte de la page d'accueil",
+      "personalised-test-title": "Titre du parcours",
+      "title": "Modification d'une campagne"
+    },
     "campaign-review": {
       "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
       "header": {
