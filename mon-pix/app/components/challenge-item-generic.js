@@ -1,9 +1,7 @@
 import { action } from '@ember/object';
-import { cancel, later } from '@ember/runloop';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
-import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeItemGeneric extends Component {
 
@@ -13,19 +11,6 @@ export default class ChallengeItemGeneric extends Component {
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
   @tracked _elapsedTime = null;
-
-  _timer = null;
-
-  constructor() {
-    super(...arguments);
-    if (!this.isTimedChallenge) {
-      this._start();
-    }
-  }
-
-  cancelTimer() {
-    cancel(this._timer);
-  }
 
   get isTimedChallenge() {
     return isInteger(this.args.challenge.timer);
@@ -62,29 +47,15 @@ export default class ChallengeItemGeneric extends Component {
     }
   }
 
-  _start() {
-    this._elapsedTime = 0;
-    this._tick();
-  }
-
-  _tick() {
-    if (ENV.APP.isChallengeTimerEnable) {
-      const timer = later(this, function() {
-        const elapsedTime = this._elapsedTime;
-        this._elapsedTime = elapsedTime + 1;
-        if ((this._elapsedTime - this.args.challenge.timer) >= 0) {
-          this.hasChallengeTimedOut = true;
-        } else {
-          this._tick();
-        }
-      }, 1000);
-
-      this._timer = timer;
-    }
+  @action
+  setChallengeAsTimedOut() {
+    this.hasChallengeTimedOut = true;
   }
 
   @action
-  validateAnswer() {
+  validateAnswer(event) {
+    event.preventDefault();
+
     if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
 
       if (this._hasError() && !this.hasChallengeTimedOut) {
@@ -121,7 +92,6 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   setUserConfirmation() {
-    this._start();
     this.hasUserConfirmedWarning = true;
   }
 }
