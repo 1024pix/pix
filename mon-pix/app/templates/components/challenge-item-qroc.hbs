@@ -1,6 +1,6 @@
 <article class="challenge-item"
          data-challenge-id="{{@challenge.id}}"
-         {{will-destroy this.removeEventListener}}>
+         {{will-destroy this.removeEmbedAutoEventListener}}>
   {{#if this.isTimedChallengeWithoutAnswer}}
     {{#unless this.hasUserConfirmedWarning}}
       <TimedChallengeInstructions @hasUserConfirmedWarning={{this.setUserConfirmation}} @time={{@challenge.timer}} />
@@ -37,7 +37,7 @@
           {{#if this.displayTimer}}
             <div class="timeout-gauge-wrapper">
               <TimeoutGauge @allottedTime={{@challenge.timer}}
-                            @updateChallengeTimedOut={{this.updateChallengeTimedOut}}/>
+                            @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}}/>
             </div>
           {{/if}}
         </div>
