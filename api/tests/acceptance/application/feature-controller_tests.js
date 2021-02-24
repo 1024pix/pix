@@ -23,7 +23,6 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
         data: {
           id: '0',
           attributes: {
-            'reports-categorization': false,
             'is-pole-emploi-enabled': false,
             'my-account': false,
             'is-certification-results-in-orga-enabled': false,
