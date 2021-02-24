@@ -65,150 +65,75 @@ module('Unit | Adapter | session', function(hooks) {
     });
 
     module('when finalization adapter option passed', () => {
-      module('when report categorization toggle is off', () => {
-        test('should trigger an ajax call with the url, data with former examinerComment', async (assert) => {
-          // given
-          sinon.stub(adapter, 'ajax').resolves();
-          const expectedMethod = 'PUT';
-          const examinerGlobalComment = 'Une super session';
-          const certifReportAttributes1 = {
-            certificationCourseId: 1,
-            firstName: 'Laura',
-            LastName: 'Carray',
-            hasSeenEndTestScreen: true,
-          };
-          const certificationReport1 = {
-            get: sinon.stub().returns(1),
-            toJSON: sinon.stub().returns(certifReportAttributes1),
-          };
-          const certifReportAttributes2 = {
-            certificationCourseId: 2,
-            firstName: 'Tom',
-            LastName: 'Jedusor',
-            hasSeenEndTestScreen: false,
-          };
-          const certificationReport2 = {
-            firstIssueReportDescription: 'Il a eu un soucis',
-            get: sinon.stub().returns(2),
-            toJSON: sinon.stub().returns(certifReportAttributes2),
-          };
-          const session = {
-            examinerGlobalComment,
-            certificationReports: [ certificationReport1, certificationReport2 ],
-          };
-          const snapshot = {
-            id: 123,
-            adapterOptions: { finalization: true, isReportsCategorizationFeatureToggleEnabled: false },
-            record: session,
-          };
 
-          // when
-          await adapter.updateRecord(store, { modelName: 'session' }, snapshot);
+      test('should trigger an ajax call with the url, data without former examinerComment', async (assert) => {
+        // given
+        sinon.stub(adapter, 'ajax').resolves();
+        const expectedMethod = 'PUT';
+        const examinerGlobalComment = 'Une super session';
+        const certifReportAttributes1 = {
+          certificationCourseId: 1,
+          firstName: 'Laura',
+          LastName: 'Carray',
+          hasSeenEndTestScreen: true,
+        };
+        const certificationReport1 = {
+          get: sinon.stub().returns(1),
+          toJSON: sinon.stub().returns(certifReportAttributes1),
+        };
+        const certifReportAttributes2 = {
+          certificationCourseId: 2,
+          firstName: 'Tom',
+          LastName: 'Jedusor',
+          hasSeenEndTestScreen: false,
+        };
+        const certificationReport2 = {
+          firstIssueReportDescription: 'Il a eu un soucis',
+          get: sinon.stub().returns(2),
+          toJSON: sinon.stub().returns(certifReportAttributes2),
+        };
+        const session = {
+          examinerGlobalComment,
+          certificationReports: [ certificationReport1, certificationReport2 ],
+        };
+        const snapshot = {
+          id: 123,
+          adapterOptions: { finalization: true },
+          record: session,
+        };
 
-          // then
-          const expectedUrl = 'http://localhost:3000/api/sessions/123/finalization';
-          const expectedData = {
+        // when
+        await adapter.updateRecord(store, { modelName: 'session' }, snapshot);
+
+        // then
+        const expectedUrl = 'http://localhost:3000/api/sessions/123/finalization';
+        const expectedData = {
+          data: {
             data: {
-              data: {
-                attributes: {
-                  'examiner-global-comment': examinerGlobalComment,
-                },
-                included: [
-                  {
-                    type: 'certification-reports',
-                    id: 1,
-                    attributes: {
-                      ...certifReportAttributes1,
-                      examinerComment: null,
-                    },
-                  },
-                  {
-                    type: 'certification-reports',
-                    id: 2,
-                    attributes: {
-                      ...certifReportAttributes2,
-                      examinerComment: 'Il a eu un soucis',
-                    },
-                  },
-                ],
+              attributes: {
+                'examiner-global-comment': examinerGlobalComment,
               },
-            },
-          };
-          sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
-          assert.ok(true);
-        });
-      });
-
-      module('when report categorization toggle is on', () => {
-        test('should trigger an ajax call with the url, data without former examinerComment', async (assert) => {
-          // given
-          sinon.stub(adapter, 'ajax').resolves();
-          const expectedMethod = 'PUT';
-          const examinerGlobalComment = 'Une super session';
-          const certifReportAttributes1 = {
-            certificationCourseId: 1,
-            firstName: 'Laura',
-            LastName: 'Carray',
-            hasSeenEndTestScreen: true,
-          };
-          const certificationReport1 = {
-            get: sinon.stub().returns(1),
-            toJSON: sinon.stub().returns(certifReportAttributes1),
-          };
-          const certifReportAttributes2 = {
-            certificationCourseId: 2,
-            firstName: 'Tom',
-            LastName: 'Jedusor',
-            hasSeenEndTestScreen: false,
-          };
-          const certificationReport2 = {
-            firstIssueReportDescription: 'Il a eu un soucis',
-            get: sinon.stub().returns(2),
-            toJSON: sinon.stub().returns(certifReportAttributes2),
-          };
-          const session = {
-            examinerGlobalComment,
-            certificationReports: [ certificationReport1, certificationReport2 ],
-          };
-          const snapshot = {
-            id: 123,
-            adapterOptions: { finalization: true, isReportsCategorizationFeatureToggleEnabled: true },
-            record: session,
-          };
-
-          // when
-          await adapter.updateRecord(store, { modelName: 'session' }, snapshot);
-
-          // then
-          const expectedUrl = 'http://localhost:3000/api/sessions/123/finalization';
-          const expectedData = {
-            data: {
-              data: {
-                attributes: {
-                  'examiner-global-comment': examinerGlobalComment,
+              included: [
+                {
+                  type: 'certification-reports',
+                  id: 1,
+                  attributes: {
+                    ...certifReportAttributes1,
+                  },
                 },
-                included: [
-                  {
-                    type: 'certification-reports',
-                    id: 1,
-                    attributes: {
-                      ...certifReportAttributes1,
-                    },
+                {
+                  type: 'certification-reports',
+                  id: 2,
+                  attributes: {
+                    ...certifReportAttributes2,
                   },
-                  {
-                    type: 'certification-reports',
-                    id: 2,
-                    attributes: {
-                      ...certifReportAttributes2,
-                    },
-                  },
-                ],
-              },
+                },
+              ],
             },
-          };
-          sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
-          assert.ok(true);
-        });
+          },
+        };
+        sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+        assert.ok(true);
       });
     });
   });

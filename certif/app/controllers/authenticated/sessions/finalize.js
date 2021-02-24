@@ -15,8 +15,7 @@ export default class SessionsFinalizeController extends Controller {
 
   @service notifications;
 
-  @alias('model.session') session;
-  @alias('model.isReportsCategorizationFeatureToggleEnabled') isReportsCategorizationFeatureToggleEnabled;
+  @alias('model') session;
 
   examinerGlobalCommentMaxLength = 500;
   issueReportDescriptionMaxLength = 500;
@@ -35,10 +34,6 @@ export default class SessionsFinalizeController extends Controller {
     return this.uncheckedHasSeenEndTestScreenCount > 0;
   }
 
-  get stepTwoTitle() {
-    return this.isReportsCategorizationFeatureToggleEnabled ? 'Transmettre des documents (facultatif)' : 'Transmettre le PV de session scanné et autres documents éventuels' ;
-  }
-
   showErrorNotification(message) {
     this.notifications.error(message);
   }
@@ -51,7 +46,7 @@ export default class SessionsFinalizeController extends Controller {
   async finalizeSession() {
     this.isLoading = true;
     try {
-      await this.session.save({ adapterOptions: { finalization: true, isReportsCategorizationFeatureToggleEnabled: this.isReportsCategorizationFeatureToggleEnabled } });
+      await this.session.save({ adapterOptions: { finalization: true } });
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
     } catch (err) {
       (err.errors && err.errors[0] && err.errors[0].status === '400')
