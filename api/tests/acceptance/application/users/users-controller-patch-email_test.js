@@ -1,6 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const config = require('../../../../lib/config');
 
 describe('Acceptance | Controller | users-controller', () => {
 
@@ -18,8 +17,6 @@ describe('Acceptance | Controller | users-controller', () => {
       const password = 'password123';
 
       beforeEach(async () => {
-        sinon.stub(config.featureToggles, 'myAccount').value(true);
-
         user = databaseBuilder.factory.buildUser.withRawPassword({
           email: 'old_email@example.net',
           rawPassword: password,
@@ -140,32 +137,6 @@ describe('Acceptance | Controller | users-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(400);
-      });
-
-      it('should return 404 if FT_MY_ACCOUNT is not enabled', async () => {
-        // given
-        sinon.stub(config.featureToggles, 'myAccount').value(false);
-
-        const options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/email`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: {
-            data: {
-              type: 'users',
-              attributes: {
-                'email': 'new_email@example.net',
-                'password': password,
-              },
-            },
-          },
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(404);
       });
     });
   });

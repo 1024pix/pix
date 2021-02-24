@@ -24,7 +24,6 @@ describe('Acceptance | Controller | feature-toggle-controller', () => {
           id: '0',
           attributes: {
             'is-pole-emploi-enabled': false,
-            'my-account': false,
             'is-certification-results-in-orga-enabled': false,
           },
           type: 'feature-toggles',
