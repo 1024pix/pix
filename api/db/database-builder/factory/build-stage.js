@@ -7,6 +7,8 @@ module.exports = function buildStage({
   title = faker.random.words(),
   threshold = 20,
   targetProfileId,
+  prescriberTitle,
+  prescriberDescription,
 } = {}) {
 
   const values = {
@@ -15,6 +17,8 @@ module.exports = function buildStage({
     title,
     threshold,
     targetProfileId,
+    prescriberTitle,
+    prescriberDescription,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'stages',
