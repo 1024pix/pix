@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.25.0 (25/02/2021)
+
+- [#2610](https://github.com/1024pix/pix/pull/2610) [FEATURE] Ajout de la traduction pour la tooltip des crédits (PIX-2197)
+- [#2613](https://github.com/1024pix/pix/pull/2613) [FEATURE] Traduire la page de modification pour les campagnes d'évaluation et de collecte de profils (PIX-2204) 
+- [#2598](https://github.com/1024pix/pix/pull/2598) [FEATURE] Ajout d'un nouvel onglet "Certifications" dans le menu de PixOrga (pix-2190)
+- [#2607](https://github.com/1024pix/pix/pull/2607) [FEATURE] Afficher la bannière de création de campagne pour les organismes SCO Agriculture (PIX-2219)
+- [#2608](https://github.com/1024pix/pix/pull/2608) [BUGFIX] Eviter de voir l'écran de warning après une épreuve timée (PIX-2176).
+- [#2592](https://github.com/1024pix/pix/pull/2592) [TECH] Ne pas jeter d'erreur s'il n'y a pas de solution à une clé de réponse donnée
+- [#2566](https://github.com/1024pix/pix/pull/2566) [TECH] Suppression du timer en doublon
+- [#2593](https://github.com/1024pix/pix/pull/2593) [CLEANUP] Bumper ember-keyboard et glimmerizer les composants associés (PIX-2211).
+
 ## v3.24.0 (23/02/2021)
 
 - [#2603](https://github.com/1024pix/pix/pull/2603) [FEATURE] Ne pas afficher "Envoyé le" lorsque que la campagne n'est pas partagé ( PIX-2149)
