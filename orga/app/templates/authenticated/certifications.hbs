@@ -6,5 +6,9 @@
     <div class="certifications-page__text">
       {{t 'pages.certifications.description'}}
     </div>
+    <div>
+      <PixSelect id="subcategory-for-category-candidate-information-change" @options={{@model.options}}
+        @selectedOption={{this.selectedDivision}} @onChange={{this.onSelectDivision}} />
+    </div>
   </div>
 </div>

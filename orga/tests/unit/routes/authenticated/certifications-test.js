@@ -1,6 +1,8 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
+import EmberObject from '@ember/object';
+
 import sinon from 'sinon';
 
 module('Unit | Route | authenticated/certifications', function(hooks) {
@@ -130,6 +132,52 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       // then
       sinon.assert.notCalled(replaceWithStub);
       assert.ok(true);
+    });
+  });
+
+  module('#model', function() {
+
+    test('it should return a list of options based on organization divisions', async function(assert) {
+      // given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
+        isSCOManagingStudents = true;
+        organization = {
+          id: 12345,
+        }
+      }
+
+      class FeatureToggleStub extends Service {
+        isCertificationResultsInOrgaEnabled = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.owner.register('service:feature-toggles', FeatureToggleStub);
+
+      const route = this.owner.lookup('route:authenticated/certifications');
+      const divisions = [EmberObject.create({ name: '3èmeA' }), EmberObject.create({ name: '2ndE' })];
+      const findRecordStub = sinon.stub();
+      route.store.findRecord = findRecordStub;
+      route.store.query = sinon.stub().resolves(divisions);
+
+      // when
+      const actualOptions = await route.model();
+
+      // then
+      assert.deepEqual(actualOptions,
+        {
+          options: [
+            {
+              label: '3èmeA',
+              value: '3èmeA',
+            },
+            {
+              label: '2ndE',
+              value: '2ndE',
+            },
+          ],
+        },
+      );
     });
   });
 });
