@@ -258,9 +258,24 @@
     },
     "certifications": {
       "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.",
-      "title": "Mes certifications",
+      "download-button": "Exporter mes résultats",
       "select-label": "Classes",
-      "download-button": "Exporter mes résultats"
+      "title": "Mes certifications"
+    },
+    "profiles-individual-results": {
+      "certifiable": "Certifiable",
+      "competences-certifiables": "COMP. CERTIFIABLES",
+      "pix": "PIX",
+      "pix-score": "{score, number}",
+      "table": {
+        "column": {
+          "level": "Niveau",
+          "pix-score": "Score Pix",
+          "skill": "Compétence"
+        },
+        "empty": "En attente de résultats",
+        "row-title": "Compétence"
+      }
     }
   }
 }

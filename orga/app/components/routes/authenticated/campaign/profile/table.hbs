@@ -1,18 +1,20 @@
 <table>
   <thead>
     <tr>
-      <th>Compétence</th>
-      <th class="table__column table__column--center">
-        Niveau
+      <th>
+        {{t "pages.profiles-individual-results.table.column.skill"}}
       </th>
       <th class="table__column table__column--center">
-        Score Pix
+        {{t "pages.profiles-individual-results.table.column.level"}}
+      </th>
+      <th class="table__column table__column--center">
+        {{t "pages.profiles-individual-results.table.column.pix-score"}}
       </th>
     </tr>
   </thead>
   <tbody>
     {{#each @competences as |competence|}}
-      <tr aria-label="Competence">
+      <tr aria-label={{t "pages.profiles-individual-results.table.row-title"}}>
         <td class="competences-col__name">
           <span class="competences-col__border competences-col__border--{{competence.areaColor}}"></span>
           <span>
@@ -31,5 +33,7 @@
 </table>
 
 {{#unless @isShared }}
-  <div class="table__empty content-text">En attente de résultats</div>
+  <div class="table__empty content-text">
+    {{t "pages.profiles-individual-results.table.empty"}}
+  </div>
 {{/unless}}
