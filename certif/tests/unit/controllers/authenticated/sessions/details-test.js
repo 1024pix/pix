@@ -137,7 +137,6 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
       controller.model = {
         certificationCandidates: [],
         isUserFromSco: true,
-        isCertifPrescriptionScoEnabled: true,
       };
 
       // when

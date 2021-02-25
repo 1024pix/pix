@@ -3,7 +3,6 @@ import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import moment from 'moment';
 import {
-  createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted,
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
@@ -73,7 +72,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
     });
 
-    module('when there are few candidats', function() {
+    module('when there are some candidates', function() {
 
       let sessionWithCandidates;
       let candidates;
@@ -274,41 +273,19 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
     });
 
-    module('prescription sco toogle', function() {
-      let session;
-      let scocertificationPointOfContact;
+    test('it should redirect to the default candidates detail view', async (assert) => {
+      // given
+      server.create('feature-toggle', {});
       const linkToCandidate = '.session-details-controls__navbar-tabs a:nth-of-type(2)';
+      const connectedcertificationPointOfContactId = certificationPointOfContact.id;
+      await authenticateSession(connectedcertificationPointOfContactId);
 
-      hooks.beforeEach(async () => {
-        session = server.create('session');
-        scocertificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
-      });
+      // when
+      await visit(`/sessions/${session.id}`);
+      await click(linkToCandidate);
 
-      [
-        { isFeatureToggleEnabled: false, iscertificationPointOfContactSco: false },
-        { isFeatureToggleEnabled: true, iscertificationPointOfContactSco: false },
-        { isFeatureToggleEnabled: false, iscertificationPointOfContactSco: true },
-        { isFeatureToggleEnabled: true, iscertificationPointOfContactSco: true },
-      ].forEach(({ isFeatureToggleEnabled, iscertificationPointOfContactSco }) => {
-        module(`when certification prescription sco feature toggle is ${isFeatureToggleEnabled ? 'enabled' : 'disabled'} and the certificationPointOfContact is ${iscertificationPointOfContactSco ? 'SCO' : 'not SCO'}`, () => {
-
-          test('it should redirect to the default candidates detail view', async (assert) => {
-            // given
-            server.create('feature-toggle', {
-              certifPrescriptionSco: isFeatureToggleEnabled,
-            });
-            const connectedcertificationPointOfContactId = iscertificationPointOfContactSco ? scocertificationPointOfContact.id : certificationPointOfContact.id;
-            await authenticateSession(connectedcertificationPointOfContactId);
-
-            // when
-            await visit(`/sessions/${session.id}`);
-            await click(linkToCandidate);
-
-            // then
-            assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
-          });
-        });
-      });
+      // then
+      assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
     });
   });
 
