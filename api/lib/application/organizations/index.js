@@ -140,7 +140,7 @@ exports.register = async (server) => {
             assign: 'isCertificationResultsInOrgaEnabled',
           },
           {
-            method: securityPreHandlers.checkUserBelongsToOrganizationManagingStudents,
+            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
             assign: 'belongsToOrganizationManagingStudents',
           },
         ],

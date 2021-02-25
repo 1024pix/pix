@@ -429,8 +429,8 @@ describe('Unit | Controller | sessionController', () => {
           certificationResults: [],
           fileName: '20200101_1200_resultats_session_1.csv',
         });
-      sinon.stub(certificationResults, 'getCertificationResultsCsv');
-      certificationResults.getCertificationResultsCsv.withArgs({ session, certificationResults: [] })
+      sinon.stub(certificationResults, 'getSessionCertificationResultsCsv');
+      certificationResults.getSessionCertificationResultsCsv.withArgs({ session, certificationResults: [] })
         .resolves('csv content');
 
       // when

@@ -11,6 +11,8 @@ const userWithSchoolingRegistrationSerializer = require('../../infrastructure/se
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const moment = require('moment');
+const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 
 module.exports = {
 
@@ -80,9 +82,16 @@ module.exports = {
     return membershipSerializer.serialize(memberships, pagination);
   },
 
-  async downloadCertificationResults(_request, h) {
-    const csvResult = '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Session";"Centre de certification";"Date de passage de la certification"\n';
-    const fileName = '20190428_0242_resultats_NomDeLaClasse.csv';
+  async downloadCertificationResults(request, h) {
+    const organizationId = parseInt(request.params.id);
+    const { division } = request.query;
+
+    const certificationResults = await usecases.getScoCertificationResultsByDivision({ organizationId, division });
+
+    const csvResult = await certificationResultUtils.getDivisionCertificationResultsCsv({ certificationResults });
+
+    const now = moment();
+    const fileName = `${now.format('YYYYMMDD')}_resultats_${division}.csv`;
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
