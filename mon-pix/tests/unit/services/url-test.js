@@ -129,6 +129,65 @@ describe('Unit | Service | locale', function() {
       expect(cguUrl).to.equal(expectedCguUrl);
     });
 
+    it('should get "pix.org" french url when current language is fr', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/conditions-generales-d-utilisation';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.cguUrl;
+
+      // then
+      expect(cguUrl).to.equal(expectedCguUrl);
+    });
+
+  });
+
+  describe('#dataProtectionPolicyUrl', function() {
+
+    it('should get "pix.fr" url when current domain contains pix.fr', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.dataProtectionPolicyUrl;
+
+      // then
+      expect(cguUrl).to.equal(expectedCguUrl);
+    });
+
+    it('should get "pix.org" english url when current language is en', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('en') };
+
+      // when
+      const cguUrl = service.dataProtectionPolicyUrl;
+
+      // then
+      expect(cguUrl).to.equal(expectedCguUrl);
+    });
+
+    it('should get "pix.org" french url when current language is fr', function() {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedCguUrl = 'https://pix.org/politique-protection-donnees-personnelles-app';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('fr') };
+
+      // when
+      const cguUrl = service.dataProtectionPolicyUrl;
+
+      // then
+      expect(cguUrl).to.equal(expectedCguUrl);
+    });
+
   });
 
 });
