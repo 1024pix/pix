@@ -139,6 +139,14 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
       expect(responseDetail(response)).to.equal('La demande de réinitialisation de mot de passe n\'existe pas.');
     });
+
+    it('responds Not Found when a NoCertificationResultForDivision error occurs', async () => {
+      routeHandler.throws(new DomainErrors.NoCertificationResultForDivision());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(NOT_FOUND_ERROR);
+      expect(responseDetail(response)).to.equal('Aucun résultat de certification pour cette classe.');
+    });
   });
 
   context('409 Conflict', () => {
