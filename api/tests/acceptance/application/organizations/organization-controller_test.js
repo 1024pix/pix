@@ -3,14 +3,14 @@ const _ = require('lodash');
 const {
   expect, knex, learningContentBuilder, databaseBuilder, mockLearningContent,
   generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster,
-} = require('../../test-helper');
+} = require('../../../test-helper');
 
-const createServer = require('../../../server');
+const createServer = require('../../../../server');
 
-const Membership = require('../../../lib/domain/models/Membership');
-const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-const config = require('../../../lib/config');
+const Membership = require('../../../../lib/domain/models/Membership');
+const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const config = require('../../../../lib/config');
 
 describe('Acceptance | Application | organization-controller', () => {
 
@@ -763,7 +763,11 @@ describe('Acceptance | Application | organization-controller', () => {
 
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '234', userId: user.id });
+      databaseBuilder.factory.buildAuthenticationMethod({
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+        externalIdentifier: '234',
+        userId: user.id,
+      });
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
       await databaseBuilder.commit();
@@ -1356,15 +1360,29 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         config.featureToggles.isCertificationResultsInOrgaEnabled = true;
 
-        const user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '234', userId: user.id });
+        const user = databaseBuilder.factory.buildUser.withRawPassword();
+
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
+        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
+
+        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: organization.id,
+          division: 'aDivision',
+        });
+        const candidate = databaseBuilder.factory.buildCertificationCandidate({ schoolingRegistrationId: schoolingRegistration.id });
+        const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
+          userId: candidate.userId,
+          sessionId: candidate.sessionId,
+        });
+
+        const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
+        databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id });
+
         await databaseBuilder.commit();
 
         const options = {
           method: 'GET',
-          url: `/api/organizations/${organization.id}/certification-results`,
+          url: `/api/organizations/${organization.id}/certification-results?division=aDivision`,
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         };
 
@@ -1383,7 +1401,11 @@ describe('Acceptance | Application | organization-controller', () => {
         config.featureToggles.isCertificationResultsInOrgaEnabled = false;
 
         const user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '234', userId: user.id });
+        databaseBuilder.factory.buildAuthenticationMethod({
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+          externalIdentifier: '234',
+          userId: user.id,
+        });
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
         await databaseBuilder.commit();
