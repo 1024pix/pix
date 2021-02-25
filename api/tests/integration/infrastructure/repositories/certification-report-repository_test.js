@@ -117,40 +117,6 @@ describe('Integration | Repository | CertificationReport', function() {
         expect(actualReport1.hasSeenEndTestScreen).to.equal(true);
       });
 
-      it('should save only not null examiner comment into certification-issue-report', async () => {
-        // given
-        const sessionId = databaseBuilder.factory.buildSession().id;
-        const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
-          lastName: 'AAA',
-          sessionId,
-        }).id;
-        const certificationCourseId2 = databaseBuilder.factory.buildCertificationCourse({
-          lastName: 'BBB',
-          sessionId,
-        }).id;
-        await databaseBuilder.commit();
-
-        const nullExaminerComment = null;
-
-        const certificationReportWithNotNullExaminerComment = domainBuilder.buildCertificationReport({
-          certificationCourseId: certificationCourseId1,
-          examinerComment: 'Un commentaire examinateur',
-        });
-        const certificationReportWithNullExaminerComment = domainBuilder.buildCertificationReport({
-          certificationCourseId: certificationCourseId2,
-          examinerComment: nullExaminerComment,
-        });
-
-        // when
-        await certificationReportRepository.finalizeAll([certificationReportWithNotNullExaminerComment, certificationReportWithNullExaminerComment]);
-
-        // then
-        const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
-
-        expect(actualCertificationReports[0].certificationIssueReports[0].description).to.equal('Un commentaire examinateur');
-        expect(actualCertificationReports[1].certificationIssueReports.length).to.equal(0);
-      });
-
     });
 
     context('when finalization fails', () => {

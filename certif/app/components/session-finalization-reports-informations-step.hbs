@@ -5,11 +5,7 @@
         <th>Nom</th>
         <th>Prénom</th>
         <th>N° de certification</th>
-        {{#if @isReportsCategorizationFeatureToggleEnabled}}
-          <th>Signalement</th>
-        {{else}}
-          <th>Signalement (à renseigner le cas échéant)</th>
-        {{/if}}
+        <th>Signalement</th>
         <th>
           <div class="session-finalization-reports-informations-step__row">
             <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @toggleAllCertificationReportsHasSeenEndTestScreen this.hasCheckedSomething)}}>
@@ -27,32 +23,24 @@
           <td data-test-id="finalization-report-first-name_{{report.certificationCourseId}}">{{report.firstName}}</td>
           <td data-test-id="finalization-report-certification-number_{{report.certificationCourseId}}">{{report.certificationCourseId}}</td>
           <td data-test-id="finalization-report-certification-issue-reports_{{report.certificationCourseId}}">
-            {{#if @isReportsCategorizationFeatureToggleEnabled}}
-              <div class="finalization-report-examiner-comment">
-                {{#if report.certificationIssueReports}}
-                  <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openIssueReportsModal report)}}>
-                    Ajouter / modifier
-                  </button>
-                  <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
-                    {{#if (gt report.certificationIssueReports.length 1)}}
-                      {{report.certificationIssueReports.length}} signalements
-                    {{else}}
-                      1 signalement
-                    {{/if}}
-                  </p>
-                {{else}}
-                  <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openAddIssueReportModal report)}}>
-                    Ajouter ?
-                  </button>
-                {{/if}}
-              </div>
-            {{else}}
-              <PixTextarea
-                {{on 'input' (fn @updateCertificationIssueReport report)}}
-                @value={{report.firstIssueReportDescription}}
-                @maxlength={{@issueReportDescriptionMaxLength}}
-                class="session-finalization-reports-informations-step__textarea--without-indicator" />
-            {{/if}}
+            <div class="finalization-report-examiner-comment">
+              {{#if report.certificationIssueReports}}
+                <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openIssueReportsModal report)}}>
+                  Ajouter / modifier
+                </button>
+                <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
+                  {{#if (gt report.certificationIssueReports.length 1)}}
+                    {{report.certificationIssueReports.length}} signalements
+                  {{else}}
+                    1 signalement
+                  {{/if}}
+                </p>
+              {{else}}
+                <button type="button" class="button--showed-as-link add-button" {{on 'click' (fn this.openAddIssueReportModal report)}}>
+                  Ajouter ?
+                </button>
+              {{/if}}
+            </div>
           </td>
           <td>
             <CertifCheckbox

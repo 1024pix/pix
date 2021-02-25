@@ -7,14 +7,12 @@ export default class SessionsFinalizeRoute extends Route {
   async model({ session_id }) {
     const session = await this.store.findRecord('session', session_id, { reload: true });
     await session.certificationReports;
-    const featureToggles = this.store.peekRecord('feature-toggle', 0);
-    const isReportsCategorizationFeatureToggleEnabled = featureToggles.reportsCategorization;
 
-    return { session, isReportsCategorizationFeatureToggleEnabled };
+    return session;
   }
 
   async afterModel(model, transition) {
-    if (model.session.isFinalized) {
+    if (model.isFinalized) {
       this.notifications.error('Cette session a déjà été finalisée.');
 
       transition.abort();

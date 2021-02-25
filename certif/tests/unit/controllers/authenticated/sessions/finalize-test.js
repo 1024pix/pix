@@ -15,7 +15,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const session = ArrayProxy.create({
         certificationReports: [],
       });
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -37,7 +37,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
           { hasSeenEndTestScreen: true },
         ],
       });
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -55,7 +55,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
           { hasSeenEndTestScreen: false },
         ],
       });
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -77,7 +77,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
           { hasSeenEndTestScreen: true },
         ],
       });
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
@@ -96,7 +96,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
           { hasSeenEndTestScreen: true },
         ],
       });
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
@@ -113,7 +113,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const initialValue = null;
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const session = { examinerGlobalComment: initialValue };
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
       controller.examinerGlobalCommentMaxLength = 5;
 
       // when
@@ -129,7 +129,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const newValue = 'hello';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const session = { examinerGlobalComment: initialValue };
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
 
       // when
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
@@ -144,7 +144,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       const newValue = '  ';
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
       const session = { examinerGlobalComment: initialValue };
-      controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+      controller.model = session;
 
       // when
       controller.send('updateExaminerGlobalComment', { target: { value: newValue } });
@@ -236,7 +236,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
             { hasSeenEndTestScreen: hasSeenEndTestScreen2 },
           ],
         };
-        controller.model = { session, isReportsCategorizationFeatureToggleEnabled: false };
+        controller.model = session;
 
         // when
         controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);

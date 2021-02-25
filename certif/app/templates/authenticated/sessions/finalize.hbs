@@ -14,7 +14,6 @@
       @iconAlt="">
     <SessionFinalizationReportsInformationsStep
         @certificationReports={{this.session.certificationReports}}
-        @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
         @updateCertificationIssueReport={{this.updateCertificationIssueReport}}
         @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
         @toggleCertificationReportHasSeenEndTestScreen={{this.toggleCertificationReportHasSeenEndTestScreen}}
@@ -25,12 +24,10 @@
 
   <SessionFinalizationStepContainer
           @number="2"
-          @title={{this.stepTwoTitle}}
+          @title="Transmettre des documents (facultatif)"
           @icon="/icons/session-finalization-send.svg"
           @iconAlt="">
-      <SessionFinalizationFormbuilderLinkStep
-        @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
-      />
+      <SessionFinalizationFormbuilderLinkStep/>
   </SessionFinalizationStepContainer>
 
   <SessionFinalizationStepContainer
@@ -40,7 +37,6 @@
           @iconAlt="">
       <SessionFinalizationExaminerGlobalCommentStep
               @session={{this.session}}
-              @isReportsCategorizationFeatureToggleEnabled={{this.isReportsCategorizationFeatureToggleEnabled}}
               @updateExaminerGlobalComment={{this.updateExaminerGlobalComment}}
               @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}} />
   </SessionFinalizationStepContainer>
