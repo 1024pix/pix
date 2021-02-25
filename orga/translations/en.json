@@ -181,6 +181,23 @@
       "personalised-test-title": "Title of the personalised test",
       "target-profile": "Target profile"
     },
+    "profiles-list": {
+      "table": {
+        "column": {
+          "certifiable": "Eligible for certification",
+          "competences-certifiables": "Skills eligible for certification",
+          "first-name": "First name",
+          "last-name": "Last name",
+          "pix-score": "Pix score",
+          "sending-date": {
+            "label": "Sending date",
+            "on-hold": "Pending"
+          }
+        },
+        "empty": "Waiting for profiles",
+        "row-title": "Profile"
+      }
+    },
     "campaigns-list": {
       "action": {
         "archived": {

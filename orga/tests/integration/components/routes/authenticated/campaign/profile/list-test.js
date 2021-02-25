@@ -1,12 +1,13 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
 module('Integration | Component | routes/authenticated/campaign/profile/list', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
+
   const goToProfilePage = () => {};
   let store;
 

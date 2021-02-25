@@ -11,22 +11,22 @@
     <table>
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
+          <th>{{t 'pages.profiles-list.table.column.first-name'}}</th>
+          <th>{{t 'pages.profiles-list.table.column.last-name'}}</th>
           {{#if @campaign.idPixLabel}}
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
-          <th class="table__column--center">date d’envoi</th>
-          <th class="table__column--center">Score Pix</th>
-          <th class="table__column--center">Certifiable</th>
-          <th class="table__column--center">Comp. certifiables</th>
+          <th class="table__column--center">{{t 'pages.profiles-list.table.column.sending-date.label'}}</th>
+          <th class="table__column--center">{{t 'pages.profiles-list.table.column.pix-score'}}</th>
+          <th class="table__column--center">{{t 'pages.profiles-list.table.column.certifiable'}}</th>
+          <th class="table__column--center">{{t 'pages.profiles-list.table.column.competences-certifiables'}}</th>
         </tr>
       </thead>
 
       {{#if @profiles}}
         <tbody>
         {{#each @profiles as |profile|}}
-          <tr aria-label="Profil" role="button" {{on 'click' (fn @goToProfilePage @campaign.id profile.id)}} class="tr--clickable">
+          <tr aria-label={{t 'pages.profiles-list.table.row-title'}} role="button" {{on 'click' (fn @goToProfilePage @campaign.id profile.id)}} class="tr--clickable">
             <td>{{profile.lastName}}</td>
             <td>{{profile.firstName}}</td>
             {{#if @campaign.idPixLabel}}
@@ -36,7 +36,7 @@
               {{#if profile.sharedAt }}
                 {{moment-format profile.sharedAt 'DD/MM/YYYY'}}
               {{else}}
-                <span class="table__column--highlight">En attente</span>
+                <span class="table__column--highlight">{{t 'pages.profiles-list.table.column.sending-date.on-hold'}}</span>
               {{/if}}
             </td>
             <td class="table__column--center">
@@ -48,7 +48,7 @@
             </td>
             <td class="table__column--center">
               {{#if profile.certifiable }}
-                <PixTag @color="green-light">Certifiable</PixTag>
+                <PixTag @color="green-light">{{t 'pages.profiles-list.table.column.certifiable'}}</PixTag>
               {{/if}}
             </td>
             <td class="table__column--center">
@@ -61,7 +61,7 @@
     </table>
 
     {{#unless @profiles}}
-      <div class="table__empty content-text">En attente de profils</div>
+      <div class="table__empty content-text">{{t 'pages.profiles-list.table.empty'}}</div>
     {{/unless}}
   </div>
 </div>
