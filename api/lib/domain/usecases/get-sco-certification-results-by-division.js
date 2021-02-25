@@ -1,4 +1,6 @@
 const bluebird = require('bluebird');
+const isEmpty = require('lodash/isEmpty');
+const { NoCertificationResultForDivision } = require('../errors');
 
 module.exports = async function getScoCertificationResultsByDivision({
   organizationId,
@@ -13,6 +15,10 @@ module.exports = async function getScoCertificationResultsByDivision({
   const certificationResults = await bluebird.mapSeries(certificationCourses,
     (certificationCourse) => getCertificationResultByCertifCourse({ certificationCourse }),
   );
+
+  if (isEmpty(certificationResults)) {
+    throw new NoCertificationResultForDivision();
+  }
 
   return certificationResults;
 };

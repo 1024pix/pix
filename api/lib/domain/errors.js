@@ -538,6 +538,12 @@ class NotFoundError extends DomainError {
   }
 }
 
+class NoCertificationResultForDivision extends DomainError {
+  constructor(message = 'Aucun résultat de certification pour cette classe.') {
+    super(message);
+  }
+}
+
 class ObjectValidationError extends DomainError {
   constructor(message = 'Erreur, objet non valide.') {
     super(message);
@@ -787,6 +793,7 @@ module.exports = {
   MissingAssessmentId,
   MissingOrInvalidCredentialsError,
   NoCampaignParticipationForUserAndCampaign,
+  NoCertificationResultForDivision,
   NotEligibleCandidateError,
   NotFoundError,
   NotImplementedError,

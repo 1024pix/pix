@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getScoCertificationResultsByDivision = require('../../../../lib/domain/usecases/get-sco-certification-results-by-division');
-
+const { NoCertificationResultForDivision } = require('../../../../lib/domain/errors');
 describe('Unit | UseCase | get-sco-certification-results-by-division', () => {
-  it('returns an empty list when no candidates match the organization and division', async () => {
+  it('throws when no results is found for organization and division', async () => {
     // given
     const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: sinon.stub() };
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
@@ -21,14 +21,14 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', () => {
     };
 
     // when
-    const certificationResults = await getScoCertificationResultsByDivision({
+    const error = await catchErr(getScoCertificationResultsByDivision)({
       ...dependencies,
       organizationId: 1,
       division: '3ème A',
     });
 
     // then
-    expect(certificationResults).to.be.empty;
+    expect(error).to.be.instanceof(NoCertificationResultForDivision);
   });
 
   it('returns the list of results of candidates matching the organization and division', async () => {
