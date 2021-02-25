@@ -12,7 +12,6 @@ export default class CertificationCandidatesController extends Controller {
   @alias('model.certificationCandidates') certificationCandidates;
   @alias('model.reloadCertificationCandidate') reloadCertificationCandidate;
   @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
-  @alias('model.isReportsCategorizationFeatureToggleEnabled') isReportsCategorizationFeatureToggleEnabled;
 
   @computed('certificationCandidates', 'certificationCandidates.@each.isLinked')
   get importAllowed() {

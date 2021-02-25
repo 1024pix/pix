@@ -13,21 +13,18 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
   module('#model', function(hooks) {
     const session_id = 1;
     const returnedSession = Symbol('session');
-    const featureToggles = { reportsCategorization: false };
 
     hooks.beforeEach(function() {
       route.store.findRecord = sinon.stub().resolves(returnedSession);
-      route.store.peekRecord = sinon.stub().returns(featureToggles);
     });
 
-    test('it should return the model with session and feature toggle', async function(assert) {
+    test('it should return the session', async function(assert) {
       // when
       const actualModel = await route.model({ session_id });
 
       // then
-      const expectedModel = { session: returnedSession, isReportsCategorizationFeatureToggleEnabled: false };
+      const expectedModel = returnedSession;
       sinon.assert.calledWith(route.store.findRecord, 'session', session_id, { reload: true });
-      sinon.assert.calledWith(route.store.peekRecord, 'feature-toggle', 0);
       assert.deepEqual(actualModel, expectedModel);
     });
   });
@@ -44,7 +41,7 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
     module('when model is already finalized', function(hooks) {
 
       hooks.beforeEach(function() {
-        model.session.isFinalized = true;
+        model.isFinalized = true;
       });
 
       test('it should abort transition', async function(assert) {
@@ -69,7 +66,7 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
     module('when model is not finalized', function(hooks) {
 
       hooks.beforeEach(function() {
-        model.session.isFinalized = false;
+        model.isFinalized = false;
       });
 
       test('it should not abort transition', async function(assert) {

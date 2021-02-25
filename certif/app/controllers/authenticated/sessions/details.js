@@ -10,7 +10,6 @@ export default class SessionsDetailsController extends Controller {
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
-  @alias('model.isReportsCategorizationFeatureToggleEnabled') isReportsCategorizationFeatureToggleEnabled;
   @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
 
   @computed('certificationCandidates.length')

@@ -4,7 +4,6 @@ const writeOdsUtils = require('../../infrastructure/utils/ods/write-ods-utils');
 const readOdsUtils = require('../../infrastructure/utils/ods/read-ods-utils');
 const sessionXmlService = require('../services/session-xml-service');
 const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const { featureToggles } = require('../../config');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
@@ -99,8 +98,5 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
 }
 
 function _getAttendanceTemplatePath() {
-  if (featureToggles.reportsCategorization) {
-    return __dirname + '/../../infrastructure/files/attendance-sheet/attendance_sheet_template_reports_categorization.ods';
-  }
   return __dirname + '/../../infrastructure/files/attendance-sheet/attendance_sheet_template.ods';
 }
