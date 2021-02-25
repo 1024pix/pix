@@ -67,14 +67,26 @@
         "empty": "En attente de résultats"
       }
     },
+    "assessment-participants-list": {
+      "table": {
+        "column": {
+          "badges": "Résultats Thématiques",
+          "first-name": "Nom",
+          "last-name": "Prénom",
+          "results": {
+            "label": "Résultats",
+            "on-hold": " En attente",
+            "under-test": "En cours de test"
+          }
+        },
+        "empty": "Aucun participant",
+        "row-title": "Participant"
+      }
+    },
     "campaign-individual-results": {
       "campaign-name": "Nom de la campagne",
       "shared-date": "Envoyé le",
       "start-date": "Commencé le"
-    },
-    "certifications": {
-      "description": "Vous pouvez exporter les résultats de certification de toutes les classes au format csv.",
-      "title": "Mes certifications"
     },
     "campaign": {
       "actions": {
@@ -87,7 +99,17 @@
         "actions": {
           "clear": "Effacer les filtres"
         },
-        "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}"
+        "aria-label": "Filtres sur les participations",
+        "participations-count": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count} participants}}",
+        "title": "Filtres",
+        "type": {
+          "badges": "Thématiques",
+          "divisions": {
+            "empty": "Pas de classe",
+            "title": "Classes"
+          },
+          "stages": "Paliers"
+        }
       },
       "participations-count": "Participants",
       "shared-participations-count": "Profils reçus",
@@ -189,7 +211,7 @@
       "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
       "header": {
         "title": "Analyse par sujet",
-        "relevance": "Pertinence",  
+        "relevance": "Pertinence",
         "subjects": "Sujets ({count, plural, =0 {-} other {{count}}})"
       },
       "title": "Recommandation de sujets à travailler",
@@ -199,9 +221,13 @@
         "show-tutorial": "Afficher la liste des tutos",
         "subject": "Sujet",
         "tutorial-source": "Par {source}",
-        "tutorial-total":"{count, plural, =1 {1 tuto} other {{count} tutos}}"
+        "tutorial-total": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
       },
       "waiting-results": "En attente de résultats"
+    },
+    "certifications": {
+      "description": "Vous pouvez exporter les résultats de certification de toutes les classes au format csv.",
+      "title": "Mes certifications"
     }
   }
 }
