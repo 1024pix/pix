@@ -10,6 +10,7 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
     test('should redirect to application when featureToggles.isCertificationResultsInOrgaEnabled is false', function(assert) {
       // given
       class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
         isSCOManagingStudents = true;
       }
 
@@ -31,9 +32,10 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       assert.ok(true);
     });
 
-    test('should redirect to application when currentUser.isSCOManagingStudents is false', function(assert) {
+    test('should redirect to application when currentUser.isAdminInOrganization is true && currentUser.isSCOManagingStudents is false', function(assert) {
       // given
       class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
         isSCOManagingStudents = false;
       }
 
@@ -55,10 +57,36 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       assert.ok(true);
     });
 
-    test('should redirect to application when currentUser.isSCOManagingStudents and featureToggles.isCertificationResultsInOrgaEnabled are false', function(assert) {
+    test('should redirect to application when currentUser.isAdminInOrganization is false & currentUser.isSCOManagingStudents is true', function(assert) {
       // given
       class CurrentUserStub extends Service {
-        isSCOManagingStudents = false;
+        isAdminInOrganization = false;
+        isSCOManagingStudents = true;
+      }
+
+      class FeatureToggleStub extends Service {
+        isCertificationResultsInOrgaEnabled = true;
+      }
+
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.owner.register('service:feature-toggles', FeatureToggleStub);
+      const route = this.owner.lookup('route:authenticated.certifications');
+      const replaceWithStub = sinon.stub();
+      route.replaceWith = replaceWithStub;
+
+      // when
+      route.beforeModel();
+
+      // then
+      sinon.assert.calledOnceWithExactly(replaceWithStub, 'application');
+      assert.ok(true);
+    });
+
+    test('should redirect to application when currentUser.isAdminInOrganization and featureToggles.isCertificationResultsInOrgaEnabled are false', function(assert) {
+      // given
+      class CurrentUserStub extends Service {
+        isAdminInOrganization = false;
+        isSCOManagingStudents = true;
       }
 
       class FeatureToggleStub extends Service {
@@ -79,9 +107,10 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       assert.ok(true);
     });
 
-    test('should redirect to application when currentUser.isSCOManagingStudents and featureToggles.isCertificationResultsInOrgaEnabled are true', function(assert) {
+    test('should not redirect to application when currentUser.isAdminInOrganization and featureToggles.isCertificationResultsInOrgaEnabled are true', function(assert) {
       // given
       class CurrentUserStub extends Service {
+        isAdminInOrganization = true;
         isSCOManagingStudents = true;
       }
 
