@@ -1425,4 +1425,43 @@ describe('Acceptance | Application | organization-controller', () => {
     });
   });
 
+  describe('GET /api/organization/{organizationId}/divisions', () => {
+    it('should return the divisions', async () => {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId: organization.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
+
+      _buildSchoolingRegistrations(
+        organization,
+        { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
+        { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
+        { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
+        { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
+        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
+      );
+
+      await databaseBuilder.commit();
+
+      const request = {
+        method: 'GET',
+        url: '/api/organizations/' + organization.id + '/divisions',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });
+
+function _buildSchoolingRegistrations(organization, ...students) {
+  return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student }));
+}
