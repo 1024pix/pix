@@ -30,7 +30,7 @@
     "eslint": "^6.7.1",
     "eslint-plugin-mocha": "^6.2.2",
     "lcov-result-merger": "^3.1.0",
-    "mocha": "^6.2.2"
+    "mocha": "^8.3.0"
   },
   "scripts": {
     "build": "run-s ci:front build:front signal-github signal-jira",
