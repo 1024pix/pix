@@ -10,4 +10,20 @@ export default class AuthenticatedCertificationsRoute extends Route {
       this.replaceWith('application');
     }
   }
+
+  async model() {
+    const organizationId = this.currentUser.organization.id;
+    const divisions = await this.store.query('division', { organizationId });
+
+    const options = _generateLabelsAndValues(divisions);
+
+    return { options };
+  }
+}
+
+function _generateLabelsAndValues(divisions) {
+  const options = [];
+  divisions.forEach((division) => options.push({ label: division.name, value: division.name }));
+
+  return options;
 }
