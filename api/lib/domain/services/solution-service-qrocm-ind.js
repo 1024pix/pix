@@ -1,6 +1,7 @@
 const jsYaml = require('js-yaml');
 const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils');
+const logger = require('../../infrastructure/logger');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -35,8 +36,11 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
     const solutionVariants = solutions[answerKey];
     if (enabledTreatments.includes('t3')) {
       results[answerKey] = _areApproximatelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
-    } else {
+    } else if (solutionVariants) {
       results[answerKey] = solutionVariants.includes(answer);
+    }
+    if (!solutionVariants) {
+      logger.warn(`[PROBLÈME RÉPONSE ÉPREUVE] La clé ${answerKey} n'existe pas.`);
     }
   });
   return results;
