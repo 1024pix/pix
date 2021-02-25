@@ -13,7 +13,6 @@ const {
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
-const featureToggles = require('../../../../lib/application/preHandlers/feature-toggles');
 
 const moduleUnderTest = require('../../../../lib/application/sessions');
 
@@ -24,7 +23,6 @@ describe('Unit | Application | Sessions | Routes', () => {
   beforeEach(() => {
     sinon.stub(sessionAuthorization, 'verify').returns(null);
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(featureToggles, 'isCertifPrescriptionSCOEnabled').returns(true);
 
     sinon.stub(sessionController, 'get').returns('ok');
     sinon.stub(sessionController, 'getJurySession').returns('ok');
@@ -373,17 +371,6 @@ describe('Unit | Application | Sessions | Routes', () => {
     it('denies access if the session of the logged used is not authorized', async () => {
       // given
       sessionAuthorization.verify.throws(new NotFoundError());
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-
-    it('denies access if the certif prescription SCO feature is disabled', async () => {
-      // given
-      featureToggles.isCertifPrescriptionSCOEnabled.throws(new NotFoundError());
 
       // when
       const response = await httpTestServer.request('PUT', '/api/sessions/3/enroll-students-to-session');

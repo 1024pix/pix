@@ -8,14 +8,14 @@ describe('Unit | Serializer | JSONAPI | feature-toggle-serializer', () => {
     it('should convert feature-toggle object into JSON API data', () => {
       // given
       const featureToggles = {
-        certifPrescriptionSco: true,
+        someFeatureToggle: true,
       };
       const expectedJSON = {
         data: {
           type: 'feature-toggles',
           id: '0',
           attributes: {
-            'certif-prescription-sco': true,
+            'some-feature-toggle': true,
           },
         },
       };

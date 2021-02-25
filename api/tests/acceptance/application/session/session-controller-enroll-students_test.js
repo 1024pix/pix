@@ -1,6 +1,5 @@
 const { sinon, expect, databaseBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const config = require('../../../../lib/config');
 
 describe('Acceptance | Controller | session-controller-enroll-students-to-session', () => {
 
@@ -77,7 +76,6 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       });
 
       beforeEach(async () => {
-        sinon.stub(config.featureToggles, 'certifPrescriptionSco').value(true);
         const { id: certificationCenterId, externalId } = databaseBuilder.factory.buildCertificationCenter();
 
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
