@@ -1,4 +1,5 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+const { fn: momentProto } = require('moment');
 
 const Organization = require('../../../../lib/domain/models/Organization');
 
@@ -13,7 +14,7 @@ const organizationInvitationSerializer = require('../../../../lib/infrastructure
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
-
+const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
@@ -614,13 +615,43 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   });
 
   describe('#downloadCertificationResults', () => {
-    it('should return a response with an empty CSV', async () => {
+
+    it('should return a response with CSV results', async () => {
       // given
+
+      const request = {
+        params: {
+          id: 1,
+        },
+        query: {
+          division: '3èmeA',
+        },
+      };
+
+      const certificationResults = [
+        domainBuilder.buildCertificationResult(),
+        domainBuilder.buildCertificationResult(),
+        domainBuilder.buildCertificationResult(),
+      ];
+
+      sinon.stub(momentProto, 'format');
+      momentProto.format.withArgs('YYYYMMDD').returns('20210101');
+
+      sinon.stub(usecases, 'getScoCertificationResultsByDivision')
+        .withArgs({ organizationId: 1, division: '3èmeA' })
+        .resolves(certificationResults);
+
+      sinon.stub(certificationResultUtils, 'getDivisionCertificationResultsCsv')
+        .withArgs({ certificationResults })
+        .resolves('csv-string');
+
+      // when
       const response = await organizationController.downloadCertificationResults(request, hFake);
 
       // then
+      expect(response.source).to.equal('csv-string');
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
-      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=20190428_0242_resultats_NomDeLaClasse.csv');
+      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=20210101_resultats_3èmeA.csv');
     });
   });
 });

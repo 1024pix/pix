@@ -411,10 +411,6 @@ describe('Integration | Repository | Certification Course', function() {
     let user1;
     let user2;
 
-    function _cleanCertificationCourse(certificationCourse) {
-      return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
-    }
-
     it('should returns all certification courses id with given session id and user ids', async () => {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
@@ -432,4 +428,76 @@ describe('Integration | Repository | Certification Course', function() {
       expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(firstCertifCourse));
     });
   });
+
+  describe('#findCertificationCoursesByCandidateIds', () => {
+    it('returns an empty array when none exists', async () => {
+      // given
+      const candidateIds = [1, 2, 3];
+      // when
+      const certificationCourses = certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds });
+      // then
+      expect(certificationCourses).to.be.empty;
+    });
+
+    it('returns the certifications courses of given candidates Ids', async () => {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId, userId });
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        userId,
+        sessionId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
+      // then
+      expect(certificationCourses).to.have.lengthOf(1);
+      expect(certificationCourses[0]).to.be.an.instanceof(CertificationCourse);
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(certifCourse));
+    });
+
+    it('returns only the certification course that is linked to the candidate\'s session', async () => {
+      const aSessionId = databaseBuilder.factory.buildSession().id;
+      const anotherSessionId = databaseBuilder.factory.buildSession().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId: aSessionId, userId });
+      databaseBuilder.factory.buildCertificationCourse({ sessionId: anotherSessionId, userId });
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        userId,
+        sessionId: aSessionId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
+      // then
+      expect(certificationCourses).to.have.lengthOf(1);
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(certifCourse));
+    });
+
+    it('returns only the certification course that is linked to the candidate\'s user', async () => {
+      const aSessionId = databaseBuilder.factory.buildSession().id;
+      const aUserId = databaseBuilder.factory.buildUser().id;
+      const anotherUserId = databaseBuilder.factory.buildUser().id;
+      const certifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId: aSessionId, userId: aUserId });
+      databaseBuilder.factory.buildCertificationCourse({ sessionId: aSessionId, userId: anotherUserId });
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
+        userId: aUserId,
+        sessionId: aSessionId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
+      // then
+      expect(certificationCourses).to.have.lengthOf(1);
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(certifCourse));
+    });
+  });
 });
+
+function _cleanCertificationCourse(certificationCourse) {
+  return _.omit(certificationCourse, 'certificationIssueReports', 'assessment', 'challenges', 'updatedAt');
+}
