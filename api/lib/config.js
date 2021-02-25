@@ -63,16 +63,7 @@ module.exports = (function() {
 
     mailing: {
       enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
-      provider: process.env.MAILING_PROVIDER || 'mailjet', /* sendinblue */
-      mailjet: {
-        apiKey: process.env.MAILJET_API_KEY,
-        apiSecret: process.env.MAILJET_API_SECRET,
-        templates: {
-          accountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
-          organizationInvitationTemplateId: process.env.MAILJET_ORGANIZATION_INVITATION_TEMPLATE_ID,
-          passwordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID,
-        },
-      },
+      provider: process.env.MAILING_PROVIDER || 'sendinblue',
       sendinblue: {
         apiKey: process.env.SENDINBLUE_API_KEY,
         templates: {
@@ -206,11 +197,6 @@ module.exports = (function() {
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
-    config.mailing.mailjet.apiKey = 'test-api-key';
-    config.mailing.mailjet.apiSecret = 'test-api-secret';
-    config.mailing.mailjet.templates.accountCreationTemplateId = 'test-account-creation-template-id';
-    config.mailing.mailjet.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
-    config.mailing.mailjet.templates.passwordResetTemplateId = 'test-password-reset-template-id';
 
     config.mailing.sendinblue.apiKey = 'test-api-key';
     config.mailing.sendinblue.templates.accountCreationTemplateId = 'test-account-creation-template-id';
