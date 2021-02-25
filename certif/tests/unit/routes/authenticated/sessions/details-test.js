@@ -22,7 +22,7 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
 
     test('it should return the session and the certification candidates', async function(assert) {
       // given
-      route.store.peekRecord = sinon.stub().returns({ certifPrescriptionSco: false });
+      route.store.peekRecord = sinon.stub().returns({});
       route.currentUser = { currentCertificationCenter: { isScoManagingStudents: true } };
 
       // when
@@ -32,14 +32,11 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
       sinon.assert.calledWith(route.store.findRecord, 'session', session_id);
       assert.equal(model.session, returnedSession);
       assert.equal(model.certificationCandidates, returnedCertifCandidates);
-      assert.equal(model.shouldDisplayPrescriptionScoStudentRegistrationFeature, false);
     });
 
     [
-      { isScoManagingStudents: true, certifPrescriptionSco: true, it: 'it should allow prescription sco feature when certif center is SCO managing students and FT enabled' },
-      { isScoManagingStudents: false, certifPrescriptionSco: true, it: 'it should not allow prescription sco feature when certif center is not SCO managing students and FT enabled' },
-      { isScoManagingStudents: true, certifPrescriptionSco: false, it: 'it should not allow prescription sco feature when certif center is SCO managing students but FT disabled' },
-      { isScoManagingStudents: false, certifPrescriptionSco: false, it: 'it should not allow prescription sco feature when neither certif center is SCO managing students nor FT enabled' },
+      { isScoManagingStudents: true, it: 'it should allow prescription sco feature when certif center is SCO managing students' },
+      { isScoManagingStudents: false, it: 'it should not allow prescription sco feature when certif center is not SCO managing students' },
     ].forEach(({ isScoManagingStudents, certifPrescriptionSco, it }) =>
       test(it, async function(assert) {
         // given
@@ -50,7 +47,7 @@ module('Unit | Route | authenticated/sessions/details', function(hooks) {
         const model = await route.model({ session_id });
 
         // then
-        assert.equal(model.shouldDisplayPrescriptionScoStudentRegistrationFeature, isScoManagingStudents && certifPrescriptionSco);
+        assert.equal(model.shouldDisplayPrescriptionScoStudentRegistrationFeature, isScoManagingStudents);
       }),
     );
   });

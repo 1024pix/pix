@@ -3,7 +3,6 @@ const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const finalizedSessionController = require('./finalized-session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
-const featureToggles = require('../preHandlers/feature-toggles');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
@@ -470,10 +469,6 @@ exports.register = async (server) => {
           }),
         },
         pre: [
-          {
-            method: featureToggles.isCertifPrescriptionSCOEnabled,
-            assign: 'isCertifPrescriptionSCOEnabled',
-          },
           {
             method: sessionAuthorization.verify,
             assign: 'authorizationCheck',
