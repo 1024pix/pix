@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign/profile/details', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it displays user information', async function(assert) {
     const campaignProfile = {
@@ -113,7 +113,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
     module('when the  profile is shared', function() {
       test('it displays the pix score', async function(assert) {
         const campaignProfile = {
-          pixScore: '1024',
+          pixScore: '124',
           isShared: true,
         };
 
@@ -124,7 +124,7 @@ module('Integration | Component | routes/authenticated/campaign/profile/details'
 
         await render(hbs`<Routes::Authenticated::Campaign::Profile::Details @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
-        assert.contains('1024');
+        assert.contains('124');
       });
 
       test('it displays the total number of competence', async function(assert) {
