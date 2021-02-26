@@ -39,7 +39,7 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.have.lengthOf(2);
-        expect(response.result.data[0].type).to.equal('publishable-sessions');
+        expect(response.result.data[0].type).to.equal('with-required-action-sessions');
       });
     });
   });
