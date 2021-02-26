@@ -1,8 +1,8 @@
 <table class="default-table">
   <thead>
   <tr>
-    <th>{{t 'pages.skill-review.details.header-skill'}}</th>
-    <th>{{t 'pages.skill-review.details.header-result'}}</th>
+    <th scope="col">{{t 'pages.skill-review.details.header-skill'}}</th>
+    <th scope="col">{{t 'pages.skill-review.details.header-result'}}</th>
   </tr>
   </thead>
 
@@ -10,10 +10,10 @@
   {{#if @showCleaCompetences}}
     {{#each @partnerCompetenceResults as |partnerCompetence|}}
       <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
-        <td>
+        <th scope="row">
           <span class="skill-review-competence__bullet skill-review-competence__bullet--{{partnerCompetence.areaColor}}" aria-hidden="true">&#8226;</span>
           <span>{{partnerCompetence.name}}</span>
-        </td>
+        </th>
         <td>
           <ProgressionGauge @total={{partnerCompetence.totalSkillsCountPercentage}}
                             @value={{partnerCompetence.masteryPercentage}}>
@@ -25,10 +25,10 @@
     {{else}}
     {{#each @competenceResults as |competence|}}
       <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
-        <td>
+        <th scope="row">
           <span class="skill-review-competence__bullet skill-review-competence__bullet--{{competence.areaColor}}" aria-hidden="true">&#8226;</span>
           <span>{{competence.name}}</span>
-        </td>
+        </th>
         <td>
           <ProgressionGauge @total={{competence.totalSkillsCountPercentage}}
                             @value={{competence.masteryPercentage}}>
