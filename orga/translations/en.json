@@ -1,6 +1,12 @@
 {
   "api-errors-messages": {
-    "global": "An error occurred. Please try again later."
+    "global": "An error occurred. Please try again later.",
+    "campaign-creation": {
+      "name-required": "Please name your campaign.",
+      "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
+      "target-profile-required": "Please select a target profile for your campaign.",
+      "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the personalised test."
+    }
   },
   "current-lang": "en",
   "common": {
