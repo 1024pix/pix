@@ -73,6 +73,11 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
                 related: `/api/admin/target-profiles/${targetProfileWithLearningContent.id}/badges`,
               },
             },
+            stages: {
+              links: {
+                related: `/api/admin/target-profiles/${targetProfileWithLearningContent.id}/stages`,
+              },
+            },
           },
         },
         included: [
