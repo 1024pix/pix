@@ -15,7 +15,7 @@ module.exports = {
         'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'lang', 'isAnonymous',
         'memberships', 'certificationCenterMemberships',
         'pixScore', 'scorecards', 'profile',
-        'campaignParticipations', 'hasSeenAssessmentInstructions', 'hasSeenNewLevelInfo', 'isCertifiable',
+        'campaignParticipations', 'hasSeenAssessmentInstructions', 'isCertifiable',
         'hasSeenNewDashboardInfo',
       ],
       memberships: {

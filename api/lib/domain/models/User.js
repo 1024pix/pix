@@ -14,7 +14,6 @@ class User {
     lastName,
     lastTermsOfServiceValidatedAt,
     hasSeenAssessmentInstructions,
-    hasSeenNewLevelInfo,
     hasSeenNewDashboardInfo,
     mustValidateTermsOfService,
     lang,
@@ -38,7 +37,6 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
-    this.hasSeenNewLevelInfo = hasSeenNewLevelInfo;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;

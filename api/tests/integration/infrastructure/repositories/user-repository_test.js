@@ -1255,23 +1255,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updateHasSeenNewLevelInfoToTrue', () => {
-    let userId;
-
-    beforeEach(() => {
-      userId = databaseBuilder.factory.buildUser({ hasSeenNewLevelInfo: false }).id;
-      return databaseBuilder.commit();
-    });
-
-    it('should return the model with hasSeenNewLevelInfo flag updated to true', async () => {
-      // when
-      const actualUser = await userRepository.updateHasSeenNewLevelInfoToTrue(userId);
-
-      // then
-      expect(actualUser.hasSeenNewLevelInfo).to.be.true;
-    });
-  });
-
   describe('#acceptPixLastTermsOfService', () => {
     let userId;
 
@@ -1288,7 +1271,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(actualUser.lastTermsOfServiceValidatedAt).to.be.exist;
       expect(actualUser.lastTermsOfServiceValidatedAt).to.be.a('Date');
       expect(actualUser.mustValidateTermsOfService).to.be.false;
-
     });
 
   });
