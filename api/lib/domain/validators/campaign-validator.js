@@ -10,8 +10,8 @@ const campaignValidationJoiSchema = Joi.object({
   name: Joi.string()
     .required()
     .messages({
-      'string.base': 'Veuillez donner un nom à votre campagne.',
-      'string.empty': 'Veuillez donner un nom à votre campagne.',
+      'string.base': 'CAMPAIGN_NAME_IS_REQUIRED',
+      'string.empty': 'CAMPAIGN_NAME_IS_REQUIRED',
     }),
 
   type: Joi.string()
@@ -19,25 +19,25 @@ const campaignValidationJoiSchema = Joi.object({
     .required()
     .error((errors) => first(errors))
     .messages({
-      'any.required': 'Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.',
-      'string.base': 'Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.',
-      'any.only': 'Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.',
+      'any.required': 'CAMPAIGN_PURPOSE_IS_REQUIRED',
+      'string.base': 'CAMPAIGN_PURPOSE_IS_REQUIRED',
+      'any.only': 'CAMPAIGN_PURPOSE_IS_REQUIRED',
     }),
 
   creatorId: Joi.number()
     .integer()
     .required()
     .messages({
-      'any.required': 'Le créateur n’est pas renseigné.',
-      'number.base': 'Le créateur n’est pas renseigné.',
+      'any.required': 'MISSING_CREATOR',
+      'number.base': 'MISSING_CREATOR',
     }),
 
   organizationId: Joi.number()
     .integer()
     .required()
     .messages({
-      'any.required': 'L‘organisation n’est pas renseignée.',
-      'number.base': 'L‘organisation n’est pas renseignée.',
+      'any.required': 'MISSING_ORGANIZATION',
+      'number.base': 'MISSING_ORGANIZATION',
     }),
 
   targetProfileId: Joi.number()
@@ -53,17 +53,17 @@ const campaignValidationJoiSchema = Joi.object({
     })
     .integer()
     .messages({
-      'any.required': 'Veuillez sélectionner un profil cible pour votre campagne.',
-      'number.base': 'Veuillez sélectionner un profil cible pour votre campagne.',
-      'any.only': 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.',
+      'any.required': 'TARGET_PROFILE_IS_REQUIRED',
+      'number.base': 'TARGET_PROFILE_IS_REQUIRED',
+      'any.only': 'TARGET_PROFILE_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
     }),
 
   idPixLabel: Joi.string()
     .allow(null)
     .min(3)
     .messages({
-      'string.empty': 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.',
-      'string.min': 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.',
+      'string.empty': 'EXTERNAL_USER_ID_IS_REQUIRED',
+      'string.min': 'EXTERNAL_USER_ID_IS_REQUIRED',
     }),
 
   title: Joi.string()
@@ -74,7 +74,7 @@ const campaignValidationJoiSchema = Joi.object({
       otherwise: Joi.optional(),
     })
     .messages({
-      'any.only': 'Le titre du parcours n’est pas autorisé pour les campagnes de collecte de profils.',
+      'any.only': 'TITLE_OF_PERSONALISED_TEST_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
     }),
 
 });

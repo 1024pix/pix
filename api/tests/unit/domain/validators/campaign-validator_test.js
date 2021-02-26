@@ -74,7 +74,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // given
             const expectedError = {
               attribute: 'name',
-              message: 'Veuillez donner un nom à votre campagne.',
+              message: 'CAMPAIGN_NAME_IS_REQUIRED',
             };
 
             it('should reject with error when name is missing', () => {
@@ -111,7 +111,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // given
             const expectedError = {
               attribute: 'creatorId',
-              message: 'Le créateur n’est pas renseigné.',
+              message: 'MISSING_CREATOR',
             };
 
             it('should reject with error when creatorId is missing', () => {
@@ -150,7 +150,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // given
             const expectedError = {
               attribute: 'organizationId',
-              message: 'L‘organisation n’est pas renseignée.',
+              message: 'MISSING_ORGANIZATION',
             };
 
             it('should reject with error when organizationId is missing', () => {
@@ -190,7 +190,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               // given
               const expectedError = {
                 attribute: 'idPixLabel',
-                message: 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.',
+                message: 'EXTERNAL_USER_ID_IS_REQUIRED',
               };
 
               try {
@@ -211,7 +211,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
               // given
               const expectedError = {
                 attribute: 'idPixLabel',
-                message: 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.',
+                message: 'EXTERNAL_USER_ID_IS_REQUIRED',
               };
 
               try {
@@ -234,7 +234,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             // given
             const expectedError = {
               attribute: 'type',
-              message: 'Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.',
+              message: 'CAMPAIGN_PURPOSE_IS_REQUIRED',
             };
 
             it('should reject with error when type is a wrong type', () => {
@@ -318,7 +318,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           // given
           const expectedError = {
             attribute: 'targetProfileId',
-            message: 'Un profil cible n’est pas autorisé pour les campagnes de collecte de profils.',
+            message: 'TARGET_PROFILE_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
           };
 
           try {
@@ -364,7 +364,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         // given
           const expectedError = {
             attribute: 'targetProfileId',
-            message: 'Veuillez sélectionner un profil cible pour votre campagne.',
+            message: 'TARGET_PROFILE_IS_REQUIRED',
           };
 
           try {
@@ -385,7 +385,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         // given
           const expectedError = {
             attribute: 'targetProfileId',
-            message: 'Veuillez sélectionner un profil cible pour votre campagne.',
+            message: 'TARGET_PROFILE_IS_REQUIRED',
           };
 
           try {
@@ -409,7 +409,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         // given
         const expectedError = {
           attribute: 'title',
-          message: 'Le titre du parcours n’est pas autorisé pour les campagnes de collecte de profils.',
+          message: 'TITLE_OF_PERSONALISED_TEST_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
         };
 
         try {
