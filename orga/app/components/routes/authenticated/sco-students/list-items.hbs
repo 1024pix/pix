@@ -1,26 +1,28 @@
 <div class="list-students-page__header">
-  <div class="page__title page-title">Élèves</div>
+  <h1 class="page__title page-title">{{t "pages.students-sco.title"}}</h1>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
       {{#if this.displayLearnMoreAndLinkTemplate }}
         <PixTooltip
-          @text={{this.textTooltipForAgri}}
+          @text={{t "pages.students-sco.agri-tooltip" htmlSafe=true}}
           @position='bottom-left'
           @isLight={{true}}
           @isWide={{true}}
           class="list-students-page__tooltip">
             <span class="list-students-page__tooltip-title">
-              <span>En savoir plus</span>
+              <span>{{t "pages.students-sco.know-more"}}</span>
               <FaIcon @icon="info-circle" class="info-icon"/>
             </span>
         </PixTooltip>
         <a class="button button--link button--no-color"
           href="{{this.urlToDownloadCsvTemplate}}" target="_blank" rel="noopener noreferrer" download>
-          Télécharger le modèle
+          {{t "pages.students-sco.actions.download-template"}}
         </a>
       {{/if}}
       <FileUpload @name="file-upload" @for="students-file-upload" @accept={{this.acceptedFileType}} @multiple={{false}} @onfileadd={{@importStudents}}>
-        <span class="button" role="button" tabindex="0">Importer ({{join this.acceptedFileType ' ou '}})</span>
+        <span class="button" role="button" tabindex="0">
+          {{this.importButtonLabel}}
+        </span>
       </FileUpload>
     </div>
   {{/if}}
@@ -31,35 +33,35 @@
     <table>
       <thead>
         <tr>
-          <Table::Header>Nom</Table::Header>
-          <Table::Header>Prénom</Table::Header>
-          <Table::Header>Date de naissance</Table::Header>
-          <Table::Header>Méthode(s) de connexion</Table::Header>
+          <Table::Header>{{t "pages.students-sco.table.column.last-name"}}</Table::Header>
+          <Table::Header>{{t "pages.students-sco.table.column.first-name"}}</Table::Header>
+          <Table::Header>{{t "pages.students-sco.table.column.date-of-birth"}}</Table::Header>
+          <Table::Header>{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
           <Table::Header @size="small"/>
         </tr>
         <tr>
           <Table::HeaderFilterInput
             @field="lastName"
             @value={{@lastNameFilter}}
-            @placeholder="Rechercher par nom"
-            @ariaLabel="Entrer un nom"
+            @placeholder={{t "pages.students-sco.table.filter.last-name.label"}}
+            @ariaLabel={{t "pages.students-sco.table.filter.last-name.aria-label"}}
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::HeaderFilterInput
             @field="firstName"
             @value={{@firstNameFilter}}
-            @placeholder="Rechercher par prénom"
-            @ariaLabel="Entrer un prénom"
+            @placeholder={{t "pages.students-sco.table.filter.first-name.label"}}
+            @ariaLabel={{t "pages.students-sco.table.filter.first-name.aria-label"}}
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::Header/>
           <Table::HeaderFilterSelect
             @field="connexionType"
-            @options={{@connexionTypesOptions}}
+            @options={{@connectionTypesOptions}}
             @selectedOption={{@connexionTypeFilter}}
             @triggerFiltering={{@triggerFiltering}}
-            @ariaLabel="Rechercher par méthode de connexion"
-            @emptyOptionLabel="Tous"
+            @ariaLabel={{t "pages.students-sco.table.filter.login-method.aria-label"}}
+            @emptyOptionLabel={{t "pages.students-sco.table.filter.login-method.empty-option"}}
           />
           <Table::Header/>
         </tr>
@@ -68,11 +70,15 @@
       {{#if @students}}
         <tbody>
         {{#each @students as |student|}}
-          <tr aria-label="Élève">
+          <tr aria-label={{t "pages.students-sco.table.row-title"}}>
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
             <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
-            <td class="list-students-page__authentication-methods">{{student.authenticationMethods}}</td>
+            <td class="list-students-page__authentication-methods">
+              {{#each student.authenticationMethods as |authenticationMethod|}}
+                <p>{{t authenticationMethod}}</p>
+              {{/each}}
+            </td>
             <td class="list-students-page__actions">
               {{#if student.isStudentAssociated}}
                 <Dropdown::IconTrigger
@@ -81,7 +87,7 @@
                   @dropdownContentClass="list-students-page__dropdown-content"
                 >
                   <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
-                    Gérer le compte
+                    {{t "pages.students-sco.actions.manage-account"}}
                   </Dropdown::Item>
                   {{#if this.currentUser.isAdminInOrganization}}
                     {{#if this.isDissociateButtonEnabled}}
@@ -101,7 +107,9 @@
     </table>
 
     {{#unless @students}}
-      <div class="table__empty content-text">Aucun élève.</div>
+      <div class="table__empty content-text">
+        {{t "pages.students-sco.table.empty"}}
+      </div>
     {{/unless}}
   </div>
 

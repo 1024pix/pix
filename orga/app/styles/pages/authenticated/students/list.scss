@@ -45,7 +45,10 @@ $margin-right: 32px;
   }
 
   &__authentication-methods {
-    white-space: pre;
+    > * {
+      padding: 0;
+      margin: 0;
+    }
   }
 
   &__actions {
