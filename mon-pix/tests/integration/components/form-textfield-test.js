@@ -36,7 +36,7 @@ describe('Integration | Component | form textfield', function() {
       this.set('textfieldName', 'firstname');
 
       // When
-      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+      await render(hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`);
     });
 
     [
@@ -45,7 +45,7 @@ describe('Integration | Component | form textfield', function() {
       { expectedRendering: 'input', item: INPUT, expectedLength: 1 },
 
     ].forEach(function({ expectedRendering, item, expectedLength }) {
-      it(`Should render a ${expectedRendering}`, function() {
+      it(`should render a ${expectedRendering}`, function() {
         // Then
         expect(findAll(item)).to.have.length(expectedLength);
         expect(find(item).nodeName).to.equal(expectedRendering.toUpperCase());
@@ -57,7 +57,7 @@ describe('Integration | Component | form textfield', function() {
       { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT },
 
     ].forEach(function({ item, expectedRendering, expectedText }) {
-      it(`Should render a ${expectedRendering}`, function() {
+      it(`should render a ${expectedRendering}`, function() {
         // Then
         expect(find(item).textContent.toUpperCase()).to.contains(expectedText);
       });
@@ -83,10 +83,11 @@ describe('Integration | Component | form textfield', function() {
       this.set('validationMessage', 'message');
       this.set('textfieldName', 'firstname');
 
-      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName onValidate=(action validate)}}`);
+      await render(hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}} @onValidate={{this.validate}}/>`);
+
       // when
       await fillIn(INPUT, 'pix');
-      await triggerEvent(INPUT, 'blur');
+      await triggerEvent(INPUT, 'focusout');
       // then
       return settled().then(() => {
         expect(isActionValidateHandled).to.be.true;
@@ -102,7 +103,8 @@ describe('Integration | Component | form textfield', function() {
         this.set('validationMessage', 'message');
 
         // When
-        await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+        await render(hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`);
+
       });
 
       it('return true if any svg doesn\'t exist', function() {
@@ -126,7 +128,7 @@ describe('Integration | Component | form textfield', function() {
         this.set('validationMessage', 'message');
 
         // When
-        await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+        await render(hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`);
       });
 
       it('return true if any img does exist', function() {
@@ -159,7 +161,7 @@ describe('Integration | Component | form textfield', function() {
         this.set('textfieldName', 'firstname');
 
         // When
-        await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+        await render(hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}}/>`);
       });
 
       it('return true if any img does exist', function() {
@@ -188,7 +190,7 @@ describe('Integration | Component | form textfield', function() {
         this.set('textfieldName', 'password');
 
         // given
-        await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName value=inputValue}}`);
+        await render(hbs`<FormTextfield @label={{this.label}} @validationStatus={{this.validationStatus}} @validationMessage={{this.validationMessage}} @textfieldName={{this.textfieldName}} @inputValue={{this.inputValue}}/>`);
       });
 
       it('should change type when user click on eye icon', async function() {

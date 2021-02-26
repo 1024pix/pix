@@ -1,44 +1,47 @@
-{{!-- template-lint-disable no-implicit-this no-action no-curly-component-invocation --}}
-<label for="{{textfieldName}}" class="form-textfield__label">
-  {{#unless hideRequired}}{{#if require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}{{/unless}}
-  {{label}}
-    <br><span class="form-textfield__help">{{help}}</span>
-</label>
+<div class="form-textfield">
+  <label for="{{@textfieldName}}" class="form-textfield__label">
+    {{#unless @hideRequired}}{{#if @require}}<abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr> {{/if}}{{/unless}}
+    {{@label}}
+      <br><span class="form-textfield__help">{{@help}}</span>
+  </label>
 
-<div class="form-textfield__input-field-container
-  {{if disabled "form-textfield__input-container--disabled" inputContainerStatusClass}}
-  {{if isPassword "form-textfield__input-container--password"}}">
-  <Input @type={{textfieldType}}
-         id={{textfieldName}}
-         name={{textfieldName}}
-         @value={{inputBindingValue}}
-         @focus-out={{action onValidate textfieldName}}
-         class="form-textfield__input {{inputValidationStatus}}"
-         autocomplete={{autocomplete}}
-         aria-describedby="validationMessage-{{textfieldName}}"
-         required={{require}}
-         disabled={{disabled}} />
+  <div class="form-textfield__input-field-container
+  {{if @disabled "form-textfield__input-container--disabled" this.inputContainerStatusClass}}
+  {{if this.isPassword "form-textfield__input-container--password"}}">
+    <Input @type={{this.textfieldType}}
+           id={{@textfieldName}}
+           name={{@textfieldName}}
+           @value={{@inputBindingValue}}
+           {{on "focusout" (fn this.onValidate @textfieldName @inputBindingValue)}}
+           class="form-textfield__input {{this.inputValidationStatus}}"
+           autocomplete={{@autocomplete}}
+           aria-describedby="validationMessage-{{@textfieldName}}"
+           required={{@require}}
+           disabled={{@disabled}} />
     <div class="form-textfield__icon">
-      {{#if isPassword}}
-            {{#if isPasswordVisible}}
-            <button type="button" aria-label={{t 'common.form.invisible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
-              <FaIcon @icon="eye" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
-            </button>
-            {{else}}
-            <button type="button" aria-label={{t 'common.form.visible-password'}} class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
-              <FaIcon @icon="eye-slash" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
-            </button>
-            {{/if}}
-      {{/if}}
-      {{#if hasIcon}}
-        {{#if (eq validationStatus 'error') }}
-            <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error" alt={{t "common.form.error"}}>
+      {{#if this.isPassword}}
+        {{#if this.isPasswordVisible}}
+          <button type="button" aria-label={{t 'common.form.invisible-password'}} class="form-textfield-icon__button" {{on 'click' this.togglePasswordVisibility}}>
+            <FaIcon @icon="eye" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+          </button>
         {{else}}
-            <img src="/images/icons/icon-success.svg" class="form-textfield-icon__state form-textfield-icon__state--success" alt={{t "common.form.success"}}>
+          <button type="button" aria-label={{t 'common.form.visible-password'}} class="form-textfield-icon__button" {{on 'click' this.togglePasswordVisibility}}>
+            <FaIcon @icon="eye-slash" class="fa-fw form-textfield-icon-button__eye"></FaIcon>
+          </button>
+        {{/if}}
+      {{/if}}
+
+      {{#if this.hasIcon}}
+        {{#if (eq @validationStatus 'error') }}
+          <img src="/images/icons/icon-error.svg" class="form-textfield-icon__state form-textfield-icon__state--error" alt={{t "common.form.error"}}>
+        {{else}}
+          <img src="/images/icons/icon-success.svg" class="form-textfield-icon__state form-textfield-icon__state--success" alt={{t "common.form.success"}}>
         {{/if}}
       {{/if}}
     </div>
+  </div>
+
+  <div id="validationMessage-{{@textfieldName}}"
+       class="form-textfield__message {{this.validationMessageClass}} form-textfield__message-{{this.textfieldType}}"
+       aria-live="polite">{{#if this.displayMessage}}{{@validationMessage}}{{/if}}</div>
 </div>
-
-<div id="validationMessage-{{textfieldName}}" class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" aria-live="polite">{{#if displayMessage}}{{validationMessage}}{{/if}}</div>
-

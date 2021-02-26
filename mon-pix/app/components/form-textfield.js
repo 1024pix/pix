@@ -1,12 +1,7 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { isEmpty } from '@ember/utils';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
 
 const INPUT_VALIDATION_STATUS_MAP = {
   default: 'form-textfield__input--default',
@@ -32,77 +27,65 @@ const INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
   success: 'form-textfield__input-container--success',
 };
 
-@classic
-@classNames('form-textfield')
 export default class FormTextfield extends Component {
-  label = '';
-  textfieldName = '';
-  validationMessage = '';
-  validationStatus = 'default';
+  @tracked isPasswordVisible = false;
 
-  @equal('textfieldName', 'password')
-  isPassword;
+  onValidate;
 
-  @equal('textfieldName', 'email')
-  isEmail;
+  constructor() {
+    super(...arguments);
+    this.onValidate = this.args.onValidate ? this.args.onValidate : () => {};
+  }
 
-  isPasswordVisible = false;
-  require = false;
-  help = '';
-  disabled = false;
-  onValidate = () => {};
+  get isPassword() {
+    return this.args.textfieldName === 'password';
+  }
 
-  @computed('textfieldName', 'isPasswordVisible')
+  get isEmail() {
+    return this.args.textfieldName === 'email';
+  }
+
   get textfieldType() {
-    if (this.textfieldName === 'password') {
-      return this.isPasswordVisible ? 'text' : 'password';
+    switch (this.args.textfieldName) {
+      case 'password':
+        return this.isPasswordVisible ? 'text' : 'password';
+      case 'email':
+        return 'email';
+      default:
+        return 'text';
     }
-    if (this.textfieldName === 'email') {
-      return 'email';
-    }
-    return 'text';
+  }
+
+  get hasIcon() {
+    return this._isValidationStatusNotDefault() && !this.args.disabled;
   }
 
   _isValidationStatusNotDefault() {
-    return this.validationStatus !== 'default';
+    return this.args.validationStatus !== 'default';
   }
 
-  @computed('validationStatus', 'user.errors.content', 'disabled')
-  get hasIcon() {
-    return this._isValidationStatusNotDefault() && !this.disabled;
-  }
-
-  @computed('hasIcon', 'validationMessage')
   get displayMessage() {
-    return !isEmpty(this.validationMessage) || this.hasIcon;
+    return !isEmpty(this.args.validationMessage) || this.hasIcon;
   }
 
-  @computed('validationStatus')
   get inputContainerStatusClass() {
-    const inputValidationStatus = this.validationStatus;
-    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
+    return INPUT_CONTAINER_VALIDATION_STATUS_MAP[this.args.validationStatus] || null;
   }
 
-  @computed('validationStatus')
   get iconType() {
-    const inputValidationStatus = this.validationStatus;
-    return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
+    return ICON_TYPE_STATUS_MAP[this.args.validationStatus] || '';
   }
 
-  @computed('validationStatus')
   get inputValidationStatus() {
-    const inputValidationStatus = this.validationStatus;
-    return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
+    return INPUT_VALIDATION_STATUS_MAP[this.args.validationStatus] || '';
   }
 
-  @computed('validationStatus')
   get validationMessageClass() {
-    const inputValidationStatus = this.validationStatus;
-    return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
+    return MESSAGE_VALIDATION_STATUS_MAP[this.args.validationStatus] || '';
   }
 
   @action
   togglePasswordVisibility() {
-    this.toggleProperty('isPasswordVisible');
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }

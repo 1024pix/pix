@@ -160,7 +160,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         // when
         await fillIn('#firstName', stringFilledIn);
-        await triggerEvent('#firstName', 'blur');
+        await triggerEvent('#firstName', 'focusout');
 
         // then
         expect(find('#register-firstName-container #validationMessage-firstName').textContent).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
@@ -178,7 +178,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         // when
         await fillIn('#lastName', stringFilledIn);
-        await triggerEvent('#lastName', 'blur');
+        await triggerEvent('#lastName', 'focusout');
 
         // then
         expect(find('#register-lastName-container #validationMessage-lastName').textContent).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
@@ -262,7 +262,7 @@ describe('Integration | Component | routes/register-form', function() {
         // when
         await click('.pix-toggle__off');
         await fillIn('#email', stringFilledIn);
-        await triggerEvent('#email', 'blur');
+        await triggerEvent('#email', 'focusout');
 
         // then
         expect(find('#register-email-container #validationMessage-email').textContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
@@ -284,7 +284,7 @@ describe('Integration | Component | routes/register-form', function() {
       // when
       await click('.pix-toggle__off');
       await fillIn('#email', 'shi.fu');
-      await triggerEvent('#email', 'blur');
+      await triggerEvent('#email', 'focusout');
       await click('#submit-registration');
 
       // then
@@ -312,7 +312,7 @@ describe('Integration | Component | routes/register-form', function() {
 
         // when
         await fillIn('#password', stringFilledIn);
-        await triggerEvent('#password', 'blur');
+        await triggerEvent('#password', 'focusout');
 
         // then
         expect(find('#register-password-container #validationMessage-password').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
@@ -333,7 +333,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       // when
       await fillIn('#password', 'toto');
-      await triggerEvent('#password', 'blur');
+      await triggerEvent('#password', 'focusout');
       await click('#submit-registration');
 
       // then
