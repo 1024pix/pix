@@ -28,7 +28,7 @@
     "codeclimate-test-reporter": "^0.5.1",
     "coveralls": "^3.0.9",
     "eslint": "^7.20.0",
-    "eslint-plugin-mocha": "^6.2.2",
+    "eslint-plugin-mocha": "^8.0.0",
     "lcov-result-merger": "^3.1.0",
     "mocha": "^6.2.2"
   },
