@@ -1,0 +1,21 @@
+.stages-table {
+  &__id {
+    width: 100px;
+  }
+
+  &__threshold {
+    width: 150px;
+  }
+
+  &__title {
+    width: 250px;
+  }
+
+  &__image {
+    width: 126px;
+
+    img {
+      width: 90px;
+    }
+  }
+}

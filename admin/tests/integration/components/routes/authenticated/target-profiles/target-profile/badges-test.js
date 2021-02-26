@@ -7,12 +7,23 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
 
   setupRenderingTest(hooks);
 
-  test('it should display the badges title and an empty list', async function(assert) {
-    // when
-    await render(hbs`<TargetProfiles::Badges/>`);
+  module('section rendering', function() {
+    test('it should display the badges title and an empty list', async function(assert) {
+      // when
+      await render(hbs`<TargetProfiles::Badges/>`);
 
-    // then
-    assert.contains('Résultats thématiques');
-    assert.contains('Aucun résultat thématique associé');
+      // then
+      assert.contains('Résultats thématiques');
+      assert.contains('Aucun résultat thématique associé');
+    });
+
+    test('it should display the stages title and an empty list', async function(assert) {
+      // when
+      await render(hbs`<TargetProfiles::Badges/>`);
+
+      // then
+      assert.contains('Paliers');
+      assert.contains('Aucun palier associé');
+    });
   });
 });

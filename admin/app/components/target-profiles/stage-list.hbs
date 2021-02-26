@@ -1,0 +1,30 @@
+<div class="content-text content-text--small">
+  {{#if (gt @model.list.length 0)}}
+    <div class="table-admin stages-table">
+      <table>
+        <thead>
+        <tr>
+          <th class="stages-table__id">ID</th>
+          <th class="stages-table__image">Image</th>
+          <th class="stages-table__threshold">Threshold</th>
+          <th class="stages-table__title">Titre</th>
+          <th>Message</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each @model.list as |stage|}}
+          <tr>
+            <td>{{stage.id}}</td>
+            <td class="stages-table__image"><img src={{@model.imageUrl}} alt="" /></td>
+            <td>{{stage.threshold}}</td>
+            <td>{{stage.title}}</td>
+            <td>{{stage.message}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <div class="table__empty content-text">Aucun palier associé</div>
+  {{/if}}
+</div>
