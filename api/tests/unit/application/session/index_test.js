@@ -379,4 +379,44 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(response.statusCode).to.equal(404);
     });
   });
+
+  describe('GET /api/admin/sessions/to-publish', () => {
+    it('exists', async () => {
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+    it('is protected by a prehandler checking the Pix Master role', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('GET /api/admin/sessions/with-required-action', () => {
+    it('exists', async () => {
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+    it('is protected by a prehandler checking the Pix Master role', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });

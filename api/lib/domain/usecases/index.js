@@ -157,6 +157,7 @@ module.exports = injectDependencies({
   findLatestOngoingUserCampaignParticipations: require('./find-latest-ongoing-user-campaign-participations'),
   findDivisionsByCertificationCenter: require('./find-divisions-by-certification-center'),
   findFinalizedSessionsToPublish: require('./find-finalized-sessions-to-publish'),
+  findFinalizedSessionsWithRequiredAction: require('./find-finalized-sessions-with-required-action'),
   findPaginatedCampaignAssessmentParticipationSummaries: require('./find-paginated-campaign-assessment-participation-summaries'),
   findPaginatedFilteredCertificationCenters: require('./find-paginated-filtered-certification-centers'),
   findPaginatedFilteredOrganizationCampaigns: require('./find-paginated-filtered-organization-campaigns'),
