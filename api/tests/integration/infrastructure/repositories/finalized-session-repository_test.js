@@ -107,10 +107,6 @@ describe('Integration | Repository | Finalized-session', () => {
 
   describe('#findFinalizedSessionsToPublish', () => {
 
-    afterEach(() => {
-      return knex('finalized-sessions').delete();
-    });
-
     context('when there are publishable sessions', () => {
 
       it('finds a list of publishable finalized session order by finalization date', async () => {
@@ -119,8 +115,8 @@ describe('Integration | Repository | Finalized-session', () => {
         const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2019-01-01') });
         const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2021-01-01') });
 
-        databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null }),
-        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' }),
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null });
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' });
 
         await databaseBuilder.commit();
 
@@ -166,6 +162,70 @@ describe('Integration | Repository | Finalized-session', () => {
       it('returns an empty array', async () => {
         // given / when
         const result = await finalizedSessionRepository.findFinalizedSessionsToPublish();
+
+        // then
+        expect(result).to.have.lengthOf(0);
+      });
+    });
+  });
+
+  describe('#findFinalizedSessionsWithRequiredAction', () => {
+
+    context('when there are finalized sessions with required action', () => {
+
+      it('finds a list of finalized session with required action ordered by finalization date', async () => {
+        // given
+        const secondFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2020-01-01') });
+        const firstFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2019-01-01') });
+        const thirdFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2021-01-01') });
+
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
+        databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: '2021-01-01' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const result = await finalizedSessionRepository.findFinalizedSessionsWithRequiredAction();
+
+        // then
+        expect(result).to.have.lengthOf(3);
+        expect(result).to.have.deep.ordered.members([
+          {
+            sessionId: firstFinalizedSession.sessionId,
+            finalizedAt: firstFinalizedSession.finalizedAt,
+            certificationCenterName: firstFinalizedSession.certificationCenterName,
+            sessionDate: firstFinalizedSession.date,
+            sessionTime: firstFinalizedSession.time,
+            isPublishable: firstFinalizedSession.isPublishable,
+            publishedAt: null,
+          },
+          {
+            sessionId: secondFinalizedSession.sessionId,
+            finalizedAt: secondFinalizedSession.finalizedAt,
+            certificationCenterName: secondFinalizedSession.certificationCenterName,
+            sessionDate: secondFinalizedSession.date,
+            sessionTime: secondFinalizedSession.time,
+            isPublishable: secondFinalizedSession.isPublishable,
+            publishedAt: null,
+          },
+          {
+            sessionId: thirdFinalizedSession.sessionId,
+            finalizedAt: thirdFinalizedSession.finalizedAt,
+            certificationCenterName: thirdFinalizedSession.certificationCenterName,
+            sessionDate: thirdFinalizedSession.date,
+            sessionTime: thirdFinalizedSession.time,
+            isPublishable: thirdFinalizedSession.isPublishable,
+            publishedAt: null,
+          },
+        ]);
+      });
+    });
+
+    context('when there are no publishable sessions', () => {
+
+      it('returns an empty array', async () => {
+        // given / when
+        const result = await finalizedSessionRepository.findFinalizedSessionsWithRequiredAction();
 
         // then
         expect(result).to.have.lengthOf(0);
