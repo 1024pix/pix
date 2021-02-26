@@ -4,17 +4,6 @@
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
   <h1 class="sr-only">{{t 'pages.profile.accessibility.title'}}</h1>
 
-    {{#if this.newLevelMessage}}
-      {{#unless this.currentUser.user.hasSeenNewLevelInfo}}
-        <NewInformation @information={{this.newLevelMessage}}
-                        @image={{this.newLevelImageUrl}}
-                        @backgroundColorClass="new-information--yellow-background"
-                        @textColorClass="new-information--black-text"
-                        @closeaction={{this.closeInformationAboutNewLevel}}
-                        @textAlignment="new-information--align-text-center"/>
-      {{/unless}}
-    {{/if}}
-
     <div class="rounded-panel-header-with-components">
       <div class="rounded-panel-header__left-wrapper">
         <div class="rounded-panel-header-text__content rounded-panel-title rounded-panel-header-text__content--first-title">
