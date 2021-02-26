@@ -20,7 +20,7 @@
     color: $blue;
 
     @include device-is('tablet') {
-      white-space: nowrap;
+      display: inline-block;
     }
 
     &:active,
