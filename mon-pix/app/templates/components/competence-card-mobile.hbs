@@ -5,7 +5,7 @@
       <span class="competence-card__area-name">{{@scorecard.area.title}}</span>
       <span class="competence-card__competence-name">{{@scorecard.name}}</span>
     </div>
-    <div class="competence-card__body">
+    <div class="competence-card__body" role="img" aria-label="{{this.scoreAriaLabel}}">
       {{#if @scorecard.isFinishedWithMaxLevel}}
         <div class="competence-card__congrats competence-card__congrats--small">
           <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{this.displayedLevel}}</span>
