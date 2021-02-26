@@ -23,7 +23,6 @@
   },
   "main": "index.js",
   "devDependencies": {
-    "@sentry/cli": "^1.49.0",
     "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.1",
     "coveralls": "^3.0.9",
