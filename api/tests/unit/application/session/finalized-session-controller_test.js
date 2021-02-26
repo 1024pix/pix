@@ -41,4 +41,37 @@ describe('Unit | Controller | finalized-session', () => {
     });
 
   });
+
+  describe('#findFinalizedSessionsWithRequiredAction', () => {
+
+    context('When there are finalized sessions with required action', () => {
+
+      it('should find finalized sessions with required action', async () => {
+        // given
+        request = {
+          payload: { },
+          auth: {
+            credentials: {
+              userId,
+            },
+          },
+        };
+
+        const foundFinalizedSessions = Symbol('foundSession');
+        sinon.stub(usecases, 'findFinalizedSessionsWithRequiredAction');
+        usecases.findFinalizedSessionsWithRequiredAction.resolves(foundFinalizedSessions);
+
+        sinon.stub(finalizedSessionSerializer, 'serialize');
+        const serializedFinalizedSessions = Symbol('serializedSession');
+        finalizedSessionSerializer.serialize.withArgs(foundFinalizedSessions).resolves(serializedFinalizedSessions);
+
+        // when
+        const response = await finalizedSessionController.findFinalizedSessionsWithRequiredAction(request, hFake);
+
+        // then
+        expect(response).to.deep.equal(serializedFinalizedSessions);
+      });
+    });
+
+  });
 });

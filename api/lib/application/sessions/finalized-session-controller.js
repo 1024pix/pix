@@ -6,4 +6,9 @@ module.exports = {
     const finalizedSessionsToPublish = await usecases.findFinalizedSessionsToPublish();
     return finalizedSessionSerializer.serialize(finalizedSessionsToPublish);
   },
+
+  async findFinalizedSessionsWithRequiredAction() {
+    const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
+    return finalizedSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
+  },
 };
