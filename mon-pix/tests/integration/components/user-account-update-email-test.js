@@ -49,7 +49,7 @@ describe('Integration | Component | User account update email', () => {
 
           // when
           await fillIn('#newEmail', wrongEmail);
-          await triggerEvent('#newEmail', 'blur');
+          await triggerEvent('#newEmail', 'focusout');
 
           // then
           expect(find('#validationMessage-newEmail').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
@@ -66,7 +66,7 @@ describe('Integration | Component | User account update email', () => {
 
           // when
           await fillIn('#newEmailConfirmation', wrongEmail);
-          await triggerEvent('#newEmailConfirmation', 'blur');
+          await triggerEvent('#newEmailConfirmation', 'focusout');
 
           // then
           expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
@@ -85,7 +85,7 @@ describe('Integration | Component | User account update email', () => {
           // when
           await fillIn('#newEmail', newEmail);
           await fillIn('#newEmailConfirmation', newEmailConfirmation);
-          await triggerEvent('#newEmailConfirmation', 'blur');
+          await triggerEvent('#newEmailConfirmation', 'focusout');
 
           // then
           expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.mismatching-email'));
@@ -105,7 +105,7 @@ describe('Integration | Component | User account update email', () => {
           await fillIn('#newEmail', newEmail);
           await fillIn('#newEmailConfirmation', newEmail);
           await fillIn('#password', emptyPassword);
-          await triggerEvent('#password', 'blur');
+          await triggerEvent('#password', 'focusout');
 
           // then
           expect(find('#validationMessage-password').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'));
