@@ -24,7 +24,6 @@
   "main": "index.js",
   "devDependencies": {
     "chai": "^4.2.0",
-    "codeclimate-test-reporter": "^0.5.1",
     "eslint": "^7.20.0",
     "eslint-plugin-mocha": "^8.0.0",
     "lcov-result-merger": "^3.1.0",
