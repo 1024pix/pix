@@ -1,5 +1,6 @@
 const CertificationsResults = require('../../read-models/livret-scolaire/CertificationsResults');
 const Competence = require('../../read-models/livret-scolaire/Competence');
+const sortBy = require('lodash/sortBy');
 
 module.exports = async function getCertificationsResultsForLS({
   uai,
@@ -13,11 +14,13 @@ module.exports = async function getCertificationsResultsForLS({
   ]);
 
   const areas = referential.areas;
-  const competences = areas.flatMap((area) => area.competences).map((competence) => {
-    const { code: id, title: name } = competence.area;
-    const area = { id, name };
-    return new Competence({ area, id: competence.index, name: competence.name });
-  }).sort((competenceA, competenceB) => competenceA.id - competenceB.id);
+  const competences = areas.flatMap(({ competences, code, title }) =>
+    competences.map((competence) => {
+      const area = { id: code, name: title };
+      return new Competence({ area, id: competence.index, name: competence.name });
+    }),
+  );
+  const sortedCompetences = sortBy(competences, 'id');
 
-  return new CertificationsResults({ certifications, competences });
+  return new CertificationsResults({ certifications, competences: sortedCompetences });
 };
