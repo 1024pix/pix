@@ -41,6 +41,9 @@ describe('Unit | Application | Controller | Campaign', () => {
             },
           },
         },
+        i18n: {
+          __: sinon.stub(),
+        },
       };
       const campaign = {
         name: 'name',
@@ -76,6 +79,9 @@ describe('Unit | Application | Controller | Campaign', () => {
       },
       params: {
         id: campaignId,
+      },
+      i18n: {
+        __: sinon.stub(),
       },
     };
 
@@ -132,6 +138,9 @@ describe('Unit | Application | Controller | Campaign', () => {
       },
       params: {
         id: campaignId,
+      },
+      i18n: {
+        __: sinon.stub(),
       },
     };
 

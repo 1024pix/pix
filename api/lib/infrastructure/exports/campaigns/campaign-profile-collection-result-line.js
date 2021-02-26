@@ -2,16 +2,18 @@ const csvSerializer = require('../../serializers/csv/csv-serializer');
 const moment = require('moment');
 
 const EMPTY_ARRAY = [];
-const NOT_SHARED = 'NA';
 
 class CampaignProfileCollectionResultLine {
 
-  constructor(campaign, organization, campaignParticipationResult, competences, placementProfile) {
+  constructor(campaign, organization, campaignParticipationResult, competences, placementProfile, translate) {
     this.organization = organization;
     this.campaign = campaign;
     this.campaignParticipationResult = campaignParticipationResult;
     this.competences = competences;
     this.placementProfile = placementProfile;
+    this.translate = translate;
+
+    this.notShared = translate('campaign.common.not-available');
   }
 
   toCsvLine() {
@@ -44,11 +46,11 @@ class CampaignProfileCollectionResultLine {
   }
 
   _getCompetencesCountColumn() {
-    return this.campaignParticipationResult.isShared ? this.placementProfile.getCertifiableCompetencesCount() : NOT_SHARED;
+    return this.campaignParticipationResult.isShared ? this.placementProfile.getCertifiableCompetencesCount() : this.notShared;
   }
 
   _getIsCertifiableColumn() {
-    return this.campaignParticipationResult.isShared ? this._yesOrNo(this.placementProfile.isCertifiable()) : NOT_SHARED;
+    return this.campaignParticipationResult.isShared ? this._yesOrNo(this.placementProfile.isCertifiable()) : this.notShared;
   }
 
   _getIdPixLabelColumn() {
@@ -64,11 +66,11 @@ class CampaignProfileCollectionResultLine {
   }
 
   _getSharedAtColumn() {
-    return this.campaignParticipationResult.isShared ? moment.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD') : NOT_SHARED;
+    return this.campaignParticipationResult.isShared ? moment.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD') : this.notShared;
   }
 
   _getTotalEarnedPixColumn() {
-    let totalEarnedPix = NOT_SHARED;
+    let totalEarnedPix = this.notShared;
     if (this.campaignParticipationResult.isShared) {
       totalEarnedPix = 0;
       this.placementProfile.userCompetences.forEach(({ pixScore }) => {
@@ -80,7 +82,7 @@ class CampaignProfileCollectionResultLine {
   }
 
   _yesOrNo(value) {
-    return value ? 'Oui' : 'Non';
+    return this.translate(`campaign.common.${value ? 'yes' : 'no'}`);
   }
 
   _competenceColumns() {
@@ -91,7 +93,7 @@ class CampaignProfileCollectionResultLine {
       if (this.campaignParticipationResult.isShared) {
         columns.push(estimatedLevel, pixScore);
       } else {
-        columns.push(NOT_SHARED, NOT_SHARED);
+        columns.push(this.notShared, this.notShared);
       }
     });
 

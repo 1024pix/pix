@@ -22,5 +22,29 @@
     "moreOn": "En savoir plus sur",
     "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
     "askForHelp": "Besoin d’aide, contactez-nous"
+  },
+  "campaign": {
+    "common" : {
+      "yes": "Oui",
+      "no": "Non",
+      "not-available": "NA"
+    },
+    "profiles-collection" : {
+      "campaign-id": "ID Campagne",
+      "campaign-name": "Nom de la campagne",
+      "certifiable-skills": "Nombre de compétences certifiables",
+      "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
+      "is-certifiable" :"Certifiable (O/N)",
+      "is-sent": "Envoi (O/N)",
+      "organization-name": "Nom de l'organisation",
+      "participant-division": "Classe",
+      "participant-firstname": "Prénom du Participant",
+      "participant-lastname": "Nom du Participant",
+      "participant-student-number": "Numéro Étudiant",
+      "pix-score": "Nombre de pix total",
+      "sent-on": "Date de l'envoi",
+      "skill-level": "Niveau pour la compétence {{name}}",
+      "skill-ranking": "Nombre de pix pour la compétence {{name}}"
+    }
   }
 }

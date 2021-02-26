@@ -17,6 +17,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     userId,
     campaignId,
     writableStream,
+    i18n,
     campaignRepository,
     userRepository,
     competenceRepository,
@@ -26,16 +27,17 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
   }) {
 
   const campaign = await campaignRepository.get(campaignId);
+  const translate = i18n.__;
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
   const [allPixCompetences, organization, campaignParticipationResultDatas] = await Promise.all([
-    competenceRepository.listPixCompetencesOnly(),
+    competenceRepository.listPixCompetencesOnly(i18n.getLocale()),
     organizationRepository.get(campaign.organizationId),
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id, campaign.type),
   ]);
 
-  const campaignProfilCollectionExport = new CampaignProfilCollectionExport(writableStream, organization, campaign, allPixCompetences);
+  const campaignProfilCollectionExport = new CampaignProfilCollectionExport(writableStream, organization, campaign, allPixCompetences, translate);
 
   // No return/await here, we need the writing to continue in the background
   // after this function's returned promise resolves. If we await the map
@@ -48,6 +50,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     throw error;
   });
 
-  const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+  const fileName = translate('campaign.profiles-collection.file-name', { name: campaign.name, id: campaign.id, date: moment.utc().format('YYYY-MM-DD-hhmm') });
+
   return { fileName };
 };
