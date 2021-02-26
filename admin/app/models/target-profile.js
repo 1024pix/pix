@@ -12,6 +12,7 @@ export default class TargetProfile extends Model {
   @attr('array') skillsId;
 
   @hasMany('badge') badges;
+  @hasMany('stage') stages;
   @hasMany('skill') skills;
   @hasMany('tube') tubes;
   @hasMany('competence') competences;
