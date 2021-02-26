@@ -196,24 +196,60 @@ module('Integration | Component | routes/authenticated/campaign/new', function(h
     assert.deepEqual(receivedCampaign.name, 'Ma campagne');
   });
 
-  test('it should display error message when error occurred on registration of one field', async function(assert) {
-    // given
-    this.set('campaign', EmberObject.create({
-      errors: {
-        name: [
-          {
-            message: 'Le message d\'erreur à afficher',
-          },
-        ],
-      },
-    }));
+  module('when there are errors', function() {
+    test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty ', async function(assert) {
+      // given
+      class CurrentUserStub extends Service {
+        organization = EmberObject.create({ canCollectProfiles: true });
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      this.set('campaign', EmberObject.create({
+        errors: {
+          name: [
+            {
+              message: 'CAMPAIGN_NAME_IS_REQUIRED',
+            },
+          ],
+          idPixLabel: [
+            {
+              message: 'EXTERNAL_USER_ID_IS_REQUIRED',
+            },
+          ],
+          type: [
+            {
+              message: 'CAMPAIGN_PURPOSE_IS_REQUIRED',
+            },
+          ],
+        },
+      }));
 
-    // when
-    await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+      await clickByLabel('Oui');
 
-    // then
-    assert.dom('.form__error').exists();
-    assert.dom('.form__error').hasText('Le message d\'erreur à afficher');
+      // then
+      assert.contains('Veuillez donner un nom à votre campagne.');
+      assert.contains('Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.');
+      assert.contains('Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.');
+    });
+
+    test('it should display errors messages when the target profile field is empty', async function(assert) {
+      // given
+      this.set('campaign', EmberObject.create({
+        errors: {
+          targetProfile: [
+            {
+              message: 'TARGET_PROFILE_IS_REQUIRED',
+            },
+          ],
+        },
+      }));
+
+      // when
+      await render(hbs`<Routes::Authenticated::Campaign::New @campaign={{campaign}} @createCampaign={{createCampaignSpy}} @cancel={{cancelSpy}}/>`);
+
+      // then
+      assert.contains('Veuillez sélectionner un profil cible pour votre campagne.');
+    });
   });
-
 });
