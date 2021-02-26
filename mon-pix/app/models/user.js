@@ -10,7 +10,6 @@ export default class User extends Model {
   @attr('boolean') cgu;
   @attr('boolean') mustValidateTermsOfService;
   @attr('boolean') hasSeenAssessmentInstructions;
-  @attr('boolean') hasSeenNewLevelInfo;
   @attr('boolean') hasSeenNewDashboardInfo;
   @attr('string') recaptchaToken;
   @attr('string') lang;
