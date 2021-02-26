@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.26.0 (26/02/2021)
+
+- [#2621](https://github.com/1024pix/pix/pull/2621) [FEATURE] Endpoint de téléchargement des résultats de certification SCO par classe depuis pix-orga (PIX-2193)
+- [#2597](https://github.com/1024pix/pix/pull/2597) [FEATURE] Ajouter les liens CGU et Protection des données dans le footer de Pix App (PIX-2125).
+- [#2602](https://github.com/1024pix/pix/pull/2602) [FEATURE] Traduction de la page de la liste des participants d’une campagne de collecte de profils (PIX-2200).
+- [#2600](https://github.com/1024pix/pix/pull/2600) [FEATURE] Traduction de la page de résultats collectifs d’une campagne d'évaluation (PIX-2145).
+- [#2589](https://github.com/1024pix/pix/pull/2589) [FEATURE] Traduction de la page de la liste des participants d'une campagne d'évaluation(PIX-2158).
+- [#2619](https://github.com/1024pix/pix/pull/2619) [TECH] Ajouter prescriberTitle et prescriberDescription en base de données(PIX-2167)
+- [#2605](https://github.com/1024pix/pix/pull/2605) [TECH] Ecriture d'un script à exécuter en local pour créer en masse des certifications dans une organisation (PIX-2194)
+- [#2618](https://github.com/1024pix/pix/pull/2618) [TECH] Retrait du feature toggle d'activation de la catégorisation des signalements (PIX-1999)
+- [#2614](https://github.com/1024pix/pix/pull/2614) [TECH] Retrait du feature toggle pour la prescription de certif SCO (PIX-1599)
+- [#2612](https://github.com/1024pix/pix/pull/2612) Corrige le tri des competences pour le livret scolaire
+
 ## v3.25.0 (25/02/2021)
 
 - [#2610](https://github.com/1024pix/pix/pull/2610) [FEATURE] Ajout de la traduction pour la tooltip des crédits (PIX-2197)
