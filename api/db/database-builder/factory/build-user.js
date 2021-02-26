@@ -59,7 +59,6 @@ const buildUser = function buildUser({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
-  hasSeenNewLevelInfo = false,
   hasSeenNewDashboardInfo = false,
   isAnonymous = false,
   createdAt = new Date(),
@@ -73,8 +72,7 @@ const buildUser = function buildUser({
     cgu, lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    hasSeenNewDashboardInfo,
-    hasSeenNewLevelInfo, isAnonymous,
+    hasSeenNewDashboardInfo, isAnonymous,
     createdAt, updatedAt,
   };
 
@@ -235,7 +233,6 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
-  hasSeenNewLevelInfo = false,
   createdAt = new Date(),
   updatedAt = new Date(),
   certificationCenterId = null,
@@ -254,7 +251,6 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
     hasSeenAssessmentInstructions,
-    hasSeenNewLevelInfo,
     createdAt,
     updatedAt,
   });
