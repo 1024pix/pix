@@ -4,6 +4,14 @@ export default class TargetProfileBadgesRoute extends Route {
 
   async model() {
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
-    return await targetProfile.hasMany('badges').reload();
+    const badges = await targetProfile.hasMany('badges').reload();
+    const stages = await targetProfile.hasMany('stages').reload();
+    return {
+      badges,
+      stage: {
+        list: stages,
+        imageUrl: targetProfile.imageUrl,
+      },
+    };
   }
 }

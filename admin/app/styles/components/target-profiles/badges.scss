@@ -1,6 +1,11 @@
 .badges {
   &__section {
     padding: 0;
+    margin-top: 60px;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
   }
 }
 
