@@ -7,6 +7,8 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
   describe('#toCsvLine', () => {
     let organization, campaign, competences;
 
+    const translate = sinon.stub();
+
     const placementProfile = new PlacementProfile({
       userId: 123,
       userCompetences: [{
@@ -23,6 +25,10 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
     beforeEach(() => {
       const listSkills1 = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
       const listSkills2 = domainBuilder.buildSkillCollection({ name: '@url', minLevel: 1, maxLevel: 2 });
+
+      translate.withArgs('campaign.common.no').returns('Non');
+      translate.withArgs('campaign.common.yes').returns('Oui');
+      translate.withArgs('campaign.common.not-available').returns('NA');
 
       organization = {};
       campaign = {};
@@ -79,7 +85,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         '\n';
 
         //when
-        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -122,7 +128,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         '\n';
 
         //when
-        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -168,7 +174,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
           '\n';
 
         //when
-        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -219,7 +225,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
        '\n';
 
         //when
-        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -271,7 +277,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         '\n';
 
         //when
-        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+        const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -324,7 +330,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         '\n';
 
           //when
-          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -371,7 +377,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         '\n';
 
           //when
-          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -424,7 +430,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
           '\n';
 
             //when
-            const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+            const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
             //then
             expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -479,7 +485,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         '\n';
 
           //when
-          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -526,7 +532,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
         '\n';
 
           //when
-          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+          const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -579,7 +585,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
           '\n';
 
             //when
-            const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile);
+            const line = new CampaignProfileCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
 
             //then
             expect(line.toCsvLine()).to.equal(csvExcpectedLine);

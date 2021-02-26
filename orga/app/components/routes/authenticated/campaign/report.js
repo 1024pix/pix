@@ -6,6 +6,7 @@ export default class Report extends Component {
 
   @service store;
   @service notifications;
+  @service currentUser;
 
   get participationsCount() {
     const participationsCount = this.args.campaign.participationsCount;
@@ -17,6 +18,10 @@ export default class Report extends Component {
     const sharedParticipationsCount = this.args.campaign.sharedParticipationsCount;
 
     return sharedParticipationsCount > 0 ? sharedParticipationsCount : '-';
+  }
+
+  get downloadUrl() {
+    return this.args.campaign.urlToResult + `&lang=${this.currentUser.prescriber.lang}`;
   }
 
   @action

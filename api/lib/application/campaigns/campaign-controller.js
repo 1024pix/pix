@@ -83,7 +83,7 @@ module.exports = {
 
     const writableStream = new PassThrough();
 
-    const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({ userId, campaignId, writableStream });
+    const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({ userId, campaignId, writableStream, i18n: request.i18n });
     const escapedFileName = requestResponseUtils.escapeFileName(fileName);
 
     writableStream.headers = {
