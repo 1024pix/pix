@@ -8,10 +8,8 @@ export default class TargetProfileBadgesRoute extends Route {
     const stages = await targetProfile.hasMany('stages').reload();
     return {
       badges,
-      stage: {
-        list: stages,
-        imageUrl: targetProfile.imageUrl,
-      },
+      stages,
+      targetProfileImageUrl: targetProfile.imageUrl,
     };
   }
 }

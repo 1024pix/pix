@@ -15,13 +15,11 @@ module('Integration | Component | TargetProfiles::StageList', function(hooks) {
       title: 'My title',
       message: 'My message',
     });
-    this.set('stage', {
-      list: [stage],
-      imageUrl: 'data:,',
-    });
+    this.set('stages', [stage]);
+    this.set('targetProfileImageUrl', 'data:,');
 
     // when
-    await render(hbs`<TargetProfiles::StageList @model={{this.stage}} />`);
+    await render(hbs`<TargetProfiles::StageList @stages={{this.stages}} @targetProfileImageUrl={{this.targetProfileImageUrl}}/>`);
 
     // then
     assert.dom('table').exists();
@@ -30,7 +28,7 @@ module('Integration | Component | TargetProfiles::StageList', function(hooks) {
     assert.contains('ID');
     assert.contains('Image');
     assert.contains('Threshold');
-    assert.contains('Nom');
+    assert.contains('Titre');
     assert.contains('Message');
     assert.dom('tbody tr').exists({ count: 1 });
     assert.equal(find('tbody tr td:first-child').textContent, '1');
@@ -44,10 +42,10 @@ module('Integration | Component | TargetProfiles::StageList', function(hooks) {
 
   test('it should display a message when empty', async function(assert) {
     // given
-    this.set('stage', { list: [] });
+    this.set('stages', []);
 
     // when
-    await render(hbs`<TargetProfiles::StageList @model={{this.stage}} />`);
+    await render(hbs`<TargetProfiles::StageList @stages={{this.stages}} />`);
 
     // then
     assert.dom('table').doesNotExist();
