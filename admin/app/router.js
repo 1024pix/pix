@@ -49,6 +49,7 @@ Router.map(function() {
       this.route('list', function() {
         this.route('all', { path: '/' });
         this.route('to-be-published');
+        this.route('with-required-action');
       });
       this.route('session', { path: '/:session_id' }, function() {
         this.route('informations', { path: '/' });
