@@ -3,7 +3,7 @@ const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
-const divisionSerializer = require('../../infrastructure/serializers/jsonapi/sco-certification-center-division-serializer');
+const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
