@@ -10,8 +10,8 @@ describe('Unit | UseCase | find-divisions-by-certification-center', () => {
   const organizationRepository = {
     getIdByCertificationCenterId: sinon.stub(),
   };
-  const schoolingRegistrationRepository = {
-    findDivisionsByOrganizationId: sinon.stub(),
+  const divisionRepository = {
+    findByOrganizationId: sinon.stub(),
   };
 
   beforeEach(async () => {
@@ -27,21 +27,19 @@ describe('Unit | UseCase | find-divisions-by-certification-center', () => {
 
     it('should return all divisions', async () => {
       // given
-      schoolingRegistrationRepository.findDivisionsByOrganizationId
+      divisionRepository.findByOrganizationId
         .withArgs({ organizationId: organization.id })
-        .resolves([{ id: '3a', name: '3a' }, { id: '3b', name: '3b' }, { id: '5c', name: '5c' }]);
+        .resolves(['3a', '3b', '5c']);
 
       // when
       const divisions = await findDivisionsByCertificationCenter({
         certificationCenterId,
         organizationRepository,
-        schoolingRegistrationRepository,
+        divisionRepository,
       });
 
       // then
-      expect(divisions).to.be.deep.equal([
-        { id: '3a', name: '3a' }, { id: '3b', name: '3b' }, { id: '5c', name: '5c' },
-      ]);
+      expect(divisions).to.be.deep.equal(['3a', '3b', '5c' ]);
     });
   });
 });
