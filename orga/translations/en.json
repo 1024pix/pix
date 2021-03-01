@@ -188,7 +188,10 @@
           "competences-certifiables": "Skills eligible for certification",
           "first-name": "First name",
           "last-name": "Last name",
-          "pix-score": "Pix score",
+          "pix-score": {
+            "label": "Pix score",
+            "value": "{score, number}"
+          },
           "sending-date": {
             "label": "Sending date",
             "on-hold": "Pending"
