@@ -26,6 +26,6 @@ export default class SidebarMenu extends Component {
   }
 
   get shouldDisplayCertificationsEntry() {
-    return this.featureToggles.isCertificationResultsInOrgaEnabled && this.currentUser.isSCOManagingStudents;
+    return this.featureToggles.isCertificationResultsInOrgaEnabled && (this.currentUser.isAdminInOrganization && this.currentUser.isSCOManagingStudents);
   }
 }

@@ -95,7 +95,8 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     // given
     class CurrentUserStub extends Service {
       organization = Object.create({ id: 1, type: 'SCO' });
-      isSCOManagingStudents = true;
+      isAdminInOrganization = true;
+      isSCOManagingStudents= true;
     }
 
     class FeatureToggleStub extends Service {
@@ -118,7 +119,8 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     // given
     class CurrentUserStub extends Service {
       organization = Object.create({ id: 1, type: 'SCO' });
-      isSCOManagingStudents = true;
+      isAdminInOrganization = false;
+      isSCOManagingStudents= true;
     }
 
     class FeatureToggleStub extends Service {

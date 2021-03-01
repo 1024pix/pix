@@ -257,8 +257,10 @@
       "waiting-results": "Waiting results"
     },
     "certifications": {
-      "description": "You can export the certification results for all classes in a csv file.",
-      "title": "My certifications"
+      "description": "Please select the class for which you would like to export the certification results in a csv file.",
+      "title": "My certifications",
+      "select-label": "Class",
+      "download-button": "Export the results"
     }
   }
 }
