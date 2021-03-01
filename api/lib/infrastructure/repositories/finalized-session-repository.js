@@ -32,6 +32,15 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
   },
+
+  async findFinalizedSessionsWithRequiredAction() {
+    const publishableFinalizedSessions = await FinalizedSessionBookshelf
+      .where({ isPublishable: false, publishedAt: null })
+      .orderBy('finalizedAt')
+      .fetchAll();
+
+    return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
+  },
 };
 
 function _toDTO(finalizedSession) {
