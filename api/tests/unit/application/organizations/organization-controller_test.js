@@ -106,6 +106,69 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#getDivisions', () => {
+
+    it('Should return a serialized list of divisions', async () => {
+      // given
+      const request = {
+        auth: {
+          credentials: { userId: '111' },
+        },
+        params: {
+          id: '99',
+        },
+      };
+
+      sinon
+        .stub(usecases, 'findDivisionsByOrganization')
+        .withArgs({ organizationId: 99 })
+        .resolves([
+          {
+            id: '3A',
+            name: '3A',
+          },
+          {
+            id: '3B',
+            name: '3B',
+          },
+          {
+            id: '4C',
+            name: '4C',
+          },
+        ]);
+
+      // when
+      const response = await organizationController.getDivisions(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(
+        {
+          data: [{
+            'type': 'divisions',
+            'id': '3A',
+            'attributes': {
+              'name': '3A',
+            },
+          },
+          {
+            'type': 'divisions',
+            'id': '3B',
+            'attributes': {
+              'name': '3B',
+            },
+          },
+          {
+            'type': 'divisions',
+            'id': '4C',
+            'attributes': {
+              'name': '4C',
+            },
+          }],
+        },
+      );
+    });
+  });
+
   describe('#updateOrganizationInformation', () => {
 
     let organization;
