@@ -14,6 +14,16 @@ async function findByCampaignId(campaignId) {
   return divisions.map(({ division }) => division);
 }
 
+async function findByOrganizationId({ organizationId }) {
+  const divisionRows = await knex('schooling-registrations')
+    .distinct('division')
+    .where('organizationId', organizationId)
+    .orderBy('division', 'desc');
+
+  return divisionRows.map(({ division }) => division);
+}
+
 module.exports = {
   findByCampaignId,
+  findByOrganizationId,
 };
