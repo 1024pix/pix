@@ -27,7 +27,7 @@ SIECLE file for 4000 users in file SIECLE-organization-1237457A-4000-users.xml
 
 ## Pré-requis :
 
-Faire tourner l'API en désactivant reCAPTCHA et l'emailing provider. [PR #478](https://github.com/1024pix/pix/pull/478)
+Faire tourner l'API en désactivant reCAPTCHA et le fournisseur d'envoi d'emails. [PR #478](https://github.com/1024pix/pix/pull/478)
 
 ## Procédure :
 
