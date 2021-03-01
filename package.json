@@ -22,16 +22,6 @@
     "url": "https://github.com/1024pix/pix/issues"
   },
   "main": "index.js",
-  "devDependencies": {
-    "@sentry/cli": "^1.49.0",
-    "chai": "^4.2.0",
-    "codeclimate-test-reporter": "^0.5.1",
-    "coveralls": "^3.0.9",
-    "eslint": "^6.7.1",
-    "eslint-plugin-mocha": "^6.2.2",
-    "lcov-result-merger": "^3.1.0",
-    "mocha": "^6.2.2"
-  },
   "scripts": {
     "build": "run-s ci:front build:front signal-github signal-jira",
     "build:admin": "(cd admin && npm run build) && mkdir -p dist && cp -R admin/dist dist/admin",
@@ -91,10 +81,15 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bluebird": "3.7.2",
-    "d3-dsv": "1.2.0",
-    "eslint-plugin-ember": "^7.6.0",
+    "d3-dsv": "^2.0.0",
     "markdown-link-check": "^3.8.6",
-    "moment": "^2.24.0",
+    "moment": "^2.29.1",
     "npm-run-all": "^4.1.5"
+  },
+  "devDependencies": {
+    "chai": "^4.3.0",
+    "eslint": "^7.20.0",
+    "eslint-plugin-mocha": "^8.0.0",
+    "mocha": "^8.3.0"
   }
 }
