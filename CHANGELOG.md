@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.27.0 (01/03/2021)
+
+- [#2638](https://github.com/1024pix/pix/pull/2638) [FEATURE] Affichage de la liste des sessions à traiter dans pix-admin (PIX-2040)
+- [#2622](https://github.com/1024pix/pix/pull/2622) [FEATURE] Traduire la page de participant d'une collecte de profils (PIX-2203).
+- [#2617](https://github.com/1024pix/pix/pull/2617) [FEATURE] Ajout du filtre sur les classes pour pouvoir récupérer les résultats de certification par classe sur PixOrga (PIX-2195)
+- [#2633](https://github.com/1024pix/pix/pull/2633) [FEATURE] Préparation à l'affichage des sessions à traiter (PIX-2040)
+- [#2637](https://github.com/1024pix/pix/pull/2637) [BUGFIX] Le mauvais nombre de paliers est affiché sur les cartes de participations (PIX-2277).
+- [#2630](https://github.com/1024pix/pix/pull/2630) [BUGFIX] Affichage de l'instruction avec des liens (PIX-2267).
+- [#2615](https://github.com/1024pix/pix/pull/2615) [BUGFIX] Corriger le changement de mot de passe à usage unique pour un élève qui tente de se réconcilier (PIX-2196).
+- [#2632](https://github.com/1024pix/pix/pull/2632) [TECH] Améliorer l'accessibilité du tableaux de résultats par compétences en campagne (PIX-1885).
+- [#2623](https://github.com/1024pix/pix/pull/2623) [TECH] Proposition : supprimer MailJet 💣 📨 
+- [#2635](https://github.com/1024pix/pix/pull/2635) [TECH] Mise à jour des dépendances du module racine.
+- [#2625](https://github.com/1024pix/pix/pull/2625) [CLEAN] Suppression de la bannière de niveau 6 (PIX-2234).
+
 ## v3.26.0 (26/02/2021)
 
 - [#2621](https://github.com/1024pix/pix/pull/2621) [FEATURE] Endpoint de téléchargement des résultats de certification SCO par classe depuis pix-orga (PIX-2193)
