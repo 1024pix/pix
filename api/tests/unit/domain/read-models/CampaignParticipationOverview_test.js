@@ -90,12 +90,15 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
             threshold: 0,
           });
           const stage2 = new Stage({
-            threshold: 30,
+            threshold: 10,
           });
           const stage3 = new Stage({
+            threshold: 30,
+          });
+          const stage4 = new Stage({
             threshold: 70,
           });
-          const targetProfile = new TargetProfileWithLearningContent({ stages: [ stage3, stage1, stage2], skills: [new Skill(), new Skill()] });
+          const targetProfile = new TargetProfileWithLearningContent({ stages: [ stage3, stage1, stage2, stage4], skills: [new Skill(), new Skill()] });
           const campaignParticipationOverview = new CampaignParticipationOverview({
             isShared: true,
             validatedSkillsCount: 1,
@@ -147,7 +150,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
 
   describe('#totalStagesCount', ()=> {
     context('the target profile has stages', () => {
-      it('should return the count of the all stages of a target profile', ()=> {
+      it('should return the count of stages with a threshold over 0', ()=> {
         const stage1 = new Stage({
           threshold: 0,
         });
@@ -172,7 +175,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', () => {
           targetProfile: targetProfileWithLearningContent,
         });
 
-        expect(campaignParticipationOverview.totalStagesCount).to.equal(6);
+        expect(campaignParticipationOverview.totalStagesCount).to.equal(5);
       });
     });
 
