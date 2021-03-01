@@ -2,7 +2,7 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const divisionRepository = require('../../../../lib/infrastructure/repositories/division-repository');
 
 describe('Integration | Repository | Division', () => {
-  context('findByCampaignId', () => {
+  describe('#findByCampaignId', () => {
     it('returns the division from schooling registration associated to the given campaign', async () => {
       const division1 = '6emeB';
       const division2 = '3emeA';
@@ -71,6 +71,47 @@ describe('Integration | Repository | Division', () => {
 
         expect(divisions).to.exactlyContain([division]);
       });
+    });
+  });
+
+  describe('#findByOrganizationId', () => {
+    it('should return an organization list of divisions', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3b',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 'T2',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 't1',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 't1',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const divisions = await divisionRepository.findByOrganizationId({ organizationId: organization.id });
+
+      // then
+      expect(divisions).to.have.lengthOf(4);
+      expect(divisions).to.deep.equal(['t1', 'T2', '3b', '3A']);
     });
   });
 });
