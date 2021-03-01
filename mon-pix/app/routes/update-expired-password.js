@@ -8,12 +8,12 @@ export default class UpdateExpiredPasswordRoute extends Route.extend(Unauthentic
 
   model() {
     const users = this.store.peekAll('user');
-    const user = users.firstObject;
+    const userWithExpiredPassword = users.find(({ id }) => id === null);
 
-    if (!user) {
+    if (!userWithExpiredPassword) {
       return this.replaceWith('');
     }
 
-    return user;
+    return userWithExpiredPassword;
   }
 }
