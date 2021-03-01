@@ -15,10 +15,9 @@
         <div class="logged-user-menu" {{on-key 'Escape' this.closeMenu}}>
           <div class="logged-user-menu__details">
             <div class="logged-user-menu-details__fullname">{{this.currentUser.user.fullName}}</div>
-            <div class="logged-user-menu-details__identifier">{{this.displayedIdentifier}}</div>
           </div>
           <ul class="logged-user-menu__actions">
-            <li hidden>
+            <li>
               <LinkTo @route="user-account" class="logged-user-menu__link" >
                 {{t 'navigation.user.account'}}
               </LinkTo>

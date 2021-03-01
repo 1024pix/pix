@@ -74,7 +74,6 @@ describe('Integration | Component | user logged menu', function() {
       expect(find('.logged-user-menu')).to.exist;
       expect(findAll('.logged-user-menu__link')).to.have.lengthOf(MENU_ITEMS_COUNT);
       expect(contains('Hermione Granger')).to.exist;
-      expect(contains('hermione.granger@hogwarts.com')).to.exist;
     });
 
     it('should display link to user certifications', async function() {

@@ -8,8 +8,10 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | User account', function() {
+
   setupApplicationTest();
   setupMirage();
+
   let user;
 
   beforeEach(async function() {
@@ -20,6 +22,7 @@ describe('Acceptance | User account', function() {
   });
 
   describe('When in profile', function() {
+
     it('should open tests page when click on menu', async function() {
       // when
       await click('.logged-user-name');
@@ -42,9 +45,20 @@ describe('Acceptance | User account', function() {
       // when
       await click('.logged-user-name');
       const helplink = findByLabel('Aide').getAttribute('href');
+
       // then
       expect(helplink).to.equal('https://pix.fr/aide');
     });
 
+    it('should open My account page when click on menu', async function() {
+      // given
+      await click('.logged-user-name');
+
+      // when
+      await clickByLabel('Mon compte');
+
+      // then
+      expect(currentURL()).to.equal('/mon-compte');
+    });
   });
 });
