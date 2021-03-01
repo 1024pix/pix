@@ -17,7 +17,7 @@
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
           <th class="table__column--center">{{t 'pages.profiles-list.table.column.sending-date.label'}}</th>
-          <th class="table__column--center">{{t 'pages.profiles-list.table.column.pix-score'}}</th>
+          <th class="table__column--center">{{t 'pages.profiles-list.table.column.pix-score.label'}}</th>
           <th class="table__column--center">{{t 'pages.profiles-list.table.column.certifiable'}}</th>
           <th class="table__column--center">{{t 'pages.profiles-list.table.column.competences-certifiables'}}</th>
         </tr>
@@ -42,7 +42,7 @@
             <td class="table__column--center">
               {{#if profile.sharedAt }}
                 <PixTag @color="purple" class="pix-score-tag">
-                  {{profile.pixScore}}
+                  {{t 'pages.profiles-list.table.column.pix-score.value' score=profile.pixScore}}
                 </PixTag>
               {{/if}}
             </td>

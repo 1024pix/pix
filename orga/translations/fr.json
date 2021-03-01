@@ -188,7 +188,10 @@
           "competences-certifiables": "Comp. certifiables",
           "first-name": "Nom",
           "last-name": "Prénom",
-          "pix-score": "Score Pix",
+          "pix-score": {
+            "label": "Score Pix",
+            "value": "{score, number}"
+          },
           "sending-date": {
             "label": "Date d'envoi",
             "on-hold": "En attente"
@@ -258,9 +261,24 @@
     },
     "certifications": {
       "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.",
-      "title": "Mes certifications",
+      "download-button": "Exporter mes résultats",
       "select-label": "Classes",
-      "download-button": "Exporter mes résultats"
+      "title": "Mes certifications"
+    },
+    "profiles-individual-results": {
+      "certifiable": "Certifiable",
+      "competences-certifiables": "COMP. CERTIFIABLES",
+      "pix": "PIX",
+      "pix-score": "{score, number}",
+      "table": {
+        "column": {
+          "level": "Niveau",
+          "pix-score": "Score Pix",
+          "skill": "Compétence"
+        },
+        "empty": "En attente de résultats",
+        "row-title": "Compétence"
+      }
     }
   }
 }
