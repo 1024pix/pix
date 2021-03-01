@@ -3,9 +3,14 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class UserAccountPanel extends Component {
+
   @service intl;
   @service url;
   @service location;
+
+  get displayEmail() {
+    return !!this.args.user.email;
+  }
 
   get displayUsername() {
     return !!this.args.user.username;
