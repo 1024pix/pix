@@ -68,11 +68,6 @@ export default class User extends ApplicationAdapter {
       return url + '/remember-user-has-seen-assessment-instructions';
     }
 
-    if (adapterOptions && adapterOptions.rememberUserHasSeenNewLevelInfo) {
-      delete adapterOptions.rememberUserHasSeenNewLevelInfo;
-      return url + '/has-seen-new-level-info';
-    }
-
     if (adapterOptions && adapterOptions.rememberUserHasSeenNewDashboardInfo) {
       delete adapterOptions.rememberUserHasSeenNewDashboardInfo;
       return url + '/has-seen-new-dashboard-info';

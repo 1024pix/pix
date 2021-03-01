@@ -274,12 +274,6 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
-  async updateHasSeenNewLevelInfoToTrue(id) {
-    const user = await BookshelfUser.where({ id }).fetch();
-    await user.save({ 'hasSeenNewLevelInfo': true }, { patch: true, method: 'update' });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
-  },
-
   async updateHasSeenNewDashboardInfoToTrue(id) {
     const user = await BookshelfUser.where({ id }).fetch();
     await user.save({ 'hasSeenNewDashboardInfo': true }, { patch: true, method: 'update' });
@@ -530,7 +524,6 @@ function _toDomain(userBookshelf) {
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
-    hasSeenNewLevelInfo: Boolean(userBookshelf.get('hasSeenNewLevelInfo')),
     authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
   });
 }

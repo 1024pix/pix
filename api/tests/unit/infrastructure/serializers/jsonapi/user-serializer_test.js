@@ -24,7 +24,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         pixOrgaTermsOfServiceAccepted: false,
         pixCertifTermsOfServiceAccepted: false,
         hasSeenAssessmentInstructions: false,
-        hasSeenNewLevelInfo: false,
       });
     });
 
@@ -49,7 +48,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'pix-orga-terms-of-service-accepted': userModelObject.pixOrgaTermsOfServiceAccepted,
               'pix-certif-terms-of-service-accepted': userModelObject.pixCertifTermsOfServiceAccepted,
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
-              'has-seen-new-level-info': userModelObject.hasSeenNewLevelInfo,
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
             },
             relationships: {

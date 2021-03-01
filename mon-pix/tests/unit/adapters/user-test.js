@@ -63,15 +63,6 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions')).to.be.true;
     });
 
-    it('should redirect to remember-user-has-seen-new-level-info', async function() {
-      // when
-      const snapshot = { adapterOptions: { rememberUserHasSeenNewLevelInfo: true } };
-      const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
-
-      // then
-      expect(url.endsWith('/users/123/has-seen-new-level-info')).to.be.true;
-    });
-
     it('should include temporaryKey if present in adapterOptions', async function() {
       // when
       const snapshot = { adapterOptions: { updatePassword: true, temporaryKey: 'temp=&key' } };
