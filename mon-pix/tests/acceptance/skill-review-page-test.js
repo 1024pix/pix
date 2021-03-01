@@ -82,10 +82,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal(competenceResultName);
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: ' + PROGRESSION_MAX_WIDTH);
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: ' + COMPETENCE_MASTERY_PERCENTAGE);
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(COMPETENCE_MASTERY_PERCENTAGE);
+        expect(find('table tbody tr th span:nth-child(2)').textContent).to.equal(competenceResultName);
+        expect(find('table tbody tr td .progression-gauge').getAttribute('style')).to.equal('width: ' + PROGRESSION_MAX_WIDTH);
+        expect(find('table tbody tr td .progression-gauge__marker').getAttribute('style')).to.equal('width: ' + COMPETENCE_MASTERY_PERCENTAGE);
+        expect(find('table tbody tr td .progression-gauge__tooltip').textContent).to.include(COMPETENCE_MASTERY_PERCENTAGE);
       });
 
       it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function() {
@@ -117,10 +117,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats/${campaignParticipation.assessment.id}`);
 
         // then
-        expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal(partnerCompetenceResultName);
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: ' + PROGRESSION_MAX_WIDTH);
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: ' + BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
+        expect(find('table tbody tr th span:nth-child(2)').textContent).to.equal(partnerCompetenceResultName);
+        expect(find('table tbody tr td .progression-gauge').getAttribute('style')).to.equal('width: ' + PROGRESSION_MAX_WIDTH);
+        expect(find('table tbody tr td .progression-gauge__marker').getAttribute('style')).to.equal('width: ' + BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
+        expect(find('table tbody tr td .progression-gauge__tooltip').textContent).to.include(BADGE_PARTNER_COMPETENCE_MASTERY_PERCENTAGE);
       });
 
       it('should display the Pix emploi badge when badge is acquired', async function() {
