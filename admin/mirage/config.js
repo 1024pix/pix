@@ -15,6 +15,14 @@ export default function() {
     const publishableSessions = schema.publishableSessions.all();
     return publishableSessions;
   });
+  this.get('/admin/sessions/to-publish', (schema) => {
+    const publishableSessions = schema.publishableSessions.all();
+    return publishableSessions;
+  });
+  this.get('/admin/sessions/with-required-action', (schema) => {
+    const withRequiredActionSessions = schema.withRequiredActionSessions.all();
+    return withRequiredActionSessions;
+  });
   this.patch('/admin/sessions/:id/publish', () => {
     return new Response(200);
   });
