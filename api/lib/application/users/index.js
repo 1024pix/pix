@@ -6,7 +6,6 @@ const userController = require('./user-controller');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../config').account;
-const featureToggles = require('../preHandlers/feature-toggles');
 const { EntityValidationError } = require('../../domain/errors');
 const identifiersType = require('../../domain/types/identifiers-type');
 
@@ -190,10 +189,6 @@ exports.register = async function(server) {
           {
             method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
             assign: 'requestedUserIsAuthenticatedUser',
-          },
-          {
-            method: featureToggles.isMyAccountEnabled,
-            assign: 'isMyAccountEnabled',
           },
         ],
         handler: userController.updateEmail,

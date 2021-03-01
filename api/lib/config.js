@@ -129,7 +129,6 @@ module.exports = (function() {
 
     featureToggles: {
       isPoleEmploiEnabled: isFeatureEnabled(process.env.IS_POLE_EMPLOI_ENABLED),
-      myAccount: isFeatureEnabled(process.env.FT_MY_ACCOUNT),
       isCertificationResultsInOrgaEnabled: isFeatureEnabled(process.env.FT_IS_CERTIFICATION_RESULTS_IN_ORGA_ENABLED),
     },
 

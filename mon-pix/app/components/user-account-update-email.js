@@ -112,7 +112,7 @@ export default class UserAccountUpdateEmail extends Component {
             this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
           }
         } else if (status === '400' || status === '403') {
-          this.errorMessage = get(response, 'errors[0].detail');
+          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
         } else {
           this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']);
         }

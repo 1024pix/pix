@@ -158,13 +158,13 @@ describe('Integration | Component | User account update email', () => {
         // given
         const newEmail = 'newEmail@example.net';
         const password = 'password';
-        const expectedErrorMessage = 'An error message';
+        const expectedErrorMessage = this.intl.t('pages.user-account.account-update-email.fields.errors.invalid-password');
 
         const saveNewEmail = sinon.stub();
         this.set('saveNewEmail', saveNewEmail);
-        saveNewEmail.rejects({ errors: [{ status: '400', detail: expectedErrorMessage }] });
+        saveNewEmail.rejects({ errors: [{ status: '400' }] });
 
-        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs `<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillIn('#newEmail', newEmail);
