@@ -71,6 +71,18 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/admin/sessions/with-required-action',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: finalizedSessionController.findFinalizedSessionsWithRequiredAction,
+        tags: ['api', 'finalized-sessions'],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/sessions/{id}/attendance-sheet',
       config: {
         auth: false,

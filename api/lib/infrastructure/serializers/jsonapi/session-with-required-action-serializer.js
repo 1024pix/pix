@@ -3,7 +3,7 @@ const { Serializer } = require('jsonapi-serializer');
 module.exports = {
 
   serialize(finalizedSessions) {
-    return new Serializer('publishable-session', {
+    return new Serializer('with-required-action-session', {
       transform(finalizedSession) {
         return { ...finalizedSession, id: finalizedSession.sessionId };
       },
@@ -15,6 +15,5 @@ module.exports = {
         'certificationCenterName',
       ],
     }).serialize(finalizedSessions);
-
   },
 };

@@ -12,6 +12,7 @@ const {
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
+const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
 const sessionAuthorization = require('../../../../lib/application/preHandlers/session-authorization');
 
 const moduleUnderTest = require('../../../../lib/application/sessions');
@@ -42,6 +43,8 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
     sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
     sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+    sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
+    sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -377,6 +380,47 @@ describe('Unit | Application | Sessions | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(404);
+    });
+  });
+
+  describe('GET /api/admin/sessions/to-publish', () => {
+    it('exists', async () => {
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+    it('is protected by a prehandler checking the Pix Master role', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('GET /api/admin/sessions/with-required-action', () => {
+    it('exists', async () => {
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('is protected by a prehandler checking the Pix Master role', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+
+      // when
+      const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 });
