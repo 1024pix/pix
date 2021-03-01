@@ -49,8 +49,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'campaign-title': 'My campaign',
             'campaign-archived-at': new Date('2021-01-01'),
             'mastery-percentage': 50,
-            'validated-stages-count': 2,
-            'total-stages-count': 3,
+            'validated-stages-count': 1,
+            'total-stages-count': 2,
           },
         },
       };

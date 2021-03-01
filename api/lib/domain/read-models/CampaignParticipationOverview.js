@@ -41,12 +41,16 @@ class CampaignParticipationOverview {
   get validatedStagesCount() {
     if (_.isEmpty(this.targetProfile.stages) || !this.isShared) return null;
 
-    const validatedStages = this.targetProfile.stages.filter((stage) => stage.threshold <= this.masteryPercentage);
+    const validatedStages = this._getReachableStages().filter((stage) => stage.threshold <= this.masteryPercentage);
     return validatedStages.length;
   }
 
   get totalStagesCount() {
-    return this.targetProfile.stages.length;
+    return this._getReachableStages().length;
+  }
+
+  _getReachableStages() {
+    return this.targetProfile.stages.filter((stage) => stage.threshold > 0);
   }
 }
 
