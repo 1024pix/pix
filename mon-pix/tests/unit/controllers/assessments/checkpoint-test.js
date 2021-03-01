@@ -109,4 +109,37 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
       expect(controller.displayHomeLink).to.be.true;
     });
   });
+
+  describe('#showLevelup', () => {
+    it('should display level up pop-in when user has level up', function() {
+      // given
+      controller.newLevel = true;
+      const model = { showLevelup: true };
+      controller.model = model;
+
+      // then
+      expect(controller.showLevelup).to.be.true;
+    });
+
+    it('should not display level up pop-in when user has not leveled up', function() {
+      // given
+      controller.newLevel = false;
+      const model = { showLevelup: true };
+      controller.model = model;
+
+      // then
+      expect(controller.showLevelup).to.be.false;
+    });
+
+    it('should not display level up pop-in when it is not in assessment with level up', function() {
+      // given
+      controller.newLevel = true;
+      const model = { showLevelup: false };
+      controller.model = model;
+
+      // then
+      expect(controller.showLevelup).to.be.false;
+    });
+  });
+
 });
