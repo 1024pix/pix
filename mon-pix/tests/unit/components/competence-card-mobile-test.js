@@ -1,16 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
 describe('Unit | Component | competence-card-mobile', function() {
 
   setupTest();
-
-  let component;
-
-  beforeEach(function() {
-    component = this.owner.lookup('component:competence-card-mobile');
-  });
 
   describe('#displayedLevel', function() {
     [
@@ -23,10 +18,10 @@ describe('Unit | Component | competence-card-mobile', function() {
       it(`should return ${data.expectedLevel} when level is ${data.level} and isNotStarted is ${data.isNotStarted}`, function() {
         // given
         const scorecard = { isNotStarted: data.isNotStarted, level: data.level };
-        component.set('scorecard', scorecard);
+        const component = createGlimmerComponent('component:competence-card-mobile', { scorecard });
 
         // when
-        const displayedLevel = component.get('displayedLevel');
+        const displayedLevel = component.displayedLevel;
 
         // then
         expect(displayedLevel).to.equal(data.expectedLevel);
