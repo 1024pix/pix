@@ -8,7 +8,9 @@
 
   <section class="badges__section">
     <h2 class="badges-section__title">Paliers</h2>
-    <TargetProfiles::StageList @model={{@model.stage}}/>
+    <TargetProfiles::StageList
+            @stages={{@model.stages}}
+            @targetProfileImageUrl={{@model.targetProfileImageUrl}}/>
   </section>
 
 </section>
