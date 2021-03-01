@@ -1,0 +1,29 @@
+<div class="content-text content-text--small table-admin__wrapper session-list">
+  <table class="table-admin table-admin__auto-width">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Centre de certification</th>
+      <th>Date de session</th>
+      <th>Date de finalisation</th>
+    </tr>
+    </thead>
+
+    {{#if @withRequiredActionSessions}}
+      <tbody>
+      {{#each @withRequiredActionSessions as |withRequiredActionSession|}}
+        <tr>
+          <td><LinkTo @route="authenticated.sessions.session" @model={{withRequiredActionSession.id}}> {{withRequiredActionSession.id}} </LinkTo></td>
+          <td>{{withRequiredActionSession.certificationCenterName}}</td>
+          <td>{{withRequiredActionSession.printableDateAndTime}}</td>
+          <td>{{withRequiredActionSession.printableFinalizationDate}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @withRequiredActionSessions}}
+    <div class="table__empty content-text">Aucun résultat</div>
+  {{/unless}}
+</div>
