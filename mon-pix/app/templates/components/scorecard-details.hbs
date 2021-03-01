@@ -31,7 +31,9 @@
             <CircleChart @value={{@scorecard.percentageAheadOfNextLevel}}
                          @sliceColor={{@scorecard.area.color}}
                          @chartClass="circle-chart__content--big"
-                         @thicknessClass="circle--thick">
+                         @thicknessClass="circle--thick"
+                         role="img"
+                         aria-label="{{this.scoreAriaLabel}}">
               <div class="competence-card__level">
                 <span class="score-label">{{t 'common.level'}}</span>
                 <span class="score-value">{{replace-zero-by-dash this.level}}</span>
