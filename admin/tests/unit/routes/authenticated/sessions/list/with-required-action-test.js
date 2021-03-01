@@ -3,7 +3,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/list/to-be-published', function(hooks) {
+module('Unit | Route | authenticated/sessions/list/with-required-action', function(hooks) {
   setupTest(hooks);
 
   let store;
