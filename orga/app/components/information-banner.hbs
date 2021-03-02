@@ -12,10 +12,12 @@
 {{else if this.displayNewYearCampaignsBanner}}
   <PixBanner class="information-banner">
     <FaIcon @icon="bullhorn" class="icon--margin"/>
-    Il est important de vérifier que les élèves soient <strong>certifiables</strong> avant de les inscrire en session de certification. Vous pouvez faire une
-    <a href={{this.documentationLink}} class="link link--white link--bold link--underlined" target="_blank" rel="noopener noreferrer">
-      campagne de collecte de profils
-      <FaIcon @icon="external-link-alt"/></a>
-    pour vous en assurer.
+    <TranslateExtended
+      @key='banners.campaigns.message'
+      @options={{hash
+        faIcon=(component 'fa-icon' icon='external-link-alt')
+        documentationLink=this.documentationLink
+    }}
+    />
   </PixBanner>
 {{/if}}
