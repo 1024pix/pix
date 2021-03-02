@@ -13,11 +13,11 @@
   },
   "banners": {
     "campaigns": {
-      "message": "Il est important de vérifier que les élèves soient '<strong>'certifiables'</strong>' avant de les inscrire en session de certification. Vous pouvez faire une '<'a href={documentationLink} class=\"link link--white link--bold link--underlined\" target=\"_blank\" rel=\"noopener noreferrer\"'>'campagne de collecte de profils {faIcon}'</a>' pour vous en assurer."
+      "message": "Il est important de vérifier que les élèves soient '<strong>'certifiables'</strong>' avant de les inscrire en session de certification. Vous pouvez faire une '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'campagne de collecte de profils {faIcon}'</a>' pour vous en assurer."
     },
     "import": {
       "link-to": "importer ou ré-importer la base élèves",
-      "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<a href=\"https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class=\"link link--white link--bold link--underlined\" target=\"_blank\" rel=\"noopener noreferrer\">'collège {faIcon}'</a>' et '<a href=\"https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class=\"link link--white link--bold link--underlined\" target=\"_blank\" rel=\"noopener noreferrer\">'lycée (GT et Pro) {faIcon}'</a>'"
+      "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<'a href=\"https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href=\"https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
     }
   },
   "current-lang": "fr",
