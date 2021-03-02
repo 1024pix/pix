@@ -1,0 +1,14 @@
+{
+  "organization-invitation-email": {
+    "title": "Vous êtes invité(e) à rejoindre Pix Orga",
+    "subtitle": "La plateforme Pix Orga vous permet de créer, gérer des campagnes de test et suivre la progression de vos participants.",
+    "yourOrganization": "Votre organisation",
+    "acceptInvitation": "Accepter l’invitation",
+    "oneTimeLink": "Ce lien est à usage unique",
+    "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+    "moreAbout": "En savoir plus sur",
+    "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
+    "needHelp": "Besoin d’aide, contactez-nous",
+    "here": "ici"
+  }
+}
