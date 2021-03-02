@@ -1,9 +1,14 @@
-import Service, { inject as service } from '@ember/service';
+import Helper from '@ember/component/helper';
+import { inject as service } from '@ember/service';
 
-export default class AriaLabelsService extends Service {
+export default class ScorecardAriaLabel extends Helper {
   @service intl;
 
-  computeScoreAriaLabel({ isNotStarted, currentLevel, percentageAheadOfNextLevel }) {
+  compute([scorecard]) {
+    const isNotStarted = scorecard.isNotStarted;
+    const currentLevel = isNotStarted ? null : scorecard.level;
+    const percentageAheadOfNextLevel = scorecard.percentageAheadOfNextLevel;
+
     if (isNotStarted) {
       return this.intl.t('pages.profile.competence-card.image-info.no-level');
     }

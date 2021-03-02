@@ -33,7 +33,7 @@
                          @chartClass="circle-chart__content--big"
                          @thicknessClass="circle--thick"
                          role="img"
-                         aria-label="{{this.scoreAriaLabel}}">
+                         aria-label="{{scorecard-aria-label @scorecard}}">
               <div class="competence-card__level">
                 <span class="score-label">{{t 'common.level'}}</span>
                 <span class="score-value">{{replace-zero-by-dash this.level}}</span>

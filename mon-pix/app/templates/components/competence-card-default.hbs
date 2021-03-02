@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="competence-card__body" role="img" aria-label="{{this.scoreAriaLabel}}">
+    <div class="competence-card__body" role="img" aria-label="{{scorecard-aria-label @scorecard}}">
       {{#if @scorecard.isFinishedWithMaxLevel}}
         <div class="competence-card__congrats competence-card__congrats--with-magnification">
           <div class="competence-card__level competence-card__level--congrats">
