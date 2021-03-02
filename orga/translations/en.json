@@ -285,6 +285,34 @@
         "empty": "Results pending",
         "row-title": "Skill"
       }
+    },
+    "students-sup": {
+      "actions": {
+        "download-template": "Download the template",
+        "edit-student-number": "Edit the student number",
+        "import-file": "Import (.csv)"
+      },
+      "table": {
+        "column": {
+          "date-of-birth": "Date of birth",
+          "first-name": "First name",
+          "last-name": "Last name",
+          "student-number": "Student number"
+        },
+        "empty": "No students.",
+        "filter": {
+          "first-name": {
+            "aria-label": "Enter a first name",
+            "label": "Search by first name"
+          },
+          "last-name": {
+            "aria-label": "Enter a last name",
+            "label": "Search by last name"
+          }
+        },
+        "row-title": "Student"
+      },
+      "title": "Students"
     }
   }
 }
