@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | publishable session', function(hooks) {
+module('Unit | Adapter | to be published session', function(hooks) {
   setupTest(hooks);
 
   module('#urlForQuery', function() {
     test('should return /admin/sessions/to-publish', function(assert) {
       // when
-      const adapter = this.owner.lookup('adapter:publishable-session');
+      const adapter = this.owner.lookup('adapter:to-be-published-session');
       const url = adapter.urlForQuery();
 
       // then
@@ -18,7 +18,7 @@ module('Unit | Adapter | publishable session', function(hooks) {
   module('#urlForUpdateRecord', function() {
     test('should return /admin/sessions/:id', function(assert) {
       // when
-      const adapter = this.owner.lookup('adapter:publishable-session');
+      const adapter = this.owner.lookup('adapter:to-be-published-session');
       const url = adapter.urlForUpdateRecord(123);
 
       // then

@@ -13,12 +13,12 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
       const publishMock = sinon.stub();
       publishMock.resolves();
-      const publishableSession = {
+      const toBePublishedSession = {
         publish: publishMock,
       };
 
       // when
-      await controller.send('publishSession', publishableSession);
+      await controller.send('publishSession', toBePublishedSession);
 
       // then
       sinon.assert.called(publishMock);
@@ -36,12 +36,12 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       const publishMock = sinon.stub();
       const publishError = new Error('someError');
       publishMock.rejects(publishError);
-      const publishableSession = {
+      const toBePublishedSession = {
         publish: publishMock,
       };
 
       // when
-      await controller.send('publishSession', publishableSession);
+      await controller.send('publishSession', toBePublishedSession);
 
       // then
       sinon.assert.calledWith(errorMock, publishError);

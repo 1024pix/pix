@@ -10,20 +10,20 @@
     </tr>
     </thead>
 
-    {{#if @publishableSessions}}
+    {{#if @toBePublishedSessions}}
       <tbody>
-      {{#each @publishableSessions as |publishableSession|}}
+      {{#each @toBePublishedSessions as |toBePublishedSession|}}
         <tr>
-          <td><LinkTo @route="authenticated.sessions.session" @model={{publishableSession.id}}> {{publishableSession.id}} </LinkTo></td>
-          <td>{{publishableSession.certificationCenterName}}</td>
-          <td>{{publishableSession.printableDateAndTime}}</td>
-          <td>{{publishableSession.printableFinalizationDate}}</td>
+          <td><LinkTo @route="authenticated.sessions.session" @model={{toBePublishedSession.id}}> {{toBePublishedSession.id}} </LinkTo></td>
+          <td>{{toBePublishedSession.certificationCenterName}}</td>
+          <td>{{toBePublishedSession.printableDateAndTime}}</td>
+          <td>{{toBePublishedSession.printableFinalizationDate}}</td>
           <td>
             <PixButton
-              @triggerAction={{fn this.showConfirmModal publishableSession}}
+              @triggerAction={{fn this.showConfirmModal toBePublishedSession}}
               @border="squircle-small"
               class="publish-session-button"
-              aria-label="Publier la session numéro {{publishableSession.id}}"
+              aria-label="Publier la session numéro {{toBePublishedSession.id}}"
             >
               <FaIcon @icon="paper-plane" />Publier
             </PixButton>
@@ -34,7 +34,7 @@
     {{/if}}
   </table>
 
-  {{#unless @publishableSessions}}
+  {{#unless @toBePublishedSessions}}
     <div class="table__empty content-text">Aucun résultat</div>
   {{/unless}}
 </div>
