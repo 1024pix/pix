@@ -1,4 +1,4 @@
-given('les données de test sont chargées', () => {
+Given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'users');
   cy.task('db:fixture', 'authentication-methods');
   cy.task('db:fixture', 'organizations');
@@ -21,28 +21,28 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'certification-courses');
 });
 
-given('tous les comptes sont créés', () => {
+Given('tous les comptes sont créés', () => {
   cy.task('db:fixture', 'users');
   cy.task('db:fixture', 'authentication-methods');
 });
 
-given('je vais sur Pix', () => {
+Given('je vais sur Pix', () => {
   cy.visitMonPix('/');
 });
 
-given('je vais sur Pix Orga', () => {
+Given('je vais sur Pix Orga', () => {
   cy.visitOrga('/');
 });
 
-given('je vais sur Pix Certif', () => {
+Given('je vais sur Pix Certif', () => {
   cy.visitCertif('/');
 });
 
-given('je vais sur la page {string}', (pathname) => {
+Given('je vais sur la page {string}', (pathname) => {
   cy.visitMonPix(pathname);
 });
 
-given('je suis connecté à Pix en tant que {string}', (user) => {
+Given('je suis connecté à Pix en tant que {string}', (user) => {
   switch (user) {
     case 'John Snow':
       cy.login('john.snow@pix.fr', 'pix123');
@@ -56,38 +56,38 @@ given('je suis connecté à Pix en tant que {string}', (user) => {
   }
 });
 
-given('je suis connecté à Pix Orga', () => {
+Given('je suis connecté à Pix Orga', () => {
   cy.loginOrga('daenerys.targaryen@pix.fr', 'pix123');
 });
 
-given('je suis connecté à Pix Certif avec le mail {string}', (email) => {
+Given('je suis connecté à Pix Certif avec le mail {string}', (email) => {
   cy.loginCertif(email, 'pix123');
 });
 
-given('je suis connecté à Pix en tant qu\'administrateur', () => {
+Given('je suis connecté à Pix en tant qu\'administrateur', () => {
   cy.loginAdmin('samwell.tarly@pix.fr', 'pix123');
 });
 
-when(`je clique sur {string}`, (label) => {
+When(`je clique sur {string}`, (label) => {
   cy.contains(label).click();
 });
 
-when('je reviens en arrière', () => {
+When('je reviens en arrière', () => {
   cy.go('back');
 });
 
-when(`je saisis {string} dans le champ {string}`, (value, label) => {
+When(`je saisis {string} dans le champ {string}`, (value, label) => {
   cy.contains(label).parent().within(() => cy.get('input').type(value));
 });
 
-when(`je sélectionne {string} dans le champ {string}`, (value, label) => {
+When(`je sélectionne {string} dans le champ {string}`, (value, label) => {
   cy.contains(label).parent().within(() => cy.get('select').select(value));
 });
 
-then(`la page {string} est correctement affichée`, (pageName) => {
+Then(`la page {string} est correctement affichée`, (pageName) => {
   cy.compareSnapshot(pageName);
 });
 
-then(`je vois {string} comme {string}`, (value, label) => {
+Then(`je vois {string} comme {string}`, (value, label) => {
   cy.contains(label).parent().within(() => cy.contains(value));
 });
