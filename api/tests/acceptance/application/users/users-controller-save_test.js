@@ -128,8 +128,18 @@ describe('Acceptance | Controller | users-controller', () => {
           variables: {
             homeName: 'pix.fr',
             homeUrl: 'https://pix.fr',
-            locale: 'fr-fr',
             redirectionUrl: 'https://app.pix.fr/connexion',
+            helpdeskUrl: 'https://support.pix.fr/support/tickets/new',
+            displayNationalLogo: true,
+            title: 'Votre compte Pix a bien été créé !',
+            subtitle: 'Vous pouvez désormais commencer les tests.',
+            goToPix: 'Commencer les tests',
+            disclaimer: 'Si vous n\'êtes pas à l’origine de cette création de compte, vous pouvez en demander la suppression',
+            helpdeskLinkLabel: 'ici',
+            pixPresentation: 'Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.',
+            moreOn: 'En savoir plus sur',
+            doNotAnswer: 'Ceci est un e-mail automatique, merci de ne pas y répondre.',
+            askForHelp: 'Besoin d’aide, contactez-nous',
           },
         };
 
