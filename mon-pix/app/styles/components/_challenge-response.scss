@@ -3,12 +3,12 @@
   background-color: $grey-10;
   margin: 6px;
 
-  label {
-    font-weight: $font-normal;
-  }
-
   @include device-is('desktop') {
     font-size: 1.25rem;
+  }
+
+  label {
+    font-weight: $font-normal;
   }
 
   a {
@@ -24,40 +24,39 @@
     &:hover {
       color: $blue-hover;
     }
+
+    &::after {
+      @include external-link;
+    }
   }
 
-  a::after {
-    @include external-link;
+  &__proposal {
+    font-size: 1.25rem;
+    color: $grey-80;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+    &--paragraph {
+      display: flex;
+      width: 100%;
+      height: auto;
+      resize: vertical;
+    }
+
+    &--sentence {
+      display: flex;
+      width: 100%;
+    }
+
+    &--number {
+      width: 100px;
+    }
   }
 
-}
-
-.challenge-response__proposal {
-  font-size: 1.25rem;
-  color: $grey-80;
-  margin-bottom: 10px;
-  margin-top: 10px;
-
-  &--paragraph {
-    display: flex;
+  &__proposal-label {
+    font-weight: $font-normal;
     width: 100%;
-    height: auto;
-    resize: vertical;
   }
-
-  &--sentence {
-    display: flex;
-    width: 100%;
-  }
-
-  &--number {
-    width: 100px;
-  }
-}
-
-.challenge-response__proposal-label {
-  font-weight: $font-normal;
-  width: 100%;
 }
 
 .proposal-text {
@@ -66,6 +65,7 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.625rem;
+
   p {
     margin: 0;
   }
