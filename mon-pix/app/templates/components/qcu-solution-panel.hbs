@@ -19,12 +19,9 @@
               </g>
             </svg>
           {{/if}}
-
-          <span class="qcu-proposal-label__oracle"
+          <MarkdownToHtml @class="qcu-proposal-label__proposition"
                 data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
-                data-checked={{if labeledItemRadio.[1] 'yes' 'no'}}>
-            {{labeledItemRadio.[0]}}
-          </span>
+                data-checked={{if labeledItemRadio.[1] 'yes' 'no'}} @markdown="{{labeledItemRadio.[0]}}" />
         </label>
 
       </p>

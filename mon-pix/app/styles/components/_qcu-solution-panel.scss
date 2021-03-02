@@ -20,12 +20,21 @@
   position: relative;
 }
 
-.qcu-proposal-label__oracle[data-goodness='good'] {
+.qcu-proposal-label__proposition {
+  display: inline-block;
+  margin: 10px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.qcu-proposal-label__proposition[data-goodness='good'] {
   color: $green;
   font-weight: $font-heavy;
 }
 
-.qcu-proposal-label__oracle[data-goodness='bad'][data-checked='yes'] {
+.qcu-proposal-label__proposition[data-goodness='bad'][data-checked='yes'] {
   text-decoration: line-through;
 }
 
