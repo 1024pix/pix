@@ -3,6 +3,7 @@ const settings = require('./config');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
+
 const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
 
 const consoleReporters =
@@ -41,6 +42,17 @@ const plugins = [
   Inert,
   Vision,
   Blipp,
+  {
+    plugin: require('hapi-i18n'),
+    options: {
+      locales: ['en', 'fr'],
+      directory: __dirname + '/../translations',
+      defaultLocale: 'fr',
+      queryParameter: 'lang',
+      objectNotation: true,
+      updateFiles: false,
+    },
+  },
   {
     plugin: require('good'),
     options: {
