@@ -10,7 +10,9 @@ describe('Unit | Controller | healthcheckController', () => {
 
     it('should reply with the API description', async function() {
       // when
-      const response = await healthcheckController.get(null, hFake);
+      const mockedRequest = { i18n: { __: sinon.stub() } };
+
+      const response = await healthcheckController.get(mockedRequest, hFake);
 
       // then
       expect(response).to.include.keys('name', 'version', 'description');
