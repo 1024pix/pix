@@ -6,10 +6,12 @@ module.exports = function buildBadgeCriterion(
     id = 1,
     scope = BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
     threshold = faker.random.number(),
+    partnerCompetenceIds = [],
   } = {}) {
   return new BadgeCriterion({
     id,
     scope,
     threshold,
+    partnerCompetenceIds,
   });
 };

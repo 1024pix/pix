@@ -7,13 +7,14 @@ function areBadgeCriteriaFulfilled({ campaignParticipationResult, badge }) {
     let campaignParticipationBadge;
 
     switch (criterion.scope) {
-      case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION :
+      case BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION:
         isBadgeCriterionFulfilled = _verifyCampaignParticipationResultMasteryPercentageCriterion(
           campaignParticipationResult,
           criterion.threshold,
         );
         break;
-      case BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE :
+
+      case BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE:
         campaignParticipationBadge = _.find(
           campaignParticipationResult.campaignParticipationBadges,
           (campaignParticipationBadge) => campaignParticipationBadge.id === badge.id,
@@ -25,6 +26,21 @@ function areBadgeCriteriaFulfilled({ campaignParticipationResult, badge }) {
           );
         }
         break;
+
+      case BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES:
+        campaignParticipationBadge = _.find(
+          campaignParticipationResult.campaignParticipationBadges,
+          (campaignParticipationBadge) => campaignParticipationBadge.id === badge.id,
+        );
+        if (campaignParticipationBadge && criterion.partnerCompetenceIds) {
+          isBadgeCriterionFulfilled = _verifySomePartnerCompetenceResultsMasteryPercentageCriterion(
+            campaignParticipationBadge.partnerCompetenceResults,
+            criterion.threshold,
+            criterion.partnerCompetenceIds,
+          );
+        }
+        break;
+
       default:
         isBadgeCriterionFulfilled = false;
         break;
@@ -40,6 +56,15 @@ function _verifyCampaignParticipationResultMasteryPercentageCriterion(campaignPa
 
 function _verifyEveryPartnerCompetenceResultMasteryPercentageCriterion(partnerCompetenceResults, threshold) {
   return _.every(partnerCompetenceResults, (partnerCompetenceResult) =>
+    partnerCompetenceResult.masteryPercentage >= threshold);
+}
+
+function _verifySomePartnerCompetenceResultsMasteryPercentageCriterion(partnerCompetenceResults, threshold, criterionPartnerCompetenceIds) {
+  const filteredPartnerCompetenceResults = _.filter(partnerCompetenceResults, (partnerCompetenceResult) => {
+    return criterionPartnerCompetenceIds.includes(partnerCompetenceResult.id);
+  });
+
+  return _.every(filteredPartnerCompetenceResults, (partnerCompetenceResult) =>
     partnerCompetenceResult.masteryPercentage >= threshold);
 }
 
