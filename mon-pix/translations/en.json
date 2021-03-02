@@ -947,7 +947,7 @@
                 "last-name": "Last name",
                 "email": "Email address",
                 "username": "Username",
-                "lang": "Languages",
+                "lang": "Language",
                 "edit-button": "Edit",
                 "fields": {
                     "select": {
