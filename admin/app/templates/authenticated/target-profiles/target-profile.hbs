@@ -18,6 +18,7 @@
     </div>
     <div>
       ID : {{@model.id}}<br>
+      Date de création : {{format-date @model.createdAt}}<br>
       Public : {{this.isPublic}}<br>
       Archivé : {{this.isOutdated}}<br>
       Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
