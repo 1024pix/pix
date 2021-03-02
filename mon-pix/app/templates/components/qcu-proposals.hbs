@@ -1,26 +1,18 @@
-{{!-- template-lint-disable no-implicit-this no-action --}}
-<form onchange="{{action "radioClicked"}}" class='challenge-proposals'>
-{{#each labeledRadios as |labeledRadio index|}}
+{{#each this.labeledRadios as |labeledRadio index|}}
 <p class="proposal-paragraph">
-
-  {{!-- Radio button --}}
   <Input type="radio"
          name="radio"
          value="{{inc index}}"
          data-value="{{inc index}}"
          id="radio_{{inc index}}"
          checked={{labeledRadio.[1]}}
-         {{on 'click' (fn this.radioClicked index)}}
+          {{on 'click' (fn this.radioClicked index)}}
          disabled={{if @answer true}} />
 
-  {{!-- Surrounding label --}}
   <label for="radio_{{inc index}}"
           class="label-checkbox-proposal">
-
-    {{!-- text of proposal  --}}
     <span class="sr-only">{{t 'pages.proposals.answer.qcu'}}</span>
     <MarkdownToHtml @class="proposal-text" @markdown={{labeledRadio.[0]}} />
   </label>
 </p>
 {{/each}}
-</form>
