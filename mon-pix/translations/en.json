@@ -464,6 +464,10 @@
                 "timedout": {
                     "title": "You've run out of time",
                     "tooltip": "Out of time"
+                },
+                "tips": {
+                    "other-proposition": "Other proposition",
+                    "your-answer": "Your answer"
                 }
             }
         },

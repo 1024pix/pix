@@ -39,7 +39,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
     it('Should render', async function() {
       await render(hbs`<QcuSolutionPanel/>`);
-      expect(find('.qcu-solution-panel')).to.exist;
+      expect(find('.qcu-panel-solution')).to.exist;
     });
 
     describe('Radio state', function() {
@@ -70,7 +70,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        expect(findAll('.radio-on').length).to.equal(1);
+        expect(findAll('[data-goodness=good]').length).to.equal(1);
       });
 
       it('should not be editable', async function() {
@@ -83,8 +83,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
-          expect(find('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
+        times(findAll('.comparison-window .qcu-panel-solution__radio-button').length, function(index) {
+          expect(find('.comparison-window .qcu-panel-solution__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
         });
       });
     });
@@ -173,8 +173,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
       it('Should render', async function() {
         await render(hbs`<QcuSolutionPanel/>`);
-        expect(find('.qcu-solution-panel')).to.exist;
-        expect(findAll('.qcu-proposal-label__oracle')).to.have.lengthOf(0);
+        expect(find('.qcu-panel-solution')).to.exist;
+        expect(findAll('.qcu-panel-solution__proposition')).to.have.lengthOf(0);
       });
 
       describe('Radio state', function() {
@@ -200,9 +200,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('yes');
-          expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-goodness')).to.equal('good');
-          expect(findAll('.picture-radio-proposal--qcu')[1].classList.contains('radio-on')).to.equal(true);
+          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-checked')).to.equal('yes');
+          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-goodness')).to.equal('good');
+          expect(findAll('.qcu-panel-solution__radio-button')[1].innerHTML).to.contains('Votre réponse');
         });
 
         it('QCU, la réponse correcte n\'est pas cochée', async function() {
@@ -217,9 +217,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('no');
-          expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-goodness')).to.equal('good');
-          expect(findAll('.picture-radio-proposal--qcu')[1].classList.contains('radio-off')).to.equal(true);
+          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-checked')).to.equal('no');
+          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-goodness')).to.equal('good');
+          expect(findAll('.qcu-panel-solution__radio-button')[1].innerHTML).to.contains('Autre proposition');
         });
 
         it('QCU, la réponse incorrecte n\'est pas cochée', async function() {
@@ -232,9 +232,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('no');
-          expect(findAll('.qcu-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
-          expect(findAll('.picture-radio-proposal--qcu')[0].classList.contains('radio-off')).to.equal(true);
+          expect(findAll('.qcu-panel-solution__proposition')[0].getAttribute('data-checked')).to.equal('no');
+          expect(findAll('.qcu-panel-solution__proposition')[0].getAttribute('data-goodness')).to.equal('bad');
+          expect(findAll('.qcu-panel-solution__radio-button')[0].innerHTML).to.contains('Autre proposition');
         });
 
         it('QCU,la réponse incorrecte est cochée', async function() {
@@ -249,9 +249,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-proposal-label__oracle')[2].getAttribute('data-checked')).to.equal('yes');
-          expect(findAll('.qcu-proposal-label__oracle')[2].getAttribute('data-goodness')).to.equal('bad');
-          expect(findAll('.picture-radio-proposal--qcu')[2].classList.contains('radio-on')).to.equal(true);
+          expect(findAll('.qcu-panel-solution__proposition')[2].getAttribute('data-checked')).to.equal('yes');
+          expect(findAll('.qcu-panel-solution__proposition')[2].getAttribute('data-goodness')).to.equal('bad');
+          expect(findAll('.qcu-panel-solution__radio-button')[2].innerHTML).to.contains('Votre réponse');
         });
 
         it('Aucune case à cocher n\'est cliquable', async function() {
@@ -264,8 +264,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
-            expect(find('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
+          times(findAll('.comparison-window .qcu-panel-solution__radio-button').length, function(index) {
+            expect(find('.comparison-window .qcu-panel-solution__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
           });
         });
       });
