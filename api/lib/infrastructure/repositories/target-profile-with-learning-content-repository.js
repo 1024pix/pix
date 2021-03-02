@@ -41,7 +41,7 @@ module.exports = {
 
 async function _get(whereClauseFnc, locale) {
   const baseQueryBuilder = knex('target-profiles')
-    .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles.ownerOrganizationId', 'target-profiles_skills.skillId')
+    .select('target-profiles.id', 'target-profiles.name', 'target-profiles.outdated', 'target-profiles.isPublic', 'target-profiles.createdAt', 'target-profiles.ownerOrganizationId', 'target-profiles_skills.skillId')
     .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
   const finalQueryBuilder = whereClauseFnc(baseQueryBuilder);
   const results = await finalQueryBuilder;
@@ -69,6 +69,7 @@ async function _toDomain(results, badges, stages, locale) {
     name: results[0].name,
     outdated: results[0].outdated,
     isPublic: results[0].isPublic,
+    createdAt: results[0].createdAt,
     ownerOrganizationId: results[0].ownerOrganizationId,
     skills,
     tubes,

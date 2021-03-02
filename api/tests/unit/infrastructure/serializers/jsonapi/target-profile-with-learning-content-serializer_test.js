@@ -14,6 +14,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         name: 'Les compétences de BRO 2.0',
         outdated: true,
         isPublic: false,
+        createdAt: new Date('2021-03-02'),
         ownerOrganizationId: 12,
         skills: [buildTargetedSkill({ id: 'rec1', name: '@url4', tubeId: 'rec2' })],
         tubes: [{ id: 'rec2', practicalTitle: 'Url', competenceId: 'rec3' }],
@@ -31,6 +32,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             outdated: targetProfileWithLearningContent.outdated,
             'is-public': targetProfileWithLearningContent.isPublic,
             'owner-organization-id': targetProfileWithLearningContent.ownerOrganizationId,
+            'created-at': targetProfileWithLearningContent.createdAt,
           },
           relationships: {
             skills: {
