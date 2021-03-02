@@ -60,9 +60,9 @@ export default Factory.extend({
     instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul',
     attachments: ['file.docx', 'file.odt'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
-    proposals: '- 1ere possibilite\n ' +
-      '- 2eme possibilite\n ' +
-      '- 3eme possibilite\n' +
+    proposals: '- 1ere *possibilite*\n ' +
+      '- 2eme [possibilite](data:test)\n ' +
+      '- ![3eme possibilite](/images/pix-logo-blanc.svg)\n' +
       '- 4eme possibilite',
   }),
 
