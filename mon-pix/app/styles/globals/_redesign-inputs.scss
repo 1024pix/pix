@@ -18,20 +18,6 @@
   font-weight: $font-normal;
 }
 
-.qcu-proposal-label__radio-picture {
-  position: absolute;
-  left: -11px;
-  top: 3px;
-}
-
-.label-radio-proposal--qcu {
-  display: inline-block;
-  padding-left: 20px;
-  line-height: 21px;
-  position: relative;
-  cursor: pointer;
-}
-
 /**
  *
  * Configure Checkboxes of proposals
@@ -194,11 +180,6 @@ input[type=radio]:active::before {
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-}
-
-.proposal-paragraph > input[type=radio] {
-  flex-shrink: 0;
-  margin: auto 0;
 }
 
 .proposal-paragraph > input[type=checkbox] {
