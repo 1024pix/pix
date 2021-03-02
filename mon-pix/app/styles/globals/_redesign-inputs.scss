@@ -197,13 +197,17 @@ input[type=radio]:active::before {
 }
 
 .proposal-paragraph > input[type=radio] {
-  margin-top: 7px;
   flex-shrink: 0;
+  margin: auto 0;
 }
 
 .proposal-paragraph > input[type=checkbox] {
   margin-top: 7px;
   flex-shrink: 0;
+
+  &::before {
+    margin-top: -5px;
+  }
 }
 
 /* cursor: pointer is disabled here */
