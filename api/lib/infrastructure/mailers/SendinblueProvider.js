@@ -44,7 +44,7 @@ class SendinblueProvider extends MailingProvider {
   }
 
   static createSendinblueSMTPApi() {
-    return new SibApiV3Sdk.SMTPApi();
+    return new SibApiV3Sdk.TransactionalEmailsApi();
   }
 
   sendEmail(options) {

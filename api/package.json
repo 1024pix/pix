@@ -70,7 +70,7 @@
     "samlify": "^2.7.6",
     "sax": "^1.2.4",
     "saxpath": "^0.6.5",
-    "sib-api-v3-sdk": "^7.2.4",
+    "sib-api-v3-sdk": "^8.2.0",
     "xlsx": "^0.16.1",
     "xml-buffer-tostring": "^0.2.0",
     "xml2js": "^0.4.23",
