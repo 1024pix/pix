@@ -3,7 +3,6 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
-import sinon from 'sinon';
 
 module('Integration | Component | information-banner', function(hooks) {
   setupIntlRenderingTest(hooks);
@@ -31,17 +30,6 @@ module('Integration | Component | information-banner', function(hooks) {
       });
 
       module('when prescriber has already imported students', function() {
-        const now = new Date('2020-01-01T05:06:07Z');
-        let clock;
-
-        hooks.beforeEach(() => {
-          clock = sinon.useFakeTimers(now);
-        });
-
-        hooks.afterEach(() => {
-          clock.restore();
-        });
-
         test('should not render the banner', async function(assert) {
           // given
           class CurrentUserStub extends Service {
@@ -115,17 +103,6 @@ module('Integration | Component | information-banner', function(hooks) {
     });
 
     module('when prescriber’s organization is not of type SCO that manages students', function() {
-      const now = new Date('2019-01-01T05:06:07Z');
-      let clock;
-
-      hooks.beforeEach(() => {
-        clock = sinon.useFakeTimers(now);
-      });
-
-      hooks.afterEach(() => {
-        clock.restore();
-      });
-
       test('should not display the campaign banner', async function(assert) {
         // given
         class CurrentUserStub extends Service {

@@ -17,7 +17,7 @@
     },
     "import": {
       "link-to": "import or reimport the students database",
-      "message": "Start of school year: the '<strong>'admin'</strong>' must {linkTo} to start using Pix Orga. Learn more on '<'a href=\"https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href=\"https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
+      "message": "Start of school year: the '<strong>'admin'</strong>' must {linkTo} to start using Pix Orga. Learn more on '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
     }
   },
   "current-lang": "en",
