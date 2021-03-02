@@ -33,8 +33,11 @@ describe('Acceptance | Displaying a QCU challenge', () => {
 
       expect(findAll('input[type=radio][name="radio"]')).to.have.lengthOf(4);
       expect(findAll('.proposal-text')[0].textContent.trim()).to.equal('1ere possibilite');
+      expect(findAll('.proposal-text')[0].innerHTML).to.equal('<p>1ere <em>possibilite</em></p>\n');
       expect(findAll('.proposal-text')[1].textContent.trim()).to.equal('2eme possibilite');
-      expect(findAll('.proposal-text')[2].textContent.trim()).to.equal('3eme possibilite');
+      expect(findAll('.proposal-text')[1].innerHTML).to.equal('<p>2eme <a href="data:test" rel="noopener noreferrer" target="_blank">possibilite</a></p>\n');
+      expect(findAll('.proposal-text')[2].textContent.trim()).to.equal('');
+      expect(findAll('.proposal-text')[2].innerHTML).to.equal('<p><img src="/images/pix-logo-blanc.svg" alt="3eme possibilite"></p>\n');
       expect(findAll('.proposal-text')[3].textContent.trim()).to.equal('4eme possibilite');
 
       expect(find('.alert')).to.not.exist;

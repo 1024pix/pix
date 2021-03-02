@@ -19,7 +19,7 @@
 
     {{!-- text of proposal  --}}
     <span class="sr-only">{{t 'pages.proposals.answer.qcu'}}</span>
-    <span class="proposal-text">{{labeledRadio.[0]}}</span>
+    <MarkdownToHtml @class="proposal-text" @markdown={{labeledRadio.[0]}} />
   </label>
 </p>
 {{/each}}
