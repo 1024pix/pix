@@ -1,18 +1,18 @@
 {{#each this.labeledRadios as |labeledRadio index|}}
-<p class="proposal-paragraph">
+<p class="proposal-paragraph qcu-panel">
   <Input type="radio"
          name="radio"
          value="{{inc index}}"
          data-value="{{inc index}}"
          id="radio_{{inc index}}"
          checked={{labeledRadio.[1]}}
-          {{on 'click' (fn this.radioClicked index)}}
+         {{on 'click' (fn this.radioClicked index)}}
          disabled={{if @answer true}} />
 
   <label for="radio_{{inc index}}"
-          class="label-checkbox-proposal">
+          class="qcu-panel__label">
     <span class="sr-only">{{t 'pages.proposals.answer.qcu'}}</span>
-    <MarkdownToHtml @class="proposal-text" @markdown={{labeledRadio.[0]}} />
+    <MarkdownToHtml @class="qcu-panel__text proposal-text" @markdown={{labeledRadio.[0]}} />
   </label>
 </p>
 {{/each}}
