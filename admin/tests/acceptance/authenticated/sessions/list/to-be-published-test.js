@@ -40,14 +40,14 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
-      server.create('publishable-session', {
+      server.create('to-be-published-session', {
         id: '1',
         certificationCenterName: 'Centre SCO des Anne-Étoiles',
         finalizedAt,
         sessionDate,
         sessionTime,
       });
-      server.create('publishable-session', {
+      server.create('to-be-published-session', {
         id: '2',
         certificationCenterName: 'Centre SUP et rieur',
         finalizedAt,
@@ -72,14 +72,14 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
-      server.create('publishable-session', {
+      server.create('to-be-published-session', {
         id: '1',
         certificationCenterName: 'Centre SCO des Anne-Étoiles',
         finalizedAt,
         sessionDate,
         sessionTime,
       });
-      server.create('publishable-session', {
+      server.create('to-be-published-session', {
         id: '2',
         certificationCenterName: 'Centre SUP et rieur',
         finalizedAt,

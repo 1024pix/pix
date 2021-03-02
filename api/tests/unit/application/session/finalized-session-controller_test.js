@@ -1,7 +1,7 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const publishableSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/publishable-session-serializer');
+const toBePublishedSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
 const sessionWithRequiredActionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-with-required-action-serializer');
 
 describe('Unit | Controller | finalized-session', () => {
@@ -12,7 +12,7 @@ describe('Unit | Controller | finalized-session', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'findFinalizedSessionsToPublish').resolves();
-      sinon.stub(publishableSessionSerializer, 'serialize');
+      sinon.stub(toBePublishedSessionSerializer, 'serialize');
 
       request = {
         payload: { },
@@ -31,7 +31,7 @@ describe('Unit | Controller | finalized-session', () => {
         const foundFinalizedSessions = Symbol('foundSession');
         const serializedFinalizedSessions = Symbol('serializedSession');
         usecases.findFinalizedSessionsToPublish.resolves(foundFinalizedSessions);
-        publishableSessionSerializer.serialize.withArgs(foundFinalizedSessions).resolves(serializedFinalizedSessions);
+        toBePublishedSessionSerializer.serialize.withArgs(foundFinalizedSessions).resolves(serializedFinalizedSessions);
 
         // when
         const response = await finalizedSessionController.findFinalizedSessionsToPublish(request, hFake);

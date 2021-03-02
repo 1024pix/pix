@@ -12,12 +12,12 @@ export default function() {
 
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
   this.get('/admin/sessions/to-publish', (schema) => {
-    const publishableSessions = schema.publishableSessions.all();
-    return publishableSessions;
+    const toBePublishedSessions = schema.toBePublishedSessions.all();
+    return toBePublishedSessions;
   });
   this.get('/admin/sessions/to-publish', (schema) => {
-    const publishableSessions = schema.publishableSessions.all();
-    return publishableSessions;
+    const toBePublishedSessions = schema.toBePublishedSessions.all();
+    return toBePublishedSessions;
   });
   this.get('/admin/sessions/with-required-action', (schema) => {
     const withRequiredActionSessions = schema.withRequiredActionSessions.all();
