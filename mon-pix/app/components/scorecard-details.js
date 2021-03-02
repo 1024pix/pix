@@ -9,17 +9,8 @@ export default class ScorecardDetails extends Component {
   @service store;
   @service router;
   @service competenceEvaluation;
-  @service ariaLabels;
 
   @tracked showResetModal = false;
-
-  get scoreAriaLabel() {
-    return this.ariaLabels.computeScoreAriaLabel({
-      isNotStarted: this.args.scorecard.isNotStarted,
-      currentLevel: this.level,
-      percentageAheadOfNextLevel: this.args.scorecard.percentageAheadOfNextLevel,
-    });
-  }
 
   get level() {
     return this.args.scorecard.isNotStarted ? null : this.args.scorecard.level;

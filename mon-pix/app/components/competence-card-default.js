@@ -7,15 +7,6 @@ export default class CompetenceCardDefault extends Component {
   @service store;
   @service router;
   @service competenceEvaluation;
-  @service ariaLabels;
-
-  get scoreAriaLabel() {
-    return this.ariaLabels.computeScoreAriaLabel({
-      isNotStarted: this.args.scorecard.isNotStarted,
-      currentLevel: this.displayedLevel,
-      percentageAheadOfNextLevel: this.args.scorecard.percentageAheadOfNextLevel,
-    });
-  }
 
   get displayedLevel() {
     if (this.args.scorecard.isNotStarted) {
