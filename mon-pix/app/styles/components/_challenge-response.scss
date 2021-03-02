@@ -10,6 +10,26 @@
   @include device-is('desktop') {
     font-size: 1.25rem;
   }
+
+  a {
+    text-decoration: underline;
+    color: $blue;
+
+    @include device-is('tablet') {
+      display: inline-block;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $blue-hover;
+    }
+  }
+
+  a::after {
+    @include external-link;
+  }
+
 }
 
 .challenge-response__proposal {
@@ -46,6 +66,9 @@
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.625rem;
+  p {
+    margin: 0;
+  }
 }
 
 form .challenge-response {
