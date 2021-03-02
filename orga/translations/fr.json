@@ -17,7 +17,7 @@
     },
     "import": {
       "link-to": "importer ou ré-importer la base élèves",
-      "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<'a href=\"https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href=\"https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23\" class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
+      "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
     }
   },
   "current-lang": "fr",
