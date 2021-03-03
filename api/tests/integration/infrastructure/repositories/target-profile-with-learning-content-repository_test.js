@@ -87,6 +87,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
         id: targetProfileDB.id,
         name: targetProfileDB.name,
+        createdAt: targetProfileDB.createdAt,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
@@ -262,6 +263,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         name: targetProfileDB.name,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
+        createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
@@ -415,6 +417,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         name: targetProfileDB.name,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
+        createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
@@ -587,6 +590,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         name: targetProfileDB.name,
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
+        createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
