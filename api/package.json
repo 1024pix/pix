@@ -33,7 +33,7 @@
     "bunyan": "^1.8.15",
     "catbox": "^10.0.6",
     "catbox-memory": "^4.0.1",
-    "csv-parse": "^4.12.0",
+    "csv-parse": "^4.15.3",
     "dezalgo": "^1.0.3",
     "dotenv": "^8.2.0",
     "faker": "^4.1.0",
