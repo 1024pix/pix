@@ -30,7 +30,7 @@
     "bookshelf-json-columns": "^3.0.0",
     "bookshelf-validate": "^2.0.3",
     "boom": "^7.3.0",
-    "bunyan": "^1.8.12",
+    "bunyan": "^1.8.15",
     "catbox": "^10.0.6",
     "catbox-memory": "^4.0.1",
     "csv-parse": "^4.12.0",
