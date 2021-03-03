@@ -120,6 +120,7 @@ module.exports = function(environment) {
 
     showdown: {
       openLinksInNewWindow: true,
+      strikethrough: true,
     },
 
     moment: {
