@@ -81,7 +81,7 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.1",
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
     "eslint": "^7.6.0",
