@@ -65,7 +65,7 @@
     "pg": "^8.5.1",
     "randomstring": "^1.1.5",
     "redis": "^3.0.2",
-    "redlock": "^4.1.0",
+    "redlock": "^4.2.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.9",
     "samlify": "^2.7.6",
