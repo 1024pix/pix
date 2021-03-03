@@ -4,7 +4,6 @@ module.exports = {
   extends: ['octane', 'a11y'],
 
   rules: {
-    'link-rel-noopener': false,
     'no-duplicate-landmark-elements': false,
     'no-html-comments': false,
     'no-inline-styles': false,
