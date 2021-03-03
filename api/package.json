@@ -47,7 +47,7 @@
     "hapi-swagger": "^14.1.0",
     "hash-int": "^1.0.0",
     "iconv-lite": "^0.6.2",
-    "joi": "^17.3.0",
+    "joi": "^17.4.0",
     "json2csv": "^5.0.3",
     "jsonapi-serializer": "^3.6.6",
     "jsonwebtoken": "^8.5.1",
