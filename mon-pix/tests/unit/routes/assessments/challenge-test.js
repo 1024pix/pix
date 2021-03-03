@@ -13,6 +13,8 @@ describe('Unit | Route | Assessments | Challenge', function() {
   let createRecordStub;
   let queryRecordStub;
   let findRecordStub;
+  let currentUserStub;
+
   const params = {
     challenge_id: 'challenge_id',
   };
@@ -42,7 +44,9 @@ describe('Unit | Route | Assessments | Challenge', function() {
     });
 
     route = this.owner.lookup('route:assessments.challenge');
-    route.set('store', storeStub);
+    currentUserStub = { user: { firstName: 'John', lastname: 'Doe' } };
+    route.currentUser = currentUserStub;
+    route.store = storeStub;
     route.transitionTo = sinon.stub();
     route.modelFor = sinon.stub().returns(assessment);
   });
@@ -74,7 +78,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
   });
 
   describe('#saveAnswerAndNavigate', function() {
-    let answerToChallengeOne;
+    let answerToChallengeOne, answerToChallengeOneWithLevelUp;
 
     let answerValue = 'example';
     const answerTimeout = 120;
@@ -87,6 +91,14 @@ describe('Unit | Route | Assessments | Challenge', function() {
       answerToChallengeOne.save = sinon.stub().resolves();
       answerToChallengeOne.setProperties = sinon.stub();
       answerToChallengeOne.rollbackAttributes = sinon.stub();
+
+      answerToChallengeOneWithLevelUp = EmberObject.create({
+        challenge: challengeOne,
+        levelup: { level: 1, competenceName: 'Me tester' } });
+      answerToChallengeOneWithLevelUp.save = sinon.stub().resolves();
+      answerToChallengeOneWithLevelUp.setProperties = sinon.stub();
+      answerToChallengeOneWithLevelUp.rollbackAttributes = sinon.stub();
+
     });
 
     context('when the answer is already known', function() {
@@ -165,6 +177,8 @@ describe('Unit | Route | Assessments | Challenge', function() {
     context('when saving succeeds', function() {
       it('should redirect to assessment-resume route', async function() {
         // given
+        currentUserStub.isAnonymous = false;
+        route.currentUser = currentUserStub;
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when
@@ -172,6 +186,57 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
         // then
         sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), { queryParams: {} });
+      });
+
+      context('when user has reached a new level', function() {
+        let assessment;
+        beforeEach(function() {
+          createRecordStub.returns(answerToChallengeOneWithLevelUp);
+          queryRecordStub.resolves(nextChallenge);
+          assessment = EmberObject.create({ answers: [answerToChallengeOneWithLevelUp] });
+        });
+
+        it('should redirect to assessment-resume route with level up information', async function() {
+          //given
+          currentUserStub.user.isAnonymous = false;
+          route.currentUser = currentUserStub;
+          const expectedQueryParams = { queryParams: {
+            newLevel: answerToChallengeOneWithLevelUp.levelup.level,
+            competenceLeveled: answerToChallengeOneWithLevelUp.levelup.competenceName,
+          } };
+
+          // when
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+          // then
+          sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
+        });
+
+        it('should redirect to assessment-resume route without level up information when user is anonymous', async function() {
+          //given
+          currentUserStub.user.isAnonymous = true;
+          route.currentUser = currentUserStub;
+          const expectedQueryParams = { queryParams: { } };
+
+          // when
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+          // then
+          sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
+        });
+
+        it('should redirect to assessment-resume route without level up information when there is no currentUser', async function() {
+          //given
+          route.currentUser = { user: undefined };
+          const expectedQueryParams = { queryParams: { } };
+
+          // when
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+          // then
+          sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
+        });
+
       });
     });
 
