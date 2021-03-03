@@ -1,5 +1,3 @@
-/* eslint-disable ember/require-valid-css-selector-in-test-helpers */
-
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn, render } from '@ember/test-helpers';
@@ -58,7 +56,7 @@ module('Integration | Component | target-profiles organizations', function(hooks
 
     // when
     await render(hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @organizationsToAttach={{this.organizationsToAttach}} @attachOrganizations={{action this.attachOrganizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`);
-    await fillIn('[aria-label="ID de ou des organisation(s)', '1, 2');
+    await fillIn('[aria-label="ID de ou des organisation(s)"]', '1, 2');
     await click('[aria-label="Rattacher une ou plusieurs organisation(s)"] button');
 
     sinon.assert.called(attachOrganizations);

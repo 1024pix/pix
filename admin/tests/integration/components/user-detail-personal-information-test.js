@@ -1,5 +1,3 @@
-/* eslint-disable ember/require-valid-css-selector-in-test-helpers */
-
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, find, render } from '@ember/test-helpers';
@@ -23,7 +21,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('button[aria-label=\'Modifier\'').exists();
+      assert.dom('button[aria-label="Modifier"]').exists();
     });
 
     test('should not display the update button when user is connected from GAR only', async function(assert) {
@@ -37,7 +35,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+      assert.dom('button[aria-label="Modifier"]').doesNotExist();
     });
 
     test('should not display the update button when user is connected with username only', async function(assert) {
@@ -51,7 +49,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+      assert.dom('button[aria-label="Modifier"]').doesNotExist();
     });
 
     test('should not display the update button when user is connected with username and email', async function(assert) {
@@ -65,7 +63,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+      assert.dom('button[aria-label="Modifier"]').doesNotExist();
     });
 
     test('should not display the update button when user is connected with email and GAR', async function(assert) {
@@ -79,7 +77,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+      assert.dom('button[aria-label="Modifier"]').doesNotExist();
     });
 
     test('should not display the update button when user is connected with username and GAR', async function(assert) {
@@ -93,7 +91,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+      assert.dom('button[aria-label="Modifier"]').doesNotExist();
     });
 
     test('should not display the update button when user is connected with username, email and GAR', async function(assert) {
@@ -107,7 +105,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      assert.dom('button[aria-label=\'Modifier\'').doesNotExist();
+      assert.dom('button[aria-label="Modifier"]').doesNotExist();
     });
 
     test('should display user’s first name', async function(assert) {
@@ -283,10 +281,10 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      await click('button[aria-label=\'Modifier\'');
+      await click('button[aria-label="Modifier"]');
 
-      assert.dom('button[aria-label=\'Editer\'').exists();
-      assert.dom('button[aria-label=\'Annuler\'').exists();
+      assert.dom('button[aria-label="Editer"]').exists();
+      assert.dom('button[aria-label="Annuler"]').exists();
     });
 
     test('should display user’s first name,last name and email in edit mode', async function(assert) {
@@ -295,7 +293,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      await click('button[aria-label=\'Modifier\'');
+      await click('button[aria-label="Modifier"]');
 
       assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
       assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
@@ -307,7 +305,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      await click('button[aria-label=\'Modifier\'');
+      await click('button[aria-label="Modifier"]');
 
       assert.dom('.user__cgu').doesNotExist();
       assert.dom('.user__pix-orga-terms-of-service-accepted').doesNotExist();
@@ -333,7 +331,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       this.set('user', user);
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
-      await click('button[aria-label=\'Anonymiser\']');
+      await click('button[aria-label="Anonymiser"]');
 
       assert.dom('.modal-dialog').exists();
       assert.contains('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.');
@@ -342,7 +340,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
     test('should close the modal to cancel action', async function(assert) {
       this.set('user', user);
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
-      await click('button[aria-label=\'Anonymiser\']');
+      await click('button[aria-label="Anonymiser"]');
 
       await click('.modal-dialog .btn-secondary');
 
