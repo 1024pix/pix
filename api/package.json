@@ -61,7 +61,7 @@
     "node-stream-zip": "^1.13.2",
     "papaparse": "^5.3.0",
     "path": "^0.12.7",
-    "pdf-lib": "^1.11.1",
+    "pdf-lib": "^1.16.0",
     "pg": "^8.3.0",
     "randomstring": "^1.1.5",
     "redis": "^3.0.2",
