@@ -18,9 +18,9 @@ describe('Unit | UseCase | publish-sessions-in-batch', () => {
 
   context('when the sessions exist', () => {
 
-    context('When we publish the sessions', () => {
+    context('When we publish the sessions in batch', () => {
 
-      it('should update the published date', async () => {
+      it('should update the published dates', async () => {
         // given
         const recipientSession1 = 'email1@example.net';
         const certificationCenter1 = 'certificationCenter1';
@@ -131,11 +131,14 @@ describe('Unit | UseCase | publish-sessions-in-batch', () => {
 
   context('when one or many sessions are already published', () => {
     it.skip('should ignore the published sessions', () => {
+      // est-ce qu'on loggue ?
+      // envoi des résultats ?
     });
   });
 
   context('when one or many sessions dont exist', () => {
     it.skip('should ignore the non existing session', () => {
+      // est-ce qu'on loggue ?
     });
   });
 
