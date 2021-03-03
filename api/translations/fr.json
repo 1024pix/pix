@@ -1,5 +1,29 @@
 {
   "current-lang": "fr",
+  "campaign": {
+    "common" : {
+      "yes": "Oui",
+      "no": "Non",
+      "not-available": "NA"
+    },
+    "profiles-collection" : {
+      "campaign-id": "ID Campagne",
+      "campaign-name": "Nom de la campagne",
+      "certifiable-skills": "Nombre de compétences certifiables",
+      "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
+      "is-certifiable" :"Certifiable (O/N)",
+      "is-sent": "Envoi (O/N)",
+      "organization-name": "Nom de l'organisation",
+      "participant-division": "Classe",
+      "participant-firstname": "Prénom du Participant",
+      "participant-lastname": "Nom du Participant",
+      "participant-student-number": "Numéro Étudiant",
+      "pix-score": "Nombre de pix total",
+      "sent-on": "Date de l'envoi",
+      "skill-level": "Niveau pour la compétence {{name}}",
+      "skill-ranking": "Nombre de pix pour la compétence {{name}}"
+    }
+  },
   "organization-invitation-email": {
     "title": "Vous êtes invité(e) à rejoindre Pix Orga",
     "subtitle": "La plateforme Pix Orga vous permet de créer, gérer des campagnes de test et suivre la progression de vos participants.",
@@ -23,28 +47,19 @@
     "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre.",
     "askForHelp": "Besoin d’aide, contactez-nous"
   },
-  "campaign": {
-    "common" : {
-      "yes": "Oui",
-      "no": "Non",
-      "not-available": "NA"
-    },
-    "profiles-collection" : {
-      "campaign-id": "ID Campagne",
-      "campaign-name": "Nom de la campagne",
-      "certifiable-skills": "Nombre de compétences certifiables",
-      "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
-      "is-certifiable" :"Certifiable (O/N)",
-      "is-sent": "Envoi (O/N)",
-      "organization-name": "Nom de l'organisation",
-      "participant-division": "Classe",
-      "participant-firstname": "Prénom du Participant",
-      "participant-lastname": "Nom du Participant",
-      "participant-student-number": "Numéro Étudiant",
-      "pix-score": "Nombre de pix total",
-      "sent-on": "Date de l'envoi",
-      "skill-level": "Niveau pour la compétence {{name}}",
-      "skill-ranking": "Nombre de pix pour la compétence {{name}}"
+  "reset-password-demand-email": {
+    "subject": "Demande de réinitialisation de mot de passe Pix",
+    "params": {
+      "title": "Réinitialisation de votre mot de passe",
+      "weCannotSendYourPassword": "Bonjour, pour des raisons de sécurité, nous ne vous envoyons pas votre mot de passe par e-mail.",
+      "clickOnTheButton": "Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe.",
+      "resetMyPassword": "Définir un nouveau mot de passe",
+      "linkValidFor": "Ce lien est valide 24 heures. Si vous n'êtes pas à l'origine de cette demande, merci d'ignorer cet e-mail.",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "moreOn": "En savoir plus sur",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre. Besoin d’aide, ",
+      "contactUs": "contactez-nous ici",
+      "helpdeskURL": "https://pix.org/fr/formulaire-aide"
     }
   }
 }
