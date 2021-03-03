@@ -104,7 +104,11 @@ function sendCertificationResultEmail({
   });
 }
 
-function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
+function sendResetPasswordDemandEmail({
+  email,
+  locale,
+  temporaryKey,
+}) {
   const localeParam = locale ? locale : 'fr-fr';
 
   let pixName = PIX_NAME_FR;

@@ -193,7 +193,7 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendResetPasswordDemandEmail', () => {
 
-    const fakeTemporaryKey = 'token';
+    const temporaryKey = 'token';
 
     context('when provided passwordResetDemandBaseUrl is not production', () => {
 
@@ -213,13 +213,17 @@ describe('Unit | Service | MailService', () => {
             ...translatedTextsFr['reset-password-demand-email'].params,
             homeName: `${domainFr}`,
             homeUrl: `https://${domainFr}`,
-            resetUrl: `https://app.${domainFr}/changer-mot-de-passe/${fakeTemporaryKey}`,
+            resetUrl: `https://app.${domainFr}/changer-mot-de-passe/${temporaryKey}`,
             helpdeskURL: 'https://support.pix.fr/support/tickets/new',
           },
         };
 
         // when
-        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
+        await mailService.sendResetPasswordDemandEmail({
+          email: userEmailAddress,
+          locale,
+          temporaryKey,
+        });
 
         // then
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
@@ -241,12 +245,16 @@ describe('Unit | Service | MailService', () => {
             ...translatedTextsFr['reset-password-demand-email'].params,
             homeName: `${domainOrg}`,
             homeUrl: `https://${domainOrg}/fr/`,
-            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=fr`,
+            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${temporaryKey}/?lang=fr`,
           },
         };
 
         // when
-        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
+        await mailService.sendResetPasswordDemandEmail({
+          email: userEmailAddress,
+          locale,
+          temporaryKey,
+        });
 
         // then
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
@@ -268,12 +276,16 @@ describe('Unit | Service | MailService', () => {
             ...translatedTextsEn['reset-password-demand-email'].params,
             homeName: `${domainOrg}`,
             homeUrl: `https://${domainOrg}/en-gb/`,
-            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=en`,
+            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${temporaryKey}/?lang=en`,
           },
         };
 
         // when
-        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
+        await mailService.sendResetPasswordDemandEmail({
+          email: userEmailAddress,
+          locale,
+          temporaryKey,
+        });
 
         // then
         expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
