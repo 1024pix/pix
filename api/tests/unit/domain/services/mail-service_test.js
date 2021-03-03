@@ -5,8 +5,10 @@ const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const settings = require('../../../../lib/config');
 
-const translatedTextsFr = require('../../../../translations/fr');
-const translatedTextsEn = require('../../../../translations/en');
+const organizationInvitationTranslationsMapping = {
+  'fr': require('../../../../translations/fr')['organization-invitation-email'],
+  'en': require('../../../../translations/en')['organization-invitation-email'],
+};
 
 describe('Unit | Service | MailService', () => {
 
@@ -204,155 +206,174 @@ describe('Unit | Service | MailService', () => {
     const organizationName = 'Organization Name';
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
+    const translationsMapping = organizationInvitationTranslationsMapping;
 
-    let organizationInvitationEmailFr;
-    let organizationInvitationEmailEn;
-
-    let expectedOptions;
-
-    beforeEach(() => {
-      organizationInvitationEmailFr = translatedTextsFr['organization-invitation-email'];
-      organizationInvitationEmailEn = translatedTextsEn['organization-invitation-email'];
-
-      translatedTextsFr['organization-invitation-email'] = { title: 'Un titre' };
-      translatedTextsEn['organization-invitation-email'] = { title: 'A title' };
-
-      expectedOptions = {
-        from: senderEmailAddress,
-        fromName: 'Pix Orga - Ne pas répondre',
-        to: userEmailAddress,
-        subject: 'Invitation à rejoindre Pix Orga',
-        template: 'test-organization-invitation-demand-template-id',
-        variables: {
-          organizationName,
-          pixHomeName: 'pix.fr',
-          pixHomeUrl: 'https://pix.fr',
-          pixOrgaHomeUrl: 'https://orga.pix.fr',
-          redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-          supportUrl: 'https://support.pix.fr/support/tickets/new',
-          ...translatedTextsFr['organization-invitation-email'],
-        },
-        tags: null,
-      };
-    });
-
-    afterEach(() => {
-      translatedTextsFr['organization-invitation-email'] = organizationInvitationEmailFr;
-      translatedTextsEn['organization-invitation-email'] = organizationInvitationEmailEn;
-    });
-
-    context('When tags property is not provided', () => {
-
-      it('should call mail provider with null tags', async () => {
-        // given
-        expectedOptions.tags = null;
-
-        // when
-        await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code,
-        });
-
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
-      });
-    });
-
-    context('When tags property is provided', () => {
-
-      it('should call mail provider with correct tags', async () => {
-        // given
-        const tags = ['JOIN_ORGA'];
-        expectedOptions.tags = tags;
-
-        // when
-        await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code, tags,
-        });
-
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
-      });
-    });
-
-    context('When locale is fr', () => {
+    it('should call sendEmail with from, to, organizationName', async () => {
 
       const locale = 'fr';
 
-      it('should call sendEmail with expected options', async () => {
-        // given
-        expectedOptions.variables = {
+      // given
+      const expectedOptions = {
+        from: senderEmailAddress,
+        to: userEmailAddress,
+        variables: {
           organizationName,
-          pixHomeName: 'pix.org',
-          pixHomeUrl: 'https://pix.org',
-          pixOrgaHomeUrl: 'https://orga.pix.org',
-          redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-          supportUrl: 'https://support.pix.fr/support/tickets/new',
-          ...translatedTextsFr['organization-invitation-email'],
-        };
+        },
+      };
 
-        // when
-        await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
+      // when
+      await mailService.sendOrganizationInvitationEmail({
+        email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
+      });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+
+      expect(options.from).to.equal(expectedOptions.from);
+      expect(options.to).to.equal(expectedOptions.to);
+      expect(options.variables.organizationName).to.equal(expectedOptions.variables.organizationName);
+    });
+
+    context('according to tags', () => {
+
+      context('When tags property is not provided', () => {
+
+        it('should call mail provider with null tags', async () => {
+          // given
+          const tags = null;
+
+          // when
+          await mailService.sendOrganizationInvitationEmail({
+            email: userEmailAddress, organizationName, organizationInvitationId, code, tags,
+          });
+
+          // then
+          const actualTags = mailer.sendEmail.firstCall.args[0].tags;
+          expect(actualTags).to.equal(tags);
         });
+      });
 
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      context('When tags property is provided', () => {
+
+        it('should call mail provider with correct tags', async () => {
+          // given
+          const tags = ['JOIN_ORGA'];
+
+          // when
+          await mailService.sendOrganizationInvitationEmail({
+            email: userEmailAddress, organizationName, organizationInvitationId, code, tags,
+          });
+
+          // then
+          const actualTags = mailer.sendEmail.firstCall.args[0].tags;
+          expect(actualTags).to.equal(tags);
+        });
       });
     });
 
-    context('When locale is fr-fr', () => {
+    context('according to locale', () => {
 
-      const locale = 'fr-fr';
+      context('When locale is fr', () => {
 
-      it('should call sendEmail with expected options', async () => {
-        // given
-        expectedOptions.variables = {
-          organizationName,
-          pixHomeName: 'pix.fr',
-          pixHomeUrl: 'https://pix.fr',
-          pixOrgaHomeUrl: 'https://orga.pix.fr',
-          redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
-          supportUrl: 'https://support.pix.fr/support/tickets/new',
-          ...translatedTextsFr['organization-invitation-email'],
-        };
+        const locale = 'fr';
 
-        // when
-        await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
+        it('should call sendEmail with localized variables', async () => {
+          // given
+          const expectedOptions = {
+            fromName: 'Pix Orga - Ne pas répondre',
+            subject: 'Invitation à rejoindre Pix Orga',
+            variables: {
+              pixHomeName: 'pix.org',
+              pixHomeUrl: 'https://pix.org',
+              pixOrgaHomeUrl: 'https://orga.pix.org',
+              redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+              supportUrl: 'https://support.pix.fr/support/tickets/new',
+              ...translationsMapping.fr,
+            },
+          };
+
+          // when
+          await mailService.sendOrganizationInvitationEmail({
+            email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
+          });
+
+          // then
+          const options = mailer.sendEmail.firstCall.args[0];
+
+          expect(options.fromName).to.equal(expectedOptions.fromName);
+          expect(options.subject).to.equal(expectedOptions.subject);
+          expect(options.variables).to.include(expectedOptions.variables);
         });
+      });
 
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      context('When locale is fr-fr', () => {
+
+        const locale = 'fr-fr';
+
+        it('should call sendEmail with localized options', async () => {
+          // given
+          const expectedOptions = {
+            fromName: 'Pix Orga - Ne pas répondre',
+            subject: 'Invitation à rejoindre Pix Orga',
+            variables: {
+              pixHomeName: 'pix.fr',
+              pixHomeUrl: 'https://pix.fr',
+              pixOrgaHomeUrl: 'https://orga.pix.fr',
+              redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+              supportUrl: 'https://support.pix.fr/support/tickets/new',
+              ...translationsMapping.fr,
+            },
+          };
+
+          // when
+          await mailService.sendOrganizationInvitationEmail({
+            email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
+          });
+
+          // then
+          const options = mailer.sendEmail.firstCall.args[0];
+
+          expect(options.fromName).to.equal(expectedOptions.fromName);
+          expect(options.subject).to.equal(expectedOptions.subject);
+          expect(options.variables).to.include(expectedOptions.variables);
+        });
+      });
+
+      context('When locale is en', () => {
+
+        const locale = 'en';
+
+        it('should call sendEmail with localized options', async () => {
+          // given
+          const expectedOptions = {
+            fromName: 'Pix Orga - Noreply',
+            subject: 'Invitation to join Pix Orga',
+            variables: {
+              organizationName,
+              pixHomeName: 'pix.org',
+              pixHomeUrl: 'https://pix.org/en-gb/',
+              pixOrgaHomeUrl: 'https://orga.pix.org?lang=en',
+              redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
+              supportUrl: 'https://pix.org/en-gb/help-form',
+              ...translationsMapping.en,
+            },
+          };
+
+          // when
+          await mailService.sendOrganizationInvitationEmail({
+            email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
+          });
+
+          // then
+          const options = mailer.sendEmail.firstCall.args[0];
+
+          expect(options.fromName).to.equal(expectedOptions.fromName);
+          expect(options.subject).to.equal(expectedOptions.subject);
+          expect(options.variables).to.include(expectedOptions.variables);
+        });
       });
     });
 
-    context('When locale is en', () => {
-
-      const locale = 'en';
-
-      it('should call sendEmail with expected options', async () => {
-        // given
-        expectedOptions.fromName = 'Pix Orga - Noreply';
-        expectedOptions.subject = 'Invitation to join Pix Orga';
-        expectedOptions.variables = {
-          organizationName,
-          pixHomeName: 'pix.org',
-          pixHomeUrl: 'https://pix.org/en-gb/',
-          pixOrgaHomeUrl: 'https://orga.pix.org?lang=en',
-          redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
-          supportUrl: 'https://pix.org/en-gb/help-form',
-          ...translatedTextsEn['organization-invitation-email'],
-        };
-
-        // when
-        await mailService.sendOrganizationInvitationEmail({
-          email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
-        });
-
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
-      });
-    });
   });
 
   describe('#sendScoOrganizationInvitationEmail', () => {
