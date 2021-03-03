@@ -193,11 +193,12 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendResetPasswordDemandEmail', () => {
 
+    const fakeTemporaryKey = 'token';
+
     context('when provided passwordResetDemandBaseUrl is not production', () => {
 
       it('should call mailer', async () => {
         // given
-        const fakeTemporaryKey = 'token';
         const locale = 'fr-fr';
         const domainFr = 'pix.fr';
 
@@ -205,13 +206,15 @@ describe('Unit | Service | MailService', () => {
           from: senderEmailAddress,
           fromName: 'PIX - Ne pas répondre',
           to: userEmailAddress,
-          subject: 'Demande de réinitialisation de mot de passe PIX',
+          subject: translatedTextsFr['reset-password-demand-email'].subject,
           template: 'test-password-reset-template-id',
           variables: {
-            resetUrl: `https://app.${domainFr}/changer-mot-de-passe/${fakeTemporaryKey}`,
+            locale,
+            ...translatedTextsFr['reset-password-demand-email'].params,
             homeName: `${domainFr}`,
             homeUrl: `https://${domainFr}`,
-            locale,
+            resetUrl: `https://app.${domainFr}/changer-mot-de-passe/${fakeTemporaryKey}`,
+            helpdeskURL: 'https://support.pix.fr/support/tickets/new',
           },
         };
 
@@ -224,7 +227,6 @@ describe('Unit | Service | MailService', () => {
 
       it('should call mailer with locale fr', async () => {
         // given
-        const fakeTemporaryKey = 'token';
         const locale = 'fr';
         const domainOrg = 'pix.org';
 
@@ -232,13 +234,14 @@ describe('Unit | Service | MailService', () => {
           from: senderEmailAddress,
           fromName: 'PIX - Ne pas répondre',
           to: userEmailAddress,
-          subject: 'Demande de réinitialisation de mot de passe PIX',
+          subject: translatedTextsFr['reset-password-demand-email'].subject,
           template: 'test-password-reset-template-id',
           variables: {
-            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=fr`,
+            locale,
+            ...translatedTextsFr['reset-password-demand-email'].params,
             homeName: `${domainOrg}`,
             homeUrl: `https://${domainOrg}/fr/`,
-            locale,
+            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=fr`,
           },
         };
 
@@ -251,7 +254,6 @@ describe('Unit | Service | MailService', () => {
 
       it('should call mailer with locale en', async () => {
         // given
-        const fakeTemporaryKey = 'token';
         const locale = 'en';
         const domainOrg = 'pix.org';
 
@@ -259,13 +261,14 @@ describe('Unit | Service | MailService', () => {
           from: senderEmailAddress,
           fromName: 'PIX - Noreply',
           to: userEmailAddress,
-          subject: 'Pix password reset request',
+          subject: translatedTextsEn['reset-password-demand-email'].subject,
           template: 'test-password-reset-template-id',
           variables: {
-            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=en`,
+            locale,
+            ...translatedTextsEn['reset-password-demand-email'].params,
             homeName: `${domainOrg}`,
             homeUrl: `https://${domainOrg}/en-gb/`,
-            locale,
+            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=en`,
           },
         };
 

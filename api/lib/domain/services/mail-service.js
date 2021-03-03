@@ -12,8 +12,6 @@ const PIX_NAME_FR = 'PIX - Ne pas répondre';
 const PIX_NAME_EN = 'PIX - Noreply';
 const ACCOUNT_CREATION_EMAIL_SUBJECT_FR = 'Votre compte Pix a bien été créé';
 const ACCOUNT_CREATION_EMAIL_SUBJECT_EN = 'Your Pix account has been created';
-const RESET_PASSWORD_EMAIL_SUBJECT_FR = 'Demande de réinitialisation de mot de passe PIX';
-const RESET_PASSWORD_EMAIL_SUBJECT_EN = 'Pix password reset request';
 const HELPDESK_FR = 'https://support.pix.fr/support/tickets/new';
 const HELPDESK_EN = 'https://pix.org/en-gb/help-form';
 const ORGANIZATION_INVITATION_EMAIL_SUBJECT_FR = 'Invitation à rejoindre Pix Orga';
@@ -107,44 +105,41 @@ function sendCertificationResultEmail({
 }
 
 function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
-  let pixName;
-  let resetPasswordEmailSubject;
-  let variables;
+  const localeParam = locale ? locale : 'fr-fr';
 
-  if (locale === 'fr') {
-    variables = {
+  let pixName = PIX_NAME_FR;
+  let resetPasswordEmailSubject = FrTranslations['reset-password-demand-email'].subject;
+
+  let templateParams = {
+    locale: localeParam,
+    ...FrTranslations['reset-password-demand-email'].params,
+    homeName: `pix${settings.domain.tldFr}`,
+    homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+    resetUrl: `${settings.domain.pixApp + settings.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
+    helpdeskURL: HELPDESK_FR,
+  };
+
+  if (localeParam === 'fr') {
+    templateParams = {
+      ...templateParams,
       homeName: `pix${settings.domain.tldOrg}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/fr/`,
       resetUrl: `${settings.domain.pixApp + settings.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=fr`,
-      locale,
+      helpdeskURL: FrTranslations['reset-password-demand-email'].params.helpdeskURL,
     };
-
-    pixName = PIX_NAME_FR;
-    resetPasswordEmailSubject = RESET_PASSWORD_EMAIL_SUBJECT_FR;
   }
 
-  else if (locale === 'en') {
-    variables = {
+  if (localeParam === 'en') {
+    templateParams = {
+      locale: localeParam,
+      ...EnTranslations['reset-password-demand-email'].params,
       homeName: `pix${settings.domain.tldOrg}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
       resetUrl: `${settings.domain.pixApp + settings.domain.tldOrg}/changer-mot-de-passe/${temporaryKey}/?lang=en`,
-      locale,
     };
 
     pixName = PIX_NAME_EN;
-    resetPasswordEmailSubject = RESET_PASSWORD_EMAIL_SUBJECT_EN;
-  }
-
-  else {
-    variables = {
-      homeName: `pix${settings.domain.tldFr}`,
-      homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
-      resetUrl: `${settings.domain.pixApp + settings.domain.tldFr}/changer-mot-de-passe/${temporaryKey}`,
-      locale,
-    };
-
-    pixName = PIX_NAME_FR;
-    resetPasswordEmailSubject = RESET_PASSWORD_EMAIL_SUBJECT_FR;
+    resetPasswordEmailSubject = EnTranslations['reset-password-demand-email'].subject;
   }
 
   return mailer.sendEmail({
@@ -153,7 +148,7 @@ function sendResetPasswordDemandEmail(email, locale, temporaryKey) {
     to: email,
     subject: resetPasswordEmailSubject,
     template: mailer.passwordResetTemplateId,
-    variables,
+    variables: templateParams,
   });
 }
 
