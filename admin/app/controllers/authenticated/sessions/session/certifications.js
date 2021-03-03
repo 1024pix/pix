@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes */
+
 import some from 'lodash/some';
 
 import { inject as service } from '@ember/service';

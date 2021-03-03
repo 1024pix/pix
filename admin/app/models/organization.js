@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes */
+
 import { memberAction } from 'ember-api-actions';
 import Model, { hasMany, attr } from '@ember-data/model';
 import { equal } from '@ember/object/computed';
