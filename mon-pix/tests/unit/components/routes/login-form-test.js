@@ -2,6 +2,7 @@ import { beforeEach, describe } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
+import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
 describe('Unit | Component | routes/login-form', function() {
 
@@ -12,6 +13,9 @@ describe('Unit | Component | routes/login-form', function() {
   let routerStub;
 
   let component;
+  let addGarAuthenticationMethodToUserStub;
+
+  const eventStub = { preventDefault: sinon.stub() };
 
   beforeEach(function() {
 
@@ -19,7 +23,6 @@ describe('Unit | Component | routes/login-form', function() {
       authenticate: sinon.stub().resolves(),
       isAuthenticated: sinon.stub().returns(true),
       get: sinon.stub(),
-      set: sinon.stub(),
       invalidate: sinon.stub(),
     };
     routerStub = {
@@ -29,20 +32,23 @@ describe('Unit | Component | routes/login-form', function() {
       createRecord: sinon.stub(),
     };
 
-    component = this.owner.lookup('component:routes/login-form');
+    addGarAuthenticationMethodToUserStub = sinon.stub();
+
+    component = createGlimmerComponent('component:routes/login-form');
     component.session = sessionStub;
     component.store = storeStub;
     component.router = routerStub;
-    component.addGarAuthenticationMethodToUser = sinon.stub();
+
+    component.args.addGarAuthenticationMethodToUser = addGarAuthenticationMethodToUserStub;
   });
 
   describe('#authenticate', () => {
 
-    context('when external user IdToken does not exist', () => {
+    context('when user is a Pix user', () => {
 
       it('should not notify error when authentication succeeds', async () => {
         // when
-        await component.authenticate();
+        await component.authenticate(eventStub);
 
         // then
         expect(component.isErrorMessagePresent).to.be.false;
@@ -54,7 +60,7 @@ describe('Unit | Component | routes/login-form', function() {
         sessionStub.authenticate.rejects(new Error());
 
         // when
-        await component.authenticate();
+        await component.authenticate(eventStub);
 
         // then
         expect(component.isErrorMessagePresent).to.be.true;
@@ -72,14 +78,14 @@ describe('Unit | Component | routes/login-form', function() {
         sessionStub.authenticate.rejects(response);
 
         // when
-        await component.authenticate();
+        await component.authenticate(eventStub);
 
         // then
         sinon.assert.calledWith(component.router.replaceWith, expectedRouteName);
       });
     });
 
-    context('when external user IdToken exist', () => {
+    context('when user is external with an existing token id', () => {
 
       const externalUserToken = 'ABCD';
       const expectedUserId = 1;
@@ -89,19 +95,16 @@ describe('Unit | Component | routes/login-form', function() {
         sessionStub.get.withArgs('data.expectedUserId').returns(expectedUserId);
       });
 
-      context('when update user authentication method fails', () => {
+      it('should display an error message when update user authentication method fails', async () => {
+        // given
+        addGarAuthenticationMethodToUserStub.rejects(new Error());
 
-        it('should display an error message', async () => {
-          // given
-          component.addGarAuthenticationMethodToUser.rejects(new Error());
+        // when
+        await component.authenticate(eventStub);
 
-          // when
-          await component.authenticate();
-
-          // then
-          expect(component.isErrorMessagePresent).to.be.false;
-          expect(component.hasUpdateUserError).to.be.true;
-        });
+        // then
+        expect(component.isErrorMessagePresent).to.be.false;
+        expect(component.hasUpdateUserError).to.be.true;
       });
     });
   });
