@@ -22,14 +22,14 @@
     }
 
     &--congrats {
-      background: url('/images/banners/congrats-mobile.png') center -240px no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      background: url('/images/background/banners/congrats-mobile.png') center -240px no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
       text-align: center;
       padding: 1rem;
       padding-top: 18rem;
       padding-bottom: 30px;
 
       @include device-is('tablet') {
-        background: url('/images/banners/congrats.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+        background: url('/images/background/banners/congrats.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
         justify-content: center;
         align-items: flex-start;
         background-position: left -70px center;
@@ -43,7 +43,7 @@
     }
 
     &--not-bad {
-      background: url('/images/banners/not-bad.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      background: url('/images/background/banners/not-bad.png') top center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
       text-align: center;
       padding: 1rem;
       padding-top: 18rem;
@@ -62,7 +62,7 @@
 
     &--too-bad {
       padding: 40px;
-      background: url('/images/banners/too-bad.png') center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
+      background: url('/images/background/banners/too-bad.png') center no-repeat, linear-gradient(0deg, rgb(18, 163, 255) 0%, rgb(61, 104, 255) 100%);
     }
   }
 }
