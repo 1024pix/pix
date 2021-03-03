@@ -28,7 +28,6 @@ exports.register = async function(server) {
         tags: ['api', 'user', 'prescription'],
       },
     },
-
   ]);
 };
 
