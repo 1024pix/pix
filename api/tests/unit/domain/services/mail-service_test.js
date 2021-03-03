@@ -21,55 +21,74 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendAccountCreationEmail', () => {
 
-    it('should use mailer to send an email with locale "fr-fr"', async () => {
-      // given
+    it('should call sendEmail with from, to, subject, template', async () => {
+
       const locale = 'fr-fr';
-      const domainFr = 'pix.fr';
+
+      // given
       const expectedOptions = {
         from: senderEmailAddress,
-        fromName: 'PIX - Ne pas répondre',
         to: userEmailAddress,
         subject: 'Votre compte Pix a bien été créé',
         template: 'test-account-creation-template-id',
-        variables: {
-          homeName: `${domainFr}`,
-          homeUrl: `https://${domainFr}`,
-          redirectionUrl: `https://app.${domainFr}/connexion`,
-          locale,
-        },
       };
 
       // when
       await mailService.sendAccountCreationEmail(userEmailAddress, locale);
 
       // then
-      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options).to.include(expectedOptions);
     });
 
-    it('should use mailer to send an email with redirectionUrl from parameters', async () => {
-      // given
-      const redirectionUrl = 'https://pix.fr';
-      const locale = 'fr-fr';
-      const domainFr = 'pix.fr';
-      const expectedOptions = {
-        from: senderEmailAddress,
-        fromName: 'PIX - Ne pas répondre',
-        to: userEmailAddress,
-        subject: 'Votre compte Pix a bien été créé',
-        template: 'test-account-creation-template-id',
-        variables: {
-          homeName: `${domainFr}`,
-          homeUrl: `https://${domainFr}`,
-          redirectionUrl,
-          locale,
-        },
-      };
+    context('according to redirectionUrl', () => {
 
-      // when
-      await mailService.sendAccountCreationEmail(userEmailAddress, locale, redirectionUrl);
+      context('if redirectionUrl is provided', () => {
 
-      // then
-      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+        it('should call sendEmail with provided value', async () => {
+          // given
+          const redirectionUrl = 'https://pix.fr';
+          const locale = 'fr-fr';
+
+          // when
+          await mailService.sendAccountCreationEmail(userEmailAddress, locale, redirectionUrl);
+
+          // then
+          const actualRedirectionUrl = mailer.sendEmail.firstCall.args[0].variables.redirectionUrl;
+          expect(actualRedirectionUrl).to.equal(redirectionUrl);
+        });
+
+      });
+
+    });
+    context('according to locale', () => {
+
+      it('should use mailer to send an email with locale "fr-fr"', async () => {
+        // given
+        const locale = 'fr-fr';
+        const domainFr = 'pix.fr';
+        const expectedOptions = {
+          from: senderEmailAddress,
+          fromName: 'PIX - Ne pas répondre',
+          to: userEmailAddress,
+          subject: 'Votre compte Pix a bien été créé',
+          template: 'test-account-creation-template-id',
+          variables: {
+            homeName: `${domainFr}`,
+            homeUrl: `https://${domainFr}`,
+            redirectionUrl: `https://app.${domainFr}/connexion`,
+            locale,
+          },
+        };
+
+        // when
+        await mailService.sendAccountCreationEmail(userEmailAddress, locale);
+
+        // then
+        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      });
+
+
     });
   });
 
