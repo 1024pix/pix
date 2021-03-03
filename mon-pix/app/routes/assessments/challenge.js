@@ -1,8 +1,11 @@
 import { action } from '@ember/object';
 import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class ChallengeRoute extends Route {
+  @service currentUser;
+
   async model(params) {
     const store = this.store;
 
@@ -49,14 +52,17 @@ export default class ChallengeRoute extends Route {
     try {
       await answer.save();
 
+      let queryParams = { queryParams: {} };
       const levelup = await answer.get('levelup');
 
-      const queryParams = levelup ? {
-        queryParams: {
-          newLevel: levelup.level,
-          competenceLeveled: levelup.competenceName,
-        },
-      } : { queryParams: {} };
+      if (this.currentUser.user && !this.currentUser.user.isAnonymous && levelup) {
+        queryParams = {
+          queryParams: {
+            newLevel: levelup.level,
+            competenceLeveled: levelup.competenceName,
+          },
+        };
+      }
 
       return this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
     }

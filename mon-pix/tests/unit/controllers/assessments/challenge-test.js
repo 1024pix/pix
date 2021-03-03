@@ -57,4 +57,36 @@ describe('Unit | Controller | Assessments | Challenge', function() {
     });
   });
 
+  describe('#showLevelup', () => {
+    it('should display level up pop-in', function() {
+      // given
+      controller.newLevel = true;
+      const model = { assessment: { showLevelup: true } };
+      controller.model = model;
+
+      // then
+      expect(controller.showLevelup).to.be.true;
+    });
+
+    it('should not display level up pop-in when user has not leveled up', function() {
+      // given
+      controller.newLevel = false;
+      const model = { assessment: { showLevelup: true } };
+      controller.model = model;
+
+      // then
+      expect(controller.showLevelup).to.be.false;
+    });
+
+    it('should not display level up pop-in when it is not in assessment with level up', function() {
+      // given
+      controller.newLevel = true;
+      const model = { assessment: { showLevelup: false } };
+      controller.model = model;
+
+      // then
+      expect(controller.showLevelup).to.be.false;
+    });
+  });
+
 });
