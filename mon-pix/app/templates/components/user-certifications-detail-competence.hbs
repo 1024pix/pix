@@ -5,7 +5,7 @@
     <span class="user-certifications-detail-competence__title--level">{{t "common.level"}}</span>
   </h3>
 
-  {{#each sortedCompetences as |competence index|}}
+  {{#each sortedCompetences as |competence|}}
   <div>
     <p class="user-certifications-detail-competence__competence {{if (lt competence.level 0) "user-certifications-detail-competence__competence--disabled"}}">
       {{competence.name}}

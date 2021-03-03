@@ -1,10 +1,8 @@
 <div class="user-certifications-detail-competences-list">
   <h2>{{t "pages.certificate.competences.title"}} <span>{{t "pages.certificate.competences.subtitle" maxReachableLevel=this.maxReachableLevel}}</span></h2>
 
-  {{#each this.sortedAreas as |area index|}}
-
+  {{#each this.sortedAreas as |area|}}
     <UserCertificationsDetailCompetence @area={{area}} />
-
   {{/each}}
 
 </div>
