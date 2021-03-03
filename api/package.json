@@ -23,7 +23,7 @@
     "@joi/date": "^2.0.1",
     "@pdf-lib/fontkit": "^1.1.1",
     "axios": "^0.21.1",
-    "bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "blipp": "^4.0.2",
     "bluebird": "^3.7.2",
     "bookshelf": "^1.2.0",
