@@ -55,7 +55,7 @@
     "knex": "^0.21.19",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.31",
+    "moment-timezone": "^0.5.33",
     "node-cache": "^5.1.2",
     "node-cron": "^2.0.3",
     "node-stream-zip": "^1.12.0",
