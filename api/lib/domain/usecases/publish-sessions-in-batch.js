@@ -1,7 +1,9 @@
+const bluebird = require('bluebird');
+const some = require('lodash/some');
+const uniqBy = require('lodash/uniqBy');
+
 const { SendingEmailToResultRecipientError } = require('../../domain/errors');
 const mailService = require('../../domain/services/mail-service');
-const uniqBy = require('lodash/uniqBy');
-const some = require('lodash/some');
 
 module.exports = async function publishSessionsInBatch({
   sessionIds,
@@ -10,29 +12,34 @@ module.exports = async function publishSessionsInBatch({
   sessionRepository,
   publishedAt = new Date(),
 }) {
-  // Attention, ce n'est pas une implémentation à conserver, c'est un squelette
-  // à changer
-  return Promise.all(sessionIds.map(async (sessionId) => {
-    const session = await sessionRepository.getWithCertificationCandidates(sessionId);
+  const publicationErrors = [];
 
-    await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
+  for (const sessionId of sessionIds) {
+    try {
+      const session = await sessionRepository.getWithCertificationCandidates(sessionId);
 
-    await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
+      await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
 
-    await finalizedSessionRepository.updatePublishedAt({ sessionId, publishedAt });
+      await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
 
-    const emailingAttempts = await _sendPrescriberEmails(session);
-    if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
-      await sessionRepository.flagResultsAsSentToPrescriber({
-        id: sessionId,
-        resultsSentToPrescriberAt: publishedAt,
-      });
+      await finalizedSessionRepository.updatePublishedAt({ sessionId, publishedAt });
+
+      const emailingAttempts = await _sendPrescriberEmails(session);
+      if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
+        await sessionRepository.flagResultsAsSentToPrescriber({
+          id: sessionId,
+          resultsSentToPrescriberAt: publishedAt,
+        });
+      }
+      if (_someHaveFailed(emailingAttempts)) {
+        const failedEmailsRecipients = _failedAttemptsRecipients(emailingAttempts);
+        throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
+      }
     }
-    if (_someHaveFailed(emailingAttempts)) {
-      const failedEmailsRecipients = _failedAttemptsRecipients(emailingAttempts);
-      throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
+    catch (error) {
+      publicationErrors.push(error);
     }
-  }));
+  }
 };
 
 async function _sendPrescriberEmails(session) {
