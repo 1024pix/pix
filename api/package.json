@@ -86,7 +86,7 @@
     "chai-sorted": "^0.2.0",
     "eslint": "^7.21.0",
     "eslint-plugin-mocha": "^8.0.0",
-    "mocha": "^8.1.1",
+    "mocha": "^8.3.0",
     "nock": "^13.0.4",
     "nodemon": "^2.0.4",
     "nyc": "^15.1.0",
