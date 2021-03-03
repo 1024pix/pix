@@ -3,14 +3,14 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/target-profiles/target-profile | badges', function(hooks) {
+module('Integration | Component | routes/authenticated/target-profiles/target-profile | insight', function(hooks) {
 
   setupRenderingTest(hooks);
 
   module('section rendering', function() {
     test('it should display the badges title and an empty list', async function(assert) {
       // when
-      await render(hbs`<TargetProfiles::Badges/>`);
+      await render(hbs`<TargetProfiles::Insight/>`);
 
       // then
       assert.contains('Résultats thématiques');
@@ -19,7 +19,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
 
     test('it should display the stages title and an empty list', async function(assert) {
       // when
-      await render(hbs`<TargetProfiles::Badges/>`);
+      await render(hbs`<TargetProfiles::Insight/>`);
 
       // then
       assert.contains('Paliers');

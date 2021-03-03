@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default class TargetProfileBadgesRoute extends Route {
+export default class TargetProfileInsightRoute extends Route {
 
   async model() {
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');
