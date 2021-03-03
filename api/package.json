@@ -90,7 +90,7 @@
     "nock": "^13.0.10",
     "nodemon": "^2.0.4",
     "nyc": "^15.1.0",
-    "sinon": "^9.0.3",
+    "sinon": "^9.2.4",
     "sinon-chai": "^3.5.0",
     "stream-to-promise": "^3.0.0"
   },
