@@ -10,7 +10,7 @@ describe('Integration | Component | Badge Acquired Card', function() {
   beforeEach(function() {
     this.set('title', 'Badge de winner');
     this.set('message', 'Bravo ! Tu as ton badge !');
-    this.set('imageUrl', '/images/hexa-pix.svg');
+    this.set('imageUrl', '/images/background/hexa-pix.svg');
     this.set('altMessage', 'Ceci est un badge.');
   });
 
