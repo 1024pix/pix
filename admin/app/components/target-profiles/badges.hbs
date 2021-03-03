@@ -1,6 +1,6 @@
 <div class="content-text content-text--small">
-  {{#if (gt @model.length 0)}}
-    <div class="table-admin badges-table">
+  {{#if this.hasBadges}}
+    <div class="table-admin">
       <table>
         <thead>
           <tr>
@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody>
-          {{#each @model as |badge|}}
+          {{#each @badges as |badge|}}
             <tr>
               <td>{{badge.id}}</td>
               <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>

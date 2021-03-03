@@ -4,7 +4,7 @@ import { find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | TargetProfiles::BadgeList', function(hooks) {
+module('Integration | Component | TargetProfiles::Badges', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it should display the items', async function(assert) {
@@ -20,7 +20,7 @@ module('Integration | Component | TargetProfiles::BadgeList', function(hooks) {
     this.set('badges', [badge]);
 
     // when
-    await render(hbs`<TargetProfiles::BadgeList @model={{this.badges}} />`);
+    await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
 
     // then
     assert.dom('table').exists();
@@ -47,7 +47,7 @@ module('Integration | Component | TargetProfiles::BadgeList', function(hooks) {
     this.set('badges', []);
 
     // when
-    await render(hbs`<TargetProfiles::BadgeList @model={{this.badges}} />`);
+    await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
 
     // then
     assert.dom('table').doesNotExist();
