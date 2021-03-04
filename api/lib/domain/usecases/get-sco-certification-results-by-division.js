@@ -12,7 +12,9 @@ module.exports = async function getScoCertificationResultsByDivision({
   const candidateIds = await scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision({ organizationId, division });
   const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds });
 
-  const certificationResults = await bluebird.mapSeries(certificationCourses,
+  const publishedCertificationCourses = certificationCourses.filter((course) => course.isPublished);
+
+  const certificationResults = await bluebird.mapSeries(publishedCertificationCourses,
     (certificationCourse) => getCertificationResultByCertifCourse({ certificationCourse }),
   );
 
