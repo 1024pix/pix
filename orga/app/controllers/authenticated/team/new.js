@@ -5,10 +5,13 @@ import { tracked } from '@glimmer/tracking';
 
 export default class NewController extends Controller {
 
-  @service store;
+  @service intl;
   @service notifications;
+  @service store;
 
   @tracked isLoading = false;
+
+  ERROR_MESSAGES;
 
   @action
   createOrganizationInvitation(event) {
@@ -16,30 +19,18 @@ export default class NewController extends Controller {
     this.isLoading = true;
     this.notifications.clearAll();
 
-    return this.model.organizationInvitation.save({ adapterOptions: { organizationId: this.model.organizationInvitation.organizationId } })
+    return this.model.organizationInvitation
+      .save({
+        adapterOptions: {
+          organizationId: this.model.organizationInvitation.organizationId,
+        },
+      })
       .then(() => {
         this.model.organization.organizationInvitations.reload();
         this.transitionToRoute('authenticated.team');
       })
       .catch((errorResponse) => {
-        if (errorResponse.errors && errorResponse.errors.length > 0) {
-          errorResponse.errors.forEach((error) => {
-            if (error.status === '400') {
-              return this.notifications.sendError('Le format de l\'adresse e-mail est incorrect.');
-            }
-            if (error.status === '412') {
-              return this.notifications.sendError('Ce membre a déjà été ajouté.');
-            }
-            if (error.status === '404') {
-              return this.notifications.sendError('Cet email n\'appartient à aucun utilisateur.');
-            }
-            if (error.status === '500') {
-              return this.notifications.sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
-            }
-          });
-        } else {
-          return this.notifications.sendError('Le service est momentanément indisponible. Veuillez réessayer ultérieurement.');
-        }
+        this._handleResponseError(errorResponse);
       })
       .finally(() => this.isLoading = false);
   }
@@ -47,5 +38,41 @@ export default class NewController extends Controller {
   @action
   cancel() {
     this.transitionToRoute('authenticated.team');
+  }
+
+  _handleResponseError({ errors }) {
+    let errorMessages = [];
+
+    if (errors) {
+      errorMessages = errors.map((error) => {
+        switch (error.status) {
+          case '400':
+            return this.ERROR_MESSAGES.STATUS_400;
+          case '404':
+            return this.ERROR_MESSAGES.STATUS_404;
+          case '412':
+            return this.ERROR_MESSAGES.STATUS_412;
+          case '500':
+            return this.ERROR_MESSAGES.STATUS_500;
+          default:
+            return this.ERROR_MESSAGES.DEFAULT;
+        }
+      });
+    } else {
+      errorMessages.push(this.ERROR_MESSAGES.DEFAULT);
+    }
+
+    const uniqueErrorMessages = new Set(errorMessages);
+    uniqueErrorMessages.forEach((errorMessage) => this.notifications.sendError(errorMessage));
+  }
+
+  initErrorMessages() {
+    this.ERROR_MESSAGES = {
+      DEFAULT: this.intl.t('pages.team-new.errors.default'),
+      STATUS_400: this.intl.t('pages.team-new.errors.status.400'),
+      STATUS_404: this.intl.t('pages.team-new.errors.status.404'),
+      STATUS_412: this.intl.t('pages.team-new.errors.status.412'),
+      STATUS_500: this.intl.t('pages.team-new.errors.status.500'),
+    };
   }
 }
