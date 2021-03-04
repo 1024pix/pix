@@ -269,7 +269,7 @@
       "description": "Please select the class for which you would like to export the certification results in a csv file.",
       "download-button": "Export the results",
       "select-label": "Class",
-      "title": "My certifications"
+      "title": "Certifications"
     },
     "profiles-individual-results": {
       "certifiable": "Eligible for certification",
