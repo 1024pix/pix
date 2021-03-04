@@ -1,12 +1,15 @@
 {
   "api-errors-messages": {
-    "global": "An error occurred. Please try again later.",
     "campaign-creation": {
+      "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the personalised test.",
       "name-required": "Please name your campaign.",
       "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
-      "target-profile-required": "Please select a target profile for your campaign.",
-      "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the personalised test."
-    }
+      "target-profile-required": "Please select a target profile for your campaign."
+    },
+    "edit-student-number": {
+      "student-number-exists": "The student number entered is already used by {firstName} {lastName}"
+    },
+    "global": "An error occurred. Please try again later."
   },
   "current-lang": "en",
   "common": {
@@ -26,7 +29,7 @@
   },
   "navigation": {
     "credits": {
-      "number":"{count, plural, =0 {0 credits} =1 {1 credit} other {{count, number} credits}}",
+      "number": "{count, plural, =0 {0 credits} =1 {1 credit} other {{count, number} credits}}",
       "tooltip-text": "The number of credits displayed is the number of credits acquired by the organisation and currently valid (regardless of their activation). For more information, please contact us at the following address: <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
     },
     "main": {
@@ -238,7 +241,7 @@
         }
       }
     },
-    "campaign-modification" : {
+    "campaign-modification": {
       "actions": {
         "edit": "Edit"
       },
@@ -291,6 +294,19 @@
         "download-template": "Download the template",
         "edit-student-number": "Edit the student number",
         "import-file": "Import (.csv)"
+      },
+      "edit-student-number-modal": {
+        "actions": {
+          "cancel": "Cancel",
+          "update": "Update"
+        },
+        "form": {
+          "error": "The student number can't be empty",
+          "new-student-number-label": "New student number",
+          "student-number": "{firstName} {lastName}'s current student number is: ",
+          "success": "{firstName} {lastName}'s student number has been successfully edited."
+        },
+        "title": "Edit a student number"
       },
       "table": {
         "column": {
