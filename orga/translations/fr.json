@@ -1,6 +1,12 @@
 {
-  "api-errors": {
-    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement."
+  "api-errors-messages": {
+    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
+    "campaign-creation": {
+      "name-required": "Veuillez donner un nom à votre campagne.",
+      "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
+      "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne.",
+      "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours."
+    }
   },
   "current-lang": "fr",
   "common": {
