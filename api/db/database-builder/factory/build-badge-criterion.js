@@ -7,6 +7,7 @@ module.exports = function buildBadgeCriterion({
   scope = BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
   threshold = faker.random.number(),
   badgeId,
+  partnerCompetenceIds = [],
 } = {}) {
 
   const values = {
@@ -14,6 +15,7 @@ module.exports = function buildBadgeCriterion({
     scope,
     threshold,
     badgeId,
+    partnerCompetenceIds,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'badge-criteria',

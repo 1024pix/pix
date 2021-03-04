@@ -282,6 +282,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 17,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
+              partnerCompetenceIds: [],
             }],
             badgePartnerCompetences: [{
               id: 18,
@@ -410,6 +411,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
+              partnerCompetenceIds: [],
             }],
             badgePartnerCompetences: [{
               id: 42,
@@ -440,6 +442,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
+              partnerCompetenceIds: [],
             }],
             badgePartnerCompetences: [],
             partnerCompetenceResults: [],
@@ -559,6 +562,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
+              partnerCompetenceIds: [],
             }],
             badgePartnerCompetences: [{
               id: 42,
@@ -590,6 +594,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
                 id: 15,
                 scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
                 threshold: 54,
+                partnerCompetenceIds: [],
               }),
             ],
             badgePartnerCompetences: [
@@ -708,6 +713,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
+              partnerCompetenceIds: [],
             }],
             badgePartnerCompetences: [],
             partnerCompetenceResults: [],
@@ -724,6 +730,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
               threshold: 54,
+              partnerCompetenceIds: [],
             }],
             badgePartnerCompetences: [],
             partnerCompetenceResults: [],
