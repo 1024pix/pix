@@ -1,13 +1,13 @@
 <div class="list-students-page__header">
-  <div class="page__title page-title">Étudiants</div>
+  <div class="page__title page-title">{{t "pages.students-sup.title"}}</div>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button">
       <a class="button button--link button--no-color"
          href="{{this.urlToDownloadCsvTemplate}}" target="_blank" rel="noopener noreferrer" download>
-        Télécharger le modèle
+        {{t "pages.students-sup.actions.download-template"}}
       </a>
       <FileUpload @name="file-upload" @for="students-file-upload" @accept=".csv" @multiple={{false}} @onfileadd={{@importStudents}}>
-        <span class="button" role="button" tabindex="0">Importer (.csv)</span>
+        <span class="button" role="button" tabindex="0">{{t "pages.students-sup.actions.import-file"}}</span>
       </FileUpload>
     </div>
   {{/if}}
@@ -18,10 +18,10 @@
     <table>
       <thead>
         <tr>
-          <Table::Header>Numéro étudiant</Table::Header>
-          <Table::Header>Nom</Table::Header>
-          <Table::Header>Prénom</Table::Header>
-          <Table::Header>Date de naissance</Table::Header>
+          <Table::Header>{{t "pages.students-sup.table.column.student-number"}}</Table::Header>
+          <Table::Header>{{t "pages.students-sup.table.column.last-name"}}</Table::Header>
+          <Table::Header>{{t "pages.students-sup.table.column.first-name"}}</Table::Header>
+          <Table::Header>{{t "pages.students-sup.table.column.date-of-birth"}}</Table::Header>
           <Table::Header />
         </tr>
         <tr>
@@ -29,15 +29,15 @@
           <Table::HeaderFilterInput
             @field="lastName"
             @value={{@lastNameFilter}}
-            @placeholder="Rechercher par nom"
-            @ariaLabel="Entrer un nom"
+            @placeholder={{t "pages.students-sup.table.filter.last-name.label"}}
+            @ariaLabel={{t "pages.students-sup.table.filter.last-name.aria-label"}}
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::HeaderFilterInput
             @field="firstName"
             @value={{@firstNameFilter}}
-            @placeholder="Rechercher par prénom"
-            @ariaLabel="Entrer un prénom"
+            @placeholder={{t "pages.students-sup.table.filter.first-name.label"}}
+            @ariaLabel={{t "pages.students-sup.table.filter.first-name.aria-label"}}
             @triggerFiltering={{@triggerFiltering}}
           />
           <Table::Header/>
@@ -48,7 +48,7 @@
       {{#if @students}}
         <tbody>
         {{#each @students as |student|}}
-          <tr aria-label="Étudiant">
+          <tr aria-label={{t "pages.students-sup.table.row-title"}}>
             <td>{{student.studentNumber}}</td>
             <td>{{student.lastName}}</td>
             <td>{{student.firstName}}</td>
@@ -61,7 +61,7 @@
                   @dropdownContentClass="list-students-page__dropdown-content"
                 >
                   <Dropdown::Item @onClick={{fn this.openEditStudentNumberModal student}}>
-                    Éditer le numéro étudiant
+                    {{t "pages.students-sup.actions.edit-student-number"}}
                   </Dropdown::Item>
                 </Dropdown::IconTrigger>
               {{/if}}
@@ -74,7 +74,7 @@
     </table>
 
     {{#unless @students}}
-      <div class="table__empty content-text">Aucun étudiant.</div>
+      <div class="table__empty content-text">{{t "pages.students-sup.table.empty"}}</div>
     {{/unless}}
   </div>
 
