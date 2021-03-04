@@ -12,11 +12,9 @@ describe('Integration | Repository | Division', () => {
       databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division2 }, { campaignId: campaign.id });
       await databaseBuilder.commit();
 
-      const expectedDivision = [division1, division2];
-
       const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-      expect(divisions).to.exactlyContain(expectedDivision);
+      expect(divisions).to.deep.equal([{ name: '3emeA' }, { name: '6emeB' }]);
     });
 
     context('when there are schooling registrations for another campaign of the same organization', () => {
@@ -29,11 +27,9 @@ describe('Integration | Repository | Division', () => {
         databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division2 });
         await databaseBuilder.commit();
 
-        const expectedDivision = [division1];
-
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-        expect(divisions).to.exactlyContain(expectedDivision);
+        expect(divisions).to.deep.equal([{ name: '6emeB' }]);
       });
     });
 
@@ -50,11 +46,9 @@ describe('Integration | Repository | Division', () => {
         databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaign.id, userId: user.id });
         await databaseBuilder.commit();
 
-        const expectedDivision = [division1];
-
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-        expect(divisions).to.exactlyContain(expectedDivision);
+        expect(divisions).to.deep.equal([{ name: '4emeG' }]);
       });
     });
 
@@ -69,7 +63,7 @@ describe('Integration | Repository | Division', () => {
 
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-        expect(divisions).to.exactlyContain([division]);
+        expect(divisions).to.deep.equal([{ name: '5eme1' }]);
       });
     });
   });
@@ -111,7 +105,20 @@ describe('Integration | Repository | Division', () => {
 
       // then
       expect(divisions).to.have.lengthOf(4);
-      expect(divisions).to.deep.equal(['t1', 'T2', '3b', '3A']);
+      expect(divisions).to.deep.equal([
+        {
+          name: 't1',
+        },
+        {
+          name: 'T2',
+        },
+        {
+          name: '3b',
+        },
+        {
+          name: '3A',
+        },
+      ]);
     });
   });
 });

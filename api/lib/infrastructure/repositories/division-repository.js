@@ -1,3 +1,4 @@
+const Division = require('../../domain/models/Division');
 const { knex } = require('../bookshelf');
 
 async function findByCampaignId(campaignId) {
@@ -11,7 +12,7 @@ async function findByCampaignId(campaignId) {
         .andOn('schooling-registrations.organizationId', '=', 'campaigns.organizationId');
     });
 
-  return divisions.map(({ division }) => division);
+  return divisions.map(({ division }) => _toDomain(division));
 }
 
 async function findByOrganizationId({ organizationId }) {
@@ -20,7 +21,11 @@ async function findByOrganizationId({ organizationId }) {
     .where('organizationId', organizationId)
     .orderBy('division', 'desc');
 
-  return divisionRows.map(({ division }) => division);
+  return divisionRows.map(({ division }) => _toDomain(division));
+}
+
+function _toDomain(division) {
+  return new Division({ name: division });
 }
 
 module.exports = {

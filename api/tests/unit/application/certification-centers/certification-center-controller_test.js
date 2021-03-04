@@ -71,7 +71,7 @@ describe('Unit | Controller | certifications-center-controller', () => {
       sinon
         .stub(usecases, 'findDivisionsByCertificationCenter')
         .withArgs({ certificationCenterId: 99 })
-        .resolves([ '3A', '3B', '4C' ]);
+        .resolves([{ name: '3A' }, { name: '3B' }, { name: '4C' }]);
 
       // when
       const response = await certificationCenterController.getDivisions(request, hFake);
