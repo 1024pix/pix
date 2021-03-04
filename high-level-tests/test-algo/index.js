@@ -24,7 +24,7 @@ async function index() {
     .option('userResult', {
       type: 'string',
       description: 'Choix de réponse pour l\'utilisateur',
-      choices: ['ok', 'ko', 'random', '1ok+ko', '1ko+ok'],
+      choices: ['ok', 'ko', 'random', 'firstOKthenKO', 'firstKOthenOK'],
       default: 'ok',
     })
     .check((argv) => {
