@@ -7,7 +7,7 @@
         "total-items": "Nombre d'acquis du profil cible du domaine {{name}}"
       },
       "is-shared": "Partage (O/N)",
-      "mastery-percentage-target-profile":"% maitrise de l'ensemble des acquis du profil",
+      "mastery-percentage-target-profile": "% maitrise de l'ensemble des acquis du profil",
       "progress": "% de progression",
       "shared-on": "Date du partage",
       "started-on": "Date de début",
@@ -16,7 +16,7 @@
         "ko": "KO",
         "not-tested": "Non testé",
         "ok": "OK"
-      },  
+      },
       "skill": {
         "items-successfully-completed": "Acquis maitrisés dans la compétence {{name}}",
         "mastery-percentage": "% de maitrise des acquis de la compétence {{name}}",
@@ -25,7 +25,7 @@
       "success-rate": "Palier obtenu (/{{value}})",
       "thematic-result-name": "{{name}} obtenu (O/N)"
     },
-    "common" : {
+    "common": {
       "campaign-id": "ID Campagne",
       "campaign-name": "Nom de la campagne",
       "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
@@ -38,9 +38,9 @@
       "participant-student-number": "Numéro Étudiant",
       "yes": "Oui"
     },
-    "profiles-collection" : {
+    "profiles-collection": {
       "certifiable-skills": "Nombre de compétences certifiables",
-      "is-certifiable" :"Certifiable (O/N)",
+      "is-certifiable": "Certifiable (O/N)",
       "is-sent": "Envoi (O/N)",
       "pix-score": "Nombre de pix total",
       "sent-on": "Date de l'envoi",
@@ -50,17 +50,17 @@
   },
   "current-lang": "fr",
   "campaign": {
-    "common" : {
+    "common": {
       "yes": "Oui",
       "no": "Non",
       "not-available": "NA"
     },
-    "profiles-collection" : {
+    "profiles-collection": {
       "campaign-id": "ID Campagne",
       "campaign-name": "Nom de la campagne",
       "certifiable-skills": "Nombre de compétences certifiables",
       "file-name": "Resultats-{{name}}-{{id}}-{{date}}.csv",
-      "is-certifiable" :"Certifiable (O/N)",
+      "is-certifiable": "Certifiable (O/N)",
       "is-sent": "Envoi (O/N)",
       "organization-name": "Nom de l'organisation",
       "participant-division": "Classe",
@@ -115,5 +115,18 @@
     "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
     "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
     "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire"
+  },
+  "email-change-email": {
+    "subject": "Vous avez changé votre adresse e-mail",
+    "body": {
+      "greeting": "Bonjour,",
+      "context": "Vous avez récemment modifié votre adresse email.",
+      "loginEmail": "Vous pouvez maintenant vous connecter avec l’adresse suivante :",
+      "noPasswordChanged": "Votre mot de passe reste inchangé.",
+      "signing": "— L'équipe Pix",
+      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
+      "moreOn": "En savoir plus sur",
+      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre"
+    }
   }
 }

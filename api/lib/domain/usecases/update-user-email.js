@@ -6,9 +6,11 @@ module.exports = async function updateUserEmail({
   userId,
   authenticatedUserId,
   password,
+  locale,
   userRepository,
   authenticationMethodRepository,
   encryptionService,
+  mailService,
 }) {
   if (userId !== authenticatedUserId) {
     throw new UserNotAuthorizedToUpdateEmailError();
@@ -37,4 +39,5 @@ module.exports = async function updateUserEmail({
 
   await userRepository.isEmailAvailable(email);
   await userRepository.updateEmail({ id: userId, email: email.toLowerCase() });
+  await mailService.notifyEmailChange({ email, locale });
 };

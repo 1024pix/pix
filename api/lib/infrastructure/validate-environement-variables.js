@@ -11,6 +11,7 @@ const schema = Joi.object({
   SENDINBLUE_ORGANIZATION_INVITATION_TEMPLATE_ID: Joi.number().optional(),
   SENDINBLUE_ORGANIZATION_INVITATION_SCO_TEMPLATE_ID: Joi.number().optional(),
   SENDINBLUE_PASSWORD_RESET_TEMPLATE_ID: Joi.number().optional(),
+  SENDINBLUE_EMAIL_CHANGE_TEMPLATE_ID: Joi.number().optional(),
   TLD_FR: Joi.string().optional(),
   TLD_ORG: Joi.string().optional(),
   DOMAIN_PIX: Joi.string().optional(),

@@ -25,6 +25,8 @@ const HELPDESK_EN = 'https://pix.org/en-gb/help-form';
 const ORGANIZATION_INVITATION_EMAIL_SUBJECT_FR = 'Invitation à rejoindre Pix Orga';
 const ORGANIZATION_INVITATION_EMAIL_SUBJECT_EN = 'Invitation to join Pix Orga';
 
+const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';
+
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
   let pixName;
@@ -267,10 +269,58 @@ function sendScoOrganizationInvitationEmail({
   });
 }
 
+function notifyEmailChange({ email, locale }) {
+
+  const options = {
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_NAME_FR,
+    to: email,
+    template: mailer.emailChangeTemplateId,
+    tags: [EMAIL_CHANGE_TAG],
+  };
+
+  if (locale === FRENCH_SPOKEN) {
+
+    options.subject = frTranslations['email-change-email'].subject;
+
+    options.variables = {
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/fr/`,
+      displayNationalLogo: false,
+      ...frTranslations['email-change-email'].body,
+    };
+
+  } else if (locale === FRENCH_FRANCE) {
+
+    options.subject = frTranslations['email-change-email'].subject;
+
+    options.variables = {
+      homeName: `pix${settings.domain.tldFr}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+      displayNationalLogo: true,
+      ...frTranslations['email-change-email'].body,
+    };
+
+  }
+  else if (locale === ENGLISH_SPOKEN) {
+    options.subject = enTranslations['email-change-email'].subject;
+
+    options.variables = {
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
+      displayNationalLogo: false,
+      ...enTranslations['email-change-email'].body,
+    };
+  }
+
+  return mailer.sendEmail(options);
+}
+
 module.exports = {
   sendAccountCreationEmail,
   sendCertificationResultEmail,
   sendOrganizationInvitationEmail,
   sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
+  notifyEmailChange,
 };
