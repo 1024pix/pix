@@ -29,7 +29,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', () => {
       // given
       divisionRepository.findByOrganizationId
         .withArgs({ organizationId: organization.id })
-        .resolves(['3a', '3b', '5c']);
+        .resolves([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
 
       // when
       const divisions = await findDivisionsByCertificationCenter({
@@ -39,7 +39,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', () => {
       });
 
       // then
-      expect(divisions).to.be.deep.equal(['3a', '3b', '5c' ]);
+      expect(divisions).to.be.deep.equal([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
     });
   });
 });

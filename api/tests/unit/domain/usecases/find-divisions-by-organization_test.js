@@ -14,7 +14,7 @@ describe('Unit | UseCase | find-divisions-by-organization', () => {
       const organizationId = 1234;
       divisionRepository.findByOrganizationId
         .withArgs({ organizationId })
-        .resolves(['3a', '3b', '5c' ]);
+        .resolves([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
 
       // when
       const divisions = await findDivisionsByOrganization({
@@ -23,7 +23,7 @@ describe('Unit | UseCase | find-divisions-by-organization', () => {
       });
 
       // then
-      expect(divisions).to.be.deep.equal([ '3a', '3b', '5c' ]);
+      expect(divisions).to.be.deep.equal([{ name: '3a' }, { name: '3b' }, { name: '5c' }]);
     });
   });
 });

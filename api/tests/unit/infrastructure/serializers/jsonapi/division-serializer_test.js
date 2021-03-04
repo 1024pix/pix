@@ -7,7 +7,7 @@ describe('Unit | Serializer | JSONAPI | division-serializer', function() {
 
     it('serializes all division', function() {
       // when
-      const json = serializer.serialize(['6eme', '3eme']);
+      const json = serializer.serialize([{ name: '6eme' }, { name: '3eme' }]);
       // then
       expect(json).to.deep.equal({
         data: [
