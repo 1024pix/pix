@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
@@ -8,7 +8,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 module('Integration | Component | edit-student-number-modal', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let closeStub;
   let notificationsStub;
   let onSaveStudentNumberStub;
@@ -98,7 +98,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         // then
         assert.dom('.error-message').hasText('');
         sinon.assert.calledOnce(closeStub);
-        assert.ok(notificationsStub.sendSuccess.calledWith(`La modification du numéro étudiant ${this.student.firstName} ${this.student.lastName} a bien été effectué.`));
+        assert.ok(notificationsStub.sendSuccess.calledWith(`La modification du numéro étudiant de ${this.student.firstName} ${this.student.lastName} a bien été effectué.`));
       });
     });
 
@@ -119,7 +119,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         const error = {
           errors: [{
             status: '412',
-            detail: 'Error occured',
+            detail: 'STUDENT_NUMBER_EXISTS',
           }],
         };
         onSaveStudentNumberStub.rejects(error);
@@ -129,7 +129,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         await clickByLabel('Mettre à jour');
 
         // then
-        assert.contains('Error occured');
+        assert.contains(`Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`);
       });
     });
 
@@ -139,7 +139,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         const error = {
           errors: [{
             status: '412',
-            detail: 'Error occured',
+            detail: 'STUDENT_NUMBER_EXISTS',
           }],
         };
         onSaveStudentNumberStub.onFirstCall().rejects(error).onSecondCall().resolves();
@@ -151,7 +151,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
         await clickByLabel('Mettre à jour');
 
         // then
-        assert.notContains('Error occured');
+        assert.notContains(`Le numéro étudiant saisi est déjà utilisé par l’étudiant ${this.student.firstName} ${this.student.lastName}`);
       });
     });
 
