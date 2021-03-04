@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.28.0 (04/03/2021)
+
+- [#2631](https://github.com/1024pix/pix/pull/2631) [FEATURE] Ajout des traductions pour la page des étudiants (SUP) (PIX-2254).
+- [#2628](https://github.com/1024pix/pix/pull/2628) [FEATURE] Afficher les paliers liés à un profil cible (PIX-2224).
+- [#2642](https://github.com/1024pix/pix/pull/2642) [FEATURE] Ajouter la traduction des messages d'erreurs lors de la création d'une campagne. (PIX-2198)
+- [#2634](https://github.com/1024pix/pix/pull/2634) [FEATURE] Rendre l'image des scorecard accessible (PIX-1849).
+- [#2640](https://github.com/1024pix/pix/pull/2640) [FEATURE] Retirer les succès pour les utilisateurs anonymes (PIX-2275).
+- [#2646](https://github.com/1024pix/pix/pull/2646) [FEATURE] Ajouter la date de création des profils cibles dans Pix Admin(PIX-2248)
+- [#2649](https://github.com/1024pix/pix/pull/2649) [FEATURE] Dans la page Mon compte de Pix App (.org), mettre le label "Langages" au singulier (PIX-2282).
+- [#2626](https://github.com/1024pix/pix/pull/2626) [FEATURE] Traduire dans l'API l'invitation à rejoindre Pix Orga (PIX-2212).
+- [#2616](https://github.com/1024pix/pix/pull/2616) [FEATURE] Dans Pix App, ajouter "Mon compte" dans le menu utilisateur (PIX-2106).
+- [#2661](https://github.com/1024pix/pix/pull/2661) [BUGFIX] Empêcher le téléchargement de résultats non publiés sur orga  (PIX-2293)
+- [#2654](https://github.com/1024pix/pix/pull/2654) [TECH] Réactiver le linter pour Pix Admin
+- [#2652](https://github.com/1024pix/pix/pull/2652) [TECH] Suppression des espaces inutiles dans les fichiers servers.conf. 
+- [#2645](https://github.com/1024pix/pix/pull/2645) [TECH][API] Ajout d'un module i18n dans l'API pour dynamiser les traductions (Pix-2285)
+- [#2643](https://github.com/1024pix/pix/pull/2643) [TECH] Mise à jour du paquet de SendInBlue de la 7.2.4 pour 8.2.0.
+- [#2627](https://github.com/1024pix/pix/pull/2627) [TECH] Bumper les paquets Cypress et load-testing.
+- [#2641](https://github.com/1024pix/pix/pull/2641) [CLEANUP] refacto récupération de la liste des classes sco (PIX-2280)
+
 ## v3.27.0 (01/03/2021)
 
 - [#2638](https://github.com/1024pix/pix/pull/2638) [FEATURE] Affichage de la liste des sessions à traiter dans pix-admin (PIX-2040)
