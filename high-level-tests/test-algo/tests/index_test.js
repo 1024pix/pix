@@ -157,6 +157,34 @@ describe('#answerTheChallenge', () => {
 
   });
 
+  context('when userResult is first K0 then all OK', ()=> {
+    let previousAnswers = [];
+    const userResult = '1ko+ok';
+
+    it('should return the list of answers with the first one invalidated and the rest validated', () => {
+      // when
+      const allResults = [];
+      for (let i = 0; i < 10; i++) {
+        const result = answerTheChallenge({
+          challenge,
+          allAnswers: previousAnswers,
+          allKnowledgeElements: previousKE,
+          targetSkills: [],
+          userId: 1,
+          userResult,
+        });
+        previousAnswers = result.updatedAnswers;
+        allResults.push(result.updatedAnswers[i].result.status);
+      }
+
+      // then
+      expect(allResults[0]).to.contains('ko');
+      expect(allResults.slice(1)).to.contains('ok');
+      expect(allResults.slice(1)).to.not.contains('ko');
+    });
+
+  });
+
 });
 
 describe('#_getReferentiel', () => {

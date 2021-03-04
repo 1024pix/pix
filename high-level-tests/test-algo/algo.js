@@ -31,6 +31,9 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     case '1ok+ko':
       !allAnswers.length ? result = AnswerStatus.OK : result = AnswerStatus.KO;
       break;
+    case '1ko+ok':
+      !allAnswers.length ? result = AnswerStatus.KO : result = AnswerStatus.OK;
+      break;
     default:
       result = AnswerStatus.OK;
   }
