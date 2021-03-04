@@ -28,10 +28,10 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     case 'random':
       result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
       break;
-    case '1ok+ko':
+    case 'firstOKthenKO':
       !allAnswers.length ? result = AnswerStatus.OK : result = AnswerStatus.KO;
       break;
-    case '1ko+ok':
+    case 'firstKOthenOK':
       !allAnswers.length ? result = AnswerStatus.KO : result = AnswerStatus.OK;
       break;
     default:
@@ -182,7 +182,7 @@ async function launchTest(argv) {
         userId: assessment.userId,
         allKnowledgeElements: knowledgeElements,
         targetSkills,
-        userResult
+        userResult,
       });
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;

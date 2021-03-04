@@ -57,7 +57,7 @@ describe('#answerTheChallenge', () => {
     expect(result.updatedKnowledgeElements[1]).to.deep.equal(newKe);
   });
 
-  context('when userResult is "ok"', ()=> {
+  describe('when userResult is "ok"', ()=> {
     const userResult = 'ok';
 
     it('should return the list of answers with the new one validated', () => {
@@ -80,7 +80,7 @@ describe('#answerTheChallenge', () => {
 
   });
 
-  context('when userResult is "ko"', ()=> {
+  describe('when userResult is "ko"', ()=> {
     const userResult = 'ko';
 
     it('should return the list of answers with the new one invalidated', () => {
@@ -103,7 +103,7 @@ describe('#answerTheChallenge', () => {
 
   });
 
-  context('when userResult is "random"', ()=> {
+  describe('when userResult is "random"', ()=> {
     previousAnswers = [];
     const userResult = 'random';
 
@@ -129,9 +129,9 @@ describe('#answerTheChallenge', () => {
 
   });
 
-  context('when userResult is first OK then all KO', ()=> {
+  describe('when userResult is first OK then all KO', () => {
     let previousAnswers = [];
-    const userResult = '1ok+ko';
+    const userResult = 'firstOKthenKO';
 
     it('should return the list of answers with the first one validated and the rest invalidated', () => {
       // when
@@ -157,9 +157,9 @@ describe('#answerTheChallenge', () => {
 
   });
 
-  context('when userResult is first K0 then all OK', ()=> {
+  describe('when userResult is first K0 then all OK', ()=> {
     let previousAnswers = [];
-    const userResult = '1ko+ok';
+    const userResult = 'firstKOthenOK';
 
     it('should return the list of answers with the first one invalidated and the rest validated', () => {
       // when
