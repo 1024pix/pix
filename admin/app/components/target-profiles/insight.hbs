@@ -1,0 +1,16 @@
+<section class="page-section mb_10 insight">
+
+  <section class="insight__section">
+    <h2 class="insight-section__title">Résultats thématiques</h2>
+    <TargetProfiles::Badges
+      @badges={{@model.badges}} />
+  </section>
+
+  <section class="insight__section">
+    <h2 class="insight-section__title">Paliers</h2>
+    <TargetProfiles::Stages
+            @stages={{@model.stages}}
+            @targetProfileImageUrl={{@model.targetProfileImageUrl}}/>
+  </section>
+
+</section>

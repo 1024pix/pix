@@ -81,7 +81,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         title: 'area1_Title',
         competences: [competence1_1, competence1_2],
       });
-      const targetProfileDB = databaseBuilder.factory.buildTargetProfile({ outdated: false, isPublic: true });
+      const targetProfileDB = databaseBuilder.factory.buildTargetProfile({ outdated: false, isPublic: true, imageUrl: 'data:,' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: 'recArea1_Competence1_Tube1_Skill2' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: 'recArea1_Competence2_Tube1_Skill1' });
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
@@ -91,6 +91,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         outdated: targetProfileDB.outdated,
         isPublic: targetProfileDB.isPublic,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
+        imageUrl: targetProfileDB.imageUrl,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
         competences: [competence1_1, competence1_2],
@@ -265,6 +266,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         isPublic: targetProfileDB.isPublic,
         createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
+        imageUrl: targetProfileDB.imageUrl,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
 
@@ -419,6 +421,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         isPublic: targetProfileDB.isPublic,
         createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
+        imageUrl: targetProfileDB.imageUrl,
         skills: [skill1_1_1_2, skill1_2_1_1],
         tubes: [tube1_1_1, tube1_2_1],
         competences: [competence1_1, competence1_2],
@@ -592,6 +595,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
         isPublic: targetProfileDB.isPublic,
         createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
+        imageUrl: targetProfileDB.imageUrl,
       });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: expectedTargetProfile.skills[0].id });
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;

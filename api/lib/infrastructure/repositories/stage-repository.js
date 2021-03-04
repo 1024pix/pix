@@ -11,4 +11,11 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results);
   },
+
+  findByTargetProfileId(targetProfileId) {
+    return BookshelfStage
+      .where({ targetProfileId })
+      .fetchAll({ require: false })
+      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results));
+  },
 };

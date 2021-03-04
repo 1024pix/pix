@@ -277,4 +277,60 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       expect(response.result.data).to.deep.equal(expectedData);
     });
   });
+
+  describe('GET /api/admin/target-profiles/{id}/stages', () => {
+    let user;
+    let targetProfileId;
+    let stage;
+
+    beforeEach(async () => {
+      const learningContent = [{
+        id: 'recArea',
+        competences: [{
+          id: 'recCompetence',
+          tubes: [{
+            id: 'recTube',
+            skills: [{
+              id: 'recSkill',
+              nom: '@recSkill',
+            }],
+          }],
+        }],
+      }];
+
+      const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningContentObjects);
+
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill' });
+      stage = databaseBuilder.factory.buildStage({ targetProfileId });
+      user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+
+      await databaseBuilder.commit();
+    });
+
+    it('should return 200', async () => {
+      const options = {
+        method: 'GET',
+        url: `/api/admin/target-profiles/${targetProfileId}/stages`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      const expectedData = [{
+        type: 'stages',
+        id: stage.id.toString(),
+        attributes: {
+          'message': stage.message,
+          'title': stage.title,
+          'threshold': stage.threshold,
+        },
+      }];
+      expect(response.result.data).to.deep.equal(expectedData);
+    });
+  });
 });

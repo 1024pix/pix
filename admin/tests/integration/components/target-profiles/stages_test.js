@@ -4,23 +4,22 @@ import { find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | TargetProfiles::BadgeList', function(hooks) {
+module('Integration | Component | TargetProfiles::Stages', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it should display the items', async function(assert) {
     // given
-    const badge = EmberObject.create({
+    const stage = EmberObject.create({
       id: 1,
-      key: 'My key',
+      threshold: '100',
       title: 'My title',
       message: 'My message',
-      imageUrl: 'data:,',
-      altMessage: 'My alt message',
     });
-    this.set('badges', [badge]);
+    this.set('stages', [stage]);
+    this.set('targetProfileImageUrl', 'data:,');
 
     // when
-    await render(hbs`<TargetProfiles::BadgeList @model={{this.badges}} />`);
+    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfileImageUrl={{this.targetProfileImageUrl}}/>`);
 
     // then
     assert.dom('table').exists();
@@ -28,29 +27,28 @@ module('Integration | Component | TargetProfiles::BadgeList', function(hooks) {
     assert.dom('tbody').exists();
     assert.contains('ID');
     assert.contains('Image');
-    assert.contains('Key');
-    assert.contains('Nom');
+    assert.contains('Threshold');
+    assert.contains('Titre');
     assert.contains('Message');
     assert.dom('tbody tr').exists({ count: 1 });
     assert.equal(find('tbody tr td:first-child').textContent, '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();
     assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
-    assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('alt'), 'My alt message');
-    assert.equal(find('tbody tr td:nth-child(3)').textContent, 'My key');
+    assert.equal(find('tbody tr td:nth-child(3)').textContent, '100');
     assert.equal(find('tbody tr td:nth-child(4)').textContent, 'My title');
     assert.equal(find('tbody tr td:nth-child(5)').textContent, 'My message');
-    assert.notContains('Aucune clé de lecture associée');
+    assert.notContains('Aucun résultat thématique associé');
   });
 
   test('it should display a message when empty', async function(assert) {
     // given
-    this.set('badges', []);
+    this.set('stages', []);
 
     // when
-    await render(hbs`<TargetProfiles::BadgeList @model={{this.badges}} />`);
+    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
 
     // then
     assert.dom('table').doesNotExist();
-    assert.contains('Aucune clé de lecture associée');
+    assert.contains('Aucun palier associé');
   });
 });

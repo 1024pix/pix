@@ -17,6 +17,7 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
   areas = [],
   badges = [],
   stages = [],
+  imageUrl,
 } = {}) {
   return new TargetProfileWithLearningContent({
     id,
@@ -31,6 +32,7 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
     areas,
     badges,
     stages,
+    imageUrl,
   });
 };
 
@@ -39,6 +41,7 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
   name = 'Pour les champions du monde 1998 !! Merci Aimé',
   outdated = false,
   isPublic = false,
+  imageUrl,
   createdAt = new Date(),
   ownerOrganizationId,
   badges = [],
@@ -53,6 +56,7 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
     name,
     outdated,
     isPublic,
+    imageUrl,
     createdAt,
     ownerOrganizationId,
     skills: [skill],
