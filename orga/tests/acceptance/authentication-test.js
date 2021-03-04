@@ -324,9 +324,9 @@ module('Acceptance | authentication', function(hooks) {
             assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
             assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
             assert.contains('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.');
-            assert.contains('Exporter mes résultats');
-            assert.contains('Mes certifications');
-            assert.contains('Classes');
+            assert.contains('Exporter les résultats');
+            assert.contains('Certifications');
+            assert.contains('Classe');
           });
         });
 
