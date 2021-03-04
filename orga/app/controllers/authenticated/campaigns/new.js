@@ -17,7 +17,7 @@ export default class NewController extends Controller {
       .catch((errorResponse) => {
         errorResponse.errors.forEach((error) => {
           if (error.status === '500') {
-            return this.notifications.sendError(this.intl.t('api-errors.global'));
+            return this.notifications.sendError(this.intl.t('api-errors-messages.global'));
           }
         });
       });
