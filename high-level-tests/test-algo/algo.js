@@ -28,6 +28,9 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
     case 'random':
       result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
       break;
+    case '1ok+ko':
+      !allAnswers.length ? result = AnswerStatus.OK : result = AnswerStatus.KO;
+      break;
     default:
       result = AnswerStatus.OK;
   }
