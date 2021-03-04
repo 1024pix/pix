@@ -104,12 +104,13 @@ describe('#answerTheChallenge', () => {
   });
 
   context('when userResult is "random"', ()=> {
+    previousAnswers = [];
     const userResult = 'random';
 
     it('should return the list of answers with some validated and some invalidated', () => {
       // when
       const allResults = [];
-      for(let i=0; i<50; i++) {
+      for (let i = 0; i < 50; i++) {
         const result = answerTheChallenge({
           challenge,
           allAnswers: previousAnswers,
@@ -124,6 +125,34 @@ describe('#answerTheChallenge', () => {
       // then
       expect(allResults).to.contains('ok');
       expect(allResults).to.contains('ko');
+    });
+
+  });
+
+  context('when userResult is first OK then all KO', ()=> {
+    let previousAnswers = [];
+    const userResult = '1ok+ko';
+
+    it('should return the list of answers with the first one validated and the rest invalidated', () => {
+      // when
+      const allResults = [];
+      for (let i = 0; i < 10; i++) {
+        const result = answerTheChallenge({
+          challenge,
+          allAnswers: previousAnswers,
+          allKnowledgeElements: previousKE,
+          targetSkills: [],
+          userId: 1,
+          userResult,
+        });
+        previousAnswers = result.updatedAnswers;
+        allResults.push(result.updatedAnswers[i].result.status);
+      }
+
+      // then
+      expect(allResults[0]).to.contains('ok');
+      expect(allResults.slice(1)).to.contains('ko');
+      expect(allResults.slice(1)).to.not.contains('ok');
     });
 
   });
