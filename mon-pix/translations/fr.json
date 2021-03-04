@@ -704,8 +704,8 @@
                 "congrats": "Bravo !",
                 "details": "détails",
                 "image-info": {
-                    "first-level": "Le premier niveau est en cours, complété à {percentageAheadOfNextLevel} pourcent.",
-                    "level": "Niveau actuel: {currentLevel}. Le prochain niveau est complété à {percentageAheadOfNextLevel} pourcent.",
+                    "first-level": "Le premier niveau est en cours, complété à {percentageAheadOfNextLevel}%.",
+                    "level": "Niveau actuel: {currentLevel}. Le prochain niveau est complété à {percentageAheadOfNextLevel}%.",
                     "no-level": "Compétence non commencée"
                 }
             },
