@@ -15,7 +15,9 @@
         {{#each @stages as |stage|}}
           <tr>
             <td>{{stage.id}}</td>
-            <td class="stages-table__image"><img src={{@targetProfileImageUrl}} alt="" /></td>
+            <td class="stages-table__image">
+              <img src={{@targetProfileImageUrl}} alt="" role="presentation" />
+            </td>
             <td>{{stage.threshold}}</td>
             <td>{{stage.title}}</td>
             <td>{{stage.message}}</td>

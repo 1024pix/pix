@@ -56,7 +56,7 @@ module('Integration | Component | target-profiles organizations', function(hooks
 
     // when
     await render(hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @organizationsToAttach={{this.organizationsToAttach}} @attachOrganizations={{action this.attachOrganizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}}/>`);
-    await fillIn('[aria-label="ID de ou des organisation(s)', '1, 2');
+    await fillIn('[aria-label="ID de ou des organisation(s)"]', '1, 2');
     await click('[aria-label="Rattacher une ou plusieurs organisation(s)"] button');
 
     sinon.assert.called(attachOrganizations);

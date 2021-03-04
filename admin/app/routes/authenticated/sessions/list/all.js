@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-classic-classes */
+
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import { FINALIZED } from 'pix-admin/models/session';

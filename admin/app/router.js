@@ -1,3 +1,5 @@
+/* eslint-disable ember/classic-decorator-hooks */
+
 import EmberRouter from '@ember/routing/router';
 import config from 'pix-admin/config/environment';
 

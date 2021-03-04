@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes */
+
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
