@@ -679,9 +679,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
 
       const certificationResults = [
-        domainBuilder.buildCertificationResult(),
-        domainBuilder.buildCertificationResult(),
-        domainBuilder.buildCertificationResult(),
+        domainBuilder.buildCertificationResult({ isPublished: true }),
+        domainBuilder.buildCertificationResult({ isPublished: true }),
+        domainBuilder.buildCertificationResult({ isPublished: true }),
       ];
 
       sinon.stub(momentProto, 'format');
