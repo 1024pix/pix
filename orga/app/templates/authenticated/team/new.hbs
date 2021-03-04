@@ -1,14 +1,19 @@
 <div class="new-team-page">
 
-  <h1 class="page__title page-title">Inviter un membre</h1>
+  <h1 class="page__title page-title">{{t 'pages.team-new.title'}}</h1>
 
   <p class="paragraph new-team-page__text">
-    Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.
+    {{t 'pages.team-new.email-requirement'}}
     <br>
-    Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules.
+    {{t 'pages.team-new.several-email-requirement'}}
     <br><br>
-    À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.
+    {{t 'pages.team-new.invited-members'}}
   </p>
 
-  <Routes::Authenticated::Team::NewItem @organizationInvitation={{@model.organizationInvitation}} @createOrganizationInvitation={{this.createOrganizationInvitation}} @cancel={{this.cancel}} @isLoading={{this.isLoading}} />
+  <Routes::Authenticated::Team::NewItem
+          @organizationInvitation={{@model.organizationInvitation}}
+          @createOrganizationInvitation={{this.createOrganizationInvitation}}
+          @cancel={{this.cancel}}
+          @isLoading={{this.isLoading}}
+  />
 </div>

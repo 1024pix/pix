@@ -1,25 +1,31 @@
 <form {{on 'submit' @createOrganizationInvitation}} class="form">
 
   <div class="form__field">
-    <label for="email" class="label">Adresse(s) e-mail</label>
+    <label for="email" class="label">{{t 'pages.team-new-item.input-label'}}</label>
     <Input
-      @type="email"
       @id="email"
-      @name="email"
-      @class="input"
+      @type="email"
       @value={{@organizationInvitation.email}}
-      @multiple={{true}}
-      @aria-required="true"
-      @required="required"
+      name="email"
+      class="input"
+      multiple={{true}}
+      aria-required="true"
+      required="required"
     />
   </div>
 
   <div class="form__validation">
-    <button type="button" class="button button--no-color" {{on 'click' @cancel}}>Annuler</button>
+    <button type="button" class="button button--no-color" {{on 'click' @cancel}}>
+      {{t 'pages.team-new-item.cancel-button'}}
+    </button>
     {{#if @isLoading}}
-      <button type="button" disabled class="button button--regular"><span class="loader-in-button">&nbsp;</span></button>
+      <button type="button" disabled class="button button--regular">
+        <span class="loader-in-button">&nbsp;</span>
+      </button>
     {{else}}
-      <button type="submit" class="button button--regular">Inviter</button>
+      <button type="submit" class="button button--regular">
+        {{t 'pages.team-new-item.invite-button'}}
+      </button>
     {{/if}}
   </div>
 
