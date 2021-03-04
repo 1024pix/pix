@@ -2,9 +2,9 @@
 module.exports = async function findDivisionsByCertificationCenter({
   certificationCenterId,
   organizationRepository,
-  schoolingRegistrationRepository,
+  divisionRepository,
 }) {
   const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
-  return schoolingRegistrationRepository.findDivisionsByOrganizationId({ organizationId });
+  return divisionRepository.findByOrganizationId({ organizationId });
 };
 

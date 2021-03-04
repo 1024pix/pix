@@ -2,7 +2,7 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const divisionRepository = require('../../../../lib/infrastructure/repositories/division-repository');
 
 describe('Integration | Repository | Division', () => {
-  context('findByCampaignId', () => {
+  describe('#findByCampaignId', () => {
     it('returns the division from schooling registration associated to the given campaign', async () => {
       const division1 = '6emeB';
       const division2 = '3emeA';
@@ -12,11 +12,9 @@ describe('Integration | Repository | Division', () => {
       databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division2 }, { campaignId: campaign.id });
       await databaseBuilder.commit();
 
-      const expectedDivision = [division1, division2];
-
       const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-      expect(divisions).to.exactlyContain(expectedDivision);
+      expect(divisions).to.deep.equal([{ name: '3emeA' }, { name: '6emeB' }]);
     });
 
     context('when there are schooling registrations for another campaign of the same organization', () => {
@@ -29,11 +27,9 @@ describe('Integration | Repository | Division', () => {
         databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division2 });
         await databaseBuilder.commit();
 
-        const expectedDivision = [division1];
-
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-        expect(divisions).to.exactlyContain(expectedDivision);
+        expect(divisions).to.deep.equal([{ name: '6emeB' }]);
       });
     });
 
@@ -50,11 +46,9 @@ describe('Integration | Repository | Division', () => {
         databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaign.id, userId: user.id });
         await databaseBuilder.commit();
 
-        const expectedDivision = [division1];
-
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-        expect(divisions).to.exactlyContain(expectedDivision);
+        expect(divisions).to.deep.equal([{ name: '4emeG' }]);
       });
     });
 
@@ -69,8 +63,62 @@ describe('Integration | Repository | Division', () => {
 
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
 
-        expect(divisions).to.exactlyContain([division]);
+        expect(divisions).to.deep.equal([{ name: '5eme1' }]);
       });
+    });
+  });
+
+  describe('#findByOrganizationId', () => {
+    it('should return an organization list of divisions', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3b',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '3A',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 'T2',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 't1',
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 't1',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const divisions = await divisionRepository.findByOrganizationId({ organizationId: organization.id });
+
+      // then
+      expect(divisions).to.have.lengthOf(4);
+      expect(divisions).to.deep.equal([
+        {
+          name: 't1',
+        },
+        {
+          name: 'T2',
+        },
+        {
+          name: '3b',
+        },
+        {
+          name: '3A',
+        },
+      ]);
     });
   });
 });

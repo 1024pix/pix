@@ -334,53 +334,6 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#getDivisionListByOrganizationId', () => {
-    it('should return an organization list of divisions', async () => {
-      // given
-      const organization = databaseBuilder.factory.buildOrganization();
-
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '3b',
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '3A',
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: '3A',
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: 'T2',
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: 't1',
-      });
-      databaseBuilder.factory.buildSchoolingRegistration({
-        organizationId: organization.id,
-        division: 't1',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const divisions = await schoolingRegistrationRepository.findDivisionsByOrganizationId({ organizationId: organization.id });
-      const expectedData = [
-        { id: 't1', name: 't1' },
-        { id: 'T2', name: 'T2' },
-        { id: '3b', name: '3b' },
-        { id: '3A', name: '3A' },
-      ];
-
-      // then
-      expect(divisions).to.have.lengthOf(4);
-      expect(divisions).to.deep.equal(expectedData);
-    });
-  });
-
   describe('#findByUserId', () => {
 
     it('should return instances of SchoolingRegistration', async () => {

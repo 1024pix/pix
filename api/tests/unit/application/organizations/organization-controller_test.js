@@ -122,20 +122,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon
         .stub(usecases, 'findDivisionsByOrganization')
         .withArgs({ organizationId: 99 })
-        .resolves([
-          {
-            id: '3A',
-            name: '3A',
-          },
-          {
-            id: '3B',
-            name: '3B',
-          },
-          {
-            id: '4C',
-            name: '4C',
-          },
-        ]);
+        .resolves([{ name: '3A' }, { name: '3B' }, { name: '4C' }]);
 
       // when
       const response = await organizationController.getDivisions(request, hFake);

@@ -13,7 +13,7 @@ describe('Integration | UseCase | get-participants-division', () => {
 
       const divisions = await getParticipantsDivision({ userId: user.id, campaignId: campaign.id });
 
-      expect(divisions).to.exactlyContain([division]);
+      expect(divisions).to.deep.equal([{ name: '3emeA' }]);
     });
   });
 
