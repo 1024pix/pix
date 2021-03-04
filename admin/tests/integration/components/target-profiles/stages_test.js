@@ -4,7 +4,7 @@ import { find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | TargetProfiles::StageList', function(hooks) {
+module('Integration | Component | TargetProfiles::Stages', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it should display the items', async function(assert) {
@@ -19,7 +19,7 @@ module('Integration | Component | TargetProfiles::StageList', function(hooks) {
     this.set('targetProfileImageUrl', 'data:,');
 
     // when
-    await render(hbs`<TargetProfiles::StageList @stages={{this.stages}} @targetProfileImageUrl={{this.targetProfileImageUrl}}/>`);
+    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfileImageUrl={{this.targetProfileImageUrl}}/>`);
 
     // then
     assert.dom('table').exists();
@@ -45,7 +45,7 @@ module('Integration | Component | TargetProfiles::StageList', function(hooks) {
     this.set('stages', []);
 
     // when
-    await render(hbs`<TargetProfiles::StageList @stages={{this.stages}} />`);
+    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
 
     // then
     assert.dom('table').doesNotExist();

@@ -1,14 +1,14 @@
-<section class="page-section mb_10 badges">
+<section class="page-section mb_10 insight">
 
-  <section class="badges__section">
-    <h2 class="badges-section__title">Résultats thématiques</h2>
+  <section class="insight__section">
+    <h2 class="insight-section__title">Résultats thématiques</h2>
     <TargetProfiles::Badges
-      @model={{@model.badges}} />
+      @badges={{@model.badges}} />
   </section>
 
-  <section class="badges__section">
-    <h2 class="badges-section__title">Paliers</h2>
-    <TargetProfiles::StageList
+  <section class="insight__section">
+    <h2 class="insight-section__title">Paliers</h2>
+    <TargetProfiles::Stages
             @stages={{@model.stages}}
             @targetProfileImageUrl={{@model.targetProfileImageUrl}}/>
   </section>
