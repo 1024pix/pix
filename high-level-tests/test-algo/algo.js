@@ -12,8 +12,26 @@ const Answer = require('../../api/lib/domain/models/Answer');
 const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
 
+const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
+
 function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult }) {
-  const result = userResult === 'ok' ? AnswerStatus.OK : AnswerStatus.KO;
+
+  let result;
+
+  switch (userResult) {
+    case 'ok':
+      result = AnswerStatus.OK;
+      break;
+    case 'ko':
+      result = AnswerStatus.KO;
+      break;
+    case 'random':
+      result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
+      break;
+    default:
+      result = AnswerStatus.OK;
+  }
+
   const newAnswer = new Answer({ challengeId: challenge.id, result });
 
   const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {

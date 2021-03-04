@@ -103,6 +103,31 @@ describe('#answerTheChallenge', () => {
 
   });
 
+  context('when userResult is "random"', ()=> {
+    const userResult = 'random';
+
+    it('should return the list of answers with some validated and some invalidated', () => {
+      // when
+      const allResults = [];
+      for(let i=0; i<50; i++) {
+        const result = answerTheChallenge({
+          challenge,
+          allAnswers: previousAnswers,
+          allKnowledgeElements: previousKE,
+          targetSkills: [],
+          userId: 1,
+          userResult,
+        });
+        allResults.push(result.updatedAnswers[1].result.status);
+      }
+
+      // then
+      expect(allResults).to.contains('ok');
+      expect(allResults).to.contains('ko');
+    });
+
+  });
+
 });
 
 describe('#_getReferentiel', () => {
