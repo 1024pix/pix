@@ -1,5 +1,6 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 
 describe('Acceptance | Controller | users-controller', () => {
 
@@ -21,36 +22,49 @@ describe('Acceptance | Controller | users-controller', () => {
           email: 'old_email@example.net',
           rawPassword: password,
         });
-
         await databaseBuilder.commit();
+
       });
 
       afterEach(async () => {
         await databaseBuilder.clean();
       });
 
-      it('should return status 204 with user', async () => {
-        // given
-        const options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}/email`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: {
-            data: {
-              type: 'users',
-              attributes: {
-                'email': 'new_email@example.net',
-                'password': password,
+      context('user is valid', () => {
+
+        let response;
+        beforeEach(async () => {
+          sinon.stub(mailer, 'sendEmail');
+          // given
+          const options = {
+            method: 'PATCH',
+            url: `/api/users/${user.id}/email`,
+            headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+            payload: {
+              data: {
+                type: 'users',
+                attributes: {
+                  'email': 'new_email@example.net',
+                  'password': password,
+                },
               },
             },
-          },
-        };
+          };
 
-        // when
-        const response = await server.inject(options);
+          // when
+          response = await server.inject(options);
+        });
 
-        // then
-        expect(response.statusCode).to.equal(204);
+        it('should return status 204 with user', async () => {
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+
+        it('should notify user by email', async () => {
+          // then
+          expect(mailer.sendEmail).to.have.been.called;
+        });
+
       });
 
       it('should return 403 if account is not his own', async () => {

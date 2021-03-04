@@ -51,12 +51,14 @@ module.exports = {
     const userId = parseInt(request.params.id);
     const authenticatedUserId = request.auth.credentials.userId;
     const { email, password } = request.payload.data.attributes;
+    const locale = extractLocaleFromRequest(request);
 
     await usecases.updateUserEmail({
       email,
       userId,
       authenticatedUserId,
       password,
+      locale,
     });
 
     return h.response({}).code(204);

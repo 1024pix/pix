@@ -1,6 +1,6 @@
 {
-  "current-lang" : "en",
-  "campaign-export" : {
+  "current-lang": "en",
+  "campaign-export": {
     "assessment": {
       "competence-area": {
         "items-successfully-completed": "Items of the target profile successfully completed in the competence area {{name}}",
@@ -8,7 +8,7 @@
         "total-items": "Number of items of the target profile in the competence area {{name}}"
       },
       "is-shared": "Shared (Y/N)",
-      "mastery-percentage-target-profile":"% of items successfully completed in the target profile",
+      "mastery-percentage-target-profile": "% of items successfully completed in the target profile",
       "progress": "% of progression",
       "shared-on": "Shared on",
       "started-on": "Started on",
@@ -17,7 +17,7 @@
         "ko": "KO",
         "not-tested": "Not tested",
         "ok": "OK"
-      },  
+      },
       "skill": {
         "items-successfully-completed": "Items of the target profile successfully completed in the skill {{name}}",
         "mastery-percentage": "% of items successfully completed in the skill {{name}}",
@@ -26,7 +26,7 @@
       "success-rate": "Success rate (/{{value}})",
       "thematic-result-name": "{{name}} (Y/N)"
     },
-    "common" :{
+    "common": {
       "campaign-id": "Campaign ID",
       "campaign-name": "Campaign's name",
       "file-name": "Results-{{name}}-{{id}}-{{date}}.csv",
@@ -37,11 +37,11 @@
       "participant-firstname": "Participant's first name",
       "participant-lastname": "Participant's last name",
       "participant-student-number": "Student number",
-      "yes": "Yes"  
+      "yes": "Yes"
     },
-    "profiles-collection" : {
+    "profiles-collection": {
       "certifiable-skills": "Number of skills eligible for certification",
-      "is-certifiable" :"Eligible for certification (Y/N)",
+      "is-certifiable": "Eligible for certification (Y/N)",
       "is-sent": "Sent (Y/N)",
       "pix-score": "Total pix score",
       "sent-on": "Sent on",
@@ -91,5 +91,18 @@
     "STAGE_TITLE_IS_REQUIRED": "The stage title is required",
     "STAGE_THRESHOLD_IS_REQUIRED": "The stage threshold is required",
     "TARGET_PROFILE_IS_REQUIRED": "The target profile is required"
+  },
+  "email-change-email": {
+    "subject": "Email change confirmation",
+    "body": {
+      "greeting": "Hi,",
+      "context": "You’ve recently changed your email address.",
+      "loginEmail": "You can now log in using the following email address:",
+      "noPasswordChanged": "Your password remains the same.",
+      "signing": "— The Pix Team",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "moreOn": "More on",
+      "doNotAnswer": "This is an automated email message, please do not reply."
+    }
   }
 }
