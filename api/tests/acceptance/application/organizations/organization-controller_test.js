@@ -1373,6 +1373,7 @@ describe('Acceptance | Application | organization-controller', () => {
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
           userId: candidate.userId,
           sessionId: candidate.sessionId,
+          isPublished: true,
         });
 
         const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
