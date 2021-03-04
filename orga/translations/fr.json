@@ -267,9 +267,9 @@
     },
     "certifications": {
       "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.",
-      "download-button": "Exporter mes résultats",
-      "select-label": "Classes",
-      "title": "Mes certifications"
+      "download-button": "Exporter les résultats",
+      "select-label": "Classe",
+      "title": "Certifications"
     },
     "profiles-individual-results": {
       "certifiable": "Certifiable",
