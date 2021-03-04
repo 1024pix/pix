@@ -56,6 +56,53 @@ describe('#answerTheChallenge', () => {
     expect(result.updatedKnowledgeElements[0]).to.deep.equal(previousKE[0]);
     expect(result.updatedKnowledgeElements[1]).to.deep.equal(newKe);
   });
+
+  context('when userResult is "ok"', ()=> {
+    const userResult = 'ok';
+
+    it('should return the list of answers with the new one validated', () => {
+      // when
+      const result = answerTheChallenge({
+        challenge,
+        allAnswers: previousAnswers,
+        allKnowledgeElements: previousKE,
+        targetSkills: [],
+        userId: 1,
+        userResult,
+      });
+
+      // then
+      expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
+      expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
+      expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
+      expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: 'ok' });
+    });
+
+  });
+
+  context('when userResult is "ko"', ()=> {
+    const userResult = 'ko';
+
+    it('should return the list of answers with the new one invalidated', () => {
+      // when
+      const result = answerTheChallenge({
+        challenge,
+        allAnswers: previousAnswers,
+        allKnowledgeElements: previousKE,
+        targetSkills: [],
+        userId: 1,
+        userResult,
+      });
+
+      // then
+      expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
+      expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
+      expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
+      expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: 'ko' });
+    });
+
+  });
+
 });
 
 describe('#_getReferentiel', () => {

@@ -21,6 +21,12 @@ async function index() {
       choices: ['fr', 'fr-fr', 'en'],
       default: 'fr',
     })
+    .option('userResult', {
+      type: 'string',
+      description: 'Choix de réponse pour l\'utilisateur',
+      choices: ['ok', 'ko', 'random', '1ok+ko', '1ko+ok'],
+      default: 'ok',
+    })
     .check((argv) => {
       return Boolean(argv.competenceId || argv.targetProfileId);
     })
