@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | routes/authenticated/team | list-items | items', function(hooks) {
 
@@ -36,7 +37,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     };
   });
 
-  test('For an admin, it should display an administrator firstName, lastName, role and edit button', async function(assert) {
+  test('it should display an administrator firstName, lastName, role and edit button', async function(assert) {
     // given
     this.set('membership', adminMembership);
 
@@ -47,21 +48,7 @@ module('Integration | Component | routes/authenticated/team | list-items | items
     assert.contains('La Terreur');
     assert.contains('Gigi');
     assert.contains('Administrateur');
-    assert.contains('Modifier le rôle');
-  });
-
-  test('For a member, it should display a firstName, lastName, role and edit button', async function(assert) {
-    // given
-    this.set('membership', memberMembership);
-
-    // when
-    await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
-
-    // then
-    assert.contains('La Panique');
-    assert.contains('Jojo');
-    assert.contains('Membre');
-    assert.contains('Modifier le rôle');
+    assert.dom('button[aria-label="Afficher les actions"]').exists;
   });
 
   module('When edit organization role button is clicked', function() {
@@ -73,7 +60,8 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
 
       // when
-      await click('#edit-organization-role');
+      await clickByLabel('Afficher les actions');
+      await clickByLabel('Modifier le rôle');
 
       // then
       assert.dom('.zone-save-cancel-role').exists({ count: 1 });
@@ -87,7 +75,8 @@ module('Integration | Component | routes/authenticated/team | list-items | items
 
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
 
-      await click('#edit-organization-role');
+      await clickByLabel('Afficher les actions');
+      await clickByLabel('Modifier le rôle');
 
       // when
       await click('#cancel-update-organization-role');
@@ -102,7 +91,8 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       this.set('membership', memberMembership);
 
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
-      await click('#edit-organization-role');
+      await clickByLabel('Afficher les actions');
+      await clickByLabel('Modifier le rôle');
 
       // when
       await fillIn('select', 'ADMIN');
@@ -118,7 +108,8 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       this.set('membership', adminMembership);
 
       await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}}/>`);
-      await click('#edit-organization-role');
+      await clickByLabel('Afficher les actions');
+      await clickByLabel('Modifier le rôle');
 
       // when
       await fillIn('select', 'MEMBER');
