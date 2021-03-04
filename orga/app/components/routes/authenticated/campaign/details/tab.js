@@ -10,7 +10,7 @@ export default class Tab extends Component {
   @service url;
   @service intl;
 
-  @tracked tooltipText = this.intl.t('pages.campaign.details.actions.copy-link.copy');
+  @tracked tooltipText = this.intl.t('pages.campaign-details.actions.copy-link.copy');
 
   get campaignsRootUrl() {
     return `${this.url.campaignsRootUrl}${this.args.campaign.code}`;
@@ -18,12 +18,12 @@ export default class Tab extends Component {
 
   @action
   clipboardSuccess() {
-    this.tooltipText = this.intl.t('pages.campaign.details.actions.copy-link.copied');
+    this.tooltipText = this.intl.t('pages.campaign-details.actions.copy-link.copied');
   }
 
   @action
   clipboardOut() {
-    this.tooltipText = this.intl.t('pages.campaign.details.actions.copy-link.copy');
+    this.tooltipText = this.intl.t('pages.campaign-details.actions.copy-link.copy');
   }
 
   @action
