@@ -1,3 +1,5 @@
+/* eslint-disable ember/no-computed-properties-in-native-classes */
+
 import isEmpty from 'lodash/isEmpty';
 import sumBy from 'lodash/sumBy';
 import some from 'lodash/some';

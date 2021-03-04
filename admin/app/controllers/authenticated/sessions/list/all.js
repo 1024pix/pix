@@ -1,3 +1,5 @@
+/* eslint-disable ember/classic-decorator-no-classic-methods */
+
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
@@ -8,7 +10,7 @@ import { action } from '@ember/object';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class AuthenticatedSessionsListAllController extends Controller {
-    
+
   queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'status', 'resultsSentToPrescriberAt'];
   DEBOUNCE_MS = config.pagination.debounce;
 
