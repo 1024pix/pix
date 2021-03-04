@@ -103,20 +103,6 @@ module.exports = {
     };
   },
 
-  async findDivisionsByOrganizationId({ organizationId }) {
-    const divisionRows = await Bookshelf.knex('schooling-registrations')
-      .distinct('division')
-      .where('organizationId', organizationId)
-      .orderBy('division', 'desc');
-
-    return divisionRows.map((row) => {
-      return {
-        id: row.division,
-        name: row.division,
-      };
-    });
-  },
-
   async findByUserId({ userId }) {
     const schoolingRegistrations = await BookshelfSchoolingRegistration
       .where({ userId })

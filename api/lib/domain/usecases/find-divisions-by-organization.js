@@ -1,8 +1,8 @@
 
 module.exports = function findDivisionsByOrganization({
   organizationId,
-  schoolingRegistrationRepository,
+  divisionRepository,
 }) {
-  return schoolingRegistrationRepository.findDivisionsByOrganizationId({ organizationId });
+  return divisionRepository.findByOrganizationId({ organizationId });
 };
 
