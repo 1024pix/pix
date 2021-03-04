@@ -1,8 +1,30 @@
-<section class="page-section mb_10">
-  <header class="page-section__header">
-    <h2 class="page-section__title">Clés de lecture</h2>
-  </header>
-
-  <TargetProfiles::BadgeList
-    @model={{@model}} />
-</section>
+<div class="content-text content-text--small">
+  {{#if this.hasBadges}}
+    <div class="table-admin">
+      <table>
+        <thead>
+          <tr>
+            <th class="badges-table__id">ID</th>
+            <th class="badges-table__image">Image</th>
+            <th class="badges-table__key">Key</th>
+            <th class="badges-table__name">Nom</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each @badges as |badge|}}
+            <tr>
+              <td>{{badge.id}}</td>
+              <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
+              <td>{{badge.key}}</td>
+              <td>{{badge.title}}</td>
+              <td>{{badge.message}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{else}}
+    <div class="table__empty content-text">Aucun résultat thématique associé</div>
+  {{/if}}
+</div>

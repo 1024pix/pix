@@ -4,6 +4,7 @@ const targetProfileWithLearningContentSerializer = require('../../infrastructure
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
+const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
 module.exports = {
 
   async findPaginatedFilteredTargetProfiles(request) {
@@ -54,5 +55,12 @@ module.exports = {
     const targetProfile = await usecases.createTargetProfile({ targetProfileData });
 
     return targetProfileWithLearningContentSerializer.serialize(targetProfile);
+  },
+
+  async findByTargetProfileId(request) {
+    const targetProfileId = parseInt(request.params.id);
+
+    const stages = await usecases.findTargetProfileStages({ targetProfileId });
+    return stageSerializer.serialize(stages);
   },
 };
