@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import Service from '@ember/service';
@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/sup-students | list-items', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
     this.set('noop', sinon.stub());

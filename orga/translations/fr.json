@@ -285,6 +285,34 @@
         "empty": "En attente de résultats",
         "row-title": "Compétence"
       }
+    },
+    "students-sup": {
+      "actions": {
+        "download-template": "Télécharger le modèle",
+        "edit-student-number": "Éditer le numéro étudiant",
+        "import-file": "Importer (.csv)"
+      },
+      "table": {
+        "column": {
+          "date-of-birth": "Date de naissance",
+          "first-name": "Prénom",
+          "last-name": "Nom",
+          "student-number": "Numéro étudiant"
+        },
+        "empty": "Aucun étudiant.",
+        "filter": {
+          "first-name": {
+            "aria-label": "Entrer un prénom",
+            "label": "Rechercher par prénom"
+          },
+          "last-name": {
+            "aria-label": "Entrer un nom",
+            "label": "Rechercher par nom"
+          }
+        },
+        "row-title": "Étudiant"
+      },
+      "title": "Étudiants"
     }
   }
 }
