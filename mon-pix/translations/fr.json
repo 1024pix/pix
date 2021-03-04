@@ -702,7 +702,12 @@
             },
             "competence-card": {
                 "congrats": "Bravo !",
-                "details": "détails"
+                "details": "détails",
+                "image-info": {
+                    "first-level": "Le premier niveau est en cours, complété à {percentageAheadOfNextLevel}%.",
+                    "level": "Niveau actuel: {currentLevel}. Le prochain niveau est complété à {percentageAheadOfNextLevel}%.",
+                    "no-level": "Compétence non commencée"
+                }
             },
             "first-title": "Vous avez 16 compétences à tester. '<br>'On se concentre et c'est partix&nbsp;!",
             "resume-campaign-banner": {

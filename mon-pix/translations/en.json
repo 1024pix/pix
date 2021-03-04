@@ -702,7 +702,12 @@
             },
             "competence-card": {
                 "congrats": "Well done!",
-                "details": "details"
+                "details": "details",
+                "image-info": {
+                    "first-level": "Level 1 in progress: {percentageAheadOfNextLevel}% successfully completed.",
+                    "level": "Current level: {currentLevel}. {percentageAheadOfNextLevel}% remaining to reach next level",
+                    "no-level": "Skill not started."
+                }
             },
             "first-title": "You have 16 skills to test. '<br>'Get your thinking hat on and off we go!",
             "resume-campaign-banner": {
