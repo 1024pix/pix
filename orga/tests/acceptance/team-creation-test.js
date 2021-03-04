@@ -17,6 +17,8 @@ module('Acceptance | Team Creation', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  const email = 'user.to.invite@example.net';
+
   test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
     // when
     await visit('/equipe/creation');
@@ -84,10 +86,13 @@ module('Acceptance | Team Creation', function(hooks) {
 
       test('it should allow to invite a prescriber and redirect to team page', async function(assert) {
         // given
-        const email = 'gigi@labrochette.com';
         const code = 'ABCDEFGH01';
-
-        server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, pixOrgaTermsOfServiceAccepted: true });
+        server.create('user', {
+          firstName: 'Gigi',
+          lastName: 'La Brochette',
+          email,
+          pixOrgaTermsOfServiceAccepted: true,
+        });
 
         await visit('/equipe/creation');
         await fillInByLabel('Adresse(s) e-mail', email);
@@ -134,17 +139,14 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should display error on global form when error 500 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`,
-          {
-            errors: [
-              {
-                detail: '[Object object]',
-                status: '500',
-                title: 'Internal Server Error',
-              },
-            ],
-          }, 500);
-        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
+        server.post(`/organizations/${organizationId}/invitations`, {
+          errors: [{
+            detail: '[Object object]',
+            status: '500',
+            title: 'Internal Server Error',
+          }],
+        }, 500);
+        await fillInByLabel('Adresse(s) e-mail', email);
 
         // when
         await clickByLabel('Inviter');
@@ -152,23 +154,21 @@ module('Acceptance | Team Creation', function(hooks) {
         // then
         assert.equal(currentURL(), '/equipe/creation');
         assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
+        assert.dom('[data-test-notification-message="error"]')
+          .hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
       });
 
       test('it should display error on global form when error 412 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`,
-          {
-            errors: [
-              {
-                detail: '',
-                status: '412',
-                title: 'Precondition Failed',
-              },
-            ],
-          }, 412);
-        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
+        server.post(`/organizations/${organizationId}/invitations`, {
+          errors: [{
+            detail: '',
+            status: '412',
+            title: 'Precondition Failed',
+          }],
+        }, 412);
+        await fillInByLabel('Adresse(s) e-mail', email);
 
         // when
         await clickByLabel('Inviter');
@@ -182,17 +182,14 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should display error on global form when error 404 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`,
-          {
-            errors: [
-              {
-                detail: '',
-                status: '404',
-                title: 'Not Found',
-              },
-            ],
-          }, 404);
-        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
+        server.post(`/organizations/${organizationId}/invitations`, {
+          errors: [{
+            detail: '',
+            status: '404',
+            title: 'Not Found',
+          }],
+        }, 404);
+        await fillInByLabel('Adresse(s) e-mail', email);
 
         // when
         await clickByLabel('Inviter');
@@ -206,17 +203,14 @@ module('Acceptance | Team Creation', function(hooks) {
       test('it should display error on global form when error 400 is returned from backend', async function(assert) {
         // given
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`,
-          {
-            errors: [
-              {
-                detail: '',
-                status: '400',
-                title: 'Bad Request',
-              },
-            ],
-          }, 400);
-        await fillInByLabel('Adresse(s) e-mail', 'fake@email');
+        server.post(`/organizations/${organizationId}/invitations`, {
+          errors: [{
+            detail: '',
+            status: '400',
+            title: 'Bad Request',
+          }],
+        }, 400);
+        await fillInByLabel('Adresse(s) e-mail', email);
 
         // when
         await clickByLabel('Inviter');
