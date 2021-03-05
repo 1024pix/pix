@@ -51,6 +51,7 @@ const TARGET_PROFILE_ONE_COMPETENCE_ID = 2;
 const TARGET_PROFILE_STAGES_BADGES_ID = 3;
 const TARGET_PROFILE_SIMPLIFIED_ACCESS_ID = 4;
 const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID = 5;
+const TARGET_PROFILE_PIX_DROIT_ID = 6;
 
 function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePICDiagnosticInitial(databaseBuilder);
@@ -58,6 +59,7 @@ function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfileWithStagesAndBadges(databaseBuilder);
   _buildTargetProfileWithSimplifiedAccess(databaseBuilder);
   _buildTargetProfilePixEmploiClea(databaseBuilder);
+  _buildTargetProfilePixDroit(databaseBuilder);
 }
 
 function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
@@ -161,6 +163,40 @@ function _buildTargetProfilePixEmploiClea(databaseBuilder) {
   });
 }
 
+function _buildTargetProfilePixDroit(databaseBuilder) {
+  databaseBuilder.factory.buildTargetProfile({
+    id: TARGET_PROFILE_PIX_DROIT_ID,
+    name: 'Pix+ Droit - Parcours complet',
+    isPublic: false,
+    ownerOrganizationId: PRO_POLE_EMPLOI_ID,
+  });
+
+  const skillIdsForPix = [
+    'recMOy4S8XnaWblYI', 'recPG9ftlGZLiF0O6', 'recH1pcEWLBUCqXTm', 'recIDXphXbneOrbux', 'recclxUSbi0fvIWpd',
+    'recLCYATl7TGrkZLh', 'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR',
+  ];
+
+  const skillIdsForPixDroitDomain1 = [
+    'recZnnTU4WUP6KwwX', 'rececWx6MmPhufxXk', 'recAFoEonOOChXe9t', 'recaMBgjv3EZnAlWO', 'recXDYAkqqIDCDePc',
+    'recwOLZ8bzMQK9NF9', 'recR1SlS7sWoquhoC', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ', 'recmoanUlDOyXexPF',
+  ];
+
+  const skillIdsForPixDroitDomain2 = [
+    'recKbNbM8G7mKaloD', 'recEdU3ZJrHxWOLcb', 'recfktfO0ROu1OifX', 'rec7WOXWi5ClE8BxH', 'recHo6D1spbDR9C2N',
+    'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'rec7EvARki1b9t574', 'rec6IWrDOSaoX4aLn', 'recI4zS51by3N7Ryi',
+  ];
+
+  const skillIdsForPixDroit = skillIdsForPixDroitDomain1.concat(skillIdsForPixDroitDomain2);
+
+  [...skillIdsForPix,
+    ...skillIdsForPixDroitDomain1,
+    ...skillIdsForPixDroitDomain2,
+    ...skillIdsForPixDroit,
+  ].forEach((skillId) => {
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_DROIT_ID, skillId });
+  });
+}
+
 module.exports = {
   targetProfilesBuilder,
   TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
@@ -168,5 +204,6 @@ module.exports = {
   TARGET_PROFILE_STAGES_BADGES_ID,
   TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+  TARGET_PROFILE_PIX_DROIT_ID,
   skillIdsForBadgePartnerCompetences,
 };

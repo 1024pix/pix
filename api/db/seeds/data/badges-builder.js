@@ -4,9 +4,20 @@ const TOOLS_BADGE_ID = 112;
 const MANIP_BADGE_ID = 113;
 const PRO_BASICS_BADGE_ID = 114;
 const PRO_TOOLS_BADGE_ID = 115;
+const PIX_DROIT_BADGE_ID = 116;
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_1 = '78954665';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_2 = '13654984';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_3 = '14089753';
+const PIX_DROIT_BADGE_PARTNER_COMPETENCE_4 = '09873856';
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
-const { skillIdsForBadgePartnerCompetences, TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID, TARGET_PROFILE_PIX_EMPLOI_CLEA_ID } = require('./target-profiles-builder');
+const {
+  skillIdsForBadgePartnerCompetences,
+  TARGET_PROFILE_STAGES_BADGES_ID,
+  TARGET_PROFILE_ONE_COMPETENCE_ID,
+  TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+  TARGET_PROFILE_PIX_DROIT_ID,
+} = require('./target-profiles-builder');
 
 function badgesBuilder({ databaseBuilder }) {
   _createPixEmploiCleaBadge(databaseBuilder);
@@ -15,6 +26,7 @@ function badgesBuilder({ databaseBuilder }) {
   _createManipBadge(databaseBuilder);
   _createProfessionalBasicsBadge(databaseBuilder);
   _createProfessionalToolsBadge(databaseBuilder);
+  _createPixDroitBadge(databaseBuilder);
 }
 
 function _createPixEmploiCleaBadge(databaseBuilder) {
@@ -127,6 +139,45 @@ function _createProfessionalToolsBadge(databaseBuilder) {
   _associateBadgeCriteria(databaseBuilder, toolsBadge);
 }
 
+function _createPixDroitBadge(databaseBuilder) {
+  const skillIdsForPix = [
+    'recMOy4S8XnaWblYI', 'recPG9ftlGZLiF0O6', 'recH1pcEWLBUCqXTm', 'recIDXphXbneOrbux', 'recclxUSbi0fvIWpd',
+    'recLCYATl7TGrkZLh', 'rectL2ZZeWPc7yezp', 'recndXqXiv4pv2Ukp', 'recVv1eoSLW7yFgXv', 'recVywppdS4hGEekR',
+  ];
+
+  const skillIdsForPixDroitDomain1 = [
+    'recZnnTU4WUP6KwwX', 'rececWx6MmPhufxXk', 'recAFoEonOOChXe9t', 'recaMBgjv3EZnAlWO', 'recXDYAkqqIDCDePc',
+    'recwOLZ8bzMQK9NF9', 'recR1SlS7sWoquhoC', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ', 'recmoanUlDOyXexPF',
+  ];
+
+  const skillIdsForPixDroitDomain2 = [
+    'recKbNbM8G7mKaloD', 'recEdU3ZJrHxWOLcb', 'recfktfO0ROu1OifX', 'rec7WOXWi5ClE8BxH', 'recHo6D1spbDR9C2N',
+    'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'rec7EvARki1b9t574', 'rec6IWrDOSaoX4aLn', 'recI4zS51by3N7Ryi',
+  ];
+
+  const skillIdsForPixDroit = skillIdsForPixDroitDomain1.concat(skillIdsForPixDroitDomain2);
+
+  const targetProfileSkillIdsForPixDroitBadge = [
+    skillIdsForPix,
+    skillIdsForPixDroit,
+    skillIdsForPixDroitDomain1,
+    skillIdsForPixDroitDomain2,
+  ];
+
+  const pixDroitBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_DROIT_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Droit',
+    title: 'Pix+ Droit',
+    imageUrl: 'https://storage.gra.cloud.ovh.net/v1/AUTH_27c5a6d3d35841a5914c7fb9a8e96345/pix-images/badges/socle-de-base.svg',
+    key: 'Droit',
+    message: 'Bravo !',
+    targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+  });
+
+  _associatePixDroitBadgePartnerCompetences(databaseBuilder, targetProfileSkillIdsForPixDroitBadge, pixDroitBadge);
+  _associatePixDroitBadgeCriteria(databaseBuilder, pixDroitBadge);
+}
+
 function _associateBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
   databaseBuilder.factory.buildBadgePartnerCompetence({
     name: 'Rechercher des informations sur internet',
@@ -171,6 +222,61 @@ function _associateBadgeCriteria(databaseBuilder, badge) {
   });
 }
 
+function _associatePixDroitBadgePartnerCompetences(databaseBuilder, targetProfileSkillIds, badge) {
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_1,
+    name: 'Acquis du référentiel Pix',
+    color: null,
+    skillIds: targetProfileSkillIds[0].map((id) => id),
+    badgeId: badge.id,
+  });
+
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_2,
+    name: 'Acquis Pix+ Droit',
+    color: null,
+    skillIds: targetProfileSkillIds[1].map((id) => id),
+    badgeId: badge.id,
+  });
+
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_3,
+    name: 'Domaine Pix+ Droit #1',
+    color: null,
+    skillIds: targetProfileSkillIds[2].map((id) => id),
+    badgeId: badge.id,
+  });
+
+  databaseBuilder.factory.buildBadgePartnerCompetence({
+    id: PIX_DROIT_BADGE_PARTNER_COMPETENCE_4,
+    name: 'Domaine Pix+ Droit #2',
+    color: null,
+    skillIds: targetProfileSkillIds[3].map((id) => id),
+    badgeId: badge.id,
+  });
+}
+
+function _associatePixDroitBadgeCriteria(databaseBuilder, badge) {
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    threshold: 70,
+    badgeId: badge.id,
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_1],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    threshold: 60,
+    badgeId: badge.id,
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_2],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SOME_PARTNER_COMPETENCES,
+    threshold: 40,
+    badgeId: badge.id,
+    partnerCompetenceIds: [PIX_DROIT_BADGE_PARTNER_COMPETENCE_3, PIX_DROIT_BADGE_PARTNER_COMPETENCE_4],
+  });
+}
+
 module.exports = {
   badgesBuilder,
   PIX_EMPLOI_CLEA_BADGE_ID,
@@ -179,4 +285,5 @@ module.exports = {
   MANIP_BADGE_ID,
   PRO_BASICS_BADGE_ID,
   PRO_TOOLS_BADGE_ID,
+  PIX_DROIT_BADGE_ID,
 };
