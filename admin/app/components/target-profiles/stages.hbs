@@ -3,30 +3,79 @@
     <div class="table-admin">
       <table>
         <thead>
-        <tr>
-          <th class="stages-table__id">ID</th>
-          <th class="stages-table__image">Image</th>
-          <th class="stages-table__threshold">Threshold</th>
-          <th class="stages-table__title">Titre</th>
-          <th>Message</th>
-        </tr>
+          <tr>
+            <th class="stages-table__id">ID</th>
+            <th class="stages-table__image">Image</th>
+            <th class="stages-table__threshold">Threshold</th>
+            <th class="stages-table__title">Titre</th>
+            <th>Message</th>
+          </tr>
         </thead>
         <tbody>
-        {{#each @stages as |stage|}}
-          <tr>
-            <td>{{stage.id}}</td>
-            <td class="stages-table__image">
-              <img src={{@targetProfileImageUrl}} alt="" role="presentation" />
+          {{#each @stages as |stage|}}
+            <tr>
+              <td>{{stage.id}}</td>
+              <td class="stages-table__image">
+              <img src={{@targetProfile.imageUrl}} alt="" role="presentation" />
             </td>
-            <td>{{stage.threshold}}</td>
-            <td>{{stage.title}}</td>
-            <td>{{stage.message}}</td>
-          </tr>
-        {{/each}}
+              <td>
+                {{#if stage.isNew}}
+                  <Input class="form-control"
+                   type="number"
+                   @required="true"
+                   @value={{stage.threshold}} />
+                {{else}}
+                  {{stage.threshold}}
+                {{/if}}
+              </td>
+              <td>
+                {{#if stage.isNew}}
+                  <Input class="form-control"
+                   @required="true"
+                   @value={{stage.title}} />
+                {{else}}
+                  {{stage.title}}
+                {{/if}}
+              </td>
+              <td>
+                {{#if stage.isNew}}
+                  <Input class="form-control"
+                   @required="true"
+                   @value={{stage.message}} />
+                {{else}}
+                  {{stage.message}}
+                {{/if}}
+              </td>
+            </tr>
+          {{/each}}
         </tbody>
       </table>
     </div>
   {{else}}
     <div class="table__empty content-text">Aucun palier associé</div>
+  {{/if}}
+
+  <PixButton class="stages-new-stage"
+             @backgroundColor="transparent"
+             @border="squircle-small"
+             data-test="Nouveau palier"
+             @triggerAction={{this.addStage}}>
+    <FaIcon @icon="plus"></FaIcon>&nbsp;Nouveau palier
+  </PixButton>
+
+  {{#if this.hasNewStage}}
+    <div class="stages-actions">
+      <PixButton
+        class="form-action form-action--cancel"
+        @backgroundColor="transparent"
+        @border="squircle-small"
+        @triggerAction={{this.cancelStagesCreation}}>Annuler</PixButton>
+      <PixButton
+        class="form-action form-action--submit"
+        @backgroundColor="green"
+        @border="squircle-small"
+        @isDisabled={{@isDisabled}}
+        @triggerAction={{this.createStages}}>Enregistrer</PixButton>
+    </div>
   {{/if}}
 </div>

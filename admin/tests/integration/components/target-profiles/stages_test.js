@@ -16,10 +16,10 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
       message: 'My message',
     });
     this.set('stages', [stage]);
-    this.set('targetProfileImageUrl', 'data:,');
+    this.set('targetProfile', { imageUrl: 'data:,' });
 
     // when
-    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfileImageUrl={{this.targetProfileImageUrl}}/>`);
+    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} @targetProfile={{this.targetProfile}}/>`);
 
     // then
     assert.dom('table').exists();
@@ -31,12 +31,12 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.contains('Titre');
     assert.contains('Message');
     assert.dom('tbody tr').exists({ count: 1 });
-    assert.equal(find('tbody tr td:first-child').textContent, '1');
+    assert.equal(find('tbody tr td:first-child').textContent.trim(), '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();
     assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
-    assert.equal(find('tbody tr td:nth-child(3)').textContent, '100');
-    assert.equal(find('tbody tr td:nth-child(4)').textContent, 'My title');
-    assert.equal(find('tbody tr td:nth-child(5)').textContent, 'My message');
+    assert.equal(find('tbody tr td:nth-child(3)').textContent.trim(), '100');
+    assert.equal(find('tbody tr td:nth-child(4)').textContent.trim(), 'My title');
+    assert.equal(find('tbody tr td:nth-child(5)').textContent.trim(), 'My message');
     assert.notContains('Aucun résultat thématique associé');
   });
 
