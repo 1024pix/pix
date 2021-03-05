@@ -3,6 +3,7 @@ const { mailing } = require('../../../../lib/config');
 const mailCheck = require('../../../../lib/infrastructure/mail-check');
 const logger = require('../../../../lib/infrastructure/logger');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
+const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Unit | Infrastructure | Mailers | mailer', () => {
 
@@ -31,7 +32,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
         const result = await mailer.sendEmail(options);
 
         // then
-        expect(result).to.equal(mailer.EMAIL_SKIPPED);
+        expect(result).to.deep.equal(EmailingAttempt.success('test@example.net'));
       });
     });
 
@@ -62,7 +63,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
 
           // then
           sinon.assert.calledWith(mailingProvider.sendEmail, options);
-          expect(result).to.equal(mailer.EMAIL_SENT);
+          expect(result).to.deep.equal(EmailingAttempt.success('test@example.net'));
         });
       });
 
@@ -83,7 +84,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
 
           // then
           expect(logger.warn).to.have.been.calledWith({ err: expectedError }, 'Email is not valid \'test@example.net\'');
-          expect(result).to.equal(mailer.ERROR_INVALID_EMAIL);
+          expect(result).to.deep.equal(EmailingAttempt.failure('test@example.net'));
         });
       });
 
@@ -104,7 +105,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
 
           // then
           expect(logger.warn).to.have.been.calledOnceWith({ err: error }, 'Could not send email to \'test@example.net\'');
-          expect(result).to.equal(mailer.ERROR_EMAIL_FAILED);
+          expect(result).to.deep.equal(EmailingAttempt.failure('test@example.net'));
         });
       });
     });

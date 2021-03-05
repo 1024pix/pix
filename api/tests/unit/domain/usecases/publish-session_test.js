@@ -8,6 +8,7 @@ const {
 const publishSession = require('../../../../lib/domain/usecases/publish-session');
 const { SendingEmailToResultRecipientError } = require('../../../../lib/domain/errors');
 const mailService = require('../../../../lib/domain/services/mail-service');
+const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Unit | UseCase | publish-session', () => {
 
@@ -77,6 +78,8 @@ describe('Unit | UseCase | publish-session', () => {
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
         sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
+        mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
+        mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
         // when
         const session = await publishSession({
@@ -97,6 +100,8 @@ describe('Unit | UseCase | publish-session', () => {
         const updatedSession = { ...originalSession, publishedAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
+        mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
+        mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
         // when
         await publishSession({
@@ -129,6 +134,8 @@ describe('Unit | UseCase | publish-session', () => {
         sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSession);
         mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 }).returns('token-1');
         mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 }).returns('token-2');
+        mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
+        mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
         // when
         await publishSession({
@@ -157,6 +164,8 @@ describe('Unit | UseCase | publish-session', () => {
           certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
           sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
           sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
+          mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
+          mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
           // when
           await publishSession({
@@ -212,8 +221,8 @@ describe('Unit | UseCase | publish-session', () => {
         const publishedAt = new Date();
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
         sessionRepository.updatePublishedAt.resolves({ ...originalSession, publishedAt: publishedAt });
-        mailService.sendCertificationResultEmail.onCall(0).rejects();
-        mailService.sendCertificationResultEmail.onCall(1).resolves();
+        mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.failure('\'email1@example.net\''));
+        mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success('\'email2@example.net\''));
 
         // when
         const error = await catchErr(publishSession)({
