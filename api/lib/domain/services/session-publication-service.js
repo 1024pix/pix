@@ -14,13 +14,13 @@ async function publishSession({
 
   await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
 
-  let publishedSession = await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
+  await sessionRepository.updatePublishedAt({ id: sessionId, publishedAt });
 
   await finalizedSessionRepository.updatePublishedAt({ sessionId, publishedAt });
 
   const emailingAttempts = await _sendPrescriberEmails(session);
   if (_someHaveSucceeded(emailingAttempts) && _noneHaveFailed(emailingAttempts)) {
-    publishedSession = await sessionRepository.flagResultsAsSentToPrescriber({
+    await sessionRepository.flagResultsAsSentToPrescriber({
       id: sessionId,
       resultsSentToPrescriberAt: publishedAt,
     });
@@ -29,8 +29,6 @@ async function publishSession({
     const failedEmailsRecipients = _failedAttemptsRecipients(emailingAttempts);
     throw new SendingEmailToResultRecipientError(failedEmailsRecipients);
   }
-
-  return publishedSession;
 }
 
 async function _sendPrescriberEmails(session) {
