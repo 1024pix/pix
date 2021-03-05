@@ -27,16 +27,16 @@
     <div class="table-admin">
       <table>
         <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nom du profil cible</th>
-        </tr>
+          <tr>
+            <th>ID</th>
+            <th>Nom du profil cible</th>
+          </tr>
         </thead>
 
         {{#if @targetProfiles}}
           <tbody>
           {{#each @targetProfiles as |targetProfile|}}
-            <tr aria-label="Profil cible">
+            <tr aria-label="Profil cible" role="button" {{on "click" (fn @goToTargetProfilePage targetProfile.id)}} class="tr--clickable">
               <td>{{targetProfile.id}}</td>
               <td>{{targetProfile.name}}</td>
             </tr>
