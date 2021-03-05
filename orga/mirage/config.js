@@ -321,4 +321,13 @@ export default function() {
   this.get('/organizations/:id/divisions', (schema, _) => {
     return schema.divisions.all();
   });
+
+  this.post('/memberships/:id/disable', (schema, request) => {
+    const membershipId = request.params.id;
+
+    const membership = schema.memberships.find(membershipId);
+    membership.destroy();
+
+    return new Response(204);
+  });
 }
