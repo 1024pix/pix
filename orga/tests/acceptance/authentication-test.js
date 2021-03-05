@@ -305,28 +305,34 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
         });
 
-        module('When feature toggle for exporting certification results is enabled', function() {
+        module('when feature toggle for exporting certification results is enabled', function() {
 
           test('should redirect to certifications page', async function(assert) {
             // given
             server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: true });
 
-            await visit('/');
-
             // when
+            await visit('/');
             await clickByLabel('Certifications');
 
             // then
-            assert.dom('.sidebar-menu').containsText('Campagnes');
             assert.dom('.sidebar-menu').containsText('Certifications');
-            assert.dom('.sidebar-menu').containsText('Équipe');
-            assert.dom('.sidebar-menu').containsText('Élèves');
             assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
             assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
-            assert.contains('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.');
-            assert.contains('Exporter les résultats');
-            assert.contains('Certifications');
-            assert.contains('Classe');
+          });
+        });
+
+        module('when feature toggle for exporting certification results is not enabled', function() {
+
+          test('should not show Certifications menu', async function(assert) {
+            // given
+            server.create('feature-toggle', { id: 0, isCertificationResultsInOrgaEnabled: false });
+
+            // when
+            await visit('/');
+
+            // then
+            assert.notContains('Certifications');
           });
         });
 
