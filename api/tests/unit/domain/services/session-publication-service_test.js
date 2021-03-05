@@ -11,7 +11,7 @@ const { SendingEmailToResultRecipientError } = require('../../../../lib/domain/e
 const mailService = require('../../../../lib/domain/services/mail-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
-describe('Unit | UseCase | publish-session', () => {
+describe('Unit | UseCase | session-publication-service', () => {
 
   const sessionId = 123;
   let certificationRepository;
@@ -83,7 +83,7 @@ describe('Unit | UseCase | publish-session', () => {
         mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
         // when
-        const session = await publishSession({
+        await publishSession({
           sessionId,
           certificationRepository,
           finalizedSessionRepository,
@@ -92,7 +92,6 @@ describe('Unit | UseCase | publish-session', () => {
         });
 
         // then
-        expect(session).to.deep.equal(updatedSessionWithResultSent);
         expect(finalizedSessionRepository.updatePublishedAt).to.have.been.calledWith({ sessionId, publishedAt: now });
       });
 
