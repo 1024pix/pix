@@ -10,6 +10,10 @@ class Mailer extends MailingProvider {
     super();
 
     this._providerName = mailing.provider;
+    this.ERROR_INVALID_EMAIL = Symbol('Error: invalid email');
+    this.ERROR_EMAIL_FAILED = Symbol('Error: email failed');
+    this.EMAIL_SKIPPED = Symbol('Email skipped');
+    this.EMAIL_SENT = Symbol('Email sent');
 
     switch (this._providerName) {
       case 'sendinblue':
@@ -22,19 +26,26 @@ class Mailer extends MailingProvider {
 
   async sendEmail(options) {
     if (!mailing.enabled) {
-      return Promise.resolve();
+      return this.EMAIL_SKIPPED;
     }
 
-    return mailCheck.checkMail(options.to)
-      .then(() => {
-        return this._provider.sendEmail(options)
-          .catch((err) => {
-            logger.warn({ err }, `Could not send email to '${options.to}'`);
-          });
-      })
-      .catch((err) => {
-        logger.warn({ err }, `Email is not valid '${options.to}'`);
-      });
+    try {
+      await mailCheck.checkMail(options.to);
+    }
+    catch (err) {
+      logger.warn({ err }, `Email is not valid '${options.to}'`);
+      return this.ERROR_INVALID_EMAIL;
+    }
+
+    try {
+      await this._provider.sendEmail(options);
+    }
+    catch (err) {
+      logger.warn({ err }, `Could not send email to '${options.to}'`);
+      return this.ERROR_EMAIL_FAILED;
+    }
+
+    return this.EMAIL_SENT;
   }
 
   get accountCreationTemplateId() {
@@ -60,4 +71,3 @@ class Mailer extends MailingProvider {
 }
 
 module.exports = new Mailer();
-
