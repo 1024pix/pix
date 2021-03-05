@@ -208,7 +208,7 @@ export default function() {
     const { data: { attributes: { ['student-number']: studentNumber } } } = JSON.parse(request.requestBody);
 
     if (schema.students.all().models.find((student) => student.studentNumber === studentNumber)) {
-      return new Response(412);
+      return new Response(412, {}, { errors: [ { status: '412', detail: 'STUDENT_NUMBER_EXISTS' } ] });
     }
     const student = schema.students.find(studentId);
     return student.update({ studentNumber });

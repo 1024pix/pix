@@ -1,12 +1,15 @@
 {
   "api-errors-messages": {
-    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
     "campaign-creation": {
+      "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
       "name-required": "Veuillez donner un nom à votre campagne.",
       "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
-      "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne.",
-      "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours."
-    }
+      "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne."
+    },
+    "edit-student-number": {
+      "student-number-exists": "Le numéro étudiant saisi est déjà utilisé par l’étudiant {firstName} {lastName}"
+    },
+    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement."
   },
   "current-lang": "fr",
   "common": {
@@ -26,7 +29,7 @@
   },
   "navigation": {
     "credits": {
-      "number":"{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
+      "number": "{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
       "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
     },
     "main": {
@@ -238,7 +241,7 @@
         }
       }
     },
-    "campaign-modification" : {
+    "campaign-modification": {
       "actions": {
         "edit": "Modifier"
       },
@@ -291,6 +294,19 @@
         "download-template": "Télécharger le modèle",
         "edit-student-number": "Éditer le numéro étudiant",
         "import-file": "Importer (.csv)"
+      },
+      "edit-student-number-modal": {
+        "actions": {
+          "cancel": "Annuler",
+          "update": "Mettre à jour"
+        },
+        "form": {
+          "error": "Le numéro étudiant ne doit pas être vide.",
+          "new-student-number-label": "Nouveau numéro étudiant",
+          "student-number": "Numéro étudiant actuel de {firstName} {lastName} est : ",
+          "success": "La modification du numéro étudiant de {firstName} {lastName} a bien été effectué."
+        },
+        "title": "Édition du numéro étudiant"
       },
       "table": {
         "column": {

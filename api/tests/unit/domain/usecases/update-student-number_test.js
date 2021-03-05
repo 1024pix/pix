@@ -29,7 +29,7 @@ describe('Unit | UseCase | update-student-number', () => {
 
     it('should throw an AlreadyExistingEntityError', async () => {
       // given
-      const errorMessage = `Le numéro étudiant saisi est déjà utilisé par l’étudiant ${schoolingRegistration.firstName} ${schoolingRegistration.lastName}.`;
+      const errorMessage = 'STUDENT_NUMBER_EXISTS';
 
       // when
       const error = await catchErr(updateStudentNumber)({
