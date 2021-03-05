@@ -11,7 +11,9 @@
           {{/if}}
         </span>
 
-        <NavbarBurgerMenu class="navbar-burger-menu-content"/>
+        {{#@burger.menu as |menu|}}
+          <NavbarBurgerMenu class="navbar-burger-menu-content"/>
+        {{/@burger.menu}}
       {{/if}}
     {{/if}}
 
