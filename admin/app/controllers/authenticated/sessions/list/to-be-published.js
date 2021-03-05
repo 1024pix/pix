@@ -7,9 +7,9 @@ export default class SessionToBePublishedController extends Controller {
   @service notifications;
 
   @action
-  async publishSession(publishableSession) {
+  async publishSession(toBePublishedSession) {
     try {
-      await publishableSession.publish();
+      await toBePublishedSession.publish();
     } catch (err) {
       const finalErr = get(err, 'errors[0].detail', err);
       this.notifications.error(finalErr);

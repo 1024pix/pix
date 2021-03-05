@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class PublishableSessionAdapter extends ApplicationAdapter {
+export default class ToBePublishedSessionAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
   urlForQuery() {

@@ -1,8 +1,8 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/publishable-session-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
 const FinalizedSession = require('../../../../../lib/domain/models/FinalizedSession');
 
-describe('Unit | Serializer | JSONAPI | publishable-session-serializer', function() {
+describe('Unit | Serializer | JSONAPI | to-be-published-session-serializer', function() {
 
   describe('#serialize()', function() {
 
@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | publishable-session-serializer', functio
       // given
       const expectedJsonApi = {
         data: {
-          type: 'publishable-sessions',
+          type: 'to-be-published-sessions',
           id: '123',
           attributes: {
             'session-id': 123,
@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | publishable-session-serializer', functio
         sessionTime: '14:30',
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         publishedAt: new Date('2020-02-21T14:23:56Z'),
-        isPublishable: true,
+        isToBePublished: true,
       });
 
       // when
