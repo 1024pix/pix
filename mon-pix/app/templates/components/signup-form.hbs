@@ -77,7 +77,7 @@
         <div class="signup-form__cgu">
           <Input @type="checkbox" @id="pix-cgu" @checked={{user.cgu}} />
            {{t 'pages.sign-up.fields.cgu.label' cguUrl=cguUrl htmlSafe=true}}
-          <a href={{cguUrl}} class="link" target="_blank"> {{t 'pages.sign-up.fields.cgu.cgu' cguUrl=cguUrl htmlSafe=true}} </a>
+          <a href={{cguUrl}} class="link" target="_blank" rel="noopener noreferrer"> {{t 'pages.sign-up.fields.cgu.cgu' cguUrl=cguUrl htmlSafe=true}} </a>
         </div>
 
         {{#if user.errors.cgu}}

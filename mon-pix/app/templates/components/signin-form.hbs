@@ -27,7 +27,7 @@
                      @validationStatus="default"
                      @inputBindingValue={{this.username}}
                      @autocomplete="username"
-                     @require=true />
+                     @require={{true}} />
     </div>
 
     <div class="sign-form-body__input">
@@ -36,7 +36,7 @@
                      @validationStatus="default"
                      @inputBindingValue={{this.password}}
                      @autocomplete="current-password"
-                     @require=true />
+                     @require={{true}} />
     </div>
 
     <LinkTo @route="password-reset-demand" class="link link--grey sign-form-link sign-form-body__forgotten-password-link">
