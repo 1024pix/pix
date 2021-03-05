@@ -1,6 +1,8 @@
 const { domainBuilder, sinon, expect } = require('../../../test-helper');
 
 const publishSessionSessionsInBatch = require('../../../../lib/domain/usecases/publish-sessions-in-batch');
+const sessionPublicationService = require('../../../../lib/domain/services/session-publication-service');
+
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 const mailService = require('../../../../lib/domain/services/mail-service');
 
@@ -93,6 +95,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', () => {
           sessionIds: [sessionId1, sessionId2],
           certificationRepository,
           finalizedSessionRepository,
+          sessionPublicationService,
           sessionRepository,
           publishedAt: now,
         });
@@ -174,6 +177,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', () => {
           sessionIds: [sessionId1, sessionId2],
           certificationRepository,
           finalizedSessionRepository,
+          sessionPublicationService,
           sessionRepository,
           publishedAt: now,
         });
