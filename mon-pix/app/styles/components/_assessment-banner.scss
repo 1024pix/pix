@@ -51,10 +51,10 @@
   font-weight: $font-medium;
   margin-left: auto;
   text-align: right;
-  color: $white;
+  color: $grey-0;
   width: 100px;
 
   &:hover {
-    color: rgb($white, 0.8);
+    color: rgb($grey-0, 0.8);
   }
 }

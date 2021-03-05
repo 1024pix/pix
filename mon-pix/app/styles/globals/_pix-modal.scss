@@ -23,7 +23,7 @@ $pix-modal-border-radius: 5px;
     }
 
     .pix-modal__close-link {
-      color: $white;
+      color: $grey-0;
       background: transparent;
       border: none;
       text-align: right;
@@ -59,7 +59,7 @@ $pix-modal-border-radius: 5px;
       margin: auto;
 
       &--white {
-        background-color: $white;
+        background-color: $grey-0;
       }
 
       &--with-padding {
@@ -69,7 +69,7 @@ $pix-modal-border-radius: 5px;
       }
 
       .pix-modal-header {
-        background: $white;
+        background: $grey-0;
         border-top-left-radius: $pix-modal-border-radius;
         border-top-right-radius: $pix-modal-border-radius;
 
@@ -136,7 +136,7 @@ $pix-modal-border-radius: 5px;
 .pix-modal__input {
   padding: 15px;
   border-radius: $pix-modal-border-radius;
-  background-color: $white;
+  background-color: $grey-0;
   border: 2px solid $grey-20;
   color: $grey-50;
   letter-spacing: 0.125rem;

@@ -13,7 +13,7 @@
   width: 100%;
   padding: 20px;
   padding-left: 12%;
-  background-color: $white;
+  background-color: $grey-0;
 }
 
 .assessment-results__scoring {
@@ -25,7 +25,7 @@
   width: 100%;
   padding: 30px;
   margin-top: -175px;
-  background: $white;
+  background: $grey-0;
   border-radius: 10px;
   box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 }
@@ -86,5 +86,5 @@
   font-weight: $font-semi-bold;
   text-align: center;
   font-family: $font-open-sans;
-  color: $white;
+  color: $grey-0;
 }

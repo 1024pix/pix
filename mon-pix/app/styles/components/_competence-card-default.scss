@@ -91,7 +91,7 @@
   }
 
   .competence-card__link:hover {
-    border: 12px solid rgba($white, 0.4);
+    border: 12px solid rgba($grey-0, 0.4);
   }
 
   .competence-card__link:hover .competence-card__score-details {
@@ -159,11 +159,11 @@
   }
 
   .competence-card__score-label--congrats {
-    color: $white;
+    color: $grey-0;
   }
 
   .competence-card__score-value--congrats {
-    color: $white;
+    color: $grey-0;
     font-size: 2.813rem;
     font-weight: $font-bold;
   }

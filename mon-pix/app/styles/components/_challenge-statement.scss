@@ -88,7 +88,7 @@
   padding: 15px;
   width: 430px;
   height: auto;
-  background-color: $white;
+  background-color: $grey-0;
   box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
   border: solid 1px $grey-20;
   position: absolute;
@@ -174,14 +174,14 @@
   height: 46px;
   border-radius: 23px;
   background-color: $blue;
-  color: $white;
+  color: $grey-0;
   cursor: pointer;
   text-align: center;
 }
 
 .challenge-statement__action-link:hover,
 .challenge-statement__action-link:focus {
-  color: $white;
+  color: $grey-0;
 }
 
 .challenge-statement__action-help {

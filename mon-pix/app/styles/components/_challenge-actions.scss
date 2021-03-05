@@ -85,7 +85,7 @@
   height: 46px;
   border-radius: 23px;
   background-color: $green;
-  color: $white;
+  color: $grey-0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -165,7 +165,7 @@
   border-radius: 23px;
   background-color: $blue;
   font-family: $font-roboto;
-  color: $white;
+  color: $grey-0;
 
   @include button-background-transition();
 

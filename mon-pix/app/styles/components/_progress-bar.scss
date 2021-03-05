@@ -18,7 +18,7 @@
 
   &.active {
     opacity: 1;
-    color: $white;
+    color: $grey-0;
   }
 }
 
@@ -54,7 +54,7 @@
 
 .assessment-progress {
   text-align: right;
-  color: $white;
+  color: $grey-0;
   margin-bottom: 10px;
 
   &__label {

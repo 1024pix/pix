@@ -71,7 +71,7 @@ input[type=checkbox]::before {
   border: 2px solid $grey-40;
   content: ' ';
   display: block;
-  background-color: $white;
+  background-color: $grey-0;
   border-radius: 10%;
   box-sizing: border-box;
 }
@@ -87,7 +87,7 @@ input[type=checkbox]:checked::after {
   position: relative;
   top: -21px;
   font-size: 0.875rem;
-  color: $white;
+  color: $grey-0;
   font-weight: $font-bold;
   content: '✓';
   display: block;
@@ -130,7 +130,7 @@ input[type=radio]::before {
   left: -5px;
   border: solid 2px $grey-30;
   border-radius: 10px;
-  background-color: $white;
+  background-color: $grey-0;
 }
 
 input[type=radio]:checked::after {

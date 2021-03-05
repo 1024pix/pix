@@ -24,13 +24,13 @@
   &__item {
     margin: 5px 0;
     padding: 6px 32px;
-    color: $white;
+    color: $grey-0;
     font-size: 1rem;
     font-family: $font-open-sans;
 
     &.active,
     &:hover {
-      color: $white;
+      color: $grey-0;
       text-decoration: none;
     }
   }
@@ -61,7 +61,7 @@
     margin: 10px 0;
 
     &:hover {
-      color: $white;
+      color: $grey-0;
       text-decoration: underline;
     }
   }

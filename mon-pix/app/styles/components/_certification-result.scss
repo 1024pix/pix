@@ -7,7 +7,7 @@
   width: 100%;
   margin: -150px auto;
   line-height: 1.875rem;
-  background-color: $white;
+  background-color: $grey-0;
   padding-top: 10px;
 
   @include device-is('tablet') {
@@ -72,7 +72,7 @@
   display: block;
   font-size: 1rem;
   text-align: center;
-  color: $white;
+  color: $grey-0;
   padding: 6px 15px;
   background: $blue;
   border-radius: 5px;
@@ -83,7 +83,7 @@
   cursor: pointer;
 
   &:hover {
-    color: $white;
+    color: $grey-0;
     text-decoration: none;
   }
 
@@ -99,5 +99,5 @@
 
 .result-content__logout-button,
 .result-content__logout-button:hover {
-  color: $white;
+  color: $grey-0;
 }

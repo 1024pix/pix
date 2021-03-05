@@ -8,14 +8,14 @@
     height: 270px;
     background: $pix-green-gradient;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-    color: $white;
+    color: $grey-0;
   }
 }
 
 .certification-number {
   margin-left: auto;
   text-align: right;
-  color: $white;
+  color: $grey-0;
   width: 150px;
 
   &__label {

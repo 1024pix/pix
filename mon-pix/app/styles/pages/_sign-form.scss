@@ -23,7 +23,7 @@
     width: 95%;
     max-width: 609px;
     border-radius: 10px;
-    background-color: $white;
+    background-color: $grey-0;
     margin: 0 auto;
     padding: 20px 10px;
 
@@ -51,7 +51,7 @@
   &__notification-message {
     width: 100%;
     text-align: center;
-    color: $white;
+    color: $grey-0;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.625rem;
@@ -169,7 +169,7 @@
     border: 2px solid $pole-emploi;
     text-decoration: none;
     background-color: $pole-emploi;
-    color: $white;
+    color: $grey-0;
     padding: 7px 10px 7px 13px;
     font-size: 14px;
     font-weight: bold;
