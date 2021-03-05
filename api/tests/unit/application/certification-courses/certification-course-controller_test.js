@@ -352,6 +352,7 @@ describe('Unit | Controller | certification-course-controller', () => {
               name: 'skill_1',
               'has-been-asked-in-certif': false,
               'tube-id': 'recTube1',
+              'difficulty': 1,
             },
           },
           {
@@ -361,6 +362,7 @@ describe('Unit | Controller | certification-course-controller', () => {
               name: 'skill_2',
               'has-been-asked-in-certif': true,
               'tube-id': 'recTube1',
+              'difficulty': 2,
             },
           },
           {
