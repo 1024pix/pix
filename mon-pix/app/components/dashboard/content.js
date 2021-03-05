@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import orderBy from 'lodash/orderBy';
+import _maxBy from 'lodash/maxBy';
 
 export default class Content extends Component {
   MAX_SCORECARDS_TO_DISPLAY = 4;
@@ -12,6 +13,27 @@ export default class Content extends Component {
 
   get hasNothingToShow() {
     return !this.hasCampaignParticipationOverviews && !this.hasStartedCompetences && !this.hasRecommendedCompetences;
+  }
+
+  get hasProfileCollectionCampaigns() {
+    const campaignParticipations = this.args.model.campaignParticipations;
+    return campaignParticipations && campaignParticipations.length > 0;
+  }
+
+  get unsharedProfileCollectionCampaignParticipations() {
+    return this.args.model.campaignParticipations.filter((campaignParticipation) => !campaignParticipation.isShared
+      && campaignParticipation.campaign.get('isProfilesCollection'));
+  }
+
+  get participationToContinue() {
+    return _maxBy(this.unsharedProfileCollectionCampaignParticipations, 'createdAt');
+  }
+
+  get campaignParticipationCode() {
+    if (this.participationToContinue) {
+      return this.participationToContinue.campaign.get('code');
+    }
+    return null;
   }
 
   get hasCampaignParticipationOverviews() {

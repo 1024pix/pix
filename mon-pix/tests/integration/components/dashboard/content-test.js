@@ -35,6 +35,7 @@ describe('Integration | Component | Dashboard | Content', function() {
     this.owner.register('service:currentUser', CurrentUserStub);
     this.set('model', {
       campaignParticipationOverviews: [],
+      campaignParticipations: [],
       scorecards: [],
     });
 
@@ -61,6 +62,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       });
       this.set('model', {
         campaignParticipationOverviews: [campaignParticipationOverview],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -75,6 +77,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       // given
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -96,6 +99,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       const scorecard = { isNotStarted: true };
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [scorecard],
       });
 
@@ -110,6 +114,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       // given
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -132,6 +137,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       ];
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards,
       });
 
@@ -153,6 +159,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       const scorecard = { isStarted: true };
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [scorecard],
       });
 
@@ -167,6 +174,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       // given
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -189,6 +197,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       ];
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards,
       });
 
@@ -207,6 +216,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -222,6 +232,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       this.owner.register('service:currentUser', HasSeenNewDashboardInformationCurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -243,6 +254,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       this.owner.register('service:url', UrlStub);
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -265,6 +277,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       this.owner.register('service:url', UrlStub);
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -284,6 +297,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
@@ -299,6 +313,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       this.owner.register('service:currentUser', HasSeenNewDashboardInformationCurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [
           { id: 1, index: '1.1', isStarted: true },
           { id: 2, index: '1.2', isStarted: true },
@@ -320,6 +335,7 @@ describe('Integration | Component | Dashboard | Content', function() {
       this.owner.register('service:currentUser', CurrentUserStub);
       this.set('model', {
         campaignParticipationOverviews: [],
+        campaignParticipations: [],
         scorecards: [],
       });
 
