@@ -11,6 +11,17 @@
                       @linkTo="{{this.newDashboardInfoLink.url}}"
                       @closeaction={{this.closeInformationAboutNewDashboard}}
       />
+      {{#if this.campaignParticipationCode}}
+        <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
+                        @image="/images/profile_collect_TDB_pix.svg"
+                        @backgroundColorClass="new-information--yellow-gradient-background"
+                        @textColorClass="new-information--black-text"
+                        @linkDisplayType="button"
+                        @linkText="Continuer"
+                        @linkTo="campaigns.profiles-collection.start-or-resume"
+                        @code={{this.campaignParticipationCode}}
+        />
+      {{/if}}
     </section>
   {{/unless}}
 
@@ -32,6 +43,17 @@
                         @linkTo="{{this.newDashboardInfoLink.url}}"
                         @closeaction={{this.closeInformationAboutNewDashboard}}
         />
+        {{#if this.hasProfileCollectionCampaigns}}
+          <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
+                          @image="/images/profile_collect_TDB_pix.svg"
+                          @backgroundColorClass="new-information--yellow-gradient-background"
+                          @textColorClass="new-information--black-text"
+                          @linkDisplayType="button"
+                          @linkText="Continuer"
+                          @linkTo="campaigns.start-or-resume"
+                          @code={{this.campaignParticipationCode}}
+          />
+        {{/if}}
       </section>
     {{/unless}}
 

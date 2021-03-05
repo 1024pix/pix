@@ -15,8 +15,8 @@ export default class Content extends Component {
     return !this.hasCampaignParticipationOverviews && !this.hasStartedCompetences && !this.hasRecommendedCompetences;
   }
 
-  get hasProfileCollectionCampaigns() {
-    const campaignParticipations = this.args.model.campaignParticipations;
+  get hasProfileCollectionCampaignsToContinue() {
+    const campaignParticipations = this.args.model.user.campaignParticipations;
     return campaignParticipations && campaignParticipations.length > 0;
   }
 
@@ -25,13 +25,13 @@ export default class Content extends Component {
       && campaignParticipation.campaign.get('isProfilesCollection'));
   }
 
-  get participationToContinue() {
+  get latestParticipationToContinue() {
     return _maxBy(this.unsharedProfileCollectionCampaignParticipations, 'createdAt');
   }
 
   get campaignParticipationCode() {
-    if (this.participationToContinue) {
-      return this.participationToContinue.campaign.get('code');
+    if (this.latestParticipationToContinue) {
+      return this.latestParticipationToContinue.campaign.get('code');
     }
     return null;
   }

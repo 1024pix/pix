@@ -4,7 +4,12 @@
   flex-direction: column-reverse;
   border-radius: 10px;
   padding: 10px;
+  margin-bottom: 16px;
   width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   @include device-is('tablet') {
     flex-direction: row;
@@ -45,6 +50,10 @@
     background-color: rgb(5, 108, 255);
   }
 
+  &--yellow-gradient-background {
+    background-image: linear-gradient(-225deg, #FFEC97 0%, #FFCA73 100%);
+  }
+
   &--white-text {
     color: $white;
   }
@@ -70,8 +79,7 @@
   }
 
   &__text {
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
     font-weight: $font-light;
     font-size: 1.5rem;
     line-height: 2rem;
@@ -111,9 +119,14 @@
   &-text {
 
     &__button {
+      margin: auto;
       margin-top: 20px;
       padding: 10px 20px;
       display: inline-table;
+
+      @include device-is('tablet') {
+        margin: 0;
+      }
     }
 
     &__link {
