@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-export default class PublishableSessionsList extends Component {
+export default class ToBePublishedSessionsList extends Component {
   @tracked shouldShowModal = false;
   currentSelectedSession;
 

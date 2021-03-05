@@ -1,7 +1,7 @@
 import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
 
-export default class PublishableSessionModel extends Model {
+export default class ToBePublishedSession extends Model {
   @attr() certificationCenterName;
   @attr('date-only') sessionDate;
   @attr() sessionTime;
