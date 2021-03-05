@@ -97,6 +97,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function(
               name: 'skill_1',
               'has-been-asked-in-certif': false,
               'tube-id': 'recTube1',
+              'difficulty': 1,
             },
           },
           {
@@ -106,6 +107,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function(
               name: 'skill_2',
               'has-been-asked-in-certif': true,
               'tube-id': 'recTube1',
+              'difficulty': 2,
             },
           },
           {

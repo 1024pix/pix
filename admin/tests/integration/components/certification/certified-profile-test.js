@@ -103,12 +103,14 @@ module('Integration | Component | <Certification::CertifiedProfile/>', function(
         name: 'skill1',
         tubeId: 'idTube1',
         hasBeenAskedInCertif: true,
+        difficulty: 1,
       }));
       const certifiedSkillNotInCertificationTest = run(() => store.createRecord('certified-skill', {
         id: 'idSkill2',
         name: 'skill2',
         tubeId: 'idTube1',
         hasBeenAskedInCertif: false,
+        difficulty: 2,
       }));
       const certifiedProfile = run(() => store.createRecord('certified-profile', {
         certifiedAreas: [certifiedArea],

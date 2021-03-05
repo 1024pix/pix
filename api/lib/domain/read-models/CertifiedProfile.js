@@ -9,6 +9,7 @@ class CertifiedSkill {
     this.name = name;
     this.hasBeenAskedInCertif = hasBeenAskedInCertif;
     this.tubeId = tubeId;
+    this.difficulty = parseInt(name.slice(-1));
   }
 }
 

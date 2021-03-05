@@ -13,7 +13,7 @@ module.exports = {
       certifiedSkills: {
         ref: 'id',
         included: true,
-        attributes: ['name', 'tubeId', 'hasBeenAskedInCertif'],
+        attributes: ['name', 'tubeId', 'hasBeenAskedInCertif', 'difficulty'],
       },
       certifiedTubes: {
         ref: 'id',
