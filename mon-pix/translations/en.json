@@ -521,6 +521,7 @@
         "dashboard": {
             "title": "Homepage",
             "campaigns": {
+                "resume": "<h2>Don’t forget to submit your results!</h2>",
                 "subtitle": "Continue your personalised test or send your results",
                 "title": "Campaigns"
             },

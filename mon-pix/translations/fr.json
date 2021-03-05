@@ -521,6 +521,7 @@
         "dashboard": {
             "title": "Accueil",
             "campaigns": {
+                "resume": "<h2>N'oubliez pas de finaliser votre envoi de profil !</h2>",
                 "subtitle": "Continuez vos parcours de test en cours ou envoyez vos résultats",
                 "title": "Parcours"
             },
