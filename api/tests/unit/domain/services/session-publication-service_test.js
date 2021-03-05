@@ -5,10 +5,10 @@ const {
   catchErr,
 } = require('../../../test-helper');
 
-const publishSession = require('../../../../lib/domain/usecases/publish-session');
+const { publishSession } = require('../../../../lib/domain/services/session-publication-service');
+
 const { SendingEmailToResultRecipientError } = require('../../../../lib/domain/errors');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const sessionPublicationService = require('../../../../lib/domain/services/session-publication-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
 describe('Unit | UseCase | publish-session', () => {
@@ -89,7 +89,6 @@ describe('Unit | UseCase | publish-session', () => {
           finalizedSessionRepository,
           sessionRepository,
           publishedAt: now,
-          sessionPublicationService,
         });
 
         // then
@@ -111,7 +110,6 @@ describe('Unit | UseCase | publish-session', () => {
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
-          sessionPublicationService,
         });
 
         // then
@@ -146,7 +144,6 @@ describe('Unit | UseCase | publish-session', () => {
           certificationRepository,
           finalizedSessionRepository,
           sessionRepository,
-          sessionPublicationService,
         });
 
         // then
@@ -177,7 +174,6 @@ describe('Unit | UseCase | publish-session', () => {
             certificationRepository,
             finalizedSessionRepository,
             sessionRepository,
-            sessionPublicationService,
           });
 
           // then
@@ -211,7 +207,6 @@ describe('Unit | UseCase | publish-session', () => {
             finalizedSessionRepository,
             sessionRepository,
             publishedAt: now,
-            sessionPublicationService,
           });
 
           // then
@@ -237,7 +232,6 @@ describe('Unit | UseCase | publish-session', () => {
           finalizedSessionRepository,
           sessionRepository,
           publishedAt,
-          sessionPublicationService,
         });
 
         // then

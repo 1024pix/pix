@@ -77,6 +77,7 @@ const dependencies = {
   scorecardService: require('../../domain/services/scorecard-service'),
   scoringCertificationService: require('../../domain/services/scoring/scoring-certification-service'),
   sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
+  sessionPublicationService: require('../../domain/services/session-publication-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
   settings: require('../../config'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
