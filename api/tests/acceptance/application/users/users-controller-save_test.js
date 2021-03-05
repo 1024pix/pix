@@ -5,10 +5,8 @@ const {
   expect,
   knex,
   nock,
-  sinon,
 } = require('../../../test-helper');
 
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 const createServer = require('../../../../server');
@@ -51,7 +49,6 @@ describe('Acceptance | Controller | users-controller', () => {
     context('user is valid', () => {
 
       beforeEach(() => {
-        sinon.stub(mailer, 'sendEmail');
 
         nock('https://www.google.com')
           .post('/recaptcha/api/siteverify')
@@ -117,38 +114,6 @@ describe('Acceptance | Controller | users-controller', () => {
         expect(userFound.authenticationMethods[0].authenticationComplement.password).to.exist;
       });
 
-      it('should send account creation email to user', async () => {
-        // given
-        const expectedMail = {
-          from: 'ne-pas-repondre@pix.fr',
-          fromName: 'PIX - Ne pas répondre',
-          subject: 'Votre compte Pix a bien été créé',
-          template: 'test-account-creation-template-id',
-          to: user.email,
-          variables: {
-            homeName: 'pix.fr',
-            homeUrl: 'https://pix.fr',
-            redirectionUrl: 'https://app.pix.fr/connexion',
-            helpdeskUrl: 'https://support.pix.fr/support/tickets/new',
-            displayNationalLogo: true,
-            title: 'Votre compte Pix a bien été créé !',
-            subtitle: 'Vous pouvez désormais commencer les tests.',
-            goToPix: 'Commencer les tests',
-            disclaimer: 'Si vous n\'êtes pas à l’origine de cette création de compte, vous pouvez en demander la suppression',
-            helpdeskLinkLabel: 'ici',
-            pixPresentation: 'Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.',
-            moreOn: 'En savoir plus sur',
-            doNotAnswer: 'Ceci est un e-mail automatique, merci de ne pas y répondre.',
-            askForHelp: 'Besoin d’aide, contactez-nous',
-          },
-        };
-
-        // when
-        await server.inject(options);
-
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWith(expectedMail);
-      });
     });
 
     context('user is invalid', async () => {
