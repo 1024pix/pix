@@ -87,6 +87,10 @@ export default function() {
   this.patch('/admin/target-profiles/:id', updateTargetProfileName);
 
   this.get('/admin/certifications/:id');
+  this.get('/admin/certifications/:id/certified-profile', (schema, request) => {
+    const id = request.params.id;
+    return schema.certifiedProfiles.find(id);
+  });
 
   this.get('/admin/sessions/:id/generate-results-download-link', { sessionResultsLink: 'http://link-to-results.fr' });
 
