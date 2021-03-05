@@ -57,6 +57,15 @@
     }
   }
 
+  &--red {
+    background-color: $red;
+    color: $white;
+
+    &:hover, &:active, &:focus {
+      background-color: $red-hover;
+    }
+  }
+
   &--no-color {
     background-color: transparent;
     color: $grey-100;

@@ -120,4 +120,54 @@ module('Integration | Component | routes/authenticated/team | list-items | items
       sinon.assert.called(adminMembership.save);
     });
   });
+
+  module('When remove member button is clicked', (hooks) => {
+
+    let removeMembershipStub;
+
+    hooks.beforeEach(async function() {
+      // given
+      removeMembershipStub = sinon.stub();
+      memberMembership.user.get = (attr) => {
+        return attr === 'firstName' ? memberMembership.user.firstName : memberMembership.user.lastName;
+      };
+      this.set('membership', memberMembership);
+      this.set('removeMembership', removeMembershipStub);
+
+      // when
+      await render(hbs`<Routes::Authenticated::Team::Items @membership={{membership}} @removeMembership={{removeMembership}} />`);
+      await clickByLabel('Afficher les actions');
+      await clickByLabel('Supprimer');
+    });
+
+    test('should display a confirmation modal', (assert) => {
+      // then
+      assert.contains('Confirmez-vous la suppression ?');
+      assert.contains('Annuler');
+      assert.contains('Supprimer');
+    });
+
+    test('should display the membership first name and last name in the modal', (assert) => {
+      // then
+      assert.contains(memberMembership.user.firstName);
+      assert.contains(memberMembership.user.lastName);
+    });
+
+    test('should close the modal by clicking on cancel button', async (assert) => {
+      // when
+      await clickByLabel('Annuler');
+
+      // then
+      assert.notContains('Supprimer de l\'équipe');
+    });
+
+    test('should call removeMembership and close modal by clicking on remove button', async (assert) => {
+      // when
+      await click('button[data-test-modal-remove-button]');
+
+      // then
+      sinon.assert.calledWith(removeMembershipStub, memberMembership);
+      assert.notContains('Supprimer de l\'équipe');
+    });
+  });
 });

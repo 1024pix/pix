@@ -14,6 +14,9 @@
           <Dropdown::Item @onClick={{fn this.editRoleOfMember @membership}} aria-label="Modifier le rôle">
             Modifier le rôle
           </Dropdown::Item>
+          <Dropdown::Item @onClick={{fn this.displayRemoveMembershipModal @membership}} aria-label="Supprimer le membre">
+            Supprimer
+          </Dropdown::Item>
         </Dropdown::IconTrigger>
       </td>
     {{else}}
@@ -51,3 +54,17 @@
     </td>
   {{/if}}
 </tr>
+
+<Modal::Dialog class="remove-membership-modal" @title="Confirmez-vous la suppression ?" @display={{this.isRemoveMembershipModalDisplayed}} @close={{this.closeRemoveMembershipModal}} @additionalContainerClass="modal-dialog__large">
+  <Modal::Body class="remove-membership-modal__content">
+    <p class="content-text">
+      {{@membership.user.firstName}} {{@membership.user.lastName}} n'aura plus accès à cet espace Pix Orga.
+      <br>
+      Ses campagnes restent accessibles au reste de l'équipe.
+    </p>
+  </Modal::Body>
+  <Modal::Footer class="remove-membership-modal__actions">
+    <button type="button" class="button button--grey button--regular" {{on 'click' this.closeRemoveMembershipModal}}>Annuler</button>
+    <button type="button" class="button button--red" data-test-modal-remove-button {{on 'click' this.onRemoveButtonClicked}}>Oui, supprimer le membre</button>
+  </Modal::Footer>
+</Modal::Dialog>

@@ -4,7 +4,7 @@
     @targetAttachment="none"
     @wrapperClass="modal-wrapper"
     @overlayClass="modal-overlay"
-    @containerClass="modal-dialog"
+    @containerClass="{{this.containerClass}}"
     @onClose={{@close}}
   >
     <div class="modal__container" role="dialog" aria-labelledby={{this.labelId}} aria-modal="true" ...attributes>
