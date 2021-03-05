@@ -6,9 +6,13 @@ function _clean(text) {
 export function textWithMultipleLang(params) {
   const text = params[0];
   const lang = params[1];
-  const regex = new RegExp(`(\\[${lang}\\]){1}(.|\n)*?(\\[\\/${lang}\\]){1}`);
-  const textForLang = text.match(regex);
-  return textForLang ? _clean(textForLang[0]) : _clean(text);
+  if (text && lang) {
+    const regex = new RegExp(`(\\[${lang}\\]){1}(.|\n)*?(\\[\\/${lang}\\]){1}`);
+    const textForLang = text.match(regex);
+    return textForLang ? _clean(textForLang[0]) : _clean(text);
+  } else {
+    return text;
+  }
 }
 
 export default helper(textWithMultipleLang);

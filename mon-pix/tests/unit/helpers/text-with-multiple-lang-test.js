@@ -6,6 +6,7 @@ describe('Unit | Helper | text with multiple lang', function() {
   [
     { text: 'des mots', lang: 'fr', outputText: 'des mots' },
     { text: 'des mots', lang: null, outputText: 'des mots' },
+    { text: null, lang: 'fr', outputText: null },
     { text: '[fr]des mots', lang: 'fr', outputText: 'des mots' },
     { text: '[fr]des mots[/fr][en]some words[/en]', lang: 'fr', outputText: 'des mots' },
     { text: '[fr]des mots[/fr][en]some words[/en]', lang: 'en', outputText: 'some words' },
