@@ -1,12 +1,7 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/no-component-lifecycle-hooks: 0 */
-/* eslint ember/require-computed-property-dependencies: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import { action, computed } from '@ember/object';
-import { inject } from '@ember/service';
-import Component from '@ember/component';
-import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { standardizeNumberInTwoDigitFormat } from 'mon-pix/utils/standardize-number';
 
 import isEmailValid from '../../utils/email-validator';
@@ -30,30 +25,51 @@ const isMonthValid = (value) => value > 0 && value <= 12;
 const isYearValid = (value) => value > 999 && value <= 9999;
 const isStringValid = (value) => !!value.trim();
 
-@classic
+class FormValidation {
+  lastName = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  firstName = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  dayOfBirth = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  monthOfBirth = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  yearOfBirth = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  email = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+  password = {
+    @tracked status: 'default',
+    @tracked message: null,
+  }
+}
+
 export default class RegisterForm extends Component {
-  @inject()
-  session;
+  @service session;
+  @service store;
+  @service intl;
 
-  @inject()
-  store;
-
-  @inject()
-  intl;
+  @tracked isLoading = false;
+  @tracked errorMessage = null;
+  @tracked displayRegisterErrorMessage = false;
+  @tracked matchingStudentFound = false;
+  @tracked loginWithUsername = true;
 
   schoolingRegistrationDependentUser = null;
   schoolingRegistrationUserAssociation = null;
-  isLoading = false;
-  errorMessage = null;
-  displayRegisterErrorMessage = false;
-  matchingStudentFound = false;
-  isPasswordVisible = false;
-  loginWithUsername = true;
-
-  @computed('isPasswordVisible')
-  get passwordInputType() {
-    return this.isPasswordVisible ? 'text' : 'password';
-  }
+  validation = new FormValidation();
 
   username = '';
   email = '';
@@ -64,7 +80,12 @@ export default class RegisterForm extends Component {
   monthOfBirth = '';
   yearOfBirth = '';
 
-  @computed('yearOfBirth', 'monthOfBirth', 'dayOfBirth')
+  willDestroy() {
+    if (this.schoolingRegistrationUserAssociation) this.schoolingRegistrationUserAssociation.unloadRecord();
+    if (this.schoolingRegistrationDependentUser) this.schoolingRegistrationDependentUser.unloadRecord();
+    super.willDestroy(...arguments);
+  }
+
   get birthdate() {
     const dayOfBirth = standardizeNumberInTwoDigitFormat(this.dayOfBirth.trim());
     const monthOfBirth = standardizeNumberInTwoDigitFormat(this.monthOfBirth.trim());
@@ -72,13 +93,11 @@ export default class RegisterForm extends Component {
     return [yearOfBirth, monthOfBirth, dayOfBirth].join('-');
   }
 
-  @computed('firstName', 'lastName', 'yearOfBirth', 'monthOfBirth', 'dayOfBirth')
   get isSearchFormNotValid() {
     return !isStringValid(this.firstName) || !isStringValid(this.lastName)
       || !isDayValid(this.dayOfBirth) || !isMonthValid(this.monthOfBirth) || !isYearValid(this.yearOfBirth);
   }
 
-  @computed('email', 'password')
   get isCreationFormNotValid() {
     const isPasswordNotValid = !isPasswordValid(this.password);
     const isEmailNotValid = !isEmailValid(this.email);
@@ -88,77 +107,38 @@ export default class RegisterForm extends Component {
     return isEmailNotValid || isPasswordNotValid;
   }
 
-  init() {
-    const validation = {
-      lastName: {
-        status: 'default',
-        message: null,
-      },
-      firstName: {
-        status: 'default',
-        message: null,
-      },
-      dayOfBirth: {
-        status: 'default',
-        message: null,
-      },
-      monthOfBirth: {
-        status: 'default',
-        message: null,
-      },
-      yearOfBirth: {
-        status: 'default',
-        message: null,
-      },
-      email: {
-        status: 'default',
-        message: null,
-      },
-      password: {
-        status: 'default',
-        message: null,
-      },
-    };
-
-    this.set('validation', validation);
-    super.init(...arguments);
-  }
-
-  willDestroyElement() {
-    if (this.schoolingRegistrationUserAssociation) this.schoolingRegistrationUserAssociation.unloadRecord();
-    if (this.schoolingRegistrationDependentUser) this.schoolingRegistrationDependentUser.unloadRecord();
-    super.willDestroyElement(...arguments);
-  }
-
   @action
-  searchForMatchingStudent() {
-    this.set('errorMessage', null);
-    this.set('isLoading', true);
+  searchForMatchingStudent(event) {
+    event.preventDefault();
+
+    this.errorMessage = null;
+    this.isLoading = true;
     this._validateInputString('firstName', this.firstName);
     this._validateInputString('lastName', this.lastName);
     this._validateInputDay('dayOfBirth', this.dayOfBirth);
     this._validateInputMonth('monthOfBirth', this.monthOfBirth);
     this._validateInputYear('yearOfBirth', this.yearOfBirth);
+
     if (this.isSearchFormNotValid) {
-      return this.set('isLoading', false);
+      return this.isLoading = false;
     }
 
     this.schoolingRegistrationUserAssociation = this.store.createRecord('schooling-registration-user-association', {
-      id: this.campaignCode + '_' + this.lastName,
+      id: this.args.campaignCode + '_' + this.lastName,
       firstName: this.firstName,
       lastName: this.lastName,
       birthdate: this.birthdate,
-      campaignCode: this.campaignCode,
+      campaignCode: this.args.campaignCode,
     });
 
     return this.schoolingRegistrationUserAssociation.save({ adapterOptions: { searchForMatchingStudent: true } })
       .then((response) => {
-        this.set('matchingStudentFound', true);
-        this.set('isLoading', false);
-        this.set('username', response.username);
+        this.matchingStudentFound = true;
+        this.isLoading = false;
+        this.username = response.username;
         return this.schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
-          id: this.campaignCode + '_' + this.lastName,
-          campaignCode: this.campaignCode,
+          id: this.args.campaignCode + '_' + this.lastName,
+          campaignCode: this.args.campaignCode,
           firstName: this.firstName,
           lastName: this.lastName,
           birthdate: this.birthdate,
@@ -168,17 +148,17 @@ export default class RegisterForm extends Component {
         });
       }, (errorResponse) => {
         this.schoolingRegistrationUserAssociation.unloadRecord();
-        this.set('isLoading', false);
+        this.isLoading = false;
         errorResponse.errors.forEach((error) => {
           if (error.status === '404') {
-            return this.set('errorMessage', 'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.');
+            return this.errorMessage = 'Vous êtes un élève ? <br> Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant. <br><br> Vous êtes un enseignant ? <br> L’accès à un parcours n’est pas disponible pour le moment.';
           }
           if (error.status === '409') {
             const message = this._showErrorMessageByShortCode(error.meta);
-            return this.set('errorMessage', message);
+            return this.errorMessage = message;
           }
           const defaultMessage = this.intl.t(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
-          return this.set('errorMessage', (error.detail) ? error.detail : defaultMessage);
+          return this.errorMessage = (error.detail) ? error.detail : defaultMessage;
         });
       });
   }
@@ -190,25 +170,28 @@ export default class RegisterForm extends Component {
   }
 
   @action
-  async register() {
-    this.set('isLoading', true);
-    this.set('displayRegisterErrorMessage', false);
+  async register(event) {
+    event.preventDefault();
+
+    this.isLoading = true;
+    this.displayRegisterErrorMessage = false;
+
     if (this.isCreationFormNotValid) {
-      return this.set('isLoading', false);
+      return this.isLoading = false;
     }
     try {
-      this.set('schoolingRegistrationDependentUser.password', this.password);
-      this.set('schoolingRegistrationDependentUser.withUsername', this.loginWithUsername);
+      this.schoolingRegistrationDependentUser.password = this.password;
+      this.schoolingRegistrationDependentUser.withUsername = this.loginWithUsername;
       if (this.loginWithUsername) {
-        this.set('schoolingRegistrationDependentUser.username', this.username);
-        this.set('schoolingRegistrationDependentUser.email', undefined);
+        this.schoolingRegistrationDependentUser.username = this.username;
+        this.schoolingRegistrationDependentUser.email = undefined;
       } else {
-        this.set('schoolingRegistrationDependentUser.email', this.email);
-        this.set('schoolingRegistrationDependentUser.username', undefined);
+        this.schoolingRegistrationDependentUser.email = this.email;
+        this.schoolingRegistrationDependentUser.username = undefined;
       }
       await this.schoolingRegistrationDependentUser.save();
     } catch (error) {
-      this.set('isLoading', false);
+      this.isLoading = false;
       return this._updateInputsStatus();
     }
 
@@ -218,18 +201,13 @@ export default class RegisterForm extends Component {
       await this._authenticate(this.schoolingRegistrationDependentUser.email, this.schoolingRegistrationDependentUser.password);
     }
 
-    this.set('schoolingRegistrationDependentUser.password', null);
-    this.set('isLoading', false);
+    this.schoolingRegistrationDependentUser.password = null;
+    this.isLoading = false;
   }
 
   @action
   onToggle(data) {
-    this.set('loginWithUsername', data);
-  }
-
-  @action
-  togglePasswordVisibility() {
-    this.toggleProperty('isPasswordVisible');
+    this.loginWithUsername = data;
   }
 
   @action
@@ -254,7 +232,7 @@ export default class RegisterForm extends Component {
   @action
   triggerInputYearValidation(key, value) {
     value = value.trim();
-    this.set('yearOfBirth', value);
+    this.yearOfBirth = value;
     this._validateInputYear(key, value);
   }
 
@@ -272,10 +250,9 @@ export default class RegisterForm extends Component {
     const isInvalidInput = !isValid(value);
     const message = isInvalidInput ? this.intl.t(ERROR_INPUT_MESSAGE_MAP[key]) : null;
     const status = isInvalidInput ? 'error' : 'success';
-    const statusObject = 'validation.' + key + '.status';
-    const messageObject = 'validation.' + key + '.message';
-    this.set(statusObject, status);
-    return this.set(messageObject, message);
+
+    this.validation[key].status = status;
+    this.validation[key].message = message;
   }
 
   _updateInputsStatus() {
@@ -283,13 +260,11 @@ export default class RegisterForm extends Component {
 
     if (errors) {
       errors.forEach(({ attribute, message }) => {
-        const statusObject = 'validation.' + attribute + '.status';
-        const messageObject = 'validation.' + attribute + '.message';
-        this.set(statusObject, 'error');
-        this.set(messageObject, message);
+        this.validation[attribute].status = 'error';
+        this.validation[attribute].message = message;
       });
     } else {
-      this.set('displayRegisterErrorMessage', true);
+      this.displayRegisterErrorMessage = true;
     }
   }
 
@@ -319,7 +294,7 @@ export default class RegisterForm extends Component {
 
   _standardizeNumberInInput(attribute, value) {
     if (value) {
-      this.set(attribute, standardizeNumberInTwoDigitFormat(value));
+      this.attribute = standardizeNumberInTwoDigitFormat(value);
     }
   }
 

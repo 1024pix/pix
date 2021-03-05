@@ -1,13 +1,13 @@
-{{!-- template-lint-disable no-action no-triple-curlies --}}
+{{!-- template-lint-disable no-triple-curlies --}}
 <div class="register-form">
-  <form {{action 'searchForMatchingStudent' on='submit'}}>
+  <form {{on 'submit' this.searchForMatchingStudent }}>
     <span class="register-form__required-inputs">{{t 'common.form.mandatory-fields' htmlSafe=true}}</span>
 
     <div id="register-firstName-container">
       <FormTextfield @label={{t 'pages.login-or-register.register-form.fields.firstname.label'}}
                      @textfieldName="firstName"
                      @inputBindingValue={{this.firstName}}
-                     @onValidate={{action "triggerInputStringValidation" "firstName" this.firstName}}
+                     @onValidate={{this.triggerInputStringValidation}}
                      @validationStatus={{this.validation.firstName.status}}
                      @validationMessage={{this.validation.firstName.message}}
                      @autocomplete="firstname"
@@ -19,7 +19,7 @@
       <FormTextfield @label={{t 'pages.login-or-register.register-form.fields.lastname.label'}}
                      @textfieldName="lastName"
                      @inputBindingValue={{this.lastName}}
-                     @onValidate={{action "triggerInputStringValidation" "lastName" this.lastName}}
+                     @onValidate={{this.triggerInputStringValidation}}
                      @validationStatus={{this.validation.lastName.status}}
                      @validationMessage={{this.validation.lastName.message}}
                      @autocomplete="lastname"
@@ -35,9 +35,9 @@
                          @dayInputBindingValue={{this.dayOfBirth}}
                          @monthInputBindingValue={{this.monthOfBirth}}
                          @yearInputBindingValue={{this.yearOfBirth}}
-                         @onValidateDay={{action "triggerInputDayValidation" "dayOfBirth" this.dayOfBirth}}
-                         @onValidateMonth={{action "triggerInputMonthValidation" "monthOfBirth" this.monthOfBirth}}
-                         @onValidateYear={{action "triggerInputYearValidation" "yearOfBirth" this.yearOfBirth}}
+                         @onValidateDay={{this.triggerInputDayValidation}}
+                         @onValidateMonth={{this.triggerInputMonthValidation}}
+                         @onValidateYear={{this.triggerInputYearValidation}}
                          @dayValidationStatus={{this.validation.dayOfBirth.status}}
                          @monthValidationStatus={{this.validation.monthOfBirth.status}}
                          @yearValidationStatus={{this.validation.yearOfBirth.status}}
@@ -65,68 +65,67 @@
   </form>
 
   {{#if this.matchingStudentFound}}
+    <hr>
 
-  <hr>
+    <label class="register-form__login-options">{{t 'pages.login-or-register.register-form.options.text'}}</label>
+    <div id="login-mode-container">
+      <PixToggle @valueFirstLabel={{t 'pages.login-or-register.register-form.options.username'}}
+                 @valueSecondLabel={{t 'pages.login-or-register.register-form.options.email'}}
+                 @onToggle={{this.onToggle}} />
+    </div>
 
-  <label class="register-form__login-options">{{t 'pages.login-or-register.register-form.options.text'}}</label>
-  <div id="login-mode-container">
-            <PixToggle @valueFirstLabel={{t 'pages.login-or-register.register-form.options.username'}}
-                       @valueSecondLabel={{t 'pages.login-or-register.register-form.options.email'}}
-                       @onToggle={{action "onToggle"}} />
-  </div>
-
-  <form {{action 'register' on='submit'}} autocomplete="off">
-    {{#if this.loginWithUsername}}
-      <div id="register-username-container" class="register-form-username-container">
-        <label class="register-form-username-container__label">
-          <abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr>
-          {{t 'pages.login-or-register.register-form.fields.username.label'}}
-        </label>
-        <span class="register-form-username-container__span" data-test-username>{{this.username}}</span>
-      </div>
-    {{else}}
+    <form {{on 'submit' this.register}} autocomplete="off">
+      {{#if this.loginWithUsername}}
+        <div id="register-username-container" class="register-form-username-container">
+          <label class="register-form-username-container__label">
+            <abbr title="{{t 'common.form.mandatory'}}" class="mandatory-mark">*</abbr>
+            {{t 'pages.login-or-register.register-form.fields.username.label'}}
+          </label>
+          <span class="register-form-username-container__span" data-test-username>{{this.username}}</span>
+        </div>
+      {{else}}
         <div id="register-email-container">
           <FormTextfield @label={{t 'pages.login-or-register.register-form.fields.email.label'}}
                          @help={{t 'pages.login-or-register.register-form.fields.email.help'}}
                          @textfieldName="email"
                          @inputBindingValue={{this.email}}
-                         @onValidate={{action "triggerInputEmailValidation" "email" this.email}}
+                         @onValidate={{this.triggerInputEmailValidation}}
                          @validationStatus={{this.validation.email.status}}
                          @validationMessage={{this.validation.email.message}}
                          @require={{true}} />
         </div>
-    {{/if}}
-    <div id="register-password-container">
-      <FormTextfield @label={{t 'pages.login-or-register.register-form.fields.password.label'}}
-                     @help={{t 'pages.login-or-register.register-form.fields.password.help'}}
-                     @textfieldName="password"
-                     @inputBindingValue={{this.password}}
-                     @onValidate={{action "triggerInputPasswordValidation" "password" this.password}}
-                     @validationStatus={{this.validation.password.status}}
-                     @validationMessage={{this.validation.password.message}}
-                     @require={{true}} />
-    </div>
-
-    {{#if this.displayRegisterErrorMessage}}
-      <div class="register-form__error" aria-live="polite">{{t 'pages.login-or-register.register-form.error'}}</div>
-    {{/if}}
-
-    <div class="register-button-container">
-      {{#if this.isLoading}}
-        <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
-      {{else}}
-        <button id="submit-registration" type="submit" class="button button--uppercase">{{t 'pages.login-or-register.register-form.button-form'}}</button>
       {{/if}}
-    </div>
+      <div id="register-password-container">
+        <FormTextfield @label={{t 'pages.login-or-register.register-form.fields.password.label'}}
+                       @help={{t 'pages.login-or-register.register-form.fields.password.help'}}
+                       @textfieldName="password"
+                       @inputBindingValue={{this.password}}
+                       @onValidate={{this.triggerInputPasswordValidation}}
+                       @validationStatus={{this.validation.password.status}}
+                       @validationMessage={{this.validation.password.message}}
+                       @require={{true}} />
+      </div>
 
-    <LinkTo @route="campaigns.start-or-resume" @model={{@campaignCode}} class="link link--underline register-form__return-button">
-      <span class="icon-button register-form-return-button__icon">
-        <FaIcon @icon='arrow-left'></FaIcon>
-      </span>
-      {{t 'pages.login-or-register.register-form.not-me'}}
-    </LinkTo>
+      {{#if this.displayRegisterErrorMessage}}
+        <div class="register-form__error" aria-live="polite">{{t 'pages.login-or-register.register-form.error'}}</div>
+      {{/if}}
 
-  </form>
+      <div class="register-button-container">
+        {{#if this.isLoading}}
+          <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
+        {{else}}
+          <button id="submit-registration" type="submit" class="button button--uppercase">{{t 'pages.login-or-register.register-form.button-form'}}</button>
+        {{/if}}
+      </div>
+
+      <LinkTo @route="campaigns.start-or-resume" @model={{@campaignCode}} class="link link--underline register-form__return-button">
+        <span class="icon-button register-form-return-button__icon">
+          <FaIcon @icon='arrow-left'></FaIcon>
+        </span>
+        {{t 'pages.login-or-register.register-form.not-me'}}
+      </LinkTo>
+
+    </form>
   {{/if}}
 
 </div>

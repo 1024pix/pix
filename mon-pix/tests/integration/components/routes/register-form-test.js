@@ -1,14 +1,9 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { resolve, reject } from 'rsvp';
 import {
   click, fillIn, find, render, triggerEvent,
 } from '@ember/test-helpers';
 
-import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -27,13 +22,35 @@ describe('Integration | Component | routes/register-form', function() {
 
   setupIntlRenderingTest();
 
-  let sessionStub;
-  let storeStub;
+  let authenticateStub;
+  let saveUserAssociationStub;
+  let saveDependentUserStub;
 
   beforeEach(function() {
-    sessionStub = Service.extend({});
-    storeStub = Service.extend({});
+    authenticateStub = sinon.stub();
+    class sessionStub extends Service {
+      authenticate = authenticateStub;
+    }
+    authenticateStub.resolves();
+
+    saveUserAssociationStub = sinon.stub();
+    saveDependentUserStub = sinon.stub();
+    class storeStub extends Service {
+      createRecord = sinon.stub()
+        .onFirstCall().returns({
+          username: 'pix.pix1010',
+          save: saveUserAssociationStub,
+          unloadRecord: sinon.stub().resolves(),
+        }).onSecondCall().returns({
+          save: saveDependentUserStub,
+          unloadRecord: sinon.stub().resolves(),
+        });
+    }
+    saveUserAssociationStub.resolves({ username: 'pix.pix1010' });
+    saveDependentUserStub.resolves();
+
     this.owner.register('service:session', sessionStub);
+    this.owner.register('service:store', storeStub);
   });
 
   it('renders', async function() {
@@ -46,39 +63,9 @@ describe('Integration | Component | routes/register-form', function() {
 
   context('successful cases', function() {
 
-    beforeEach(function() {
-      this.owner.unregister('service:store');
-      this.owner.register('service:store', storeStub);
-      storeStub.prototype.createRecord = () => {
-        return EmberObject.create({
-          username: 'pix.pix1010',
-
-          save(options) {
-            if (options && options.adapterOptions && options.adapterOptions.searchForMatchingStudent) {
-              return resolve({ username: 'pix.pix1010' });
-            }
-            return resolve();
-          },
-          unloadRecord() {
-            return resolve();
-          },
-        });
-      };
-      sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-        this.authenticator = authenticator;
-        this.login = login;
-        this.password = password;
-        this.scope = scope;
-        return resolve();
-      };
-    });
-
     it('should call authentication service by email with appropriate parameters, when all things are ok and form is submitted', async function() {
       // given
-      const sessionServiceObserver = this.owner.lookup('service:session');
-      this.set('loginWithUsername', false);
-
-      await render(hbs`<Routes::RegisterForm @loginWithUsername={{this.loginWithUsername}} />`);
+      await render(hbs`<Routes::RegisterForm />`);
 
       await fillIn('#firstName', 'pix');
       await fillIn('#lastName', 'pix');
@@ -87,6 +74,7 @@ describe('Integration | Component | routes/register-form', function() {
       await fillIn('#yearOfBirth', '2010');
 
       await click('#submit-search');
+      await click('.pix-toggle__off');
 
       await fillIn('#email', 'shi@fu.me');
       await fillIn('#password', 'Mypassword1');
@@ -97,18 +85,16 @@ describe('Integration | Component | routes/register-form', function() {
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
       expect(find('.join-restricted-campaign__error')).to.not.exist;
-      expect(sessionServiceObserver.authenticator).to.equal('authenticator:oauth2');
-      expect(sessionServiceObserver.login).to.equal('shi@fu.me');
-      expect(sessionServiceObserver.password).to.equal('Mypassword1');
-      expect(sessionServiceObserver.scope).to.equal('mon-pix');
+      sinon.assert.calledWith(authenticateStub, 'authenticator:oauth2', {
+        login: 'shi@fu.me',
+        password: 'Mypassword1',
+        scope: 'mon-pix',
+      });
     });
 
     it('should call authentication service by username with appropriate parameters, when all things are ok and form is submitted', async function() {
       // given
-      const sessionServiceObserver = this.owner.lookup('service:session');
-      this.set('loginWithUsername', true);
-
-      await render(hbs`<Routes::RegisterForm @loginWithUsername={{this.loginWithUsername}} />`);
+      await render(hbs`<Routes::RegisterForm />`);
 
       await fillIn('#firstName', 'pix');
       await fillIn('#lastName', 'pix');
@@ -126,10 +112,11 @@ describe('Integration | Component | routes/register-form', function() {
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
       expect(find('.join-restricted-campaign__error')).to.not.exist;
-      expect(sessionServiceObserver.authenticator).to.equal('authenticator:oauth2');
-      expect(sessionServiceObserver.login).to.equal('pix.pix1010');
-      expect(sessionServiceObserver.password).to.equal('Mypassword1');
-      expect(sessionServiceObserver.scope).to.equal('mon-pix');
+      sinon.assert.calledWith(authenticateStub, 'authenticator:oauth2', {
+        login: 'pix.pix1010',
+        password: 'Mypassword1',
+        scope: 'mon-pix',
+      });
     });
   });
 
@@ -140,41 +127,10 @@ describe('Integration | Component | routes/register-form', function() {
       it('Should display registerErrorMessage when authentication service fails with username error', async function() {
         // given
         const expectedRegisterErrorMessage = this.intl.t('pages.login-or-register.register-form.error');
-
-        this.set('loginWithUsername', true);
-
-        const error = {
-          status: '400',
-          errorMessage: '"data.attributes.username" with value "pix.pix1010@example.net" fails to match the required pattern: /^([a-z]+[.]+[a-z]+[0-9]{4})$/',
-        };
-
-        this.owner.unregister('service:store');
-        this.owner.register('service:store', storeStub);
-        storeStub.prototype.createRecord = () => {
-          return EmberObject.create({
-
-            save(options) {
-              if (options && options.adapterOptions && options.adapterOptions.searchForMatchingStudent) {
-                return resolve({ username: 'pix.pix1010@example.net' });
-              }
-              return reject({ error });
-            },
-            unloadRecord() {
-              return resolve();
-            },
-          });
-        };
-        sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-          this.authenticator = authenticator;
-          this.login = login;
-          this.password = password;
-          this.scope = scope;
-          return resolve();
-
-        };
+        saveDependentUserStub.rejects({ errors: [{ status: '400' }] });
 
         // when
-        await render(hbs`<Routes::RegisterForm @loginWithUsername={{this.loginWithUsername}} />`);
+        await render(hbs`<Routes::RegisterForm />`);
 
         await fillIn('#firstName', 'pix');
         await fillIn('#lastName', 'pix');
@@ -294,9 +250,14 @@ describe('Integration | Component | routes/register-form', function() {
 
       it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        this.set('matchingStudentFound', true);
-        this.set('schoolingRegistrationDependentUser', EmberObject.create({ email: stringFilledIn, unloadRecord() {return resolve();} }));
-        await render(hbs`<Routes::RegisterForm @matchingStudentFound=true @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} /> `);
+        await render(hbs`<Routes::RegisterForm /> `);
+
+        await fillIn('#firstName', 'pix');
+        await fillIn('#lastName', 'pix');
+        await fillIn('#dayOfBirth', '10');
+        await fillIn('#monthOfBirth', '10');
+        await fillIn('#yearOfBirth', '2010');
+        await click('#submit-search');
 
         // when
         await click('.pix-toggle__off');
@@ -311,10 +272,14 @@ describe('Integration | Component | routes/register-form', function() {
 
     it('should not call api when email is invalid', async function() {
       // given
-      const save = sinon.stub();
-      this.set('matchingStudentFound', true);
-      this.set('schoolingRegistrationDependentUser', EmberObject.create({ email: 'shi.fu', unloadRecord() {return resolve();}, save }));
-      await render(hbs`<Routes::RegisterForm @matchingStudentFound=true @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} /> `);
+      await render(hbs`<Routes::RegisterForm /> `);
+
+      await fillIn('#firstName', 'pix');
+      await fillIn('#lastName', 'pix');
+      await fillIn('#dayOfBirth', '10');
+      await fillIn('#monthOfBirth', '10');
+      await fillIn('#yearOfBirth', '2010');
+      await click('#submit-search');
 
       // when
       await click('.pix-toggle__off');
@@ -325,7 +290,7 @@ describe('Integration | Component | routes/register-form', function() {
       // then
       expect(find('#register-email-container #validationMessage-email').textContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
       expect(find('#register-email-container .form-textfield__input-container--error')).to.exist;
-      sinon.assert.notCalled(save);
+      sinon.assert.notCalled(saveDependentUserStub);
     });
 
     [{ stringFilledIn: ' ' },
@@ -336,9 +301,14 @@ describe('Integration | Component | routes/register-form', function() {
 
       it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
-        this.set('matchingStudentFound', true);
-        this.set('schoolingRegistrationDependentUser', EmberObject.create({ password: stringFilledIn, unloadRecord() {return resolve();} }));
-        await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+        await render(hbs`<Routes::RegisterForm /> `);
+
+        await fillIn('#firstName', 'pix');
+        await fillIn('#lastName', 'pix');
+        await fillIn('#dayOfBirth', '10');
+        await fillIn('#monthOfBirth', '10');
+        await fillIn('#yearOfBirth', '2010');
+        await click('#submit-search');
 
         // when
         await fillIn('#password', stringFilledIn);
@@ -352,10 +322,14 @@ describe('Integration | Component | routes/register-form', function() {
 
     it('should not call api when password is invalid', async function() {
       // given
-      const save = sinon.stub();
-      this.set('matchingStudentFound', true);
-      this.set('schoolingRegistrationDependentUser', EmberObject.create({ password: 'toto', unloadRecord() {return resolve();}, save }));
-      await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+      await render(hbs`<Routes::RegisterForm /> `);
+
+      await fillIn('#firstName', 'pix');
+      await fillIn('#lastName', 'pix');
+      await fillIn('#dayOfBirth', '10');
+      await fillIn('#monthOfBirth', '10');
+      await fillIn('#yearOfBirth', '2010');
+      await click('#submit-search');
 
       // when
       await fillIn('#password', 'toto');
@@ -365,7 +339,7 @@ describe('Integration | Component | routes/register-form', function() {
       // then
       expect(find('#register-password-container #validationMessage-password').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
       expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
-      sinon.assert.notCalled(save);
+      sinon.assert.notCalled(saveDependentUserStub);
     });
 
     const internalServerErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
@@ -375,29 +349,8 @@ describe('Integration | Component | routes/register-form', function() {
       { status: '500', errorMessage: internalServerErrorMessage },
     ].forEach(({ status, errorMessage }) => {
       it(`should display an error message if user saves with an error response status ${status}`, async function() {
-        this.owner.unregister('service:store');
-        this.owner.register('service:store', storeStub);
-        storeStub.prototype.createRecord = () => {
-          return EmberObject.create({
-            username: 'pix.pix1010',
-
-            save() {
-              return reject({ errors: [{ status }] });
-            },
-            unloadRecord() {
-              return resolve();
-            },
-          });
-        };
-        sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-          this.authenticator = authenticator;
-          this.login = login;
-          this.password = password;
-          this.scope = scope;
-          return resolve();
-        };
-
-        await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+        saveUserAssociationStub.rejects({ errors: [{ status }] });
+        await render(hbs`<Routes::RegisterForm />`);
 
         await fillIn('#firstName', 'pix');
         await fillIn('#lastName', 'pix');
@@ -430,29 +383,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -479,29 +412,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -528,29 +441,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -577,29 +470,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -626,29 +499,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -675,29 +528,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -724,29 +557,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -777,29 +590,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -826,29 +619,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -875,29 +648,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -924,29 +677,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -973,31 +706,11 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
-
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
+
           // when
           await click('#submit-search');
 
@@ -1022,29 +735,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
@@ -1071,29 +764,9 @@ describe('Integration | Component | routes/register-form', function() {
             meta,
           };
 
-          this.owner.unregister('service:store');
-          this.owner.register('service:store', storeStub);
-          storeStub.prototype.createRecord = () => {
-            return EmberObject.create({
-              username: 'pix.pix1010',
+          saveUserAssociationStub.rejects({ errors: [error] });
 
-              save() {
-                return reject({ errors: [error] });
-              },
-              unloadRecord() {
-                return resolve();
-              },
-            });
-          };
-          sessionStub.prototype.authenticate = function(authenticator, { login, password, scope }) {
-            this.authenticator = authenticator;
-            this.login = login;
-            this.password = password;
-            this.scope = scope;
-            return resolve();
-          };
-
-          await render(hbs`<Routes::RegisterForm @matchingStudentFound={{this.matchingStudentFound}} @schoolingRegistrationDependentUser={{this.schoolingRegistrationDependentUser}} />`);
+          await render(hbs`<Routes::RegisterForm />`);
           await fillInputReconciliationForm();
 
           // when
