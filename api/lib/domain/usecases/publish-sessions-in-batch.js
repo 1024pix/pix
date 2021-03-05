@@ -1,4 +1,3 @@
-const bluebird = require('bluebird');
 const some = require('lodash/some');
 const uniqBy = require('lodash/uniqBy');
 
@@ -47,19 +46,15 @@ async function _sendPrescriberEmails(session) {
 
   const emailingAttempts = [];
   for (const recipientEmail of recipientEmails) {
-    try {
-      await mailService.sendCertificationResultEmail({
-        email: recipientEmail,
-        sessionId: session.id,
-        sessionDate: session.date,
-        certificationCenterName: session.certificationCenter,
-        resultRecipientEmail: recipientEmail,
-        daysBeforeExpiration: 30,
-      });
-      emailingAttempts.push(EmailingAttempt.success(recipientEmail));
-    } catch (error) {
-      emailingAttempts.push(EmailingAttempt.failure(recipientEmail));
-    }
+    const emailingAttempt = await mailService.sendCertificationResultEmail({
+      email: recipientEmail,
+      sessionId: session.id,
+      sessionDate: session.date,
+      certificationCenterName: session.certificationCenter,
+      resultRecipientEmail: recipientEmail,
+      daysBeforeExpiration: 30,
+    });
+    emailingAttempts.push(emailingAttempt);
   }
   return emailingAttempts;
 }
@@ -69,34 +64,6 @@ function _distinctCandidatesResultRecipientEmails(certificationCandidates) {
     .map((candidate) => candidate.resultRecipientEmail)
     .filter(Boolean);
 }
-
-class EmailingAttempt {
-  constructor(recipientEmail, status) {
-    this.recipientEmail = recipientEmail;
-    this.status = status;
-  }
-
-  hasFailed() {
-    return this.status === AttemptStatus.FAILURE;
-  }
-
-  hasSucceeded() {
-    return this.status === AttemptStatus.SUCCESS;
-  }
-
-  static success(recipientEmail) {
-    return new EmailingAttempt(recipientEmail, AttemptStatus.SUCCESS);
-  }
-
-  static failure(recipientEmail) {
-    return new EmailingAttempt(recipientEmail, AttemptStatus.FAILURE);
-  }
-}
-
-const AttemptStatus = {
-  SUCCESS: 'SUCCESS',
-  FAILURE: 'FAILURE',
-};
 
 function _someHaveSucceeded(emailingAttempts) {
   return some(emailingAttempts, (emailAttempt) => emailAttempt.hasSucceeded());

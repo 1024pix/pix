@@ -1,19 +1,14 @@
-const MailingProvider = require('./MailingProvider');
 const SendinblueProvider = require('./SendinblueProvider');
 const { mailing } = require('../../config');
 const logger = require('../logger');
 const mailCheck = require('../mail-check');
+const EmailingAttempt = require('../../domain/models/EmailingAttempt');
 
-class Mailer extends MailingProvider {
+class Mailer {
 
   constructor() {
-    super();
 
     this._providerName = mailing.provider;
-    this.ERROR_INVALID_EMAIL = Symbol('Error: invalid email');
-    this.ERROR_EMAIL_FAILED = Symbol('Error: email failed');
-    this.EMAIL_SKIPPED = Symbol('Email skipped');
-    this.EMAIL_SENT = Symbol('Email sent');
 
     switch (this._providerName) {
       case 'sendinblue':
@@ -26,7 +21,7 @@ class Mailer extends MailingProvider {
 
   async sendEmail(options) {
     if (!mailing.enabled) {
-      return this.EMAIL_SKIPPED;
+      EmailingAttempt.success(options.to);
     }
 
     try {
@@ -34,7 +29,7 @@ class Mailer extends MailingProvider {
     }
     catch (err) {
       logger.warn({ err }, `Email is not valid '${options.to}'`);
-      return this.ERROR_INVALID_EMAIL;
+      return EmailingAttempt.failure(options.to);
     }
 
     try {
@@ -42,10 +37,10 @@ class Mailer extends MailingProvider {
     }
     catch (err) {
       logger.warn({ err }, `Could not send email to '${options.to}'`);
-      return this.ERROR_EMAIL_FAILED;
+      return EmailingAttempt.failure(options.to);
     }
 
-    return this.EMAIL_SENT;
+    return EmailingAttempt.success(options.to);
   }
 
   get accountCreationTemplateId() {
