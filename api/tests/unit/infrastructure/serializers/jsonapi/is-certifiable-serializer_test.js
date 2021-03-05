@@ -1,7 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/is-certifiable-serializer');
 
-describe('Unit | Serializer | JSONAPI | certification-profile-serializer', function() {
+describe('Unit | Serializer | JSONAPI | is-certifiable-serializer', function() {
 
   describe('#serialize()', function() {
 
