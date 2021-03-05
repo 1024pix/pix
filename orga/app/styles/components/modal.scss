@@ -12,6 +12,10 @@
     width: 500px;
     padding: 0;
 
+    &__large {
+      width: 600px;
+    }
+
     @include device-is('mobile') {
       width: 80%;
     }

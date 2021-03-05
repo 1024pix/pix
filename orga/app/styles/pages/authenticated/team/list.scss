@@ -17,6 +17,10 @@ $margin-right: 32px;
     border-bottom: 1px solid $grey-20;
     margin-bottom: 16px;
   }
+
+  .modal-dialog-width {
+    width: 600px;
+  }
 }
 
 .list-team-page-header {
@@ -62,3 +66,30 @@ $margin-right: 32px;
     margin-left: 10px;
   }
 }
+
+.remove-membership-modal {
+
+  .content-text {
+    color: $grey-90;
+    line-height: 26px;
+  }
+
+  &__content, &__actions {
+    background: $grey-10;
+  }
+
+  &__content{
+    padding-top: 32px;
+    padding-bottom: 24px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+
+    button:first-child {
+      margin-right: 25px;
+    }
+  }
+}
+

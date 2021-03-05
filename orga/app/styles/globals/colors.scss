@@ -16,6 +16,8 @@ $green: #038A25;
 $green-hover: darken($green, 4%);
 $orga: #00DDFF;
 $purple: #8A49FF;
+$red: #D63F00;
+$red-hover: darken($red, 4%);
 // gradients
 $pix-orga-old-gradient: linear-gradient(0deg, #0D7DC4 0%, #213371 100%);
 $pix-yellow-gradient: linear-gradient(135deg, #FFBE00 0%, #FF9F00 100%);
@@ -52,7 +54,7 @@ $communication-dark: #3D68FF;
 $communication-light: #12A3FF;
 $content-dark: #1A8C89;
 $content-light: #52D987;
-$information-dark: #F24645;
+$information-dark: #f24645;
 $information-light: #F1A141;
 $security-dark: #AC008D;
 $security-light: #FF3F94;
