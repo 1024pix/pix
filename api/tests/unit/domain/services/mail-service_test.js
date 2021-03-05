@@ -276,6 +276,21 @@ describe('Unit | Service | MailService', () => {
 
         const testCases = [
           {
+            locale: undefined,
+            expected: {
+              fromName: 'Pix Orga - Ne pas répondre',
+              subject: 'Invitation à rejoindre Pix Orga',
+              variables: {
+                pixHomeName: 'pix.fr',
+                pixHomeUrl: 'https://pix.fr',
+                pixOrgaHomeUrl: 'https://orga.pix.fr',
+                redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+                supportUrl: 'https://support.pix.fr/support/tickets/new',
+                ...translationsMapping.fr,
+              },
+            },
+          },
+          {
             locale: 'fr',
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
