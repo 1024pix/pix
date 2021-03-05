@@ -9,7 +9,7 @@ export default class TargetProfileInsightRoute extends Route {
     return {
       badges,
       stages,
-      targetProfileImageUrl: targetProfile.imageUrl,
+      targetProfile,
     };
   }
 }
