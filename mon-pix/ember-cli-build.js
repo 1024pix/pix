@@ -18,6 +18,11 @@ module.exports = function(defaults) {
     autoprefixer: {
       grid: 'autoplace',
     },
+    sassOptions: {
+      includePaths: [
+        'node_modules/pix-ui/addon/styles',
+      ],
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
