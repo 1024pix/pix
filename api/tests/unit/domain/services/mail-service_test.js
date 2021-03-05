@@ -5,14 +5,9 @@ const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const settings = require('../../../../lib/config');
 
-const organizationInvitationTranslationsMapping = {
-  'fr': require('../../../../translations/fr')['organization-invitation-email'],
-  'en': require('../../../../translations/en')['organization-invitation-email'],
-};
-
-const accountCreationTranslationsMapping = {
-  'fr': require('../../../../translations/fr')['pix-account-creation-email'],
-  'en': require('../../../../translations/en')['pix-account-creation-email'],
+const mainTranslationsMapping = {
+  'fr': require('../../../../translations/fr'),
+  'en': require('../../../../translations/en'),
 };
 
 describe('Unit | Service | MailService', () => {
@@ -70,7 +65,10 @@ describe('Unit | Service | MailService', () => {
 
     context('according to locale', () => {
 
-      const translationsMapping = accountCreationTranslationsMapping;
+      const translationsMapping = {
+        'fr': mainTranslationsMapping.fr['pix-account-creation-email'],
+        'en': mainTranslationsMapping.en['pix-account-creation-email'],
+      };
 
       context('should call sendEmail with localized variable options', () => {
         const testCases = [
@@ -285,7 +283,6 @@ describe('Unit | Service | MailService', () => {
     const organizationName = 'Organization Name';
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
-    const translationsMapping = organizationInvitationTranslationsMapping;
 
     it('should call sendEmail with from, to, organizationName', async () => {
 
@@ -350,6 +347,11 @@ describe('Unit | Service | MailService', () => {
     });
 
     context('according to locale', () => {
+
+      const translationsMapping = {
+        'fr': mainTranslationsMapping.fr['organization-invitation-email'],
+        'en': mainTranslationsMapping.en['organization-invitation-email'],
+      };
 
       context('should call sendEmail with localized variable options', () => {
 
