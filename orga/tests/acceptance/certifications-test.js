@@ -39,6 +39,15 @@ module('Acceptance | Certifications page', function(hooks) {
         assert.contains('Certifications');
         assert.contains('Classe');
       });
+
+      test('should not show any banner', async function(assert) {
+        // given / when
+        await visit('/certifications');
+
+        // then
+        assert.dom('.information-banner').doesNotExist();
+        assert.dom('.pix-banner').doesNotExist();
+      });
     });
   });
 });
