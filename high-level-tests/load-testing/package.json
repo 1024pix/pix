@@ -5,8 +5,8 @@
   "main": "index.js",
   "author": "GIP Pix",
   "engines": {
-    "node": "14.15.0",
-    "npm": "6.14.8"
+    "node": "14.16.0",
+    "npm": "6.14.11"
   },
   "scripts": {
     "preinstall": "npx check-engine",
