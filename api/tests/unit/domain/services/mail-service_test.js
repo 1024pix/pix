@@ -5,9 +5,9 @@ const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const settings = require('../../../../lib/config');
 
-const organizationInvitationTranslationsMapping = {
-  'fr': require('../../../../translations/fr')['organization-invitation-email'],
-  'en': require('../../../../translations/en')['organization-invitation-email'],
+const mainTranslationsMapping = {
+  'fr': require('../../../../translations/fr'),
+  'en': require('../../../../translations/en'),
 };
 
 describe('Unit | Service | MailService', () => {
@@ -21,56 +21,133 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendAccountCreationEmail', () => {
 
-    it('should use mailer to send an email with locale "fr-fr"', async () => {
+    it('should call sendEmail with from, to, subject, template', async () => {
+
       // given
-      const locale = 'fr-fr';
-      const domainFr = 'pix.fr';
+      const locale = undefined;
+
+      // given
       const expectedOptions = {
         from: senderEmailAddress,
-        fromName: 'PIX - Ne pas répondre',
         to: userEmailAddress,
         subject: 'Votre compte Pix a bien été créé',
         template: 'test-account-creation-template-id',
-        variables: {
-          homeName: `${domainFr}`,
-          homeUrl: `https://${domainFr}`,
-          redirectionUrl: `https://app.${domainFr}/connexion`,
-          locale,
-        },
       };
 
       // when
       await mailService.sendAccountCreationEmail(userEmailAddress, locale);
 
       // then
-      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options).to.include(expectedOptions);
     });
 
-    it('should use mailer to send an email with redirectionUrl from parameters', async () => {
-      // given
-      const redirectionUrl = 'https://pix.fr';
-      const locale = 'fr-fr';
-      const domainFr = 'pix.fr';
-      const expectedOptions = {
-        from: senderEmailAddress,
-        fromName: 'PIX - Ne pas répondre',
-        to: userEmailAddress,
-        subject: 'Votre compte Pix a bien été créé',
-        template: 'test-account-creation-template-id',
-        variables: {
-          homeName: `${domainFr}`,
-          homeUrl: `https://${domainFr}`,
-          redirectionUrl,
-          locale,
-        },
+    context('according to redirectionUrl', () => {
+
+      context('if redirectionUrl is provided', () => {
+
+        it('should call sendEmail with provided value', async () => {
+          // given
+          const redirectionUrl = 'https://pix.fr';
+          const locale = 'fr-fr';
+
+          // when
+          await mailService.sendAccountCreationEmail(userEmailAddress, locale, redirectionUrl);
+
+          // then
+          const actualRedirectionUrl = mailer.sendEmail.firstCall.args[0].variables.redirectionUrl;
+          expect(actualRedirectionUrl).to.equal(redirectionUrl);
+        });
+
+      });
+
+    });
+
+    context('according to locale', () => {
+
+      const translationsMapping = {
+        'fr': mainTranslationsMapping.fr['pix-account-creation-email'],
+        'en': mainTranslationsMapping.en['pix-account-creation-email'],
       };
 
-      // when
-      await mailService.sendAccountCreationEmail(userEmailAddress, locale, redirectionUrl);
+      context('should call sendEmail with localized variable options', () => {
+        const testCases = [
+          {
+            locale: undefined,
+            expected: {
+              fromName: 'PIX - Ne pas répondre',
+              variables: {
+                homeName: 'pix.fr',
+                homeUrl: 'https://pix.fr',
+                helpdeskUrl: 'https://support.pix.fr/support/tickets/new',
+                displayNationalLogo: true,
+                redirectionUrl: 'https://app.pix.fr/connexion',
+                ...translationsMapping.fr,
+              },
+            },
+          },
+          {
+            locale: 'fr-fr',
+            expected: {
+              fromName: 'PIX - Ne pas répondre',
+              variables: {
+                homeName: 'pix.fr',
+                homeUrl: 'https://pix.fr',
+                helpdeskUrl: 'https://support.pix.fr/support/tickets/new',
+                displayNationalLogo: true,
+                redirectionUrl: 'https://app.pix.fr/connexion',
+                ...translationsMapping.fr,
+              },
+            },
+          },
+          {
+            locale: 'fr',
+            expected: {
+              fromName: 'PIX - Ne pas répondre',
+              variables: {
+                homeName: 'pix.org',
+                homeUrl: 'https://pix.org/fr/',
+                helpdeskUrl: 'https://support.pix.fr/support/tickets/new',
+                displayNationalLogo: false,
+                redirectionUrl: 'https://app.pix.org/connexion/?lang=fr',
+                ...translationsMapping.fr,
+              },
+            },
+          },
+          {
+            locale: 'en',
+            expected: {
+              fromName: 'PIX - Noreply',
+              variables: {
+                homeName: 'pix.org',
+                homeUrl: 'https://pix.org/en-gb/',
+                helpdeskUrl: 'https://pix.org/en-gb/help-form',
+                displayNationalLogo: false,
+                redirectionUrl: 'https://app.pix.org/connexion/?lang=en',
+                ...translationsMapping.en,
+              },
+            },
+          },
+        ]
+        ;
 
-      // then
-      expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+        testCases.forEach((testCase) => {
+          it(`when locale is ${testCase.locale}`, async () => {
+
+            // when
+            await mailService.sendAccountCreationEmail(userEmailAddress, testCase.locale);
+
+            // then
+            const options = mailer.sendEmail.firstCall.args[0];
+            expect(options.fromName).to.equal(testCase.expected.fromName);
+            expect(options.variables).to.include(testCase.expected.variables);
+          });
+        });
+
+      });
+
     });
+
   });
 
   describe('#sendCertificationResultEmail', () => {
@@ -206,7 +283,6 @@ describe('Unit | Service | MailService', () => {
     const organizationName = 'Organization Name';
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
-    const translationsMapping = organizationInvitationTranslationsMapping;
 
     it('should call sendEmail with from, to, organizationName', async () => {
 
@@ -271,6 +347,11 @@ describe('Unit | Service | MailService', () => {
     });
 
     context('according to locale', () => {
+
+      const translationsMapping = {
+        'fr': mainTranslationsMapping.fr['organization-invitation-email'],
+        'en': mainTranslationsMapping.en['organization-invitation-email'],
+      };
 
       context('should call sendEmail with localized variable options', () => {
 

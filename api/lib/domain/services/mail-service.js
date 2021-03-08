@@ -1,8 +1,8 @@
 const settings = require('../../config');
 const mailer = require('../../infrastructure/mailers/mailer');
 const moment = require('moment');
-const FrTranslations = require('../../../translations/fr');
-const EnTranslations = require('../../../translations/en');
+const frTranslations = require('../../../translations/fr');
+const enTranslations = require('../../../translations/en');
 const tokenService = require('./token-service');
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
@@ -30,7 +30,9 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       homeName: `pix${settings.domain.tldOrg}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/fr/`,
       redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion/?lang=fr`,
-      locale,
+      helpdeskUrl: HELPDESK_FR,
+      displayNationalLogo: false,
+      ...frTranslations['pix-account-creation-email'],
     };
 
     pixName = PIX_NAME_FR;
@@ -42,7 +44,9 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       homeName: `pix${settings.domain.tldOrg}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
       redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion/?lang=en`,
-      locale,
+      helpdeskUrl: HELPDESK_EN,
+      displayNationalLogo: false,
+      ...enTranslations['pix-account-creation-email'],
     };
 
     pixName = PIX_NAME_EN;
@@ -54,7 +58,9 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       homeName: `pix${settings.domain.tldFr}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
       redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldFr}/connexion`,
-      locale,
+      helpdeskUrl: HELPDESK_FR,
+      displayNationalLogo: true,
+      ...frTranslations['pix-account-creation-email'],
     };
 
     pixName = PIX_NAME_FR;
@@ -170,7 +176,7 @@ function sendOrganizationInvitationEmail({
     pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
     redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
     supportUrl: HELPDESK_FR,
-    ...FrTranslations['organization-invitation-email'],
+    ...frTranslations['organization-invitation-email'],
   };
 
   if (locale === 'fr') {
@@ -181,7 +187,7 @@ function sendOrganizationInvitationEmail({
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
       redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
       supportUrl: HELPDESK_FR,
-      ...FrTranslations['organization-invitation-email'],
+      ...frTranslations['organization-invitation-email'],
     };
   }
 
@@ -193,7 +199,7 @@ function sendOrganizationInvitationEmail({
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}?lang=en`,
       redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
       supportUrl: HELPDESK_EN,
-      ...EnTranslations['organization-invitation-email'],
+      ...enTranslations['organization-invitation-email'],
     };
     pixOrgaName = PIX_ORGA_NAME_EN;
     sendOrganizationInvitationEmailSubject = ORGANIZATION_INVITATION_EMAIL_SUBJECT_EN;
