@@ -1,7 +1,4 @@
 <nav class="navbar-header">
-  {{#if @campaignParticipations}}
-    <ResumeCampaignBanner  @campaignParticipations={{@campaignParticipations}}/>
-  {{/if}}
   {{#if (media 'isDesktop')}}
     <NavbarDesktopHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainExtension}}/>
   {{else}}
