@@ -11,7 +11,7 @@
                       @linkTo="{{this.newDashboardInfoLink.url}}"
                       @closeaction={{this.closeInformationAboutNewDashboard}}
       />
-      {{#if this.campaignParticipationCode}}
+      {{#if this.profileCollectionCampaignParticipationCode}}
         <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
                         @image="/images/profile_collect_TDB_pix.svg"
                         @backgroundColorClass="new-information--yellow-gradient-background"
@@ -19,7 +19,7 @@
                         @linkDisplayType="button"
                         @linkText="Continuer"
                         @linkTo="campaigns.profiles-collection.start-or-resume"
-                        @code={{this.campaignParticipationCode}}
+                        @code={{this.profileCollectionCampaignParticipationCode}}
         />
       {{/if}}
     </section>
@@ -43,7 +43,7 @@
                         @linkTo="{{this.newDashboardInfoLink.url}}"
                         @closeaction={{this.closeInformationAboutNewDashboard}}
         />
-        {{#if this.hasProfileCollectionCampaigns}}
+        {{#if this.profileCollectionCampaignParticipationCode}}
           <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
                           @image="/images/profile_collect_TDB_pix.svg"
                           @backgroundColorClass="new-information--yellow-gradient-background"
@@ -51,7 +51,7 @@
                           @linkDisplayType="button"
                           @linkText="Continuer"
                           @linkTo="campaigns.start-or-resume"
-                          @code={{this.campaignParticipationCode}}
+                          @code={{this.profileCollectionCampaignParticipationCode}}
           />
         {{/if}}
       </section>
