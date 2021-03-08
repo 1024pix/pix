@@ -1,46 +1,42 @@
-<div class="qcu-solution-panel qcu-panel__proposals rounded-panel">
-  <div class="rounded-panel__row qcu-panel__proposal-list">
-    {{#each this.labeledRadios as |labeledItemRadio index|}}
-      <p class="qcu-panel__proposal-item">
-
-        <label class="qcu-panel__proposal-label qcu-proposal-label">
-          {{#if labeledItemRadio.[1]}}
-            <svg class="radio-on picture-radio-proposal--qcu" width="18px" height="18px" viewBox="0 0 18 18"
-                 version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <g id="Page-1" stroke="none" stroke-width="1" fill="grey" fill-rule="evenodd">
-                <circle id="Oval" stroke="#7D808B" stroke-width="2" cx="9" cy="9" r="8"></circle>
-              </g>
-            </svg>
-          {{else}}
-            <svg class="radio-off picture-radio-proposal--qcu" width="18px" height="18px" viewBox="0 0 18 18"
-                 version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <circle id="Oval" stroke="#7D808B" stroke-width="2" cx="9" cy="9" r="8"></circle>
-              </g>
-            </svg>
-          {{/if}}
-
-          <span class="qcu-proposal-label__oracle"
-                data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
-                data-checked={{if labeledItemRadio.[1] 'yes' 'no'}}>
-            {{labeledItemRadio.[0]}}
-          </span>
-        </label>
-
-      </p>
-    {{/each}}
-    {{#if this.featureFlagDisplayForWrongAnswers}}
-      <div class="qcu-panel-proposals__answer-feedback">
-        {{#if this.isAnswerValid}}
-          <div class="answer-feedback__correct-answer">{{t 'pages.comparison-window.results.feedback.correct'}}</div>
+<div class="qcu-solution-panel rounded-panel rounded-panel__row">
+  {{#each this.labeledRadios as |labeledItemRadio index|}}
+    <p class="qcu-solution-panel__proposal-item">
+      <span class="qcu-solution-panel__radio-button">
+        {{#if labeledItemRadio.[1]}}
+          <svg width="18px" height="18px" viewBox="0 0 18 18"
+               version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>{{t 'pages.comparison-window.results.tips.your-answer'}}</title>
+            <g stroke="none" stroke-width="1" fill="grey" fill-rule="evenodd">
+              <circle id="Oval" stroke="#7D808B" stroke-width="2" cx="9" cy="9" r="8"></circle>
+            </g>
+          </svg>
         {{else}}
-          <div class="answer-feedback__wrong-answer">{{t 'pages.comparison-window.results.feedback.wrong'
-                                                         htmlSafe=true}}
-            <strong class="wrong-answer__expected-answer">{{this.solutionAsText}}</strong>
-          </div>
+          <svg width="18px" height="18px" viewBox="0 0 18 18"
+               version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>{{t 'pages.comparison-window.results.tips.other-proposition'}}</title>
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <circle id="Oval" stroke="#7D808B" stroke-width="2" cx="9" cy="9" r="8"></circle>
+            </g>
+          </svg>
         {{/if}}
-      </div>
-    {{/if}}
-  </div>
+      </span>
+      <MarkdownToHtml @class="qcu-solution-panel__proposition"
+                      data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
+                      data-checked={{if labeledItemRadio.[1] 'yes' 'no'}}
+                      @markdown="{{labeledItemRadio.[0]}}" />
+    </p>
+  {{/each}}
+
+  {{#if this.featureFlagDisplayForWrongAnswers}}
+    <div class="qcu-panel-proposals__answer-feedback">
+      {{#if this.isAnswerValid}}
+        <div class="answer-feedback__correct-answer">{{t 'pages.comparison-window.results.feedback.correct'}}</div>
+      {{else}}
+        <div class="answer-feedback__wrong-answer">{{t 'pages.comparison-window.results.feedback.wrong' htmlSafe=true}}
+          <strong class="wrong-answer__expected-answer">{{this.solutionAsText}}</strong>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
 </div>
 

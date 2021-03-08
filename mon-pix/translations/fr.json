@@ -464,6 +464,10 @@
                 "timedout": {
                     "title": "Vous avez dépassé le temps imparti",
                     "tooltip": "Temps dépassé"
+                },
+                "tips": {
+                    "other-proposition": "Autre proposition",
+                    "your-answer": "Votre réponse"
                 }
             }
         },
