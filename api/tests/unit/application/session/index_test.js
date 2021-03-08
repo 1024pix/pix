@@ -43,6 +43,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
     sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
     sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+    sinon.stub(sessionController, 'publishInBatch').returns('ok');
     sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
     sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
 
@@ -286,6 +287,42 @@ describe('Unit | Application | Sessions | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/admin/sessions/publish-in-batch', () => {
+    it('should exist', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            ids: [1, 2, 3],
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should validate the session ids in payload', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            ids: ['an invalid session id'],
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 
