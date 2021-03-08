@@ -12,8 +12,33 @@ const Answer = require('../../api/lib/domain/models/Answer');
 const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
 
-function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId }) {
-  const newAnswer = new Answer({ challengeId: challenge.id, result: AnswerStatus.OK });
+const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
+
+function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult }) {
+
+  let result;
+  const isFirstAnswer = !allAnswers.length;
+  switch (userResult) {
+    case 'ok':
+      result = AnswerStatus.OK;
+      break;
+    case 'ko':
+      result = AnswerStatus.KO;
+      break;
+    case 'random':
+      result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
+      break;
+    case 'firstOKthenKO':
+      isFirstAnswer ? result = AnswerStatus.OK : result = AnswerStatus.KO;
+      break;
+    case 'firstKOthenOK':
+      isFirstAnswer ? result = AnswerStatus.KO : result = AnswerStatus.OK;
+      break;
+    default:
+      result = AnswerStatus.OK;
+  }
+
+  const newAnswer = new Answer({ challengeId: challenge.id, result });
 
   const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {
     return knowledgeElements
@@ -108,7 +133,7 @@ async function _getChallenge({
 
 async function launchTest(argv) {
 
-  const { competenceId, targetProfileId, locale } = argv;
+  const { competenceId, targetProfileId, locale, userResult } = argv;
 
   let allAnswers = [];
   let knowledgeElements = [];
@@ -157,6 +182,7 @@ async function launchTest(argv) {
         userId: assessment.userId,
         allKnowledgeElements: knowledgeElements,
         targetSkills,
+        userResult,
       });
       allAnswers = updatedAnswers;
       knowledgeElements = updatedKnowledgeElements;

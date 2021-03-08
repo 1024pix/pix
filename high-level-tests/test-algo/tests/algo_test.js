@@ -56,6 +56,136 @@ describe('#answerTheChallenge', () => {
     expect(result.updatedKnowledgeElements[0]).to.deep.equal(previousKE[0]);
     expect(result.updatedKnowledgeElements[1]).to.deep.equal(newKe);
   });
+
+  describe('when userResult is "ok"', ()=> {
+    const userResult = 'ok';
+
+    it('should return the list of answers with the new one validated', () => {
+      // when
+      const result = answerTheChallenge({
+        challenge,
+        allAnswers: previousAnswers,
+        allKnowledgeElements: previousKE,
+        targetSkills: [],
+        userId: 1,
+        userResult,
+      });
+
+      // then
+      expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
+      expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
+      expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
+      expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: 'ok' });
+    });
+
+  });
+
+  describe('when userResult is "ko"', ()=> {
+    const userResult = 'ko';
+
+    it('should return the list of answers with the new one invalidated', () => {
+      // when
+      const result = answerTheChallenge({
+        challenge,
+        allAnswers: previousAnswers,
+        allKnowledgeElements: previousKE,
+        targetSkills: [],
+        userId: 1,
+        userResult,
+      });
+
+      // then
+      expect(result.updatedAnswers).lengthOf(previousAnswers.length + 1);
+      expect(result.updatedAnswers[0]).to.be.deep.equal(previousAnswers[0]);
+      expect(result.updatedAnswers[1].challengeId).to.be.equal(challenge.id);
+      expect(result.updatedAnswers[1].result).to.be.deep.equal({ status: 'ko' });
+    });
+
+  });
+
+  describe('when userResult is "random"', ()=> {
+
+    const userResult = 'random';
+
+    it('should return the list of answers with some validated and some invalidated', () => {
+      // when
+      previousAnswers = [];
+      const allResults = [];
+      for (let i = 0; i < 50; i++) {
+        const result = answerTheChallenge({
+          challenge,
+          allAnswers: previousAnswers,
+          allKnowledgeElements: previousKE,
+          targetSkills: [],
+          userId: 1,
+          userResult,
+        });
+        allResults.push(result.updatedAnswers[0].result.status);
+      }
+
+      // then
+      expect(allResults).to.contains('ok');
+      expect(allResults).to.contains('ko');
+    });
+
+  });
+
+  describe('when userResult is first OK then all KO', () => {
+    const userResult = 'firstOKthenKO';
+
+    it('should return the list of answers with the first one validated and the rest invalidated', () => {
+      // when
+      const allResults = [];
+      previousAnswers = [];
+      for (let i = 0; i < 10; i++) {
+        const result = answerTheChallenge({
+          challenge,
+          allAnswers: previousAnswers,
+          allKnowledgeElements: previousKE,
+          targetSkills: [],
+          userId: 1,
+          userResult,
+        });
+        previousAnswers = result.updatedAnswers;
+        allResults.push(result.updatedAnswers[i].result.status);
+      }
+
+      // then
+      expect(allResults[0]).to.equal('ok');
+      expect(allResults.slice(1)).to.contains('ko');
+      expect(allResults.slice(1)).to.not.contains('ok');
+    });
+
+  });
+
+  describe('when userResult is first K0 then all OK', ()=> {
+    const userResult = 'firstKOthenOK';
+
+    it('should return the list of answers with the first one invalidated and the rest validated', () => {
+      // when
+      const allResults = [];
+      let previousAnswers = [];
+      for (let i = 0; i < 10; i++) {
+        const result = answerTheChallenge({
+          challenge,
+          allAnswers: previousAnswers,
+          allKnowledgeElements: previousKE,
+          targetSkills: [],
+          userId: 1,
+          userResult,
+        });
+        previousAnswers = result.updatedAnswers;
+        allResults.push(result.updatedAnswers[i].result.status);
+      }
+
+      // then
+      expect(allResults[0]).to.equal('ko');
+      expect(allResults.slice(1)).to.contains('ok');
+      expect(allResults.slice(1)).to.not.contains('ko');
+    });
+
+  });
+
 });
 
 describe('#_getReferentiel', () => {
