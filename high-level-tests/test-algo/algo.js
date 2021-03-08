@@ -17,7 +17,7 @@ const POSSIBLE_ANSWER_STATUSES = [AnswerStatus.OK, AnswerStatus.KO];
 function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId, userResult }) {
 
   let result;
-
+  const isFirstAnswer = !allAnswers.length;
   switch (userResult) {
     case 'ok':
       result = AnswerStatus.OK;
@@ -29,10 +29,10 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
       result = POSSIBLE_ANSWER_STATUSES[Math.round(Math.random())];
       break;
     case 'firstOKthenKO':
-      !allAnswers.length ? result = AnswerStatus.OK : result = AnswerStatus.KO;
+      isFirstAnswer ? result = AnswerStatus.OK : result = AnswerStatus.KO;
       break;
     case 'firstKOthenOK':
-      !allAnswers.length ? result = AnswerStatus.KO : result = AnswerStatus.OK;
+      isFirstAnswer ? result = AnswerStatus.KO : result = AnswerStatus.OK;
       break;
     default:
       result = AnswerStatus.OK;

@@ -104,11 +104,12 @@ describe('#answerTheChallenge', () => {
   });
 
   describe('when userResult is "random"', ()=> {
-    previousAnswers = [];
+
     const userResult = 'random';
 
     it('should return the list of answers with some validated and some invalidated', () => {
       // when
+      previousAnswers = [];
       const allResults = [];
       for (let i = 0; i < 50; i++) {
         const result = answerTheChallenge({
@@ -119,7 +120,7 @@ describe('#answerTheChallenge', () => {
           userId: 1,
           userResult,
         });
-        allResults.push(result.updatedAnswers[1].result.status);
+        allResults.push(result.updatedAnswers[0].result.status);
       }
 
       // then
@@ -130,12 +131,12 @@ describe('#answerTheChallenge', () => {
   });
 
   describe('when userResult is first OK then all KO', () => {
-    let previousAnswers = [];
     const userResult = 'firstOKthenKO';
 
     it('should return the list of answers with the first one validated and the rest invalidated', () => {
       // when
       const allResults = [];
+      previousAnswers = [];
       for (let i = 0; i < 10; i++) {
         const result = answerTheChallenge({
           challenge,
@@ -150,7 +151,7 @@ describe('#answerTheChallenge', () => {
       }
 
       // then
-      expect(allResults[0]).to.contains('ok');
+      expect(allResults[0]).to.equal('ok');
       expect(allResults.slice(1)).to.contains('ko');
       expect(allResults.slice(1)).to.not.contains('ok');
     });
@@ -158,12 +159,12 @@ describe('#answerTheChallenge', () => {
   });
 
   describe('when userResult is first K0 then all OK', ()=> {
-    let previousAnswers = [];
     const userResult = 'firstKOthenOK';
 
     it('should return the list of answers with the first one invalidated and the rest validated', () => {
       // when
       const allResults = [];
+      let previousAnswers = [];
       for (let i = 0; i < 10; i++) {
         const result = answerTheChallenge({
           challenge,
@@ -178,7 +179,7 @@ describe('#answerTheChallenge', () => {
       }
 
       // then
-      expect(allResults[0]).to.contains('ko');
+      expect(allResults[0]).to.equal('ko');
       expect(allResults.slice(1)).to.contains('ok');
       expect(allResults.slice(1)).to.not.contains('ko');
     });
