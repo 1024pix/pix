@@ -272,7 +272,11 @@
       "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.",
       "download-button": "Exporter les résultats",
       "select-label": "Classe",
-      "title": "Certifications"
+      "title": "Certifications",
+      "errors": {
+        "no-results": "Aucun résultat de certification pour la classe {selectedDivision}.",
+        "invalid-division": "La classe {selectedDivision} n'existe pas."
+      }
     },
     "profiles-individual-results": {
       "certifiable": "Certifiable",

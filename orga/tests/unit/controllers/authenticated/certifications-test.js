@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
-import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Unit | Controller | authenticated/certifications', function(hooks) {
-  setupTest(hooks);
+module.only('Unit | Controller | authenticated/certifications', function(hooks) {
+  setupIntlRenderingTest(hooks);
 
   module('#onSelectDivision', function() {
 
@@ -33,13 +34,13 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
 
   module('#downloadSessionResultFile', function() {
 
-    test('should call the file-saver service with the right parametters', async function(assert) {
+    test('should call the file-saver service with the right parameters', async function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications');
 
       const token = 'a token';
       const organizationId = 12345;
-      const selectedDivision = '3èmeA';
+      const selectedDivision = '3èmea';
 
       controller.selectedDivision = selectedDivision;
 
@@ -62,8 +63,16 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
         save: sinon.stub(),
       };
 
+      controller.model = {
+        options: [{ label: '3èmeA', value: '3èmeA' }],
+      };
+
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+
       // when
-      await controller.downloadSessionResultFile();
+      await controller.downloadSessionResultFile(event);
 
       // then
       assert.ok(controller.fileSaver.save.calledWith(
@@ -72,6 +81,37 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
           url: `/api/organizations/${organizationId}/certification-results?division=${selectedDivision}`,
         },
       ));
+    });
+
+    test('it should not call file-save service and display an error if division is invalid', async function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications');
+      controller.selectedDivision = 'Banana bread';
+      controller.fileSaver = {
+        save: sinon.stub(),
+      };
+      controller.model = {
+        options: [{ label: '3èmeA', value: '3èmeA' }],
+      };
+      class NotificationsStub extends Service {
+        error = errorMock;
+      }
+      this.owner.register('service:notifications', NotificationsStub);
+      const errorMock = sinon.stub();
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+
+      // when
+      await controller.downloadSessionResultFile(event);
+
+      // then
+      sinon.assert.notCalled(controller.fileSaver.save);
+      sinon.assert.calledWith(errorMock,
+        this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: 'Banana bread' }),
+        { autoClear: false },
+      );
+      assert.ok(true);
     });
   });
 });
