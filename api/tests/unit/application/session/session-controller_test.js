@@ -19,6 +19,8 @@ const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domai
 const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
 const certificationResults = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const tokenService = require('../../../../lib/domain/services/token-service');
+const { SessionPublicationBatchResult } = require('../../../../lib/domain/models/SessionPublicationBatchResult');
+const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -686,7 +688,7 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#updatePublication', () => {
+  describe('#publish / #unpublish', () => {
     const sessionId = 123;
     const session = Symbol('session');
     const serializedSession = Symbol('serializedSession');
@@ -741,6 +743,104 @@ describe('Unit | Controller | sessionController', () => {
         // then
         expect(response).to.equal(serializedSession);
       });
+    });
+  });
+
+  describe('#publishInBatch', () => {
+    it('returns 204 when no error occurred', async () => {
+      // given
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              ids: ['sessionId1', 'sessionId2'],
+            },
+          },
+        },
+      };
+      sinon.stub(usecases, 'publishSessionsInBatch').withArgs({
+        sessionIds: ['sessionId1', 'sessionId2'],
+      }).resolves(new SessionPublicationBatchResult('batchId'));
+
+      // when
+      const response = await sessionController.publishInBatch(request, hFake);
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+    it('returns 503 when some errors occurred', async () => {
+      // given
+      const result = new SessionPublicationBatchResult('batchId');
+      result.addPublicationError('sessionId1', new Error('an error'));
+
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              ids: ['sessionId1', 'sessionId2'],
+            },
+          },
+        },
+      };
+      sinon.stub(usecases, 'publishSessionsInBatch').withArgs({
+        sessionIds: ['sessionId1', 'sessionId2'],
+      }).resolves(result);
+      sinon.stub(logger, 'warn');
+
+      // when
+      const response = await sessionController.publishInBatch(request, hFake);
+      // then
+      expect(response.statusCode).to.equal(503);
+    });
+
+    it('logs errors when errors occur', async () => {
+      // given
+      const result = new SessionPublicationBatchResult('batchId');
+      result.addPublicationError('sessionId1', new Error('an error'));
+
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              ids: ['sessionId1', 'sessionId2'],
+            },
+          },
+        },
+      };
+      sinon.stub(usecases, 'publishSessionsInBatch').withArgs({
+        sessionIds: ['sessionId1', 'sessionId2'],
+      }).resolves(result);
+      sinon.stub(logger, 'warn');
+
+      // when
+      await sessionController.publishInBatch(request, hFake);
+
+      // then
+      expect(logger.warn).to.have.been.calledWithExactly(result, 'One or more error occurred when publishing session in batch batchId');
+    });
+
+    it('returns the serialized batch id', async () => {
+      // given
+      const result = new SessionPublicationBatchResult('batchId');
+      result.addPublicationError('sessionId1', new Error('an error'));
+
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              ids: ['sessionId1', 'sessionId2'],
+            },
+          },
+        },
+      };
+      sinon.stub(usecases, 'publishSessionsInBatch').withArgs({
+        sessionIds: ['sessionId1', 'sessionId2'],
+      }).resolves(result);
+      sinon.stub(logger, 'warn');
+
+      // when
+      const response = await sessionController.publishInBatch(request, hFake);
+      // then
+      expect(response.source).to.deep.equal({ batchId: 'batchId' });
     });
   });
 

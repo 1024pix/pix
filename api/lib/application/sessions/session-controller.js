@@ -18,6 +18,7 @@ const certificationResultUtils = require('../../infrastructure/utils/csv/certifi
 const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet');
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
+const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
@@ -237,6 +238,18 @@ module.exports = {
     const session = await usecases.publishSession({ sessionId });
 
     return sessionSerializer.serialize(session);
+  },
+
+  async publishInBatch(request, h) {
+    const sessionIds = request.payload.data.attributes.ids;
+    const result = await usecases.publishSessionsInBatch({
+      sessionIds,
+    });
+    if (result.hasPublicationErrors()) {
+      logger.warn(result, `One or more error occurred when publishing session in batch ${result.batchId}`);
+      return h.response({ batchId: result.batchId }).code(503);
+    }
+    return h.response().code(204);
   },
 
   async unpublish(request) {

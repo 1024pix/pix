@@ -1,4 +1,5 @@
 const uuidv4 = require('uuid/v4');
+const { SessionPublicationBatchResult } = require('../models/SessionPublicationBatchResult');
 
 module.exports = async function publishSessionsInBatch({
   sessionIds,
@@ -25,16 +26,3 @@ module.exports = async function publishSessionsInBatch({
   }
   return result;
 };
-
-class SessionPublicationBatchResult {
-  constructor(batchId) {
-    this.batchId = batchId;
-    this.publicationErrors = {};
-  }
-  hasPublicationErrors() {
-    return Boolean(Object.keys(this.publicationErrors).length);
-  }
-  addPublicationError(sessionId, error) {
-    this.publicationErrors[sessionId] = error;
-  }
-}
