@@ -1,7 +1,8 @@
 {{#each this.labeledRadios as |labeledRadio index|}}
-<p class="proposal-paragraph qcu-panel">
+<p class="proposal-paragraph qcu-proposals">
   <Input type="radio"
          name="radio"
+         class="qcu-proposals__radio"
          value="{{inc index}}"
          data-value="{{inc index}}"
          id="radio_{{inc index}}"
@@ -10,7 +11,7 @@
          disabled={{if @answer true}} />
 
   <label for="radio_{{inc index}}"
-          class="qcu-panel__label">
+          class="qcu-proposals__label">
     <span class="sr-only">{{t 'pages.proposals.answer.qcu'}}</span>
     <MarkdownToHtml @class="qcu-panel__text proposal-text" @markdown={{labeledRadio.[0]}} />
   </label>

@@ -39,7 +39,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
     it('Should render', async function() {
       await render(hbs`<QcuSolutionPanel/>`);
-      expect(find('.qcu-panel-solution')).to.exist;
+      expect(find('.qcu-solution-panel')).to.exist;
     });
 
     describe('Radio state', function() {
@@ -83,8 +83,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        times(findAll('.comparison-window .qcu-panel-solution__radio-button').length, function(index) {
-          expect(find('.comparison-window .qcu-panel-solution__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
+        times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
+          expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
         });
       });
     });
@@ -173,8 +173,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
       it('Should render', async function() {
         await render(hbs`<QcuSolutionPanel/>`);
-        expect(find('.qcu-panel-solution')).to.exist;
-        expect(findAll('.qcu-panel-solution__proposition')).to.have.lengthOf(0);
+        expect(find('.qcu-solution-panel')).to.exist;
+        expect(findAll('.qcu-solution-panel__proposition')).to.have.lengthOf(0);
       });
 
       describe('Radio state', function() {
@@ -200,9 +200,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-checked')).to.equal('yes');
-          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-goodness')).to.equal('good');
-          expect(findAll('.qcu-panel-solution__radio-button')[1].innerHTML).to.contains('Votre réponse');
+          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('yes');
+          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness')).to.equal('good');
+          expect(findAll('.qcu-solution-panel__radio-button')[1].innerHTML).to.contains('Votre réponse');
         });
 
         it('QCU, la réponse correcte n\'est pas cochée', async function() {
@@ -217,9 +217,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-checked')).to.equal('no');
-          expect(findAll('.qcu-panel-solution__proposition')[1].getAttribute('data-goodness')).to.equal('good');
-          expect(findAll('.qcu-panel-solution__radio-button')[1].innerHTML).to.contains('Autre proposition');
+          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('no');
+          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness')).to.equal('good');
+          expect(findAll('.qcu-solution-panel__radio-button')[1].innerHTML).to.contains('Autre proposition');
         });
 
         it('QCU, la réponse incorrecte n\'est pas cochée', async function() {
@@ -232,9 +232,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-panel-solution__proposition')[0].getAttribute('data-checked')).to.equal('no');
-          expect(findAll('.qcu-panel-solution__proposition')[0].getAttribute('data-goodness')).to.equal('bad');
-          expect(findAll('.qcu-panel-solution__radio-button')[0].innerHTML).to.contains('Autre proposition');
+          expect(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-checked')).to.equal('no');
+          expect(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-goodness')).to.equal('bad');
+          expect(findAll('.qcu-solution-panel__radio-button')[0].innerHTML).to.contains('Autre proposition');
         });
 
         it('QCU,la réponse incorrecte est cochée', async function() {
@@ -249,9 +249,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          expect(findAll('.qcu-panel-solution__proposition')[2].getAttribute('data-checked')).to.equal('yes');
-          expect(findAll('.qcu-panel-solution__proposition')[2].getAttribute('data-goodness')).to.equal('bad');
-          expect(findAll('.qcu-panel-solution__radio-button')[2].innerHTML).to.contains('Votre réponse');
+          expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-checked')).to.equal('yes');
+          expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-goodness')).to.equal('bad');
+          expect(findAll('.qcu-solution-panel__radio-button')[2].innerHTML).to.contains('Votre réponse');
         });
 
         it('Aucune case à cocher n\'est cliquable', async function() {
@@ -264,8 +264,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
           // Then
-          times(findAll('.comparison-window .qcu-panel-solution__radio-button').length, function(index) {
-            expect(find('.comparison-window .qcu-panel-solution__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
+          times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
+            expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
           });
         });
       });
