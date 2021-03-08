@@ -8,12 +8,10 @@ module.exports = async function getCampaignParticipationResult({
   badgeAcquisitionRepository,
   campaignParticipationRepository,
   campaignParticipationResultRepository,
-  campaignRepository,
   targetProfileRepository,
 }) {
 
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
-  await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
+  const campaignParticipation = await _getCampaignParticipation(campaignParticipationRepository, campaignParticipationId, userId);
 
   const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
   const campaignBadges = await badgeRepository.findByTargetProfileId(targetProfile.id);
@@ -24,14 +22,10 @@ module.exports = async function getCampaignParticipationResult({
   return campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadgeIds, locale);
 };
 
-async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {
-  const campaignParticipationBelongsToUser = (userId === campaignParticipation.userId);
-  const userIsMemberOfCampaignOrganization = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
-    campaignParticipation.campaignId,
-    userId,
-  );
-
-  if (!campaignParticipationBelongsToUser && !userIsMemberOfCampaignOrganization) {
-    throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign participation');
+async function _getCampaignParticipation(campaignParticipationRepository, campaignParticipationId, userId) {
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+  if (campaignParticipation.userId == userId) {
+    return campaignParticipation;
   }
+  throw new UserNotAuthorizedToAccessEntityError();
 }
