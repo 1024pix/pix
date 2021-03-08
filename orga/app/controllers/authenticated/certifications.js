@@ -33,7 +33,9 @@ export default class AuthenticatedCertificationsController extends Controller {
       await this.fileSaver.save({ url, token });
     } catch (error) {
       if (_isErrorNotFound(error)) {
-        this.notifications.error('Aucun résultat de certification pour cette classe.');
+        this.notifications.error('Aucun résultat de certification pour cette classe.', {
+          autoClear: false,
+        });
       }
     }
   }
