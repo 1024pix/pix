@@ -150,8 +150,8 @@ describe('Acceptance | Displaying a QCU challenge', () => {
         expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
         expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
 
-        const goodAnswer = findAll('.qcu-panel-solution__proposition')[0];
-        const badAnswerFromUserResult = findAll('.qcu-panel-solution__proposition')[1];
+        const goodAnswer = findAll('.qcu-solution-panel__proposition')[0];
+        const badAnswerFromUserResult = findAll('.qcu-solution-panel__proposition')[1];
         expect(goodAnswer.getAttribute('data-goodness')).to.equal('good');
         expect(goodAnswer.getAttribute('data-checked')).to.equal('no');
         expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
@@ -217,8 +217,8 @@ describe('Acceptance | Displaying a QCU challenge', () => {
         expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
         expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);
 
-        const goodAnswer = findAll('.qcu-panel-solution__proposition')[0];
-        const badAnswerFromUserResult = findAll('.qcu-panel-solution__proposition')[1];
+        const goodAnswer = findAll('.qcu-solution-panel__proposition')[0];
+        const badAnswerFromUserResult = findAll('.qcu-solution-panel__proposition')[1];
         expect(goodAnswer.getAttribute('data-goodness')).to.equal('good');
         expect(goodAnswer.getAttribute('data-checked')).to.equal('no');
         expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
