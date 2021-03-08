@@ -407,6 +407,31 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/sessions/publish-in-batch',
+      config: {
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                ids: Joi.array().items(identifiersType.sessionId),
+              },
+            },
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.publishInBatch,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Publie plusieurs sessions d\'un coup',
+        ],
+        tags: ['api', 'session', 'publication'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/admin/sessions/{id}/unpublish',
       config: {
