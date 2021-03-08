@@ -1,4 +1,4 @@
-const { SendingEmailToResultRecipientError } = require('../../domain/errors');
+const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../domain/errors');
 const mailService = require('../../domain/services/mail-service');
 const uniqBy = require('lodash/uniqBy');
 const some = require('lodash/some');
@@ -11,6 +11,9 @@ async function publishSession({
   publishedAt = new Date(),
 }) {
   const session = await sessionRepository.getWithCertificationCandidates(sessionId);
+  if (session.isPublished()) {
+    throw new SessionAlreadyPublishedError();
+  }
 
   await certificationRepository.publishCertificationCoursesBySessionId(sessionId);
 

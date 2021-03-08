@@ -7,7 +7,7 @@ const {
 
 const { publishSession } = require('../../../../lib/domain/services/session-publication-service');
 
-const { SendingEmailToResultRecipientError } = require('../../../../lib/domain/errors');
+const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = require('../../../../lib/domain/errors');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
@@ -64,10 +64,28 @@ describe('Unit | UseCase | session-publication-service', () => {
       certificationCandidates: [
         candidateWithRecipient1, candidateWithRecipient2, candidate2WithRecipient2, candidateWithNoRecipient,
       ],
+      publishedAt: null,
     });
 
     beforeEach(() => {
       sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(originalSession);
+    });
+
+    it('should throw when the session is already published', async () => {
+      // given
+      const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: new Date() });
+      const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
+      sessionRepository.getWithCertificationCandidates.withArgs('sessionId').resolves(session);
+      // when
+      const error = await catchErr(publishSession)({
+        sessionId: 'sessionId',
+        certificationRepository: undefined,
+        finalizedSessionRepository: undefined,
+        sessionRepository,
+        publishedAt: now,
+      });
+      // then
+      expect(error).to.be.an.instanceof(SessionAlreadyPublishedError);
     });
 
     context('When we publish the session', () => {

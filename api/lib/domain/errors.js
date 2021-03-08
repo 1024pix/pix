@@ -626,6 +626,12 @@ class SessionAlreadyFinalizedError extends DomainError {
   }
 }
 
+class SessionAlreadyPublishedError extends DomainError {
+  constructor(message = 'La session est déjà publiée.') {
+    super(message);
+  }
+}
+
 class TargetProfileInvalidError extends DomainError {
   constructor(message = 'Le profil cible ne possède aucun acquis ciblé.') {
     super(message);
@@ -810,6 +816,7 @@ module.exports = {
   SchoolingRegistrationsCouldNotBeSavedError,
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
+  SessionAlreadyPublishedError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   UnexpectedUserAccount,

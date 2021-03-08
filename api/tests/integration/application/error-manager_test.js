@@ -386,6 +386,14 @@ describe('Integration | API | Controller Error', () => {
       expect(responseDetail(response)).to.equal('Erreur, tentatives de finalisation multiples de la session.');
     });
 
+    it('responds Bad Request when a SessionAlreadyPublishedError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SessionAlreadyPublishedError());
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
+      expect(responseDetail(response)).to.equal('La session est déjà publiée.');
+    });
+
     it('responds Bad Request when a UserOrgaSettingsCreationError error occurs', async () => {
       routeHandler.throws(new DomainErrors.UserOrgaSettingsCreationError('Erreur lors de la création des paramètres utilisateur relatifs à Pix Orga.'));
       const response = await server.inject(options);
