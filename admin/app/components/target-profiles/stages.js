@@ -19,6 +19,10 @@ export default class Stages extends Component {
     return this.args.stages.filter((stage) => stage.isNew);
   }
 
+  get displayNoThresholdZero() {
+    return this.hasStages && !this.args.stages.any((stage) => stage.threshold === 0);
+  }
+
   @action
   addStage() {
     this.store.createRecord('stage', { targetProfile: this.args.targetProfile });
