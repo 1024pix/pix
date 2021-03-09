@@ -72,7 +72,7 @@ function _someHaveFailed(emailingAttempts) {
 
 function _failedAttemptsRecipients(emailingAttempts) {
   return emailingAttempts.filter((emailAttempt) => emailAttempt.hasFailed())
-    .map((emailAttempt) => emailAttempt.recipient);
+    .map((emailAttempt) => emailAttempt.recipientEmail);
 }
 
 module.exports = {
