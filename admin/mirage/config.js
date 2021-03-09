@@ -24,7 +24,7 @@ export default function() {
     return withRequiredActionSessions;
   });
   this.patch('/admin/sessions/:id/publish', () => {
-    return new Response(200);
+    return new Response(204);
   });
   this.get('/admin/sessions/:id');
   this.get('/admin/sessions/:id/jury-certification-summaries', getJuryCertificationSummariesBySessionId);
@@ -33,6 +33,10 @@ export default function() {
     const session = schema.sessions.findBy({ id: sessionId });
     session.update({ resultsSentToPrescriberAt: new Date() });
     return session;
+  });
+
+  this.post('/admin/sessions/publish-in-batch', () => {
+    return new Response(200);
   });
 
   this.get('/users');
