@@ -178,20 +178,78 @@ describe('Acceptance | User dashboard page', function() {
 
   describe('new dashboard information', function() {
 
-    beforeEach(async function() {
-      await authenticateByEmail(user);
-      await visit('/accueil');
+    afterEach(async function() {
+      await invalidateSession();
     });
 
-    it('should close new dashboard information on user click', async function() {
-      // given
-      expect(find('.new-information')).to.exist;
+    describe('when user is doing a campaign of type collect profile', function() {
 
-      // when
-      await click('.new-information__close');
+      let campaign;
 
-      // then
-      expect(find('.new-information')).not.to.exist;
+      beforeEach(async function() {
+        campaign = server.create('campaign', {
+          isArchived: false,
+          title: 'SomeTitle',
+          type: 'PROFILES_COLLECTION',
+        });
+      });
+
+      describe('and user has not shared the collect profile campaign', () => {
+
+        let campaignParticipation;
+
+        beforeEach(async function() {
+          campaignParticipation = server.create('campaign-participation', {
+            campaign,
+            user,
+            isShared: false,
+            createdAt: new Date('2020-04-20T04:05:06Z'),
+          });
+          campaignParticipation.assessment.update({ state: 'completed' });
+          user.update({ campaignParticipations: [campaignParticipation] });
+
+          await authenticateByEmail(user);
+        });
+
+        it('should display a resume campaign banner for the campaign', async function() {
+          // when
+          await visit('/accueil');
+
+          // then
+          expect(find('.new-information__content')).to.exist;
+          expect(find('.new-information-content-text__button')).to.exist;
+        });
+
+        it('should display accessibility information in the banner', async function() {
+          // when
+          await visit('/accueil');
+
+          // then
+          const button = find('.new-information-content-text__button');
+          const a11yText = button.firstChild.textContent;
+          expect(button).to.exist;
+          expect(a11yText).to.exist;
+        });
+      });
+    });
+
+    describe('when user has new information to see', function() {
+
+      beforeEach(async function() {
+        await authenticateByEmail(user);
+      });
+
+      it('should close new dashboard information on user click', async function() {
+        // given
+        await visit('/accueil');
+        expect(find('.new-information')).to.exist;
+
+        // when
+        await click('.new-information__close');
+
+        // then
+        expect(find('.new-information')).not.to.exist;
+      });
     });
   });
 });
