@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default class Stages extends Component {
   @service store;
+  @service notifications;
 
   get hasStages() {
     const stages = this.args.stages;
@@ -24,8 +25,14 @@ export default class Stages extends Component {
   }
 
   @action
-  async createStages() {
-    await Promise.all(this.newStages.map((stage) => stage.save()));
+  async createStages(event) {
+    event.preventDefault();
+
+    try {
+      await Promise.all(this.newStages.map((stage) => stage.save()));
+    } catch (_error) {
+      this.notifications.error('Une erreur est survenue.');
+    }
   }
 
   @action
