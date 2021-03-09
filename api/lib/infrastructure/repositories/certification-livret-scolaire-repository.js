@@ -1,6 +1,7 @@
 const Certificate = require('../../domain/read-models/livret-scolaire/Certificate');
 const { PENDING, VALIDATED } = require('../../domain/read-models/livret-scolaire/CertificateStatus');
 const { knex } = require('../bookshelf');
+const sortBy = require('lodash/sortBy');
 
 module.exports = {
 
@@ -37,7 +38,7 @@ module.exports = {
       .orderBy('firstName', 'ASC');
 
     return result.map((certificate) => {
-      const competenceResults = _extractValidatedCompetenceResults(certificate);
+      const competenceResults = sortBy(_extractValidatedCompetenceResults(certificate), 'competenceId');
       return new Certificate({
         ...certificate, competenceResults,
       });
