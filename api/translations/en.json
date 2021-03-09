@@ -61,5 +61,10 @@
       "contactUs": "contact us here",
       "helpdeskURL": "http://pix.org/en-gb/help-form"
     }
+  },
+  "entity-validation-errors": {
+    "STAGE_TITLE_IS_REQUIRED": "The stage title is required",
+    "STAGE_THRESHOLD_IS_REQUIRED": "The stage threshold is required",
+    "TARGET_PROFILE_IS_REQUIRED": "The target profile is required"
   }
 }

@@ -6,7 +6,7 @@ function handleDomainAndHttpErrors(request, h) {
   const response = request.response;
 
   if (response instanceof DomainError || response instanceof BaseHttpError) {
-    return errorManager.handle(h, response);
+    return errorManager.handle(request, h, response);
   }
 
   return h.continue;
