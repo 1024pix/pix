@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const Bookshelf = require('../bookshelf');
+const { NotFoundError } = require('../../domain/errors');
 
 const FinalizedSessionBookshelf = require('../data/finalized-session');
 
@@ -40,6 +42,17 @@ module.exports = {
       .fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
+  },
+
+  async assignCertificationOfficer({ sessionId, assignedCertificationOfficerName }) {
+    const updatedSessions = await Bookshelf.knex('finalized-sessions')
+      .where({ sessionId })
+      .update({ assignedCertificationOfficerName })
+      .returning('*');
+
+    if (updatedSessions.length === 0) {
+      throw new NotFoundError(`La session finalisée d'id ${sessionId} n'existe pas.`);
+    }
   },
 };
 
