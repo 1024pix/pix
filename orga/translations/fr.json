@@ -329,6 +329,26 @@
         "row-title": "Étudiant"
       },
       "title": "Étudiants"
+    },
+    "team-new": {
+      "title": "Inviter un membre",
+      "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
+      "several-email-requirement": "Vous pouvez inviter plusieurs membres en séparant les adresses e-mails par des virgules.",
+      "invited-members": "À la réception de l'e-mail, les invités pourront choisir de se créer un compte Pix ou de se connecter avec un compte Pix existant.",
+      "errors": {
+        "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
+        "status" : {
+          "400": "Le format de l'adresse e-mail est incorrect.",
+          "412": "Ce membre a déjà été ajouté.",
+          "404": "Cet email n'appartient à aucun utilisateur.",
+          "500": "Quelque chose s'est mal passé. Veuillez réessayer."
+        }
+      }
+    },
+    "team-new-item": {
+      "input-label": "Adresse(s) e-mail",
+      "cancel-button": "Annuler",
+      "invite-button": "Inviter"
     }
   }
 }

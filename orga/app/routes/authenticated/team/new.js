@@ -14,4 +14,9 @@ export default class NewRoute extends Route {
       organizationInvitation: this.store.createRecord('organizationInvitation', { organizationId: organization.id }),
     });
   }
+
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.initErrorMessages();
+  }
 }
