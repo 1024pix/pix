@@ -201,7 +201,19 @@ describe('Acceptance | API | Certifications', () => {
         // given
         server = await createServer();
         const { schoolingRegistration, session, certificationCourse }
-          = buildValidatedPublishedCertificationData({ organizationId, verificationCode, type, pixScore, competenceMarks: [ { code: '1.1', level: 6 }, { code: '5.2', level: 4 }] });
+          = buildValidatedPublishedCertificationData({
+            organizationId,
+            verificationCode,
+            type,
+            pixScore,
+            competenceMarks: [{
+              code: '5.2',
+              level: 4,
+            }, {
+              code: '1.1',
+              level: 6,
+            }],
+          });
         await databaseBuilder.commit();
 
         options = {
