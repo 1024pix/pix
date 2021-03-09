@@ -15,6 +15,10 @@ export default class Content extends Component {
     return !this.hasCampaignParticipationOverviews && !this.hasStartedCompetences && !this.hasRecommendedCompetences;
   }
 
+  get hasNewInformationToShow() {
+    return this.profileCollectionCampaignParticipationCode || !this.hasUserSeenNewDashboardInfo;
+  }
+
   get profileCollectionCampaignParticipationCode() {
     const unsharedProfileCollectionCampaignParticipations = this.args.model.campaignParticipations.filter((campaignParticipation) =>
       !campaignParticipation.isShared
