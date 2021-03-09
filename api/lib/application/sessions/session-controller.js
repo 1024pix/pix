@@ -1,4 +1,4 @@
-const { BadRequestError } = require('../http-errors');
+const { BadRequestError, SessionPublicationBatchError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
 const sessionResultsLinkService = require('../../domain/services/session-results-link-service');
@@ -246,8 +246,8 @@ module.exports = {
       sessionIds,
     });
     if (result.hasPublicationErrors()) {
-      logger.warn(result, `One or more error occurred when publishing session in batch ${result.batchId}`);
-      return h.response({ batchId: result.batchId }).code(503);
+      _logSessionBatchPublicationErrors(result);
+      throw new SessionPublicationBatchError(result.batchId);
     }
     return h.response().code(204);
   },
@@ -275,3 +275,14 @@ module.exports = {
   },
 
 };
+
+function _logSessionBatchPublicationErrors(result) {
+  const dtoToBeLogged = {
+    batchId: result.batchId,
+  };
+  const sessionAndError = result.publicationErrors;
+  for (const sessionId in sessionAndError) {
+    dtoToBeLogged[sessionId] = sessionAndError[sessionId].message;
+  }
+  logger.warn(dtoToBeLogged, `One or more error occurred when publishing session in batch ${result.batchId}`);
+}

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, sinon, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake, catchErr } = require('../../../test-helper');
 
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -21,6 +21,7 @@ const certificationResults = require('../../../../lib/infrastructure/utils/csv/c
 const tokenService = require('../../../../lib/domain/services/token-service');
 const { SessionPublicationBatchResult } = require('../../../../lib/domain/models/SessionPublicationBatchResult');
 const logger = require('../../../../lib/infrastructure/logger');
+const { SessionPublicationBatchError } = require('../../../../lib/application/http-errors');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -463,7 +464,11 @@ describe('Unit | Controller | sessionController', () => {
         },
       };
       sinon.stub(tokenService, 'extractSessionId').withArgs(token).returns({ sessionId });
-      sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves({ session, certificationResults, fileName });
+      sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves({
+        session,
+        certificationResults,
+        fileName,
+      });
 
       // when
       const response = await sessionController.getSessionResultsToDownload(request, hFake);
@@ -578,7 +583,13 @@ describe('Unit | Controller | sessionController', () => {
       firstName = 'firstName     ';
       lastName = 'lastName    ';
       sinon.stub(usecases, 'linkUserToSessionCertificationCandidate')
-        .withArgs({ userId, sessionId, firstName: 'firstName', lastName: 'lastName', birthdate }).resolves(new UserAlreadyLinkedToCertificationCandidate());
+        .withArgs({
+          userId,
+          sessionId,
+          firstName: 'firstName',
+          lastName: 'lastName',
+          birthdate,
+        }).resolves(new UserAlreadyLinkedToCertificationCandidate());
       sinon.stub(usecases, 'getCertificationCandidate')
         .withArgs({ userId, sessionId })
         .resolves(linkedCertificationCandidate);
@@ -767,35 +778,12 @@ describe('Unit | Controller | sessionController', () => {
       // then
       expect(response.statusCode).to.equal(204);
     });
-    it('returns 503 when some errors occurred', async () => {
-      // given
-      const result = new SessionPublicationBatchResult('batchId');
-      result.addPublicationError('sessionId1', new Error('an error'));
-
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              ids: ['sessionId1', 'sessionId2'],
-            },
-          },
-        },
-      };
-      sinon.stub(usecases, 'publishSessionsInBatch').withArgs({
-        sessionIds: ['sessionId1', 'sessionId2'],
-      }).resolves(result);
-      sinon.stub(logger, 'warn');
-
-      // when
-      const response = await sessionController.publishInBatch(request, hFake);
-      // then
-      expect(response.statusCode).to.equal(503);
-    });
 
     it('logs errors when errors occur', async () => {
       // given
       const result = new SessionPublicationBatchResult('batchId');
       result.addPublicationError('sessionId1', new Error('an error'));
+      result.addPublicationError('sessionId2', new Error('another error'));
 
       const request = {
         payload: {
@@ -812,10 +800,17 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(logger, 'warn');
 
       // when
-      await sessionController.publishInBatch(request, hFake);
+      await catchErr(sessionController.publishInBatch)(request, hFake);
 
       // then
-      expect(logger.warn).to.have.been.calledWithExactly(result, 'One or more error occurred when publishing session in batch batchId');
+      expect(logger.warn).to.have.been.calledWithExactly(
+        {
+          batchId: 'batchId',
+          sessionId1: 'an error',
+          sessionId2: 'another error',
+        },
+        'One or more error occurred when publishing session in batch batchId',
+      );
     });
 
     it('returns the serialized batch id', async () => {
@@ -838,9 +833,10 @@ describe('Unit | Controller | sessionController', () => {
       sinon.stub(logger, 'warn');
 
       // when
-      const response = await sessionController.publishInBatch(request, hFake);
+      const error = await catchErr(sessionController.publishInBatch)(request, hFake);
+
       // then
-      expect(response.source).to.deep.equal({ batchId: 'batchId' });
+      expect(error).to.be.an.instanceof(SessionPublicationBatchError);
     });
   });
 
