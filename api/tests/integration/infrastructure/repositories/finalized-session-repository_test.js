@@ -1,5 +1,6 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const finalizedSessionRepository = require('../../../../lib/infrastructure/repositories/finalized-session-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
 describe('Integration | Repository | Finalized-session', () => {
@@ -35,6 +36,7 @@ describe('Integration | Repository | Finalized-session', () => {
         time: '14:00:00',
         isPublishable: true,
         publishedAt: null,
+        assignedCertificationOfficerName: null,
       });
     });
   });
@@ -229,6 +231,45 @@ describe('Integration | Repository | Finalized-session', () => {
 
         // then
         expect(result).to.have.lengthOf(0);
+      });
+    });
+  });
+
+  describe('#assignCertificationOfficer', () => {
+    it('should add the name to the finalized session', async () => {
+      // given
+      const session = databaseBuilder.factory.buildFinalizedSession();
+      const sessionId = session.sessionId;
+      await databaseBuilder.commit();
+
+      // when
+      await finalizedSessionRepository.assignCertificationOfficer({
+        sessionId,
+        assignedCertificationOfficerName: 'Severus Snape',
+      });
+
+      // then
+      const updatedFinalizedSession = await knex('finalized-sessions').where({ sessionId }).first();
+      expect(updatedFinalizedSession.assignedCertificationOfficerName)
+        .to.deep.equal('Severus Snape');
+    });
+
+    context('when sessionId does not exist', () => {
+
+      it('should return a Not found error', async () => {
+        // given
+        const sessionId = databaseBuilder.factory.buildFinalizedSession().sessionId;
+        await databaseBuilder.commit();
+        const unknownSessionId = sessionId + 1;
+
+        // when
+        const error = await catchErr(finalizedSessionRepository.assignCertificationOfficer)({
+          sessionId: unknownSessionId,
+          assignedCertificationOfficerName: 'Severus Snape',
+        });
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });

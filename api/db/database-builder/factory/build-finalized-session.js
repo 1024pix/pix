@@ -10,6 +10,7 @@ module.exports = function buildFinalizedSession({
   time = faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0') + ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0'),
   date = moment(faker.date.recent()).format('YYYY-MM-DD'),
   publishedAt = null,
+  assignedCertificationOfficerName = null,
 } = {}) {
 
   const values = {
@@ -20,6 +21,7 @@ module.exports = function buildFinalizedSession({
     time,
     date,
     publishedAt,
+    assignedCertificationOfficerName,
   };
 
   return databaseBuffer.pushInsertable({
