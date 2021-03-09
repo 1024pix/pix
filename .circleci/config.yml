@@ -79,10 +79,6 @@ jobs:
             npm run lint:scripts
             npm run test:scripts
             rm -rf .git/
-      - run:
-          name: Lint docs
-          command: |
-            npm run lint:docs
       - persist_to_workspace:
           root: ~/pix
           paths:
