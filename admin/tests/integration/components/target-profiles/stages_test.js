@@ -52,4 +52,33 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.dom('table').doesNotExist();
     assert.contains('Aucun palier associé');
   });
+
+  test('it should display a message when there is no stages with threshold 0', async function(assert) {
+    // given
+    this.set('stages', []);
+
+    // when
+    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+
+    // then
+    assert.dom('table').doesNotExist();
+    assert.contains('Aucun palier associé');
+  });
+
+  test('it should display a warning when there is no threshold at 0', async function(assert) {
+    // given
+    const stage = EmberObject.create({
+      id: 1,
+      threshold: '100',
+      title: 'My title',
+      message: 'My message',
+    });
+    this.set('stages', [stage]);
+
+    // when
+    await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
+
+    // then
+    assert.contains('Attention ! Il n\'y a pas de palier à 0');
+  });
 });
