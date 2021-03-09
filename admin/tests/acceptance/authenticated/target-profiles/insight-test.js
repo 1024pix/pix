@@ -56,7 +56,6 @@ module('Acceptance | authenticated/targets-profile/target-profile/insight', func
   });
 
   test('should reset stage creation data after cancellation', async function(assert) {
-
     // when
     await visit(`/target-profiles/${targetProfile.id}/insight`);
     const stageCount = findAll('.insight__section:nth-child(2) tbody tr').length;
@@ -67,5 +66,19 @@ module('Acceptance | authenticated/targets-profile/target-profile/insight', func
     // then
     const newStageCount = findAll('.insight__section:nth-child(2) tbody tr').length;
     assert.equal(newStageCount, 1);
+  });
+
+  test('should remove one line of a new stage', async function(assert) {
+    // when
+    await visit(`/target-profiles/${targetProfile.id}/insight`);
+    const stageCount = findAll('.insight__section:nth-child(2) tbody tr').length;
+    assert.equal(stageCount, 1);
+    await click('button[data-test=\'Nouveau palier\']');
+    await click('button[data-test=\'Nouveau palier\']');
+    await click('button[aria-label=\'Supprimer palier\']');
+
+    // then
+    const newStageCount = findAll('.insight__section:nth-child(2) tbody tr').length;
+    assert.equal(newStageCount, 2);
   });
 });

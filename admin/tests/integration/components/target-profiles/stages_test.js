@@ -30,6 +30,7 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.contains('Threshold');
     assert.contains('Titre');
     assert.contains('Message');
+    assert.contains('Actions');
     assert.dom('tbody tr').exists({ count: 1 });
     assert.equal(find('tbody tr td:first-child').textContent.trim(), '1');
     assert.dom('tbody tr td:nth-child(2) img').exists();

@@ -24,9 +24,13 @@ export default class Stages extends Component {
   }
 
   @action
-  async createStages(event) {
-    event.preventDefault();
+  async createStages() {
     await Promise.all(this.newStages.map((stage) => stage.save()));
+  }
+
+  @action
+  removeNewStage(stage) {
+    stage.deleteRecord();
   }
 
   @action
