@@ -16,7 +16,7 @@ module.exports = {
       stages: {
         ref: 'id',
         included: true,
-        attributes: ['title', 'message', 'threshold'],
+        attributes: ['prescriberTitle', 'prescriberDescription', 'threshold'],
       },
       badges: {
         ref: 'id',
