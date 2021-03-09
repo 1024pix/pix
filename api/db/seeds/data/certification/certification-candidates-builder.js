@@ -23,8 +23,8 @@ const FAILURE_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID = 6;
 const STARTED_CANDIDATE_IN_PROBLEMS_FINALIZED_SESSION_ID = 7;
 const SUCCESS_CANDIDATE_IN_PUBLISHED_SESSION_ID = 8;
 const FAILURE_CANDIDATE_IN_PUBLISHED_SESSION_ID = 9;
-const CANDIDATE_DATA_SUCCESS = { firstName: 'anne', lastName: 'success', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: 'destinaire-des-resulats@orga.com' };
-const CANDIDATE_DATA_FAILURE = { firstName: 'anne', lastName: 'failure', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: 'destinaire-des-resulats@orga.com' };
+const CANDIDATE_DATA_SUCCESS = { firstName: 'anne', lastName: 'success', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: 'destinaire-des-resulats@example.net' };
+const CANDIDATE_DATA_FAILURE = { firstName: 'anne', lastName: 'failure', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: 'destinaire-des-resulats@example.net' };
 const CANDIDATE_DATA_MISSING = { firstName: 'anne', lastName: 'missing', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
 const CANDIDATE_DATA_STARTED = { firstName: 'AnneNormale5', lastName: 'Certif5', birthdate: '2000-01-01', birthCity: 'Ici', resultRecipientEmail: null };
 
