@@ -6,6 +6,7 @@
       <th>Centre de certification</th>
       <th>Date de session</th>
       <th>Date de finalisation</th>
+      <th>Qui ?</th>
     </tr>
     </thead>
 
@@ -17,6 +18,13 @@
           <td>{{withRequiredActionSession.certificationCenterName}}</td>
           <td>{{withRequiredActionSession.printableDateAndTime}}</td>
           <td>{{withRequiredActionSession.printableFinalizationDate}}</td>
+          <td class="session-list__item--align-center">
+            {{#if withRequiredActionSession.assignedCertificationOfficer}}
+              {{withRequiredActionSession.assignedCertificationOfficer.fullName}}
+            {{else}}
+            -
+            {{/if}}
+          </td>
         </tr>
       {{/each}}
       </tbody>
