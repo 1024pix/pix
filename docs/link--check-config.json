@@ -5,6 +5,9 @@
     },
     {
       "pattern": "^https://martinfowler.com/"
+    },
+    {
+      "pattern": "^https://peconnect.pole-emploi.fr/"
     }
   ]
 }
