@@ -61,5 +61,10 @@
       "contactUs": "contactez-nous ici",
       "helpdeskURL": "https://pix.org/fr/formulaire-aide"
     }
+  },
+  "entity-validation-errors": {
+    "STAGE_TITLE_IS_REQUIRED": "Le titre du palier est obligatoire",
+    "STAGE_THRESHOLD_IS_REQUIRED": "Le seuil du palier est obligatoire",
+    "TARGET_PROFILE_IS_REQUIRED": "Le profil cible est obligatoire"
   }
 }

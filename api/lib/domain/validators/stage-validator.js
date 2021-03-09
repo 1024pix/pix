@@ -9,15 +9,18 @@ const stageValidationJoiSchema = Joi.object({
     .required()
     .messages({
       'string.base': 'STAGE_TITLE_IS_REQUIRED',
+      'string.empty': 'STAGE_TITLE_IS_REQUIRED',
     }),
 
   threshold: Joi.number()
     .integer()
+    .required()
     .messages({
       'number.base': 'STAGE_THRESHOLD_IS_REQUIRED',
     }),
 
   targetProfileId: Joi.number()
+    .required()
     .integer()
     .messages({
       'number.base': 'TARGET_PROFILE_IS_REQUIRED',

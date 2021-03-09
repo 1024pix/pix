@@ -1,5 +1,5 @@
 /* eslint-disable mocha/no-identical-title */
-const { expect } = require('../../../test-helper');
+const { expect, catchErr } = require('../../../test-helper');
 
 const Stage = require('../../../../lib/domain/models/Stage');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
@@ -33,7 +33,7 @@ describe('Unit | Domain | Validators | stage-validator', () => {
     });
 
     context('when stage data validation fails', () => {
-      it('should reject with error when title is missing', () => {
+      it('should reject with error when title is missing', async () => {
         // given
         const expectedError = {
           attribute: 'title',
@@ -42,16 +42,13 @@ describe('Unit | Domain | Validators | stage-validator', () => {
         stage.title = MISSING_VALUE;
 
         // when
-        try {
-          stageValidator.validate({ stage });
-          expect.fail('should have thrown an error');
-        } catch (errors) {
-          // then
-          _assertErrorMatchesWithExpectedOne(errors, expectedError);
-        }
+        const errors = await catchErr(stageValidator.validate)({ stage });
+
+        // then
+        _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with error when threshold is missing', () => {
+      it('should reject with error when threshold is missing', async () => {
         // given
         const expectedError = {
           attribute: 'threshold',
@@ -60,16 +57,28 @@ describe('Unit | Domain | Validators | stage-validator', () => {
         stage.threshold = MISSING_VALUE;
 
         // when
-        try {
-          stageValidator.validate({ stage });
-          expect.fail('should have thrown an error');
-        } catch (errors) {
-          // then
-          _assertErrorMatchesWithExpectedOne(errors, expectedError);
-        }
+        const errors = await catchErr(stageValidator.validate)({ stage });
+
+        // then
+        _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with error when targetProfileId is missing', () => {
+      it('should reject with error when threshold is a string', async () => {
+        // given
+        const expectedError = {
+          attribute: 'threshold',
+          message: 'STAGE_THRESHOLD_IS_REQUIRED',
+        };
+        stage.threshold = 'test';
+
+        // when
+        const errors = await catchErr(stageValidator.validate)({ stage });
+
+        // then
+        _assertErrorMatchesWithExpectedOne(errors, expectedError);
+      });
+
+      it('should reject with error when targetProfileId is missing', async () => {
         // given
         const expectedError = {
           attribute: 'targetProfileId',
@@ -78,14 +87,10 @@ describe('Unit | Domain | Validators | stage-validator', () => {
         stage.targetProfileId = MISSING_VALUE;
 
         // when
-        try {
-          stageValidator.validate({ stage });
-          expect.fail('should have thrown an error');
+        const errors = await catchErr(stageValidator.validate)({ stage });
 
-        } catch (entityValidationErrors) {
-          // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-        }
+        // then
+        _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
     });
   });
