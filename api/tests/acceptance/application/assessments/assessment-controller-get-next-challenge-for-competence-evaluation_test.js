@@ -72,7 +72,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         await databaseBuilder.commit();
       });
 
-      it('should return the second challenge if the first answer is correct', () => {
+      it('should return the second challenge if the first answer is correct', async () => {
         // given
         const options = {
           method: 'GET',
@@ -81,12 +81,10 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data.id).to.equal(secondChallengeId);
-        });
+        expect(response.result.data.id).to.equal(secondChallengeId);
       });
     });
 
@@ -125,7 +123,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         await databaseBuilder.commit();
       });
 
-      it('should finish the test if there is no next challenge', () => {
+      it('should finish the test if there is no next challenge', async () => {
         // given
         const options = {
           method: 'GET',
@@ -134,14 +132,12 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal({
-            data: null,
-          });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal({
+          data: null,
         });
       });
     });
