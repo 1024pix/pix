@@ -643,4 +643,34 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
+  describe('#updateLastQuestionDate', () => {
+    it('should update lastQuestionDate', async () => {
+      // given
+      const lastQuestionDate = new Date();
+      const assessment = databaseBuilder.factory.buildAssessment({
+        lastQuestionDate: new Date('2020-01-10'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
+      expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
+    });
+
+    context('when assessment does not exist', () => {
+      it('should return null', async () => {
+        const lastQuestionDate = new Date();
+        const notExistingAssessmentId = 1;
+
+        // when
+        const result = await assessmentRepository.updateLastQuestionDate({ id: notExistingAssessmentId, lastQuestionDate });
+
+        // then
+        expect(result).to.equal(null);
+      });
+    });
+  });
 });
