@@ -144,6 +144,19 @@ module.exports = {
       .save({ state }, { require: true, patch: true, transacting: knexTransaction });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
   },
+
+  async updateLastQuestionDate({ id, lastQuestionDate }) {
+    try {
+      await BookshelfAssessment
+        .where({ id })
+        .save({ lastQuestionDate }, { require: true, patch: true, method: 'update' });
+    } catch (err) {
+      if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
+        return null;
+      }
+      throw err;
+    }
+  },
 };
 
 function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
