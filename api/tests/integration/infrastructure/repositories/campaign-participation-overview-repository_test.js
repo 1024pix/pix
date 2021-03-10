@@ -253,5 +253,21 @@ describe('Integration | Repository | Campaign Participation Overview', () => {
         });
       });
     });
+
+    context('when some campaigns are for novice so they cannot be shared', () => {
+      it('should not retrieve information about campaign participation, campaign and organization of this campaign', async () => {
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization({ name: 'Organization ABCD' });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ title: 'Campaign ABCD', code: 'ABCD', archivedAt: new Date('2020-01-03'), organizationId, targetProfileId: targetProfile.id, isForAbsoluteNovice: true });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-01-02'), validatedSkillsCount: 1 });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.COMPLETED });
+        await databaseBuilder.commit();
+
+        const { campaignParticipationOverviews } = await campaignParticipationOverviewRepository.findByUserIdWithFilters({ userId });
+
+        expect(campaignParticipationOverviews).to.deep.equal([]);
+      });
+
+    });
+
   });
 });
