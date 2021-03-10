@@ -272,7 +272,11 @@
       "description": "Please select the class for which you would like to export the certification results in a csv file.",
       "download-button": "Export the results",
       "select-label": "Class",
-      "title": "Certifications"
+      "title": "Certifications",
+      "errors": {
+        "no-results": "No certification results for the class {selectedDivision}.",
+        "invalid-division": "The class {selectedDivision} does not exist."
+      }
     },
     "profiles-individual-results": {
       "certifiable": "Eligible for certification",

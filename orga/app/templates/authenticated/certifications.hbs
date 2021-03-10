@@ -1,22 +1,20 @@
-<div class="certifications-layout">
-  <div class="certifications-page">
-    <div class="certifications-page__header">
-      <h1 class="page__title page-title">{{t 'pages.certifications.title'}}</h1>
-    </div>
-    <div class="certifications-page__text">
-      <p>
-        {{t 'pages.certifications.description'}}
-      </p>
-    </div>
-    <div class="certifications-page__action">
-      <div class='certifications-page-action__select-container'>
-        <label for="certifications-page-action__select">{{t 'pages.certifications.select-label'}}</label>
-        <PixSelect id="certifications-page-action__select" @options={{@model.options}}
-          @selectedOption={{this.selectedDivision}} @onChange={{this.onSelectDivision}} />
-      </div>
-      <button class="button" type="button" {{on 'click' this.downloadSessionResultFile}}>
-        {{t 'pages.certifications.download-button'}}
-      </button>
-    </div>
-  </div>
+<div class="certifications-page">
+  <h1 class="page__title page-title">{{t 'pages.certifications.title'}}</h1>
+  <p class="certifications-page__text">
+    {{t 'pages.certifications.description'}}
+  </p>
+  <form class="certifications-page__action" {{on 'submit' this.downloadSessionResultFile}}>
+    <label for="certifications-page-action__select">{{t 'pages.certifications.select-label'}}</label>
+    <PixSelect id="certifications-page-action__select" 
+      @options={{@model.options}}
+      @selectedOption={{this.selectedDivision}}
+      @onChange={{this.onSelectDivision}}
+      @isSearchable={{true}}
+      @isValidationActive={{true}}
+      placeholder={{this.firstTwoDivisions}}
+      required={{true}} />
+    <button class="button" type="submit">
+      {{t 'pages.certifications.download-button'}}
+    </button>
+  </form>
 </div>
