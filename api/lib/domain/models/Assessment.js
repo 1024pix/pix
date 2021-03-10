@@ -38,6 +38,7 @@ class Assessment {
     campaignParticipation,
     course,
     targetProfile,
+    lastQuestionDate,
     courseId,
     certificationCourseId,
     userId,
@@ -55,6 +56,7 @@ class Assessment {
     this.campaignParticipation = campaignParticipation;
     this.course = course;
     this.targetProfile = targetProfile;
+    this.lastQuestionDate = lastQuestionDate;
     this.courseId = courseId;
     this.certificationCourseId = certificationCourseId;
     this.userId = userId;
