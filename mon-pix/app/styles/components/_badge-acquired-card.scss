@@ -1,20 +1,12 @@
 .badge-acquired-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  grid-column-gap: 32px;
-  grid-row-gap: 24px;
-  padding: 0 14px 48px;
-
-  @include device-is('tablet') {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    grid-gap: 32px;
-    padding: 0 0 48px;
-  }
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .badge-acquired-card {
+  flex: 1 1 90%;
+  margin: 10px;
   display: flex;
   flex-direction: row;
   box-shadow: $box-shadow-competence-cards;
@@ -22,12 +14,27 @@
   justify-content: space-between;
   border-radius: 10px;
   overflow: hidden;
+  word-break: break-word;
+
+  @include device-is('desktop') {
+    flex: 1 1 40%;
+    min-width: 420px;
+    max-width: 420px;
+    min-height: 200px;
+  }
 
   &__text {
     display: flex;
     flex-direction: column;
     padding: 24px;
     padding-right: 16px;
+    max-width: 70%;
+
+    @include device-is('desktop') {
+      flex: 1 1 40%;
+      min-width: 300px;
+      max-width: 300px;
+    }
   }
 
   &-text {
@@ -45,7 +52,7 @@
       margin-bottom: 0;
       color: $grey-45;
       font-family: $font-roboto;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: $font-normal;
       letter-spacing: 0.0093rem;
       line-height: 1.2rem;
