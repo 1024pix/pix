@@ -803,14 +803,19 @@ describe('Unit | Controller | sessionController', () => {
       await catchErr(sessionController.publishInBatch)(request, hFake);
 
       // then
-      expect(logger.warn).to.have.been.calledWithExactly(
-        {
-          batchId: 'batchId',
-          sessionId1: 'an error',
-          sessionId2: 'another error',
-        },
-        'One or more error occurred when publishing session in batch batchId',
-      );
+      expect(logger.warn).to.have.been.calledWithExactly('One or more error occurred when publishing session in batch batchId');
+
+      expect(logger.warn).to.have.been.calledWithExactly({
+        batchId: 'batchId',
+        sessionId: 'sessionId1',
+        message: 'an error',
+      });
+
+      expect(logger.warn).to.have.been.calledWithExactly({
+        batchId: 'batchId',
+        sessionId: 'sessionId2',
+        message: 'another error',
+      });
     });
 
     it('returns the serialized batch id', async () => {
