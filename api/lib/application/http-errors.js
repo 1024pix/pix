@@ -16,9 +16,11 @@ class UnprocessableEntityError extends BaseHttpError {
 }
 
 class PreconditionFailedError extends BaseHttpError {
-  constructor(message, title) {
+  constructor(message, code, meta) {
     super(message);
-    this.title = title || 'Precondition Failed';
+    this.title = 'Precondition Failed';
+    this.code = code;
+    this.meta = meta;
     this.status = 412;
   }
 }

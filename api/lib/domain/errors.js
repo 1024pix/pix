@@ -730,8 +730,10 @@ class WrongDateFormatError extends DomainError {
 }
 
 class CsvImportError extends DomainError {
-  constructor(message = 'Quelque chose s’est mal passé. Veuillez réessayer.') {
-    super(message);
+  constructor(code, meta) {
+    super('An error occurred during CSV import');
+    this.code = code;
+    this.meta = meta;
   }
 }
 
