@@ -180,6 +180,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     const dateAssessmentResultAfter1 = moment(afterLimiteDate).add(1, 'month').toDate();
     const dateAssessmentResultAfter2 = moment(afterLimiteDate).add(2, 'month').toDate();
 
+    const lastQuestionDate = moment('2021-03-10').toDate();
+
     // TODO: test with malformed data, e.g.:
     // - completed assessments without an AssessmentResult
 
@@ -193,6 +195,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         state: Assessment.states.COMPLETED,
         createdAt: johnAssessmentDateToRemember,
         type: 'PLACEMENT',
+        lastQuestionDate,
       });
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId: johnAssessmentToRemember.id,
@@ -292,6 +295,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           createdAt: johnAssessmentToRemember.createdAt,
           type: PLACEMENT,
           isImproving: false,
+          lastQuestionDate,
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
