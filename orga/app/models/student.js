@@ -1,13 +1,11 @@
 import Model, { belongsTo, attr } from '@ember-data/model';
 
-const DASH = '\u2013';
-const SPACING_CHARACTER = '\n';
-
-export const CONNEXION_TYPES = {
-  none: 'Aucune',
-  email: 'Adresse e-mail',
-  identifiant: 'Identifiant',
-  mediacentre: 'Mediacentre',
+export const CONNECTION_TYPES = {
+  empty: 'pages.students-sco.connection-types.empty',
+  none: 'pages.students-sco.connection-types.none',
+  email: 'pages.students-sco.connection-types.email',
+  identifiant: 'pages.students-sco.connection-types.identifiant',
+  mediacentre: 'pages.students-sco.connection-types.mediacentre',
 };
 
 export default class Student extends Model {
@@ -31,12 +29,12 @@ export default class Student extends Model {
   get authenticationMethods() {
     const messages = [];
 
-    if (!this.isStudentAssociated) messages.push(DASH);
-    if (this.hasEmail) messages.push(CONNEXION_TYPES['email']);
-    if (this.hasUsername) messages.push(CONNEXION_TYPES['identifiant']);
-    if (this.isAuthenticatedFromGar) messages.push(CONNEXION_TYPES['mediacentre']);
+    if (!this.isStudentAssociated) messages.push(CONNECTION_TYPES['empty']);
+    if (this.hasEmail) messages.push(CONNECTION_TYPES['email']);
+    if (this.hasUsername) messages.push(CONNECTION_TYPES['identifiant']);
+    if (this.isAuthenticatedFromGar) messages.push(CONNECTION_TYPES['mediacentre']);
 
-    return messages.length > 0 ? messages.join(SPACING_CHARACTER) : '';
+    return messages;
   }
 
   get isStudentAssociated() {

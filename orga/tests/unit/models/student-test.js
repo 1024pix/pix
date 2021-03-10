@@ -7,23 +7,21 @@ module('Unit | Model | student', function(hooks) {
   module('#authenticationMethods', function() {
 
     module('when not reconciled', function() {
-      test('it should return dash', function(assert) {
+      test('it should return empty message', function(assert) {
         // given
-        const dash = '\u2013';
         const store = this.owner.lookup('service:store');
         const student = { lastName: 'Last', firstName: 'First', birthdate: '2010-10-10' };
-        const model = store.createRecord('student', student);
-
         // when
+        const model = store.createRecord('student', student);
         // then
-        assert.equal(model.authenticationMethods, dash);
+        assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.empty']);
       });
     });
 
     module('when reconciled', function() {
 
       module('single authentication method', function() {
-        test('it should return Identifiant when identified by username', function(assert) {
+        test('it should return Identifiant message key when identified by username', function(assert) {
           // given
           const store = this.owner.lookup('service:store');
           const student = {
@@ -32,13 +30,12 @@ module('Unit | Model | student', function(hooks) {
             birthdate: '2012-01-07',
             username: 'blueivy.carter0701',
           };
-          const model = store.createRecord('student', student);
-
           // when
+          const model = store.createRecord('student', student);
           // then
-          assert.equal(model.authenticationMethods, 'Identifiant');
+          assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.identifiant']);
         });
-        test('it should return Adresse e-mail when identified by email', function(assert) {
+        test('it should return Adresse e-mail message key when identified by email', function(assert) {
           // given
           const store = this.owner.lookup('service:store');
           const student = {
@@ -47,13 +44,12 @@ module('Unit | Model | student', function(hooks) {
             birthdate: '2013-07-22',
             email: 'georges.decambridge@example.net',
           };
-          const model = store.createRecord('student', student);
-
           // when
+          const model = store.createRecord('student', student);
           // then
-          assert.equal(model.authenticationMethods, 'Adresse e-mail');
+          assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.email']);
         });
-        test('it should return Mediacentre when identified from GAR', function(assert) {
+        test('it should return Mediacentre message key when identified from GAR', function(assert) {
           // given
           const store = this.owner.lookup('service:store');
           const student = {
@@ -62,19 +58,17 @@ module('Unit | Model | student', function(hooks) {
             birthdate: '2013-07-22',
             isAuthenticatedFromGar: true,
           };
-          const model = store.createRecord('student', student);
-
           // when
+          const model = store.createRecord('student', student);
           // then
-          assert.equal(model.authenticationMethods, 'Mediacentre');
+          assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.mediacentre']);
         });
       });
 
       module('multiple authentication method', function() {
 
-        test('it should return 2 aggregated methods, excluding GAR', function(assert) {
+        test('it should return 2 message keys, excluding GAR', function(assert) {
           // given
-          const SPACING_CHARACTER = '\n';
           const store = this.owner.lookup('service:store');
           const student = {
             lastName: 'Carter',
@@ -84,11 +78,13 @@ module('Unit | Model | student', function(hooks) {
             email: 'carter.blueivy@example.net',
             isAuthenticatedFromGar: false,
           };
-          const model = store.createRecord('student', student);
-
           // when
+          const model = store.createRecord('student', student);
           // then
-          assert.equal(model.authenticationMethods, 'Adresse e-mail' + SPACING_CHARACTER + 'Identifiant');
+          assert.deepEqual(model.authenticationMethods, [
+            'pages.students-sco.connection-types.email',
+            'pages.students-sco.connection-types.identifiant',
+          ]);
         });
       });
 

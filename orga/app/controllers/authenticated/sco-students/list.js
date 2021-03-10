@@ -4,13 +4,14 @@ import Controller from '@ember/controller';
 import { htmlSafe } from '@ember/template';
 import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-orga/config/environment';
-import { CONNEXION_TYPES } from '../../../models/student';
+import { CONNECTION_TYPES } from '../../../models/student';
 import debounce from 'lodash/debounce';
 
 export default class ListController extends Controller {
   @service session;
   @service currentUser;
   @service notifications;
+  @service intl;
 
   @tracked isLoading = false;
 
@@ -36,12 +37,12 @@ export default class ListController extends Controller {
     }
   }
 
-  get connexionTypesOptions() {
+  get connectionTypesOptions() {
     return [
-      { value: 'none', label: CONNEXION_TYPES.none },
-      { value: 'email', label: CONNEXION_TYPES.email },
-      { value: 'identifiant', label: CONNEXION_TYPES.identifiant },
-      { value: 'mediacentre', label: CONNEXION_TYPES.mediacentre },
+      { value: 'none', label: this.intl.t(CONNECTION_TYPES.none) },
+      { value: 'email', label: this.intl.t(CONNECTION_TYPES.email) },
+      { value: 'identifiant', label: this.intl.t(CONNECTION_TYPES.identifiant) },
+      { value: 'mediacentre', label: this.intl.t(CONNECTION_TYPES.mediacentre) },
     ];
   }
 

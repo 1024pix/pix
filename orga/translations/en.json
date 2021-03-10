@@ -289,6 +289,50 @@
         "row-title": "Skill"
       }
     },
+    "students-sco": {
+      "actions": {
+        "download-template": "Download the template",
+        "import-file": {
+          "file-type-separator": " or ",
+          "label": "Import ({types})"
+        },
+        "manage-account": "Manage the account"
+      },
+      "agri-tooltip": "Some information about import:<ul><li>For your students: use the FREGATA export towards Pix and click on the import button.</li><li>For your trainees: Pix imports all trainees at the end of November into your Pix Orga workspace. From December on, you will be able to add trainees from time to time. To do so, consult the Pix Orga documentation and use the template provided.</li></ul>",
+      "connection-types": {
+        "empty": "\u2013",
+        "none": "None",
+        "email": "Email address",
+        "identifiant": "Username",
+        "mediacentre": "Mediacentre"
+      },
+      "know-more": "Know more",
+      "table": {
+        "column": {
+          "date-of-birth": "Date of birth",
+          "first-name": "First name",
+          "last-name": "Last name",
+          "login-method": "Log in method(s)"
+        },
+        "empty": "No students.",
+        "filter": {
+          "first-name": {
+            "aria-label": "Enter a first name",
+            "label": "Search by first name"
+          },
+          "last-name": {
+            "aria-label": "Enter a last name",
+            "label": "Search by last name"
+          },
+          "login-method": {
+            "aria-label": "Search by log in method",
+            "empty-option": "All"
+          }
+        },
+        "row-title": "Student"
+      },
+      "title": "Students"
+    },
     "students-sup": {
       "actions": {
         "download-template": "Download the template",
