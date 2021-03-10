@@ -6,39 +6,39 @@ const { CsvImportError } = require('../../../../../lib/domain/errors');
 const schoolingRegistrationCsvColumns = SchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
 
 describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
-  context('when the header is correctly formed', () => {
-    context('when the header is not correctly formed', () => {
-      const organizationId = 123;
+  context('when the header is not correctly formed', () => {
+    const organizationId = 123;
 
-      const fieldList = ['Identifiant unique*', 'Nom de famille*', 'Date de naissance (jj/mm/aaaa)*', 'Code département naissance*', 'Code pays naissance*', 'Statut*', 'Code MEF*', 'Division*'];
-      fieldList.forEach((field) => {
-        context(`when the ${field} column is missing`, () => {
-          it('should throw an CsvImportError', async () => {
-            let input = schoolingRegistrationCsvColumns.replace(`${field}`, '');
-            input = input.replace(';;', ';');
-            const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
-
-            const error = await catchErr(parser.parse, parser)();
-
-            expect(error.message).to.contain(`La colonne "${field}" est obligatoire.`);
-          });
-        });
-      });
-
-      context('when the Premier prénom* column is missing', () => {
+    const fieldList = ['Identifiant unique*', 'Nom de famille*', 'Date de naissance (jj/mm/aaaa)*', 'Code département naissance*', 'Code pays naissance*', 'Statut*', 'Code MEF*', 'Division*'];
+    fieldList.forEach((field) => {
+      context(`when the ${field} column is missing`, () => {
         it('should throw an CsvImportError', async () => {
-          const input = schoolingRegistrationCsvColumns.replace('Premier prénom*;', '');
+          let input = schoolingRegistrationCsvColumns.replace(`${field}`, '');
+          input = input.replace(';;', ';');
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
 
           const error = await catchErr(parser.parse, parser)();
 
-          expect(error.message).to.contain('Encodage du fichier non supporté.');
+          expect(error.code).to.equal('HEADER_REQUIRED');
         });
       });
     });
 
+    context('when the Premier prénom* column is missing', () => {
+      it('should throw an CsvImportError', async () => {
+        const input = schoolingRegistrationCsvColumns.replace('Premier prénom*;', '');
+        const encodedInput = iconv.encode(input, 'utf8');
+        const parser = new SchoolingRegistrationParser(encodedInput, organizationId);
+
+        const error = await catchErr(parser.parse, parser)();
+
+        expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
+      });
+    });
+  });
+
+  context('when the header is correctly formed', () => {
     context('when there is no line', () => {
       it('returns no registrations', () => {
         const input = schoolingRegistrationCsvColumns;
@@ -123,30 +123,15 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           const error = await catchErr(parser.parse, parser)();
 
           //then
-          expect(error.message).to.contain('Ligne 2 : Le champ “Identifiant unique*” (INA) doit être de 10 chiffres suivis d’une lettre.');
-        });
-
-        it('should throw an EntityValidationError with malformated birthDate', async () => {
-          const wrongData = '1/01/1970';
-          //given
-          const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;${wrongData};97422;Shangai;200;99100;ST;MEF1;Division 1;
-          `;
-          const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 123);
-
-          const error = await catchErr(parser.parse, parser)();
-
-          //then
-          expect(error).to.be.an.instanceOf(CsvImportError);
-          expect(error.message).to.contains('Ligne 2 : Le champ “Date de naissance (jj/mm/aaaa)*” doit être au format JJ/MM/AAAA.');
+          expect(error.code).to.equal('INA_FORMAT');
+          expect(error.meta).to.deep.equal({ line: 2, field: 'Identifiant unique*' });
         });
 
         it('should throw an EntityValidationError with malformated birthCountryCode', async () => {
           //given
           const wrongData = 'FRANC';
           const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;${wrongData};Shangai;200;;ST;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, 123);
@@ -154,14 +139,15 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           const error = await catchErr(parser.parse, parser)();
 
           //then
-          expect(error).to.be.an.instanceOf(CsvImportError);
+          expect(error.code).to.equal('INSEE_CODE_INVALID');
+          expect(error.meta).to.deep.equal({ line: 2, field: 'Code pays naissance*' });
         });
 
         it('should throw an EntityValidationError with malformated birthCityCode', async () => {
           //given
           const wrongData = 'A1234';
           const input = `${schoolingRegistrationCsvColumns}
-          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;99100;France;200;${wrongData};ST;MEF1;Division 1;
+          123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new SchoolingRegistrationParser(encodedInput, 123);
@@ -170,6 +156,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
 
           //then
           expect(error).to.be.an.instanceOf(CsvImportError);
+          expect(error.code).to.equal('INSEE_CODE_INVALID');
+          expect(error.meta).to.deep.equal({ line: 2, field: 'Code commune naissance**' });
         });
 
         context('When the organization is Agriculture and file contain status AP', () => {
@@ -194,8 +182,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
           context('when organization is SCO', () => {
             it('should throw an CsvImportError even with different status', async () => {
               const input = `${schoolingRegistrationCsvColumns}
-              123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
-              123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
+              0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
               `;
 
               const encodedInput = iconv.encode(input, 'utf8');
@@ -204,7 +192,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               const error = await catchErr(parser.parse, parser)();
 
               //then
-              expect(error).to.be.an.instanceOf(CsvImportError);
+              expect(error.code).to.equal('INA_UNIQUE');
+              expect(error.meta).to.deep.equal({ line: 3, field: 'Identifiant unique*' });
             });
           });
 
@@ -247,7 +236,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', () => {
               const error = await catchErr(parser.parse, parser)();
 
               //then
-              expect(error).to.be.an.instanceOf(CsvImportError);
+              expect(error.code).to.equal('INA_UNIQUE');
+              expect(error.meta).to.deep.equal({ line: 3, field: 'Identifiant unique*' });
             });
           });
         });
