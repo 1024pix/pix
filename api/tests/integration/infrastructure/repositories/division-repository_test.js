@@ -69,17 +69,17 @@ describe('Integration | Repository | Division', () => {
   });
 
   describe('#findByOrganizationId', () => {
-    it('should return an organization list of divisions', async () => {
+    it('should return list of divisions from an organization ordered by name', async () => {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
-        division: '3b',
+        division: '5A',
       });
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
-        division: '3A',
+        division: '_3A',
       });
       databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
@@ -104,20 +104,13 @@ describe('Integration | Repository | Division', () => {
       const divisions = await divisionRepository.findByOrganizationId({ organizationId: organization.id });
 
       // then
-      expect(divisions).to.have.lengthOf(4);
+      expect(divisions).to.have.lengthOf(5);
       expect(divisions).to.deep.equal([
-        {
-          name: 't1',
-        },
-        {
-          name: 'T2',
-        },
-        {
-          name: '3b',
-        },
-        {
-          name: '3A',
-        },
+        { name: '3A' },
+        { name: '5A' },
+        { name: 'T2' },
+        { name: '_3A' },
+        { name: 't1' },
       ]);
     });
   });

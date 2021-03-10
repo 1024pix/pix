@@ -19,7 +19,7 @@ async function findByOrganizationId({ organizationId }) {
   const divisionRows = await knex('schooling-registrations')
     .distinct('division')
     .where('organizationId', organizationId)
-    .orderBy('division', 'desc');
+    .orderBy('division', 'asc');
 
   return divisionRows.map(({ division }) => _toDomain(division));
 }
