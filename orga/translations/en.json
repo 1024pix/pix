@@ -1,11 +1,13 @@
 {
   "api-errors-messages": {
+    "bad-request": "The data entered was not in the correct format.",
     "campaign-creation": {
       "external-user-id-required": "Please specify the type of external user ID which the participants will be required to fill when starting the personalised test.",
       "name-required": "Please name your campaign.",
       "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
       "target-profile-required": "Please select a target profile for your campaign."
     },
+    "default": "The service is temporarily unavailable. Please try again later.",
     "edit-student-number": {
       "student-number-exists": "The student number entered is already used by {firstName} {lastName}"
     },
@@ -309,6 +311,28 @@
         "invalid-division": "The class {selectedDivision} does not exist."
       }
     },
+    "login": {
+      "title": "Log in"
+    },
+    "login-form": {
+      "active-or-retrieve": "Activate or retrieve your Pix Orga workspace",
+      "email": "Email address",
+      "forgot-password": "Forgot your password?",
+      "forgotten-password-url": "https://app.pix.org/mot-de-passe-oublie?lang=en",
+      "invitation-already-accepted": "This invitation has already been accepted. Please log in or contact the administrator of your Pix Orga workspace.",
+      "is-only-accessible": "Pix Orga is only accessible to invited members. Please contact your Pix Orga administrator in order to be invited.",
+      "login": "Log in",
+      "only-for-admin": "only for school administrations",
+      "password": "Password",
+      "show-password": "Show password",
+      "errors": {
+        "status": {
+          "401": "Missing or invalid credentials",
+          "401-should-change-password": "An error occurred. Please change your password.",
+          "403": "Access to this Pix Orga workspace is limited to invited members. Each Pix Orga workspace is managed by an administrator specific to the organisation using it. Please contact your administrator to get invited."
+        }
+      }
+    },
     "profiles-individual-results": {
       "certifiable": "Eligible for certification",
       "competences-certifiables": "SKILLS ELIGIBLE FOR CERTIFICATION",
@@ -482,8 +506,8 @@
         "default": "The service is temporarily unavailable. Please try again later.",
         "status" : {
           "400": "The email address format is invalid.",
-          "412": "This member has already been added.",
           "404": "This email address doesn't match any Pix user.",
+          "412": "This member has already been added.",
           "500": "Something went wrong. Please try again."
         }
       }
