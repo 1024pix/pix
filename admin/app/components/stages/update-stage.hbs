@@ -1,0 +1,29 @@
+<section class="page-section mb_10">
+  <div class="stage__edit-form">
+    <form class="form" {{on "submit" this.updateStage}}>
+
+      <div class="form-field">
+        <label for="prescriberTitle" class="form-field__label">
+            Titre pour le prescripteur
+        </label>
+        <Input id="prescriberTitle" @type="text" class={{if (v-get this.form 'prescriberTitle' 'isInvalid'
+          ) "form-control is-invalid" "form-control" }} @value={{this.form.prescriberTitle}} />
+          {{#if (v-get this.form 'prescriberTitle' 'isInvalid')}}
+            <div class="form-field__error">
+              {{v-get this.form 'prescriberTitle' 'message'}}
+            </div>
+          {{/if}}
+        <br/>
+        <label for="prescriberDescription" class="form-field__label">
+            Description pour le prescripteur
+        </label>
+        <Input id="prescriberDescription" @type="text" class={{if (v-get this.form 'prescriberDescription' 'isInvalid'
+          ) "form-control is-invalid" "form-control" }} @value={{this.form.prescriberDescription}} />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-outline-default" type="button" {{on "click" @toggleEditMode}}>Annuler</button>
+        <button class="btn btn-success" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</section>
