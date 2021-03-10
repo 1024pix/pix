@@ -277,12 +277,14 @@ module.exports = {
 };
 
 function _logSessionBatchPublicationErrors(result) {
-  const dtoToBeLogged = {
-    batchId: result.batchId,
-  };
+  logger.warn(`One or more error occurred when publishing session in batch ${result.batchId}`);
+
   const sessionAndError = result.publicationErrors;
   for (const sessionId in sessionAndError) {
-    dtoToBeLogged[sessionId] = sessionAndError[sessionId].message;
+    logger.warn({
+      batchId: result.batchId,
+      sessionId,
+      message: sessionAndError[sessionId].message,
+    });
   }
-  logger.warn(dtoToBeLogged, `One or more error occurred when publishing session in batch ${result.batchId}`);
 }
