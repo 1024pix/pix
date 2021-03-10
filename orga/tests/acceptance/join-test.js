@@ -12,11 +12,13 @@ import {
   createUserWithMembershipAndTermsOfServiceAccepted,
   createPrescriberByUser,
 } from '../helpers/test-init';
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | join', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('When prescriber tries to go on join page', function() {
 
@@ -52,6 +54,7 @@ module('Acceptance | join', function(hooks) {
       const organizationInvitationId = server.create('organizationInvitation', {
         organizationId, email: 'random@email.com', status: 'accepted', code,
       }).id;
+      const expectedErrorMessage = this.intl.t('pages.login-form.invitation-already-accepted');
 
       // when
       await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -60,7 +63,7 @@ module('Acceptance | join', function(hooks) {
       assert.equal(currentURL(), '/connexion?hasInvitationError=true');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
       assert.dom('.login-form__invitation-error').exists();
-      assert.dom('.login-form__invitation-error').hasText('Cette invitation a déjà été acceptée. Connectez-vous ou contactez l’administrateur de votre espace Pix Orga.');
+      assert.dom('.login-form__invitation-error').hasText(expectedErrorMessage);
     });
   });
 
@@ -191,12 +194,9 @@ module('Acceptance | join', function(hooks) {
 
       test('it should remain on join page', async function(assert) {
         // given
+        const expectedErrorMessage = this.intl.t('pages.login-form.errors.status.401');
         server.post('/token', {
-          errors: [{
-            detail: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.',
-            status: '4O1',
-            title: 'Unauthorized',
-          }],
+          errors: [{ status: '401' }],
         }, 401);
 
         await visit(`/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
@@ -210,7 +210,8 @@ module('Acceptance | join', function(hooks) {
         // then
         assert.equal(currentURL(), `/rejoindre?invitationId=${organizationInvitationId}&code=${code}`);
         assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-        assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+        assert.dom('#login-form-error-message')
+          .hasText(expectedErrorMessage);
       });
     });
 
