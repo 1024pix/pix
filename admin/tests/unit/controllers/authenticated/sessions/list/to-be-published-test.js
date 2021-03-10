@@ -115,14 +115,14 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
 
       const unloadRecord = sinon.stub().resolves();
       const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord }) ];
-      const publishError = { error: {
+      const error = {
         errors: [
           { code: 'SESSION_BATCH_PUBLICATION_FAILED', details: 'Erreur dans la publication' },
         ],
-      } };
+      };
       const store = {
         adapterFor: sinon.stub().returns({
-          publishSessionInBatch: sinon.stub().rejects(publishError),
+          publishSessionInBatch: sinon.stub().resolves(error),
         }),
       };
 
@@ -138,11 +138,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       // then
       sinon.assert.calledWith(send, 'refreshModel');
       sinon.assert.calledWith(errorMock,
-        { error: {
-          errors: [
-            { code: 'SESSION_BATCH_PUBLICATION_FAILED', details: 'Erreur dans la publication' },
-          ],
-        } },
+        `Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : ${error.errors[0].detail}`,
       );
       assert.ok(true);
     });

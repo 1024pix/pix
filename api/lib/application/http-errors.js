@@ -114,7 +114,7 @@ class SessionPublicationBatchError extends BaseHttpError {
     super(`${batchId}`);
     this.title = 'One or more error occurred while publishing session in batch';
     this.code = 'SESSION_BATCH_PUBLICATION_FAILED',
-    this.status = 503;
+    this.status = 207;
   }
 }
 

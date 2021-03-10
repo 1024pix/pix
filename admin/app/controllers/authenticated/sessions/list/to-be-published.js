@@ -24,19 +24,18 @@ export default class SessionToBePublishedController extends Controller {
     const sessionIdsToBePublished = this.model.map((session) => session.id);
     const adapter = this.store.adapterFor('to-be-published-session');
     try {
-      await adapter.publishSessionInBatch(sessionIdsToBePublished);
-      this.hideConfirmModal();
-      this._removePublishedSessionsFromStore(this.model);
-      this.notifications.success('Les sessions ont été publiées avec succès');
-    } catch (err) {
-      if (this._batchPublicationFailed(err)) {
-        this._notifyPublicationFailure(err);
+      const result = await adapter.publishSessionInBatch(sessionIdsToBePublished);
+      if (this._batchPublicationFailed(result)) {
+        this._notifyPublicationFailure(result);
+        this.send('refreshModel');
       } else {
-        this.notifications.error(err);
+        this._removePublishedSessionsFromStore(this.model);
+        this.notifications.success('Les sessions ont été publiées avec succès');
       }
-      this.hideConfirmModal();
-      this.send('refreshModel');
+    } catch (err) {
+      this.notifications.error(err);
     }
+    this.hideConfirmModal();
   }
 
   @action
