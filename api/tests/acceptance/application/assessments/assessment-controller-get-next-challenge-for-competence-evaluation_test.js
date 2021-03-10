@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder, knex, sinon } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
@@ -56,9 +56,11 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
     const userId = 1234;
 
     context('When there is still challenges to answer', () => {
+      let clock;
+
       beforeEach(async () => {
         databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId, lastQuestionDate: new Date('2020-01-20') });
         const { id: answerId } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
@@ -70,6 +72,15 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           competenceId,
         });
         await databaseBuilder.commit();
+
+        clock = sinon.useFakeTimers({
+          now: Date.now(),
+          toFake: ['Date'],
+        });
+      });
+
+      afterEach(async () => {
+        clock.restore();
       });
 
       it('should return the second challenge if the first answer is correct', async () => {
@@ -80,10 +91,14 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
 
+        const lastQuestionDate = new Date();
+
         // when
         const response = await server.inject(options);
 
         // then
+        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
+        expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
         expect(response.result.data.id).to.equal(secondChallengeId);
       });
     });
