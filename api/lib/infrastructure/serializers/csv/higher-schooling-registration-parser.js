@@ -19,6 +19,11 @@ const COLUMNS = [
   new CsvColumn({ name: 'studyScheme', label: 'Régime' }),
 ];
 
+const ERRORS = {
+  STUDENT_NUMBER_UNIQUE: 'STUDENT_NUMBER_UNIQUE',
+  STUDENT_NUMBER_FORMAT: 'STUDENT_NUMBER_FORMAT',
+};
+
 class HigherSchoolingRegistrationParser extends CsvRegistrationParser {
 
   constructor(input, organizationId) {
@@ -27,11 +32,14 @@ class HigherSchoolingRegistrationParser extends CsvRegistrationParser {
   }
 
   _handleError(err, index) {
+    const column = this._columns.find((column) => column.name === err.key);
+    const line = index + 2;
+    const field = column.label;
     if (err.why === 'uniqueness') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “Numéro étudiant” doit être unique au sein du fichier.`);
+      throw new CsvImportError(ERRORS.STUDENT_NUMBER_UNIQUE, { line, field });
     }
     if (err.why === 'student_number_format') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “numéro étudiant” ne doit pas avoir de caractères spéciaux.`);
+      throw new CsvImportError(ERRORS.STUDENT_NUMBER_FORMAT, { line, field });
     }
     super._handleError(...arguments);
   }

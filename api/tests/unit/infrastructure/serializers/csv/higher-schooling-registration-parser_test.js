@@ -93,7 +93,8 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.contain('Ligne 3 : Le champ “Numéro étudiant” doit être unique au sein du fichier.');
+      expect(error.code).to.equal('STUDENT_NUMBER_UNIQUE');
+      expect(error.meta).to.deep.equal({ line: 3, field: 'Numéro étudiant' });
     });
 
     it('should throw an error if the student number is has an incorrect  format', async () => {
@@ -105,7 +106,8 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.contain('Ligne 2 : Le champ “numéro étudiant” ne doit pas avoir de caractères spéciaux.');
+      expect(error.code).to.equal('STUDENT_NUMBER_FORMAT');
+      expect(error.meta).to.deep.equal({ line: 2, field: 'Numéro étudiant' });
     });
   });
 });
