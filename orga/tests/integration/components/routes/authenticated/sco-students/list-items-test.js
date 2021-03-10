@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import fillInByLabel from '../../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
 import Service from '@ember/service';
@@ -9,7 +9,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/sco-students | list-items', function(hooks) {
 
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function() {
     this.set('noop', sinon.stub());
@@ -110,9 +110,9 @@ module('Integration | Component | routes/authenticated/sco-students | list-items
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
-      this.set('connexionTypesOptions', [{ value: 'email', label: 'email' }]);
+      this.set('connectionTypesOptions', [{ value: 'email', label: 'email' }]);
 
-      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connexionTypesOptions={{connexionTypesOptions}} />`);
+      await render(hbs`<Routes::Authenticated::ScoStudents::ListItems @students={{students}} @triggerFiltering={{triggerFiltering}} @connectionTypesOptions={{connectionTypesOptions}} />`);
 
       // when
       await fillInByLabel('Rechercher par méthode de connexion', 'email');

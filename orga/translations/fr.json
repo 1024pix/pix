@@ -289,6 +289,50 @@
         "row-title": "Compétence"
       }
     },
+    "students-sco": {
+      "actions": {
+        "download-template": "Télécharger le modèle",
+        "import-file": {
+          "file-type-separator": " ou ",
+          "label": "Importer ({types})"
+        },
+        "manage-account": "Gérer le compte"
+      },
+      "agri-tooltip": "Quelques informations concernant l’import :<ul><li>Pour vos élèves : utiliser l’export FREGATA vers Pix et cliquer sur le bouton importer.</li><li>Pour vos apprentis : Pix importe tous les apprentis fin novembre au sein de votre espace Pix Orga. Les ajouts ponctuels d’apprentis se feront à partir de décembre, pour cela consulter la documentation Pix Orga et utiliser le modèle fourni.</li></ul>",
+      "connection-types": {
+        "empty": "\u2013",
+        "none": "Aucune",
+        "email": "Adresse e-mail",
+        "identifiant": "Identifiant",
+        "mediacentre": "Mediacentre"
+      },
+      "know-more": "En savoir plus",
+      "table": {
+        "column": {
+          "date-of-birth": "Date de naissance",
+          "first-name": "Prénom",
+          "last-name": "Nom",
+          "login-method": "Méthode(s) de connexion"
+        },
+        "empty": "Aucun élève.",
+        "filter": {
+          "first-name": {
+            "aria-label": "Entrer un prénom",
+            "label": "Rechercher par prénom"
+          },
+          "last-name": {
+            "aria-label": "Entrer un nom",
+            "label": "Rechercher par nom"
+          },
+          "login-method": {
+            "aria-label": "Rechercher par méthode de connexion",
+            "empty-option": "Tous"
+          }
+        },
+        "row-title": "Élève"
+      },
+      "title": "Élèves"
+    },
     "students-sup": {
       "actions": {
         "download-template": "Télécharger le modèle",
