@@ -48,7 +48,8 @@ function _findByUserId({ userId }) {
         .innerJoin('organizations', 'organizations.id', 'campaigns.organizationId')
         .innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
         .modify(_filterMostRecentAssessments)
-        .where('campaign-participations.userId', userId);
+        .where('campaign-participations.userId', userId)
+        .whereNot('campaigns.isForAbsoluteNovice', true);
     })
     .from('campaign-participation-overviews')
     .orderByRaw(_computeCampaignParticipationOrder())
