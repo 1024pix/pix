@@ -113,5 +113,34 @@ describe('Integration | Repository | Division', () => {
         { name: 't1' },
       ]);
     });
+
+    it('should omit old divisions', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '5A',
+        updatedAt: new Date('2021-01-01'),
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '5A',
+        updatedAt: new Date('2019-01-01'),
+      });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: 'very-old-division',
+        updatedAt: new Date('2019-01-01'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const divisions = await divisionRepository.findByOrganizationId({ organizationId: organization.id });
+
+      // then
+      expect(divisions).to.deep.equal([{ name: '5A' }]);
+    });
   });
 });
