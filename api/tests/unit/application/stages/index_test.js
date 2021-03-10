@@ -11,9 +11,6 @@ function startServer() {
 
 describe('Unit | Router | stages-router', () => {
   beforeEach(() => {
-    sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
-      h.continue({ credentials: { accessToken: 'jwt.access.token' } });
-    });
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(stagesController, 'create').returns('ok');
     sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
