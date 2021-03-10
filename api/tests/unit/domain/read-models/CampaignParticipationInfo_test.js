@@ -33,12 +33,24 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .to.throw(ObjectValidationError);
     });
 
+    it('should not throw an ObjectValidationError when participantFirstname is empty', () => {
+      // when
+      expect(() => new CampaignParticipationInfo({ ...validArguments, participantFirstName: '' }))
+        .not.to.throw(ObjectValidationError);
+    });
+
     it('should throw an ObjectValidationError when participantLastName is not valid', () => {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: 123456 }))
         .to.throw(ObjectValidationError);
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: undefined }))
         .to.throw(ObjectValidationError);
+    });
+
+    it('should not throw an ObjectValidationError when participantLastName is empty', () => {
+      // when
+      expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: '' }))
+        .not.to.throw(ObjectValidationError);
     });
 
     it('should throw an ObjectValidationError when participantExternalId is not valid', () => {
