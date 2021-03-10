@@ -19,9 +19,6 @@ describe('Unit | Router | user-router', () => {
     const method = 'GET';
 
     beforeEach(() => {
-      sinon.stub(securityPreHandlers, 'checkUserIsAuthenticated').callsFake((request, h) => {
-        h.continue({ credentials: { accessToken: 'jwt.access.token' } });
-      });
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
       httpTestServer = startServer();
