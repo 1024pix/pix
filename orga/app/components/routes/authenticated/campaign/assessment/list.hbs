@@ -40,6 +40,8 @@
                   <StageStars
                     @result={{participation.masteryPercentage}}
                     @stages={{@campaign.stages}}
+                    @withTooltip={{true}}
+                    @tooltipPosition="bottom-left"
                   />
                 {{else}}
                   <span class="participant-list__mastery-percentage">

@@ -51,4 +51,76 @@ module('Integration | Component | stage-stars', function(hooks) {
     // then
     assert.equal(srOnly.textContent.trim(), '1 étoiles sur 2');
   });
+
+  test('should not display tooltip by default', async function(assert) {
+    // given
+    this.set('result', 50);
+    this.set('stages', [{ threshold: 20 }, { threshold: 70 }]);
+
+    // when
+    await render(hbs`<StageStars @result={{this.result}} @stages={{this.stages}}/>`);
+
+    // then
+    assert.dom('[role="tooltip"]').doesNotExist();
+  });
+
+  test('should not display tooltip when no stage has been reached yet', async function(assert) {
+    // given
+    this.set('result', undefined);
+    this.set('stages', [{ threshold: 20 }, { threshold: 70 }]);
+
+    // when
+    await render(hbs`<StageStars @result={{this.result}} @stages={{this.stages}}/>`);
+
+    // then
+    assert.dom('[role="tooltip"]').doesNotExist();
+  });
+
+  test('should render tooltip with reached stage prescriber title', async function(assert) {
+    // given
+    this.set('result', 50);
+    this.set('stages', [{ threshold: 20, prescriberTitle: 'title' }, { threshold: 70 }]);
+
+    // when
+    await render(hbs`<StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+
+    // then
+    assert.dom('[role="tooltip"]').hasText('title');
+  });
+
+  test('should render tooltip with reached stage prescriber description', async function(assert) {
+    // given
+    this.set('result', 50);
+    this.set('stages', [{ threshold: 20, prescriberDescription: 'description' }, { threshold: 70 }]);
+
+    // when
+    await render(hbs`<StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+
+    // then
+    assert.dom('[role="tooltip"]').hasText('description');
+  });
+
+  test('should render tooltip with reached stage prescriber title and description', async function(assert) {
+    // given
+    this.set('result', 50);
+    this.set('stages', [{ threshold: 20, prescriberTitle: 'title', prescriberDescription: 'description' }, { threshold: 70 }]);
+
+    // when
+    await render(hbs`<StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+
+    // then
+    assert.dom('[role="tooltip"]').hasText('titledescription');
+  });
+
+  test('should not display tooltip when reached stage has no prescriber title nor description', async function(assert) {
+    // given
+    this.set('result', 50);
+    this.set('stages', [{ threshold: 20 }, { threshold: 70 }]);
+
+    // when
+    await render(hbs`<StageStars @result={{this.result}} @stages={{this.stages}} @withTooltip={{true}}/>`);
+
+    // then
+    assert.dom('[role="tooltip"]').doesNotExist();
+  });
 });
