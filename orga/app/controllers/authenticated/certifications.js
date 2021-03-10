@@ -8,8 +8,9 @@ export default class AuthenticatedCertificationsController extends Controller {
   @service session;
   @service currentUser;
   @service notifications;
+  @service intl;
 
-  @tracked selectedDivision = this.model.options[0].value ;
+  @tracked selectedDivision = '';
 
   @action
   onSelectDivision(event) {
@@ -17,11 +18,15 @@ export default class AuthenticatedCertificationsController extends Controller {
   }
 
   @action
-  async downloadSessionResultFile() {
-
-    const organizationId = this.currentUser.organization.id;
+  async downloadSessionResultFile(event) {
+    event.preventDefault();
 
     try {
+      if (_isDivisionInvalid(this.selectedDivision, this.model.options)) {
+        throw new Error(this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision }));
+      }
+
+      const organizationId = this.currentUser.organization.id;
       const url = `/api/organizations/${organizationId}/certification-results?division=${this.selectedDivision}`;
 
       let token = '';
@@ -32,11 +37,31 @@ export default class AuthenticatedCertificationsController extends Controller {
 
       await this.fileSaver.save({ url, token });
     } catch (error) {
+      let errorMessage = error.message;
+
       if (_isErrorNotFound(error)) {
-        this.notifications.error('Aucun résultat de certification pour cette classe.');
+        errorMessage = this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision });
       }
+
+      this.notifications.error(errorMessage, {
+        autoClear: false,
+      });
     }
   }
+
+  get firstTwoDivisions() {
+    if (this.model.options.length < 2) {
+      return '';
+    }
+
+    return `${this.model.options[0].label}, ${this.model.options[1].label} …`;
+  }
+}
+
+function _isDivisionInvalid(selectedDivision, divisions) {
+  return !divisions.some(
+    (division) => division.label.toLowerCase() === selectedDivision.toLowerCase(),
+  );
 }
 
 function _isErrorNotFound(error) {
