@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.29.0 (10/03/2021)
+
+- [#2674](https://github.com/1024pix/pix/pull/2674) [FEATURE] Traduire en anglais la page Inviter un membre dans Pix Orga (PIX-2220).
+- [#2673](https://github.com/1024pix/pix/pull/2673) [FEATURE] Ne pas montrer de bannière sur la page "Certifications" sur PixOrga (PIX-2296) 
+- [#2648](https://github.com/1024pix/pix/pull/2648) [FEATURE] Pouvoir mettre du markdown sur les QCU (PIX-2289).
+- [#2656](https://github.com/1024pix/pix/pull/2656) [FEATURE] Ajout des traductions pour la page de modification du numéro étudiant (SUP) (PIX-2255).
+- [#2665](https://github.com/1024pix/pix/pull/2665) [FEATURE] Change wording for certification page labels (pix-2295)
+- [#2671](https://github.com/1024pix/pix/pull/2671) [BUGFIX] Affichage du burger menu cassé.
+- [#2662](https://github.com/1024pix/pix/pull/2662) [BUGFIX] La tooltip "Copier" dans la page détail d'une campagne n'avait pas de traduction (PIX-2305)
+- [#2680](https://github.com/1024pix/pix/pull/2680) [TECH] Trier les résultats par compétence dans les résultats envoyés pour le livret scolaire.
+- [#2677](https://github.com/1024pix/pix/pull/2677) [TECH] Mise a jour de Node 14.15.0 vers 14.16.0.
+- [#2664](https://github.com/1024pix/pix/pull/2664) [TECH] Pouvoir changer le comportement de l'utilisateur dans les tests d'algo (PIX-2063).
+- [#2658](https://github.com/1024pix/pix/pull/2658) [TECH] Transférer la traduction de l'email de création de compte dans l'API (PIX-2213).
+- [#2629](https://github.com/1024pix/pix/pull/2629) [TECH] Bump du package.json de l'api
+- [#2426](https://github.com/1024pix/pix/pull/2426) [TECH] Affiche le profil de positionnement et les acquis évalués en certification pour un test de certif sur PixAdmin (PIX-2185)
+- [#2655](https://github.com/1024pix/pix/pull/2655) [TECH] Refactorer les tests d'invitation aux organisations (PIX-2297).
+- [#2668](https://github.com/1024pix/pix/pull/2668) [FIX] Ignorer les liens pole emploi connect dans le Doc Link Checker
+- [#2653](https://github.com/1024pix/pix/pull/2653) [DOC] ADR sur la gestion des images dans Pix App.
+- [#2659](https://github.com/1024pix/pix/pull/2659) [CLEANUP] Supprimer les exceptions du template-lintrc de Pix App (PIX-2304).
+- [#2639](https://github.com/1024pix/pix/pull/2639) [CLEAN] Renommer PublishableSessions en ToBePublishedSessions
+- [#2663](https://github.com/1024pix/pix/pull/2663) [INFRA] Ajout d'un status de réussite ou d'échec à la méthode d'envoi d'email
+
 ## v3.28.0 (04/03/2021)
 
 - [#2631](https://github.com/1024pix/pix/pull/2631) [FEATURE] Ajout des traductions pour la page des étudiants (SUP) (PIX-2254).
