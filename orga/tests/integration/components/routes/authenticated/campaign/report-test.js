@@ -2,6 +2,13 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import Service from '@ember/service';
+
+class CurrentUserStub extends Service {
+  prescriber = {
+    lang: 'fr',
+  }
+}
 
 module('Integration | Component | routes/authenticated/campaign/report', function(hooks) {
   setupIntlRenderingTest(hooks);
@@ -10,6 +17,8 @@ module('Integration | Component | routes/authenticated/campaign/report', functio
 
   hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
+    this.owner.register('service:current-user', CurrentUserStub);
+    this.owner.lookup('service:current-user', CurrentUserStub);
   });
 
   test('it should display campaign name', async function(assert) {

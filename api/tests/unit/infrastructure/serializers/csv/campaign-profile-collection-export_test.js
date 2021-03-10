@@ -11,6 +11,8 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
       getPlacementProfilesWithSnapshotting: sinon.stub(),
     };
 
+    const translate = sinon.stub();
+
     beforeEach(() => {
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
@@ -36,11 +38,30 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
         },
       ];
 
+      translate.withArgs('campaign.profiles-collection.campaign-id').returns('ID Campagne');
+      translate.withArgs('campaign.profiles-collection.organization-name').returns('Nom de l\'organisation');
+      translate.withArgs('campaign.profiles-collection.campaign-name').returns('Nom de la campagne');
+      translate.withArgs('campaign.profiles-collection.participant-lastname').returns('Nom du Participant');
+      translate.withArgs('campaign.profiles-collection.participant-firstname').returns('Prénom du Participant');
+      translate.withArgs('campaign.profiles-collection.participant-division').returns('Classe');
+      translate.withArgs('campaign.profiles-collection.participant-student-number').returns('Numéro Étudiant');
+      translate.withArgs('campaign.profiles-collection.is-sent').returns('Envoi (O/N)');
+      translate.withArgs('campaign.profiles-collection.sent-on').returns('Date de l\'envoi');
+      translate.withArgs('campaign.profiles-collection.pix-score').returns('Nombre de pix total');
+      translate.withArgs('campaign.profiles-collection.is-certifiable').returns('Certifiable (O/N)');
+      translate.withArgs('campaign.profiles-collection.certifiable-skills').returns('Nombre de compétences certifiables');
+
+      translate.withArgs('campaign.profiles-collection.skill-level', { name: competences[0].name }).returns(`Niveau pour la compétence ${competences[0].name}`);
+      translate.withArgs('campaign.profiles-collection.skill-ranking', { name: competences[0].name }).returns(`Nombre de pix pour la compétence ${competences[0].name}`);
+
+      translate.withArgs('campaign.profiles-collection.skill-level', { name: competences[1].name }).returns(`Niveau pour la compétence ${competences[1].name}`);
+      translate.withArgs('campaign.profiles-collection.skill-ranking', { name: competences[1].name }).returns(`Nombre de pix pour la compétence ${competences[1].name}`);
+
     });
 
     it('should display common header parts of csv', async () => {
       //given
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences);
+      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
@@ -72,7 +93,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
       organization.isSco = true;
       organization.isManagingStudents = true;
 
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences);
+      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
@@ -105,7 +126,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
       organization.isSup = true;
       organization.isManagingStudents = true;
 
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences);
+      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
@@ -136,7 +157,7 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-export', () => {
     it('should display idPixLabel header when campaign has one', async () => {
       //given
       campaign.idPixLabel = 'email';
-      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences);
+      const campaignProfile = new CampaignProfileCollectionExport(writableStream, organization, campaign, competences, translate);
 
       const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
           '"ID Campagne";' +
