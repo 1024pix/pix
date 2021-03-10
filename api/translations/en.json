@@ -22,5 +22,29 @@
     "moreOn": "More on",
     "doNotAnswer": "This is an automated email message, please do not reply.",
     "askForHelp": "Any questions? We’re here to help, contact us"
+  },
+  "campaign" : {
+    "common" :{
+      "yes": "Yes",
+      "no": "No",
+      "not-available": "NA"  
+    },
+    "profiles-collection" : {
+      "campaign-id": "Campaign ID",
+      "campaign-name": "Campaign's name",
+      "certifiable-skills": "Number of skills eligible for certification",
+      "file-name": "Results-{{name}}-{{id}}-{{date}}.csv",
+      "is-certifiable" :"Eligible for certification (Y/N)",
+      "is-sent": "Sent (Y/N)",
+      "participant-division": "Class",
+      "participant-firstname": "Participant's first name",
+      "participant-lastname": "Participant's last name",
+      "participant-student-number": "Student number",
+      "organization-name": "Organisation’s name",
+      "pix-score": "Total pix score",
+      "sent-on": "Sent on",
+      "skill-level": "Level reached in the skill {{name}}",
+      "skill-ranking": "Pix score for the skill {{name}}"
+    }
   }
 }

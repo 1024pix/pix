@@ -3,15 +3,15 @@ const bluebird = require('bluebird');
 const csvSerializer = require('./csv-serializer');
 const constants = require('../../constants');
 const CampaignProfileCollectionResultLine = require('../../exports/campaigns/campaign-profile-collection-result-line');
-
 class CampaignProfileCollectionExport {
 
-  constructor(outputStream, organization, campaign, competences) {
+  constructor(outputStream, organization, campaign, competences, translate) {
     this.stream = outputStream;
     this.organization = organization;
     this.campaign = campaign;
     this.idPixLabel = campaign.idPixLabel;
     this.competences = competences;
+    this.translate = translate;
   }
 
   export(campaignParticipationResultDatas, placementProfileService) {
@@ -36,20 +36,20 @@ class CampaignProfileCollectionExport {
     const displayDivision = this.organization.isSco && this.organization.isManagingStudents;
 
     const header = [
-      'Nom de l\'organisation',
-      'ID Campagne',
-      'Nom de la campagne',
-      'Nom du Participant',
-      'Prénom du Participant',
-      displayDivision && 'Classe',
-      displayStudentNumber && 'Numéro Étudiant',
+      this.translate('campaign.profiles-collection.organization-name'),
+      this.translate('campaign.profiles-collection.campaign-id'),
+      this.translate('campaign.profiles-collection.campaign-name'),
+      this.translate('campaign.profiles-collection.participant-lastname'),
+      this.translate('campaign.profiles-collection.participant-firstname'),
+      displayDivision && this.translate('campaign.profiles-collection.participant-division'),
+      displayStudentNumber && this.translate('campaign.profiles-collection.participant-student-number'),
       this.idPixLabel,
-      'Envoi (O/N)',
-      'Date de l\'envoi',
-      'Nombre de pix total',
-      'Certifiable (O/N)',
-      'Nombre de compétences certifiables',
-      ...(this._competenceColumnHeaders(this.competences)),
+      this.translate('campaign.profiles-collection.is-sent'),
+      this.translate('campaign.profiles-collection.sent-on'),
+      this.translate('campaign.profiles-collection.pix-score'),
+      this.translate('campaign.profiles-collection.is-certifiable'),
+      this.translate('campaign.profiles-collection.certifiable-skills'),
+      ...(this._competenceColumnHeaders()),
     ];
 
     return '\uFEFF' + csvSerializer.serializeLine(_.compact(header));
@@ -73,16 +73,16 @@ class CampaignProfileCollectionExport {
     for (const placementProfile of placementProfiles) {
       const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) => userId === placementProfile.userId);
 
-      const line = new CampaignProfileCollectionResultLine(this.campaign, this.organization, campaignParticipationResultData, this.competences, placementProfile);
+      const line = new CampaignProfileCollectionResultLine(this.campaign, this.organization, campaignParticipationResultData, this.competences, placementProfile, this.translate);
       csvLines = csvLines.concat(line.toCsvLine());
     }
     return csvLines;
   }
 
-  _competenceColumnHeaders(competencesList) {
-    return _.flatMap(competencesList, (competence) => [
-      `Niveau pour la compétence ${competence.name}`,
-      `Nombre de pix pour la compétence ${competence.name}`,
+  _competenceColumnHeaders() {
+    return _.flatMap(this.competences, (competence) => [
+      this.translate('campaign.profiles-collection.skill-level', { name: competence.name }),
+      this.translate('campaign.profiles-collection.skill-ranking', { name: competence.name }),
     ]);
   }
 }

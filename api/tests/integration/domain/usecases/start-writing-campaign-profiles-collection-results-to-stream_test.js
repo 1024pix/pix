@@ -1,5 +1,5 @@
 const { PassThrough } = require('stream');
-const { expect, mockLearningContent, databaseBuilder, streamToPromise } = require('../../../test-helper');
+const { expect, mockLearningContent, databaseBuilder, streamToPromise, sinon } = require('../../../test-helper');
 
 const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');
 
@@ -22,7 +22,14 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     let campaignParticipation;
     let writableStream;
     let csvPromise;
+
+    const translate = sinon.stub();
     const createdAt = new Date('2019-02-25T10:00:00Z');
+
+    const i18n = {
+      __: translate,
+      getLocale: sinon.stub(),
+    };
 
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
@@ -113,6 +120,23 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
+
+      translate.withArgs('campaign.profiles-collection.campaign-id').returns('ID Campagne');
+      translate.withArgs('campaign.profiles-collection.organization-name').returns('Nom de l\'organisation');
+      translate.withArgs('campaign.profiles-collection.campaign-name').returns('Nom de la campagne');
+      translate.withArgs('campaign.profiles-collection.participant-lastname').returns('Nom du Participant');
+      translate.withArgs('campaign.profiles-collection.participant-firstname').returns('Prénom du Participant');
+      translate.withArgs('campaign.profiles-collection.participant-division').returns('Classe');
+      translate.withArgs('campaign.profiles-collection.participant-student-number').returns('Numéro Étudiant');
+      translate.withArgs('campaign.profiles-collection.is-sent').returns('Envoi (O/N)');
+      translate.withArgs('campaign.profiles-collection.sent-on').returns('Date de l\'envoi');
+      translate.withArgs('campaign.profiles-collection.pix-score').returns('Nombre de pix total');
+      translate.withArgs('campaign.profiles-collection.is-certifiable').returns('Certifiable (O/N)');
+      translate.withArgs('campaign.profiles-collection.certifiable-skills').returns('Nombre de compétences certifiables');
+
+      translate.withArgs('campaign.common.no').returns('Non');
+      translate.withArgs('campaign.common.yes').returns('Oui');
+      translate.withArgs('campaign.common.not-available').returns('NA');
     });
 
     context('When the organization is PRO', () => {
@@ -167,6 +191,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
+          i18n,
           campaignRepository,
           userRepository,
           competenceRepository,
@@ -240,6 +265,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
+          i18n,
           campaignRepository,
           userRepository,
           competenceRepository,
@@ -313,6 +339,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           userId: user.id,
           campaignId: campaign.id,
           writableStream,
+          i18n,
           campaignRepository,
           userRepository,
           competenceRepository,
