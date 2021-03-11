@@ -13,6 +13,7 @@ function createOneCsvLine({
   targetProfileWithLearningContent,
   participantKnowledgeElementsByCompetenceId,
   acquiredBadges,
+  translate,
 }) {
   const line = new CampaignAssessmentCsvLine({
     organization,
@@ -22,6 +23,7 @@ function createOneCsvLine({
     participantKnowledgeElementsByCompetenceId,
     acquiredBadges,
     campaignParticipationService,
+    translate,
   });
 
   return csvSerializer.serializeLine(line.toCsvLine());
