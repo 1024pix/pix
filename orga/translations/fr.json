@@ -419,6 +419,43 @@
       },
       "title": "Étudiants"
     },
+    "team-items": {
+      "row": {
+        "aria-label": "Membre"
+      },
+      "actions": {
+        "edit-organization-membership-role": {
+          "aria-label": "Modifier le rôle",
+          "label": "Modifier le rôle"
+        },
+        "remove-membership": {
+          "aria-label": "Supprimer le membre",
+          "label": "Supprimer"
+        }
+      },
+      "select-input": {
+        "placeholder": "Sélectionner un rôle",
+        "aria-label": "Sélectionner un rôle",
+        "options": {
+          "admin-label": "Administrateur",
+          "member-label": "Membre"
+        }
+      },
+      "save-button": "Enregistrer",
+      "cancel-button": {
+        "aria-label": "Annuler"
+      },
+      "remove-membership-modal": {
+        "title": "Confirmez-vous la suppression ?",
+        "message": "n'aura plus accès à cet espace Pix Orga.<br>Ses campagnes restent accessibles au reste de l'équipe.",
+        "cancel-button": "Annuler",
+        "remove-button": "Oui, supprimer le membre"
+      },
+      "notifications": {
+        "success": "{memberFirstName} {memberLastName} a été supprimé avec succès de votre équipe Pix Orga.",
+        "error": "Une erreur est survenue lors de la désactivation du membre."
+      }
+    },
     "team-members": {
       "table": {
         "column": {
@@ -449,5 +486,8 @@
       "cancel-button": "Annuler",
       "invite-button": "Inviter"
     }
+  },
+  "dropdown": {
+    "arial-label": "Afficher les actions"
   }
 }
