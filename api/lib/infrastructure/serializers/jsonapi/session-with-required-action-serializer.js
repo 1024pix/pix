@@ -13,6 +13,7 @@ module.exports = {
         'sessionTime',
         'finalizedAt',
         'certificationCenterName',
+        'assignedCertificationOfficerName',
       ],
     }).serialize(finalizedSessions);
   },

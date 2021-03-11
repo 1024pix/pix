@@ -1,6 +1,6 @@
 const usecases = require('../../domain/usecases');
 const toBePublishedSessionSerializer = require('../../infrastructure/serializers/jsonapi/to-be-published-session-serializer');
-const sessionWithRequiredActionSerializer = require('../../infrastructure/serializers/jsonapi/session-with-required-action-serializer');
+const withRequiredActionSessionSerializer = require('../../infrastructure/serializers/jsonapi/with-required-action-session-serializer');
 
 module.exports = {
   async findFinalizedSessionsToPublish() {
@@ -10,6 +10,6 @@ module.exports = {
 
   async findFinalizedSessionsWithRequiredAction() {
     const finalizedSessionsWithRequiredAction = await usecases.findFinalizedSessionsWithRequiredAction();
-    return sessionWithRequiredActionSerializer.serialize(finalizedSessionsWithRequiredAction);
+    return withRequiredActionSessionSerializer.serialize(finalizedSessionsWithRequiredAction);
   },
 };
