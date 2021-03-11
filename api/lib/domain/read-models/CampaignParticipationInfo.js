@@ -3,8 +3,8 @@ const Joi = require('joi')
 const { validateEntity } = require('../validators/entity-validator');
 
 const validationSchema = Joi.object({
-  participantFirstName: Joi.string().required(),
-  participantLastName: Joi.string().required(),
+  participantFirstName: Joi.string().required().allow(''),
+  participantLastName: Joi.string().required().allow(''),
   participantExternalId: Joi.string().optional().allow(null),
   studentNumber: Joi.string().optional().allow(null),
   userId: Joi.number().integer().required(),
