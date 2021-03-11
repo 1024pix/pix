@@ -2,7 +2,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const finalizedSessionController = require('../../../../lib/application/sessions/finalized-session-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const toBePublishedSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
-const sessionWithRequiredActionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-with-required-action-serializer');
+const withRequiredActionSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer');
 
 describe('Unit | Controller | finalized-session', () => {
   let request;
@@ -62,9 +62,9 @@ describe('Unit | Controller | finalized-session', () => {
         sinon.stub(usecases, 'findFinalizedSessionsWithRequiredAction');
         usecases.findFinalizedSessionsWithRequiredAction.resolves(foundFinalizedSessions);
 
-        sinon.stub(sessionWithRequiredActionSerializer, 'serialize');
+        sinon.stub(withRequiredActionSessionSerializer, 'serialize');
         const serializedFinalizedSessions = Symbol('serializedSession');
-        sessionWithRequiredActionSerializer.serialize.withArgs(foundFinalizedSessions).resolves(serializedFinalizedSessions);
+        withRequiredActionSessionSerializer.serialize.withArgs(foundFinalizedSessions).resolves(serializedFinalizedSessions);
 
         // when
         const response = await finalizedSessionController.findFinalizedSessionsWithRequiredAction(request, hFake);
