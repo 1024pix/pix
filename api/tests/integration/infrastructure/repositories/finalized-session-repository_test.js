@@ -64,6 +64,7 @@ describe('Integration | Repository | Finalized-session', () => {
         sessionTime: finalizedSession.time,
         isPublishable: finalizedSession.isPublishable,
         publishedAt: null,
+        assignedCertificationOfficerName: null,
       });
     });
   });
@@ -136,6 +137,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: publishableFinalizedSession2.time,
             isPublishable: publishableFinalizedSession2.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: publishableFinalizedSession1.sessionId,
@@ -145,6 +147,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: publishableFinalizedSession1.time,
             isPublishable: publishableFinalizedSession1.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: publishableFinalizedSession3.sessionId,
@@ -154,6 +157,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: publishableFinalizedSession3.time,
             isPublishable: publishableFinalizedSession3.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
         ]);
       });
@@ -200,6 +204,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: firstFinalizedSession.time,
             isPublishable: firstFinalizedSession.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: secondFinalizedSession.sessionId,
@@ -209,6 +214,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: secondFinalizedSession.time,
             isPublishable: secondFinalizedSession.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: thirdFinalizedSession.sessionId,
@@ -218,6 +224,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: thirdFinalizedSession.time,
             isPublishable: thirdFinalizedSession.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
         ]);
       });
