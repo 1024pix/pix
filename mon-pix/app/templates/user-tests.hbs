@@ -4,11 +4,11 @@
     <NavbarHeader @burger={{burger}} />
     <PixBackgroundHeader>
       <div class="user-tests-banner">
-        <img src="{{this.rootURL}}/images/user-tests/banner-icon.svg" class="user-tests-banner__icon" role="none" aria-hidden="true"/>
+        <img src="{{this.rootURL}}/images/background/user-test-banner.svg" class="user-tests-banner__icon" role="none" aria-hidden="true"/>
         <h3 class="user-tests-banner__title">{{t 'pages.user-tests.title'}}</h3>
       </div>
     </PixBackgroundHeader>
-    
+
     <section class="user-tests-main">
       <CampaignParticipationOverview::Grid @model={{this.model}}/>
     </section>

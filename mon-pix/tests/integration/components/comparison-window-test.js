@@ -155,7 +155,7 @@ describe('Integration | Component | comparison-window', function() {
 
         // then
         expect(find(`.comparison-window__result-icon--${data.status}`)).to.exist;
-        expect(find('.comparison-window__result-icon').src).to.have.string(`/images/answer-validation/icon-${data.status}.svg`);
+        expect(find('.comparison-window__result-icon').src).to.have.string(`/images/icons/answer-validation/icon-${data.status}.svg`);
       });
     });
 
