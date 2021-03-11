@@ -13,6 +13,7 @@ class CampaignParticipationOverview {
     campaignCode,
     campaignTitle,
     campaignArchivedAt,
+    campaignIsForAbsoluteNovice,
     targetProfile,
   } = {}) {
     this.id = id;
@@ -27,6 +28,7 @@ class CampaignParticipationOverview {
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
     this.campaignArchivedAt = campaignArchivedAt;
+    this.campaignIsForAbsoluteNovice = campaignIsForAbsoluteNovice;
     this.targetProfile = targetProfile;
   }
 

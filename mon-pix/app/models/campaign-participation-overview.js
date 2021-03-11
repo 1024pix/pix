@@ -11,6 +11,7 @@ export default class CampaignParticipationOverviews extends Model {
   @attr('string') campaignCode;
   @attr('string') campaignTitle;
   @attr('date') campaignArchivedAt;
+  @attr('boolean') campaignIsForAbsoluteNovice;
   @attr('number') masteryPercentage;
   @attr('number') totalStagesCount;
   @attr('number') validatedStagesCount;

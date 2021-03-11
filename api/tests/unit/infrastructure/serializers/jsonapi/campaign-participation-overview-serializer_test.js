@@ -28,6 +28,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       assessmentState: 'started',
       campaignCode: '1234',
       campaignTitle: 'My campaign',
+      campaignIsForAbsoluteNovice: true,
       campaignArchivedAt: new Date('2021-01-01'),
       targetProfile,
     });
@@ -47,6 +48,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'assessment-state': 'started',
             'campaign-code': '1234',
             'campaign-title': 'My campaign',
+            'campaign-is-for-absolute-novice': true,
             'campaign-archived-at': new Date('2021-01-01'),
             'mastery-percentage': 50,
             'validated-stages-count': 1,
@@ -81,6 +83,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignCode: '4567',
           campaignTitle: 'My campaign 1',
           campaignArchivedAt: null,
+          campaignIsForAbsoluteNovice: false,
           targetProfile,
         }),
         new CampaignParticipationOverview({
@@ -93,6 +96,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignCode: '4567',
           campaignTitle: 'My campaign 2',
           campaignArchivedAt: null,
+          campaignIsForAbsoluteNovice: true,
           targetProfile,
         }),
       ];
@@ -121,6 +125,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
               'shared-at': new Date('2018-02-07T17:15:44Z'),
               'mastery-percentage': null,
               'campaign-archived-at': null,
+              'campaign-is-for-absolute-novice': false,
               'validated-stages-count': null,
               'total-stages-count': 0,
             },
@@ -138,6 +143,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
               'shared-at': new Date('2018-02-10T17:30:44Z'),
               'mastery-percentage': null,
               'campaign-archived-at': null,
+              'campaign-is-for-absolute-novice': true,
               'validated-stages-count': null,
               'total-stages-count': 0,
             },
