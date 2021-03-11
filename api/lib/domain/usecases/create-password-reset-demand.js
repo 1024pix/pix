@@ -16,7 +16,7 @@ module.exports = async function createPasswordResetDemand({
     userId,
   });
 
-  await mailService.sendResetPasswordDemandEmail(email, locale, temporaryKey);
+  await mailService.sendResetPasswordDemandEmail({ email, locale, temporaryKey });
 
   return passwordResetDemand;
 };

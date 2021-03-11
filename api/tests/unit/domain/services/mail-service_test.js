@@ -6,9 +6,15 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const settings = require('../../../../lib/config');
 
 const mainTranslationsMapping = {
-  'fr': require('../../../../translations/fr'),
-  'en': require('../../../../translations/en'),
+  fr: require('../../../../translations/fr'),
+  en: require('../../../../translations/en'),
 };
+
+const {
+  ENGLISH_SPOKEN,
+  FRENCH_FRANCE,
+  FRENCH_SPOKEN,
+} = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Unit | Service | MailService', () => {
 
@@ -22,7 +28,6 @@ describe('Unit | Service | MailService', () => {
   describe('#sendAccountCreationEmail', () => {
 
     it('should call sendEmail with from, to, subject, template', async () => {
-
       // given
       const locale = undefined;
 
@@ -49,7 +54,7 @@ describe('Unit | Service | MailService', () => {
         it('should call sendEmail with provided value', async () => {
           // given
           const redirectionUrl = 'https://pix.fr';
-          const locale = 'fr-fr';
+          const locale = FRENCH_FRANCE;
 
           // when
           await mailService.sendAccountCreationEmail(userEmailAddress, locale, redirectionUrl);
@@ -58,16 +63,14 @@ describe('Unit | Service | MailService', () => {
           const actualRedirectionUrl = mailer.sendEmail.firstCall.args[0].variables.redirectionUrl;
           expect(actualRedirectionUrl).to.equal(redirectionUrl);
         });
-
       });
-
     });
 
     context('according to locale', () => {
 
       const translationsMapping = {
-        'fr': mainTranslationsMapping.fr['pix-account-creation-email'],
-        'en': mainTranslationsMapping.en['pix-account-creation-email'],
+        fr: mainTranslationsMapping.fr['pix-account-creation-email'],
+        en: mainTranslationsMapping.en['pix-account-creation-email'],
       };
 
       context('should call sendEmail with localized variable options', () => {
@@ -87,7 +90,7 @@ describe('Unit | Service | MailService', () => {
             },
           },
           {
-            locale: 'fr-fr',
+            locale: FRENCH_FRANCE,
             expected: {
               fromName: 'PIX - Ne pas répondre',
               variables: {
@@ -101,7 +104,7 @@ describe('Unit | Service | MailService', () => {
             },
           },
           {
-            locale: 'fr',
+            locale: FRENCH_SPOKEN,
             expected: {
               fromName: 'PIX - Ne pas répondre',
               variables: {
@@ -115,7 +118,7 @@ describe('Unit | Service | MailService', () => {
             },
           },
           {
-            locale: 'en',
+            locale: ENGLISH_SPOKEN,
             expected: {
               fromName: 'PIX - Noreply',
               variables: {
@@ -128,12 +131,10 @@ describe('Unit | Service | MailService', () => {
               },
             },
           },
-        ]
-        ;
+        ];
 
         testCases.forEach((testCase) => {
           it(`when locale is ${testCase.locale}`, async () => {
-
             // when
             await mailService.sendAccountCreationEmail(userEmailAddress, testCase.locale);
 
@@ -143,11 +144,8 @@ describe('Unit | Service | MailService', () => {
             expect(options.variables).to.include(testCase.expected.variables);
           });
         });
-
       });
-
     });
-
   });
 
   describe('#sendCertificationResultEmail', () => {
@@ -193,87 +191,107 @@ describe('Unit | Service | MailService', () => {
 
   describe('#sendResetPasswordDemandEmail', () => {
 
-    context('when provided passwordResetDemandBaseUrl is not production', () => {
+    const from = senderEmailAddress;
+    const to = userEmailAddress;
+    const template = 'test-password-reset-template-id';
+    const temporaryKey = 'token';
 
-      it('should call mailer', async () => {
-        // given
-        const fakeTemporaryKey = 'token';
-        const locale = 'fr-fr';
-        const domainFr = 'pix.fr';
+    const translationsMapping = {
+      fr: mainTranslationsMapping.fr['reset-password-demand-email'],
+      en: mainTranslationsMapping.en['reset-password-demand-email'],
+    };
 
-        const expectedOptions = {
-          from: senderEmailAddress,
-          fromName: 'PIX - Ne pas répondre',
-          to: userEmailAddress,
-          subject: 'Demande de réinitialisation de mot de passe PIX',
-          template: 'test-password-reset-template-id',
-          variables: {
-            resetUrl: `https://app.${domainFr}/changer-mot-de-passe/${fakeTemporaryKey}`,
-            homeName: `${domainFr}`,
-            homeUrl: `https://${domainFr}`,
-            locale,
+    context('according to locale', () => {
+
+      const testCases = [
+        {
+          locale: undefined,
+          expectedTranslationLanguage: FRENCH_SPOKEN,
+          expectedOptions: {
+            from,
+            to,
+            template,
+            fromName: 'PIX - Ne pas répondre',
+            subject: translationsMapping.fr.subject,
+            variables: {
+              locale: FRENCH_FRANCE,
+              ...translationsMapping.fr.params,
+              homeName: 'pix.fr',
+              homeUrl: 'https://pix.fr',
+              resetUrl: `https://app.pix.fr/changer-mot-de-passe/${temporaryKey}`,
+              helpdeskURL: 'https://support.pix.fr/support/tickets/new',
+            },
           },
-        };
-
-        // when
-        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
-
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
-      });
-
-      it('should call mailer with locale fr', async () => {
-        // given
-        const fakeTemporaryKey = 'token';
-        const locale = 'fr';
-        const domainOrg = 'pix.org';
-
-        const expectedOptions = {
-          from: senderEmailAddress,
-          fromName: 'PIX - Ne pas répondre',
-          to: userEmailAddress,
-          subject: 'Demande de réinitialisation de mot de passe PIX',
-          template: 'test-password-reset-template-id',
-          variables: {
-            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=fr`,
-            homeName: `${domainOrg}`,
-            homeUrl: `https://${domainOrg}/fr/`,
-            locale,
+        },
+        {
+          locale: FRENCH_FRANCE,
+          expectedTranslationLanguage: FRENCH_SPOKEN,
+          expectedOptions: {
+            from,
+            to,
+            template,
+            fromName: 'PIX - Ne pas répondre',
+            subject: translationsMapping.fr.subject,
+            variables: {
+              locale: FRENCH_FRANCE,
+              ...translationsMapping.fr.params,
+              homeName: 'pix.fr',
+              homeUrl: 'https://pix.fr',
+              resetUrl: `https://app.pix.fr/changer-mot-de-passe/${temporaryKey}`,
+              helpdeskURL: 'https://support.pix.fr/support/tickets/new',
+            },
           },
-        };
-
-        // when
-        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
-
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
-      });
-
-      it('should call mailer with locale en', async () => {
-        // given
-        const fakeTemporaryKey = 'token';
-        const locale = 'en';
-        const domainOrg = 'pix.org';
-
-        const expectedOptions = {
-          from: senderEmailAddress,
-          fromName: 'PIX - Noreply',
-          to: userEmailAddress,
-          subject: 'Pix password reset request',
-          template: 'test-password-reset-template-id',
-          variables: {
-            resetUrl: `https://app.${domainOrg}/changer-mot-de-passe/${fakeTemporaryKey}/?lang=en`,
-            homeName: `${domainOrg}`,
-            homeUrl: `https://${domainOrg}/en-gb/`,
-            locale,
+        },
+        {
+          locale: FRENCH_SPOKEN,
+          expectedTranslationLanguage: FRENCH_SPOKEN,
+          expectedOptions: {
+            from,
+            to,
+            template,
+            fromName: 'PIX - Ne pas répondre',
+            subject: translationsMapping.fr.subject,
+            variables: {
+              locale: FRENCH_SPOKEN,
+              ...translationsMapping.fr.params,
+              homeName: 'pix.org',
+              homeUrl: 'https://pix.org/fr/',
+              resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=fr`,
+            },
           },
-        };
+        },
+        {
+          locale: ENGLISH_SPOKEN,
+          expectedTranslationLanguage: ENGLISH_SPOKEN,
+          expectedOptions: {
+            from,
+            to,
+            template,
+            fromName: 'PIX - Noreply',
+            subject: translationsMapping.en.subject,
+            variables: {
+              locale: ENGLISH_SPOKEN,
+              ...translationsMapping.en.params,
+              homeName: 'pix.org',
+              homeUrl: 'https://pix.org/en-gb/',
+              resetUrl: `https://app.pix.org/changer-mot-de-passe/${temporaryKey}/?lang=en`,
+            },
+          },
+        },
+      ];
 
-        // when
-        await mailService.sendResetPasswordDemandEmail(userEmailAddress, locale, fakeTemporaryKey);
+      testCases.forEach((testCase) => {
+        it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async () => {
+          // when
+          await mailService.sendResetPasswordDemandEmail({
+            email: userEmailAddress,
+            locale: testCase.locale,
+            temporaryKey,
+          });
 
-        // then
-        expect(mailer.sendEmail).to.have.been.calledWithExactly(expectedOptions);
+          // then
+          expect(mailer.sendEmail).to.have.been.calledWithExactly(testCase.expectedOptions);
+        });
       });
     });
   });
@@ -285,7 +303,6 @@ describe('Unit | Service | MailService', () => {
     const code = 'ABCDEFGH01';
 
     it('should call sendEmail with from, to, organizationName', async () => {
-
       // given
       const locale = undefined;
 
@@ -372,7 +389,7 @@ describe('Unit | Service | MailService', () => {
             },
           },
           {
-            locale: 'fr',
+            locale: FRENCH_SPOKEN,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
               subject: 'Invitation à rejoindre Pix Orga',
@@ -387,7 +404,7 @@ describe('Unit | Service | MailService', () => {
             },
           },
           {
-            locale: 'fr-fr',
+            locale: FRENCH_FRANCE,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
               subject: 'Invitation à rejoindre Pix Orga',
@@ -402,7 +419,7 @@ describe('Unit | Service | MailService', () => {
             },
           },
           {
-            locale: 'en',
+            locale: ENGLISH_SPOKEN,
             expected: {
               fromName: 'Pix Orga - Noreply',
               subject: 'Invitation to join Pix Orga',
@@ -420,7 +437,6 @@ describe('Unit | Service | MailService', () => {
 
         testCases.forEach((testCase) => {
           it(`when locale is ${testCase.locale}`, async () => {
-
             // when
             await mailService.sendOrganizationInvitationEmail({
               email: userEmailAddress, organizationName, organizationInvitationId, code, locale: testCase.locale,
@@ -433,11 +449,8 @@ describe('Unit | Service | MailService', () => {
             expect(options.variables).to.include(testCase.expected.variables);
           });
         });
-
       });
-
     });
-
   });
 
   describe('#sendScoOrganizationInvitationEmail', () => {
@@ -469,7 +482,7 @@ describe('Unit | Service | MailService', () => {
           pixHomeName,
           pixHomeUrl,
           pixOrgaHomeUrl: pixOrgaUrl,
-          locale: 'fr-fr',
+          locale: FRENCH_FRANCE,
           redirectionUrl: `${pixOrgaUrl}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
         },
         tags: null,
@@ -489,4 +502,3 @@ describe('Unit | Service | MailService', () => {
   });
 
 });
-

@@ -67,7 +67,7 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
       shouldChangePassword: false,
     });
     expect(mailService.sendResetPasswordDemandEmail)
-      .to.have.been.calledWithExactly(email, locale, temporaryKey);
+      .to.have.been.calledWithExactly({ email, locale, temporaryKey });
   });
 
   it('should throw UserNotFoundError if user email does not exist', async () => {
