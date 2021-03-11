@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Dropdown | icon-trigger', function(hooks) {
 
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('should display actions menu', async function(assert) {
     // when

@@ -419,6 +419,43 @@
       },
       "title": "Students"
     },
+    "team-items": {
+      "row": {
+        "aria-label": "Member"
+      },
+      "actions": {
+        "edit-organization-membership-role": {
+          "aria-label": "Change role",
+          "label": "Change role"
+        },
+        "remove-membership": {
+          "aria-label": "Remove the member",
+          "label": "Remove"
+        }
+      },
+      "select-input": {
+        "placeholder": "Select a role",
+        "aria-label": "Select a role",
+        "options": {
+          "admin-label": "Administrator",
+          "member-label": "Member"
+        }
+      },
+      "save-button": "Save",
+      "cancel-button": {
+        "aria-label": "Cancel"
+      },
+      "remove-membership-modal": {
+        "title": "Are you sure you want to remove this member?",
+        "message": "will no longer have access to this Pix Orga workspace.<br>The campaigns created by this member will still be accessible to the rest of the team.",
+        "cancel-button": "Cancel",
+        "remove-button": "Yes, remove the member"
+      },
+      "notifications": {
+        "success": "{memberFirstName} {memberLastName} has successfully been removed from your Pix Orga team.",
+        "error": "An error occurred while removing this member."
+      }
+    },
     "team-members": {
       "table": {
         "column": {
@@ -449,5 +486,8 @@
       "cancel-button": "Cancel",
       "invite-button": "Invite"
     }
+  },
+  "dropdown": {
+    "arial-label": "Manage"
   }
 }

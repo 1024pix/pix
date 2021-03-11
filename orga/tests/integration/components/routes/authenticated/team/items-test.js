@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import clickByLabel from '../../../../../helpers/extended-ember-test-helpers/click-by-label';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | routes/authenticated/team | list-items | items', function(hooks) {
 
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let adminMembership;
   let memberMembership;
 
