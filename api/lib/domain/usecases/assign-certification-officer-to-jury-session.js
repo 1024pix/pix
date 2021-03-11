@@ -1,6 +1,6 @@
 const { ObjectValidationError } = require('../errors');
 
-module.exports = async function assignCertificationOfficerToSession({
+module.exports = async function assignCertificationOfficerToJurySession({
   sessionId,
   certificationOfficerId,
   jurySessionRepository,
