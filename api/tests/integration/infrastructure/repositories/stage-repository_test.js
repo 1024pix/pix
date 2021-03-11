@@ -28,7 +28,7 @@ describe('Integration | Repository | StageRepository', () => {
   });
 
   describe('#findByTargetProfileId', () => {
-    it('should retrieve stage given campaignId', async () => {
+    it('should retrieve stage given targetProfileId', async () => {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const anotherTargetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -43,6 +43,23 @@ describe('Integration | Repository | StageRepository', () => {
 
       // then
       expect(stages.length).to.equal(1);
+    });
+
+    it('should retrieve stages sorted by threshold', async () => {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+
+      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 24 });
+      databaseBuilder.factory.buildStage({ targetProfileId: targetProfile.id, threshold: 0 });
+
+      await databaseBuilder.commit();
+
+      // when
+      const stages = await stageRepository.findByTargetProfileId(targetProfile.id);
+
+      // then
+      expect(stages.length).to.equal(2);
+      expect(stages[0].threshold).to.equal(0);
     });
   });
 });
