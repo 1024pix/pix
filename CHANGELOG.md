@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v3.30.0 (11/03/2021)
+
+- [#2651](https://github.com/1024pix/pix/pull/2651) [FEATURE][i18n] Contextualisation des en-têtes sur l'export de résultats pour une campagne de collecte de profils (Pix-2205).
+- [#2678](https://github.com/1024pix/pix/pull/2678) [FEATURE] Rechercher une classe lors du téléchargement des résultats de certif (PIX-2306)
+- [#2624](https://github.com/1024pix/pix/pull/2624) [FEATURE] Ajout des traductions pour la page des élèves (SCO) (PIX-2252)
+- [#2670](https://github.com/1024pix/pix/pull/2670) [BUGFIX] Les Résultats Thématiques sont illisibles sous IE (PIX-2303).
+- [#2686](https://github.com/1024pix/pix/pull/2686) [BUGFIX] Soucis visuel sur les checkbox (PIX-2325).
+
 ## v3.29.0 (10/03/2021)
 
 - [#2674](https://github.com/1024pix/pix/pull/2674) [FEATURE] Traduire en anglais la page Inviter un membre dans Pix Orga (PIX-2220).
