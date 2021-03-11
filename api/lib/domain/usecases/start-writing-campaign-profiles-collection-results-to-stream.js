@@ -50,7 +50,7 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     throw error;
   });
 
-  const fileName = translate('campaign.profiles-collection.file-name', { name: campaign.name, id: campaign.id, date: moment.utc().format('YYYY-MM-DD-hhmm') });
+  const fileName = translate('campaign-export.common.file-name', { name: campaign.name, id: campaign.id, date: moment.utc().format('YYYY-MM-DD-hhmm') });
 
   return { fileName };
 };
