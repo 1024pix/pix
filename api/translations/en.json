@@ -1,5 +1,29 @@
 {
   "current-lang" : "en",
+  "campaign" : {
+    "common" :{
+      "yes": "Yes",
+      "no": "No",
+      "not-available": "NA"
+    },
+    "profiles-collection" : {
+      "campaign-id": "Campaign ID",
+      "campaign-name": "Campaign's name",
+      "certifiable-skills": "Number of skills eligible for certification",
+      "file-name": "Results-{{name}}-{{id}}-{{date}}.csv",
+      "is-certifiable" :"Eligible for certification (Y/N)",
+      "is-sent": "Sent (Y/N)",
+      "participant-division": "Class",
+      "participant-firstname": "Participant's first name",
+      "participant-lastname": "Participant's last name",
+      "participant-student-number": "Student number",
+      "organization-name": "Organisation’s name",
+      "pix-score": "Total pix score",
+      "sent-on": "Sent on",
+      "skill-level": "Level reached in the skill {{name}}",
+      "skill-ranking": "Pix score for the skill {{name}}"
+    }
+  },
   "organization-invitation-email": {
     "title": "You are invited to join Pix Orga",
     "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
@@ -23,28 +47,19 @@
     "doNotAnswer": "This is an automated email message, please do not reply.",
     "askForHelp": "Any questions? We’re here to help, contact us"
   },
-  "campaign" : {
-    "common" :{
-      "yes": "Yes",
-      "no": "No",
-      "not-available": "NA"  
-    },
-    "profiles-collection" : {
-      "campaign-id": "Campaign ID",
-      "campaign-name": "Campaign's name",
-      "certifiable-skills": "Number of skills eligible for certification",
-      "file-name": "Results-{{name}}-{{id}}-{{date}}.csv",
-      "is-certifiable" :"Eligible for certification (Y/N)",
-      "is-sent": "Sent (Y/N)",
-      "participant-division": "Class",
-      "participant-firstname": "Participant's first name",
-      "participant-lastname": "Participant's last name",
-      "participant-student-number": "Student number",
-      "organization-name": "Organisation’s name",
-      "pix-score": "Total pix score",
-      "sent-on": "Sent on",
-      "skill-level": "Level reached in the skill {{name}}",
-      "skill-ranking": "Pix score for the skill {{name}}"
+  "reset-password-demand-email": {
+    "subject": "Pix password reset request",
+    "params": {
+      "title": "Reset your password",
+      "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email.",
+      "clickOnTheButton": "Click on the button below to choose a new password.",
+      "resetMyPassword": "Reset my password",
+      "linkValidFor": "This link is valid for 24 hours. If you did not request to change your password, please ignore this email.",
+      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
+      "moreOn": "More on",
+      "doNotAnswer": "This is an automated email message, please do not reply. Have questions? We're here to help, ",
+      "contactUs": "contact us here",
+      "helpdeskURL": "http://pix.org/en-gb/help-form"
     }
   }
 }
