@@ -116,6 +116,13 @@ jobs:
             npm test
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_REPORTER: mocha-junit-reporter
+          when: always
+      - store_test_results:
+          path: /home/circleci/test-results
+      - store_artifacts:
+          path: /home/circleci/test-results
 
   mon_pix_build_and_test:
     docker:
