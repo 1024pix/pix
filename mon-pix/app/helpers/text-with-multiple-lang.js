@@ -6,9 +6,9 @@ export default class textWithMultipleLang extends Helper {
 
   compute(params) {
     const text = params[0];
-    const lang = params[1];
+    const lang = this.intl.t('current-lang');
     const listOfLocales = this.intl.locales;
-    if (text && lang && listOfLocales.includes(lang)) {
+    if (text && listOfLocales.includes(lang)) {
       const regex = new RegExp(`(\\[${lang}\\]){1}(.|\n)*?(\\[\\/${lang}\\]){1}`);
       const textForLang = text.match(regex);
       return textForLang ? _clean(textForLang[0], listOfLocales) : _clean(text, listOfLocales);
