@@ -58,6 +58,9 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     knowledgeElementRepository,
   });
 
+  const lastQuestionDate = assessment.lastQuestionDate;
+  correctedAnswer.timeSpent = Math.ceil((new Date().getTime() - lastQuestionDate.getTime()) / 1000);
+
   let answerSaved = await answerRepository.saveWithKnowledgeElements(correctedAnswer, knowledgeElementsFromAnswer);
 
   if (assessment.hasKnowledgeElements() && knowledgeElementsFromAnswer.length === 0) {
