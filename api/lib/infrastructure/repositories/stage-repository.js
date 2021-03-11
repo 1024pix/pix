@@ -15,6 +15,7 @@ module.exports = {
   findByTargetProfileId(targetProfileId) {
     return BookshelfStage
       .where({ targetProfileId })
+      .orderBy('threshold')
       .fetchAll({ require: false })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results));
   },
