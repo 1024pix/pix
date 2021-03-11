@@ -1,23 +1,27 @@
 {{#if this.displayNewYearSchoolingRegistrationsImportBanner}}
   <PixBanner class="information-banner">
     <FaIcon @icon="exclamation-triangle" class="icon--warning icon--margin"/>
-    Rentrée 2020 : l’<strong>administrateur</strong> doit
-    <LinkTo @route="authenticated.sco-students" class="link link--white link--bold link--underlined">
-      importer ou ré-importer la base élèves</LinkTo>
-    pour initialiser Pix Orga. Plus d’info
-    <a href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23" class="link link--white link--bold link--underlined" target="_blank" rel="noopener noreferrer">
-      collège <FaIcon @icon="external-link-alt" /></a>
-    et
-    <a href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23" class="link link--white link--bold link--underlined" target="_blank" rel="noopener noreferrer">
-      lycée (GT et Pro) <FaIcon @icon="external-link-alt" /></a>
+    <TranslateExtended
+      @key='banners.import.message'
+      @options={{hash
+        faIcon=(component 'fa-icon' icon='external-link-alt')
+        linkTo=(component 'link-to' (t 'banners.import.link-to') 'authenticated.sco-students' class="link link--white link--bold link--underlined")
+        middleSchoolDocumentationLink='"https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"'
+        highSchoolDocumentationLink='"https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"'
+        externalLinkClasses='"link link--white link--bold link--underlined"'
+      }}
+    />
   </PixBanner>
 {{else if this.displayNewYearCampaignsBanner}}
   <PixBanner class="information-banner">
     <FaIcon @icon="bullhorn" class="icon--margin"/>
-    Il est important de vérifier que les élèves soient <strong>certifiables</strong> avant de les inscrire en session de certification. Vous pouvez faire une
-    <a href={{this.documentationLink}} class="link link--white link--bold link--underlined" target="_blank" rel="noopener noreferrer">
-      campagne de collecte de profils
-      <FaIcon @icon="external-link-alt"/></a>
-    pour vous en assurer.
+    <TranslateExtended
+      @key='banners.campaigns.message'
+      @options={{hash
+        faIcon=(component 'fa-icon' icon='external-link-alt')
+        documentationLink=this.documentationLink
+        externalLinkClasses='"link link--white link--bold link--underlined"'
+    }}
+    />
   </PixBanner>
 {{/if}}

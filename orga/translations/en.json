@@ -11,6 +11,15 @@
     },
     "global": "An error occurred. Please try again later."
   },
+  "banners": {
+    "campaigns": {
+      "message": "Please note that you must check if the students are '<strong>'eligible to certification'</strong>' before signing them up on certification sessions. You can do a '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'profile collection campaign {faIcon}'</a>' to be sure."
+    },
+    "import": {
+      "link-to": "import or reimport the students database",
+      "message": "Start of school year: the '<strong>'admin'</strong>' must {linkTo} to start using Pix Orga. Learn more on '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
+    }
+  },
   "current-lang": "en",
   "common": {
     "actions": {

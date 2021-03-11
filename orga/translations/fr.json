@@ -11,6 +11,15 @@
     },
     "global": "Une erreur est survenue. Veuillez réessayer ultérieurement."
   },
+  "banners": {
+    "campaigns": {
+      "message": "Il est important de vérifier que les élèves soient '<strong>'certifiables'</strong>' avant de les inscrire en session de certification. Vous pouvez faire une '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'campagne de collecte de profils {faIcon}'</a>' pour vous en assurer."
+    },
+    "import": {
+      "link-to": "importer ou ré-importer la base élèves",
+      "message": "Rentrée 2020 : l’'<strong>'administrateur'</strong>' doit {linkTo} pour initialiser Pix Orga. Plus d’info '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
+    }
+  },
   "current-lang": "fr",
   "common": {
     "actions": {
