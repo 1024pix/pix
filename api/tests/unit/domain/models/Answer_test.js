@@ -17,6 +17,7 @@ describe('Unit | Domain | Models | Answer', () => {
         challengeId: 'redRecordId',
         assessmentId: 82,
         levelup: {},
+        timeSpent: 30,
       };
 
       const expectedAnswer = {
@@ -28,6 +29,7 @@ describe('Unit | Domain | Models | Answer', () => {
         challengeId: 'redRecordId',
         assessmentId: 82,
         levelup: {},
+        timeSpent: 30,
       };
 
       // when
