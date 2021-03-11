@@ -222,4 +222,19 @@ function _buildCampaignForPro(databaseBuilder) {
     targetProfileId: TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
     idPixLabel: 'identifiant entreprise',
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 17,
+    name: 'Med Num : Campagne pour Novice',
+    code: 'NOVICE123',
+    type: 'ASSESSMENT',
+    title: 'Pour novice, accès simplifié',
+    customLandingPageText: '',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    targetProfileId: TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
+    idPixLabel: null,
+    isForAbsoluteNovice: true,
+  });
+
 }
