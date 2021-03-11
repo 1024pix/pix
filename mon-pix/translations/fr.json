@@ -1000,7 +1000,7 @@
                     "part1": "Au fil de vos tests, des tutos vous sont recommandés : cliquez sur l'icône marque page",
                     "part2": "pour enregistrer ceux que vous souhaitez retrouver ici !"
                 },
-                "image-link": "images/user-tutorials/illustration-fr.svg",
+                "image-link": "images/illustrations/user-tutorials/illustration-fr.svg",
                 "title": "Vous n'avez encore rien enregistré"
             },
             "label": "tutoriels",

@@ -3,8 +3,8 @@ import { tracked } from '@glimmer/tracking';
 import { htmlSafe } from '@ember/string';
 import ENV from 'mon-pix/config/environment';
 
-const BLACK_GAUGE_ICON_PATH = '/images/icon-timeout-black.svg';
-const RED_GAUGE_ICON_PATH = '/images/icon-timeout-red.svg';
+const BLACK_GAUGE_ICON_PATH = '/images/icons/icon-timeout-black.svg';
+const RED_GAUGE_ICON_PATH = '/images/icons/icon-timeout-red.svg';
 
 const TICK_INTERVAL_IN_MILLISECONDS = 1000;
 
