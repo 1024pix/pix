@@ -33,10 +33,10 @@
         {{#if this.showStages}}
           <div class="skill-review-share__stage-congrats">
             <div class="stage-congrats__title">
-              {{text-with-multiple-lang this.reachedStage.title (t 'current-lang') }}
+              {{text-with-multiple-lang this.reachedStage.title}}
             </div>
             <div class="stage-congrats__message">
-              <MarkdownToHtml @markdown={{text-with-multiple-lang this.reachedStage.message (t 'current-lang') }} />
+              <MarkdownToHtml @markdown={{text-with-multiple-lang this.reachedStage.message}} />
             </div>
           </div>
         {{else}}
