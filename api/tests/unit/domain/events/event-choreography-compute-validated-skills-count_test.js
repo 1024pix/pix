@@ -2,7 +2,7 @@ const { expect } = require('../../../test-helper');
 const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/event-dispatcher-builder');
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 
-describe('Event Choregraphy | Compute Validated Skills Count', function() {
+describe('Event Choreography | Compute Validated Skills Count', function() {
   it('Should trigger ComputeValidatedSkillsCount on CampaignParticipationResultsShared event', async () => {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
