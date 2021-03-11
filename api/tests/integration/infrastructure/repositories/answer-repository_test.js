@@ -8,9 +8,9 @@ const _ = require('lodash');
 const moment = require('moment');
 const cache = require('../../../../lib/infrastructure/caches/learning-content-cache');
 
-const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
-describe('Integration | Repository | AnswerRepository', () => {
+describe('Integration | Repository | answerRepository', () => {
   let assessmentId, otherAssessmentId, userId;
   const challengeId = 'challenge_1234';
   const otherChallengeId = 'challenge_4567';
@@ -33,7 +33,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
       it('should reject an error if nothing is found', async () => {
         // when
-        const error = await catchErr(AnswerRepository.get)(100);
+        const error = await catchErr(answerRepository.get)(100);
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
@@ -50,7 +50,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
       it('should retrieve an answer from its id', async () => {
         // when
-        const foundAnswer = await AnswerRepository.get(answerId);
+        const foundAnswer = await answerRepository.get(answerId);
 
         // then
         expect(foundAnswer).to.be.an.instanceof(Answer);
@@ -65,7 +65,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
       it('should return an empty list if nothing is found', async () => {
         // when
-        const foundAnswers = await AnswerRepository.findByIds([100]);
+        const foundAnswers = await answerRepository.findByIds([100]);
 
         // then
         expect(foundAnswers).to.be.empty;
@@ -84,7 +84,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
       it('should retrieve all answers from its id', async () => {
         // when
-        const foundAnswers = await AnswerRepository.findByIds(answerIds);
+        const foundAnswers = await answerRepository.findByIds(answerIds);
 
         // then
         expect(foundAnswers[0]).to.be.an.instanceof(Answer);
@@ -106,7 +106,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should find the answer by challenge and assessment and return its in an object', async () => {
       // when
-      const foundAnswers = await AnswerRepository.findByChallengeAndAssessment({
+      const foundAnswers = await answerRepository.findByChallengeAndAssessment({
         challengeId,
         assessmentId,
       });
@@ -128,7 +128,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
 
       // when
-      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
       // then
       expect(challengeIds).to.deep.equal(expectedChallengeIds);
@@ -139,7 +139,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       const answerIds = [];
 
       // when
-      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
       // then
       expect(challengeIds).to.deep.equal([]);
@@ -156,7 +156,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
 
       // when
-      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(
         answerIds.concat([nonExistingAnswerId]),
       );
 
@@ -174,7 +174,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       const expectedChallengeIds = ['rec10'];
 
       // when
-      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
       // then
       expect(challengeIds).to.deep.equal(expectedChallengeIds);
@@ -189,7 +189,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       const expectedChallengeIds = ['recChallenge10'];
 
       // when
-      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+      const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
 
       // then
       expect(challengeIds).to.deep.equal(expectedChallengeIds);
@@ -209,7 +209,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should resolves answers with assessment id provided', async () => {
       // when
-      const answers = await AnswerRepository.findByAssessment(assessmentId);
+      const answers = await answerRepository.findByAssessment(assessmentId);
 
       // then
       expect(answers.length).to.be.equal(2);
@@ -219,7 +219,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should return answers as domain objects', async () => {
       // when
-      const answers = await AnswerRepository.findByAssessment(assessmentId);
+      const answers = await answerRepository.findByAssessment(assessmentId);
 
       // then
       expect(answers[0]).to.be.instanceof(Answer);
@@ -242,7 +242,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should resolves the last answers with assessment id provided', async () => {
       // when
-      const answer = await AnswerRepository.findLastByAssessment(assessmentId);
+      const answer = await answerRepository.findLastByAssessment(assessmentId);
 
       // then
       expect(answer).to.be.instanceof(Answer);
@@ -269,7 +269,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       };
 
       // when
-      const answers = await AnswerRepository.findCorrectAnswersByAssessmentId(assessmentId);
+      const answers = await answerRepository.findCorrectAnswersByAssessmentId(assessmentId);
 
       // then
       expect(answers).to.exist;
@@ -303,7 +303,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
       beforeEach(async () => {
         // when
-        savedAnswer = await AnswerRepository.saveWithKnowledgeElements(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
+        savedAnswer = await answerRepository.saveWithKnowledgeElements(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
       });
 
       it('should save the answer in db', async () => {
@@ -315,6 +315,7 @@ describe('Integration | Repository | AnswerRepository', () => {
           challengeId: answer.challengeId,
           timeout: answer.timeout,
           resultDetails: `${answer.resultDetails}\n`,
+          timeSpent: answer.timeSpent,
         };
         const answerInDB = await knex('answers').first();
         return compareDatabaseObject(answerInDB, expectedRawAnswerWithoutIdNorDates);
@@ -342,7 +343,7 @@ describe('Integration | Repository | AnswerRepository', () => {
         sinon.stub(BookshelfKnowledgeElement.prototype, 'save').rejects();
 
         //when
-        savedAnswer = await catchErr(AnswerRepository.saveWithKnowledgeElements)(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
+        savedAnswer = await catchErr(answerRepository.saveWithKnowledgeElements)(answer, [firstKnowledgeElement, secondeKnowledgeElements]);
 
         // then
         const answerInDB = await knex('answers');

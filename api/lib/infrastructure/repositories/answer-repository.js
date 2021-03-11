@@ -18,6 +18,7 @@ function _adaptModelToDb(answer) {
     timeout: answer.timeout,
     challengeId: answer.challengeId,
     assessmentId: answer.assessmentId,
+    timeSpent: answer.timeSpent,
   };
 }
 
@@ -31,6 +32,7 @@ function _toDomain(bookshelfAnswer) {
       value: bookshelfAnswer.get('value'),
       assessmentId: bookshelfAnswer.get('assessmentId'),
       challengeId: bookshelfAnswer.get('challengeId'),
+      timeSpent: bookshelfAnswer.get('timeSpent'),
     });
   }
   return null;
