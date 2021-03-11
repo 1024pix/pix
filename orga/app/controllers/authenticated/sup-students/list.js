@@ -9,6 +9,8 @@ export default class ListController extends Controller {
   @service session;
   @service currentUser;
   @service notifications;
+  @service errorMessages;
+  @service intl;
 
   @tracked isLoading = false;
 
@@ -48,17 +50,17 @@ export default class ListController extends Controller {
 
       this.refresh();
       this.isLoading = false;
-      this.notifications.sendSuccess('La liste a été importée avec succès.');
+      this.notifications.sendSuccess(this.intl.t('pages.students-sup.import.global-success'));
 
     } catch (errorResponse) {
       this.isLoading = false;
 
-      const errorPrefix = 'Aucun étudiant n’a été importé.<br/>';
-      const globalErrorMessage = `<div>${errorPrefix} Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a></div>`;
+      const globalErrorMessage = this.intl.t('pages.students-sup.import.global-error', { htmlSafe: true });
       if (errorResponse.body.errors) {
         errorResponse.body.errors.forEach((error) => {
           if (error.status === '412' || error.status === '413') {
-            return this.notifications.sendError(`<div>${errorPrefix} <strong>${error.detail}</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>`);
+            const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
+            return this.notifications.sendError(this.intl.t('pages.students-sup.import.error-wrapper', { message, htmlSafe: true }));
           }
           return this.notifications.sendError(globalErrorMessage);
         });
