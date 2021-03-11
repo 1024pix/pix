@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.31.0 (11/03/2021)
+
+- [#2647](https://github.com/1024pix/pix/pull/2647) [FEATURE] Ajout d'un nouveau critère pour la création des RT (PIX-2258).
+- [#2691](https://github.com/1024pix/pix/pull/2691) [FEATURE] Trier la liste des classes sur la page "Certifications" (PIX-2324)
+- [#2660](https://github.com/1024pix/pix/pull/2660) [FEATURE] Traduire dans l'API la demande de réinitialisation du mot de passe d'un utilisateur (PIX-2214).
+- [#2669](https://github.com/1024pix/pix/pull/2669) [FEATURE] Permettre la suppression d'un membre depuis Pix Orga (PIX-404).
+- [#2687](https://github.com/1024pix/pix/pull/2687) [FEATURE] Afficher la titre et la description prescripteur d'un palier dans la liste des participants d'une campagne d'évaluation de Pix Orga (PIX-2315).
+- [#2667](https://github.com/1024pix/pix/pull/2667) [FEATURE] Traduction des bannières d'information de Pix Orga (PIX-2253).
+- [#2689](https://github.com/1024pix/pix/pull/2689) [BUGFIX] Réparer l'export des résultats pour les utilisateurs anonymes (PIX-2346).
+- [#2695](https://github.com/1024pix/pix/pull/2695) [TECH] Stocke les résultats des tests dans circleci
+- [#2696](https://github.com/1024pix/pix/pull/2696) [TECH] Tri les paliers par ordre de seuil
+- [#2666](https://github.com/1024pix/pix/pull/2666) [TECH] Ajout d'un helper front pour pouvoir avoir un choix de langue dans un bloc de text (PIX-2318).
+- [#2571](https://github.com/1024pix/pix/pull/2571) [CLEAN] Suppression des images dans APP non utilisées.
+
 ## v3.30.0 (11/03/2021)
 
 - [#2651](https://github.com/1024pix/pix/pull/2651) [FEATURE][i18n] Contextualisation des en-têtes sur l'export de résultats pour une campagne de collecte de profils (Pix-2205).
