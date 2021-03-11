@@ -126,6 +126,18 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(afterAnswersNumber).to.equal(1);
       });
 
+      it('should add a new answer with timeSpent into the database', async () => {
+        // when
+        const response = await server.inject(postAnswersOptions);
+
+        // then
+        const answer = response.result.data;
+
+        const model = await BookshelfAnswer.where({ id: answer.id }).fetch();
+
+        expect(model.get('timeSpent')).not.to.be.null;
+      });
+
       it('should return persisted answer', async () => {
         // when
         const response = await server.inject(postAnswersOptions);
