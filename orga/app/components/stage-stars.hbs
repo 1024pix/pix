@@ -1,7 +1,19 @@
-<PixStars 
-	@count={{this.starsAcquired}}
-	@total={{this.starsTotal}}
-	@alt={{this.altMessage}}
-	@color="blue"
-	class="stage-stars"
-/>
+<div class="stage-stars__container">
+  <PixStars
+    @count={{this.starsAcquired}}
+    @total={{this.starsTotal}}
+    @alt={{this.altMessage}}
+    @color="blue"
+    class="stage-stars"
+  />
+  {{#if this.displayTooltip}}
+    <PixTooltip
+      role="tooltip"
+      @text={{this.tooltipText}}
+      @position={{@tooltipPosition}}
+      @isWide={{true}}
+      @isLight={{true}}>
+      <FaIcon @icon="info-circle" class="stage-stars__info-icon"/>
+    </PixTooltip>
+  {{/if}}
+</div>

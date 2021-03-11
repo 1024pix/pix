@@ -3,4 +3,17 @@
     width: 18px;
     height: 18px;
   }
+
+  &__container {
+    display: inline-flex;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__info-icon {
+    color: $grey-40;
+    margin: 0 8px;
+  }
 }

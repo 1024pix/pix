@@ -13,8 +13,8 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
         sharedParticipationsCount: 2,
         stages: [{
           id: 1,
-          title: 'stage1',
-          message: 'stageMessage',
+          prescriberTitle: 'stage1',
+          prescriberDescription: 'description',
           threshold: 30,
         }],
         badges: [{
@@ -87,9 +87,9 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
         included: [
           {
             attributes: {
-              message: report.stages[0].message,
+              'prescriber-description': report.stages[0].prescriberDescription,
               threshold: report.stages[0].threshold,
-              title: report.stages[0].title,
+              'prescriber-title': report.stages[0].prescriberTitle,
             },
             id: report.stages[0].id.toString(),
             type: 'stages',

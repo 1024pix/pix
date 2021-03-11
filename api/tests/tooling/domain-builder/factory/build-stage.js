@@ -6,6 +6,8 @@ module.exports = function buildStage({
   title = faker.company.catchPhrase(),
   message = faker.company.catchPhrase(),
   threshold = 1,
+  prescriberTitle,
+  prescriberDescription,
 } = {}) {
 
   return new Stage({
@@ -13,5 +15,7 @@ module.exports = function buildStage({
     title,
     message,
     threshold,
+    prescriberTitle,
+    prescriberDescription,
   });
 };
