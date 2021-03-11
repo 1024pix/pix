@@ -2,6 +2,7 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const CampaignAssessmentCsvLine = require('../../../../lib/infrastructure/utils/CampaignAssessmentCsvLine');
 const campaignParticipationService = require('../../../../lib/domain/services/campaign-participation-service');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
   const studentNumberPresenceModifier = (organization.type === 'SUP' && organization.isManagingStudents) ? 1 : 0;
@@ -32,6 +33,7 @@ function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
 }
 
 describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
+  const translate = getI18n().__;
 
   describe('#toCsvLine', () => {
 
@@ -50,6 +52,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           [targetProfileWithLearningContent.competences[0].id]: [],
         },
         campaignParticipationService,
+        translate,
       });
 
       // when
@@ -84,6 +87,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
+          translate,
         });
 
         // when
@@ -113,6 +117,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
+          translate,
         });
 
         // when
@@ -141,6 +146,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
+          translate,
         });
 
         // when
@@ -170,6 +176,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             [targetProfileWithLearningContent.competences[0].id]: [],
           },
           campaignParticipationService,
+          translate,
         });
 
         // when
@@ -207,6 +214,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             [targetProfileWithLearningContent.competences[0].id]: [knowledgeElement],
           },
           campaignParticipationService,
+          translate,
         });
 
         // when
@@ -283,6 +291,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -306,11 +315,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           // First area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(0.33);
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(3);
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(1);
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal(1);
           // Second area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(1);
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(2);
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(2);
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal(2);
           // Target profile skills
           expect(csvLine[currentColumn++], 'statut acquis').to.equal('OK');
           expect(csvLine[currentColumn++], 'statut acquis').to.equal('Non testé');
@@ -384,6 +393,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -407,11 +417,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           // First area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal('NA');
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal('NA');
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal('NA');
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal('NA');
           // Second area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal('NA');
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal('NA');
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal('NA');
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal('NA');
           // Target profile skills
           expect(csvLine[currentColumn++], 'statut acquis').to.equal('NA');
           expect(csvLine[currentColumn++], 'statut acquis').to.equal('NA');
@@ -487,6 +497,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -510,11 +521,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           // First area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(0.33);
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(3);
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(1);
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal(1);
           // Second area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal(1);
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal(2);
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal(2);
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal(2);
 
           expect(csvLine).to.have.lengthOf(currentColumn);
         });
@@ -582,6 +593,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             stages: [],
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -605,11 +617,11 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
           // First area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal('NA');
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal('NA');
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal('NA');
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal('NA');
           // Second area
           expect(csvLine[currentColumn++], '% maitrise du domaine').to.equal('NA');
           expect(csvLine[currentColumn++], 'nb acquis domaine').to.equal('NA');
-          expect(csvLine[currentColumn++], 'nb acquis validés dans le domaine').to.equal('NA');
+          expect(csvLine[currentColumn++], 'nb acquis validés du domaine').to.equal('NA');
 
           expect(csvLine).to.have.lengthOf(currentColumn);
         });
@@ -631,6 +643,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               [targetProfileWithLearningContent.competences[0].id]: [],
             },
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -663,6 +676,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             },
             acquiredBadges: [badge],
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -700,6 +714,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             },
             acquiredBadges: [badge.title],
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -734,6 +749,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             },
             acquiredBadges: [],
             campaignParticipationService,
+            translate,
           });
 
           // when
@@ -799,6 +815,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               targetProfileWithLearningContent,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
+              translate,
             });
 
             // when
@@ -861,6 +878,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
               targetProfileWithLearningContent,
               participantKnowledgeElementsByCompetenceId,
               campaignParticipationService,
+              translate,
             });
 
             // when
@@ -923,6 +941,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', () => {
             targetProfileWithLearningContent,
             participantKnowledgeElementsByCompetenceId,
             campaignParticipationService,
+            translate,
           });
 
           // when
