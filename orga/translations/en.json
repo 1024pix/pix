@@ -419,6 +419,16 @@
       },
       "title": "Students"
     },
+    "team-members": {
+      "table": {
+        "column": {
+          "first-name": "First name",
+          "last-name": "Last name",
+          "organization-membership-role": "Role"
+        },
+        "empty": "No members yet"
+      }
+    },
     "team-new": {
       "title": "Invite a member",
       "email-requirement": "Enter here the email address of the member you want to invite.",

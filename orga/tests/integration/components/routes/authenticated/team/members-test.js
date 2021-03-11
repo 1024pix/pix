@@ -1,11 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+
 module('Integration | Component | routes/authenticated/team | members', function(hooks) {
 
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it should list the team members', async function(assert) {
     //given
