@@ -186,7 +186,7 @@ async function _findBadges(targetProfileId) {
 async function _fillBadgesWithCriteria(badges) {
   const badgeIds = badges.map((badge) => badge.id);
   const criteriaRows = await knex('badge-criteria')
-    .select('badge-criteria.id', 'badge-criteria.scope', 'badge-criteria.threshold', 'badge-criteria.badgeId')
+    .select('badge-criteria.id', 'badge-criteria.scope', 'badge-criteria.threshold', 'badge-criteria.badgeId', 'badge-criteria.partnerCompetenceIds')
     .whereIn('badge-criteria.badgeId', badgeIds);
 
   const criteriaRowsByBadgeId = _.groupBy(criteriaRows, 'badgeId');
