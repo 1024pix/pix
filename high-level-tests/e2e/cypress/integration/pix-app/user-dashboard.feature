@@ -10,3 +10,4 @@ Fonctionnalité: Dashboard utilisateur (page /accueil)
     Lorsque je vais sur mon dashboard
     Alors je vois le résumé de mes participations aux campagnes qui ne sont pas partagées
     Et je vois 2 participations aux campagnes
+    Et je vois le bandeau de reprise de la dernière campagne de collecte de profil non partagée
