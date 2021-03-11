@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder, streamToPromise, catchErr } = require('../
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/domain/errors');
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
   const campaignRepository = { get: () => undefined };
@@ -14,6 +15,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
   const badgeAcquisitionRepository = { getCampaignAcquiredBadgesByUsers: () => undefined };
   let writableStream;
   let csvPromise;
+
+  const i18n = getI18n();
 
   beforeEach(() => {
     writableStream = new PassThrough();
@@ -36,6 +39,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: notAuthorizedUser.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
@@ -71,9 +75,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
     const csvExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -105,6 +110,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
@@ -128,9 +134,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
     const csvExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -156,6 +163,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
@@ -178,9 +186,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
     const csvExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -208,6 +217,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       writableStream,
       campaignRepository,
       userRepository,
+      i18n,
       targetProfileWithLearningContentRepository,
       organizationRepository,
       campaignParticipationInfoRepository,
@@ -230,9 +240,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
     const csvExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -243,8 +254,8 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Date de début";' +
       '"Partage (O/N)";' +
       '"Date du partage";' +
-      '"badge1 obtenu (O/N)";' +
-      '"badge2 obtenu (O/N)";' +
+      `"${badge1.title} obtenu (O/N)";` +
+      `"${badge2.title} obtenu (O/N)";` +
       '"% maitrise de l\'ensemble des acquis du profil";' +
       `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
       `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
@@ -259,6 +270,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
@@ -281,9 +293,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
     const csvExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -307,6 +320,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
@@ -334,9 +348,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
     const csvExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -361,6 +376,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
@@ -383,9 +399,10 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(user.id).resolves(user);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').rejects();
+
     const csvExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -410,6 +427,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: user.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
@@ -440,7 +458,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(campaignRepository, 'get').withArgs(campaign.id).resolves(campaign);
     sinon.stub(userRepository, 'getWithMemberships').withArgs(admin.id).resolves(admin);
     sinon.stub(organizationRepository, 'get').withArgs(campaign.organization.id).resolves(organization);
-    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id }).resolves(targetProfile);
+    sinon.stub(targetProfileWithLearningContentRepository, 'get').withArgs({ id: targetProfile.id, locale: 'fr' }).resolves(targetProfile);
     sinon.stub(campaignParticipationInfoRepository, 'findByCampaignId').withArgs(campaign.id).resolves([participantInfo]);
     sinon.stub(knowledgeElementRepository, 'findTargetedGroupedByCompetencesForUsers').resolves({
       [participantInfo.userId]: {
@@ -450,6 +468,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     sinon.stub(badgeAcquisitionRepository, 'getCampaignAcquiredBadgesByUsers').resolves({
       [participantInfo.userId]: [badge],
     });
+
     const csvHeaderExpected = '\uFEFF"Nom de l\'organisation";' +
       '"ID Campagne";' +
       '"Nom de la campagne";' +
@@ -460,7 +479,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Date de début";' +
       '"Partage (O/N)";' +
       '"Date du partage";' +
-      '"badge sup obtenu (O/N)";' +
+      `"${badge.title} obtenu (O/N)";` +
       '"% maitrise de l\'ensemble des acquis du profil";' +
       `"% de maitrise des acquis de la compétence ${targetProfile.competences[0].name}";` +
       `"Nombre d'acquis du profil cible dans la compétence ${targetProfile.competences[0].name}";` +
@@ -469,6 +488,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       `"Nombre d'acquis du profil cible du domaine ${targetProfile.areas[0].title}";` +
       `"Acquis maitrisés du domaine ${targetProfile.areas[0].title}";` +
       `"${targetProfile.skills[0].name}"`;
+
     const csvParticipantResultExpected = `"${organization.name}";` +
       `${campaign.id};` +
       `"${campaign.name}";` +
@@ -494,6 +514,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       userId: admin.id,
       campaignId: campaign.id,
       writableStream,
+      i18n,
       campaignRepository,
       userRepository,
       targetProfileWithLearningContentRepository,
