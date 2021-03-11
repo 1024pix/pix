@@ -2,12 +2,13 @@ const { domainBuilder, expect, sinon } = require('../../../../test-helper');
 
 const CampaignProfileCollectionResultLine = require('../../../../../lib/infrastructure/exports/campaigns/campaign-profile-collection-result-line');
 const PlacementProfile = require('../../../../../lib/domain/models/PlacementProfile');
+const { getI18n } = require('../../../../tooling/i18n/i18n');
 
 describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', () => {
   describe('#toCsvLine', () => {
     let organization, campaign, competences;
 
-    const translate = sinon.stub();
+    const translate = getI18n().__;
 
     const placementProfile = new PlacementProfile({
       userId: 123,
@@ -25,10 +26,6 @@ describe('Unit | Serializer | CSV | campaign-profile-collection-result-line', ()
     beforeEach(() => {
       const listSkills1 = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
       const listSkills2 = domainBuilder.buildSkillCollection({ name: '@url', minLevel: 1, maxLevel: 2 });
-
-      translate.withArgs('campaign.common.no').returns('Non');
-      translate.withArgs('campaign.common.yes').returns('Oui');
-      translate.withArgs('campaign.common.not-available').returns('NA');
 
       organization = {};
       campaign = {};
