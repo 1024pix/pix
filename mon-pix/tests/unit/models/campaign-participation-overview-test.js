@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Model | Campaign-Participation-Overview', function() {
+describe.only('Unit | Model | Campaign-Participation-Overview', function() {
   setupTest();
 
   let store;
@@ -61,6 +61,31 @@ describe('Unit | Model | Campaign-Participation-Overview', function() {
         });
         // when / then
         expect(model.status).to.equal('ARCHIVED');
+      });
+    });
+
+    context('when the campaign is for absolute novice"', () => {
+      it('should return the status "ONGOING" if not finished', function() {
+        // given
+        const model = store.createRecord('campaign-participation-overview', {
+          assessmentState: 'started',
+          isShared: false,
+          campaignIsForAbsoluteNovice: true,
+          campaignArchivedAt: null,
+        });
+        // when / then
+        expect(model.status).to.equal('ONGOING');
+      });
+      it('should return the status "ENDED" if the assessment is finished', function() {
+        // given
+        const model = store.createRecord('campaign-participation-overview', {
+          assessmentState: 'completed',
+          isShared: false,
+          campaignIsForAbsoluteNovice: true,
+          campaignArchivedAt: null,
+        });
+        // when / then
+        expect(model.status).to.equal('ENDED');
       });
     });
   });
