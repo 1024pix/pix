@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module.only('Unit | Controller | authenticated/certifications', function(hooks) {
+module('Unit | Controller | authenticated/certifications', function(hooks) {
   setupIntlRenderingTest(hooks);
 
   module('#onSelectDivision', function() {
