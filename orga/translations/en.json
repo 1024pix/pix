@@ -456,6 +456,13 @@
         "error": "An error occurred while removing this member."
       }
     },
+    "team-list": {
+      "title": "My team",
+      "add-member-button": "Invite a member",
+      "tabs": {
+        "member": "Members"
+      }
+    },
     "team-members": {
       "table": {
         "column": {

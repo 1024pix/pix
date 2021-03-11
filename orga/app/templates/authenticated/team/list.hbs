@@ -1,14 +1,14 @@
 <div class="list-team-page">
   <div class="list-team-page__header">
-    <div class="page__title page-title">Mon équipe</div>
+    <div class="page__title page-title">{{t 'pages.team-list.title'}}</div>
     <div class="list-team-page-header__add-member-button">
-      <LinkTo @route="authenticated.team.new" class="button button--link">Inviter un membre</LinkTo>
+      <LinkTo @route="authenticated.team.new" class="button button--link">{{t 'pages.team-list.add-member-button'}}</LinkTo>
     </div>
   </div>
 
   <nav class="navbar list-team-page__tabs">
     <LinkTo @route="authenticated.team.list.members" class="navbar-item">
-      Membres ({{@model.memberships.meta.rowCount}})
+      {{t 'pages.team-list.tabs.member'}} ({{@model.memberships.meta.rowCount}})
     </LinkTo>
 
     <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
