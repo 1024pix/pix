@@ -5,13 +5,19 @@
   {{#unless this.isEditionMode }}
     <td>{{@membership.displayRole}}</td>
     {{#if (not-eq @membership.user.id this.currentUser.prescriber.id) }}
-      <td>
-        <div class="zone-edit-role">
-          <button id='edit-organization-role' class="button button--light-grey button--thin"
-                  type="button" {{on 'click' (fn this.editRoleOfMember @membership)}}>
+      <td class="zone-edit-role">
+        <Dropdown::IconTrigger
+                @icon="ellipsis-v"
+                @dropdownButtonClass="zone-edit-role__dropdown-button"
+                @dropdownContentClass="zone-edit-role__dropdown-content"
+        >
+          <Dropdown::Item @onClick={{fn this.editRoleOfMember @membership}} aria-label="Modifier le rôle">
             Modifier le rôle
-          </button>
-        </div>
+          </Dropdown::Item>
+          <Dropdown::Item @onClick={{fn this.displayRemoveMembershipModal @membership}} aria-label="Supprimer le membre">
+            Supprimer
+          </Dropdown::Item>
+        </Dropdown::IconTrigger>
       </td>
     {{else}}
       <td></td>
@@ -48,3 +54,17 @@
     </td>
   {{/if}}
 </tr>
+
+<Modal::Dialog class="remove-membership-modal" @title="Confirmez-vous la suppression ?" @display={{this.isRemoveMembershipModalDisplayed}} @close={{this.closeRemoveMembershipModal}} @additionalContainerClass="modal-dialog__large">
+  <Modal::Body class="remove-membership-modal__content">
+    <p class="content-text">
+      {{@membership.user.firstName}} {{@membership.user.lastName}} n'aura plus accès à cet espace Pix Orga.
+      <br>
+      Ses campagnes restent accessibles au reste de l'équipe.
+    </p>
+  </Modal::Body>
+  <Modal::Footer class="remove-membership-modal__actions">
+    <button type="button" class="button button--grey button--regular" {{on 'click' this.closeRemoveMembershipModal}}>Annuler</button>
+    <button type="button" class="button button--red" data-test-modal-remove-button {{on 'click' this.onRemoveButtonClicked}}>Oui, supprimer le membre</button>
+  </Modal::Footer>
+</Modal::Dialog>

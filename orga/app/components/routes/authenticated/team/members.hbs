@@ -12,7 +12,7 @@
       {{#if @memberships}}
         <tbody>
         {{#each @memberships as |membership|}}
-          <Routes::Authenticated::Team::Items @membership={{membership}}/>
+          <Routes::Authenticated::Team::Items @membership={{membership}} @removeMembership={{@removeMembership}} />
         {{/each}}
         </tbody>
       {{/if}}

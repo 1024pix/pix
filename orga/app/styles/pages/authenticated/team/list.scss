@@ -1,3 +1,5 @@
+$margin-right: 32px;
+
 .list-team-page {
   display: flex;
   flex-direction: column;
@@ -15,6 +17,10 @@
     border-bottom: 1px solid $grey-20;
     margin-bottom: 16px;
   }
+
+  .modal-dialog-width {
+    width: 600px;
+  }
 }
 
 .list-team-page-header {
@@ -30,11 +36,21 @@
 }
 
 .zone-edit-role {
+  align-items: center;
   box-sizing: border-box;
   display: flex;
   height: inherit;
   justify-content: flex-end;
   padding-right: 25px;
+
+  &__dropdown-button {
+    margin-right: $margin-right;
+  }
+
+  &__dropdown-content {
+    width: 200px;
+    right: $margin-right;
+  }
 }
 
 .zone-save-cancel-role {
@@ -50,3 +66,30 @@
     margin-left: 10px;
   }
 }
+
+.remove-membership-modal {
+
+  .content-text {
+    color: $grey-90;
+    line-height: 26px;
+  }
+
+  &__content, &__actions {
+    background: $grey-10;
+  }
+
+  &__content{
+    padding-top: 32px;
+    padding-bottom: 24px;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+
+    button:first-child {
+      margin-right: 25px;
+    }
+  }
+}
+

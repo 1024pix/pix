@@ -254,11 +254,12 @@ describe('Acceptance | Controller | membership-controller', () => {
 
     let options;
     let membershipId;
+    let organizationId;
 
     beforeEach(async () => {
       await insertUserWithRolePixMaster();
 
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
       const userId = databaseBuilder.factory.buildUser().id;
       membershipId = databaseBuilder.factory.buildMembership({ organizationId, userId }).id;
 
@@ -271,6 +272,20 @@ describe('Acceptance | Controller | membership-controller', () => {
           data: {
             id: membershipId.toString(),
             type: 'memberships',
+            relationships: {
+              user: {
+                data: {
+                  type: 'users',
+                  id: userId,
+                },
+              },
+              organization: {
+                data: {
+                  type: 'organizations',
+                  id: organizationId,
+                },
+              },
+            },
           },
         },
         headers: {
@@ -281,13 +296,36 @@ describe('Acceptance | Controller | membership-controller', () => {
 
     context('Success cases', () => {
 
-      it('should return a 204', async () => {
-        // when
-        const response = await server.inject(options);
+      context('When user is Pix Master', () => {
+        it('should return a 204', async () => {
+          // when
+          const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(204);
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
       });
+
+      context('When user is admin of the organization', () => {
+
+        beforeEach(async () => {
+          // given
+          const organizationAdminUserId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildMembership({ userId: organizationAdminUserId, organizationId, organizationRole: Membership.roles.ADMIN });
+          options.headers.authorization = generateValidRequestAuthorizationHeader(organizationAdminUserId);
+
+          await databaseBuilder.commit();
+        });
+
+        it('should return a 204', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+      });
+
     });
 
     context('Error cases', () => {

@@ -10,11 +10,13 @@ const memberOption = { value: 'MEMBER', label: 'Membre', disabled: false };
 export default class Items extends Component {
 
   @service currentUser;
+  @service notifications;
 
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
   @tracked selectedNewRole = null;
   @tracked currentRole = null;
+  @tracked isRemoveMembershipModalDisplayed = false;
 
   constructor() {
     super(...arguments);
@@ -51,6 +53,32 @@ export default class Items extends Component {
   cancelUpdateRoleOfMember() {
     this.isEditionMode = false;
     this._clearState();
+  }
+
+  @action
+  displayRemoveMembershipModal() {
+    this.isRemoveMembershipModalDisplayed = true;
+  }
+
+  @action
+  closeRemoveMembershipModal() {
+    this.isRemoveMembershipModalDisplayed = false;
+  }
+
+  @action
+  async onRemoveButtonClicked() {
+    try {
+      const membership = this.args.membership;
+      const memberFirstName = membership.user.get('firstName');
+      const memberLastName = membership.user.get('lastName');
+
+      await this.args.removeMembership(membership);
+      this.notifications.success(`${memberFirstName} ${memberLastName} a été supprimé avec succès de votre équipe Pix Orga.`);
+    } catch (e) {
+      this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');
+    } finally {
+      this.closeRemoveMembershipModal();
+    }
   }
 
   _clearState() {
