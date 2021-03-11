@@ -8,6 +8,10 @@ export default class Dialog extends Component {
     document.addEventListener('keyup', this.closeOnEscape);
   }
 
+  get containerClass() {
+    return `modal-dialog ${this.args.additionalContainerClass}`;
+  }
+
   willDestroy() {
     super.willDestroy(...arguments);
     document.removeEventListener('keyup', this.closeOnEscape);

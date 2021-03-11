@@ -140,7 +140,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
       beforeEach(() => {
         membershipId = domainBuilder.buildMembership().id;
         usecases.disableMembership.resolves();
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => h.response(true));
       });
 
       it('should return a 200 HTTP response', async () => {
@@ -154,10 +154,10 @@ describe('Integration | Application | Memberships | membership-controller', () =
 
     context('Error cases', () => {
 
-      context('when user has not pix master role', () => {
+      context('when user is not admin of the organization nor has pix master role', () => {
 
         beforeEach(() => {
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
         });

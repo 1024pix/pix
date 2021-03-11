@@ -11,4 +11,13 @@ export default class MembershipAdapter extends ApplicationAdapter {
     }
     return super.urlForQuery(...arguments);
   }
+
+  updateRecord(store, type, snapshot) {
+    if (snapshot.adapterOptions && snapshot.adapterOptions.disable) {
+      const url = this.urlForUpdateRecord(snapshot.id, type.modelName, snapshot) + '/disable';
+      const data = this.serialize(snapshot);
+      return this.ajax(url, 'POST', { data });
+    }
+    return super.updateRecord(...arguments);
+  }
 }

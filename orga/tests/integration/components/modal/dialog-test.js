@@ -16,7 +16,7 @@ module('Integration | Component | modal', function(hooks) {
       this.set('close', close);
       this.set('title', 'Mon titre');
 
-      return render(hbs`<Modal::Dialog @display={{display}} @title={{title}} @close={{close}}>Mon contenu</Modal::Dialog>`);
+      return render(hbs`<Modal::Dialog @display={{display}} @title={{title}} @close={{close}} @additionalContainerClass={{additionalContainerClass}}>Mon contenu</Modal::Dialog>`);
     });
 
     test('should render title and content', async function(assert) {
@@ -63,6 +63,14 @@ module('Integration | Component | modal', function(hooks) {
       assert.dom('[role="dialog"]').exists();
       assert.dom('[aria-labelledby="modal_mon_titre_label"]').exists();
       assert.dom('#modal_mon_titre_label').exists();
+    });
+
+    test('should add additional container class', async function(assert) {
+      const additionalContainerClass = 'a_class';
+      this.set('display', true);
+      this.set('additionalContainerClass', additionalContainerClass);
+
+      assert.dom('.modal-dialog').hasClass(additionalContainerClass);
     });
   });
 });

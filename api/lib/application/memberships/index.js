@@ -61,8 +61,8 @@ exports.register = async function(server) {
       path: '/api/memberships/{id}/disable',
       config: {
         pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
+          method: securityPreHandlers.checkUserIsAdminInOrganizationOrHasRolePixMaster,
+          assign: 'isAdminInOrganizationOrHasRolePixMaster',
         }],
         validate: {
           params: Joi.object({
