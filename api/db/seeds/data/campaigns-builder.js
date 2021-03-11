@@ -1,4 +1,11 @@
-const { TARGET_PROFILE_PIC_DIAG_INITIAL_ID, TARGET_PROFILE_STAGES_BADGES_ID, TARGET_PROFILE_ONE_COMPETENCE_ID, TARGET_PROFILE_SIMPLIFIED_ACCESS_ID, TARGET_PROFILE_PIX_EMPLOI_CLEA_ID } = require('./target-profiles-builder');
+const {
+  TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
+  TARGET_PROFILE_STAGES_BADGES_ID,
+  TARGET_PROFILE_ONE_COMPETENCE_ID,
+  TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
+  TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+  TARGET_PROFILE_PIX_DROIT_ID,
+} = require('./target-profiles-builder');
 const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
 const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID } = require('./organizations-sco-builder');
 const { SUP_UNIVERSITY_ID } = require('./organizations-sup-builder');
@@ -86,6 +93,19 @@ function _buildCampaignForSup(databaseBuilder) {
     idPixLabel: null,
     title: null,
     customLandingPageText: null,
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 12395,
+    name: 'Sup - Campagne d’évaluation Pix+ Droit',
+    code: 'DROIT1234',
+    type: 'ASSESSMENT',
+    organizationId: SUP_UNIVERSITY_ID,
+    creatorId: 7,
+    targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
   });
 }
 
