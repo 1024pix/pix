@@ -6,12 +6,28 @@ const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain
 const { knex } = require('../../lib/infrastructure/bookshelf');
 const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
 
+function _generateRandomDivisionWithSpecialSymbols() {
+  let divisionName = '';
+  const charactersPossibleInDivisions = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ-abcdefghijklmnopqrstuvwxyz-0123456789';
+  const divisionLength = faker.random.number(4) + 2;
+
+  for (let i = 0; i < divisionLength; i++) {
+    const randomNumber = Math.floor(Math.random() * (charactersPossibleInDivisions.length - 1));
+    divisionName = divisionName + charactersPossibleInDivisions[randomNumber];
+  }
+
+  const underscorePrefix = faker.random.number(3) === 1 ? '_' : '';
+  divisionName = underscorePrefix + divisionName;
+  return divisionName;
+}
+
 function _buildSchoolingRegistration() {
+  const division = _generateRandomDivisionWithSpecialSymbols();
   return new SchoolingRegistration({
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     birthdate: faker.date.past(),
-    division: faker.lorem.word(),
+    division,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
   });
 }

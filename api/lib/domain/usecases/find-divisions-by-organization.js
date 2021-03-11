@@ -1,8 +1,11 @@
 
-module.exports = function findDivisionsByOrganization({
+module.exports = async function findDivisionsByOrganization({
   organizationId,
   divisionRepository,
 }) {
-  return divisionRepository.findByOrganizationId({ organizationId });
+  const divisionsOrderedByPostgres = await divisionRepository.findByOrganizationId({ organizationId });
+  const divisionsOrderedByName = divisionsOrderedByPostgres.sort((divisionA, divisionB) =>
+    divisionA.name.localeCompare(divisionB.name, 'fr'),
+  );
+  return divisionsOrderedByName;
 };
-

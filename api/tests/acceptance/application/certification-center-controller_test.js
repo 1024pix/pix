@@ -251,7 +251,7 @@ describe('Acceptance | API | Certification Center', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(_.map(response.result.data, 'id')).to.deep.equal(['2ndB', '2ndA']);
+      expect(_.map(response.result.data, 'id')).to.deep.equal(['2ndA', '2ndB']);
     });
   });
 

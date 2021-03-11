@@ -16,10 +16,12 @@ async function findByCampaignId(campaignId) {
 }
 
 async function findByOrganizationId({ organizationId }) {
+  const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
   const divisionRows = await knex('schooling-registrations')
     .distinct('division')
     .where('organizationId', organizationId)
-    .orderBy('division', 'desc');
+    .where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR)
+    .orderBy('division', 'asc');
 
   return divisionRows.map(({ division }) => _toDomain(division));
 }
