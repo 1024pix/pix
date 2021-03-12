@@ -104,7 +104,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       assert.ok(true);
     });
 
-    test('should notify error on notifications service when publication fail', async function(assert) {
+    test('should notify error on notifications service when publication fails', async function(assert) {
       // given
       const errorMock = sinon.stub();
       class NotificationsStub extends Service {
@@ -115,14 +115,14 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
 
       const unloadRecord = sinon.stub().resolves();
       const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord }) ];
-      const error = {
+      const response = {
         errors: [
           { code: 'SESSION_BATCH_PUBLICATION_FAILED', details: 'Erreur dans la publication' },
         ],
       };
       const store = {
         adapterFor: sinon.stub().returns({
-          publishSessionInBatch: sinon.stub().resolves(error),
+          publishSessionInBatch: sinon.stub().resolves(response),
         }),
       };
 
@@ -138,7 +138,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       // then
       sinon.assert.calledWith(send, 'refreshModel');
       sinon.assert.calledWith(errorMock,
-        `Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : ${error.errors[0].detail}`,
+        `Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : ${response.errors[0].detail}`,
       );
       assert.ok(true);
     });

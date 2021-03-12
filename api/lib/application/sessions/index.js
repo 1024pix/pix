@@ -425,8 +425,8 @@ exports.register = async (server) => {
         }],
         handler: sessionController.publishInBatch,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Publie plusieurs sessions d\'un coup',
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
+          '- Permet de publier plusieurs sessions sans problème d\'un coup',
         ],
         tags: ['api', 'session', 'publication'],
       },
