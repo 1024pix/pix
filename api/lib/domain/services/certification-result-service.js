@@ -12,6 +12,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const placementProfileService = require('./placement-profile-service');
 const qrocmDepChallenge = 'QROCM-dep';
+const { CertifiedLevel } = require('../models/CertifiedLevel');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(
@@ -40,11 +41,11 @@ function _numberOfCorrectAnswersPerCompetence(answersForScoring) {
   return nbOfCorrectAnswers;
 }
 
-function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproducibilityRate) {
-  if (numberOfCorrectAnswers < 2) {
-    return competence.pixScore;
+function _computedPixToRemovePerCompetence(certifiedLevel, pixScore) {
+  if (certifiedLevel.isUncertified()) {
+    return pixScore;
   }
-  if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
+  if (certifiedLevel.isDowngraded()) {
     return PIX_COUNT_BY_LEVEL;
   }
   return 0;
@@ -83,6 +84,11 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
     });
 
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersForScoring);
+    const certifiedLevel = CertifiedLevel.from({
+      numberOfCorrectAnswers,
+      estimatedLevel: competence.estimatedLevel,
+      reproducibilityRate,
+    });
     return {
       name: competence.name,
       index: competence.index,
@@ -90,9 +96,8 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       id: competence.id,
       positionedLevel: scoringService.getBlockedLevel(competence.estimatedLevel),
       positionedScore: competence.pixScore,
-      obtainedLevel: _getCertifiedLevel({ numberOfCorrectAnswers, estimatedLevel: competence.estimatedLevel, reproducibilityRate }),
-      obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
-        reproducibilityRate),
+      obtainedLevel: scoringService.getBlockedLevel(certifiedLevel.value),
+      obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(certifiedLevel, competence.pixScore),
     };
   });
 }
