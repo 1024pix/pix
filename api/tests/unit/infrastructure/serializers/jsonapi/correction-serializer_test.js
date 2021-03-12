@@ -13,6 +13,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
       const correction = new Correction({
         id: 'correction_id',
         solution: 'Correction value',
+        solutionToDisplay: 'Correction to be displayed',
         hints: [
           new Hint({ skillName: '@test2', value: 'Indice moins Facile' }),
           new Hint({ skillName: '@test1', value: 'Indice Facile' }),
@@ -86,6 +87,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
           'attributes': {
             'hint': 'Indice Facile',
             'solution': 'Correction value',
+            'solution-to-display': 'Correction to be displayed',
           },
           'id': 'correction_id',
           'relationships': {

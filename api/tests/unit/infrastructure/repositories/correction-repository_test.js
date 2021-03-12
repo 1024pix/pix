@@ -47,19 +47,10 @@ describe('Unit | Repository | correction-repository', function() {
 
     context('normal challenge', () => {
 
-      const expectedCorrection = new Correction({
-        id: 'recwWzTquPlvIl4So',
-        solution: '1, 5',
-        hints: expectedHints,
-        tutorials: expectedTutorials,
-        learningMoreTutorials: expectedLearningMoreTutorials,
-      });
-
-      let promise;
+      let challengeDataObject;
 
       beforeEach(() => {
         // given
-        const challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
         const skillDatas = [
           SkillLearningContentDataObjectFixture({
             name: '@web1',
@@ -81,30 +72,48 @@ describe('Unit | Repository | correction-repository', function() {
           }),
         ];
 
-        challengeDatasource.get.resolves(challengeDataObject);
         skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
         tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1', 'recTuto2'], userId, locale }).resolves(expectedTutorials);
         tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3', 'recTuto4'], userId, locale }).resolves(expectedLearningMoreTutorials);
+      });
+
+      it('should return a correction with the solution and solutionToDisplay', async function() {
+        // given
+        const expectedCorrection = new Correction({
+          id: 'recwWzTquPlvIl4So',
+          solution: '1, 5',
+          solutionToDisplay: '1',
+          hints: expectedHints,
+          tutorials: expectedTutorials,
+          learningMoreTutorials: expectedLearningMoreTutorials,
+        });
+        challengeDataObject = ChallengeLearningContentDataObjectFixture({
+          skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'],
+          solution: '1, 5',
+          solutionToDisplay: '1',
+        });
+        challengeDatasource.get.resolves(challengeDataObject);
 
         // when
-        promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
+        const result = await correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
+
+        // then
+        expect(result).to.be.an.instanceof(Correction);
+        expect(result).to.deep.equal(expectedCorrection);
+        expect(challengeDatasource.get).to.have.been.calledWith(recordId);
       });
 
-      it('should return a correction with the solution', function() {
-        // then
-        return promise.then((result) => {
-          expect(result).to.be.an.instanceof(Correction);
-          expect(result).to.deep.equal(expectedCorrection);
-          expect(challengeDatasource.get).to.have.been.calledWith(recordId);
-        });
-      });
+      it('should return the correction with hints that are validated', async function() {
+        // given
+        challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
+        challengeDatasource.get.resolves(challengeDataObject);
 
-      it('should return the correction with hints that are validated', function() {
+        // when
+        const result = await correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
+
         // then
-        return promise.then((result) => {
-          result.hints.forEach((hint) => expect(hint).to.be.an.instanceof(Hint));
-          expect(result.hints).to.deep.equal(expectedHints);
-        });
+        result.hints.forEach((hint) => expect(hint).to.be.an.instanceof(Hint));
+        expect(result.hints).to.deep.equal(expectedHints);
       });
     });
 
@@ -113,6 +122,7 @@ describe('Unit | Repository | correction-repository', function() {
       const expectedCorrection = new Correction({
         id: 'recwWzTquPlvIl4So',
         solution: '1, 5',
+        solutionToDisplay: '1, 5',
         hints: expectedHints,
         tutorials: [expectedTutorials[0]],
         learningMoreTutorials: [expectedLearningMoreTutorials[0]],

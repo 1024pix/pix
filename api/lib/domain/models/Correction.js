@@ -5,12 +5,14 @@ class Correction {
   constructor({
     id,
     solution,
+    solutionToDisplay,
     hints = [],
     tutorials = [],
     learningMoreTutorials = [],
   } = {}) {
     this.id = id;
     this.solution = solution;
+    this.solutionToDisplay = solutionToDisplay;
     this.hints = hints;
     this.tutorials = tutorials;
     this.learningMoreTutorials = learningMoreTutorials;
