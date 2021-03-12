@@ -50,14 +50,14 @@ function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, r
   return 0;
 }
 
-function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproducibilityRate) {
+function _getCertifiedLevel({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
   if (numberOfCorrectAnswers < 2) {
     return UNCERTIFIED_LEVEL;
   }
   if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
-    return scoringService.getBlockedLevel(competence.estimatedLevel - 1);
+    return scoringService.getBlockedLevel(estimatedLevel - 1);
   }
-  return scoringService.getBlockedLevel(competence.estimatedLevel);
+  return scoringService.getBlockedLevel(estimatedLevel);
 }
 
 function _getSumScoreFromCertifiedCompetences(listCompetences) {
@@ -90,7 +90,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       id: competence.id,
       positionedLevel: scoringService.getBlockedLevel(competence.estimatedLevel),
       positionedScore: competence.pixScore,
-      obtainedLevel: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproducibilityRate),
+      obtainedLevel: _getCertifiedLevel({ numberOfCorrectAnswers, estimatedLevel: competence.estimatedLevel, reproducibilityRate }),
       obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
         reproducibilityRate),
     };
@@ -212,6 +212,7 @@ module.exports = {
   },
 
   _computeAnswersSuccessRate,
+  _getCertifiedLevel,
 };
 
 class AnswerForScoring {
