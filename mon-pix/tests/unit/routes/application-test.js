@@ -49,7 +49,7 @@ describe('Unit | Route | application', function() {
     expect(currentUserStub.called).to.be.true;
   });
 
-  describe('#__handleLanguage', function() {
+  describe('#__handleLocale', function() {
 
     let intlSetLocaleStub;
     let momentSetLocaleStub;
@@ -77,32 +77,68 @@ describe('Unit | Route | application', function() {
 
       describe('when domain is pix.org', function() {
 
-        it('should update locale', async function() {
-          // given
-          route.set('currentDomain', { getExtension() { return 'org'; } });
+        describe('when supplying locale in queryParam', function() {
 
-          // when
-          await route._handleLanguage('en');
+          it('should update locale', async function() {
+            // given
+            route.set('currentDomain', {
+              getExtension() {
+                return 'org';
+              },
+            });
 
-          // then
-          sinon.assert.called(intlSetLocaleStub);
-          sinon.assert.called(momentSetLocaleStub);
-          sinon.assert.calledWith(intlSetLocaleStub, ['en', 'fr']);
-          sinon.assert.calledWith(momentSetLocaleStub, 'en');
+            // when
+            await route._handleLocale('en');
+
+            // then
+            sinon.assert.called(intlSetLocaleStub);
+            sinon.assert.called(momentSetLocaleStub);
+            sinon.assert.calledWith(intlSetLocaleStub, ['en', 'fr']);
+            sinon.assert.calledWith(momentSetLocaleStub, 'en');
+          });
+
+          it('should ignore locale switch when is neither "fr" nor "en"', async function() {
+            // given
+            route.set('currentDomain', {
+              getExtension() {
+                return 'org';
+              },
+            });
+
+            // when
+            await route._handleLocale('bouh');
+
+            // then
+            sinon.assert.called(intlSetLocaleStub);
+            sinon.assert.called(momentSetLocaleStub);
+            sinon.assert.calledWith(intlSetLocaleStub, ['bouh', 'fr']);
+          });
+
         });
 
-        it('should ignore locale switch when is neither "fr" nor "en"', async function() {
-          // given
-          route.set('currentDomain', { getExtension() { return 'org'; } });
+        describe('when supplying no locale in queryParam', function() {
 
-          // when
-          await route._handleLanguage('bouh');
+          it('should set locale to default locale, but does not (bug)', async function() {
+            // given
+            route.set('currentDomain', {
+              getExtension() {
+                return 'org';
+              },
+            });
 
-          // then
-          sinon.assert.called(intlSetLocaleStub);
-          sinon.assert.called(momentSetLocaleStub);
-          sinon.assert.calledWith(intlSetLocaleStub, ['bouh', 'fr']);
+            const locale = undefined;
+            // when
+            await route._handleLocale(locale);
+
+            // then
+            sinon.assert.called(intlSetLocaleStub);
+            sinon.assert.called(momentSetLocaleStub);
+            sinon.assert.calledWith(intlSetLocaleStub, [null, 'fr']);
+            sinon.assert.calledWith(momentSetLocaleStub, null);
+          });
+
         });
+
       });
 
       describe('when domain is pix.fr', function() {
@@ -112,7 +148,7 @@ describe('Unit | Route | application', function() {
           route.set('currentDomain', { getExtension() { return 'fr'; } });
 
           // when
-          await route._handleLanguage('en');
+          await route._handleLocale('en');
 
           // then
           sinon.assert.called(intlSetLocaleStub);
@@ -140,7 +176,7 @@ describe('Unit | Route | application', function() {
           route.set('currentDomain', { getExtension() { return 'org'; } });
 
           // when
-          await route._handleLanguage();
+          await route._handleLocale();
 
           // then
           sinon.assert.called(intlSetLocaleStub);
@@ -167,7 +203,7 @@ describe('Unit | Route | application', function() {
             route.set('currentDomain', { getExtension() { return 'org'; } });
 
             // when
-            await route._handleLanguage('en');
+            await route._handleLocale('en');
 
             // then
             sinon.assert.called(saveStub);
@@ -192,7 +228,7 @@ describe('Unit | Route | application', function() {
             route.set('currentDomain', { getExtension() { return 'org'; } });
 
             // when
-            await route._handleLanguage('bouh');
+            await route._handleLocale('bouh');
 
             // then
             sinon.assert.called(rollbackAttributesStub);
@@ -215,7 +251,7 @@ describe('Unit | Route | application', function() {
           route.set('currentDomain', { getExtension() { return 'fr'; } });
 
           // when
-          await route._handleLanguage();
+          await route._handleLocale();
 
           // then
           sinon.assert.called(intlSetLocaleStub);
@@ -242,7 +278,7 @@ describe('Unit | Route | application', function() {
             route.set('currentDomain', { getExtension() { return 'fr'; } });
 
             // when
-            await route._handleLanguage('en');
+            await route._handleLocale('en');
 
             // then
             sinon.assert.notCalled(saveStub);

@@ -47,14 +47,14 @@ export default Route.extend(ApplicationRouteMixin, {
     const locale = transition.to.queryParams.lang;
 
     await this._loadCurrentUser();
-    await this._handleLanguage(locale);
+    await this._handleLocale(locale);
   },
 
   async sessionAuthenticated() {
     const _super = this._super;
 
     await this._loadCurrentUser();
-    await this._handleLanguage();
+    await this._handleLocale();
 
     const nextURL = this.session.data.nextURL;
     if (nextURL && get(this.session, 'data.authenticated.source') === 'pole_emploi_connect') {
@@ -71,41 +71,42 @@ export default Route.extend(ApplicationRouteMixin, {
   // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
   sessionInvalidated() {},
 
-  async _handleLanguage(locale = null) {
+  async _handleLocale(localeFromQueryParam = null) {
 
     const isUserConnected = this.session.isAuthenticated;
     const domain = this.currentDomain.getExtension();
     const defaultLocale = 'fr';
 
     if (domain === 'fr') {
-      await this._setLocale(defaultLocale, defaultLocale);
+      await this._setLocale(defaultLocale);
       return;
     }
 
     if (isUserConnected) {
-      if (locale) {
-        this.currentUser.user.lang = locale;
+      if (localeFromQueryParam) {
+        this.currentUser.user.lang = localeFromQueryParam;
         try {
           await this.currentUser.user.save({ adapterOptions: { lang: this.currentUser.user.lang } });
-          await this._setLocale(this.currentUser.user.lang, defaultLocale);
+          await this._setLocale(this.currentUser.user.lang);
         } catch (error) {
           const status = get(error, 'errors[0].status');
           if (status === '400') {
             this.currentUser.user.rollbackAttributes();
-            await this._setLocale(this.currentUser.user.lang, defaultLocale);
+            await this._setLocale(this.currentUser.user.lang);
           } else {
             throw error;
           }
         }
       } else {
-        await this._setLocale(this.currentUser.user.lang, defaultLocale);
+        await this._setLocale(this.currentUser.user.lang);
       }
     } else {
-      await this._setLocale(locale, defaultLocale);
+      await this._setLocale(localeFromQueryParam);
     }
   },
 
-  _setLocale(locale, defaultLocale) {
+  _setLocale(locale) {
+    const defaultLocale = 'fr';
     this.intl.setLocale([locale, defaultLocale]);
     this.moment.setLocale(locale);
   },
