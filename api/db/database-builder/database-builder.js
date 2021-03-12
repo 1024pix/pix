@@ -62,41 +62,42 @@ module.exports = class DatabaseBuilder {
       'pix_roles',
     );
     const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
+    // eslint-disable-next-line knex/avoid-injections
     return this.knex.raw(`TRUNCATE ${tables}`);
   }
 
   async _initTablesOrderedByDependencyWithDirtinessMap() {
     // See this link : https://stackoverflow.com/questions/51279588/sort-tables-in-order-of-dependency-postgres
-    const results = await this.knex.raw('with recursive fk_tree as ( ' +
-      'select t.oid as reloid, ' +
-      't.relname as table_name, ' +
-      's.nspname as schema_name, ' +
-      'null::name as referenced_table_name, ' +
-      'null::name as referenced_schema_name, ' +
-      '1 as level ' +
-      'from pg_class t ' +
-      'join pg_namespace s on s.oid = t.relnamespace ' +
-      'where relkind = \'r\' ' +
-      'and not exists (select * ' +
-      'from pg_constraint ' +
-      'where contype = \'f\' ' +
-      'and conrelid = t.oid) ' +
-      'and s.nspname = \'public\' ' +
-      'union all ' +
-      'select ref.oid, ' +
-      'ref.relname, ' +
-      'rs.nspname, ' +
-      'p.table_name, ' +
-      'p.schema_name, ' +
-      'p.level + 1 ' +
-      'from pg_class ref ' +
-      'join pg_namespace rs on rs.oid = ref.relnamespace ' +
-      'join pg_constraint c on c.contype = \'f\' and c.conrelid = ref.oid ' +
-      'join fk_tree p on p.reloid = c.confrelid ), all_tables as ( ' +
-      'select schema_name, table_name, level, row_number() over (partition by schema_name, table_name order by level desc) as ' +
-      'last_table_row from fk_tree ) ' +
-      'select table_name ' +
-      'from all_tables at where last_table_row = 1 order by level DESC;');
+    const results = await this.knex.raw(`with recursive fk_tree as (
+      select t.oid as reloid,
+      t.relname as table_name,
+      s.nspname as schema_name,
+      null::name as referenced_table_name,
+      null::name as referenced_schema_name,
+      1 as level
+      from pg_class t
+      join pg_namespace s on s.oid = t.relnamespace
+      where relkind = 'r'
+      and not exists (select *
+      from pg_constraint
+      where contype = 'f'
+      and conrelid = t.oid)
+      and s.nspname = 'public'
+      union all
+      select ref.oid,
+      ref.relname,
+      rs.nspname,
+      p.table_name,
+      p.schema_name,
+      p.level + 1
+      from pg_class ref
+      join pg_namespace rs on rs.oid = ref.relnamespace
+      join pg_constraint c on c.contype = 'f' and c.conrelid = ref.oid
+      join fk_tree p on p.reloid = c.confrelid ), all_tables as (
+      select schema_name, table_name, level, row_number() over (partition by schema_name, table_name order by level desc) as
+      last_table_row from fk_tree )
+      select table_name
+      from all_tables at where last_table_row = 1 order by level DESC;`);
 
     this.tablesOrderedByDependencyWithDirtinessMap = _.map(results.rows, ({ table_name }) => {
       return {

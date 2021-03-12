@@ -11,13 +11,14 @@ module.exports = {
         lastName: 'users.lastName',
         email: 'users.email',
         pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
-        certificationCenters: knex.raw('JSON_AGG(JSON_BUILD_OBJECT(' +
-          '\'id\', "certification-centers"."id",' +
-          '\'name\', "certification-centers"."name",' +
-          '\'type\', "certification-centers"."type",' +
-          '\'externalId\', "certification-centers"."externalId",' +
-          '\'isRelatedOrganizationManagingStudents\', "organizations"."isManagingStudents"' +
-        ') ORDER BY "certification-center-memberships"."createdAt" DESC)'),
+        // eslint-disable-next-line no-restricted-syntax
+        certificationCenters: knex.raw(`JSON_AGG(JSON_BUILD_OBJECT(
+          'id', "certification-centers"."id",
+          'name', "certification-centers"."name",
+          'type', "certification-centers"."type",
+          'externalId', "certification-centers"."externalId",
+          'isRelatedOrganizationManagingStudents', "organizations"."isManagingStudents"
+        ) ORDER BY "certification-center-memberships"."createdAt" DESC)`),
       })
       .from('users')
       .join('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
