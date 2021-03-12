@@ -114,8 +114,10 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     const hasUserCompletedRestrictedCampaignAssociation = this._handleQueryParamBoolean(queryParams.associationDone, this.state.hasUserCompletedRestrictedCampaignAssociation);
     const isCampaignForNoviceUser = get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser);
     const hasUserSeenJoinPage = this._handleQueryParamBoolean(queryParams.hasUserSeenJoinPage, this.state.hasUserSeenJoinPage);
-    const hasUserNotSeenLandingPage = queryParams.hasUserSeenLandingPage == null ? null : !queryParams.hasUserSeenLandingPage;
-    const shouldDisplayLandingPage = isCampaignForNoviceUser ? false : this._handleQueryParamBoolean(hasUserNotSeenLandingPage, this.state.shouldDisplayLandingPage);
+
+    const hasUserNotSeenLandingPage = queryParams.hasUserSeenLandingPage == null ? this.state.shouldDisplayLandingPage : !this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, false);
+    const shouldDisplayLandingPage = isCampaignForNoviceUser ? false : hasUserNotSeenLandingPage;
+
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
