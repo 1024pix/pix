@@ -263,20 +263,20 @@ describe('Integration | Repository | Finalized-session', () => {
 
     context('when sessionId does not exist', () => {
 
-      it('should return a Not found error', async () => {
+      it('should not throw when trying to assign certification officer on non-existent finalized session', async () => {
         // given
-        const sessionId = databaseBuilder.factory.buildFinalizedSession().sessionId;
+        const sessionId = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 }).sessionId;
         await databaseBuilder.commit();
         const unknownSessionId = sessionId + 1;
 
         // when
-        const error = await catchErr(finalizedSessionRepository.assignCertificationOfficer)({
+        const promise = finalizedSessionRepository.assignCertificationOfficer({
           sessionId: unknownSessionId,
           assignedCertificationOfficerName: 'Severus Snape',
         });
 
         // then
-        expect(error).to.be.instanceOf(NotFoundError);
+        return expect(promise).to.be.fulfilled;
       });
     });
   });
