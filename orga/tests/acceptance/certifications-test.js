@@ -34,7 +34,7 @@ module('Acceptance | Certifications page', function(hooks) {
         await visit('/certifications');
 
         // then
-        assert.contains('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.');
+        assert.dom('.certifications-page__text').containsText('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv. Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.');
         assert.contains('Exporter les résultats');
         assert.contains('Certifications');
         assert.contains('Classe');

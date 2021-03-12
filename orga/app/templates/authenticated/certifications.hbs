@@ -1,12 +1,9 @@
 <div class="certifications-page">
   <h1 class="page__title page-title">{{t 'pages.certifications.title'}}</h1>
   <p class="certifications-page__text">
-    {{t 'pages.certifications.description'}}
+    {{t 'pages.certifications.description' htmlSafe=true}}
   </p>
-  <PixMessage>
-    {{t 'pages.certifications.documentation-link-notice'}}
-    <a href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8">{{t 'pages.certifications.documentation-link-label'}}</a>
-  </PixMessage>
+
   <form class="certifications-page__action" {{on 'submit' this.downloadSessionResultFile}}>
     <label for="certifications-page-action__select">{{t 'pages.certifications.select-label'}}</label>
     <PixSelect id="certifications-page-action__select" 
@@ -23,4 +20,9 @@
       {{t 'pages.certifications.download-button'}}
     </button>
   </form>
+
+  <PixMessage @withIcon={{true}}>
+    {{t 'pages.certifications.documentation-link-notice'}}
+    <a href={{t 'pages.certifications.documentation-link'}}>{{t 'pages.certifications.documentation-link-label'}}</a>
+  </PixMessage>
 </div>
