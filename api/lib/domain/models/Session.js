@@ -67,6 +67,10 @@ class Session {
     }
     return statuses.CREATED;
   }
+
+  isPublished() {
+    return this.publishedAt !== null;
+  }
 }
 
 module.exports = Session;

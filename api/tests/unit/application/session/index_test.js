@@ -43,6 +43,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
     sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
     sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
+    sinon.stub(sessionController, 'publishInBatch').returns('ok');
     sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
     sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
 
@@ -286,6 +287,61 @@ describe('Unit | Application | Sessions | Routes', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/admin/sessions/publish-in-batch', () => {
+
+    it('is protected by a prehandler checking the Pix Master role', async () => {
+      // given
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+      const payload = {
+        data: {
+          attributes: {
+            ids: [1, 2, 3],
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('should succeed with valid session ids', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            ids: [1, 2, 3],
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should validate the session ids in payload', async () => {
+      // given
+      const payload = {
+        data: {
+          attributes: {
+            ids: ['an invalid session id'],
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 

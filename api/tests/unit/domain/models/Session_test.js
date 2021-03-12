@@ -1,6 +1,7 @@
 const Session = require('../../../../lib/domain/models/Session');
 const { expect } = require('../../../test-helper');
 const _ = require('lodash');
+const { domainBuilder } = require('../../../test-helper');
 
 const SESSION_PROPS = [
   'id',
@@ -143,6 +144,28 @@ describe('Unit | Domain | Models | Session', () => {
           });
         });
       });
+    });
+  });
+
+  context('#isPublished', () => {
+    it('returns true when the session is published', () => {
+      // given
+      const session = domainBuilder.buildSession({ publishedAt: new Date() });
+      // when
+      const isPublished = session.isPublished();
+
+      // then
+      expect(isPublished).to.be.true;
+    });
+
+    it('returns false when the session is not published', () => {
+      // given
+      const session = domainBuilder.buildSession({ publishedAt: null });
+      // when
+      const isPublished = session.isPublished();
+
+      // then
+      expect(isPublished).to.be.false;
     });
   });
 });
