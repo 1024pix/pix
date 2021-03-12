@@ -101,7 +101,12 @@ export default Route.extend(ApplicationRouteMixin, {
         await this._setLocale(this.currentUser.user.lang);
       }
     } else {
-      await this._setLocale(localeFromQueryParam);
+      if (localeFromQueryParam) {
+        await this._setLocale(localeFromQueryParam);
+      } else {
+        await this._setLocale(defaultLocale);
+      }
+
     }
   },
 
