@@ -9,6 +9,7 @@ import {
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
 
 const ASSESSMENT = 'ASSESSMENT';
 
@@ -62,10 +63,19 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           it('should redirect to assessment after completion of external id', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await click('.button');
+
+            await clickByLabel('Continuer');
 
             // then
             expect(currentURL()).to.contains('/didacticiel');
+          });
+
+          it('should redirect to campaign presentation after cancel button', async function() {
+            // when
+            await clickByLabel('Annuler');
+
+            // then
+            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/presentation`);
           });
         });
 
