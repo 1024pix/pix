@@ -45,14 +45,9 @@ module.exports = {
   },
 
   async assignCertificationOfficer({ sessionId, assignedCertificationOfficerName }) {
-    const updatedSessions = await Bookshelf.knex('finalized-sessions')
+    await FinalizedSessionBookshelf
       .where({ sessionId })
-      .update({ assignedCertificationOfficerName })
-      .returning('*');
-
-    if (updatedSessions.length === 0) {
-      throw new NotFoundError(`La session finalisée d'id ${sessionId} n'existe pas.`);
-    }
+      .save({ assignedCertificationOfficerName }, { method: 'update', require: false });
   },
 };
 
