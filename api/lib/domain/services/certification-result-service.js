@@ -5,7 +5,6 @@ const {
   PIX_COUNT_BY_LEVEL,
   UNCERTIFIED_LEVEL,
 } = require('../constants');
-const AnswerStatus = require('../models/AnswerStatus');
 const CertificationContract = require('../../domain/models/CertificationContract');
 const scoringService = require('./scoring/scoring-service');
 const { CertificationComputeError } = require('../../../lib/domain/errors');
@@ -26,41 +25,15 @@ function _selectChallengesMatchingCompetences(certificationChallenges, testedCom
   );
 }
 
-function _isQROCMdepOk(challenge, answer) {
-  const challengeType = challenge ? challenge.type : '';
-  return challengeType === qrocmDepChallenge && answer.isOk(); // TODO check challengeType in real Challenge Domain Object
-}
-
-function _isQROCMdepPartially(challenge, answer) {
-  const challengeType = challenge ? challenge.type : '';
-  return challengeType === qrocmDepChallenge && answer.isPartially();
-}
-
-function _numberOfCorrectAnswersPerCompetence(answers, competence, certificationChallenges, continueOnError) {
-  const challengesForCompetence = _.filter(certificationChallenges, { competenceId: competence.id });
-  const answersForCompetence = _selectAnswersMatchingCertificationChallenges(answers, challengesForCompetence);
-
-  if (!continueOnError) {
-    CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
-
-    CertificationContract.assertThatCompetenceHasEnoughAnswers(answersForCompetence, competence.index);
-  }
-
+function _numberOfCorrectAnswersPerCompetence(answersForScoring) {
   let nbOfCorrectAnswers = 0;
-  answersForCompetence.forEach((answer) => {
-    const challenge = _.find(challengesForCompetence, { challengeId: answer.challengeId });
-
-    if (!challenge && !continueOnError) {
-      throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
-    }
-
-    const answerResult = answer.result;
-    if (answersForCompetence.length < 3 && _isQROCMdepOk(challenge, answer)) {
+  answersForScoring.forEach((answer) => {
+    if (answersForScoring.length < 3 && answer.isAFullyCorrectQROCMdep()) { // TODO : remove (useless) check on length ?
       nbOfCorrectAnswers += 2;
-    } else if (answersForCompetence.length < 3 && _isQROCMdepPartially(challenge, answer)) {
-      nbOfCorrectAnswers++;
-    } else if (AnswerStatus.isOK(answerResult)) {
-      nbOfCorrectAnswers++;
+    } else if (answersForScoring.length < 3 && answer.isAPartiallyCorrectQROCMdep()) { // TODO : remove (useless) check on length ?
+      nbOfCorrectAnswers += 1;
+    } else if (answer.isCorrect()) {
+      nbOfCorrectAnswers += 1;
     }
   });
 
@@ -93,7 +66,23 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
 
 function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproducibilityRate, certificationChallenges, continueOnError) {
   return listCompetences.map((competence) => {
-    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answers, competence, certificationChallenges, continueOnError);
+    const challengesForCompetence = _.filter(certificationChallenges, { competenceId: competence.id });
+    const answersForCompetence = _selectAnswersMatchingCertificationChallenges(answers, challengesForCompetence);
+
+    if (!continueOnError) {
+      CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
+      CertificationContract.assertThatCompetenceHasEnoughAnswers(answersForCompetence, competence.index);
+    }
+
+    const answersForScoring = answersForCompetence.map((answer) => {
+      const challenge = _.find(challengesForCompetence, { challengeId: answer.challengeId });
+      if (!challenge && !continueOnError) {
+        throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
+      }
+      return new AnswerForScoring(answer, challenge);
+    });
+
+    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersForScoring);
     return {
       name: competence.name,
       index: competence.index,
@@ -224,3 +213,23 @@ module.exports = {
 
   _computeAnswersSuccessRate,
 };
+
+class AnswerForScoring {
+  constructor(answer, challenge) {
+    this.answer = answer;
+    this.challenge = challenge;
+  }
+  _isQROCMdep() {
+    const challengeType = this.challenge ? this.challenge.type : '';
+    return challengeType === qrocmDepChallenge;
+  }
+  isCorrect() {
+    return this.answer.isOk();
+  }
+  isAFullyCorrectQROCMdep() {
+    return this._isQROCMdep() && this.answer.isOk();
+  }
+  isAPartiallyCorrectQROCMdep() {
+    return this._isQROCMdep() && this.answer.isPartially();
+  }
+}
