@@ -118,7 +118,7 @@ describe('Unit | Route | application', function() {
 
         describe('when supplying no locale in queryParam', function() {
 
-          it('should set locale to default locale, but does not (bug)', async function() {
+          it('should set locale to default locale', async function() {
             // given
             route.set('currentDomain', {
               getExtension() {
@@ -133,8 +133,8 @@ describe('Unit | Route | application', function() {
             // then
             sinon.assert.called(intlSetLocaleStub);
             sinon.assert.called(momentSetLocaleStub);
-            sinon.assert.calledWith(intlSetLocaleStub, [null, 'fr']);
-            sinon.assert.calledWith(momentSetLocaleStub, null);
+            sinon.assert.calledWith(intlSetLocaleStub, ['fr', 'fr']);
+            sinon.assert.calledWith(momentSetLocaleStub, 'fr');
           });
 
         });
