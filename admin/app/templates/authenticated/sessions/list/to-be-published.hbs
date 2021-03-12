@@ -8,10 +8,9 @@
 
 <ToBePublishedSessions::ListItems @toBePublishedSessions={{@model}} @publishSession={{this.publishSession}} />
 
-
 <ConfirmPopup
-  @message='Vous vous apprêtez à publier {{@model.length}} session(s) de certification, souhaitez vous poursuivre ?' 
+  @message='Vous vous apprêtez à publier {{@model.length}} session(s) de certification, souhaitez vous poursuivre ?'
   @confirm={{this.batchPublishSessions}}
-  @cancel={{this.hideConfirmModal}} 
+  @cancel={{this.hideConfirmModal}}
   @show={{this.shouldShowModal}}
 />
