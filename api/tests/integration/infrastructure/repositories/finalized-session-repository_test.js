@@ -1,6 +1,5 @@
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const finalizedSessionRepository = require('../../../../lib/infrastructure/repositories/finalized-session-repository');
-const { NotFoundError } = require('../../../../lib/domain/errors');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
 describe('Integration | Repository | Finalized-session', () => {

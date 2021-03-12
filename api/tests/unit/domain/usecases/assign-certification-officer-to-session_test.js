@@ -87,7 +87,7 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
         expect(
           finalizedSessionRepository.assignCertificationOfficer,
         ).to.have.been.calledWith({
-          id: 1,
+          sessionId: 1,
           assignedCertificationOfficerName: 'Severus Snape',
         });
         expect(actualSessionId).to.equal(returnedSessionId);
