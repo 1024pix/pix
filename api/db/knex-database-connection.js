@@ -30,6 +30,7 @@ const knex = require('knex')(knexConfig);
 async function disconnect() {
   return knex.destroy();
 }
+
 const _databaseName = knex.client.database();
 
 const _dbSpecificQueries = {
@@ -39,9 +40,10 @@ const _dbSpecificQueries = {
 
 async function listAllTableNames() {
   const bindings = [_databaseName];
-  const query = _dbSpecificQueries.listTablesQuery;
 
-  const resultSet = await knex.raw(query, bindings);
+  const resultSet = await knex.raw(
+    'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
+    bindings);
 
   const rows = resultSet.rows;
   return _.map(rows, 'table_name');
@@ -58,7 +60,7 @@ async function emptyAllTables() {
   const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
 
   const query = _dbSpecificQueries.emptyTableQuery;
-  // eslint-disable-next-line no-restricted-syntax
+  // eslint-disable-next-line knex/avoid-injections,no-restricted-syntax
   return knex.raw(`${query}${tables}`);
 }
 

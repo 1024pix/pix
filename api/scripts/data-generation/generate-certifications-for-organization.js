@@ -275,13 +275,13 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
     SELECT DISTINCT "assessmentResultId",
            SUM("score") OVER (PARTITION BY "assessmentResultId") AS final_score
     FROM "competence-marks"
-    WHERE "assessmentResultId" = ANY(ARRAY[${assessmentResultIds.join(',')}])
+    WHERE "assessmentResultId" = ANY(ARRAY[?])
   )
   UPDATE "assessment-results"
   SET "pixScore" = "sum_score"."final_score"
   FROM sum_score
   WHERE "assessment-results".id = sum_score."assessmentResultId"
-  `);
+  `, assessmentResultIds.join(','));
 }
 
 async function _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction }) {
