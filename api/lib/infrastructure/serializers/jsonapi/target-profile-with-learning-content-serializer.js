@@ -17,7 +17,7 @@ module.exports = {
       competences: {
         ref: 'id',
         included: true,
-        attributes: ['name', 'areaId'],
+        attributes: ['name', 'areaId', 'index'],
       },
       areas: {
         ref: 'id',
