@@ -55,7 +55,7 @@ export default class SessionToBePublishedController extends Controller {
   }
 
   _batchPublicationFailed(error) {
-    return get(error, 'errors[0].code') === 'SESSION_BATCH_PUBLICATION_FAILED';
+    return get(error, 'errors[0].code') === 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED';
   }
 
   _removePublishedSessionsFromStore(sessions) {

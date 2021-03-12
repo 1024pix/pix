@@ -32,7 +32,7 @@ describe('POST /api/admin/sessions/publish-in-batch', () => {
 
         // then
         expect(response.statusCode).to.equal(207);
-        expect(response.result).to.nested.include({ 'errors[0].code': 'SESSION_BATCH_PUBLICATION_FAILED' });
+        expect(response.result).to.nested.include({ 'errors[0].code': 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED' });
       });
     });
 

@@ -117,7 +117,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord }) ];
       const response = {
         errors: [
-          { code: 'SESSION_BATCH_PUBLICATION_FAILED', details: 'Erreur dans la publication' },
+          { code: 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED', details: 'Erreur dans la publication' },
         ],
       };
       const store = {
