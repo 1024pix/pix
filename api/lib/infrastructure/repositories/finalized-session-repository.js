@@ -1,6 +1,4 @@
 const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
-const { NotFoundError } = require('../../domain/errors');
 
 const FinalizedSessionBookshelf = require('../data/finalized-session');
 
