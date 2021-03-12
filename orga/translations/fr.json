@@ -301,6 +301,9 @@
       "download-button": "Exporter les résultats",
       "select-label": "Classe",
       "title": "Certifications",
+      "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats :",
+      "documentation-link-label": "Interprétation des résultats prescripteur.",
+      "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "errors": {
         "no-results": "Aucun résultat de certification pour la classe {selectedDivision}.",
         "invalid-division": "La classe {selectedDivision} n'existe pas."

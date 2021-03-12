@@ -48,6 +48,14 @@ module('Acceptance | Certifications page', function(hooks) {
         assert.dom('.information-banner').doesNotExist();
         assert.dom('.pix-banner').doesNotExist();
       });
+
+      test('should show documentation about certification results link', async function(assert) {
+        // given / when
+        await visit('/certifications');
+
+        // then
+        assert.dom('a[href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8"]').exists();
+      });
     });
   });
 });
