@@ -19,10 +19,10 @@
           <td>{{withRequiredActionSession.printableDateAndTime}}</td>
           <td>{{withRequiredActionSession.printableFinalizationDate}}</td>
           <td class="session-list__item--align-center">
-            {{#if withRequiredActionSession.assignedCertificationOfficer}}
-              {{withRequiredActionSession.assignedCertificationOfficer.fullName}}
+            {{#if withRequiredActionSession.assignedCertificationOfficerName}}
+              {{withRequiredActionSession.assignedCertificationOfficerName}}
             {{else}}
-            -
+              -
             {{/if}}
           </td>
         </tr>
