@@ -1,8 +1,8 @@
 const FinalizedSession = require('../../../../../lib/domain/models/FinalizedSession');
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-with-required-action-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer');
 
-describe('Unit | Serializer | JSONAPI | session-with-required-action-serializer', function() {
+describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer', function () {
 
   describe('#serialize()', function() {
 
