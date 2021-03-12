@@ -78,7 +78,7 @@ describe('PATCH /api/admin/sessions/:id/publish', () => {
         const date = new Date('2000-01-01T10:00:00Z');
 
         beforeEach(() => {
-          sessionId = databaseBuilder.factory.buildSession({ publishedAt: date }).id;
+          sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
           databaseBuilder.factory.buildFinalizedSession({ sessionId });
           options.url = `/api/admin/sessions/${sessionId}/publish`;
           certificationId = databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false }).id;

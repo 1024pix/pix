@@ -1,4 +1,4 @@
-const { BadRequestError } = require('../http-errors');
+const { BadRequestError, SessionPublicationBatchError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
 const sessionResultsLinkService = require('../../domain/services/session-results-link-service');
@@ -18,6 +18,7 @@ const certificationResultUtils = require('../../infrastructure/utils/csv/certifi
 const fillCandidatesImportSheet = require('../../infrastructure/files/candidates-import/fill-candidates-import-sheet');
 const trim = require('lodash/trim');
 const UserLinkedToCertificationCandidate = require('../../domain/events/UserLinkedToCertificationCandidate');
+const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
@@ -239,6 +240,18 @@ module.exports = {
     return sessionSerializer.serialize(session);
   },
 
+  async publishInBatch(request, h) {
+    const sessionIds = request.payload.data.attributes.ids;
+    const result = await usecases.publishSessionsInBatch({
+      sessionIds,
+    });
+    if (result.hasPublicationErrors()) {
+      _logSessionBatchPublicationErrors(result);
+      throw new SessionPublicationBatchError(result.batchId);
+    }
+    return h.response().code(204);
+  },
+
   async unpublish(request) {
     const sessionId = request.params.id;
 
@@ -262,3 +275,16 @@ module.exports = {
   },
 
 };
+
+function _logSessionBatchPublicationErrors(result) {
+  logger.warn(`One or more error occurred when publishing session in batch ${result.batchId}`);
+
+  const sessionAndError = result.publicationErrors;
+  for (const sessionId in sessionAndError) {
+    logger.warn({
+      batchId: result.batchId,
+      sessionId,
+      message: sessionAndError[sessionId].message,
+    });
+  }
+}

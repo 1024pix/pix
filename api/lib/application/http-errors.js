@@ -109,6 +109,15 @@ class PayloadTooLargeError extends BaseHttpError {
   }
 }
 
+class SessionPublicationBatchError extends BaseHttpError {
+  constructor(batchId) {
+    super(`${batchId}`);
+    this.title = 'One or more error occurred while publishing session in batch';
+    this.code = 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED',
+    this.status = 207;
+  }
+}
+
 function sendJsonApiError(httpError, h) {
   const jsonApiError = new JSONAPIError({
     status: httpError.status.toString(),
@@ -133,4 +142,5 @@ module.exports = {
   ServiceUnavailableError,
   UnauthorizedError,
   UnprocessableEntityError,
+  SessionPublicationBatchError,
 };

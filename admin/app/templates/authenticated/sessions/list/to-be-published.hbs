@@ -1,4 +1,16 @@
-<ToBePublishedSessions::ListItems
-  @toBePublishedSessions={{@model}}
-  @publishSession={{this.publishSession}}
+{{#if @model.length}}
+<div class="session-to-be-publish__publish-all">
+  <button class="btn btn-primary" type="button" {{on 'click' this.showConfirmModal}}>
+    Publier toutes les sessions
+  </button>
+</div>
+{{/if}}
+
+<ToBePublishedSessions::ListItems @toBePublishedSessions={{@model}} @publishSession={{this.publishSession}} />
+
+<ConfirmPopup
+  @message='Vous vous apprêtez à publier {{@model.length}} session(s) de certification, souhaitez vous poursuivre ?'
+  @confirm={{this.batchPublishSessions}}
+  @cancel={{this.hideConfirmModal}}
+  @show={{this.shouldShowModal}}
 />
