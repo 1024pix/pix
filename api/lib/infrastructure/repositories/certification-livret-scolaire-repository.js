@@ -20,7 +20,7 @@ module.exports = {
         deliveredAt: 'sessions.publishedAt',
         certificationCenter: 'sessions.certificationCenter',
         // eslint-disable-next-line no-restricted-syntax
-        status: knex.raw(`CASE WHEN "isPublished" THEN "assessment-results".status ELSE '${PENDING}' END`),
+        status: knex.raw('CASE WHEN "isPublished" THEN "assessment-results".status ELSE ? END', PENDING),
         pixScore: 'assessment-results.pixScore',
       })
       .select(knex.raw('\'[\' || (string_agg(\'{ "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\') over (partition by "assessment-results".id)) || \']\' as "competenceResults"'))
@@ -32,7 +32,7 @@ module.exports = {
       .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
       .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
       .modify(_filterMostRecentAssessments)
-      .whereRaw(`LOWER("organizations"."externalId") = LOWER('${uai}')`)
+      .whereRaw('LOWER("organizations"."externalId") = LOWER(?)', uai)
       .andWhereRaw('"last-assessment-results".id is null')
       .orderBy('lastName', 'ASC')
       .orderBy('firstName', 'ASC');
