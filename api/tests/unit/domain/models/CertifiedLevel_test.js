@@ -84,5 +84,21 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
     });
+    context('only 1 answer is correct', () => {
+      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 2,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
   });
 });
