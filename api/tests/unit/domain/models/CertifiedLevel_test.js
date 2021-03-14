@@ -25,7 +25,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
     context('only 2 answers are correct', () => {
-      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
+      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 3,
@@ -37,7 +37,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         // then
         expect(certifiedLevel.value).to.equal(3);
       });
-      it(`certifies a level below the estimated level when reproducibility rate < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
+      it(`certifies a level below the estimated level when reproducibility rate < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 3,
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
     context('only 1 answer is correct', () => {
-      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
+      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 2,
@@ -99,6 +99,21 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isUncertified()).to.be.false;
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
+      it(`certifies a level below the estimated level when reproducibility rate >= 70% and < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 2,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 75,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(2);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.true;
+      });
+
     });
   });
 });

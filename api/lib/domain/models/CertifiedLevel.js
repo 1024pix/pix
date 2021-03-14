@@ -39,6 +39,13 @@ class CertifiedLevel {
   }
 
   static _scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
+    if (numberOfCorrectAnswers === 1) {
+      if (reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
+        return this._validated(estimatedLevel);
+      } else if (reproducibilityRate >= 70) {
+        return this._downgraded(estimatedLevel);
+      }
+    }
     return this._validated(estimatedLevel);
   }
 
