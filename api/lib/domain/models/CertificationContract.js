@@ -1,4 +1,5 @@
 const { CertificationComputeError } = require('../../../lib/domain/errors');
+const _ = require('lodash');
 
 class CertificationContract {
 
@@ -25,6 +26,15 @@ class CertificationContract {
     if (scoreAfterRating < 1 && reproducibilityRate > 50) {
       throw new CertificationComputeError('Rejeté avec un taux de reproductibilité supérieur à 50');
     }
+  }
+
+  static assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence) {
+    answersForCompetence.forEach((answer) => {
+      const challenge = _.find(challengesForCompetence, { challengeId: answer.challengeId });
+      if (!challenge) {
+        throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
+      }
+    });
   }
 }
 
