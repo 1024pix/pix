@@ -52,6 +52,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
     const competenceAnswerCollection = CompetenceAnswerCollectionForScoring.from({ answersForCompetence, challengesForCompetence });
 
     const certifiedLevel = CertifiedLevel.from({
+      numberOfChallengesAnswered: competenceAnswerCollection.numberOfChallengesAnswered(),
       numberOfCorrectAnswers: competenceAnswerCollection.numberOfCorrectAnswers(),
       estimatedLevel: competence.estimatedLevel,
       reproducibilityRate,
