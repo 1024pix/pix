@@ -10,6 +10,7 @@ class CertifiedLevel {
   }
 
   static from({
+    numberOfChallengesAnswered,
     numberOfCorrectAnswers,
     estimatedLevel,
     reproducibilityRate,
