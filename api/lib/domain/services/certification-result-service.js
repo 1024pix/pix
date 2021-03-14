@@ -9,8 +9,8 @@ const scoringService = require('./scoring/scoring-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const placementProfileService = require('./placement-profile-service');
-const qrocmDepChallenge = 'QROCM-dep';
 const { CertifiedLevel } = require('../models/CertifiedLevel');
+const CompetenceAnswerCollectionForScoring = require('../models/CompetenceAnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
   return answers.filter(
@@ -49,11 +49,10 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       CertificationContract.assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence);
     }
 
-    const competenceAnswerCollection = CompetenceAnswerCollection.from({ answersForCompetence, challengesForCompetence });
+    const competenceAnswerCollection = CompetenceAnswerCollectionForScoring.from({ answersForCompetence, challengesForCompetence });
 
-    const numberOfCorrectAnswers = competenceAnswerCollection.numberOfCorrectAnswers();
     const certifiedLevel = CertifiedLevel.from({
-      numberOfCorrectAnswers,
+      numberOfCorrectAnswers: competenceAnswerCollection.numberOfCorrectAnswers(),
       estimatedLevel: competence.estimatedLevel,
       reproducibilityRate,
     });
@@ -187,56 +186,3 @@ module.exports = {
   _computeAnswersSuccessRate,
 };
 
-class AnswerForScoring {
-  constructor(answer, challenge) {
-    this.answer = answer;
-    this.challenge = challenge;
-  }
-
-  _isQROCMdep() {
-    const challengeType = this.challenge ? this.challenge.type : '';
-    return challengeType === qrocmDepChallenge;
-  }
-
-  isCorrect() {
-    return this.answer.isOk();
-  }
-
-  isAFullyCorrectQROCMdep() {
-    return this._isQROCMdep() && this.answer.isOk();
-  }
-
-  isAPartiallyCorrectQROCMdep() {
-    return this._isQROCMdep() && this.answer.isPartially();
-  }
-}
-
-// TODO : find a better name ? AnswerSheet ?
-class CompetenceAnswerCollection {
-  constructor(answers) {
-    this.answers = answers;
-  }
-
-  static from({ answersForCompetence, challengesForCompetence }) {
-    const answersForScoring = answersForCompetence.map((answer) => {
-      const challenge = _.find(challengesForCompetence, { challengeId: answer.challengeId });
-      return new AnswerForScoring(answer, challenge);
-    });
-    return new CompetenceAnswerCollection(answersForScoring);
-  }
-
-  numberOfCorrectAnswers() {
-    let nbOfCorrectAnswers = 0;
-    this.answers.forEach((answer) => {
-      if (this.answers.length < 3 && answer.isAFullyCorrectQROCMdep()) { // TODO : remove (useless) check on length ?
-        nbOfCorrectAnswers += 2;
-      } else if (this.answers.length < 3 && answer.isAPartiallyCorrectQROCMdep()) { // TODO : remove (useless) check on length ?
-        nbOfCorrectAnswers += 1;
-      } else if (answer.isCorrect()) {
-        nbOfCorrectAnswers += 1;
-      }
-    });
-
-    return nbOfCorrectAnswers;
-  }
-}
