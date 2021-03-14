@@ -67,4 +67,22 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
   });
+  context('when only 2 challenges were asked', () => {
+    context('2 answers are correct', () => {
+      it('certifies the estimated level', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 2,
+          numberOfCorrectAnswers: 2,
+          estimatedLevel: 3,
+          reproducibilityRate: 0, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
+  });
 });

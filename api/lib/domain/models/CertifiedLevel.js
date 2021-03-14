@@ -15,12 +15,30 @@ class CertifiedLevel {
     estimatedLevel,
     reproducibilityRate,
   }) {
+    if (numberOfChallengesAnswered === 3) {
+      return this._scoreFor3Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+    } else if (numberOfChallengesAnswered === 2) {
+      return this._scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+    } else {
+      throw new Error('Not implemented yet');
+    }
+  }
+
+  static _scoreFor3Challenges({
+    numberOfCorrectAnswers,
+    estimatedLevel,
+    reproducibilityRate,
+  }) {
     if (numberOfCorrectAnswers < 2) {
       return this._uncertified();
     }
     if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
       return this._downgraded(estimatedLevel);
     }
+    return this._validated(estimatedLevel);
+  }
+
+  static _scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
     return this._validated(estimatedLevel);
   }
 
