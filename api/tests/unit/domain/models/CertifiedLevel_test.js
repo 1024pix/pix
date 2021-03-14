@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
     });
-    context('only 1 answer is correct', () => {
+    context('only 1 answer is correct and the other one is KO', () => {
       it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
           numberOfChallengesAnswered: 2,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
-          reproducibilityRate: 75,
+          reproducibilityRate: 70,
         });
 
         // then
@@ -113,7 +113,20 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isUncertified()).to.be.false;
         expect(certifiedLevel.isDowngraded()).to.be.true;
       });
+      it('does not certifies a level when reproducibility rate < 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 2,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 69,
+        });
 
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
     });
   });
 });

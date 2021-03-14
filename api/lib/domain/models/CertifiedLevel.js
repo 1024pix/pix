@@ -44,6 +44,8 @@ class CertifiedLevel {
         return this._validated(estimatedLevel);
       } else if (reproducibilityRate >= 70) {
         return this._downgraded(estimatedLevel);
+      } else {
+        return this._uncertified();
       }
     }
     return this._validated(estimatedLevel);
