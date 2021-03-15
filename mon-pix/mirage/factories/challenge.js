@@ -49,9 +49,9 @@ export default Factory.extend({
     instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs',
     attachments: ['http://example_of_url'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=PictureOfQCM',
-    proposals: '- possibilite 1, et/ou' +
-      '\n - possibilite 2, et/ou' +
-      '\n - possibilite 3, et/ou' +
+    proposals: '- *possibilite* 1, et/ou' +
+      '\n - [possibilite 2](data:test), et/ou' +
+      '\n - ![possibilite 3](/images/pix-logo-blanc.svg), et/ou' +
       '\n - possibilite 4',
   }),
 

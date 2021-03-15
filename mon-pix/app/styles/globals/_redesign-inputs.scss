@@ -178,12 +178,11 @@ input[type=radio]:active::before {
   margin-left: 7px;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
 }
 
 .proposal-paragraph > input[type=checkbox] {
-  margin-top: 7px;
   flex-shrink: 0;
 }
 

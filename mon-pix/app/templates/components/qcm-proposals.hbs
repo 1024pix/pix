@@ -12,7 +12,7 @@
 
     <label for="checkbox_{{inc index}}"
             class="label-checkbox-proposal">
-      <span class="proposal-text">{{labeledCheckbox.[0]}}</span>
+      <MarkdownToHtml @class="proposal-text" @markdown={{labeledCheckbox.[0]}} />
     </label>
   </p>
   {{/each}}
