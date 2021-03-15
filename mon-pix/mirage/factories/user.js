@@ -173,6 +173,9 @@ export default Factory.extend({
   hasNotValidatedCgu: trait({
     cgu: false,
   }),
+  hasSeenNewDashboardInfo: trait({
+    hasSeenNewDashboardInfo: true,
+  }),
   withRecaptchaToken: trait({
     recaptchaToken: faker.random.uuid(),
   }),
