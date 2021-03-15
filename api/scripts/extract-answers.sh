@@ -29,7 +29,6 @@ SELECT
   answers.result,
   answers.\"createdAt\",
   answers.\"challengeId\",
-  answers.\"elapsedTime\",
   CONCAT('\"', REPLACE(REPLACE(REPLACE(answers.\"resultDetails\", '\"', ''), chr(10), ''), '''',''), '\"') AS \"resultDetails\",
   SUBSTRING(encode(digest(assessments.id::TEXT, 'sha256'), 'hex'),0,21)       AS \"assessmentId\",
   SUBSTRING(encode(digest(assessments.\"userId\"::TEXT, 'sha256'), 'hex'),0,21) AS \"userId\",
@@ -57,7 +56,7 @@ echo "\nDans $PWD"
 for file in ${splitfile}
 do
 echo "Façonnage de ${file}"
-echo 'answerId,value,result,createdAt,challengeId,elapsedTime,resultDetails,assessmentId,userId,level,pixScore,type,state' > ${file}.csv
+echo 'answerId,value,result,createdAt,challengeId,resultDetails,assessmentId,userId,level,pixScore,type,state' > ${file}.csv
 cat ${file} >> ${file}.csv
 rm ${file}
 done

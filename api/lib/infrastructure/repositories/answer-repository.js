@@ -16,7 +16,6 @@ function _adaptModelToDb(answer) {
     resultDetails: jsYaml.safeDump(answer.resultDetails),
     value: answer.value,
     timeout: answer.timeout,
-    elapsedTime: answer.elapsedTime,
     challengeId: answer.challengeId,
     assessmentId: answer.assessmentId,
   };
@@ -26,7 +25,6 @@ function _toDomain(bookshelfAnswer) {
   if (bookshelfAnswer) {
     return new Answer({
       id: bookshelfAnswer.get('id'),
-      elapsedTime: bookshelfAnswer.get('elapsedTime'),
       result: answerStatusDatabaseAdapter.fromSQLString(bookshelfAnswer.get('result')),
       resultDetails: bookshelfAnswer.get('resultDetails'),
       timeout: bookshelfAnswer.get('timeout'),

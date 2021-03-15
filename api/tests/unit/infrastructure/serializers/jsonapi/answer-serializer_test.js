@@ -11,7 +11,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
     const answerId = 1232345;
     const assessmentId = 12345;
     const challengeId = 2134356;
-    const elapsedTime = 30;
     const timeout = 8;
     const result = AnswerStatus.SKIPPED;
     const resultDetails = null;
@@ -21,7 +20,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
       // given
       const answer = domainBuilder.buildAnswer({
         id: answerId,
-        elapsedTime,
         result,
         resultDetails,
         timeout,
@@ -37,7 +35,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
             value: answerValue,
             'result-details': resultDetails,
             timeout: timeout,
-            'elapsed-time': elapsedTime,
             result: answerStatusJSONAPIAdapter.adapt(result),
           },
           relationships: {
@@ -87,7 +84,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
             result: null,
             'result-details': null,
             timeout: null,
-            'elapsed-time': 34,
           },
           relationships: {
             assessment: {
@@ -116,7 +112,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
       expect(answer.result).to.deep.equal(AnswerStatus.from(null));
       expect(answer.resultDetails).to.equal(null);
       expect(answer.timeout).to.equal(null);
-      expect(answer.elapsedTime).to.equal(34);
       expect(answer.assessmentId).to.equal(assessmentId);
       expect(answer.challengeId).to.equal(challengeId);
     });

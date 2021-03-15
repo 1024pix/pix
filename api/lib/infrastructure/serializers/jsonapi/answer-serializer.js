@@ -14,7 +14,7 @@ module.exports = {
         return answer;
       },
       attributes: [
-        'value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment',
+        'value', 'timeout', 'result', 'resultDetails', 'assessment',
         'challenge', 'correction', 'levelup',
       ],
       assessment: {
@@ -48,7 +48,6 @@ module.exports = {
       result: null,
       resultDetails: null,
       timeout: payload.data.attributes.timeout,
-      elapsedTime: payload.data.attributes['elapsed-time'],
       assessmentId: payload.data.relationships.assessment.data.id,
       challengeId: payload.data.relationships.challenge.data.id,
     });

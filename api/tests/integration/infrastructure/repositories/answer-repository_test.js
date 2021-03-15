@@ -314,7 +314,6 @@ describe('Integration | Repository | AnswerRepository', () => {
           assessmentId: answer.assessmentId,
           challengeId: answer.challengeId,
           timeout: answer.timeout,
-          elapsedTime: answer.elapsedTime,
           resultDetails: `${answer.resultDetails}\n`,
         };
         const answerInDB = await knex('answers').first();
