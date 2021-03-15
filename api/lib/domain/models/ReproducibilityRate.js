@@ -1,3 +1,7 @@
+const {
+  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
+} = require('../constants');
+
 class ReproducibilityRate {
   constructor(value) {
     this.value = value;
@@ -13,6 +17,10 @@ class ReproducibilityRate {
     const numberOfValidAnswers = answers.filter((answer) => answer.isOk()).length;
 
     return new ReproducibilityRate(Math.round((numberOfValidAnswers % 100 / numberOfAnswers) * 100));
+  }
+
+  isEnoughToBeCertified() {
+    return this.value >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
   }
 }
 

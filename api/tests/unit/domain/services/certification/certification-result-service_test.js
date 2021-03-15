@@ -3,7 +3,6 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
 const CertificationAssessment = require('../../../../../lib/domain/models/CertificationAssessment');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
-const Answer = require('../../../../../lib/domain/models/Answer');
 const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
