@@ -40,7 +40,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion/?lang=fr`,
       helpdeskUrl: HELPDESK_FR,
       displayNationalLogo: false,
-      ...frTranslations['pix-account-creation-email'],
+      ...frTranslations['pix-account-creation-email'].params,
     };
 
     pixName = PIX_NAME_FR;
@@ -54,7 +54,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldOrg}/connexion/?lang=en`,
       helpdeskUrl: HELPDESK_EN,
       displayNationalLogo: false,
-      ...enTranslations['pix-account-creation-email'],
+      ...enTranslations['pix-account-creation-email'].params,
     };
 
     pixName = PIX_NAME_EN;
@@ -68,7 +68,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
       redirectionUrl: redirectionUrl || `${settings.domain.pixApp + settings.domain.tldFr}/connexion`,
       helpdeskUrl: HELPDESK_FR,
       displayNationalLogo: true,
-      ...frTranslations['pix-account-creation-email'],
+      ...frTranslations['pix-account-creation-email'].params,
     };
 
     pixName = PIX_NAME_FR;
