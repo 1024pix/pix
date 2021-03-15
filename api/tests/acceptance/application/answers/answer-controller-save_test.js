@@ -79,7 +79,6 @@ describe('Acceptance | Controller | answer-controller-save', () => {
               type: 'answers',
               attributes: {
                 value: correctAnswer,
-                'elapsed-time': 100,
               },
               relationships: {
                 assessment: {
@@ -142,7 +141,6 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         expect(model.get('resultDetails')).to.equal('null\n');
         expect(model.get('assessmentId')).to.equal(postAnswersOptions.payload.data.relationships.assessment.data.id);
         expect(model.get('challengeId')).to.equal(postAnswersOptions.payload.data.relationships.challenge.data.id);
-        expect(model.get('elapsedTime')).to.equal(postAnswersOptions.payload.data.attributes['elapsed-time']);
 
         expect(answer.id).to.equal(model.id.toString());
         expect(answer.id).to.equal(response.result.data.id.toString());
@@ -191,7 +189,6 @@ describe('Acceptance | Controller | answer-controller-save', () => {
               type: 'answers',
               attributes: {
                 value: 'not correct answer',
-                'elapsed-time': 100,
               },
               relationships: {
                 assessment: {
@@ -286,7 +283,6 @@ describe('Acceptance | Controller | answer-controller-save', () => {
               attributes: {
                 value: '',
                 timeout: 25,
-                'elapsed-time': 100,
               },
               relationships: {
                 assessment: {
