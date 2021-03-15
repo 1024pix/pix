@@ -23,7 +23,7 @@ function buildAssessment({
   answers = [buildAnswer()],
   campaignParticipation = null,
   competenceId = null,
-  lastQuestionDate = new Date(),
+  lastQuestionDate = new Date('1992-06-12T01:02:03Z'),
 } = {}) {
   return new Assessment({
     // attributes
