@@ -45,7 +45,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         answer = EmberObject.create(correctAnswer);
       });
 
-      it('QCM, la réponse correcte est cochée', async function() {
+      it('should display the correct answer as ticked', async function() {
         // Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -63,7 +63,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         );
       });
 
-      it('QCM, une réponse incorrecte n\'est pas cochée', async function() {
+      it('should display an incorrect answer as not ticked', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -78,7 +78,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(findAll('.qcm-proposal-label__oracle')[0].innerHTML).to.equal('<p><em>possibilite</em> 1</p>\n');
       });
 
-      it('QCM, Au moins l\'une des réponses correctes n\'est pas cochée', async function() {
+      it('should display at least one of the correct answers as not ticked', async function() {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -97,7 +97,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         );
       });
 
-      it('QCM, au moins l\'une des réponses incorrectes est cochée', async function() {
+      it('should display at least one of the incorrect answers as ticked', async function() {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -113,7 +113,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
       });
 
-      it('Aucune case à cocher n\'est cliquable', async function() {
+      it('should display no clickable input', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
