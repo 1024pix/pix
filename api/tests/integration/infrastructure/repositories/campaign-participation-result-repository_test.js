@@ -115,5 +115,83 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
+    it('computes the results for each competence assessed', async () => {
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        isShared: true,
+        sharedAt: new Date('2020-01-02'),
+      });
+
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+
+      const knowledgeElementsAttributes = [
+        {
+          userId,
+          skillId: 'skill1',
+          competenceId: 'rec1',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.VALIDATED,
+        },
+        {
+          userId,
+          skillId: 'skill2',
+          competenceId: 'rec1',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.VALIDATED,
+        },
+        {
+          userId,
+          skillId: 'skill3',
+          competenceId: 'rec2',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        },
+        {
+          userId,
+          skillId: 'skill4',
+          competenceId: 'rec2',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.VALIDATED,
+        },
+      ];
+
+      databaseBuilder
+        .factory
+        .knowledgeElementSnapshotFactory
+        .buildSnapshot({
+          userId,
+          snappedAt: new Date('2020-01-02'),
+          knowledgeElementsAttributes,
+        });
+      await databaseBuilder.commit();
+      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const competenceResults = campaignAssessmentParticipationResult.competenceResults.sort((a, b) => a.id <= b.id);
+      expect(competenceResults).to.deep.equal([
+        {
+          id: 'rec1',
+          name: 'comp1Fr',
+          index: '1.1',
+          areaName: 'area1',
+          areaColor: 'colorArea1',
+          testedSkillsCount: 2,
+          totalSkillsCount: 2,
+          validatedSkillsCount: 2,
+        },
+        {
+          id: 'rec2',
+          name: 'comp2Fr',
+          index: '2.1',
+          areaName: 'area2',
+          areaColor: 'colorArea2',
+          testedSkillsCount: 2,
+          totalSkillsCount: 2,
+          validatedSkillsCount: 1,
+        },
+      ]);
+    });
+
   });
 });
