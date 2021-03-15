@@ -1,7 +1,5 @@
 const _ = require('lodash');
-const {
-  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
-} = require('../constants');
+
 const CertificationContract = require('../../domain/models/CertificationContract');
 const scoringService = require('./scoring/scoring-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
@@ -82,23 +80,23 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     CertificationContract.assertThatWeHaveEnoughAnswers(answers, certificationChallenges);
   }
 
-  const reproducibilityRate = ReproducibilityRate.from({ answers }).value;
-  if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED) {
+  const reproducibilityRate = ReproducibilityRate.from({ answers });
+  if (!reproducibilityRate.isEnoughToBeCertified()) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
       totalScore: 0,
-      percentageCorrectAnswers: reproducibilityRate,
+      percentageCorrectAnswers: reproducibilityRate.value,
     };
   }
 
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate, certificationChallenges, continueOnError);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answers, testedCompetences, reproducibilityRate.value, certificationChallenges, continueOnError);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
   if (!continueOnError) {
-    CertificationContract.assertThatScoreIsCoherentWithReproducibilityRate(scoreAfterRating, reproducibilityRate);
+    CertificationContract.assertThatScoreIsCoherentWithReproducibilityRate(scoreAfterRating, reproducibilityRate.value);
   }
 
-  return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproducibilityRate };
+  return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproducibilityRate.value };
 }
 
 function _getChallengeInformation(listAnswers, certificationChallenges, competences) {
