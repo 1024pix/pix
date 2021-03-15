@@ -182,7 +182,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.ConflictError(error.message);
   }
   if (error instanceof DomainErrors.FileValidationError) {
-    return new HttpErrors.UnprocessableEntityError(error.message);
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
   if (error instanceof DomainErrors.SchoolingRegistrationsCouldNotBeSavedError) {
     return new HttpErrors.BadRequestError(error.message);

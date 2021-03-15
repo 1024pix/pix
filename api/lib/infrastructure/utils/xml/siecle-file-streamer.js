@@ -50,7 +50,7 @@ function _unzippedStream(path) {
   zip.on('entry', (entry) => {
     zip.stream(entry, (err, stm) => {
       if (err) {
-        throw new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE);
+        throw new FileValidationError(ERRORS.INVALID_FILE);
       } else if (!entry.name.includes('/')) {
         stm.on('error', noop);
 
@@ -141,7 +141,7 @@ class SiecleFileStreamer {
 
     return new Promise((resolve, reject) => {
       siecleFileStream.on('error', () => {
-        reject(new FileValidationError(NO_STUDENTS_IMPORTED_FROM_INVALID_FILE));
+        reject(new FileValidationError(ERRORS.INVALID_FILE));
       });
       callback(siecleFileStream, resolve, reject);
     });

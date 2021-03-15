@@ -27,7 +27,8 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
 
       // then
       expect(error).to.be.instanceOf(FileValidationError);
-      expect(error.message).to.equal('File with extension .html not supported!');
+      expect(error.code).to.equal('INVALID_FILE_EXTENSION');
+      expect(error.meta).to.deep.equal({ fileExtension: '.html' });
     });
 
     it('should return true if file is valid', async () => {

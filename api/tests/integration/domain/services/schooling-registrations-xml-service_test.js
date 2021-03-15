@@ -146,7 +146,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
 
       //then
       expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
+      expect(error.code).to.equal('INVALID_FILE');
     });
 
     it('should abort parsing and reject with XML error if file is malformed while scanning students', async function() {
@@ -160,7 +160,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
 
       //then
       expect(error).to.be.instanceof(FileValidationError);
-      expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
+      expect(error.code).to.equal('INVALID_FILE');
     });
 
     it('should abort parsing and reject with duplicate national student id error', async function() {
@@ -247,8 +247,7 @@ describe('Integration | Services | schooling-registrations-xml-service', () => {
 
           //then
           expect(error).to.be.instanceof(FileValidationError);
-          expect(error.message).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
-
+          expect(error.code).to.equal('INVALID_FILE');
         });
       });
     });
