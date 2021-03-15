@@ -25,7 +25,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
     const csvSiecleParser = SchoolingRegistrationParser.buildParser(buffer, organizationId, organization.isAgriculture);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
-    throw new FileValidationError(INVALID_FILE_FORMAT);
+    throw new FileValidationError(ERRORS.INVALID_FILE_FORMAT);
   }
 
   fs.unlink(payload.path);

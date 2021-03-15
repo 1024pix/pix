@@ -427,7 +427,7 @@ describe('Integration | API | Controller Error', () => {
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
-      expect(responseDetail(response)).to.equal('Erreur, fichier non valide.');
+      expect(responseDetail(response)).to.equal('An error occurred, file is invalid');
     });
 
     it('responds Unprocessable Entity when a UserNotMemberOfOrganizationError error occurs', async () => {

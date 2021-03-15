@@ -580,8 +580,10 @@ class UserNotMemberOfOrganizationError extends DomainError {
 }
 
 class FileValidationError extends DomainError {
-  constructor(message = 'Erreur, fichier non valide.') {
-    super(message);
+  constructor(code, meta) {
+    super('An error occurred, file is invalid');
+    this.code = code;
+    this.meta = meta;
   }
 }
 

@@ -209,11 +209,11 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
       it('should throw a FileValidationError', async () => {
         // when
-        const result = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, organizationRepository: organizationRepositoryStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, organizationRepository: organizationRepositoryStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
         // then
-        expect(result).to.be.instanceOf(FileValidationError);
-        expect(result.message).to.equal('Format de fichier non valide.');
+        expect(error).to.be.instanceOf(FileValidationError);
+        expect(error.code).to.equal('INVALID_FILE_FORMAT');
       });
     });
 

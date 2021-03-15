@@ -4,6 +4,9 @@ const path = require('path');
 const papa = require('papaparse');
 
 const { NotFoundError, FileValidationError } = require('../../lib/domain/errors');
+const ERRORS = {
+  INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
+};
 
 const optionsWithHeader = {
   skipEmptyLines: true,
@@ -29,7 +32,7 @@ async function checkCsvExtensionFile(filePath) {
   const fileExtension = path.extname(filePath);
 
   if (fileExtension !== '.csv') {
-    throw new FileValidationError(`File with extension ${fileExtension} not supported!`);
+    throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension });
   }
 
   return true;
