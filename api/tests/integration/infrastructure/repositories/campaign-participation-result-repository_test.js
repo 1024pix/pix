@@ -311,5 +311,70 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
+    context('when the participation has badges', () => {
+      it('computes the results for each badge', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+        });
+
+        const badge1 = databaseBuilder.factory.buildBadge({
+          id: 1,
+          message: 'Badge1 Message',
+          altMessage: 'Badge1 AltMessage',
+          title: 'Badge1 Title',
+          imageUrl: 'Badge1 ImgUrl',
+          key: 'Badge1 Key',
+          targetProfileId,
+        });
+
+        const badge2 = databaseBuilder.factory.buildBadge({
+          id: 2,
+          altMessage: 'Badge2 AltMessage',
+          message: 'Badge2 Message',
+          title: 'Badge2 Title',
+          imageUrl: 'Badge2 ImgUrl',
+          key: 'Badge2 Key',
+          targetProfileId,
+        });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+
+        databaseBuilder
+          .factory
+          .knowledgeElementSnapshotFactory
+          .buildSnapshot({
+            userId,
+            snappedAt: new Date('2020-01-02'),
+            knowledgeElementsAttributes: [],
+          });
+        await databaseBuilder.commit();
+        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [badge1, badge2], [badge1.id], 'FR');
+        const campaignParticipationBadge1 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(({ id }) => id == 1);
+        const campaignParticipationBadge2 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(({ id }) => id == 2);
+        expect(campaignParticipationBadge1).to.deep.include({
+          id: 1,
+          altMessage: 'Badge1 AltMessage',
+          message: 'Badge1 Message',
+          title: 'Badge1 Title',
+          imageUrl: 'Badge1 ImgUrl',
+          key: 'Badge1 Key',
+          isAcquired: true,
+        });
+        expect(campaignParticipationBadge2).to.deep.include({
+          id: 2,
+          altMessage: 'Badge2 AltMessage',
+          message: 'Badge2 Message',
+          title: 'Badge2 Title',
+          imageUrl: 'Badge2 ImgUrl',
+          key: 'Badge2 Key',
+          isAcquired: false,
+        });
+      });
+    });
   });
 });
