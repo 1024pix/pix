@@ -1,14 +1,14 @@
 <header class="session-list">
   <h1 class="page-header page-title session-list__title">Sessions de certifications</h1>
   <nav class="navbar session-list__navbar">
-    <LinkTo @route="authenticated.sessions.list.all" class="navbar-item">
-        Toutes les sessions
-    </LinkTo>
     <LinkTo @route="authenticated.sessions.list.to-be-published" class="navbar-item">
-        Sessions à publier
+      Sessions à publier
     </LinkTo>
     <LinkTo @route="authenticated.sessions.list.with-required-action" class="navbar-item">
       Sessions à traiter
+    </LinkTo>
+    <LinkTo @route="authenticated.sessions.list.all" class="navbar-item">
+      Toutes les sessions
     </LinkTo>
   </nav>
 </header>
