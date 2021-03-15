@@ -79,6 +79,7 @@ describe('Unit | Service | MailService', () => {
             locale: undefined,
             expected: {
               fromName: 'PIX - Ne pas répondre',
+              subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.fr',
                 homeUrl: 'https://pix.fr',
@@ -93,6 +94,7 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_FRANCE,
             expected: {
               fromName: 'PIX - Ne pas répondre',
+              subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.fr',
                 homeUrl: 'https://pix.fr',
@@ -107,6 +109,7 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_SPOKEN,
             expected: {
               fromName: 'PIX - Ne pas répondre',
+              subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.org',
                 homeUrl: 'https://pix.org/fr/',
@@ -121,6 +124,7 @@ describe('Unit | Service | MailService', () => {
             locale: ENGLISH_SPOKEN,
             expected: {
               fromName: 'PIX - Noreply',
+              subject: translationsMapping.en.subject,
               variables: {
                 homeName: 'pix.org',
                 homeUrl: 'https://pix.org/en-gb/',

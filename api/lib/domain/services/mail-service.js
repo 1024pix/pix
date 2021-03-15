@@ -18,8 +18,6 @@ const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
 const PIX_ORGA_NAME_EN = 'Pix Orga - Noreply';
 const PIX_NAME_FR = 'PIX - Ne pas répondre';
 const PIX_NAME_EN = 'PIX - Noreply';
-const ACCOUNT_CREATION_EMAIL_SUBJECT_FR = 'Votre compte Pix a bien été créé';
-const ACCOUNT_CREATION_EMAIL_SUBJECT_EN = 'Your Pix account has been created';
 const HELPDESK_FR = 'https://support.pix.fr/support/tickets/new';
 const HELPDESK_EN = 'https://pix.org/en-gb/help-form';
 const ORGANIZATION_INVITATION_EMAIL_SUBJECT_FR = 'Invitation à rejoindre Pix Orga';
@@ -44,7 +42,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     };
 
     pixName = PIX_NAME_FR;
-    accountCreationEmailSubject = ACCOUNT_CREATION_EMAIL_SUBJECT_FR;
+    accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
   }
 
   else if (locale === ENGLISH_SPOKEN) {
@@ -58,7 +56,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     };
 
     pixName = PIX_NAME_EN;
-    accountCreationEmailSubject = ACCOUNT_CREATION_EMAIL_SUBJECT_EN;
+    accountCreationEmailSubject = enTranslations['pix-account-creation-email'].subject;
   }
 
   else {
@@ -72,7 +70,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
     };
 
     pixName = PIX_NAME_FR;
-    accountCreationEmailSubject = ACCOUNT_CREATION_EMAIL_SUBJECT_FR;
+    accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
   }
 
   return mailer.sendEmail({
