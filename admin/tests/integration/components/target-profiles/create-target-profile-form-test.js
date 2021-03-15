@@ -42,8 +42,6 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   });
 
   test('it should display the items', async function(assert) {
-    // given
-
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
       @targetProfile={{this.targetProfile}}

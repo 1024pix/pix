@@ -1,5 +1,6 @@
 const BookshelfStage = require('../../infrastructure/data/stage');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const _ = require('lodash');
 
 module.exports = {
   async findByCampaignId(campaignId) {
@@ -18,5 +19,16 @@ module.exports = {
       .orderBy('threshold')
       .fetchAll({ require: false })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results));
+  },
+
+  async create(stage) {
+    const stageAttributes = _.pick(stage, [
+      'title',
+      'message',
+      'threshold',
+      'targetProfileId',
+    ]);
+    const createdStage = await (new BookshelfStage(stageAttributes).save());
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfStage, createdStage);
   },
 };

@@ -22,6 +22,11 @@ export default class GetTargetProfilesController extends Controller {
     }
   }
 
+  @action
+  goToTargetProfilePage(targetProfileId) {
+    this.transitionToRoute('authenticated.target-profiles.target-profile', targetProfileId);
+  }
+
   _handleResponseError({ errors }) {
     if (!errors) {
       return this.notifications.error('Une erreur est survenue.');

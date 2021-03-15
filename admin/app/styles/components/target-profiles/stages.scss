@@ -1,6 +1,6 @@
 .stages-table {
   &__id {
-    width: 100px;
+    width: 110px;
   }
 
   &__threshold {
@@ -18,4 +18,17 @@
       width: 90px;
     }
   }
+
+  &__actions {
+    width: 100px;
+  }
+}
+.stages-table .form-field {
+  margin-bottom: 0;
+}
+.stages-new-stage {
+  margin: 10px 0;
+}
+.stages-actions {
+  text-align: right;
 }

@@ -1,9 +1,18 @@
 import { Response } from 'ember-cli-mirage';
 import { createMembership } from './handlers/memberships';
-import { attachTargetProfiles, attachTargetProfileToOrganizations, getOrganizationTargetProfiles, findPaginatedTargetProfileOrganizations, updateTargetProfileName } from './handlers/target-profiles';
+import {
+  attachTargetProfiles,
+  attachTargetProfileToOrganizations,
+  getOrganizationTargetProfiles,
+  findPaginatedTargetProfileOrganizations,
+  updateTargetProfileName,
+  findTargetProfileBadges,
+  findTargetProfileStages,
+} from './handlers/target-profiles';
 import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-filtered-sessions';
 import { findPaginatedOrganizationMemberships } from './handlers/organizations';
+import { createStage } from './handlers/stages';
 
 export default function() {
   this.logging = true;
@@ -88,7 +97,11 @@ export default function() {
   this.patch('/admin/target-profiles/:id');
   this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);
+  this.get('/admin/target-profiles/:id/badges', findTargetProfileBadges);
+  this.get('/admin/target-profiles/:id/stages', findTargetProfileStages);
   this.patch('/admin/target-profiles/:id', updateTargetProfileName);
+
+  this.post('/admin/stages', createStage);
 
   this.get('/admin/certifications/:id');
   this.get('/admin/certifications/:id/certified-profile', (schema, request) => {

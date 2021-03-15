@@ -3,21 +3,30 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 const HttpErrors = require('./http-errors');
 const DomainErrors = require('../domain/errors');
 const errorSerializer = require('../infrastructure/serializers/jsonapi/error-serializer');
+const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils');
+const translations = require('../../translations');
 
 const NOT_VALID_RELATIONSHIPS = ['externalId'];
 
-function _formatAttribute({ attribute, message }) {
+function translateMessage(locale, key) {
+  if (translations[locale]['entity-validation-errors'][key]) {
+    return translations[locale]['entity-validation-errors'][key];
+  }
+  return key;
+}
+
+function _formatAttribute({ attribute, message, locale }) {
   return {
     status: '422',
     source: {
       pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
     },
     title: `Invalid data attribute "${ attribute }"`,
-    detail: message,
+    detail: translateMessage(locale, message),
   };
 }
 
-function _formatRelationship({ attribute, message }) {
+function _formatRelationship({ attribute, message, locale }) {
   const relationship = attribute.replace('Id', '');
   return {
     status: '422',
@@ -25,26 +34,26 @@ function _formatRelationship({ attribute, message }) {
       pointer: `/data/relationships/${ _.kebabCase(relationship) }`,
     },
     title: `Invalid relationship "${ relationship }"`,
-    detail: message,
+    detail: translateMessage(locale, message),
   };
 }
 
-function _formatUndefinedAttribute({ message }) {
+function _formatUndefinedAttribute({ message, locale }) {
   return {
     status: '422',
     title: 'Invalid data attributes',
-    detail: message,
+    detail: translateMessage(locale, message),
   };
 }
 
-function _formatInvalidAttribute({ attribute, message }) {
+function _formatInvalidAttribute(locale, { attribute, message }) {
   if (!attribute) {
-    return _formatUndefinedAttribute({ message });
+    return _formatUndefinedAttribute({ message, locale });
   }
   if (attribute.endsWith('Id') && !NOT_VALID_RELATIONSHIPS.includes(attribute)) {
-    return _formatRelationship({ attribute, message });
+    return _formatRelationship({ attribute, message, locale });
   }
-  return _formatAttribute({ attribute, message });
+  return _formatAttribute({ attribute, message, locale });
 }
 
 function _mapToHttpError(error) {
@@ -280,9 +289,11 @@ function _mapToHttpError(error) {
   return new HttpErrors.BaseHttpError(error.message);
 }
 
-function handle(h, error) {
+function handle(request, h, error) {
   if (error instanceof DomainErrors.EntityValidationError) {
-    const jsonApiError = new JSONAPIError(error.invalidAttributes.map(_formatInvalidAttribute));
+    const locale = extractLocaleFromRequest(request).split('-')[0];
+
+    const jsonApiError = new JSONAPIError(error.invalidAttributes.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)));
     return h.response(jsonApiError).code(422);
   }
 
