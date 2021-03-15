@@ -9,7 +9,10 @@ const iconv = require('iconv-lite');
 const sax = require('sax');
 const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
 
-const NO_STUDENTS_IMPORTED_FROM_INVALID_FILE = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
+const ERRORS = {
+  INVALID_FILE: 'INVALID_FILE',
+  ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
+};
 
 const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';

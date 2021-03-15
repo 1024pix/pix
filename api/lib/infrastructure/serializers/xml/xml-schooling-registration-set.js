@@ -2,6 +2,10 @@ const moment = require('moment');
 const { isEmpty, isNil, each } = require('lodash');
 const { SameNationalStudentIdInFileError, ObjectValidationError } = require('../../../domain/errors');
 
+const ERRORS = {
+  INE_REQUIRED: 'INE_REQUIRED',
+  INE_UNIQUE: 'INE_UNIQUE',
+};
 const DIVISION = 'D';
 
 class XMLSchoolingRegistrationsSet {
