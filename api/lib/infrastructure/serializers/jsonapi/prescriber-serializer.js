@@ -18,6 +18,7 @@ module.exports = {
             isCFA: recordWithoutClass.userOrgaSettings.currentOrganization.isCFA,
             isAEFE: recordWithoutClass.userOrgaSettings.currentOrganization.isAEFE,
             isMLF: recordWithoutClass.userOrgaSettings.currentOrganization.isMLF,
+            isMediationNumerique: recordWithoutClass.userOrgaSettings.currentOrganization.isMediationNumerique,
           },
         };
         delete recordWithoutClass.userOrgaSettings.currentOrganization;
@@ -42,7 +43,7 @@ module.exports = {
         attributes: ['organization', 'user'],
         organization: {
           ref: 'id',
-          attributes: ['name', 'type', 'credit', 'isManagingStudents', 'canCollectProfiles', 'isAgriculture', 'isCFA', 'isAEFE', 'isMLF', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
+          attributes: ['name', 'type', 'credit', 'isManagingStudents', 'canCollectProfiles', 'isAgriculture', 'isCFA', 'isAEFE', 'isMLF', 'isMediationNumerique', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,
