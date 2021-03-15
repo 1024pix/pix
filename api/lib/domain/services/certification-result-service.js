@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const {
   MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
-  PIX_COUNT_BY_LEVEL,
-  UNCERTIFIED_LEVEL,
 } = require('../constants');
 const CertificationContract = require('../../domain/models/CertificationContract');
 const scoringService = require('./scoring/scoring-service');
@@ -71,7 +69,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       id: competence.id,
       positionedLevel: competence.estimatedLevel,
       positionedScore: competence.pixScore,
-      obtainedLevel: UNCERTIFIED_LEVEL,
+      obtainedLevel: CertifiedLevel.uncertified().value,
       obtainedScore: 0,
     };
   });
