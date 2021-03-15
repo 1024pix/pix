@@ -62,6 +62,7 @@
     "here": "here"
   },
   "pix-account-creation-email": {
+    "subject": "Your Pix account has been created",
     "params" : {
       "title": "Your Pix account has been created !",
       "subtitle": "You can now start testing your skills.",
