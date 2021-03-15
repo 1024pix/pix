@@ -20,7 +20,7 @@ class CertifiedLevel {
     } else if (numberOfChallengesAnswered === 2) {
       return this._scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
     } else {
-      throw new Error('Not implemented yet');
+      return this._scoreFor1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
     }
   }
 
@@ -51,6 +51,14 @@ class CertifiedLevel {
       }
     }
     return this._uncertified();
+  }
+
+  static _scoreFor1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
+    if (reproducibilityRate >= 70) {
+      return this._validated(estimatedLevel);
+    } else {
+      return this._downgraded(estimatedLevel);
+    }
   }
 
   static _uncertified() {
