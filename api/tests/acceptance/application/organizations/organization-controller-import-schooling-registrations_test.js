@@ -755,6 +755,23 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.statusCode).to.equal(412);
         });
       });
+
+      context('when file is too large', async() => {
+        beforeEach(() => {
+          // given
+          options.payload = Buffer.alloc(1048576 * 21, 'B'); // > 20 Mo buffer
+        });
+
+        it('should return a 413 - Payload too large', async () => {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(413);
+          expect(response.result.errors[0].code).to.equal('PAYLOAD_TOO_LARGE');
+          expect(response.result.errors[0].meta.maxSize).to.equal('20');
+        });
+      });
     });
 
     context('When a CSV SIECLE file is loaded', () => {
