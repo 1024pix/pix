@@ -94,6 +94,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     provinceCode: null,
     email: null,
   });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: PRO_MED_NUM_ID, tagId: 7 });
 
   databaseBuilder.factory.buildMembership({
     userId: proUser1.id,

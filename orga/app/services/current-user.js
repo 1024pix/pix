@@ -16,6 +16,7 @@ export default class CurrentUserService extends Service {
   @tracked isCFA;
   @tracked isAEFE;
   @tracked isMLF;
+  @tracked isMediationNumerique;
 
   async load() {
     if (this.session.isAuthenticated) {
@@ -62,6 +63,7 @@ export default class CurrentUserService extends Service {
     this.isCFA = organization.isCFA;
     this.isAEFE = organization.isAEFE;
     this.isMLF = organization.isMLF;
+    this.isMediationNumerique = organization.isMediationNumerique;
 
     this.organization = organization;
   }

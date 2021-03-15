@@ -20,6 +20,20 @@ module('Integration | Component | sidebar-menu', function(hooks) {
     assert.dom('a[href="https://cloud.pix.fr/s/cwZN2GAbqSPGnw4"]').exists();
   });
 
+  test('it should display documentation for a pro mediation numerique organization', async function(assert) {
+    class CurrentUserStub extends Service {
+      organization = Object.create({ id: 1 });
+      isMediationNumerique = true;
+    }
+    this.owner.register('service:current-user', CurrentUserStub);
+
+    // when
+    await render(hbs`<SidebarMenu />`);
+
+    // then
+    assert.dom('a[href="https://view.genial.ly/6048a0d3757f980dc010d6d4"]').exists();
+  });
+
   test('it should display documentation for a sco organization', async function(assert) {
     class CurrentUserStub extends Service {
       organization = Object.create({ id: 1, type: 'SCO' });
