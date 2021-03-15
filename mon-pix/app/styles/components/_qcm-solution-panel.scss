@@ -8,6 +8,7 @@
 }
 
 input.qcm-panel__proposal-checkbox {
+  display: inline-block;
   margin-right: 10px;
 }
 
@@ -17,10 +18,16 @@ input.qcm-panel__proposal-checkbox {
 }
 
 .qcm-proposal-label__oracle[data-goodness='good'] {
+  display: inline-block;
   color: $green;
   font-weight: $font-heavy;
 }
 
 .qcm-proposal-label__oracle[data-goodness='bad'][data-checked='yes'] {
+  display: inline-block;
   text-decoration: line-through;
+}
+
+.qcm-proposal-label__oracle[data-goodness='bad'][data-checked='no'] {
+  display: inline-block;
 }
