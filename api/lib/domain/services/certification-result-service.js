@@ -9,6 +9,7 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 const placementProfileService = require('./placement-profile-service');
 const { CertifiedLevel } = require('../models/CertifiedLevel');
 const { CertifiedScore } = require('../models/CertifiedScore');
+const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const CompetenceAnswerCollectionForScoring = require('../models/CompetenceAnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -81,7 +82,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     CertificationContract.assertThatWeHaveEnoughAnswers(answers, certificationChallenges);
   }
 
-  const reproducibilityRate = Math.round(_computeAnswersSuccessRate(answers));
+  const reproducibilityRate = ReproducibilityRate.from({ answers }).value;
   if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
@@ -127,18 +128,6 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
     .value();
 }
 
-function _computeAnswersSuccessRate(answers = []) {
-  const numberOfAnswers = answers.length;
-
-  if (!numberOfAnswers) {
-    return 0;
-  }
-
-  const numberOfValidAnswers = answers.filter((answer) => answer.isOk()).length;
-
-  return (numberOfValidAnswers % 100 / numberOfAnswers) * 100;
-}
-
 module.exports = {
   async getCertificationResult({ certificationAssessment, continueOnError }) {
     const allPixCompetences = await competenceRepository.listPixCompetencesOnly();
@@ -173,7 +162,4 @@ module.exports = {
     result.listChallengesAndAnswers = _getChallengeInformation(matchingAnswers, certificationAssessment.certificationChallenges, allPixCompetences);
     return result;
   },
-
-  _computeAnswersSuccessRate,
 };
-
