@@ -6,6 +6,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
 const { ChallengeAlreadyAnsweredError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
   const userId = 1;
@@ -19,8 +20,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     level: 1,
     pix: 8,
   };
-  let clock;
-
   const answerRepository = {
     findByChallengeAndAssessment: () => undefined,
     saveWithKnowledgeElements: () => undefined,
@@ -34,15 +33,10 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const knowledgeElementRepository = {
     findUniqByUserIdAndAssessmentId: () => undefined,
   };
+  const nowDate = new Date('2021-03-11T11:00:04Z');
+  nowDate.setMilliseconds(1);
 
   beforeEach(() => {
-    const now = new Date('2021-03-11T11:00:04Z');
-    now.setMilliseconds(1);
-    clock = sinon.useFakeTimers({
-      now,
-      toFake: ['Date'],
-    });
-
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(answerRepository, 'saveWithKnowledgeElements');
     sinon.stub(assessmentRepository, 'get');
@@ -52,8 +46,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(scorecardService, 'computeScorecard');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndAssessmentId');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
+    sinon.stub(dateUtils, 'getNowDate');
 
-    assessment = domainBuilder.buildAssessment({ userId });
+    assessment = domainBuilder.buildAssessment({ userId, lastQuestionDate: nowDate });
     answer = domainBuilder.buildAnswer({ assessmentId: assessment.id, value: correctAnswerValue });
     answer.id = undefined;
     answer.result = undefined;
@@ -63,10 +58,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
     challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
     challengeRepository.get.resolves(challenge);
-  });
 
-  afterEach(() => {
-    clock.restore();
+    dateUtils.getNowDate.returns(nowDate);
   });
 
   context('when an answer for that challenge and that assessment already exists', () => {
@@ -546,7 +539,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
-        assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.CERTIFICATION });
+        assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.CERTIFICATION, lastQuestionDate: nowDate });
 
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
@@ -686,7 +679,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   context('compute the timeSpent and save it on the answer', () => {
     let answer;
     let assessment;
-    let completedAnswer;
+    let answerSaved;
 
     beforeEach(() => {
       answer = domainBuilder.buildAnswer({ timeSpent: null });
@@ -699,9 +692,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       assessment.type = Assessment.types.CERTIFICATION;
       assessmentRepository.get.resolves(assessment);
       answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
-      completedAnswer = domainBuilder.buildAnswer(answer);
-      completedAnswer.timeSpent = 5;
-      answerRepository.saveWithKnowledgeElements.resolves(completedAnswer);
+      answerSaved = domainBuilder.buildAnswer(answer);
+      answerSaved.timeSpent = 5;
+      answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
     });
 
     it('compute the timeSpent', async () => {
