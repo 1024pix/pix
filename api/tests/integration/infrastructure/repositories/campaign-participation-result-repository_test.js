@@ -375,6 +375,93 @@ describe('Integration | Repository | Campaign Participation Result', () => {
           isAcquired: false,
         });
       });
+
+      context('when the target profile has badge partner competences (CleaNumerique)', () => {
+        it('computes the buildBadgePartnerCompetence for each competence of badge', async () => {
+          const { id: userId } = databaseBuilder.factory.buildUser();
+          const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+          const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+            userId,
+            campaignId,
+            isShared: true,
+            sharedAt: new Date('2020-01-02'),
+          });
+
+          const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId });
+          const badgePartnerCompetence1 = databaseBuilder.factory.buildBadgePartnerCompetence({ id: 1, badgeId: 1, name: 'BadgeCompt1', index: '1', color: 'BadgeCompt1Color', skillIds: ['skill1', 'skill2'] });
+          const badgePartnerCompetence2 = databaseBuilder.factory.buildBadgePartnerCompetence({ id: 2, badgeId: 1, name: 'BadgeCompt2', index: '2', color: 'BadgeCompt2Color', skillIds: ['skill3', 'skill4'] });
+
+          databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+
+          const knowledgeElementsAttributes = [
+            {
+              userId,
+              skillId: 'skill1',
+              competenceId: 'rec1',
+              createdAt: new Date('2020-01-01'),
+              status: KnowledgeElement.StatusType.VALIDATED,
+            },
+            {
+              userId,
+              skillId: 'skill2',
+              competenceId: 'rec1',
+              createdAt: new Date('2020-01-01'),
+              status: KnowledgeElement.StatusType.VALIDATED,
+            },
+            {
+              userId,
+              skillId: 'skill3',
+              competenceId: 'rec2',
+              createdAt: new Date('2020-01-01'),
+              status: KnowledgeElement.StatusType.INVALIDATED,
+            },
+            {
+              userId,
+              skillId: 'skill4',
+              competenceId: 'rec2',
+              createdAt: new Date('2020-01-01'),
+              status: KnowledgeElement.StatusType.VALIDATED,
+            },
+          ];
+
+          databaseBuilder
+            .factory
+            .knowledgeElementSnapshotFactory
+            .buildSnapshot({
+              userId,
+              snappedAt: new Date('2020-01-02'),
+              knowledgeElementsAttributes,
+            });
+          await databaseBuilder.commit();
+          badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
+          const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [badge], [badge.id], 'FR');
+          const partnerCompetenceResults = campaignAssessmentParticipationResult
+            .campaignParticipationBadges[0]
+            .partnerCompetenceResults
+            .sort((a, b) => a.id <= b.id);
+          expect(partnerCompetenceResults[0]).to.deep.equal({
+            id: 1,
+            areaColor: 'BadgeCompt1Color',
+            areaName: undefined,
+            index: undefined,
+            name: 'BadgeCompt1',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 2,
+          });
+
+          expect(partnerCompetenceResults[1]).to.deep.equal({
+            id: 2,
+            areaColor: 'BadgeCompt2Color',
+            areaName: undefined,
+            index: undefined,
+            name: 'BadgeCompt2',
+            testedSkillsCount: 2,
+            totalSkillsCount: 2,
+            validatedSkillsCount: 1,
+          });
+        });
+      });
     });
   });
 });
