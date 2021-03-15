@@ -62,6 +62,7 @@ describe('Integration | Repository | Certification-ls ', () => {
 
       const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
       expect(certificationResult.status).to.equal(status.REJECTED);
+      expect(certificationResult.pixScore).to.equal(0);
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
@@ -73,6 +74,7 @@ describe('Integration | Repository | Certification-ls ', () => {
 
       const [certificationResult] = await certificationLsRepository.getCertificatesByOrganizationUAI(uai);
       expect(certificationResult.status).to.equal(status.PENDING);
+      expect(certificationResult.pixScore).to.equal(0);
       expect(certificationResult.competenceResults).to.be.empty;
     });
 

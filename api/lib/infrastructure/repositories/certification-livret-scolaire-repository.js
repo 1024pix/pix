@@ -40,7 +40,9 @@ module.exports = {
     return result.map((certificate) => {
       const competenceResults = sortBy(_extractValidatedCompetenceResults(certificate), 'competenceId');
       return new Certificate({
-        ...certificate, competenceResults,
+        ...certificate,
+        competenceResults,
+        pixScore: _getPixScoreFromStatus(certificate),
       });
     });
 
@@ -55,6 +57,14 @@ function _filterMostRecentAssessments(queryBuilder) {
     });
 }
 
-function _extractValidatedCompetenceResults(certificate) {
-  return certificate.status === VALIDATED ? JSON.parse(certificate.competenceResults) : [];
+function _extractValidatedCompetenceResults({ status, competenceResults }) {
+  return _isValidated(status) ? JSON.parse(competenceResults) : [];
+}
+
+function _getPixScoreFromStatus({ status, pixScore }) {
+  return _isValidated(status) ? pixScore : 0;
+}
+
+function _isValidated(status) {
+  return status === VALIDATED;
 }
