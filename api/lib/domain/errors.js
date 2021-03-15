@@ -152,15 +152,6 @@ class SameNationalApprenticeIdInOrganizationError extends DomainError {
   }
 }
 
-class SameNationalStudentIdInFileError extends DomainError {
-  constructor(nationalStudentId) {
-    const message = nationalStudentId ?
-      `L’INE ${nationalStudentId} est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.` :
-      'Un INE est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
-    super(message);
-  }
-}
-
 class UserNotAuthorizedToUpdateCampaignError extends DomainError {
   constructor(message = 'Cet utilisateur n\'est pas autorisé à modifier cette campagne.') {
     super(message);
@@ -812,7 +803,6 @@ module.exports = {
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SameNationalApprenticeIdInOrganizationError,
-  SameNationalStudentIdInFileError,
   SameNationalStudentIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationNotFound,
