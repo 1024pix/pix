@@ -61,5 +61,59 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
+    it('compute the number of skills, the number of skill tested and the number of skill validated', async () => {
+      const { id: userId } = databaseBuilder.factory.buildUser();
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        campaignId,
+        isShared: true,
+        sharedAt: new Date('2020-01-02'),
+      });
+
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+      const knowledgeElementsAttributes = [
+        {
+          userId,
+          skillId: 'skill1',
+          competenceId: 'rec1',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.VALIDATED,
+        },
+        {
+          userId,
+          skillId: 'skill2',
+          competenceId: 'rec1',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        },
+        {
+          userId,
+          skillId: 'skill5',
+          competenceId: 'rec2',
+          createdAt: new Date('2020-01-01'),
+          status: KnowledgeElement.StatusType.VALIDATED,
+        },
+      ];
+      databaseBuilder
+        .factory
+        .knowledgeElementSnapshotFactory
+        .buildSnapshot({
+          userId,
+          snappedAt: new Date('2020-01-02'),
+          knowledgeElementsAttributes,
+        });
+      await databaseBuilder.commit();
+      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+
+      expect(campaignAssessmentParticipationResult).to.deep.include({
+        id: campaignParticipationId,
+        knowledgeElementsCount: 2,
+        testedSkillsCount: 2,
+        totalSkillsCount: 4,
+        validatedSkillsCount: 1,
+      });
+    });
+
   });
 });
