@@ -27,16 +27,14 @@
     </p>
   {{/each}}
 
-  {{#if this.featureFlagDisplayForWrongAnswers}}
-    <div class="qcu-panel-proposals__answer-feedback">
-      {{#if this.isAnswerValid}}
-        <div class="answer-feedback__correct-answer">{{t 'pages.comparison-window.results.feedback.correct'}}</div>
-      {{else}}
-        <div class="answer-feedback__wrong-answer">{{t 'pages.comparison-window.results.feedback.wrong' htmlSafe=true}}
-          <strong class="wrong-answer__expected-answer">{{this.solutionAsText}}</strong>
-        </div>
-      {{/if}}
-    </div>
-  {{/if}}
+  <div class="qcu-panel-proposals__answer-feedback">
+    {{#if this.isAnswerValid}}
+      <div class="answer-feedback__correct-answer">{{t 'pages.comparison-window.results.feedback.correct'}}</div>
+    {{else}}
+      <div class="answer-feedback__wrong-answer">{{t 'pages.comparison-window.results.feedback.wrong' htmlSafe=true}}
+        <strong class="wrong-answer__expected-answer">{{this.solutionAsText}}</strong>
+      </div>
+    {{/if}}
+  </div>
 </div>
 
