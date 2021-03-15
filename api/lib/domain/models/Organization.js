@@ -71,6 +71,10 @@ class Organization {
   get isPoleEmploi() {
     return Boolean(this.tags.find((tag) => tag.name === Tag.POLE_EMPLOI));
   }
+
+  get isMediationNumerique() {
+    return Boolean(this.tags.find((tag) => this.isPro && tag.name === Tag.MEDIATION_NUMERIQUE));
+  }
 }
 
 Organization.types = types;
