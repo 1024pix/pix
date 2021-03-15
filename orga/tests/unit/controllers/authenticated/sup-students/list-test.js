@@ -10,6 +10,7 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
   let controller;
 
   hooks.beforeEach(function() {
+    controller = this.owner.lookup('service:intl').setLocale('fr');
     controller = this.owner.lookup('controller:authenticated/sup-students/list');
     controller.send = sinon.stub();
     controller.currentUser = currentUser;
@@ -47,7 +48,8 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
         await controller.importStudents(file);
 
         // then
-        assert.ok(controller.notifications.sendError.calledWith('<div>Aucun étudiant n’a été importé.<br/> Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d\'aide</a></div>'));
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
+        assert.equal(notificationMessage, '<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a></div>');
       });
 
       test('notify a detailed error message if 412 error', async function(assert) {
@@ -61,7 +63,8 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
         await controller.importStudents(file);
 
         // then
-        assert.ok(controller.notifications.sendError.calledWith('<div>Aucun étudiant n’a été importé.<br/> <strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>'));
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
+        assert.equal(notificationMessage, '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>');
       });
 
       test('notify a detailed error message if 413 error', async function(assert) {
@@ -75,7 +78,8 @@ module('Unit | Controller | authenticated/sup-students/list', function(hooks) {
         await controller.importStudents(file);
 
         // then
-        assert.ok(controller.notifications.sendError.calledWith('<div>Aucun étudiant n’a été importé.<br/> <strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>'));
+        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
+        assert.equal(notificationMessage, '<div>Aucun étudiant n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>');
       });
     });
   });

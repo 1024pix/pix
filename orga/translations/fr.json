@@ -9,7 +9,26 @@
     "edit-student-number": {
       "student-number-exists": "Le numéro étudiant saisi est déjà utilisé par l’étudiant {firstName} {lastName}"
     },
-    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement."
+    "global": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
+    "or-separator": " ou ",
+    "student-csv-import": {
+      "bad-csv-format": "Le fichier doit être au format csv avec séparateur virgule ou point-virgule.",
+      "encoding-not-supported": "Encodage du fichier non supporté.",
+      "field-bad-values": "Ligne {line} : Le champ “{field}” doit être “{valids}”.",
+      "field-date-format": "Ligne {line} : Le champ “{field}” doit être au format jj/mm/aaaa.",
+      "field-email-format": "Ligne {line} : Le champ “{field}” doit être une adresse email valide.",
+      "field-length": "Ligne {line} : Le champ “{field}” doit faire {limit} caractères.",
+      "field-max-length": "Ligne {line} : Le champ “{field}” doit être inférieur à {limit} caractères.",
+      "field-min-length": "Ligne {line} : Le champ “{field}” doit être d’au moins {limit} caractères.",
+      "field-required": "Ligne {line} : Le champ “{field}” est obligatoire.",
+      "header-required": "La colonne “{field}” est obligatoire.",
+      "header-unknown": "Les entêtes de colonnes doivent être identiques à celles du modèle.",
+      "ina-format": "Ligne {line} : Le champ “{field}” (INA) doit être de 10 chiffres suivis d’une lettre.",
+      "ina-unique": "Ligne {line} : Le champ “{field}” de cette ligne est présent plusieurs fois dans le fichier.",
+      "insee-code-invalid": "Ligne {line} : Le champ “{field}” n'est pas au format INSEE.",
+      "student-number-format": "Ligne {line} : Le champ “{field}” ne doit pas avoir de caractères spéciaux.",
+      "student-number-unique": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
+    }
   },
   "banners": {
     "campaigns": {
@@ -319,6 +338,11 @@
         "identifiant": "Identifiant",
         "mediacentre": "Mediacentre"
       },
+      "import": {
+        "error-wrapper": "<div>{message} Veuillez réessayer ou nous contacter via <a id=\"support-link\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d'aide</a>.</div>",
+        "global-error": "Quelque chose s'est mal passé. Veuillez réessayer.",
+        "global-success": "La liste a été importée avec succès."
+      },
       "know-more": "En savoir plus",
       "table": {
         "column": {
@@ -364,6 +388,11 @@
           "success": "La modification du numéro étudiant de {firstName} {lastName} a bien été effectué."
         },
         "title": "Édition du numéro étudiant"
+      },
+      "import": {
+        "error-wrapper": "<div>Aucun étudiant n’a été importé.<br/><strong>{message}</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>",
+        "global-error": "<div>Aucun étudiant n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://support.pix.fr/support/tickets/new\">le formulaire du centre d’aide</a></div>",
+        "global-success": "La liste a été importée avec succès."
       },
       "table": {
         "column": {

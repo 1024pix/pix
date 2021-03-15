@@ -24,6 +24,12 @@ const COLUMNS = [
   new CsvColumn({ name: 'division', label: 'Division*', isRequired: true }),
 ];
 
+const ERRORS = {
+  INA_FORMAT: 'INA_FORMAT',
+  INA_UNIQUE: 'INA_UNIQUE',
+  INSEE_CODE_INVALID: 'INSEE_CODE_INVALID',
+};
+
 class SchoolingRegistrationSet {
   constructor(hasApprentice) {
     this.registrations = [];
@@ -68,21 +74,19 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
 
   _handleError(err, index) {
     const column = this._columns.find((column) => column.name === err.key);
+    const line = index + 2;
+    const field = column.label;
 
     if (err.why === 'bad_pattern' && err.pattern === 'INA') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” (INA) doit être de 10 chiffres suivis d’une lettre.`);
+      throw new CsvImportError(ERRORS.INA_FORMAT, { line, field });
     }
 
-    if (err.why === 'uniqueness') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” de cette ligne est présent plusieurs fois dans le fichier.`);
+    if (err.why === 'uniqueness' && err.key === 'nationalIdentifier') {
+      throw new CsvImportError(ERRORS.INA_UNIQUE, { line, field });
     }
 
     if (err.why === 'not_valid_insee_code') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” n'est pas au format INSEE.`);
-    }
-
-    if (err.why === 'not_a_date') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être au format JJ/MM/AAAA.`);
+      throw new CsvImportError(ERRORS.INSEE_CODE_INVALID, { line, field });
     }
 
     super._handleError(...arguments);
