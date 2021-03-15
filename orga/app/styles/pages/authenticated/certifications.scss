@@ -1,7 +1,6 @@
 .certifications-page {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   padding: 16px 0 0 16px;
   width: 100%;
   margin-bottom: 20px;
@@ -16,7 +15,8 @@
     font-family: $roboto;
     margin: 2px 0 32px 0;
     font-size: 1rem;
-    line-height: 1.375rem;
+    line-height: 1.45rem;
+    color: $grey-60;
   }
 
   &__action {
@@ -25,20 +25,32 @@
     flex-wrap: wrap;
     align-items: center;
     min-width: 100%;
-
-    button {
-      height: 36px;
-      line-height: 36px;
-      margin-left: 8px;
-    }
+    margin-bottom: 40px;
 
     label {
-      font-size: 0.875rem;
       color: $grey-90;
       margin-left: 2px;
       min-width: 100%;
       padding: 4px 0;
     }
+
+    .pix-select {
+      margin-right: 8px;
+      margin-bottom: 6px;
+    }
+
+    button {
+      height: inherit;
+      min-height: 44px;
+      line-height: inherit;
+      padding: 8px 20px;
+      margin-bottom: 6px;
+    }
+
+  }
+
+  .pix-message {
+    max-width: max-content;
   }
 }
 

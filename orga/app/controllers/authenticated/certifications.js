@@ -37,15 +37,15 @@ export default class AuthenticatedCertificationsController extends Controller {
 
       await this.fileSaver.save({ url, token });
     } catch (error) {
-      let errorMessage = error.message;
-
       if (_isErrorNotFound(error)) {
-        errorMessage = this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision });
+        this.notifications.info(
+          this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
+          { autoClear: false },
+        );
+      } else {
+        this.notifications.error(error.message, { autoClear: false });
       }
 
-      this.notifications.error(errorMessage, {
-        autoClear: false,
-      });
     }
   }
 
