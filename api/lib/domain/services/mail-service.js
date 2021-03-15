@@ -183,7 +183,7 @@ function sendOrganizationInvitationEmail({
     pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
     redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
     supportUrl: HELPDESK_FR,
-    ...frTranslations['organization-invitation-email'],
+    ...frTranslations['organization-invitation-email'].params,
   };
 
   if (locale === FRENCH_SPOKEN) {
@@ -194,7 +194,7 @@ function sendOrganizationInvitationEmail({
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
       redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
       supportUrl: HELPDESK_FR,
-      ...frTranslations['organization-invitation-email'],
+      ...frTranslations['organization-invitation-email'].params,
     };
   }
 
@@ -206,7 +206,7 @@ function sendOrganizationInvitationEmail({
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}?lang=en`,
       redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
       supportUrl: HELPDESK_EN,
-      ...enTranslations['organization-invitation-email'],
+      ...enTranslations['organization-invitation-email'].params,
     };
     pixOrgaName = PIX_ORGA_NAME_EN;
     sendOrganizationInvitationEmailSubject = ORGANIZATION_INVITATION_EMAIL_SUBJECT_EN;

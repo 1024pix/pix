@@ -50,16 +50,18 @@
     }
   },
   "organization-invitation-email": {
-    "title": "You are invited to join Pix Orga",
-    "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
-    "yourOrganization": "Your organization",
-    "acceptInvitation": "Accept the invitation",
-    "oneTimeLink": "This is a single-use link",
-    "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-    "moreAbout": "More on",
-    "doNotAnswer": "This is an automated email message, please do not reply.",
-    "needHelp": "Have questions? We’re here to help, contact us",
-    "here": "here"
+    "params": {
+      "title": "You are invited to join Pix Orga",
+      "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
+      "yourOrganization": "Your organization",
+      "acceptInvitation": "Accept the invitation",
+      "oneTimeLink": "This is a single-use link",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "moreAbout": "More on",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "needHelp": "Have questions? We’re here to help, contact us",
+      "here": "here"
+    }
   },
   "pix-account-creation-email": {
     "subject": "Your Pix account has been created",
