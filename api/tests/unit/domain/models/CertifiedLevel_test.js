@@ -161,5 +161,22 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isDowngraded()).to.be.true;
       });
     });
+    context('and the answer is incorrect', () => {
+      it('does not certify any level', () => {
+        // TODO : differentiate between uncertified and not-certifiable
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 1,
+          numberOfCorrectAnswers: 0,
+          estimatedLevel: 3, // unimportant
+          reproducibilityRate: 69, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
   });
 });

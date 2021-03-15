@@ -54,11 +54,14 @@ class CertifiedLevel {
   }
 
   static _scoreFor1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
-    if (reproducibilityRate >= 70) {
-      return this._validated(estimatedLevel);
-    } else {
-      return this._downgraded(estimatedLevel);
+    if (numberOfCorrectAnswers === 1) {
+      if (reproducibilityRate >= 70) {
+        return this._validated(estimatedLevel);
+      } else {
+        return this._downgraded(estimatedLevel);
+      }
     }
+    return this._uncertified();
   }
 
   static _uncertified() {
