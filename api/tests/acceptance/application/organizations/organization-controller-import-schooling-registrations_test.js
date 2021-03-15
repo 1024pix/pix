@@ -846,7 +846,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].detail).to.equal('Ligne 3 : Le champ “Nom de famille*” est obligatoire.');
+          expect(response.result.errors[0].code).to.equal('FIELD_REQUIRED');
+          expect(response.result.errors[0].meta.field).to.equal('Nom de famille*');
         });
 
         it('should not save any schooling registration with wrong birthCountryCode', async () => {
@@ -868,7 +869,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].detail).to.equal('Ligne 2 : Le champ “Code pays naissance*” n\'est pas au format INSEE.');
+          expect(response.result.errors[0].code).to.equal('INSEE_CODE_INVALID');
+          expect(response.result.errors[0].meta.field).to.equal('Code pays naissance*');
         });
 
         it('should not save any schooling registration with wrong birthCityCode', async () => {
@@ -890,7 +892,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].detail).to.equal('Ligne 2 : Le champ “Code commune naissance**” n\'est pas au format INSEE.');
+          expect(response.result.errors[0].code).to.equal('INSEE_CODE_INVALID');
+          expect(response.result.errors[0].meta.field).to.equal('Code commune naissance**');
         });
       });
 
@@ -915,7 +918,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].detail).to.contains('Le champ “Identifiant unique*” de cette ligne est présent plusieurs fois dans le fichier.');
+          expect(response.result.errors[0].code).to.equal('INA_UNIQUE');
         });
       });
     });

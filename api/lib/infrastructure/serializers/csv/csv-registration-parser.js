@@ -3,6 +3,20 @@ const iconv = require('iconv-lite');
 const { convertDateValue } = require('../../utils/date-utils');
 const { CsvImportError } = require('../../../../lib/domain/errors');
 
+const ERRORS = {
+  ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
+  BAD_CSV_FORMAT: 'BAD_CSV_FORMAT',
+  HEADER_REQUIRED: 'HEADER_REQUIRED',
+  HEADER_UNKNOWN: 'HEADER_UNKNOWN',
+  FIELD_MIN_LENGTH: 'FIELD_MIN_LENGTH',
+  FIELD_MAX_LENGTH: 'FIELD_MAX_LENGTH',
+  FIELD_LENGTH: 'FIELD_LENGTH',
+  FIELD_DATE_FORMAT: 'FIELD_DATE_FORMAT',
+  FIELD_EMAIL_FORMAT: 'FIELD_EMAIL_FORMAT',
+  FIELD_REQUIRED: 'FIELD_REQUIRED',
+  FIELD_BAD_VALUES: 'FIELD_BAD_VALUES',
+};
+
 const PARSING_OPTIONS = {
   header: true,
   skipEmptyLines: 'greedy',
@@ -39,7 +53,7 @@ class CsvRegistrationParser {
     const { registrationLines, fields } = this._parse(encoding);
 
     if (!encoding) {
-      throw new CsvImportError('Encodage du fichier non supporté.');
+      throw new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED);
     }
 
     this._checkColumns(fields);
@@ -86,7 +100,7 @@ class CsvRegistrationParser {
     if (errors.length) {
       const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
       if (hasDelimiterError) {
-        throw new CsvImportError('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
+        throw new CsvImportError(ERRORS.BAD_CSV_FORMAT);
       }
     }
 
@@ -116,12 +130,12 @@ class CsvRegistrationParser {
       .filter((c) => c.isRequired)
       .find((c) => !parsedColumns.includes(c.label));
     if (missingMandatoryColumn) {
-      throw new CsvImportError(`La colonne "${missingMandatoryColumn.label}" est obligatoire.`);
+      throw new CsvImportError(ERRORS.HEADER_REQUIRED, { field: missingMandatoryColumn.label });
     }
 
     // Expected columns
     if (this._columns.some((column) => !parsedColumns.includes(column.label))) {
-      throw new CsvImportError('Les entêtes de colonnes doivent être identiques à celle du modèle.');
+      throw new CsvImportError(ERRORS.HEADER_UNKNOWN);
     }
   }
 
@@ -132,26 +146,28 @@ class CsvRegistrationParser {
 
   _handleError(err, index) {
     const column = this._columns.find((column) => column.name === err.key);
+    const line = index + 2;
+    const field = column.label;
     if (err.why === 'min_length') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être d’au moins ${err.limit} caractères.`);
+      throw new CsvImportError(ERRORS.FIELD_MIN_LENGTH, { line, field, limit: err.limit });
     }
     if (err.why === 'max_length') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être inférieur à ${err.limit} caractères.`);
+      throw new CsvImportError(ERRORS.FIELD_MAX_LENGTH, { line, field, limit: err.limit });
     }
     if (err.why === 'length') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit faire ${err.limit} caractères.`);
+      throw new CsvImportError(ERRORS.FIELD_LENGTH, { line, field, limit: err.limit });
     }
-    if (err.why === 'date_format') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être au format jj/mm/aaaa.`);
+    if (err.why === 'date_format' || err.why === 'not_a_date') {
+      throw new CsvImportError(ERRORS.FIELD_DATE_FORMAT, { line, field });
     }
     if (err.why === 'email_format') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être une adresse email valide.`);
+      throw new CsvImportError(ERRORS.FIELD_EMAIL_FORMAT, { line, field });
     }
     if (err.why === 'required') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” est obligatoire.`);
+      throw new CsvImportError(ERRORS.FIELD_REQUIRED, { line, field });
     }
     if (err.why === 'bad_values') {
-      throw new CsvImportError(`Ligne ${index + 2} : Le champ “${column.label}” doit être "${err.valids.join(' ou ')}".`);
+      throw new CsvImportError(ERRORS.FIELD_BAD_VALUES, { line, field, valids: err.valids });
     }
     throw err;
   }

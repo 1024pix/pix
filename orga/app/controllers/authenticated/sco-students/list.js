@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
-import { htmlSafe } from '@ember/template';
 import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-orga/config/environment';
 import { CONNECTION_TYPES } from '../../../models/student';
@@ -12,6 +11,7 @@ export default class ListController extends Controller {
   @service currentUser;
   @service notifications;
   @service intl;
+  @service errorMessages;
 
   @tracked isLoading = false;
 
@@ -60,7 +60,7 @@ export default class ListController extends Controller {
       });
       this.refresh();
       this.isLoading = false;
-      this.notifications.sendSuccess('La liste a été importée avec succès.');
+      this.notifications.sendSuccess(this.intl.t('pages.students-sco.import.global-success'));
 
     } catch (errorResponse) {
       this.isLoading = false;
@@ -70,17 +70,18 @@ export default class ListController extends Controller {
   }
 
   _handleError(errorResponse) {
-    const globalErrorMessage = 'Quelque chose s\'est mal passé. Veuillez réessayer.';
+    const globalErrorMessage = this.intl.t('pages.students-sco.import.global-error');
     if (!errorResponse.body.errors) {
       return this.notifications.sendError(globalErrorMessage);
     }
 
     errorResponse.body.errors.forEach((error) => {
       if (error.status === '409' || error.status === '422' || error.status === '412') {
-        return this.notifications.sendError(error.detail);
+        const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
+        return this.notifications.sendError(message);
       }
       if (error.status === '400') {
-        const errorDetail = htmlSafe(`<div>${error.detail} Veuillez réessayer ou nous contacter via <a id="support-link" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d'aide</a>.</div>`);
+        const errorDetail = this.intl.t('pages.students-sco.import.error-wrapper', { message: error.detail, htmlSafe: true });
         return this.notifications.error(errorDetail, { autoClear: false, cssClasses: 'notification notification--error', onClick: function() { window.open('https://support.pix.fr/support/tickets/new', '_blank'); } });
       }
       return this.notifications.sendError(globalErrorMessage);

@@ -87,7 +87,8 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
           const parsingError = await catchErr(parser.parse, parser)();
 
-          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit être d’au moins 12 caractères.');
+          expect(parsingError.code).to.equal('FIELD_MIN_LENGTH');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 12 });
         });
       });
 
@@ -106,7 +107,8 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
           const parsingError = await catchErr(parser.parse, parser)();
 
-          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit être inférieur à 8 caractères.');
+          expect(parsingError.code).to.equal('FIELD_MAX_LENGTH');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 8 });
         });
       });
 
@@ -124,7 +126,8 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
           const parsingError = await catchErr(parser.parse, parser)();
 
-          expect(parsingError.message).to.contain('Le champ “ColumnLabel” est obligatoire.');
+          expect(parsingError.code).to.equal('FIELD_REQUIRED');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
         });
       });
 
@@ -143,7 +146,8 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
           const parsingError = await catchErr(parser.parse, parser)();
 
-          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit être "value1 ou value2 ou value3"');
+          expect(parsingError.code).to.equal('FIELD_BAD_VALUES');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', valids: ['value1', 'value2', 'value3'] });
         });
       });
 
@@ -162,7 +166,8 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
           const parsingError = await catchErr(parser.parse, parser)();
 
-          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit faire 2 caractères.');
+          expect(parsingError.code).to.equal('FIELD_LENGTH');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel', limit: 2 });
         });
       });
 
@@ -180,7 +185,27 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
           const parsingError = await catchErr(parser.parse, parser)();
 
-          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit être au format jj/mm/aaaa.');
+          expect(parsingError.code).to.equal('FIELD_DATE_FORMAT');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
+        });
+      });
+
+      context('when error.why is not_a_date', () => {
+        it('throws a parsing error', async () => {
+          error = new Error();
+          error.key = 'ColumnName';
+          error.why = 'not_a_date';
+
+          const input = `ColumnLabel;
+          Beatrix;
+          `;
+          const encodedInput = iconv.encode(input, 'utf8');
+          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+
+          const parsingError = await catchErr(parser.parse, parser)();
+
+          expect(parsingError.code).to.equal('FIELD_DATE_FORMAT');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
         });
       });
 
@@ -198,7 +223,8 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
           const parsingError = await catchErr(parser.parse, parser)();
 
-          expect(parsingError.message).to.contain('Le champ “ColumnLabel” doit être une adresse email valide.');
+          expect(parsingError.code).to.equal('FIELD_EMAIL_FORMAT');
+          expect(parsingError.meta).to.deep.equal({ line: 2, field: 'ColumnLabel' });
         });
       });
 
@@ -219,7 +245,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
         const parsingError = await catchErr(parser.parse, parser)();
 
-        expect(parsingError.message).to.contain('Ligne 4 :');
+        expect(parsingError.meta.line).to.equal(4);
       });
     });
   });
@@ -238,7 +264,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.equal('Le fichier doit être au format csv avec séparateur virgule ou point-virgule.');
+      expect(error.code).to.equal('BAD_CSV_FORMAT');
     });
 
     it('should throw an error if a column is not recognized', async () => {
@@ -251,7 +277,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.equal('Les entêtes de colonnes doivent être identiques à celle du modèle.');
+      expect(error.code).to.equal('HEADER_UNKNOWN');
     });
 
     it('should throw an error if a required column is missing', async () => {
@@ -262,7 +288,8 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
 
       const error = await catchErr(parser.parse, parser)();
 
-      expect(error.message).to.equal('La colonne "Column 1" est obligatoire.');
+      expect(error.code).to.equal('HEADER_REQUIRED');
+      expect(error.meta.field).to.equal('Column 1');
     });
   });
 
@@ -297,10 +324,12 @@ describe('Unit | Infrastructure | CsvRegistrationParser', () => {
       expect(registrationSet.registrations[0].firstName).to.equal('Éçéà niño véga');
     });
 
-    it('should throw an error if encoding not supported', () => {
+    it('should throw an error if encoding not supported', async () => {
       const encodedInput = iconv.encode(input, 'utf16');
       const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
-      expect(() => parser.parse()).to.throw('Encodage du fichier non supporté.');
+      const error = await catchErr(parser.parse, parser)();
+
+      expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
     });
   });
 });

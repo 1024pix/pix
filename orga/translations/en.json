@@ -9,7 +9,26 @@
     "edit-student-number": {
       "student-number-exists": "The student number entered is already used by {firstName} {lastName}"
     },
-    "global": "An error occurred. Please try again later."
+    "global": "An error occurred. Please try again later.",
+    "or-separator": " or ",
+    "student-csv-import": {
+      "bad-csv-format": "The file must be in csv format with comma or semicolon separator.",
+      "encoding-not-supported": "File encoding not supported.",
+      "field-bad-values": "Row {line} : The field “{field}” must be “{valids}”.",
+      "field-date-format": "Row {line} : The field “{field}” must be in the format dd/mm/yyyy.",
+      "field-email-format": "Row {line} : The field “{field}” must be a valid email address.",
+      "field-length": "Row {line} : The field “{field}” must contain {limit} characters.",
+      "field-max-length": "Row {line} : The field “{field}” must contain less than {limit} characters.",
+      "field-min-length": "Row {line} : The field “{field}” must contain at least {limit} characters.",
+      "field-required": "Row {line} : The field “{field}” is mandatory.",
+      "header-required": "The “{field}” is mandatory.",
+      "header-unknown": "Column headers must be identical to the ones on the template.",
+      "ina-format": "Row {line} : The field “{field}” (INA) must contain 10 numbers followed by 1 letter.",
+      "ina-unique": "Row {line} : The field “{field}” of this row is repeated several times within the file.",
+      "insee-code-invalid": "Row {line} : The field “{field}” is not in the INSEE format.",
+      "student-number-format": "Row {line} : The field “{field}” must not contain any special characters.",
+      "student-number-unique": "Row {line} : The field “{field}” must be unique within the file."
+    }
   },
   "banners": {
     "campaigns": {
@@ -319,6 +338,11 @@
         "identifiant": "Username",
         "mediacentre": "Mediacentre"
       },
+      "import": {
+        "error-wrapper": "<div>{message} Please try again or contact us through <a id=\"support-link\" href=\"https://pix.org/en-gb/help-form\">the help form</a>.</div>",
+        "global-error": "Import has failed. Please edit your file and try to import it again.",
+        "global-success": "The list has been successfully imported."
+      },
       "know-more": "Know more",
       "table": {
         "column": {
@@ -364,6 +388,11 @@
           "success": "{firstName} {lastName}'s student number has been successfully edited."
         },
         "title": "Edit a student number"
+      },
+      "import": {
+        "error-wrapper": "<div>Import has failed.<br/><strong>{message}</strong><br/> Please edit your file and try to import it again.</div>",
+        "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/help-form\">the help form</a></div>",
+        "global-success": "The list has been successfully imported."
       },
       "table": {
         "column": {
