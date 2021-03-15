@@ -36,19 +36,19 @@ class CampaignProfileCollectionExport {
     const displayDivision = this.organization.isSco && this.organization.isManagingStudents;
 
     const header = [
-      this.translate('campaign.profiles-collection.organization-name'),
-      this.translate('campaign.profiles-collection.campaign-id'),
-      this.translate('campaign.profiles-collection.campaign-name'),
-      this.translate('campaign.profiles-collection.participant-lastname'),
-      this.translate('campaign.profiles-collection.participant-firstname'),
-      displayDivision && this.translate('campaign.profiles-collection.participant-division'),
-      displayStudentNumber && this.translate('campaign.profiles-collection.participant-student-number'),
+      this.translate('campaign-export.common.organization-name'),
+      this.translate('campaign-export.common.campaign-id'),
+      this.translate('campaign-export.common.campaign-name'),
+      this.translate('campaign-export.common.participant-lastname'),
+      this.translate('campaign-export.common.participant-firstname'),
+      displayDivision && this.translate('campaign-export.common.participant-division'),
+      displayStudentNumber && this.translate('campaign-export.common.participant-student-number'),
       this.idPixLabel,
-      this.translate('campaign.profiles-collection.is-sent'),
-      this.translate('campaign.profiles-collection.sent-on'),
-      this.translate('campaign.profiles-collection.pix-score'),
-      this.translate('campaign.profiles-collection.is-certifiable'),
-      this.translate('campaign.profiles-collection.certifiable-skills'),
+      this.translate('campaign-export.profiles-collection.is-sent'),
+      this.translate('campaign-export.profiles-collection.sent-on'),
+      this.translate('campaign-export.profiles-collection.pix-score'),
+      this.translate('campaign-export.profiles-collection.is-certifiable'),
+      this.translate('campaign-export.profiles-collection.certifiable-skills'),
       ...(this._competenceColumnHeaders()),
     ];
 
@@ -81,8 +81,8 @@ class CampaignProfileCollectionExport {
 
   _competenceColumnHeaders() {
     return _.flatMap(this.competences, (competence) => [
-      this.translate('campaign.profiles-collection.skill-level', { name: competence.name }),
-      this.translate('campaign.profiles-collection.skill-ranking', { name: competence.name }),
+      this.translate('campaign-export.profiles-collection.skill-level', { name: competence.name }),
+      this.translate('campaign-export.profiles-collection.skill-ranking', { name: competence.name }),
     ]);
   }
 }

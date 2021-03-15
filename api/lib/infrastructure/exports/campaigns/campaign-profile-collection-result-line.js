@@ -13,7 +13,7 @@ class CampaignProfileCollectionResultLine {
     this.placementProfile = placementProfile;
     this.translate = translate;
 
-    this.notShared = translate('campaign.common.not-available');
+    this.notShared = translate('campaign-export.common.not-available');
   }
 
   toCsvLine() {
@@ -82,7 +82,7 @@ class CampaignProfileCollectionResultLine {
   }
 
   _yesOrNo(value) {
-    return this.translate(`campaign.common.${value ? 'yes' : 'no'}`);
+    return this.translate(`campaign-export.common.${value ? 'yes' : 'no'}`);
   }
 
   _competenceColumns() {

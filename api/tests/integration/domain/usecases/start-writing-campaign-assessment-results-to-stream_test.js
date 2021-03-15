@@ -13,6 +13,7 @@ const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repos
 const campaignCsvExportService = require('../../../../lib/domain/services/campaign-csv-export-service');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
 
@@ -26,6 +27,8 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
     let campaignParticipation;
     let writableStream;
     let csvPromise;
+
+    const i18n = getI18n();
 
     beforeEach(async () => {
       organization = databaseBuilder.factory.buildOrganization();
@@ -156,6 +159,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         userId: user.id,
         campaignId: campaign.id,
         writableStream,
+        i18n,
         campaignRepository,
         userRepository,
         targetProfileWithLearningContentRepository,
