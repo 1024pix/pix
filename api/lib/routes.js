@@ -3,6 +3,7 @@ module.exports = [
   require('./application/assessment-results'),
   require('./application/assessments'),
   require('./application/authentication'),
+  require('./application/stages'),
   require('./application/cache'),
   require('./application/campaign-participation-results'),
   require('./application/campaign-participations'),

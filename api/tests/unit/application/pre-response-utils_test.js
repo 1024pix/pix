@@ -40,7 +40,7 @@ describe('Unit | Application | PreResponse-utils', () => {
       await handleDomainAndHttpErrors(request, hFake);
 
       // then
-      expect(errorManager.handle).to.have.been.calledWithExactly(hFake, request.response);
+      expect(errorManager.handle).to.have.been.calledWithExactly(request, hFake, request.response);
     });
 
     it('should manage BaseHttpError', async () => {
@@ -52,7 +52,7 @@ describe('Unit | Application | PreResponse-utils', () => {
       await handleDomainAndHttpErrors(request, hFake);
 
       // then
-      expect(errorManager.handle).to.have.been.calledWithExactly(hFake, request.response);
+      expect(errorManager.handle).to.have.been.calledWithExactly(request, hFake, request.response);
     });
   });
 
