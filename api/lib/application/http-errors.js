@@ -107,9 +107,11 @@ class BadRequestError extends BaseHttpError {
 }
 
 class PayloadTooLargeError extends BaseHttpError {
-  constructor(message = 'La taille du fichier doit être inférieure à 10Mo.') {
+  constructor(message, code, meta) {
     super(message);
     this.title = 'Payload too large';
+    this.code = code;
+    this.meta = meta;
     this.status = 413;
   }
 }
@@ -128,6 +130,8 @@ function sendJsonApiError(httpError, h) {
     status: httpError.status.toString(),
     title: httpError.title,
     detail: httpError.message,
+    code: httpError.code,
+    meta: httpError.meta,
   });
   return h.response(jsonApiError).code(httpError.status).takeover();
 }
