@@ -193,5 +193,54 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       ]);
     });
 
+    context('when there is no snapshot because the participant did not share his results', () => {
+      it('compute results by using knowledge elements', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          isShared: false,
+          sharedAt: null,
+        });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+        const knowledgeElementsAttributes = [
+          {
+            userId,
+            skillId: 'skill1',
+            competenceId: 'rec1',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill2',
+            competenceId: 'rec1',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.INVALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill5',
+            competenceId: 'rec2',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+        ];
+        knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+        await databaseBuilder.commit();
+        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+
+        expect(campaignAssessmentParticipationResult).to.deep.include({
+          id: campaignParticipationId,
+          knowledgeElementsCount: 2,
+          testedSkillsCount: 2,
+          totalSkillsCount: 4,
+          validatedSkillsCount: 1,
+        });
+      });
+    });
+
   });
 });
