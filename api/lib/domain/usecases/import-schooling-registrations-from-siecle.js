@@ -5,8 +5,11 @@ const { SCHOOLING_REGISTRATION_CHUNK_SIZE } = require('../../infrastructure/cons
 const { isEmpty, chunk } = require('lodash');
 const SchoolingRegistrationParser = require('../../infrastructure/serializers/csv/schooling-registration-parser');
 
-const NO_SCHOOLING_REGISTRATIONS_FOUND = 'Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.';
-const INVALID_FILE_FORMAT = 'Format de fichier non valide.';
+const ERRORS = {
+  EMPTY: 'EMPTY',
+  INE_UNIQUE: 'INE_UNIQUE',
+  INVALID_FILE_FORMAT: 'INVALID_FILE_FORMAT',
+};
 
 module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository }) {
   let schoolingRegistrationData = [];
