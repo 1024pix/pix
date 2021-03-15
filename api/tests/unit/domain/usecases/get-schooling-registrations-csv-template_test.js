@@ -2,12 +2,14 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const getSchoolingRegistrationsCsvTemplate = require('../../../../lib/domain/usecases/get-schooling-registrations-csv-template');
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
 
   const userId = Symbol('userId');
   const organizationId = Symbol('organizationId');
   const membershipRepository = { findByUserIdAndOrganizationId: _.noop };
+  const i18n = getI18n();
 
   context('When user is ADMIN in a SUP organization managing students', () => {
     it('should return headers line', async () => {
@@ -17,7 +19,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([membership]);
 
       // when
-      const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, membershipRepository });
+      const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, membershipRepository, i18n });
 
       // then
       const csvExpected = '\uFEFF"Premier prénom";' +
@@ -148,4 +150,3 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
   });
 
 });
-

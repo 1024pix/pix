@@ -139,7 +139,7 @@ module.exports = {
   async importHigherSchoolingRegistrations(request, h) {
     const organizationId = parseInt(request.params.id);
     const buffer = request.payload;
-    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId);
+    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId, request.i18n);
     await usecases.importHigherSchoolingRegistrations({ organizationId, higherSchoolingRegistrationParser });
     return h.response(null).code(204);
   },
@@ -164,10 +164,10 @@ module.exports = {
     const organizationId = parseInt(request.params.id);
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
-    const template = await usecases.getSchoolingRegistrationsCsvTemplate({ userId, organizationId });
+    const template = await usecases.getSchoolingRegistrationsCsvTemplate({ userId, organizationId, i18n: request.i18n });
 
     return h.response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
-      .header('Content-Disposition', 'attachment; filename=modele-import.csv');
+      .header('Content-Disposition', `attachment; filename=${request.i18n.__('higher-schooling-registration-csv.template-name')}.csv`);
   },
 };
