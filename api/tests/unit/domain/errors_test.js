@@ -118,38 +118,6 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('#SameNationalStudentIdInFileError', () => {
-
-    context('When errorDetail is provided', () => {
-
-      it('should return a message with given nationalStudentId', () => {
-        // given
-        const expectedErrorMessage = 'L’INE 123INE456 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
-        const nationalStudentId = '123INE456';
-
-        // when
-        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInFileError(nationalStudentId);
-
-        // then
-        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
-      });
-    });
-
-    context('When errorDetail is not provided', () => {
-
-      it('should return a generic message', () => {
-        // given
-        const expectedErrorMessage = 'Un INE est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.';
-
-        // when
-        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInFileError();
-
-        // then
-        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
-      });
-    });
-  });
-
   describe('#UserNotFoundError', () => {
     it('should export a UserNotFoundError', () => {
       expect(errors.UserNotFoundError).to.exist;
