@@ -8,7 +8,7 @@ const SchoolingRegistrationParser = require('../../infrastructure/serializers/cs
 const ERRORS = {
   EMPTY: 'EMPTY',
   INE_UNIQUE: 'INE_UNIQUE',
-  INVALID_FILE_FORMAT: 'INVALID_FILE_FORMAT',
+  INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
 module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, schoolingRegistrationsXmlService, schoolingRegistrationRepository, organizationRepository }) {
@@ -25,7 +25,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
     const csvSiecleParser = SchoolingRegistrationParser.buildParser(buffer, organizationId, organization.isAgriculture);
     schoolingRegistrationData = csvSiecleParser.parse().registrations;
   } else {
-    throw new FileValidationError(ERRORS.INVALID_FILE_FORMAT);
+    throw new FileValidationError('INVALID_FILE_EXTENSION', { fileExtension: format });
   }
 
   fs.unlink(payload.path);

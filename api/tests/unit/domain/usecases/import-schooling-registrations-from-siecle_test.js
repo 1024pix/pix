@@ -213,7 +213,8 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
 
         // then
         expect(error).to.be.instanceOf(FileValidationError);
-        expect(error.code).to.equal('INVALID_FILE_FORMAT');
+        expect(error.code).to.equal('INVALID_FILE_EXTENSION');
+        expect(error.meta.fileExtension).to.equal('txt');
       });
     });
 
