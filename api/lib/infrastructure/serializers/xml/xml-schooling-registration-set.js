@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { isEmpty, isNil, each } = require('lodash');
-const { SameNationalStudentIdInFileError, ObjectValidationError } = require('../../../domain/errors');
+const { SiecleXmlImportError } = require('../../../domain/errors');
 
 const ERRORS = {
   INE_REQUIRED: 'INE_REQUIRED',
@@ -36,10 +36,10 @@ class XMLSchoolingRegistrationsSet {
 
   _checkNationalStudentIdUniqueness(nationalStudentId) {
     if (isEmpty(nationalStudentId)) {
-      throw new ObjectValidationError('L\'INE est obligatoire');
+      throw new SiecleXmlImportError(ERRORS.INE_REQUIRED);
     }
     if (this.studentIds.includes(nationalStudentId)) {
-      throw new SameNationalStudentIdInFileError(nationalStudentId);
+      throw new SiecleXmlImportError(ERRORS.INE_UNIQUE, { nationalStudentId });
     }
   }
 

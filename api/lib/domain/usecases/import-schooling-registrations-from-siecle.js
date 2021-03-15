@@ -1,4 +1,4 @@
-const { FileValidationError, SameNationalStudentIdInOrganizationError, SameNationalStudentIdInFileError } = require('../errors');
+const { FileValidationError, SiecleXmlImportError, SameNationalStudentIdInOrganizationError } = require('../errors');
 const fs = require('fs').promises;
 const bluebird = require('bluebird');
 const { SCHOOLING_REGISTRATION_CHUNK_SIZE } = require('../../infrastructure/constants');
@@ -31,7 +31,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
   fs.unlink(payload.path);
 
   if (isEmpty(schoolingRegistrationData)) {
-    throw new FileValidationError(NO_SCHOOLING_REGISTRATIONS_FOUND);
+    throw new SiecleXmlImportError(ERRORS.EMPTY);
   }
 
   try {
@@ -46,7 +46,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
     });
   } catch (err) {
     if (err instanceof SameNationalStudentIdInOrganizationError) {
-      throw new SameNationalStudentIdInFileError(err.nationalStudentId);
+      throw new SiecleXmlImportError(ERRORS.INE_UNIQUE, { nationalStudentId: err.nationalStudentId });
     }
     throw err;
   }

@@ -1,5 +1,5 @@
 const { noop, isObject } = require('lodash');
-const { FileValidationError } = require('../../../domain/errors');
+const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
 const fs = require('fs');
 const readline = require('readline');
 const Stream = require('stream');
@@ -85,7 +85,7 @@ class SiecleFileStreamer {
     try {
       decodeStream = iconv.decodeStream(this.encoding);
     } catch (err) {
-      throw new FileValidationError('L\'encodage du fichier n\'est pas supporté');
+      throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
     }
     return this.stream.pipe(decodeStream).pipe(saxParser);
   }

@@ -731,6 +731,14 @@ class CsvImportError extends DomainError {
   }
 }
 
+class SiecleXmlImportError extends DomainError {
+  constructor(code, meta) {
+    super('An error occurred during Siecle XML import');
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class NotImplementedError extends Error {
   constructor(message = 'Not implemented error.') {
     super(message);
@@ -812,6 +820,7 @@ module.exports = {
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
+  SiecleXmlImportError,
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   UnexpectedUserAccount,
