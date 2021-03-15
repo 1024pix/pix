@@ -97,7 +97,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
       // Then
-      expect(find('.answer-feedback__correct-answer')).to.exist;
+      expect(find('.qcu-solution-answer-feedback__correct-answer')).to.exist;
     });
   });
 
@@ -123,7 +123,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
       // Then
-      expect(find('.answer-feedback__wrong-answer')).to.exist;
+      expect(find('.qcu-solution-answer-feedback__expected-answer')).to.exist;
     });
 
     it('should inform the user of the correct answer', async function() {
@@ -136,9 +136,9 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
       // Then
-      const correctAnswer = find('.wrong-answer__expected-answer');
+      const correctAnswer = find('.qcu-solution-answer-feedback__expected-answer');
       expect(correctAnswer).to.exist;
-      expect(correctAnswer.innerText).to.equal(solutionAsText);
+      expect(correctAnswer.innerText).to.equal('Réponse incorrecte.\nLa bonne réponse est la réponse : ' + solutionAsText);
     });
   });
 

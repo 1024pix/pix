@@ -147,7 +147,8 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
       expect(badAnswerFromUserResult.getAttribute('data-checked')).to.equal('yes');
 
-      expect(find('.wrong-answer__expected-answer').textContent).to.contains(1);
+      expect(find('.qcu-solution-answer-feedback__expected-answer').textContent).to.contains(1);
+      expect(find('.qcu-solution-answer-feedback__expected-answer').innerHTML).to.contains('1ere <em>possibilite</em>');
 
       expect(find('.tutorial-panel__hint-container').textContent).to.contains(correction.hint);
 
