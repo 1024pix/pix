@@ -41,12 +41,11 @@ export default class ChallengeRoute extends Route {
   }
 
   @action
-  async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+  async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout) {
     const answer = this._findOrCreateAnswer(challenge, assessment);
     answer.setProperties({
       value: answerValue.trim(),
       timeout: answerTimeout,
-      elapsedTime: answerElapsedTime,
     });
 
     try {

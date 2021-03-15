@@ -10,7 +10,6 @@ export default class ChallengeItemGeneric extends Component {
   @tracked hasUserConfirmedWarning = false;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
-  @tracked _elapsedTime = null;
 
   get isTimedChallenge() {
     return isInteger(this.args.challenge.timer);
@@ -40,7 +39,7 @@ export default class ChallengeItemGeneric extends Component {
       if (this.hasChallengeTimedOut) {
         return -1 ;
       } else {
-        return this.args.challenge.timer - this._elapsedTime;
+        return this.args.challenge.timer;
       }
     } else {
       return null;
@@ -67,7 +66,7 @@ export default class ChallengeItemGeneric extends Component {
       this.errorMessage = null;
       this.isValidateButtonEnabled = false;
 
-      return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this._elapsedTime)
+      return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout())
         .finally(() => this.isValidateButtonEnabled = true);
     }
   }
@@ -83,7 +82,7 @@ export default class ChallengeItemGeneric extends Component {
       this.errorMessage = null;
       this.isSkipButtonEnabled = false;
 
-      return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this._elapsedTime)
+      return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout())
         .finally(() => this.isSkipButtonEnabled = true);
     }
   }
