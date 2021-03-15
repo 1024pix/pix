@@ -301,6 +301,9 @@
       "download-button": "Export the results",
       "select-label": "Class",
       "title": "Certifications",
+      "documentation-link-notice": "TODO",
+      "documentation-link-label": "TODO",
+      "documentation-link": "TODO",
       "errors": {
         "no-results": "No certification results for the class {selectedDivision}.",
         "invalid-division": "The class {selectedDivision} does not exist."

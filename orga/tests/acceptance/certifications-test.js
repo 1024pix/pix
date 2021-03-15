@@ -34,7 +34,7 @@ module('Acceptance | Certifications page', function(hooks) {
         await visit('/certifications');
 
         // then
-        assert.contains('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.');
+        assert.dom('.certifications-page__text').containsText('Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv. Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.');
         assert.contains('Exporter les résultats');
         assert.contains('Certifications');
         assert.contains('Classe');
@@ -47,6 +47,14 @@ module('Acceptance | Certifications page', function(hooks) {
         // then
         assert.dom('.information-banner').doesNotExist();
         assert.dom('.pix-banner').doesNotExist();
+      });
+
+      test('should show documentation about certification results link', async function(assert) {
+        // given / when
+        await visit('/certifications');
+
+        // then
+        assert.dom('a[href="https://cloud.pix.fr/s/cRaeKT4ErrXs4X8"]').exists();
       });
     });
   });
