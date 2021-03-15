@@ -30,49 +30,49 @@ class CertifiedLevel {
     reproducibilityRate,
   }) {
     if (numberOfCorrectAnswers < 2) {
-      return this._uncertified();
+      return this.uncertified();
     }
     if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
-      return this._downgraded(estimatedLevel);
+      return this.downgraded(estimatedLevel);
     }
-    return this._validated(estimatedLevel);
+    return this.validated(estimatedLevel);
   }
 
   static _scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
     if (numberOfCorrectAnswers === 2) {
-      return this._validated(estimatedLevel);
+      return this.validated(estimatedLevel);
     } else if (numberOfCorrectAnswers === 1) {
       if (reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
-        return this._validated(estimatedLevel);
+        return this.validated(estimatedLevel);
       } else if (reproducibilityRate >= 70) {
-        return this._downgraded(estimatedLevel);
+        return this.downgraded(estimatedLevel);
       } else {
-        return this._uncertified();
+        return this.uncertified();
       }
     }
-    return this._uncertified();
+    return this.uncertified();
   }
 
   static _scoreFor1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
     if (numberOfCorrectAnswers === 1) {
       if (reproducibilityRate >= 70) {
-        return this._validated(estimatedLevel);
+        return this.validated(estimatedLevel);
       } else {
-        return this._downgraded(estimatedLevel);
+        return this.downgraded(estimatedLevel);
       }
     }
-    return this._uncertified();
+    return this.uncertified();
   }
 
-  static _uncertified() {
+  static uncertified() {
     return new CertifiedLevel({ value: UNCERTIFIED_LEVEL, status: statuses.UNCERTIFIED });
   }
 
-  static _downgraded(estimatedLevel) {
+  static downgraded(estimatedLevel) {
     return new CertifiedLevel({ value: estimatedLevel - 1, status: statuses.DOWNGRADED });
   }
 
-  static _validated(estimatedLevel) {
+  static validated(estimatedLevel) {
     return new CertifiedLevel({ value: estimatedLevel, status: statuses.VALIDATED });
   }
 
