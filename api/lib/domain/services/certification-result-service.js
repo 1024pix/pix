@@ -10,6 +10,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const placementProfileService = require('./placement-profile-service');
 const { CertifiedLevel } = require('../models/CertifiedLevel');
+const { CertifiedScore } = require('../models/CertifiedScore');
 const CompetenceAnswerCollectionForScoring = require('../models/CompetenceAnswerCollectionForScoring');
 
 function _selectAnswersMatchingCertificationChallenges(answers, certificationChallenges) {
@@ -22,16 +23,6 @@ function _selectChallengesMatchingCompetences(certificationChallenges, testedCom
   return certificationChallenges.filter(
     ({ competenceId }) => _.some(testedCompetences, { id: competenceId }),
   );
-}
-
-function _computedPixToRemovePerCompetence(certifiedLevel, pixScore) {
-  if (certifiedLevel.isUncertified()) {
-    return pixScore;
-  }
-  if (certifiedLevel.isDowngraded()) {
-    return PIX_COUNT_BY_LEVEL;
-  }
-  return 0;
 }
 
 function _getSumScoreFromCertifiedCompetences(listCompetences) {
@@ -57,6 +48,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       estimatedLevel: competence.estimatedLevel,
       reproducibilityRate,
     });
+    const certifiedScore = CertifiedScore.from({ certifiedLevel, estimatedScore: competence.pixScore });
     return {
       name: competence.name,
       index: competence.index,
@@ -65,7 +57,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
       positionedLevel: scoringService.getBlockedLevel(competence.estimatedLevel),
       positionedScore: competence.pixScore,
       obtainedLevel: scoringService.getBlockedLevel(certifiedLevel.value),
-      obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(certifiedLevel, competence.pixScore),
+      obtainedScore: certifiedScore.value,
     };
   });
 }
