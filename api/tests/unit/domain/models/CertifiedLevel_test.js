@@ -7,7 +7,8 @@ const {
 } = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | CertifiedLevel', function() {
-  context('when 3 challenges were answered', () => {
+  context('rule n°1: when 3 challenges were answered', () => {
+    // TODO : Check for missing rules
     context('3 answers are correct', () => {
       it('certifies the estimated level', () => {
         // when
@@ -68,7 +69,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
     });
   });
   context('when only 2 challenges were asked', () => {
-    context('2 answers are correct', () => {
+    context('rule n°11: 2 answers are correct', () => {
       it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
@@ -84,7 +85,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
     });
-    context('only 1 answer is correct and the other one is KO', () => {
+    context('rule n°12: only 1 answer is correct and the other one is KO', () => {
       it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
@@ -113,7 +114,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isUncertified()).to.be.false;
         expect(certifiedLevel.isDowngraded()).to.be.true;
       });
-      it('does not certifies a level when reproducibility rate < 70%', () => {
+      it('does not certify a level when reproducibility rate < 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 2,

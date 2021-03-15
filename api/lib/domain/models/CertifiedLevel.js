@@ -39,7 +39,9 @@ class CertifiedLevel {
   }
 
   static _scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
-    if (numberOfCorrectAnswers === 1) {
+    if (numberOfCorrectAnswers === 2) {
+      return this._validated(estimatedLevel);
+    } else if (numberOfCorrectAnswers === 1) {
       if (reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
         return this._validated(estimatedLevel);
       } else if (reproducibilityRate >= 70) {
@@ -48,12 +50,13 @@ class CertifiedLevel {
         return this._uncertified();
       }
     }
-    return this._validated(estimatedLevel);
+    return this._uncertified();
   }
 
   static _uncertified() {
     return new CertifiedLevel({ value: UNCERTIFIED_LEVEL, status: statuses.UNCERTIFIED });
   }
+
   static _downgraded(estimatedLevel) {
     return new CertifiedLevel({ value: estimatedLevel - 1, status: statuses.DOWNGRADED });
   }
@@ -65,6 +68,7 @@ class CertifiedLevel {
   isDowngraded() {
     return this.status === statuses.DOWNGRADED;
   }
+
   isUncertified() {
     return this.status === statuses.UNCERTIFIED;
   }
