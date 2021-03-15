@@ -5,7 +5,6 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import times from 'lodash/times';
-import config from '../../../config/environment';
 
 const assessment = {};
 let challenge = null;
@@ -24,250 +23,214 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
     id: 'answer_id', assessment, challenge, value: '3',
   };
 
-  context('When toggle for improving wrong answers display is true', function() {
+  it('Should render', async function() {
+    await render(hbs`<QcuSolutionPanel/>`);
+    expect(find('.qcu-solution-panel')).to.exist;
+  });
 
-    let configurationForImprovingDisplayForWrongAnswers;
+  describe('Radio state', function() {
 
     before(function() {
-      configurationForImprovingDisplayForWrongAnswers = config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU;
-      config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = true;
+      challenge = EmberObject.create({
+        id: 'challenge_id',
+        proposals: '-foo\n- bar\n- qix\n- yon',
+        type: 'QCU',
+      });
+
+      solution = '2';
+
+      answer = {
+        id: 'answer_id',
+        assessment,
+        challenge,
+        value: '2',
+      };
     });
 
-    after(function() {
-      config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = configurationForImprovingDisplayForWrongAnswers;
+    it('Should display only user answer', async function() {
+      // Given
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+
+      // Then
+      expect(findAll('[data-goodness=good]').length).to.equal(1);
     });
 
-    it('Should render', async function() {
-      await render(hbs`<QcuSolutionPanel/>`);
-      expect(find('.qcu-solution-panel')).to.exist;
-    });
+    it('should not be editable', async function() {
+      //Given
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
 
-    describe('Radio state', function() {
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
-      before(function() {
-        challenge = EmberObject.create({
-          id: 'challenge_id',
-          proposals: '-foo\n- bar\n- qix\n- yon',
-          type: 'QCU',
-        });
-
-        solution = '2';
-
-        answer = {
-          id: 'answer_id',
-          assessment,
-          challenge,
-          value: '2',
-        };
-      });
-
-      it('Should display only user answer', async function() {
-        // Given
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-        // When
-        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
-
-        // Then
-        expect(findAll('[data-goodness=good]').length).to.equal(1);
-      });
-
-      it('should not be editable', async function() {
-        //Given
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-
-        // When
-        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
-
-        // Then
-        times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
-          expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
-        });
-      });
-    });
-
-    describe('When answer is correct', function() {
-
-      before(function() {
-        challenge = EmberObject.create({
-          id: 'challenge_id',
-          proposals: '-foo\n- bar\n- qix\n- yon',
-          type: 'QCU',
-        });
-
-        solution = '2';
-      });
-
-      it('should inform that the answer is correct', async function() {
-        //Given
-        this.set('answer', correctAnswer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-
-        // When
-        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
-
-        // Then
-        expect(find('.answer-feedback__correct-answer')).to.exist;
-      });
-    });
-
-    describe('When answer is wrong', function() {
-      before(function() {
-        challenge = EmberObject.create({
-          id: 'challenge_id',
-          proposals: '-foo\n- bar\n- qix\n- yon',
-          type: 'QCU',
-        });
-
-        solution = '2';
-        solutionAsText = 'bar';
-      });
-
-      it('should inform that the answer is wrong', async function() {
-        //Given
-        this.set('answer', unCorrectAnswer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-
-        // When
-        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
-
-        // Then
-        expect(find('.answer-feedback__wrong-answer')).to.exist;
-      });
-
-      it('should inform the user of the correct answer', async function() {
-        // Given
-        this.set('answer', unCorrectAnswer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-
-        // When
-        await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
-
-        // Then
-        const correctAnswer = find('.wrong-answer__expected-answer');
-        expect(correctAnswer).to.exist;
-        expect(correctAnswer.innerText).to.equal(solutionAsText);
+      // Then
+      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
+        expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
       });
     });
   });
 
-  context('When toggle for improving wrong answers display is false', function() {
-    describe('#Component should render: ', function() {
+  describe('When answer is correct', function() {
 
-      let configurationForImprovingDisplayForWrongAnswers;
-
-      before(function() {
-        configurationForImprovingDisplayForWrongAnswers = config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU;
-        config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = false;
+    before(function() {
+      challenge = EmberObject.create({
+        id: 'challenge_id',
+        proposals: '-foo\n- bar\n- qix\n- yon',
+        type: 'QCU',
       });
 
-      after(function() {
-        config.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU = configurationForImprovingDisplayForWrongAnswers;
+      solution = '2';
+    });
+
+    it('should inform that the answer is correct', async function() {
+      //Given
+      this.set('answer', correctAnswer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+
+      // Then
+      expect(find('.answer-feedback__correct-answer')).to.exist;
+    });
+  });
+
+  describe('When answer is wrong', function() {
+    before(function() {
+      challenge = EmberObject.create({
+        id: 'challenge_id',
+        proposals: '-foo\n- bar\n- qix\n- yon',
+        type: 'QCU',
       });
 
-      it('Should render', async function() {
-        await render(hbs`<QcuSolutionPanel/>`);
-        expect(find('.qcu-solution-panel')).to.exist;
-        expect(findAll('.qcu-solution-panel__proposition')).to.have.lengthOf(0);
+      solution = '2';
+      solutionAsText = 'bar';
+    });
+
+    it('should inform that the answer is wrong', async function() {
+      //Given
+      this.set('answer', unCorrectAnswer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+
+      // Then
+      expect(find('.answer-feedback__wrong-answer')).to.exist;
+    });
+
+    it('should inform the user of the correct answer', async function() {
+      // Given
+      this.set('answer', unCorrectAnswer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+
+      // Then
+      const correctAnswer = find('.wrong-answer__expected-answer');
+      expect(correctAnswer).to.exist;
+      expect(correctAnswer.innerText).to.equal(solutionAsText);
+    });
+  });
+
+  describe('All Radio states', function() {
+
+    before(function() {
+      challenge = EmberObject.create({
+        id: 'challenge_id',
+        proposals: '-foo\n- bar\n- qix\n- yon',
+        type: 'QCM',
       });
 
-      describe('Radio state', function() {
+      solution = '2';
 
-        before(function() {
-          challenge = EmberObject.create({
-            id: 'challenge_id',
-            proposals: '-foo\n- bar\n- qix\n- yon',
-            type: 'QCM',
-          });
+      answer = EmberObject.create(correctAnswer);
+    });
 
-          solution = '2';
+    it('QCU, correct answer is checked', async function() {
+      //Given
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
-          answer = EmberObject.create(correctAnswer);
-        });
+      // Then
+      expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('yes');
+      expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness')).to.equal('good');
+      expect(findAll('.qcu-solution-panel__radio-button')[1].innerHTML).to.contains('Votre réponse');
+    });
 
-        it('QCU,la réponse correcte est cochée', async function() {
-          //Given
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-          // When
-          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+    it('QCU, correct answer is not checked', async function() {
+      //Given
+      answer = EmberObject.create(unCorrectAnswer);
 
-          // Then
-          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('yes');
-          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness')).to.equal('good');
-          expect(findAll('.qcu-solution-panel__radio-button')[1].innerHTML).to.contains('Votre réponse');
-        });
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
 
-        it('QCU, la réponse correcte n\'est pas cochée', async function() {
-          //Given
-          answer = EmberObject.create(unCorrectAnswer);
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
+      // Then
+      expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('no');
+      expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness')).to.equal('good');
+      expect(findAll('.qcu-solution-panel__radio-button')[1].innerHTML).to.contains('Autre proposition');
+    });
 
-          // When
-          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+    it('QCU, incorrect answer is not checked', async function() {
+      //Given
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
 
-          // Then
-          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('no');
-          expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-goodness')).to.equal('good');
-          expect(findAll('.qcu-solution-panel__radio-button')[1].innerHTML).to.contains('Autre proposition');
-        });
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
-        it('QCU, la réponse incorrecte n\'est pas cochée', async function() {
-          //Given
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
+      // Then
+      expect(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-checked')).to.equal('no');
+      expect(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-goodness')).to.equal('bad');
+      expect(findAll('.qcu-solution-panel__radio-button')[0].innerHTML).to.contains('Autre proposition');
+    });
 
-          // When
-          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+    it('QCU, incorrect answer is checked', async function() {
+      //Given
+      answer = EmberObject.create(unCorrectAnswer);
 
-          // Then
-          expect(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-checked')).to.equal('no');
-          expect(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-goodness')).to.equal('bad');
-          expect(findAll('.qcu-solution-panel__radio-button')[0].innerHTML).to.contains('Autre proposition');
-        });
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
 
-        it('QCU,la réponse incorrecte est cochée', async function() {
-          //Given
-          answer = EmberObject.create(unCorrectAnswer);
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
+      // Then
+      expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-checked')).to.equal('yes');
+      expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-goodness')).to.equal('bad');
+      expect(findAll('.qcu-solution-panel__radio-button')[2].innerHTML).to.contains('Votre réponse');
+    });
 
-          // When
-          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+    it('Should avoid click on radio button', async function() {
+      //Given
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('challenge', challenge);
 
-          // Then
-          expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-checked')).to.equal('yes');
-          expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-goodness')).to.equal('bad');
-          expect(findAll('.qcu-solution-panel__radio-button')[2].innerHTML).to.contains('Votre réponse');
-        });
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
-        it('Aucune case à cocher n\'est cliquable', async function() {
-          //Given
-          this.set('answer', answer);
-          this.set('solution', solution);
-          this.set('challenge', challenge);
-
-          // When
-          await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
-
-          // Then
-          times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
-            expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
-          });
-        });
+      // Then
+      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
+        expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
       });
     });
   });
