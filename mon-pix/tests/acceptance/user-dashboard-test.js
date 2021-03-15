@@ -1,7 +1,6 @@
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, click, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentication';
-import { click, find } from '@ember/test-helpers';
 import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
@@ -15,11 +14,11 @@ describe('Acceptance | User dashboard page', function() {
   setupMirage();
   let user;
 
-  beforeEach(async function() {
-    user = server.create('user', 'withEmail');
-  });
-
   describe('Visit the user dashboard page', function() {
+
+    beforeEach(async function() {
+      user = server.create('user', 'withEmail');
+    });
 
     it('is not possible when user is not connected', async function() {
       // when
@@ -42,6 +41,11 @@ describe('Acceptance | User dashboard page', function() {
   });
 
   describe('campaign-participation-overviews', function() {
+
+    beforeEach(async function() {
+      user = server.create('user', 'withEmail');
+    });
+
     describe('when user is doing a campaign of type assessment', function() {
 
       context('when user has not completed the campaign', () => {
@@ -141,6 +145,7 @@ describe('Acceptance | User dashboard page', function() {
   describe('recommended-competences', function() {
 
     beforeEach(async function() {
+      user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       await visit('/accueil');
     });
@@ -158,6 +163,7 @@ describe('Acceptance | User dashboard page', function() {
   describe('started-competences', function() {
 
     beforeEach(async function() {
+      user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
       await visit('/accueil');
     });
@@ -176,29 +182,45 @@ describe('Acceptance | User dashboard page', function() {
     });
   });
 
-  describe('new dashboard information', function() {
+  describe('new-information', function() {
 
     afterEach(async function() {
       await invalidateSession();
     });
 
-    describe('when user is doing a campaign of type collect profile', function() {
-
-      let campaign;
+    describe('when user has new information to see', function() {
 
       beforeEach(async function() {
-        campaign = server.create('campaign', {
-          isArchived: false,
-          title: 'SomeTitle',
-          type: 'PROFILES_COLLECTION',
+        user = server.create('user', 'withEmail');
+      });
+
+      describe('when user has closable information', function() {
+        it('should close new dashboard information on user click', async function() {
+          // given
+          await authenticateByEmail(user);
+          await visit('/accueil');
+          expect(find('.new-information')).to.exist;
+
+          // when
+          await click('.new-information__close');
+
+          // then
+          expect(find('.new-information')).not.to.exist;
         });
       });
 
-      describe('and user has not shared the collect profile campaign', () => {
+      describe('when user is doing a campaign of type collect profile', function() {
 
-        let campaignParticipation;
+        let campaign, campaignParticipation;
 
         beforeEach(async function() {
+          campaign = server.create('campaign', {
+            isArchived: false,
+            title: 'SomeTitle',
+            type: 'PROFILES_COLLECTION',
+            code: 'SNAP1234',
+          });
+
           campaignParticipation = server.create('campaign-participation', {
             campaign,
             user,
@@ -211,44 +233,56 @@ describe('Acceptance | User dashboard page', function() {
           await authenticateByEmail(user);
         });
 
-        it('should display a resume campaign banner for the campaign', async function() {
-          // when
-          await visit('/accueil');
+        describe('when user has not shared his results', () => {
 
-          // then
-          expect(find('.new-information__content')).to.exist;
-          expect(find('.new-information-content-text__button')).to.exist;
+          it('should display a resume campaign banner for the campaign', async function() {
+            // when
+            await visit('/accueil');
+
+            // then
+            expect(find('.new-information__content')).to.exist;
+            expect(find('.new-information-content-text__button')).to.exist;
+          });
+
+          it('should display accessibility information in the banner', async function() {
+            // when
+            await visit('/accueil');
+
+            // then
+            const button = find('.new-information-content-text__button');
+            const a11yText = button.firstChild.textContent;
+            expect(button).to.exist;
+            expect(a11yText).to.exist;
+          });
         });
 
-        it('should display accessibility information in the banner', async function() {
-          // when
-          await visit('/accueil');
+        describe('when users wants to share his results by clicking the resume button', function() {
+          it('should redirect the user to the campaign results sharing page', async function() {
+            // given
+            await visit('/accueil');
 
-          // then
-          const button = find('.new-information-content-text__button');
-          const a11yText = button.firstChild.textContent;
-          expect(button).to.exist;
-          expect(a11yText).to.exist;
+            // when
+            await click('.new-information-content-text__button');
+
+            // then
+            expect(currentURL()).to.equal('/campagnes/SNAP1234/collecte/envoi-profil');
+          });
         });
       });
     });
 
-    describe('when user has new information to see', function() {
+    describe('when user has no new information to see', function() {
 
-      beforeEach(async function() {
-        await authenticateByEmail(user);
-      });
-
-      it('should close new dashboard information on user click', async function() {
+      it('should not render any new-information banner', async function() {
         // given
-        await visit('/accueil');
-        expect(find('.new-information')).to.exist;
+        user = server.create('user', 'withEmail', 'hasSeenNewDashboardInfo');
+        console.log(user);
 
         // when
-        await click('.new-information__close');
+        await authenticateByEmail(user);
 
         // then
-        expect(find('.new-information')).not.to.exist;
+        expect(find('.new-information__content')).not.to.exist;
       });
     });
   });
