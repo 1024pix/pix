@@ -360,15 +360,14 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = bufferWithMalformedStudent;
         });
 
-        it('should not import any schoolingRegistration and return a 422', async () => {
+        it('should not import any schoolingRegistration and return a 412', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('L’INE 00000000123 est présent plusieurs fois dans le fichier. La base SIECLE doit être corrigée pour supprimer les doublons. Réimportez ensuite le nouveau fichier.');
+          expect(response.statusCode).to.equal(412);
         });
       });
 
@@ -746,15 +745,14 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.payload = malformedBuffer;
         });
 
-        it('should return a 422 - Unprocessable Entity', async () => {
+        it('should return a 412 - Precondition Failed', async () => {
           // when
           const response = await server.inject(options);
 
           // then
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(422);
-          expect(response.result.errors[0].detail).to.equal('Aucun élève n’a pu être importé depuis ce fichier. Vérifiez que le fichier est conforme.');
+          expect(response.statusCode).to.equal(412);
         });
       });
     });

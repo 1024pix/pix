@@ -67,6 +67,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CsvImportError).to.exist;
   });
 
+  it('should export a SiecleXmlImportError', () => {
+    expect(errors.SiecleXmlImportError).to.exist;
+  });
+
   it('should export a AuthenticationMethodNotFoundError', () => {
     expect(errors.AuthenticationMethodNotFoundError).to.exist;
   });

@@ -1,4 +1,4 @@
-const { FileValidationError } = require('../../../domain/errors');
+const { SiecleXmlImportError } = require('../../../domain/errors');
 const xml2js = require('xml2js');
 const saxPath = require('saxpath');
 const { isEmpty, isUndefined } = require('lodash');
@@ -44,7 +44,7 @@ class SiecleParser {
         if (err) return reject(err);// Si j'enleve cette ligne les tests passent
         const UAIFromUserOrganization = this.organization.externalId;
         if (nodeData.UAJ !== UAIFromUserOrganization) {
-          reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
+          reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
         } else {
           resolve();
         }
@@ -52,7 +52,7 @@ class SiecleParser {
     });
 
     stream.on('end', () => {
-      reject(new FileValidationError(UAI_SIECLE_FILE_NOT_MATCH_ORGANIZATION_UAI));
+      reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
     });
   }
 
