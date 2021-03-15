@@ -20,8 +20,6 @@ const PIX_NAME_FR = 'PIX - Ne pas répondre';
 const PIX_NAME_EN = 'PIX - Noreply';
 const HELPDESK_FR = 'https://support.pix.fr/support/tickets/new';
 const HELPDESK_EN = 'https://pix.org/en-gb/help-form';
-const ORGANIZATION_INVITATION_EMAIL_SUBJECT_FR = 'Invitation à rejoindre Pix Orga';
-const ORGANIZATION_INVITATION_EMAIL_SUBJECT_EN = 'Invitation to join Pix Orga';
 
 const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';
 
@@ -174,7 +172,7 @@ function sendOrganizationInvitationEmail({
 }) {
   locale = locale ? locale : FRENCH_FRANCE;
   let pixOrgaName = PIX_ORGA_NAME_FR;
-  let sendOrganizationInvitationEmailSubject = ORGANIZATION_INVITATION_EMAIL_SUBJECT_FR;
+  let sendOrganizationInvitationEmailSubject = frTranslations['organization-invitation-email'].subject;
 
   let templateParams = {
     organizationName,
@@ -209,7 +207,7 @@ function sendOrganizationInvitationEmail({
       ...enTranslations['organization-invitation-email'].params,
     };
     pixOrgaName = PIX_ORGA_NAME_EN;
-    sendOrganizationInvitationEmailSubject = ORGANIZATION_INVITATION_EMAIL_SUBJECT_EN;
+    sendOrganizationInvitationEmailSubject = enTranslations['organization-invitation-email'].subject;
   }
 
   return mailer.sendEmail({

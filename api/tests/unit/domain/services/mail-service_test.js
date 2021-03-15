@@ -381,7 +381,7 @@ describe('Unit | Service | MailService', () => {
             locale: undefined,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
-              subject: 'Invitation à rejoindre Pix Orga',
+              subject: translationsMapping.fr.subject,
               variables: {
                 pixHomeName: 'pix.fr',
                 pixHomeUrl: 'https://pix.fr',
@@ -396,7 +396,7 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_SPOKEN,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
-              subject: 'Invitation à rejoindre Pix Orga',
+              subject: translationsMapping.fr.subject,
               variables: {
                 pixHomeName: 'pix.org',
                 pixHomeUrl: 'https://pix.org',
@@ -411,7 +411,7 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_FRANCE,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
-              subject: 'Invitation à rejoindre Pix Orga',
+              subject: translationsMapping.fr.subject,
               variables: {
                 pixHomeName: 'pix.fr',
                 pixHomeUrl: 'https://pix.fr',
@@ -426,7 +426,7 @@ describe('Unit | Service | MailService', () => {
             locale: ENGLISH_SPOKEN,
             expected: {
               fromName: 'Pix Orga - Noreply',
-              subject: 'Invitation to join Pix Orga',
+              subject: translationsMapping.en.subject,
               variables: {
                 pixHomeName: 'pix.org',
                 pixHomeUrl: 'https://pix.org/en-gb/',
