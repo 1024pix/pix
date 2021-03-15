@@ -1,11 +1,14 @@
 const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
+const HigherSchoolingRegistrationColumns = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-columns');
 
+const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
 const createServer = require('../../../../server');
-const { COLUMNS } = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-parser');
-let server;
 
-const higherSchoolingRegistrationColumns = COLUMNS.map((column) => column.label).join(';');
+const i18n = getI18n();
+const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
+
+let server;
 
 describe('Acceptance | Application | organization-controller-import-higher-schooling-registrations', () => {
 

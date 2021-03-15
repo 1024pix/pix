@@ -1,9 +1,12 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
 const HigherSchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-parser');
+const HigherSchoolingRegistrationColumns = require('../../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-columns');
 const _ = require('lodash');
+const { getI18n } = require('../../../../../tests/tooling/i18n/i18n');
+const i18n = getI18n();
 
-const higherSchoolingRegistrationColumns = HigherSchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
+const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
 
 describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
   context('when the header is correctly formed', () => {
@@ -11,7 +14,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
       it('returns an empty HigherSchoolingRegistrationSet', () => {
         const input = higherSchoolingRegistrationColumns;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherSchoolingRegistrationParser(encodedInput, 123);
+        const parser = new HigherSchoolingRegistrationParser(encodedInput, 123, i18n);
 
         const higherSchoolingRegistrationSet = parser.parse();
 
@@ -25,7 +28,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherSchoolingRegistrationParser(encodedInput, 456);
+        const parser = new HigherSchoolingRegistrationParser(encodedInput, 456, i18n);
 
         const higherSchoolingRegistrationSet = parser.parse();
         const registrations = higherSchoolingRegistrationSet.registrations;
@@ -39,7 +42,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
         `;
         const organizationId = 789;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
+        const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId, i18n);
 
         const higherSchoolingRegistrationSet = parser.parse();
         const registrations = _.sortBy(higherSchoolingRegistrationSet.registrations, 'preferredLastName');
@@ -89,7 +92,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId, i18n);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -102,7 +105,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', () => {
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123@;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1971;thebride@example.net;1234;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId);
+      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId, i18n);
 
       const error = await catchErr(parser.parse, parser)();
 
