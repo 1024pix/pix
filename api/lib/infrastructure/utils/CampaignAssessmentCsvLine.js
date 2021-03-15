@@ -2,7 +2,6 @@ const moment = require('moment');
 const _ = require('lodash');
 
 const STATS_COLUMNS_COUNT = 3;
-const EMPTY_CONTENT = 'NA';
 
 class CampaignAssessmentCsvLine {
   constructor({
@@ -13,6 +12,7 @@ class CampaignAssessmentCsvLine {
     participantKnowledgeElementsByCompetenceId,
     acquiredBadges,
     campaignParticipationService,
+    translate,
   }) {
     this.organization = organization;
     this.campaign = campaign;
@@ -22,6 +22,9 @@ class CampaignAssessmentCsvLine {
     this.targetedKnowledgeElementsByCompetence = participantKnowledgeElementsByCompetenceId;
     this.acquiredBadges = acquiredBadges;
     this.campaignParticipationService = campaignParticipationService;
+    this.translate = translate;
+
+    this.emptyContent = translate('campaign-export.common.not-available');
 
     // To have the good `this` in _getStatsForCompetence, it is necessary to bind it
     this._getStatsForCompetence = this._getStatsForCompetence.bind(this);
@@ -43,7 +46,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeEmptyColumns(times) {
-    return _.times(times, () => EMPTY_CONTENT);
+    return _.times(times, () => this.emptyContent);
   }
 
   _getStatsForCompetence(competence) {
@@ -76,7 +79,7 @@ class CampaignAssessmentCsvLine {
   }
 
   _makeBadgesColumns() {
-    return _.flatMap(this.targetProfileWithLearningContent.badges, ({ title }) => _.includes(this.acquiredBadges, title) ? 'Oui' : 'Non');
+    return _.flatMap(this.targetProfileWithLearningContent.badges, ({ title }) => this._makeYesNoColumns(_.includes(this.acquiredBadges, title)));
   }
 
   _makeCommonColumns() {
@@ -92,11 +95,11 @@ class CampaignAssessmentCsvLine {
       ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
       this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.targetedKnowledgeElementsCount, this.targetProfileWithLearningContent.skills.length),
       moment.utc(this.campaignParticipationInfo.createdAt).format('YYYY-MM-DD'),
-      this.campaignParticipationInfo.isShared ? 'Oui' : 'Non',
-      this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : EMPTY_CONTENT,
+      this._makeYesNoColumns(this.campaignParticipationInfo.isShared),
+      this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : this.emptyContent,
       ...(this.targetProfileWithLearningContent.hasReachableStages() ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfileWithLearningContent.badges.length)),
-      this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : EMPTY_CONTENT,
+      this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : this.emptyContent,
     ];
   }
 
@@ -106,6 +109,10 @@ class CampaignAssessmentCsvLine {
       ...this._makeAreaColumns(),
       ...this.organization.isSco ? [] : _.map(this.targetProfileWithLearningContent.skills, (targetedSkill) => this._makeSkillColumn(targetedSkill)),
     ];
+  }
+
+  _makeYesNoColumns(isTrue) {
+    return isTrue ? this.translate('campaign-export.common.yes') : this.translate('campaign-export.common.no');
   }
 
   _makeNotSharedColumns() {
@@ -125,8 +132,8 @@ class CampaignAssessmentCsvLine {
     }
 
     return knowledgeElementForSkill
-      ? (knowledgeElementForSkill.isValidated ? 'OK' : 'KO')
-      : 'Non testé';
+      ? (knowledgeElementForSkill.isValidated ? this.translate('campaign-export.assessment.status.ok') : this.translate('campaign-export.assessment.status.ko'))
+      : this.translate('campaign-export.assessment.status.not-tested');
 
   }
 
@@ -149,7 +156,7 @@ class CampaignAssessmentCsvLine {
 
   _getReachedStage() {
     if (!this.campaignParticipationInfo.isShared) {
-      return EMPTY_CONTENT;
+      return this.emptyContent;
     }
 
     const percentageSkillsValidated = this._percentageSkillsValidated() * 100;

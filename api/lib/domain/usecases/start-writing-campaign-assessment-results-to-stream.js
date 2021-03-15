@@ -11,6 +11,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     userId,
     campaignId,
     writableStream,
+    i18n,
     campaignRepository,
     userRepository,
     targetProfileWithLearningContentRepository,
@@ -22,15 +23,16 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   }) {
 
   const campaign = await campaignRepository.get(campaignId);
+  const translate = i18n.__;
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: campaign.targetProfileId });
+  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: campaign.targetProfileId, locale: i18n.getLocale() });
   const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
   // Create HEADER of CSV
-  const headers = _createHeaderOfCSV(targetProfileWithLearningContent, campaign.idPixLabel, organization.type, organization.isManagingStudents);
+  const headers = _createHeaderOfCSV(targetProfileWithLearningContent, campaign.idPixLabel, organization, translate);
 
   // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
   // - https://en.wikipedia.org/wiki/Byte_order_mark
@@ -72,6 +74,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
         targetProfileWithLearningContent,
         participantKnowledgeElementsByCompetenceId,
         acquiredBadges,
+        translate,
       });
       csvLines = csvLines.concat(csvLine);
     }
@@ -84,7 +87,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
     throw error;
   });
 
-  const fileName = `Resultats-${campaign.name}-${campaign.id}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
+  const fileName = translate('campaign-export.common.file-name', { name: campaign.name, id: campaign.id, date: moment.utc().format('YYYY-MM-DD-hhmm') });
   return { fileName };
 };
 
@@ -98,42 +101,44 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
   }
 }
 
-function _createHeaderOfCSV(targetProfile, idPixLabel, organizationType, organizationIsManagingStudents) {
-  return [
-    'Nom de l\'organisation',
-    'ID Campagne',
-    'Nom de la campagne',
-    'Nom du Profil Cible',
-    'Nom du Participant',
-    'Prénom du Participant',
-    ...((organizationType === 'SCO' && organizationIsManagingStudents) ? ['Classe'] : []),
-    ...((organizationType === 'SUP' && organizationIsManagingStudents) ? ['Numéro Étudiant'] : []),
+function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) {
+  const displayStudentNumber = organization.isSup && organization.isManagingStudents;
+  const displayDivision = organization.isSco && organization.isManagingStudents;
 
+  return [
+    translate('campaign-export.common.organization-name'),
+    translate('campaign-export.common.campaign-id'),
+    translate('campaign-export.common.campaign-name'),
+    translate('campaign-export.assessment.target-profile-name'),
+    translate('campaign-export.common.participant-lastname'),
+    translate('campaign-export.common.participant-firstname'),
+    ...(displayDivision ? [translate('campaign-export.common.participant-division')] : []),
+    ...(displayStudentNumber ? [translate('campaign-export.common.participant-student-number')] : []),
     ...(idPixLabel ? [idPixLabel] : []),
 
-    '% de progression',
-    'Date de début',
-    'Partage (O/N)',
-    'Date du partage',
-    ...(targetProfile.hasReachableStages() ? [`Palier obtenu (/${targetProfile.reachableStages.length})`] : []),
+    translate('campaign-export.assessment.progress'),
+    translate('campaign-export.assessment.started-on'),
+    translate('campaign-export.assessment.is-shared'),
+    translate('campaign-export.assessment.shared-on'),
+    ...(targetProfile.hasReachableStages() ? [translate('campaign-export.assessment.success-rate', { value: targetProfile.reachableStages.length })] : []),
 
     ...(_.flatMap(targetProfile.badges, (badge) => [
-      `${badge.title} obtenu (O/N)`,
+      translate('campaign-export.assessment.thematic-result-name', { name: badge.title }),
     ])),
-    '% maitrise de l\'ensemble des acquis du profil',
+    translate('campaign-export.assessment.mastery-percentage-target-profile'),
 
     ...(_.flatMap(targetProfile.competences, (competence) => [
-      `% de maitrise des acquis de la compétence ${competence.name}`,
-      `Nombre d'acquis du profil cible dans la compétence ${competence.name}`,
-      `Acquis maitrisés dans la compétence ${competence.name}`,
+      translate('campaign-export.assessment.skill.mastery-percentage', { name: competence.name }),
+      translate('campaign-export.assessment.skill.total-items', { name: competence.name }),
+      translate('campaign-export.assessment.skill.items-successfully-completed', { name: competence.name }),
     ])),
 
     ...(_.flatMap(targetProfile.areas, (area) => [
-      `% de maitrise des acquis du domaine ${area.title}`,
-      `Nombre d'acquis du profil cible du domaine ${area.title}`,
-      `Acquis maitrisés du domaine ${area.title}`,
+      translate('campaign-export.assessment.competence-area.mastery-percentage', { name: area.title }),
+      translate('campaign-export.assessment.competence-area.total-items', { name: area.title }),
+      translate('campaign-export.assessment.competence-area.items-successfully-completed', { name: area.title }),
     ])),
 
-    ...(organizationType === 'SCO' ? [] : targetProfile.skillNames),
+    ...(organization.isSco ? [] : targetProfile.skillNames),
   ];
 }
