@@ -50,6 +50,7 @@
     }
   },
   "organization-invitation-email": {
+    "subject": "Invitation to join Pix Orga",
     "params": {
       "title": "You are invited to join Pix Orga",
       "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
