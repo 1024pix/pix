@@ -446,6 +446,48 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', () => {
       });
     });
 
+    context('when isMediationNumerique is true', () => {
+      it('should serialize prescriber with isMediationNumerique', () => {
+        // given
+        const user = domainBuilder.buildUser({
+          pixOrgaTermsOfServiceAccepted: true,
+          memberships: [],
+          certificationCenterMemberships: [],
+        });
+
+        const tags = [domainBuilder.buildTag({ name: 'MEDNUM' })];
+        const organization = domainBuilder.buildOrganization({ type: 'PRO', tags });
+
+        const membership = domainBuilder.buildMembership({
+          organization,
+          organizationRole: Membership.roles.MEMBER,
+          user,
+        });
+
+        const userOrgaSettings = domainBuilder.buildUserOrgaSettings({
+          currentOrganization: organization,
+        });
+        userOrgaSettings.user = null;
+
+        const prescriber = domainBuilder.buildPrescriber({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          areNewYearSchoolingRegistrationsImported: false,
+          pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
+          memberships: [membership],
+          userOrgaSettings,
+        });
+
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-mediation-numerique', field: 'isMediationNumerique' });
+
+        // when
+        const result = serializer.serialize(prescriber);
+
+        // then
+        expect(result).to.be.deep.equal(expectedPrescriberSerialized);
+      });
+    });
+
     context('when all booleans are false', () => {
       it('should serialize prescriber without these booleans', () => {
         // given

@@ -265,4 +265,39 @@ describe('Unit | Domain | Models | Organization', () => {
       });
     });
   });
+
+  describe('get#isMediationNumerique', () => {
+    context('when organization is not PRO', () => {
+      it('should return false when the organization has the "MEDIATION_NUMERIQUE" tag', () => {
+        // given
+        const tag = domainBuilder.buildTag({ name: Tag.MEDIATION_NUMERIQUE });
+        const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag] });
+
+        // when / then
+        expect(organization.isMediationNumerique).is.false;
+      });
+    });
+
+    context('when organization is PRO', () => {
+      it('should return true when organization is of type SCO and has the "MEDIATION_NUMERIQUE" tag', () => {
+        // given
+        const tag1 = domainBuilder.buildTag({ name: Tag.MEDIATION_NUMERIQUE });
+        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
+        const organization = domainBuilder.buildOrganization({ type: 'PRO', tags: [tag1, tag2] });
+
+        // when / then
+        expect(organization.isMediationNumerique).is.true;
+      });
+
+      it('should return false when when organization is of type PRO and has not the "MEDIATION_NUMERIQUE" tag', () => {
+        // given
+        const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
+        const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
+        const organization = domainBuilder.buildOrganization({ type: 'PRO', tags: [tag1, tag2] });
+
+        // when / then
+        expect(organization.isMLF).is.false;
+      });
+    });
+  });
 });
