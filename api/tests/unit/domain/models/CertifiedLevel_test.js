@@ -7,9 +7,9 @@ const {
 } = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | CertifiedLevel', function() {
-  context('rule n°1: when 3 challenges were answered', () => {
+  context('when 3 challenges were answered', () => {
     // TODO : Check for missing rules
-    context('3 answers are correct', () => {
+    context('rule n°1: 3 answers are correct', () => {
       it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
