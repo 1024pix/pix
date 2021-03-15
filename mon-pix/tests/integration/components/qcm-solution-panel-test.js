@@ -36,7 +36,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       before(function() {
         challenge = EmberObject.create({
           id: 'challenge_id',
-          proposals: '-foo\n- bar\n- qix\n- yon',
+          proposals: '-*possibilite* 1\n-[possibilite 2](data:test)\n- ![possibilite 3](/images/pix-logo-blanc.svg)\n- yon',
           type: 'QCM',
         });
 
@@ -58,6 +58,9 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(findAll('.qcm-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('yes');
         expect(findAll('input[type=checkbox]')[1].getAttribute('disabled')).to.equal('disabled');
         expect(findAll('.qcm-proposal-label__oracle')[1].getAttribute('data-goodness')).to.equal('good');
+        expect(findAll('.qcm-proposal-label__oracle')[1].innerHTML).to.equal(
+          '<p><a href="data:test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>\n',
+        );
       });
 
       it('QCM, une réponse incorrecte n\'est pas cochée', async function() {
@@ -72,6 +75,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         // Then
         expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('no');
         expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
+        expect(findAll('.qcm-proposal-label__oracle')[0].innerHTML).to.equal('<p><em>possibilite</em> 1</p>\n');
       });
 
       it('QCM, Au moins l\'une des réponses correctes n\'est pas cochée', async function() {
@@ -88,6 +92,9 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         // Then
         expect(findAll('.qcm-proposal-label__oracle')[2].getAttribute('data-checked')).to.equal('no');
         expect(findAll('.qcm-proposal-label__oracle')[2].getAttribute('data-goodness')).to.equal('good');
+        expect(findAll('.qcm-proposal-label__oracle')[2].innerHTML).to.equal(
+          '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>\n',
+        );
       });
 
       it('QCM, au moins l\'une des réponses incorrectes est cochée', async function() {
