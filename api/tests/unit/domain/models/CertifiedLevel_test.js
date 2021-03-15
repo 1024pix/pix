@@ -130,4 +130,36 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
   });
+  context('when only 1 challenge was asked', () => {
+    context('rule n°17: and the answer is correct', () => {
+      it('certifies the estimated level when reproducibility rate >= 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 1,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 70,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+      it('certifies a level below the estimated level when reproducibility rate < 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 1,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 69,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(2);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.true;
+      });
+    });
+  });
 });
