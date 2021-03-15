@@ -242,5 +242,74 @@ describe('Integration | Repository | Campaign Participation Result', () => {
       });
     });
 
+    context('when the target profile has some stages', () => {
+      it('returns the stage reached', async () => {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+        });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+        databaseBuilder.factory.buildStage({ id: 10, title: 'StageO', message: 'Message0', targetProfileId, threshold: 0 });
+        databaseBuilder.factory.buildStage({ id: 1, title: 'Stage1', message: 'Message1', targetProfileId, threshold: 10 });
+        databaseBuilder.factory.buildStage({ id: 2, title: 'Stage2', message: 'Message2', targetProfileId, threshold: 50 });
+        databaseBuilder.factory.buildStage({ id: 3, title: 'Stage3', message: 'Message3', targetProfileId, threshold: 100 });
+
+        const knowledgeElementsAttributes = [
+          {
+            userId,
+            skillId: 'skill1',
+            competenceId: 'rec1',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill2',
+            competenceId: 'rec1',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill3',
+            competenceId: 'rec2',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.INVALIDATED,
+          },
+          {
+            userId,
+            skillId: 'skill4',
+            competenceId: 'rec2',
+            createdAt: new Date('2020-01-01'),
+            status: KnowledgeElement.StatusType.VALIDATED,
+          },
+        ];
+
+        databaseBuilder
+          .factory
+          .knowledgeElementSnapshotFactory
+          .buildSnapshot({
+            userId,
+            snappedAt: new Date('2020-01-02'),
+            knowledgeElementsAttributes,
+          });
+        await databaseBuilder.commit();
+        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+        expect(campaignAssessmentParticipationResult.reachedStage).to.deep.include({
+          id: 2,
+          message: 'Message2',
+          starCount: 3,
+          threshold: 50,
+          title: 'Stage2',
+        });
+        expect(campaignAssessmentParticipationResult.stageCount).to.equal(4);
+      });
+    });
+
   });
 });
