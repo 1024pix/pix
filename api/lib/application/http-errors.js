@@ -67,6 +67,7 @@ class PasswordShouldChangeError extends BaseHttpError {
     super(message);
     this.title = 'PasswordShouldChange';
     this.status = 401;
+    this.code = 'SHOULD_CHANGE_PASSWORD';
   }
 }
 
