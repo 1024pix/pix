@@ -63,7 +63,7 @@ module('Acceptance | Session List', function(hooks) {
 
           // then
           assert.dom('select#pageSize').hasValue('10');
-          assert.dom('.table-admin tbody tr').exists({ count: 5 });
+          assert.dom('.table-admin tbody tr').exists({ count: 10 });
           assert.dom('div.page-navigation__current-page').hasText('2');
         });
       });
@@ -77,7 +77,7 @@ module('Acceptance | Session List', function(hooks) {
 
           // then
           assert.dom('select#pageSize').hasValue('25');
-          assert.dom('.table-admin tbody tr').exists({ count: 15 });
+          assert.dom('.table-admin tbody tr').exists({ count: 25 });
           assert.dom('div.page-navigation__current-page').hasText('1');
         });
       });

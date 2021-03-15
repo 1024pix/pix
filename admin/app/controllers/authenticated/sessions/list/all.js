@@ -4,7 +4,6 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
 import config from 'pix-admin/config/environment';
-import { FINALIZED } from 'pix-admin/models/session';
 import { action } from '@ember/object';
 
 const DEFAULT_PAGE_NUMBER = 1;
@@ -19,7 +18,7 @@ export default class AuthenticatedSessionsListAllController extends Controller {
   @tracked id = null;
   @tracked certificationCenterName = null;
   @tracked certificationCenterType = null;
-  @tracked status = FINALIZED;
+  @tracked status = null;
   @tracked resultsSentToPrescriberAt = null;
   @tracked assignedToSelfOnly = false;
 
