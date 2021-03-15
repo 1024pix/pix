@@ -18,6 +18,10 @@ export default class SidebarMenu extends Component {
       return 'https://view.genial.ly/5ffb6eed1ac90d0d0daf65d8';
     }
 
+    if (this.currentUser.isMediationNumerique) {
+      return 'https://view.genial.ly/6048a0d3757f980dc010d6d4';
+    }
+
     if (this.currentUser.organization.isPro) {
       return 'https://cloud.pix.fr/s/cwZN2GAbqSPGnw4';
     }
