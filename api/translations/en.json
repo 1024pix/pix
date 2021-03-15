@@ -1,5 +1,4 @@
 {
-  "current-lang": "en",
   "campaign-export": {
     "assessment": {
       "competence-area": {
@@ -11,19 +10,19 @@
       "mastery-percentage-target-profile": "% of items successfully completed in the target profile",
       "progress": "% of progression",
       "shared-on": "Shared on",
-      "started-on": "Started on",
-      "target-profile-name": "Target profile’s name",
-      "status": {
-        "ko": "KO",
-        "not-tested": "Not tested",
-        "ok": "OK"
-      },
       "skill": {
         "items-successfully-completed": "Items of the target profile successfully completed in the skill {{name}}",
         "mastery-percentage": "% of items successfully completed in the skill {{name}}",
         "total-items": "Number of items of the target profile in the skill {{name}}"
       },
+      "started-on": "Started on",
+      "status": {
+        "ko": "KO",
+        "not-tested": "Not tested",
+        "ok": "OK"
+      },
       "success-rate": "Success rate (/{{value}})",
+      "target-profile-name": "Target profile’s name",
       "thematic-result-name": "{{name}} (Y/N)"
     },
     "common": {
@@ -49,65 +48,82 @@
       "skill-ranking": "Pix score for the skill {{name}}"
     }
   },
-  "organization-invitation-email": {
-    "subject": "Invitation to join Pix Orga",
-    "params": {
-      "title": "You are invited to join Pix Orga",
-      "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
-      "yourOrganization": "Your organization",
-      "acceptInvitation": "Accept the invitation",
-      "oneTimeLink": "This is a single-use link",
+  "current-lang": "en",
+  "email-change-email": {
+    "body": {
+      "context": "You’ve recently changed your email address.",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "greeting": "Hi,",
+      "loginEmail": "You can now log in using the following email address:",
+      "moreOn": "More on",
+      "noPasswordChanged": "Your password remains the same.",
       "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-      "moreAbout": "More on",
-      "doNotAnswer": "This is an automated email message, please do not reply.",
-      "needHelp": "Have questions? We’re here to help, contact us",
-      "here": "here"
-    }
-  },
-  "pix-account-creation-email": {
-    "subject": "Your Pix account has been created",
-    "params" : {
-      "title": "Your Pix account has been created !",
-      "subtitle": "You can now start testing your skills.",
-      "goToPix": "Get started",
-      "disclaimer": "If you did not create this account, you can ask its deletion",
-      "helpdeskLinkLabel": "here",
-      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
-      "moreOn": "More on",
-      "doNotAnswer": "This is an automated email message, please do not reply.",
-      "askForHelp": "Any questions? We’re here to help, contact us"
-    }
-  },
-  "reset-password-demand-email": {
-    "subject": "Pix password reset request",
-    "params": {
-      "title": "Reset your password",
-      "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email.",
-      "clickOnTheButton": "Click on the button below to choose a new password.",
-      "resetMyPassword": "Reset my password",
-      "linkValidFor": "This link is valid for 24 hours. If you did not request to change your password, please ignore this email.",
-      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
-      "moreOn": "More on",
-      "doNotAnswer": "This is an automated email message, please do not reply. Have questions? We're here to help, ",
-      "contactUs": "contact us here"
-    }
+      "signing": "— The Pix Team"
+    },
+    "subject": "Email change confirmation"
   },
   "entity-validation-errors": {
-    "STAGE_TITLE_IS_REQUIRED": "The stage title is required",
     "STAGE_THRESHOLD_IS_REQUIRED": "The stage threshold is required",
+    "STAGE_TITLE_IS_REQUIRED": "The stage title is required",
     "TARGET_PROFILE_IS_REQUIRED": "The target profile is required"
   },
-  "email-change-email": {
-    "subject": "Email change confirmation",
-    "body": {
-      "greeting": "Hi,",
-      "context": "You’ve recently changed your email address.",
-      "loginEmail": "You can now log in using the following email address:",
-      "noPasswordChanged": "Your password remains the same.",
-      "signing": "— The Pix Team",
+  "higher-schooling-registration-csv": {
+    "birthdate": "Date of birth (DD/MM/YYYY)",
+    "department": "Department",
+    "diploma": "Degree",
+    "educational-team": "Teaching staff",
+    "email": "Email address",
+    "firstname": "First Name",
+    "group": "Group",
+    "lastname": "Last name",
+    "middle-name": "Middle name #1",
+    "preferred-lastname": "Preferred name",
+    "student-number": "Student number",
+    "study-scheme": "Status",
+    "template-name": "import-template",
+    "third-name": "Middle name #2"
+  },
+  "organization-invitation-email": {
+    "params": {
+      "acceptInvitation": "Accept the invitation",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "here": "here",
+      "moreAbout": "More on",
+      "needHelp": "Have questions? We’re here to help, contact us",
+      "oneTimeLink": "This is a single-use link",
       "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
+      "title": "You are invited to join Pix Orga",
+      "yourOrganization": "Your organization"
+    },
+    "subject": "Invitation to join Pix Orga"
+  },
+  "pix-account-creation-email": {
+    "params": {
+      "askForHelp": "Any questions? We’re here to help, contact us",
+      "disclaimer": "If you did not create this account, you can ask its deletion",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "goToPix": "Get started",
+      "helpdeskLinkLabel": "here",
       "moreOn": "More on",
-      "doNotAnswer": "This is an automated email message, please do not reply."
-    }
+      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
+      "subtitle": "You can now start testing your skills.",
+      "title": "Your Pix account has been created !"
+    },
+    "subject": "Your Pix account has been created"
+  },
+  "reset-password-demand-email": {
+    "params": {
+      "clickOnTheButton": "Click on the button below to choose a new password.",
+      "contactUs": "contact us here",
+      "doNotAnswer": "This is an automated email message, please do not reply. Have questions? We're here to help, ",
+      "linkValidFor": "This link is valid for 24 hours. If you did not request to change your password, please ignore this email.",
+      "moreOn": "More on",
+      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
+      "resetMyPassword": "Reset my password",
+      "title": "Reset your password",
+      "weCannotSendYourPassword": "Hello, for security reasons, we cannot send your password by email."
+    },
+    "subject": "Pix password reset request"
   }
 }
