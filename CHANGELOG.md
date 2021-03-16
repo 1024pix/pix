@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.32.0 (16/03/2021)
+
+- [#2676](https://github.com/1024pix/pix/pull/2676) [FEATURE] Transfert du bandeau d'envoi de résultats de collecte de profil de la page compétences vers le TDB (PIX-2276).
+- [#2710](https://github.com/1024pix/pix/pull/2710) [FEATURE] Ne plus filtrer par défaut la liste de "Toutes les sessions" (PIX-2300)
+- [#2714](https://github.com/1024pix/pix/pull/2714) [FEATURE] Modifier l'ordre des onglets sur la page "Sessions de certifications" (PIX-2302)
+- [#2690](https://github.com/1024pix/pix/pull/2690) [FEATURE] Afficher la personne assignée à la session dans la liste des sessions à traiter (Pix-2299)
+- [#2685](https://github.com/1024pix/pix/pull/2685) [FEATURE][i18n] Traduction des en-têtes csv et du contenu pour les résultats d'une campagne (PIX-2206)
+- [#2708](https://github.com/1024pix/pix/pull/2708) [FEATURE] Afficher un lien de documentation spécifique pour la médiation numérique (PIX-2355).
+- [#2700](https://github.com/1024pix/pix/pull/2700) [FEATURE] Ajout d'un lien vers une documentation au sujet des résultats de certification (PIX-2338)
+- [#2684](https://github.com/1024pix/pix/pull/2684) [FEATURE] Création de paliers depuis l'admin (PIX-1968)
+- [#2688](https://github.com/1024pix/pix/pull/2688) [FEATURE] Traduire les erreurs à l'import des CSV des élèves/étudiants (PIX-2312)
+- [#2682](https://github.com/1024pix/pix/pull/2682) [FEATURE] Publier des sessions en masse (PIX-2041)
+- [#2694](https://github.com/1024pix/pix/pull/2694) [FEATURE] Afficher la titre et la description prescripteur d'un palier dans le détail d'un participant d'une campagne d'évaluation de Pix Orga (PIX-2316).
+- [#2683](https://github.com/1024pix/pix/pull/2683) [BUGFIX] Supprime une faille d'injection SQL 
+- [#2692](https://github.com/1024pix/pix/pull/2692) [BUGFIX] Ne pas afficher les campagnes pour Novice dans les TDB et pages parcours (PIX-2320).
+
 ## v3.31.0 (11/03/2021)
 
 - [#2647](https://github.com/1024pix/pix/pull/2647) [FEATURE] Ajout d'un nouveau critère pour la création des RT (PIX-2258).
