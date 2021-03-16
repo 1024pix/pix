@@ -148,6 +148,7 @@ module.exports = {
     const token = request.params.token;
     const { sessionId } = tokenService.extractSessionId(token);
     const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
+
     const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
 
     return h.response(csvResult)
