@@ -145,6 +145,12 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   return { ...rowWithoutCompetences, ...competencesCells };
 };
 
+const cleaStatusLabelsForCSV = {
+  ['not_passed']: 'Non passée',
+  ['validated']: 'Validée',
+  ['rejected']: 'Rejetée',
+}
+
 const _getRowItemsFromSessionAndResultsWithCleaStatus = (session) => (certificationResult) => {
   const rowWithoutCompetences = {
     [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
@@ -153,7 +159,7 @@ const _getRowItemsFromSessionAndResultsWithCleaStatus = (session) => (certificat
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.CLEA_STATUS]: certificationResult.cleaCertificationStatus,
+    [_headers.CLEA_STATUS]: cleaStatusLabelsForCSV[certificationResult.cleaCertificationStatus],
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
