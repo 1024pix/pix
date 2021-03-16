@@ -11,7 +11,11 @@
       {{{@information}}}
       {{#if @linkText}}
         {{#if (eq @linkDisplayType 'button')}}
-          <LinkTo @route="{{@linkTo}}" class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+          {{#if @code}}
+            <LinkTo @route="{{@linkTo}}" @model={{@code}} class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+          {{else}}
+            <LinkTo @route="{{@linkTo}}" class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+          {{/if}}
         {{else}}
           <a href="{{@linkTo}}"
              target="_blank"

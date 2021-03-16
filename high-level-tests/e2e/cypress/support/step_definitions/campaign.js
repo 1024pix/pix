@@ -16,10 +16,6 @@ Then(`je vois la page \(d'\)/\(de \){string} de la campagne`, (page) => {
   cy.url().should('include', page);
 });
 
-Then(`je vois le bandeau de reprise de parcours`, () => {
-  cy.get('.resume-campaign-banner__container').should('exist');
-});
-
 When(`je saisis la date de naissance {int}-{int}-{int}`, (dayOfBirth, monthOfBirth, yearOfBirth) => {
   cy.get('input#dayOfBirth').type(dayOfBirth);
   cy.get('input#monthOfBirth').type(monthOfBirth);

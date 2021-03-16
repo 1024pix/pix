@@ -84,7 +84,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (campaign.isProfilesCollection) {
-      return this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
+      this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);
     } else {
       return this.replaceWith('campaigns.assessment.start-or-resume', campaign);
     }
