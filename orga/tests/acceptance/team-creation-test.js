@@ -96,6 +96,8 @@ module('Acceptance | Team Creation', function(hooks) {
 
       test('it should allow to invite a prescriber and redirect to team page', async function(assert) {
         // given
+        const ariaLabelMember = this.intl.t('pages.team-items.row.aria-label');
+
         const code = 'ABCDEFGH01';
         server.create('user', {
           firstName: 'Gigi',
@@ -116,7 +118,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(organizationInvitation.status, 'PENDING');
         assert.equal(organizationInvitation.code, code);
         assert.equal(currentURL(), '/equipe/membres');
-        assert.dom('[aria-label="Membre"]').exists({ count: 1 });
+        assert.dom(`[aria-label="${ariaLabelMember}"]`).exists({ count: 1 });
       });
 
       test('it should not allow to invite a prescriber when an email is not given', async function(assert) {
