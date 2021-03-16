@@ -936,6 +936,72 @@ describe('Unit | Service | Certification Result Service', function() {
 
       });
 
+      context('when only one challenge is asked for a competence', () => {
+        it('certifies a level below the estimated one if reproducibility rate is < 70%', async () => {
+          // given
+          const listChallengeComp5WithTwoChallenges = _.map([
+            { id: 'challenge_A_for_competence_5', competenceId: 'competence_5', type: 'QCM' },
+            { id: 'challenge_A_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
+            { id: 'challenge_B_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
+            { id: 'challenge_C_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
+          ], domainBuilder.buildChallenge);
+          const userCompetences = [
+            _buildUserCompetence(competence_5, 50, 5),
+            _buildUserCompetence(competence_6, 36, 3),
+          ];
+          const challenges = _.map([
+            { challengeId: 'challenge_A_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeA_5' },
+            { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeA_6' },
+            { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6' },
+            { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
+          ], domainBuilder.buildCertificationChallenge);
+          certificationAssessment.certificationChallenges = challenges;
+
+          challengeRepository.findOperative.restore();
+          placementProfileService.getPlacementProfile.restore();
+          sinon.stub(challengeRepository, 'findOperative').resolves(listChallengeComp5WithTwoChallenges);
+          sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
+            userId: certificationAssessment.userId,
+            limitDate: certificationAssessment.createdAt,
+            isV2Certification: certificationAssessment.isV2Certification,
+          }).resolves({ userCompetences });
+
+          const answers = _.map([
+            ({ challengeId: 'challenge_A_for_competence_5', result: 'ok' }),
+            ({ challengeId: 'challenge_A_for_competence_6', result: 'ko' }),
+            ({ challengeId: 'challenge_B_for_competence_6', result: 'ok' }),
+            ({ challengeId: 'challenge_C_for_competence_6', result: 'ko' }),
+          ], domainBuilder.buildAnswer);
+          certificationAssessment.certificationAnswersByDate = answers;
+
+          const expectedCertifiedCompetences = [{
+            index: '5.5',
+            area_code: '5',
+            id: 'competence_5',
+            name: 'Chercher',
+            obtainedLevel: 5 - 1,
+            positionedLevel: 5,
+            positionedScore: 50,
+            obtainedScore: 50 - 8,
+          }, {
+            index: '6.6',
+            area_code: '6',
+            id: 'competence_6',
+            name: 'Trouver',
+            obtainedLevel: UNCERTIFIED_LEVEL,
+            positionedLevel: 3,
+            positionedScore: 36,
+            obtainedScore: 0,
+          }];
+
+          // when
+          const result = await certificationResultService.getCertificationResult({ certificationAssessment, continueOnError });
+
+          // then
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
+        });
+      });
+
       context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
         beforeEach(() => {
           const listChallengeComp5WithOneQROCMDEPChallengeAndAnother = _.map([
