@@ -9,7 +9,9 @@ export default Mixin.create({
   authenticationRoute: 'login',
 
   beforeModel(transition) {
-    if (!this.session.get('isAuthenticated')) {
+    const isUserLoaded = !!this.currentUser.user;
+    const isAuthenticated = this.session.get('isAuthenticated');
+    if (!isAuthenticated || !isUserLoaded) {
       this.session.set('attemptedTransition', transition);
       this.router.transitionTo(this.authenticationRoute);
     } else if (this.currentUser.user.mustValidateTermsOfService) {
