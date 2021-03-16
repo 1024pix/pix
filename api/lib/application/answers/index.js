@@ -14,7 +14,6 @@ exports.register = async function(server) {
             data: Joi.object({
               attributes: Joi.object({
                 value: Joi.string().allow('').allow(null),
-                'elapsed-time': Joi.number().allow(null),
                 result: Joi.string().allow(null),
                 'result-details': Joi.string().allow(null),
                 timeout: Joi.number().allow(null),

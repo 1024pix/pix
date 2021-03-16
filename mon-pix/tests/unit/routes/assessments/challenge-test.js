@@ -82,7 +82,6 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
     let answerValue = 'example';
     const answerTimeout = 120;
-    const answerElapsedTime = 65;
     const challengeOne = EmberObject.create({ id: 'recChallengeOne' });
     const nextChallenge = EmberObject.create({ id: 'recNextChallenge' });
 
@@ -109,7 +108,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         queryRecordStub.resolves(nextChallenge);
 
         // when
-        route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+        route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
         // then
         sinon.assert.notCalled(createRecordStub);
@@ -124,7 +123,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         queryRecordStub.resolves(nextChallenge);
 
         // when
-        route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+        route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
         // then
         sinon.assert.calledWith(createRecordStub, 'answer', {
@@ -134,14 +133,14 @@ describe('Unit | Route | Assessments | Challenge', function() {
       });
     });
 
-    it('should update the answer with the timeout and elapsedTime', function() {
+    it('should update the answer with the timeout', function() {
       // given
       const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
       createRecordStub.returns(answerToChallengeOne);
       queryRecordStub.resolves(nextChallenge);
 
       // when
-      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
       // then
       sinon.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
@@ -149,7 +148,6 @@ describe('Unit | Route | Assessments | Challenge', function() {
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
         value: answerValue,
         timeout: answerTimeout,
-        elapsedTime: answerElapsedTime,
       });
     });
 
@@ -162,7 +160,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       queryRecordStub.resolves(nextChallenge);
 
       // when
-      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
       // then
       sinon.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
@@ -170,7 +168,6 @@ describe('Unit | Route | Assessments | Challenge', function() {
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
         value: answerValueWithoutUselessChar,
         timeout: answerTimeout,
-        elapsedTime: answerElapsedTime,
       });
     });
 
@@ -182,7 +179,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when
-        await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+        await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
         // then
         sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), { queryParams: {} });
@@ -206,7 +203,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           } };
 
           // when
-          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
           // then
           sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
@@ -219,7 +216,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           const expectedQueryParams = { queryParams: { } };
 
           // when
-          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
           // then
           sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
@@ -231,7 +228,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           const expectedQueryParams = { queryParams: { } };
 
           // when
-          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
           // then
           sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
@@ -248,7 +245,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when / then
-        return route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime)
+        return route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout)
           .then(function() {
             throw new Error('was supposed to fail');
           })

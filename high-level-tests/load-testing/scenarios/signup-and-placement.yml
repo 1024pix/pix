@@ -131,7 +131,6 @@ scenarios:
                 data:
                   attributes:
                     value: "#ABAND#"
-                    elapsed-time: 595
                   relationships:
                     assessment:
                       data:

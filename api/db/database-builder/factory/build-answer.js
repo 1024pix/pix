@@ -12,7 +12,6 @@ module.exports = function buildAnswer({
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
   timeout = faker.random.number(),
-  elapsedTime = faker.random.number(),
   resultDetails = faker.lorem.sentences(),
 } = {}) {
 
@@ -27,7 +26,6 @@ module.exports = function buildAnswer({
     createdAt,
     updatedAt,
     timeout,
-    elapsedTime,
     resultDetails,
   };
   return databaseBuffer.pushInsertable({
