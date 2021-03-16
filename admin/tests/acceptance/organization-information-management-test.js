@@ -9,7 +9,8 @@ module('Acceptance | organization information management', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    await createAuthenticateSession({ userId: 1 });
+    const { id: userId } = server.create('user');
+    await createAuthenticateSession({ userId });
   });
 
   module('editing organization', function() {

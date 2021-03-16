@@ -24,7 +24,8 @@ module('Acceptance | Certification-centers List', function(hooks) {
   module('When user is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
-      await createAuthenticateSession({ userId: 1 });
+      const { id: userId } = server.create('user');
+      await createAuthenticateSession({ userId });
     });
 
     test('it should be accessible for an authenticated user', async function(assert) {

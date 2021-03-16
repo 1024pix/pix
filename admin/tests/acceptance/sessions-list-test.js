@@ -23,7 +23,8 @@ module('Acceptance | Session List', function(hooks) {
   module('When user is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
-      await createAuthenticateSession({ userId: 1 });
+      const user = server.create('user');
+      await createAuthenticateSession({ userId: user.id });
     });
 
     test('it should be accessible for an authenticated user', async function(assert) {

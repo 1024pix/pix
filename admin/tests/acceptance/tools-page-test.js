@@ -9,7 +9,8 @@ module('Acceptance | tools page', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function() {
-    await createAuthenticateSession({ userId: 1 });
+    const user = server.create('user');
+    await createAuthenticateSession({ userId: user.id });
   });
 
   module('Access', function() {
