@@ -147,6 +147,21 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
       expect(numberOfChallengesAnswered).to.equal(3);
     });
   });
+  context('#numberOfNeutralizedChallenges', () => {
+    it('equals 0 when no answers', () => {
+      // given
+      const answerCollection = CompetenceAnswerCollectionForScoring.from({
+        answersForCompetence: [],
+        challengesForCompetence: [],
+      });
+
+      // when
+      const numberOfNeutralizeChallenges = answerCollection.numberOfNeutralizedChallenges();
+
+      // then
+      expect(numberOfNeutralizeChallenges).to.equal(0);
+    });
+  });
 });
 
 function _buildDecoratedCertificationChallenge({ challengeId, type }) {
