@@ -12,7 +12,7 @@ import { clickByLabel } from '../helpers/click-by-label';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
 
-describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection', function() {
+describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collection', function() {
   setupApplicationTest();
   setupMirage();
   let campaign;
