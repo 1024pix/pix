@@ -42,7 +42,7 @@ module.exports = class CompetenceAnswerCollection {
   }
 
   numberOfNeutralizedChallenges() {
-    return 0;
+    return this.answers.filter((answer) => answer.challenge.isNeutralized).length;
   }
 };
 
