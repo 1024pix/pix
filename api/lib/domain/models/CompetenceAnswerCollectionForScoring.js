@@ -40,6 +40,10 @@ module.exports = class CompetenceAnswerCollection {
     }).sum();
     return numberOfChallenges;
   }
+
+  numberOfNeutralizedChallenges() {
+    return 0;
+  }
 };
 
 class AnswerForScoring {
