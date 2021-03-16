@@ -108,7 +108,7 @@ function _pickCertificationChallengeForSkill({ skill, competenceId, allChallenge
 
   if (alreadySelectedChallengeIds.includes(challenge.id)) return;
 
-  return new CertificationChallenge({
+  return CertificationChallenge.new({
     challengeId: challenge.id,
     competenceId,
     associatedSkillName: skill.name,

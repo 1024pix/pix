@@ -50,6 +50,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       associatedSkillName: skill.name,
       associatedSkillId: skill.id,
       competenceId: skill.competenceId,
+      isNeutralized: false,
     });
   }
 

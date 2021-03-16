@@ -33,7 +33,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         }).id;
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
         dbf.buildAnswer({ assessmentId: certificationAssessmentId });
-        dbf.buildCertificationChallenge({ courseId: expectedCertificationCourseId });
+        dbf.buildCertificationChallenge({ courseId: expectedCertificationCourseId, isNeutralized: true });
         dbf.buildCertificationChallenge({ courseId: expectedCertificationCourseId });
 
         return databaseBuilder.commit();
@@ -53,6 +53,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
         expect(certificationAssessment.certificationAnswersByDate).to.have.length(2);
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
+        expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
       });
     });
 
