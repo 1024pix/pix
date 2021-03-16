@@ -16,63 +16,63 @@ class CertifiedLevel {
     reproducibilityRate,
   }) {
     if (numberOfChallengesAnswered === 3) {
-      return this._scoreFor3Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+      return CertifiedLevel._for3Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
     } else if (numberOfChallengesAnswered === 2) {
-      return this._scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+      return CertifiedLevel._for2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
     } else {
-      return this._scoreFor1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+      return CertifiedLevel._for1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
     }
   }
 
-  static _scoreFor3Challenges({
+  static _for3Challenges({
     numberOfCorrectAnswers,
     estimatedLevel,
     reproducibilityRate,
   }) {
     if (numberOfCorrectAnswers < 2) {
-      return this.uncertified();
+      return this.uncertify();
     }
     if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
-      return this.downgraded(estimatedLevel);
+      return this.downgrade(estimatedLevel);
     }
-    return this.validated(estimatedLevel);
+    return this.validate(estimatedLevel);
   }
 
-  static _scoreFor2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
+  static _for2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
     if (numberOfCorrectAnswers === 2) {
-      return this.validated(estimatedLevel);
+      return this.validate(estimatedLevel);
     } else if (numberOfCorrectAnswers === 1) {
       if (reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
-        return this.validated(estimatedLevel);
+        return this.validate(estimatedLevel);
       } else if (reproducibilityRate >= 70) {
-        return this.downgraded(estimatedLevel);
+        return this.downgrade(estimatedLevel);
       } else {
-        return this.uncertified();
+        return this.uncertify();
       }
     }
-    return this.uncertified();
+    return this.uncertify();
   }
 
-  static _scoreFor1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
+  static _for1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
     if (numberOfCorrectAnswers === 1) {
       if (reproducibilityRate >= 70) {
-        return this.validated(estimatedLevel);
+        return this.validate(estimatedLevel);
       } else {
-        return this.downgraded(estimatedLevel);
+        return this.downgrade(estimatedLevel);
       }
     }
-    return this.uncertified();
+    return this.uncertify();
   }
 
-  static uncertified() {
+  static uncertify() {
     return new CertifiedLevel({ value: UNCERTIFIED_LEVEL, status: statuses.UNCERTIFIED });
   }
 
-  static downgraded(estimatedLevel) {
+  static downgrade(estimatedLevel) {
     return new CertifiedLevel({ value: estimatedLevel - 1, status: statuses.DOWNGRADED });
   }
 
-  static validated(estimatedLevel) {
+  static validate(estimatedLevel) {
     return new CertifiedLevel({ value: estimatedLevel, status: statuses.VALIDATED });
   }
 
