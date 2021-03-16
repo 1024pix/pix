@@ -8,6 +8,7 @@ module.exports = function buildCertificationChallenge({
   courseId = 456,
   associatedSkillId = buildSkill().id,
   associatedSkillName = buildSkill().name,
+  isNeutralized = false,
 } = {}) {
 
   return new CertificationChallenge({
@@ -17,5 +18,6 @@ module.exports = function buildCertificationChallenge({
     courseId,
     associatedSkillId,
     associatedSkillName,
+    isNeutralized,
   });
 };
