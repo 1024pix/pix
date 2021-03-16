@@ -27,14 +27,12 @@
     </p>
   {{/each}}
 
-  <div class="qcu-solution-panel__answer-feedback">
-    {{#if this.isAnswerValid}}
-      <div class="qcu-solution-answer-feedback__correct-answer">{{t 'pages.comparison-window.results.feedback.correct'}}</div>
-    {{else}}
-      <MarkdownToHtml
-              class="qcu-solution-answer-feedback__expected-answer"
-              @markdown="{{t 'pages.comparison-window.results.feedback.wrong' htmlSafe=true}} {{this.solutionAsText}}" />
-    {{/if}}
-  </div>
+  {{#if this.isAnswerValid}}
+    <div data-test-correct-answer>{{t 'pages.comparison-window.results.feedback.correct'}}</div>
+  {{else}}
+    <MarkdownToHtml
+            class="qcu-solution-answer-feedback__expected-answer"
+            @markdown="{{t 'pages.comparison-window.results.feedback.wrong' htmlSafe=true}} {{this.solutionAsText}}" />
+  {{/if}}
 </div>
 

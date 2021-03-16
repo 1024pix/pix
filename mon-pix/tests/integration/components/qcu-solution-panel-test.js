@@ -97,7 +97,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
       // Then
-      expect(find('.qcu-solution-answer-feedback__correct-answer')).to.exist;
+      expect(find('div[data-test-correct-answer]')).to.exist;
     });
   });
 
