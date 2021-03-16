@@ -1,4 +1,3 @@
-{{!-- template-lint-disable no-action --}}
 <div class="qcm-proposals">
   {{#each this.labeledCheckboxes as |labeledCheckbox index|}}
   <p class="proposal-paragraph">
@@ -7,7 +6,7 @@
            id="checkbox_{{inc index}}"
            @checked={{labeledCheckbox.[1]}}
            name="{{inc index}}"
-           onclick={{action "checkboxClicked" (inc index)}}
+           {{on 'click' (fn this.checkboxClicked (inc index))}}
            disabled={{if @answer true}} />
 
     <label for="checkbox_{{inc index}}"
