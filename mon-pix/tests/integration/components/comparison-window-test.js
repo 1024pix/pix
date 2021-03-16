@@ -75,56 +75,6 @@ describe('Integration | Component | comparison-window', function() {
       expect(find('.comparison-window__instruction')).to.exist;
     });
 
-    it('should not render corrected answers when challenge has no type', async function() {
-      // when
-      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
-      // then
-      expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
-    });
-
-    it('should render corrected answers when challenge type is QROC and challenge is not autoReply', async function() {
-      // given
-      challenge = EmberObject.create({ type: 'QROC', autoReply: false });
-      answer.set('challenge', challenge);
-
-      // when
-      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
-
-      // then
-      expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
-    });
-
-    it('should not render corrected answers when challenge type is QROC and challenge is autoReply', async function() {
-      // given
-      challenge = EmberObject.create({ type: 'QROC', autoReply: true });
-      answer.set('challenge', challenge);
-      // when
-      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
-      // then
-      expect(find('.qcm-solution-panel')).to.not.exist;
-    });
-
-    it('should render corrected answers when challenge type is QROCM-ind', async function() {
-      // given
-      challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
-      correction.set('solution', '');
-      answer.set('challenge', challenge);
-      // when
-      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
-      // then
-      expect(find('.comparison-window__corrected-answers--qrocm')).to.exist;
-    });
-
-    it('should render corrected answers when challenge type is QCM', async function() {
-      // given
-      challenge = EmberObject.create({ type: 'QCM' });
-      answer.set('challenge', challenge);
-      // when
-      await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
-      // then
-      expect(find('.qcm-solution-panel')).to.exist;
-    });
-
     it('should render a feedback panel already opened', async function() {
       //when
       await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
@@ -236,6 +186,82 @@ describe('Integration | Component | comparison-window', function() {
         expect(find('.tutorial-panel__hint-container')).to.not.exist;
         expect(find('.tutorial-panel__tutorial-item')).to.not.exist;
       });
+    });
+
+    describe('solution rendering', function() {
+      it('should not render corrected answers when challenge has no type', async function() {
+        // when
+        await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
+        // then
+        expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
+      });
+
+      describe('when challenge type is QROC', function() {
+        describe('and challenge is not autoReply', async function() {
+
+          it('should display answers', async function() {
+            // given
+            challenge = EmberObject.create({ type: 'QROC', autoReply: false });
+            answer.set('challenge', challenge);
+
+            // when
+            await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
+
+            // then
+            expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
+          });
+        });
+
+        describe('and challenge is autoReply', async function() {
+          it('should hide answers when correction has no solutionToDisplay', async function() {
+            // given
+            challenge = EmberObject.create({ type: 'QROC', autoReply: true });
+            answer.set('challenge', challenge);
+
+            // when
+            await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
+
+            // then
+            expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
+          });
+
+          it('should display answers when correction has solutionToDisplay', async function() {
+            // given
+            challenge = EmberObject.create({ type: 'QROC', autoReply: true });
+            correction = EmberObject.create({ solution: 'solution', solutionToDisplay: 'solutionToDisplay' });
+            answer.set('challenge', challenge);
+            answer.set('correction', correction);
+
+            // when
+            await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
+
+            // then
+            expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
+          });
+        });
+      });
+
+      it('should render corrected answers when challenge type is QROCM-ind', async function() {
+        // given
+        challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
+        correction.set('solution', '');
+        answer.set('challenge', challenge);
+        // when
+        await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
+        // then
+        expect(find('.comparison-window__corrected-answers--qrocm')).to.exist;
+      });
+
+      it('should render corrected answers when challenge type is QCM', async function() {
+        // given
+        challenge = EmberObject.create({ type: 'QCM' });
+        answer.set('challenge', challenge);
+        // when
+        await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
+        // then
+        expect(find('.qcm-solution-panel')).to.exist;
+      });
+
     });
   });
 });
