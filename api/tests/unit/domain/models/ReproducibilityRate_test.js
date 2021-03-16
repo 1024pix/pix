@@ -3,20 +3,25 @@ const { ReproducibilityRate } = require('../../../../lib/domain/models/Reproduci
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 describe('Unit | Domain | Models | ReproducibilityRate', function() {
+
   it('is equal to 0% if no answers', () => {
     // when
     const reproducibilityRate = ReproducibilityRate.from({ answers: [] });
+
     // then
     expect(reproducibilityRate.value).to.equal(0);
   });
+
   it('is equal to 50% if 1 answer is correct and 1 is non-correct', () => {
     // given
     const answers = [
       domainBuilder.buildAnswer({ result: AnswerStatus.OK }),
       domainBuilder.buildAnswer({ result: AnswerStatus.KO }),
     ];
+
     // when
     const reproducibilityRate = ReproducibilityRate.from({ answers });
+
     // then
     expect(reproducibilityRate.value).to.equal(50);
   });
@@ -28,8 +33,10 @@ describe('Unit | Domain | Models | ReproducibilityRate', function() {
       domainBuilder.buildAnswer({ result: AnswerStatus.TIMEDOUT }),
       domainBuilder.buildAnswer({ result: AnswerStatus.SKIPPED }),
     ];
+
     // when
     const reproducibilityRate = ReproducibilityRate.from({ answers });
+
     // then
     expect(reproducibilityRate.value).to.equal(33);
   });
