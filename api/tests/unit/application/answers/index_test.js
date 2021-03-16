@@ -29,7 +29,6 @@ describe('Unit | Router | answer-router', function() {
         data: {
           attributes: {
             value: 'test',
-            'elapsed-time': null,
             result: null,
             'result-details': null,
             timeout: null,

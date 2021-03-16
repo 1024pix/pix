@@ -5,7 +5,6 @@ class Answer {
 
   constructor({
     id,
-    elapsedTime,
     result,
     resultDetails,
     timeout,
@@ -15,7 +14,6 @@ class Answer {
     challengeId,
   } = {}) {
     this.id = id;
-    this.elapsedTime = elapsedTime;
     // XXX result property should not be auto-created from result to an AnswerStatus Object
     this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;

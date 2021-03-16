@@ -27,7 +27,6 @@ describe('Unit | Controller | answer-controller', () => {
     const timeout = null;
     const resultDetails = null;
     const value = 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"';
-    const elapsedTime = 1000;
     const locale = 'fr-fr';
 
     let request;
@@ -40,7 +39,6 @@ describe('Unit | Controller | answer-controller', () => {
           value: 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"',
           'result-details': 'resultDetails_value',
           timeout: null,
-          'elapsed-time': null,
           result: 'result_value',
         },
         relationships: {
@@ -72,7 +70,6 @@ describe('Unit | Controller | answer-controller', () => {
               result: result,
               timeout: timeout,
               'result-details': resultDetails,
-              'elapsed-time': elapsedTime,
             },
             relationships: {
               assessment: {
@@ -93,7 +90,6 @@ describe('Unit | Controller | answer-controller', () => {
         },
       };
       deserializedAnswer = domainBuilder.buildAnswer({
-        elapsedTime,
         result,
         resultDetails,
         timeout,
