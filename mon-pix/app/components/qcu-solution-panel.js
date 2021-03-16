@@ -3,11 +3,8 @@ import labeledCheckboxes from 'mon-pix/utils/labeled-checkboxes';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 import proposalsAsArray from 'mon-pix/utils/proposals-as-array';
 import isEmpty from 'lodash/isEmpty';
-import ENV from 'mon-pix/config/environment';
 
 export default class QcuSolutionPanel extends Component {
-  featureFlagDisplayForWrongAnswers = ENV.APP.FT_IMPROVE_DISPLAY_FOR_WRONG_ANSWERS_FOR_QCU;
-
   get solutionArray() {
     const solution = this.args.solution;
     return !isEmpty(solution) ? valueAsArrayOfBoolean(solution) : [];

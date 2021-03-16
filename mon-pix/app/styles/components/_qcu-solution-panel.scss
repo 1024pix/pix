@@ -55,3 +55,10 @@
     }
   }
 }
+
+.qcu-solution-answer-feedback {
+
+  &__expected-answer {
+    font-weight: $font-medium;
+  }
+}
