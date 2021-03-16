@@ -3,22 +3,21 @@ const assignCertificationOfficerToJurySession = require('../../../../lib/domain/
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | assign-certification-officer-to-session', () => {
-  let sessionId;
-  let certificationOfficerId;
-  let jurySessionRepository;
-
-  beforeEach(() => {
-    jurySessionRepository = { assignCertificationOfficer: sinon.stub() };
-  });
-
   context('when session id is not a number', () => {
-
     it('should throw a NotFound error', async () => {
       // given
-      sessionId = 'notANumber';
+      const jurySessionRepository = {
+        assignCertificationOfficer: sinon.stub(),
+      };
+      const sessionId = 'notANumber';
+      const certificationOfficerId = 1;
 
       // when
-      const error = await catchErr(assignCertificationOfficerToJurySession)({ sessionId, certificationOfficerId, jurySessionRepository });
+      const error = await catchErr(assignCertificationOfficerToJurySession)({
+        sessionId,
+        certificationOfficerId,
+        jurySessionRepository,
+      });
 
       // then
       expect(error).to.be.an.instanceOf(ObjectValidationError);
@@ -26,19 +25,21 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
   });
 
   context('when session id is a number', () => {
-
-    beforeEach(() => {
-      sessionId = 1;
-    });
-
     context('when certificationOfficerId is not a number', () => {
-
       it('should throw a NotFound error', async () => {
         // given
-        certificationOfficerId = 'notANumber';
+        const jurySessionRepository = {
+          assignCertificationOfficer: sinon.stub(),
+        };
+        const sessionId = 1;
+        const certificationOfficerId = 'notANumber';
 
         // when
-        const error = await catchErr(assignCertificationOfficerToJurySession)({ sessionId, certificationOfficerId, jurySessionRepository });
+        const error = await catchErr(assignCertificationOfficerToJurySession)({
+          sessionId,
+          certificationOfficerId,
+          jurySessionRepository,
+        });
 
         // then
         expect(error).to.be.an.instanceOf(ObjectValidationError);
@@ -46,20 +47,50 @@ describe('Unit | UseCase | assign-certification-officer-to-session', () => {
     });
 
     context('when certificationOfficerId is a number', () => {
-      const returnedSession = Symbol('returnedSession');
+      it('should return the session id after assigningUser to it', async () => {
+        // given
+        const returnedSessionId = Symbol('returnedSessionId');
+        const sessionId = 1;
+        const certificationOfficerId = 2;
 
-      beforeEach(() => {
-        certificationOfficerId = 2;
-        jurySessionRepository.assignCertificationOfficer.withArgs({ id: sessionId, assignedCertificationOfficerId: certificationOfficerId }).resolves(returnedSession);
-      });
+        const jurySessionRepository = {
+          assignCertificationOfficer: sinon.stub(),
+        };
+        jurySessionRepository.assignCertificationOfficer
+          .resolves(returnedSessionId);
 
-      it('should return the session after assigningUser to it', async () => {
+        const finalizedSessionRepository = {
+          assignCertificationOfficer: sinon.stub(),
+        };
+
+        const userRepository = { get: sinon.stub() };
+        userRepository.get
+          .withArgs(2)
+          .resolves({ firstName: 'Severus', lastName: 'Snape' });
+
         // when
-        const actualSession = await assignCertificationOfficerToJurySession({ sessionId, certificationOfficerId, jurySessionRepository });
+        const actualSessionId = await assignCertificationOfficerToJurySession({
+          sessionId,
+          certificationOfficerId,
+          jurySessionRepository,
+          finalizedSessionRepository,
+          userRepository,
+        });
 
         // then
-        expect(jurySessionRepository.assignCertificationOfficer).to.have.been.calledWith({ id: sessionId, assignedCertificationOfficerId: certificationOfficerId });
-        expect(actualSession).to.equal(returnedSession);
+        expect(
+          jurySessionRepository.assignCertificationOfficer,
+        ).to.have.been.calledWith({
+          id: sessionId,
+          assignedCertificationOfficerId: certificationOfficerId,
+        });
+        expect(
+          finalizedSessionRepository.assignCertificationOfficer,
+        ).to.have.been.calledWith({
+          sessionId: 1,
+          assignedCertificationOfficerName: 'Severus Snape',
+        });
+        expect(actualSessionId).to.equal(returnedSessionId);
       });
     });
   });

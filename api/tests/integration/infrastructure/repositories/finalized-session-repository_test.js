@@ -35,6 +35,7 @@ describe('Integration | Repository | Finalized-session', () => {
         time: '14:00:00',
         isPublishable: true,
         publishedAt: null,
+        assignedCertificationOfficerName: null,
       });
     });
   });
@@ -62,6 +63,7 @@ describe('Integration | Repository | Finalized-session', () => {
         sessionTime: finalizedSession.time,
         isPublishable: finalizedSession.isPublishable,
         publishedAt: null,
+        assignedCertificationOfficerName: null,
       });
     });
   });
@@ -134,6 +136,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: publishableFinalizedSession2.time,
             isPublishable: publishableFinalizedSession2.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: publishableFinalizedSession1.sessionId,
@@ -143,6 +146,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: publishableFinalizedSession1.time,
             isPublishable: publishableFinalizedSession1.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: publishableFinalizedSession3.sessionId,
@@ -152,6 +156,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: publishableFinalizedSession3.time,
             isPublishable: publishableFinalizedSession3.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
         ]);
       });
@@ -198,6 +203,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: firstFinalizedSession.time,
             isPublishable: firstFinalizedSession.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: secondFinalizedSession.sessionId,
@@ -207,6 +213,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: secondFinalizedSession.time,
             isPublishable: secondFinalizedSession.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
           {
             sessionId: thirdFinalizedSession.sessionId,
@@ -216,6 +223,7 @@ describe('Integration | Repository | Finalized-session', () => {
             sessionTime: thirdFinalizedSession.time,
             isPublishable: thirdFinalizedSession.isPublishable,
             publishedAt: null,
+            assignedCertificationOfficerName: null,
           },
         ]);
       });
@@ -229,6 +237,45 @@ describe('Integration | Repository | Finalized-session', () => {
 
         // then
         expect(result).to.have.lengthOf(0);
+      });
+    });
+  });
+
+  describe('#assignCertificationOfficer', () => {
+    it('should add the name to the finalized session', async () => {
+      // given
+      const session = databaseBuilder.factory.buildFinalizedSession();
+      const sessionId = session.sessionId;
+      await databaseBuilder.commit();
+
+      // when
+      await finalizedSessionRepository.assignCertificationOfficer({
+        sessionId,
+        assignedCertificationOfficerName: 'Severus Snape',
+      });
+
+      // then
+      const updatedFinalizedSession = await knex('finalized-sessions').where({ sessionId }).first();
+      expect(updatedFinalizedSession.assignedCertificationOfficerName)
+        .to.deep.equal('Severus Snape');
+    });
+
+    context('when sessionId does not exist', () => {
+
+      it('should not throw when trying to assign certification officer on non-existent finalized session', async () => {
+        // given
+        const sessionId = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 }).sessionId;
+        await databaseBuilder.commit();
+        const unknownSessionId = sessionId + 1;
+
+        // when
+        const promise = finalizedSessionRepository.assignCertificationOfficer({
+          sessionId: unknownSessionId,
+          assignedCertificationOfficerName: 'Severus Snape',
+        });
+
+        // then
+        return expect(promise).to.be.fulfilled;
       });
     });
   });

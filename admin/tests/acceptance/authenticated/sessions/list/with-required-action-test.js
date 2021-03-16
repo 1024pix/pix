@@ -46,6 +46,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
         finalizedAt,
         sessionDate,
         sessionTime,
+        assignedCertificationOfficerName: 'Officer1',
       });
       server.create('with-required-action-session', {
         id: '2',
@@ -53,18 +54,29 @@ module('Acceptance | authenticated/sessions/list/with required action', function
         finalizedAt,
         sessionDate,
         sessionTime,
+        assignedCertificationOfficerName: 'Officer2',
       });
 
       // when
       await visit('/sessions/list/with-required-action');
 
       // then
-      assert.contains('Centre SCO des Anne-Étoiles');
-      assert.contains('Centre SUP et rieur');
-      assert.contains('1');
-      assert.contains('2');
-      assert.contains('01/01/2021 à 17:00:00');
-      assert.contains('01/02/2021');
+      _assertSession1InformationsAreDisplayed(assert);
+      _assertSession2InformationsAreDisplayed(assert);
     });
   });
 });
+
+function _assertSession1InformationsAreDisplayed(assert) {
+  assert.contains('Centre SCO des Anne-Étoiles');
+  assert.contains('1');
+  assert.contains('01/01/2021 à 17:00:00');
+  assert.contains('Officer1');
+}
+
+function _assertSession2InformationsAreDisplayed(assert) {
+  assert.contains('Centre SUP et rieur');
+  assert.contains('2');
+  assert.contains('01/02/2021');
+  assert.contains('Officer2');
+}

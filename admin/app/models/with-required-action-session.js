@@ -5,6 +5,7 @@ export default class WithRequiredActionSession extends Model {
   @attr('date-only') sessionDate;
   @attr() sessionTime;
   @attr() finalizedAt;
+  @attr() assignedCertificationOfficerName;
 
   get printableDateAndTime() {
     const formattedSessionDate = this.sessionDate.split('-').reverse().join('/');
