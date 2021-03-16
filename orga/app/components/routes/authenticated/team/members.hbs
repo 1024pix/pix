@@ -3,23 +3,25 @@
     <table id="table-members">
       <thead>
       <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Rôle</th>
+        <th>{{t 'pages.team-members.table.column.last-name'}}</th>
+        <th>{{t 'pages.team-members.table.column.first-name'}}</th>
+        <th>{{t 'pages.team-members.table.column.organization-membership-role'}}</th>
         <th></th>
       </tr>
       </thead>
       {{#if @memberships}}
         <tbody>
         {{#each @memberships as |membership|}}
-          <Routes::Authenticated::Team::Items @membership={{membership}} @removeMembership={{@removeMembership}} />
+          <Routes::Authenticated::Team::Items
+                  @membership={{membership}}
+                  @removeMembership={{@removeMembership}} />
         {{/each}}
         </tbody>
       {{/if}}
     </table>
 
     {{#unless @memberships}}
-      <div class="table__empty content-text">En attente de membres</div>
+      <div class="table__empty content-text">{{t 'pages.team-members.table.empty'}}</div>
     {{/unless}}
   </div>
 </div>

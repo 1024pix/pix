@@ -3,14 +3,14 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-const adminOption = { value: 'ADMIN', label: 'Administrateur', disabled: false };
-
-const memberOption = { value: 'MEMBER', label: 'Membre', disabled: false };
+const ARIA_LABEL_MEMBER_TRANSLATION = 'pages.team-items.select-input.options.member-label';
+const ARIA_LABEL_ADMIN_TRANSLATION = 'pages.team-items.select-input.options.admin-label';
 
 export default class Items extends Component {
 
   @service currentUser;
   @service notifications;
+  @service intl;
 
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;
@@ -18,9 +18,30 @@ export default class Items extends Component {
   @tracked currentRole = null;
   @tracked isRemoveMembershipModalDisplayed = false;
 
+  adminOption = {
+    value: 'ADMIN',
+    label: this.intl.t(ARIA_LABEL_ADMIN_TRANSLATION),
+    disabled: false,
+  };
+
+  memberOption = {
+    value: 'MEMBER',
+    label: this.intl.t(ARIA_LABEL_MEMBER_TRANSLATION),
+    disabled: false,
+  };
+
+  displayRoleByOrganizationRole = {
+    ADMIN: this.intl.t(ARIA_LABEL_ADMIN_TRANSLATION),
+    MEMBER: this.intl.t(ARIA_LABEL_MEMBER_TRANSLATION),
+  };
+
   constructor() {
     super(...arguments);
-    this.organizationRoles = [adminOption, memberOption];
+    this.organizationRoles = [this.adminOption, this.memberOption];
+  }
+
+  get displayRole() {
+    return this.displayRoleByOrganizationRole[this.args.membership.organizationRole];
   }
 
   @action
@@ -73,9 +94,9 @@ export default class Items extends Component {
       const memberLastName = membership.user.get('lastName');
 
       await this.args.removeMembership(membership);
-      this.notifications.success(`${memberFirstName} ${memberLastName} a été supprimé avec succès de votre équipe Pix Orga.`);
+      this.notifications.success(this.intl.t('pages.team-items.notifications.success', { memberFirstName, memberLastName }));
     } catch (e) {
-      this.notifications.error('Une erreur est survenue lors de la désactivation du membre.');
+      this.notifications.error(this.intl.t('pages.team-items.notifications.error'));
     } finally {
       this.closeRemoveMembershipModal();
     }
