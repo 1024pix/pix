@@ -22,6 +22,16 @@ async function getSessionCertificationResultsCsv({
   return getCsvContent({ data, fileHeaders });
 }
 
+async function getSessionCertificationResultsCsvWithCleaStatus({
+  session,
+  certificationResults,
+}) {
+  const data = _buildCertificationResultsFileDataWithCertificationCenterNameAndCleaStatus({ session, certificationResults });
+  const fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterNameAndCleaStatus();
+
+  return getCsvContent({ data, fileHeaders });
+}
+
 function _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults }) {
   return certificationResults.map(_getRowItemsFromResults);
 }
@@ -68,6 +78,10 @@ function _buildCertificationResultsFileHeadersWithoutCertificationCenterName() {
   );
 }
 
+function _buildCertificationResultsFileDataWithCertificationCenterNameAndCleaStatus({ session, certificationResults }) {
+  return certificationResults.map(_getRowItemsFromSessionAndResultsWithCleaStatus(session));
+}
+
 function _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults }) {
   return certificationResults.map(_getRowItemsFromSessionAndResults(session));
 }
@@ -81,6 +95,27 @@ function _buildCertificationResultsFileHeadersWithCertificationCenterName() {
       _headers.BIRTHDATE,
       _headers.BIRTHPLACE,
       _headers.EXTERNAL_ID,
+      _headers.PIX_SCORE,
+    ],
+    _competenceIndexes,
+    [
+      _headers.SESSION_ID,
+      _headers.CERTIFICATION_CENTER,
+      _headers.CERTIFICATION_DATE,
+    ],
+  );
+}
+
+function _buildCertificationResultsFileHeadersWithCertificationCenterNameAndCleaStatus() {
+  return _.concat(
+    [
+      _headers.CERTIFICATION_NUMBER,
+      _headers.FIRSTNAME,
+      _headers.LASTNAME,
+      _headers.BIRTHDATE,
+      _headers.BIRTHPLACE,
+      _headers.EXTERNAL_ID,
+      _headers.CLEA_STATUS,
       _headers.PIX_SCORE,
     ],
     _competenceIndexes,
@@ -109,6 +144,25 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   const competencesCells = _getCompetenceCells(certificationResult);
   return { ...rowWithoutCompetences, ...competencesCells };
 };
+
+const _getRowItemsFromSessionAndResultsWithCleaStatus = (session) => (certificationResult) => {
+  const rowWithoutCompetences = {
+    [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
+    [_headers.FIRSTNAME]: certificationResult.firstName,
+    [_headers.LASTNAME]: certificationResult.lastName,
+    [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
+    [_headers.BIRTHPLACE]: certificationResult.birthplace,
+    [_headers.EXTERNAL_ID]: certificationResult.externalId,
+    [_headers.CLEA_STATUS]: certificationResult.cleaCertificationStatus,
+    [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
+    [_headers.SESSION_ID]: session.id,
+    [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
+    [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
+  };
+
+  const competencesCells = _getCompetenceCells(certificationResult);
+  return { ...rowWithoutCompetences, ...competencesCells };
+}
 
 function _formatPixScore(certificationResult) {
   return _isCertificationRejected(certificationResult) ? '0' : certificationResult.pixScore;
@@ -179,6 +233,7 @@ const _headers = {
   BIRTHDATE: 'Date de naissance',
   BIRTHPLACE: 'Lieu de naissance',
   EXTERNAL_ID: 'Identifiant Externe',
+  CLEA_STATUS: 'Certification CléA numérique',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',
@@ -187,5 +242,6 @@ const _headers = {
 
 module.exports = {
   getSessionCertificationResultsCsv,
+  getSessionCertificationResultsCsvWithCleaStatus,
   getDivisionCertificationResultsCsv,
 };
