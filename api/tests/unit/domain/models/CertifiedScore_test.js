@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | CertifiedScore', function() {
   it('is equal to the estimated score if the estimated level is certified', () => {
     // when
     const certifiedScore = CertifiedScore.from({
-      certifiedLevel: CertifiedLevel.validated(3),
+      certifiedLevel: CertifiedLevel.validate(3),
       estimatedScore: 10,
     });
 
@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | CertifiedScore', function() {
   it(`is reduced by ${PIX_COUNT_BY_LEVEL} pix if the estimated level is downgraded`, () => {
     // when
     const certifiedScore = CertifiedScore.from({
-      certifiedLevel: CertifiedLevel.downgraded(3),
+      certifiedLevel: CertifiedLevel.downgrade(3),
       estimatedScore: 10,
     });
 
@@ -32,7 +32,7 @@ describe('Unit | Domain | Models | CertifiedScore', function() {
   it('is equal to 0 if the estimated level is uncertified', () => {
     // when
     const certifiedScore = CertifiedScore.from({
-      certifiedLevel: CertifiedLevel.uncertified(),
+      certifiedLevel: CertifiedLevel.uncertify(),
       estimatedScore: 10,
     });
 
