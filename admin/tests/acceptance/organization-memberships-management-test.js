@@ -12,8 +12,9 @@ module('Acceptance | organization memberships management', function(hooks) {
   let organization;
 
   hooks.beforeEach(async function() {
-    await createAuthenticateSession({ userId: 1 });
+    const user = server.create('user');
     organization = this.server.create('organization');
+    await createAuthenticateSession({ userId: user.id });
   });
 
   test('should redirect to organization members page', async function(assert) {

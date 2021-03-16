@@ -12,7 +12,8 @@ module('Acceptance | Certification-center Form', function(hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async () => {
-    await createAuthenticateSession({ userId: 1 });
+    const { id: userId } = server.create('user');
+    await createAuthenticateSession({ userId });
   });
 
   test('it should create a certification center', async function(assert) {
