@@ -41,6 +41,12 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObjects(FinalizedSessionBookshelf, publishableFinalizedSessions);
   },
+
+  async assignCertificationOfficer({ sessionId, assignedCertificationOfficerName }) {
+    await FinalizedSessionBookshelf
+      .where({ sessionId })
+      .save({ assignedCertificationOfficerName }, { method: 'update', require: false });
+  },
 };
 
 function _toDTO(finalizedSession) {

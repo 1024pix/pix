@@ -10,6 +10,7 @@ module.exports = class FinalizedSession {
     sessionTime,
     isPublishable,
     publishedAt,
+    assignedCertificationOfficerName,
   } = {}) {
     this.sessionId = sessionId;
     this.finalizedAt = finalizedAt;
@@ -18,6 +19,7 @@ module.exports = class FinalizedSession {
     this.sessionTime = sessionTime;
     this.isPublishable = isPublishable;
     this.publishedAt = publishedAt;
+    this.assignedCertificationOfficerName = assignedCertificationOfficerName;
   }
 
   static from({

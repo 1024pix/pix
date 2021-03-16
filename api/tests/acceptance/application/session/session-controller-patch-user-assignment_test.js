@@ -73,16 +73,14 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', () =>
       });
 
       context('when the session exists', () => {
-        let sessionId;
-
-        beforeEach(() => {
-          // given
-          sessionId = databaseBuilder.factory.buildSession().id;
-          return databaseBuilder.commit();
-        });
-
         it('should return a 200 status code', async () => {
           // given
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          databaseBuilder.factory.buildFinalizedSession({
+            sessionId,
+            isPublishable: true,
+          });
+          await databaseBuilder.commit();
           options.url = `/api/admin/sessions/${sessionId}/certification-officer-assignment`;
 
           // when
