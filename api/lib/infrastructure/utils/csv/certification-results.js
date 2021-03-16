@@ -1,5 +1,7 @@
 const { getCsvContent } = require('./write-csv-utils');
 const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
+const { statuses: cleaStatuses } = require('../../../infrastructure/repositories/clea-certification-status-repository');
+
 const _ = require('lodash');
 const moment = require('moment');
 
@@ -16,20 +18,25 @@ async function getSessionCertificationResultsCsv({
   session,
   certificationResults,
 }) {
-  const data = _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults });
-  const fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterName();
+
+  const doesAtLeastOneCertificationHasPassedClea = certificationResults.some((result) => _hasPassedClea(result.cleaCertificationStatus));
+
+  let data;
+  let fileHeaders;
+
+  if (doesAtLeastOneCertificationHasPassedClea) {
+    data = _buildCertificationResultsFileDataWithCertificationCenterNameAndCleaStatus({ session, certificationResults });
+    fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterNameAndCleaStatus();
+  } else {
+    data = _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults });
+    fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterName();
+  }
 
   return getCsvContent({ data, fileHeaders });
 }
 
-async function getSessionCertificationResultsCsvWithCleaStatus({
-  session,
-  certificationResults,
-}) {
-  const data = _buildCertificationResultsFileDataWithCertificationCenterNameAndCleaStatus({ session, certificationResults });
-  const fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterNameAndCleaStatus();
-
-  return getCsvContent({ data, fileHeaders });
+function _hasPassedClea(cleaCertificationStatus) {
+  return [cleaStatuses.REJECTED, cleaStatuses.ACQUIRED].includes(cleaCertificationStatus);
 }
 
 function _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults }) {
@@ -145,11 +152,11 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   return { ...rowWithoutCompetences, ...competencesCells };
 };
 
-const cleaStatusLabelsForCSV = {
-  ['not_passed']: 'Non passée',
-  ['validated']: 'Validée',
-  ['rejected']: 'Rejetée',
-}
+const CLEA_STATUS_LABEL_FOR_CSV = {
+  [cleaStatuses.NOT_PASSED]: 'Non passée',
+  [cleaStatuses.ACQUIRED]: 'Validée',
+  [cleaStatuses.REJECTED]: 'Rejetée',
+};
 
 const _getRowItemsFromSessionAndResultsWithCleaStatus = (session) => (certificationResult) => {
   const rowWithoutCompetences = {
@@ -159,7 +166,7 @@ const _getRowItemsFromSessionAndResultsWithCleaStatus = (session) => (certificat
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.CLEA_STATUS]: cleaStatusLabelsForCSV[certificationResult.cleaCertificationStatus],
+    [_headers.CLEA_STATUS]: CLEA_STATUS_LABEL_FOR_CSV[certificationResult.cleaCertificationStatus],
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
@@ -168,7 +175,7 @@ const _getRowItemsFromSessionAndResultsWithCleaStatus = (session) => (certificat
 
   const competencesCells = _getCompetenceCells(certificationResult);
   return { ...rowWithoutCompetences, ...competencesCells };
-}
+};
 
 function _formatPixScore(certificationResult) {
   return _isCertificationRejected(certificationResult) ? '0' : certificationResult.pixScore;
@@ -248,6 +255,5 @@ const _headers = {
 
 module.exports = {
   getSessionCertificationResultsCsv,
-  getSessionCertificationResultsCsvWithCleaStatus,
   getDivisionCertificationResultsCsv,
 };
