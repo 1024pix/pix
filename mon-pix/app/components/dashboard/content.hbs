@@ -1,18 +1,31 @@
 <section class="page-container dashboard-content">
   <h1 class="sr-only">{{t 'pages.dashboard.title'}}</h1>
 
-  {{#unless this.hasUserSeenNewDashboardInfo}}
+  {{#if this.hasNewInformationToShow}}
     <section class="dashboard-content__banner" data-test-new-dashboard-info>
-      <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
-                      @image="/images/illustrations/discovery_TDB_pix.svg"
-                      @backgroundColorClass="new-information--blue-gradient-background"
-                      @textColorClass="new-information--white-text"
-                      @linkText="{{this.newDashboardInfoLink.text}}"
-                      @linkTo="{{this.newDashboardInfoLink.url}}"
-                      @closeaction={{this.closeInformationAboutNewDashboard}}
-      />
+      {{#unless this.hasUserSeenNewDashboardInfo}}
+        <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
+                        @image="/images/illustrations/discovery_TDB_pix.svg"
+                        @backgroundColorClass="new-information--blue-gradient-background"
+                        @textColorClass="new-information--white-text"
+                        @linkText="{{this.newDashboardInfoLink.text}}"
+                        @linkTo="{{this.newDashboardInfoLink.url}}"
+                        @closeaction={{this.closeInformationAboutNewDashboard}}
+        />
+      {{/unless}}
+      {{#if this.profileCollectionCampaignParticipationCode}}
+        <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
+                        @image="/images/profile_collect_TDB_pix.svg"
+                        @backgroundColorClass="new-information--yellow-gradient-background"
+                        @textColorClass="new-information--black-text"
+                        @linkDisplayType="button"
+                        @linkText="Continuer"
+                        @linkTo="campaigns.profiles-collection.start-or-resume"
+                        @code={{this.profileCollectionCampaignParticipationCode}}
+        />
+      {{/if}}
     </section>
-  {{/unless}}
+  {{/if}}
 
   <section class="dashboard-content__score">
     <div class="dashboard-content-score__wrapper">
@@ -22,34 +35,47 @@
   </section>
 
   <section class="dashboard-content__main">
-    {{#unless this.hasUserSeenNewDashboardInfo}}
+    {{#if this.hasNewInformationToShow}}
       <section class="dashboard-content-main__banner">
-        <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
-                        @image="/images/illustrations/discovery_TDB_pix.svg"
-                        @backgroundColorClass="new-information--blue-gradient-background"
-                        @textColorClass="new-information--white-text"
-                        @linkText="{{this.newDashboardInfoLink.text}}"
-                        @linkTo="{{this.newDashboardInfoLink.url}}"
-                        @closeaction={{this.closeInformationAboutNewDashboard}}
-        />
+        {{#unless this.hasUserSeenNewDashboardInfo}}
+          <NewInformation @information="{{t 'pages.dashboard.presentation.message' firstname=this.userFirstname}}"
+                          @image="/images/illustrations/discovery_TDB_pix.svg"
+                          @backgroundColorClass="new-information--blue-gradient-background"
+                          @textColorClass="new-information--white-text"
+                          @linkText="{{this.newDashboardInfoLink.text}}"
+                          @linkTo="{{this.newDashboardInfoLink.url}}"
+                          @closeaction={{this.closeInformationAboutNewDashboard}}
+          />
+        {{/unless}}
+        {{#if this.profileCollectionCampaignParticipationCode}}
+          <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
+                          @image="/images/profile_collect_TDB_pix.svg"
+                          @backgroundColorClass="new-information--yellow-gradient-background"
+                          @textColorClass="new-information--black-text"
+                          @linkDisplayType="button"
+                          @linkText="Continuer"
+                          @linkTo="campaigns.start-or-resume"
+                          @code={{this.profileCollectionCampaignParticipationCode}}
+          />
+        {{/if}}
       </section>
-    {{/unless}}
+    {{/if}}
 
     {{#if this.hasNothingToShow}}
-    <section class="dashboard-content__section" data-test-empty-dashboard>
-      <div class="dashboard-content-section--with-button">
-        <NewInformation @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
-                        @image="/images/illustrations/fusee.png"
-                        @backgroundColorClass="new-information--yellow-background"
-                        @linkText={{t 'pages.dashboard.empty-dashboard.link-to-competences'}}
-                        @linkTo="profile"
-                        @linkDisplayType="button"
-                        @textColorClass="new-information--black-text"/>
-      </div>
-    </section>
-  {{/if}}
+      <section class="dashboard-content__section" data-test-empty-dashboard>
+        <div class="dashboard-content-section--with-button">
+          <NewInformation @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
+                          @image="/images/illustrations/fusee.png"
+                          @backgroundColorClass="new-information--yellow-background"
+                          @linkText={{t 'pages.dashboard.empty-dashboard.link-to-competences'}}
+                          @linkTo="profile"
+                          @linkDisplayType="button"
+                          @textColorClass="new-information--black-text"/>
+        </div>
+      </section>
+    {{/if}}
 
-  {{#if this.hasCampaignParticipationOverviews}}
+    {{#if this.hasCampaignParticipationOverviews}}
       <section class="dashboard-content-main__section" data-test-campaign-participation-overviews>
         <h2 class="dashboard-content-main-section__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
         <p class="dashboard-content-main-section__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>

@@ -280,4 +280,56 @@ describe('Unit | Component | Dashboard | Content', function() {
       expect(result).to.equal(pixScore);
     });
   });
+
+  describe('#profileCollectionCampaignParticipationCode', function() {
+    it('should return the most recent profile collection campaign participation code among the unfinished ones', function() {
+      // given
+      const campaignNotFinished = EmberObject.create({
+        isShared: false,
+        createdAt: '2018-01-01',
+        campaign: EmberObject.create({
+          code: 'AZERTY0',
+          isProfilesCollection: true,
+        }),
+      });
+      const oldCampaignNotFinished = EmberObject.create({
+        isShared: false,
+        createdAt: '2017-01-01',
+        campaign: EmberObject.create({
+          code: 'AZERTY1',
+          isProfilesCollection: true,
+        }),
+      });
+      const campaignParticipations = [oldCampaignNotFinished, campaignNotFinished];
+      component.args.model = { campaignParticipations };
+
+      const expectedResult = campaignNotFinished.campaign.code;
+
+      // when
+      const campaignParticipationCode = component.profileCollectionCampaignParticipationCode;
+
+      // then
+      expect(campaignParticipationCode).to.equal(expectedResult);
+    });
+
+    it('should return null when all campaign are finished', function() {
+      // given
+      const campaignFinished = EmberObject.create({
+        isShared: true,
+        createdAt: '2018-12-12',
+        campaign: EmberObject.create({
+          code: 'AZERTY2',
+          isProfilesCollection: true,
+        }),
+      });
+      const campaignParticipations = [campaignFinished];
+      component.args.model = { campaignParticipations };
+
+      // when
+      const campaignParticipationCode = component.profileCollectionCampaignParticipationCode;
+
+      // then
+      expect(campaignParticipationCode).to.equal(null);
+    });
+  });
 });

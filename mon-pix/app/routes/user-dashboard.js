@@ -20,7 +20,10 @@ export default class UserDashboard extends Route.extend(SecuredRouteMixin) {
     const profile = await user.belongsTo('profile').reload();
     const scorecards = profile.scorecards;
 
+    const campaignParticipations = await user.hasMany('campaignParticipations').reload();
+
     return {
+      campaignParticipations,
       campaignParticipationOverviews,
       scorecards,
     };
