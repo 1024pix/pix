@@ -34,6 +34,18 @@ module('Acceptance | Session List', function(hooks) {
       assert.equal(currentURL(), '/sessions/list');
     });
 
+    test('it should display the number of sessions with required actions', async function(assert) {
+      // given
+      server.createList('with-required-action-session', 10);
+
+      // when
+      await visit('/sessions/list');
+
+      // then
+      assert.equal(currentURL(), '/sessions/list');
+      assert.contains('Sessions à traiter (10)');
+    });
+
     module('#Pagination', function(hooks) {
 
       hooks.beforeEach(function() {
