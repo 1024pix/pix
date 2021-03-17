@@ -26,6 +26,7 @@ const organizationId = implementationType.positiveInteger32bits;
 const organizationInvitationId = implementationType.positiveInteger32bits;
 const schoolingRegistrationId = implementationType.positiveInteger32bits;
 const sessionId = implementationType.positiveInteger32bits;
+const stageId = implementationType.positiveInteger32bits;
 const targetProfileId = implementationType.positiveInteger32bits;
 const tutorialId = implementationType.alphanumeric;
 const userId = implementationType.positiveInteger32bits;
@@ -49,6 +50,7 @@ module.exports = {
   organizationInvitationId,
   schoolingRegistrationId,
   sessionId,
+  stageId,
   targetProfileId,
   tutorialId,
   userId,

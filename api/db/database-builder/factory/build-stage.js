@@ -7,8 +7,8 @@ module.exports = function buildStage({
   title = faker.random.words(),
   threshold = 20,
   targetProfileId,
-  prescriberTitle,
-  prescriberDescription,
+  prescriberTitle = null,
+  prescriberDescription = null,
 } = {}) {
 
   const values = {
