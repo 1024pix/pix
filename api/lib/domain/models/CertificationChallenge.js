@@ -33,6 +33,10 @@ class CertificationChallenge {
       isNeutralized: false,
     });
   }
+
+  neutralize() {
+    this.isNeutralized = true;
+  }
 }
 
 module.exports = CertificationChallenge;
