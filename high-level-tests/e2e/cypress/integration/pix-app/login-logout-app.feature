@@ -8,9 +8,9 @@ Fonctionnalité: Connexion - Déconnexion
     Étant donné que je vais sur Pix
     Et que je suis redirigé vers la page "/connexion"
     Alors je vérifie l'accessibilité
-    Et je clique sur "Créez un compte"
-    Alors je suis redirigé vers la page "/inscription"
-    Et je vérifie l'accessibilité
+    Lorsque je clique sur "Créez un compte"
+    Et que je suis redirigé vers la page "/inscription"
+    Alors je vérifie l'accessibilité
 
   Scénario: Je me connecte puis je me déconnecte en fin de session
     Étant donné que je vais sur Pix
@@ -32,6 +32,7 @@ Fonctionnalité: Connexion - Déconnexion
     Alors je suis redirigé vers la page d'accueil de "Daenerys"
     Lorsque je me déconnecte
     Alors je suis redirigé vers la page "/nonconnecte"
+    Et je vérifie l'accessibilité
 
   Scénario: Je me connecte via un organisme externe alors qu'il y a une personne déjà connectée puis je me déconnecte
     Étant donné que je suis connecté à Pix en tant que "John Snow"
