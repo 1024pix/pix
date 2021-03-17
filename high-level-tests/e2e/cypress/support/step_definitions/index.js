@@ -91,14 +91,3 @@ Then(`la page {string} est correctement affichée`, (pageName) => {
 Then(`je vois {string} comme {string}`, (value, label) => {
   cy.contains(label).parent().within(() => cy.contains(value));
 });
-
-
-Then('l\'accessibilité de la page est correcte', () => {
-  cy.injectAxe();
-  cy.checkA11y(null,   {
-      rules: {
-        'html-lang-valid': { enabled: false },
-      },
-    },
-  )
-});
