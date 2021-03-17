@@ -38,6 +38,7 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.equal(find('tbody tr td:nth-child(3)').textContent.trim(), '100');
     assert.equal(find('tbody tr td:nth-child(4)').textContent.trim(), 'My title');
     assert.equal(find('tbody tr td:nth-child(5)').textContent.trim(), 'My message');
+    assert.equal(find('tbody tr td:nth-child(6)').textContent.trim(), 'Voir détail');
     assert.notContains('Aucun résultat thématique associé');
   });
 
