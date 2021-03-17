@@ -7,7 +7,7 @@
           <input type="checkbox" class="qcm-panel__proposal-checkbox" checked={{if labeledCheckbox.[1] 'checked' ''}} disabled="disabled">
 
           <MarkdownToHtml
-            @class="qcm-proposal-label__oracle"
+            @class="qcm-proposal-label__answer-details"
             @markdown={{labeledCheckbox.[0]}}
             data-goodness="{{if (get this.solutionArray (concat index)) 'good' 'bad'}}"
             data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}
