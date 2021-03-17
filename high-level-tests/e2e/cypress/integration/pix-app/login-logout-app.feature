@@ -4,6 +4,14 @@ Fonctionnalité: Connexion - Déconnexion
   Contexte:
     Étant donné que tous les comptes sont créés
 
+  Scénario: Je vérifie l'accessibilité des pages de connexion et d'inscription
+    Étant donné que je vais sur Pix
+    Et que je suis redirigé vers la page "/connexion"
+    Alors je vérifie l'accessibilité
+    Et je clique sur "Créez un compte"
+    Alors je suis redirigé vers la page "/inscription"
+    Et je vérifie l'accessibilité
+
   Scénario: Je me connecte puis je me déconnecte en fin de session
     Étant donné que je vais sur Pix
     Lorsque je me connecte avec le compte "daenerys.targaryen@pix.fr"
