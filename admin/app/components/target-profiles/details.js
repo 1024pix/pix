@@ -5,15 +5,20 @@ import ENV from 'pix-admin/config/environment';
 export default class TargetProfileDetails extends Component {
   get competenceList() {
     const { areas } = this.args.targetProfile;
-    return areas.toArray().flatMap((area) => this._buildCompetencesOfArea(area));
+
+    return areas.toArray()
+      .flatMap((area) => this._buildCompetencesOfArea(area))
+      .sort((a, b) => a.index - b.index);
   }
 
   _buildCompetencesOfArea(area) {
     const { competences } = this.args.targetProfile;
+
     return competences
       .filter((competence) => competence.areaId === area.id)
       .map((competence) => ({
         name: competence.name,
+        index: competence.index,
         area,
         tubes: this._buildTubeOfCompetence(competence.id),
       }));

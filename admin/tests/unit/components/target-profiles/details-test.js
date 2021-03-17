@@ -28,8 +28,8 @@ module('Unit |  Component | Target Profiles | details', function(hooks) {
           { id: 'area2', title: 'Area 2' },
         ],
         competences: [
-          { id: 'competence1', name: 'Competence 1', areaId: 'area1' },
-          { id: 'competence2', name: 'Competence 2', areaId: 'area2' },
+          { id: 'competence2', name: 'Competence 2', areaId: 'area2', index: '1.2' },
+          { id: 'competence1', name: 'Competence 1', areaId: 'area1', index: '1.1' },
         ],
         tubes: [
           { id: 'tube1', practicalTitle: 'Tube 1', competenceId: 'competence1' },
@@ -48,6 +48,7 @@ module('Unit |  Component | Target Profiles | details', function(hooks) {
     assert.deepEqual(component.competenceList, [
       {
         name: 'Competence 1',
+        index: '1.1',
         area: { id: 'area1', title: 'Area 1' },
         tubes: [{
           practicalTitle: 'Tube 1',
@@ -60,6 +61,7 @@ module('Unit |  Component | Target Profiles | details', function(hooks) {
       },
       {
         name: 'Competence 2',
+        index: '1.2',
         area: { id: 'area2', title: 'Area 2' },
         tubes: [{
           practicalTitle: 'Tube 2',

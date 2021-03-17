@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         ownerOrganizationId: 12,
         skills: [buildTargetedSkill({ id: 'rec1', name: '@url4', tubeId: 'rec2' })],
         tubes: [{ id: 'rec2', practicalTitle: 'Url', competenceId: 'rec3' }],
-        competences: [{ id: 'rec3', name: 'Comprendre', areaId: 'rec4' }],
+        competences: [{ id: 'rec3', name: 'Comprendre', areaId: 'rec4', index: '1.1' }],
         areas: [{ id: 'rec4', title: 'Connaître', color: 'blue' }],
         organizations: [{ id: 42 }],
       });
@@ -104,6 +104,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             attributes: {
               'name': targetProfileWithLearningContent.competences[0].name,
               'area-id': targetProfileWithLearningContent.competences[0].areaId,
+              'index': targetProfileWithLearningContent.competences[0].index,
             },
           },
           {
