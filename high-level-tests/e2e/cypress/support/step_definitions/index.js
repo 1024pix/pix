@@ -93,7 +93,7 @@ Then(`je vois {string} comme {string}`, (value, label) => {
 });
 
 
-Then('je vérifie l\'accessibilité', () => {
+Then('l\'accessibilité de la page est correcte', () => {
   cy.injectAxe();
   cy.checkA11y(null,   {
       rules: {
