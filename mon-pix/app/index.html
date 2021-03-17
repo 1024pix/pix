@@ -29,7 +29,8 @@
     </div>
 
     <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/mon-pix.js"></script>
+    <script nomodule src="{{rootURL}}assets/mon-pix.js"></script>
+    <script type="module" src="{{rootURL}}assets/mon-pix.js" data-modern-script></script>
 
     {{content-for "body-footer"}}
   </body>

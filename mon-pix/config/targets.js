@@ -1,5 +1,7 @@
 'use strict';
 
+const MODERN_SCRIPT = process.env.MODERN_SCRIPT === 'true';
+
 const browsers = [
   'last 1 Chrome versions',
   'last 1 Firefox versions',
@@ -13,6 +15,12 @@ if (isCI || isProduction) {
   browsers.push('ie 9');
 }
 
-module.exports = {
-  browsers,
-};
+if (MODERN_SCRIPT) {
+  module.exports = {
+    esmodules: true,
+  };
+} else {
+  module.exports = {
+    browsers,
+  };
+}
