@@ -80,7 +80,7 @@ describe('Integration | Component | reset password form', function() {
 
         const saveWithRejection = () => {
           isSaveMethodCalled = true;
-          return reject();
+          return reject({ errors: [{ status: '400' }] });
         };
 
         beforeEach(function() {
