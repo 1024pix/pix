@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import { resolve } from 'rsvp';
@@ -11,7 +11,7 @@ import faker from 'faker';
 
 module('Integration | Component | manage-authentication-method-modal', function(hooks) {
 
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('When Student is not connected with GAR method', function(hooks) {
 
@@ -53,7 +53,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
-        assert.contains('Identifiant');
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.username.label'));
         assert.dom('#username').hasValue(username);
       });
 
@@ -62,8 +62,8 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
-        assert.dom('button[aria-label="Copier l\'identifiant"]').hasAttribute('data-clipboard-text', username);
-        assert.contains('Copier l\'identifiant');
+        assert.dom(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.username.copy')}"]`).hasAttribute('data-clipboard-text', username);
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.username.copy'));
       });
 
       test('should display tooltip when username copy button is clicked', async function(assert) {
@@ -71,10 +71,10 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await triggerCopySuccess('button[aria-label="Copier l\'identifiant"]');
+        await triggerCopySuccess(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.username.copy')}"]`);
 
         // then
-        assert.contains('Copié !');
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.copied'));
       });
     });
 
@@ -93,8 +93,8 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // then
-        assert.dom('button[aria-label="Copier l\'adresse e-mail"]').hasAttribute('data-clipboard-text', email);
-        assert.contains('Copier l\'adresse e-mail');
+        assert.dom(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.email.copy')}"]`).hasAttribute('data-clipboard-text', email);
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.email.copy'));
       });
 
       test('should display tooltip when email copy button is clicked', async function(assert) {
@@ -102,10 +102,10 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await triggerCopySuccess('button[aria-label="Copier l\'adresse e-mail"]');
+        await triggerCopySuccess(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.email.copy')}"]`);
 
         // then
-        assert.contains('Copié !');
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.copied'));
       });
     });
 
@@ -116,9 +116,9 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithEmailOnly}} @display={{this.display}} />`);
 
         // then
-        assert.contains('Adresse e-mail');
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.email.label'));
         assert.dom('#email').hasValue(email);
-        assert.contains('Ajouter une connexion avec un identifiant');
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.add-username.label'));
       });
     });
 
@@ -147,7 +147,7 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await clickByLabel('Réinitialiser le mot de passe');
+        await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
 
         // then
         assert.dom('#generated-password').exists();
@@ -158,11 +158,11 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await clickByLabel('Réinitialiser le mot de passe');
+        await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
 
         // then
-        assert.dom('button[aria-label="Copier le mot de passe unique"]').hasAttribute('data-clipboard-text', generatedPassword);
-        assert.contains('Copier le mot de passe unique');
+        assert.dom(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.password.copy')}"]`).hasAttribute('data-clipboard-text', generatedPassword);
+        assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.password.copy'));
       });
 
       test('should display tooltip when generated password copy button is clicked', async function(assert) {
@@ -170,8 +170,8 @@ module('Integration | Component | manage-authentication-method-modal', function(
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
 
         // when
-        await clickByLabel('Réinitialiser le mot de passe');
-        await triggerCopySuccess('button[aria-label="Copier le mot de passe unique"]');
+        await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
+        await triggerCopySuccess(`button[aria-label="${this.intl.t('pages.students-sco.manage-authentication-method-modal.section.password.copy')}"]`);
 
         // then
         assert.contains('Copié !');
@@ -180,12 +180,12 @@ module('Integration | Component | manage-authentication-method-modal', function(
       test('should generate unique password each time the modal is used', async function(assert) {
         // given
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
-        await clickByLabel('Réinitialiser le mot de passe');
+        await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
         const firstGeneratedPassword = this.element.querySelector('#generated-password').value;
 
         // when
         await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentWithUsernameAndEmail}} @display={{this.display}} />`);
-        await clickByLabel('Réinitialiser le mot de passe');
+        await clickByLabel(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.reset-password.button'));
         const secondGeneratedPassword = this.element.querySelector('#generated-password').value;
 
         // then
@@ -210,8 +210,8 @@ module('Integration | Component | manage-authentication-method-modal', function(
       await render(hbs`<ManageAuthenticationMethodModal @student={{this.studentGAR}} @display={{this.display}} />`);
 
       // then
-      assert.contains('Médiacentre');
-      assert.contains('Ajouter une connexion avec un identifiant');
+      assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.mediacentre.label'));
+      assert.contains(this.intl.t('pages.students-sco.manage-authentication-method-modal.section.add-username.label'));
 
     });
   });

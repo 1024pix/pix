@@ -1,15 +1,15 @@
-<Modal::Dialog @title="Gestion du compte Pix de l'élève" @display={{@display}} @close={{this.closeModal}}>
+<Modal::Dialog @title="{{t 'pages.students-sco.manage-authentication-method-modal.title' }}" @display={{@display}} @close={{this.closeModal}}>
   <form class="manage-authentication-window">
     <h6>
       <FaIcon @icon="link" />
-      Méthodes de connexion
+        {{t 'pages.students-sco.manage-authentication-method-modal.authentication-methods' }}
     </h6>
 
     <div>
       {{#if @student.isAuthenticatedFromGar}}
         <div class="manage-authentication-window__box">
           <div class="manage-authentication-window__subTitle">
-            <span>Médiacentre</span>
+            <span>{{t 'pages.students-sco.manage-authentication-method-modal.section.mediacentre.label'}}</span>
             <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
           </div>
         </div>
@@ -18,7 +18,7 @@
       {{#if @student.hasEmail}}
       <div class="manage-authentication-window__box">
         <div class="manage-authentication-window__subTitle">
-          <span>Adresse e-mail</span>
+          <span>{{t 'pages.students-sco.manage-authentication-method-modal.section.email.label'}}</span>
           <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
         </div>
         <div class="input-container">
@@ -38,7 +38,7 @@
                 @isInline={{true}}
                 class="manage-authentication-window__tooltip">
                 <CopyButton
-                  @aria-label="Copier l'adresse e-mail"
+                  @aria-label="{{t 'pages.students-sco.manage-authentication-method-modal.section.email.copy'}}"
                   @clipboardText={{@student.email}}
                   @success={{this.clipboardSuccessEmail}}
                   {{ on 'mouseout' this.clipboardOutEmail}}
@@ -55,17 +55,17 @@
       <div class="manage-authentication-window__box">
         {{#if @student.displayAddUsernameAuthentication}}
           <div class="manage-authentication-window__subTitle">
-            <span>Ajouter une connexion avec un identifiant </span>
+            <span>{{t 'pages.students-sco.manage-authentication-method-modal.section.add-username.label'}}</span>
             <FaIcon @icon="check-circle" @prefix="far" class="grey-icon" />
           </div>
-          <button aria-label="Ajouter un identifiant" type="button" class="button"
+          <button aria-label="{{t 'pages.students-sco.manage-authentication-method-modal.section.add-username.button'}}" type="button" class="button"
                   {{on 'click' this.generateUsernameWithTemporaryPassword}}>
-            Ajouter l'identifiant
+              {{t 'pages.students-sco.manage-authentication-method-modal.section.add-username.button'}}
           </button>
         {{else}}
           {{#if @student.hasUsername}}
             <div class="manage-authentication-window__subTitle">
-              <span>Identifiant</span>
+              <span>{{t 'pages.students-sco.manage-authentication-method-modal.section.username.label'}}</span>
               <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
             </div>
             <div class="input-container">
@@ -85,7 +85,7 @@
                     @isInline={{true}}
                     class="manage-authentication-window__tooltip">
                     <CopyButton
-                      @aria-label="Copier l'identifiant"
+                      @aria-label="{{t 'pages.students-sco.manage-authentication-method-modal.section.username.copy'}}"
                       @clipboardText={{@student.username}}
                       @success={{this.clipboardSuccessUsername}}
                       {{ on 'mouseout' this.clipboardOutUsername}}
@@ -106,7 +106,7 @@
         {{#if this.isUniquePasswordVisible}}
           <div>
             <div class="input-container">
-              <label for="generated-password">Nouveau mot de passe à usage unique</label>
+              <label for="generated-password">{{t 'pages.students-sco.manage-authentication-method-modal.section.password.label'}}</label>
               <div class="manage-authentication-window__clipboard">
                 <Input
                   id="generated-password"
@@ -123,7 +123,7 @@
                     @isInline={{true}}
                     class="manage-authentication-window__tooltip">
                     <CopyButton
-                      @aria-label="Copier le mot de passe unique"
+                      @aria-label="{{t 'pages.students-sco.manage-authentication-method-modal.section.password.copy'}}"
                       @clipboardText={{this.generatedPassword}}
                       @success={{this.clipboardSuccessGeneratedPassword}}
                       {{on 'mouseout' this.clipboardOutGeneratedPassword}}
@@ -136,18 +136,18 @@
             </div>
 
             <ol class="manage-authentication-window__informations">
-              <li>Communiquez ce nouveau mot de passe à votre élève</li>
-              <li>L'élève se connecte avec ce mot de passe à usage unique</li>
-              <li>Pix lui demande d'en choisir un nouveau</li>
+              <li>{{t 'pages.students-sco.manage-authentication-method-modal.section.password.warning-1'}}</li>
+              <li>{{t 'pages.students-sco.manage-authentication-method-modal.section.password.warning-2'}}</li>
+              <li>{{t 'pages.students-sco.manage-authentication-method-modal.section.password.warning-3'}}</li>
             </ol>
           </div>
         {{else}}
           <div>
-            <button id="generate-password" type="button" class="button" {{on 'click' this.resetPassword}}>Réinitialiser le mot de passe</button>
+            <button id="generate-password" type="button" class="button" {{on 'click' this.resetPassword}}>{{t 'pages.students-sco.manage-authentication-method-modal.section.reset-password.button'}}</button>
 
             <div class="manage-authentication-window__warning">
               <FaIcon @icon="exclamation-triangle" class="icon--warning" />
-              <span>Réinitialiser supprime le mot de passe actuel de l’élève</span>
+              <span>{{t 'pages.students-sco.manage-authentication-method-modal.section.reset-password.warning'}}</span>
             </div>
           </div>
         {{/if}}

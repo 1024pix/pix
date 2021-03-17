@@ -371,6 +371,43 @@
         "global-success": "La liste a été importée avec succès."
       },
       "know-more": "En savoir plus",
+      "manage-authentication-method-modal": {
+        "authentication-methods": "Méthodes de connexion",
+        "copied": "Copié !",
+        "error": {
+          "default": "Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.",
+          "unexpected": "Quelque chose s'est mal passé. Veuillez réessayer."
+        },
+        "section": {
+          "add-username": {
+            "button": "Ajouter l’identifiant",
+            "label": "Ajouter une connexion avec un identifiant"
+          },
+          "email": {
+            "copy": "Copier l’adresse e-mail",
+            "label": "Adresse e-mail"
+          },
+          "username": {
+            "copy": "Copier l’identifiant",
+            "label": "Identifiant"
+          },
+          "mediacentre": {
+            "label": "Médiacentre"
+          },
+          "password": {
+            "copy": "Copier le mot de passe unique",
+            "label": "Nouveau mot de passe à usage unique",
+            "warning-1": "Communiquez ce nouveau mot de passe à votre élève.",
+            "warning-2": "L’élève se connecte avec ce mot de passe à usage unique.",
+            "warning-3": "Pix lui demande d'en choisir un nouveau."
+          },
+          "reset-password": {
+            "button": "Réinitialiser le mot de passe",
+            "warning": "Réinitialiser supprime le mot de passe actuel de l’élève."
+          }
+        },
+        "title": "Gestion du compte Pix de l’élève"
+      },
       "table": {
         "column": {
           "date-of-birth": "Date de naissance",
