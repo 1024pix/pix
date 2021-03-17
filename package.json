@@ -80,7 +80,9 @@
     "test:certif": "cd certif && npm test",
     "test:mon-pix": "cd mon-pix && npm test",
     "test:orga": "cd orga && npm test",
-    "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests"
+    "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests",
+    "domains:start": "cd ./scripts/local-domains/ && docker-compose up -d",
+    "domains:stop": "cd ./scripts/local-domains/ && docker-compose down"
   },
   "dependencies": {
     "axios": "^0.21.1",
