@@ -11,13 +11,14 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
   context('when 3 challenges were answered', () => {
 
     // TODO : Check for missing rules
-    context('rule n°1: 3 answers are correct', () => {
+    context('rule n°1: 3 OK', () => {
 
       it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 3,
           numberOfCorrectAnswers: 3,
+          numberOfNeutralizedAnswers: 0,
           estimatedLevel: 3,
           reproducibilityRate: 0, // unimportant
         });
@@ -29,12 +30,13 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('rule n°2 : only 2 answers are correct', () => {
+    context('rule n°2 : 2 OK, 1 KO', () => {
 
       it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 3,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
           reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
@@ -48,6 +50,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 3,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
           reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED - 1,
@@ -59,15 +62,66 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('rules n°4 and n°7: less than 2 answers are correct', () => {
+    context('rules n°4 : 1 OK, 2 KO', () => {
 
       it('does not certify a level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 3,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
           reproducibilityRate: 100, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+      });
+    });
+
+    context('rules n°5: 1 OK, 1 KO, 1 NEUTRALIZED', () => {
+
+      it(`certifies the estimated level is reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 1,
+          numberOfNeutralizedAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+
+      it(`certifies a level below the estimated on if reproducibility rate >= 70% and < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 1,
+          numberOfNeutralizedAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 70,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(2);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.true;
+      });
+
+      it('does not certify a level if reproducibility level < 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 1,
+          numberOfNeutralizedAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 69,
         });
 
         // then
@@ -79,12 +133,13 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
 
   context('when only 2 challenges were asked', () => {
 
-    context('rule n°11: 2 answers are correct', () => {
+    context('rule n°11: 2 OK', () => {
 
       it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 2,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
           reproducibilityRate: 0, // unimportant
@@ -97,12 +152,13 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('rule n°12: only 1 answer is correct and the other one is KO', () => {
+    context('rule n°12: 1 OK, 1 KO', () => {
 
       it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 2,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
           reproducibilityRate: MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
@@ -118,6 +174,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 2,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
           reproducibilityRate: 70,
@@ -133,6 +190,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 2,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
           reproducibilityRate: 69,
@@ -148,12 +206,13 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
 
   context('when only 1 challenge was asked', () => {
 
-    context('rule n°17: and the answer is correct', () => {
+    context('rule n°17: 1 OK', () => {
 
       it('certifies the estimated level when reproducibility rate >= 70%', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 1,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
           reproducibilityRate: 70,
@@ -169,6 +228,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 1,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 1,
           estimatedLevel: 3,
           reproducibilityRate: 69,
@@ -181,13 +241,13 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('and the answer is incorrect', () => {
+    context('rule n°18: 1 KO', () => {
 
       it('does not certify any level', () => {
-        // TODO : differentiate between uncertified and not-certifiable
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 1,
+          numberOfNeutralizedAnswers: 0,
           numberOfCorrectAnswers: 0,
           estimatedLevel: 3, // unimportant
           reproducibilityRate: 69, // unimportant

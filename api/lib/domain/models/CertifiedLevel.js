@@ -11,25 +11,34 @@ class CertifiedLevel {
 
   static from({
     numberOfChallengesAnswered,
+    numberOfNeutralizedAnswers,
     numberOfCorrectAnswers,
     estimatedLevel,
     reproducibilityRate,
   }) {
     if (numberOfChallengesAnswered === 3) {
-      return CertifiedLevel._for3Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+      return CertifiedLevel._for3Challenges({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate });
     } else if (numberOfChallengesAnswered === 2) {
-      return CertifiedLevel._for2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+      return CertifiedLevel._for2Challenges({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate });
     } else {
-      return CertifiedLevel._for1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate });
+      return CertifiedLevel._for1Challenge({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate });
     }
   }
 
   static _for3Challenges({
     numberOfCorrectAnswers,
+    numberOfNeutralizedAnswers,
     estimatedLevel,
     reproducibilityRate,
   }) {
     if (numberOfCorrectAnswers < 2) {
+      if (numberOfNeutralizedAnswers === 1) {
+        if (reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
+          return this.validate(estimatedLevel);
+        } else if (reproducibilityRate >= 70) {
+          return this.downgrade(estimatedLevel);
+        }
+      }
       return this.uncertify();
     }
     if (reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
@@ -38,7 +47,7 @@ class CertifiedLevel {
     return this.validate(estimatedLevel);
   }
 
-  static _for2Challenges({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
+  static _for2Challenges({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate }) {
     if (numberOfCorrectAnswers === 2) {
       return this.validate(estimatedLevel);
     } else if (numberOfCorrectAnswers === 1) {
@@ -53,7 +62,7 @@ class CertifiedLevel {
     return this.uncertify();
   }
 
-  static _for1Challenge({ numberOfCorrectAnswers, estimatedLevel, reproducibilityRate }) {
+  static _for1Challenge({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate }) {
     if (numberOfCorrectAnswers === 1) {
       if (reproducibilityRate >= 70) {
         return this.validate(estimatedLevel);
