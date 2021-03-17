@@ -24,6 +24,6 @@ Fonctionnalité: Gestion des élèves
     Et que j'attends 500 ms
     Et que je veux gérer le compte d'un élève
     Alors je vois la modale de gestion du compte de l'élève
-    Lorsque je clique sur "Ajouter l'identifiant"
+    Lorsque je clique sur "Ajouter l’identifiant"
     Alors je vois l'identifiant généré
     Et je vois le mot de passe généré
