@@ -159,4 +159,39 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     });
   });
 
+  describe('#save', () => {
+
+    it('persists the mutation of neutralized certification challenges', async () => {
+      // given
+      const dbf = databaseBuilder.factory;
+      const userId = dbf.buildUser().id;
+      const certificationCourseId = dbf.buildCertificationCourse({ userId }).id;
+      const certificationAssessmentId = dbf.buildAssessment({
+        userId,
+        certificationCourseId,
+      }).id;
+      dbf.buildAnswer({ assessmentId: certificationAssessmentId });
+      dbf.buildAnswer({ assessmentId: certificationAssessmentId });
+
+      const certificationChallenge1RecId = 'rec1234';
+      const certificationChallenge2RecId = 'rec567' ;
+      dbf.buildCertificationChallenge({ challengeId: certificationChallenge1RecId, courseId: certificationCourseId, isNeutralized: false });
+      dbf.buildCertificationChallenge({ challengeId: certificationChallenge2RecId, courseId: certificationCourseId, isNeutralized: false });
+      dbf.buildCertificationChallenge({ challengeId: 'rec8910', courseId: certificationCourseId, isNeutralized: false });
+
+      await databaseBuilder.commit();
+      const certificationAssessmentToBeSaved = await certificationAssessmentRepository.get(certificationAssessmentId);
+
+      // when
+      certificationAssessmentToBeSaved.neutralizeChallengeByRecId(certificationChallenge1RecId);
+      certificationAssessmentToBeSaved.neutralizeChallengeByRecId(certificationChallenge2RecId);
+      await certificationAssessmentRepository.save(certificationAssessmentToBeSaved);
+
+      // then
+      const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
+      expect(persistedCertificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
+      expect(persistedCertificationAssessment.certificationChallenges[1].isNeutralized).to.be.true;
+      expect(persistedCertificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
+    });
+  });
 });
