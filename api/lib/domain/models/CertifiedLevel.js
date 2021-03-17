@@ -15,54 +15,13 @@ class CertifiedLevel {
     estimatedLevel,
     reproducibilityRate,
   }) {
-    if (numberOfChallengesAnswered === 3) {
-      return CertifiedLevel._for3Challenges({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate });
-    } else if (numberOfChallengesAnswered === 2) {
-      return CertifiedLevel._for2Challenges({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate });
-    } else {
-      return CertifiedLevel._for1Challenge({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate });
-    }
-  }
-
-  static _for3Challenges({
-    numberOfCorrectAnswers,
-    numberOfNeutralizedAnswers,
-    estimatedLevel,
-    reproducibilityRate,
-  }) {
-    const rule = _rules.find((rule) => rule.isAppliable({
-      numberOfChallengesAnswered: 3,
+    const rule = _rules.findRuleFor({
+      numberOfChallengesAnswered,
       numberOfCorrectAnswers,
       numberOfNeutralizedAnswers,
-    }));
+    });
     if (!rule) {
-      return CertifiedLevel.uncertify(); // TODO : throw ?
-    } else {
-      return rule.apply({ reproducibilityRate, estimatedLevel });
-    }
-  }
-
-  static _for2Challenges({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate }) {
-    const rule = _rules.find((rule) => rule.isAppliable({
-      numberOfChallengesAnswered: 2,
-      numberOfCorrectAnswers,
-      numberOfNeutralizedAnswers,
-    }));
-    if (!rule) {
-      return CertifiedLevel.uncertify(); // TODO : throw ?
-    } else {
-      return rule.apply({ reproducibilityRate, estimatedLevel });
-    }
-  }
-
-  static _for1Challenge({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate }) {
-    const rule = _rules.find((rule) => rule.isAppliable({
-      numberOfChallengesAnswered: 1,
-      numberOfCorrectAnswers,
-      numberOfNeutralizedAnswers,
-    }));
-    if (!rule) {
-      return CertifiedLevel.uncertify(); // TODO : throw ?
+      return CertifiedLevel.uncertify(); // TODO : should not be possible, throw instead ?
     } else {
       return rule.apply({ reproducibilityRate, estimatedLevel });
     }
@@ -115,15 +74,17 @@ class Rule {
     this.actionWhenReproducibilityBetween70And80 = actionWhenReproducibilityBetween70And80;
     this.actionWhenReproducibilityBelow70 = actionWhenReproducibilityBelow70;
   }
+
   isAppliable({
     numberOfChallengesAnswered,
     numberOfCorrectAnswers,
     numberOfNeutralizedAnswers,
   }) {
     return (numberOfChallengesAnswered === this.numberOfChallengesAnswered
-    && numberOfCorrectAnswers === this.numberOfCorrectAnswers
-    && numberOfNeutralizedAnswers === this.numberOfNeutralizedAnswers);
+      && numberOfCorrectAnswers === this.numberOfCorrectAnswers
+      && numberOfNeutralizedAnswers === this.numberOfNeutralizedAnswers);
   }
+
   apply({ reproducibilityRate, estimatedLevel }) {
     if (reproducibilityRate >= 80) {
       return this.actionWhenReproducibilityRateEqualOrAbove80(estimatedLevel);
@@ -134,6 +95,7 @@ class Rule {
     }
   }
 }
+
 class Rule1 extends Rule {
   constructor() {
     super({
@@ -146,6 +108,7 @@ class Rule1 extends Rule {
     });
   }
 }
+
 class Rule2 extends Rule {
   constructor() {
     super({
@@ -158,6 +121,7 @@ class Rule2 extends Rule {
     });
   }
 }
+
 class Rule3 extends Rule {
   constructor() {
     super({
@@ -170,6 +134,7 @@ class Rule3 extends Rule {
     });
   }
 }
+
 class Rule4 extends Rule {
   constructor() {
     super({
@@ -182,6 +147,7 @@ class Rule4 extends Rule {
     });
   }
 }
+
 class Rule5 extends Rule {
   constructor() {
     super({
@@ -194,6 +160,7 @@ class Rule5 extends Rule {
     });
   }
 }
+
 class Rule6 extends Rule {
   constructor() {
     super({
@@ -206,6 +173,7 @@ class Rule6 extends Rule {
     });
   }
 }
+
 class Rule7 extends Rule {
   constructor() {
     super({
@@ -218,6 +186,7 @@ class Rule7 extends Rule {
     });
   }
 }
+
 class Rule8 extends Rule {
   constructor() {
     super({
@@ -230,6 +199,7 @@ class Rule8 extends Rule {
     });
   }
 }
+
 class Rule9 extends Rule {
   constructor() {
     super({
@@ -242,6 +212,7 @@ class Rule9 extends Rule {
     });
   }
 }
+
 class Rule10 extends Rule {
   constructor() {
     super({
@@ -254,6 +225,7 @@ class Rule10 extends Rule {
     });
   }
 }
+
 class Rule11 extends Rule {
   constructor() {
     super({
@@ -266,6 +238,7 @@ class Rule11 extends Rule {
     });
   }
 }
+
 class Rule12 extends Rule {
   constructor() {
     super({
@@ -278,6 +251,7 @@ class Rule12 extends Rule {
     });
   }
 }
+
 class Rule13 extends Rule {
   constructor() {
     super({
@@ -290,6 +264,7 @@ class Rule13 extends Rule {
     });
   }
 }
+
 class Rule14 extends Rule {
   constructor() {
     super({
@@ -302,6 +277,7 @@ class Rule14 extends Rule {
     });
   }
 }
+
 class Rule15 extends Rule {
   constructor() {
     super({
@@ -314,6 +290,7 @@ class Rule15 extends Rule {
     });
   }
 }
+
 class Rule16 extends Rule {
   constructor() {
     super({
@@ -326,6 +303,7 @@ class Rule16 extends Rule {
     });
   }
 }
+
 class Rule17 extends Rule {
   constructor() {
     super({
@@ -338,6 +316,7 @@ class Rule17 extends Rule {
     });
   }
 }
+
 class Rule18 extends Rule {
   constructor() {
     super({
@@ -350,6 +329,7 @@ class Rule18 extends Rule {
     });
   }
 }
+
 class Rule19 extends Rule {
   constructor() {
     super({
@@ -363,24 +343,37 @@ class Rule19 extends Rule {
   }
 }
 
-const _rules = [
-  new Rule1(),
-  new Rule2(),
-  new Rule3(),
-  new Rule4(),
-  new Rule5(),
-  new Rule6(),
-  new Rule7(),
-  new Rule8(),
-  new Rule9(),
-  new Rule10(),
-  new Rule11(),
-  new Rule12(),
-  new Rule13(),
-  new Rule14(),
-  new Rule15(),
-  new Rule16(),
-  new Rule17(),
-  new Rule18(),
-  new Rule19(),
-];
+const _rules = {
+  rules: [
+    new Rule1(),
+    new Rule2(),
+    new Rule3(),
+    new Rule4(),
+    new Rule5(),
+    new Rule6(),
+    new Rule7(),
+    new Rule8(),
+    new Rule9(),
+    new Rule10(),
+    new Rule11(),
+    new Rule12(),
+    new Rule13(),
+    new Rule14(),
+    new Rule15(),
+    new Rule16(),
+    new Rule17(),
+    new Rule18(),
+    new Rule19(),
+  ],
+  findRuleFor({
+    numberOfChallengesAnswered,
+    numberOfCorrectAnswers,
+    numberOfNeutralizedAnswers,
+  }) {
+    return this.rules.find((rule) => rule.isAppliable({
+      numberOfChallengesAnswered,
+      numberOfCorrectAnswers,
+      numberOfNeutralizedAnswers,
+    }));
+  },
+};
