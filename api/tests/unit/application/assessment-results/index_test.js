@@ -1,135 +1,77 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, HttpTestServer } = require('../../../test-helper');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
-const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
-const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
+const assessmentResultSessionController = require('../../../../lib/application/assessment-results/assessment-result-controller');
+const moduleUnderTest = require('../../../../lib/application/assessment-results');
 
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-const usecases = require('../../../../lib/domain/usecases');
-const events = require('../../../../lib/domain/events');
-const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
+describe('Unit | Application | Assessment-Results | Routes', () => {
 
-describe('Unit | Controller | assessment-results', () => {
+  context('POST /api/assessment-results/neutralize-challenge', () => {
 
-  describe('#save', () => {
-
-    const request = {
-      payload: {
+    it('rejects access if the logged user is not a Pix Master', async () => {
+      // given
+      sinon.stub(assessmentResultSessionController, 'neutralizeChallenge').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const payload = {
         data: {
           attributes: {
-            'assessment-id': 2,
-            'certification-id': 1,
-            level: 3,
-            'pix-score': 27,
-            status: 'validated',
-            emitter: 'Jury',
-            'comment-for-jury': 'Envie de faire un nettoyage de printemps dans les notes',
-            'comment-for-candidate': 'Tada',
-            'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
-            'competences-with-mark': [
-              {
-                level: 2,
-                score: 18,
-                'area_code': 2,
-                'competence_code': 2.1,
-              }, {
-                level: 3,
-                score: 27,
-                'area_code': 3,
-                'competence_code': 3.2,
-              }, {
-                level: 1,
-                score: 9,
-                'area_code': 1,
-                'competence_code': 1.3,
-              },
-            ],
-          },
-          type: 'assessment-results',
-        },
-      },
-      auth: {
-        credentials: {
-          userId: 1,
-        },
-      },
-    };
-
-    beforeEach(() => {
-
-      sinon.stub(assessmentResultService, 'save').resolves();
-    });
-
-    it('should return a Assessment Result and an Array of Competence Marks', async () => {
-      // given
-      const expectedAssessmentResult = new AssessmentResult({
-        assessmentId: 2,
-        level: 3,
-        pixScore: 27,
-        status: 'validated',
-        emitter: 'Jury',
-        commentForJury: 'Envie de faire un nettoyage de printemps dans les notes',
-        commentForCandidate: 'Tada',
-        commentForOrganization: 'Je suis sûr que vous etes ok avec nous',
-        juryId: 1,
-      });
-
-      const competenceMark1 = new CompetenceMark({
-        level: 2,
-        score: 18,
-        area_code: 2,
-        competence_code: 2.1,
-      });
-      const competenceMark2 = new CompetenceMark({
-        level: 3,
-        score: 27,
-        area_code: 3,
-        competence_code: 3.2,
-      });
-      const competenceMark3 = new CompetenceMark({
-        level: 1,
-        score: 9,
-        area_code: 1,
-        competence_code: 1.3,
-      });
-
-      // when
-      const response = await assessmentResultController.save(request, hFake);
-
-      // then
-      expect(response).to.be.null;
-      expect(assessmentResultService.save).to.have.been.calledWithMatch(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
-    });
-  });
-
-  describe('#neutralizeChallenge', () => {
-    it('neutralizes the challenge and dispatches the event', async () => {
-      // given
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              certificationCourseId: 1,
-              challengeRecId: 'rec43mpMIR5dUzdjh',
-            },
+            certificationCourseId: 1,
+            challengeRecId: 'rec43mpMIR5dUzdjh',
           },
         },
       };
-      const eventToBeDispatched = new ChallengeNeutralized({ certificationCourseId: 1 });
-      sinon.stub(usecases, 'neutralizeChallenge').withArgs({
-        certificationCourseId: 1,
-        challengeRecId: 'rec43mpMIR5dUzdjh',
-      }).resolves(eventToBeDispatched);
-      sinon.stub(events, 'eventDispatcher').value({
-        dispatch: sinon.stub(),
-      });
 
       // when
-      const response = await assessmentResultController.neutralizeChallenge(request, hFake);
+      const response = await httpTestServer.request('POST', '/api/admin/assessment-results/neutralize-challenge', payload);
 
       // then
-      expect(events.eventDispatcher.dispatch).to.have.been.calledWithExactly(eventToBeDispatched);
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('checks that a valid certification-course id is given', async () => {
+      // given
+      sinon.stub(assessmentResultSessionController, 'neutralizeChallenge').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const payload = {
+        data: {
+          attributes: {
+            certificationCourseId: 'invalide',
+            challengeRecId: 'rec43mpMIR5dUzdjh',
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/assessment-results/neutralize-challenge', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('checks that a challenge recId is given', async() => {
+      // given
+      sinon.stub(assessmentResultSessionController, 'neutralizeChallenge').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
+      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer(moduleUnderTest);
+      const payload = {
+        data: {
+          attributes: {
+            certificationCourseId: 1,
+            challengeRecId: null,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/assessment-results/neutralize-challenge', payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 });
