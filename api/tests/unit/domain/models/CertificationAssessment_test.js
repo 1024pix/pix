@@ -128,6 +128,39 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
 
       // then
       expect(certificationChallenge).to.be.null;
+
+    });
+  });
+
+  describe('#neutralizeChallengeByRecId', () => {
+
+    it('neutralizes the challenge when the challenge was asked', () => {
+      // given
+      const challengeToBeNeutralized = domainBuilder.buildCertificationChallenge({ isNeutralized: false });
+
+      const certificationAssessment = new CertificationAssessment({
+        id: 123,
+        userId: 123,
+        certificationCourseId: 123,
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-01'),
+        state: CertificationAssessment.states.STARTED,
+        isV2Certification: true,
+        certificationChallenges: [
+          challengeToBeNeutralized,
+          domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
+          domainBuilder.buildCertificationChallenge({ isNeutralized: false }),
+        ],
+        certificationAnswersByDate: ['answer'],
+      });
+
+      // when
+      certificationAssessment.neutralizeChallengeByRecId(challengeToBeNeutralized.challengeId);
+
+      // then
+      expect(certificationAssessment.certificationChallenges[0].isNeutralized).to.be.true;
+      expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.false;
+      expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
     });
   });
 });

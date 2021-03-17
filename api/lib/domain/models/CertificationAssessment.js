@@ -45,6 +45,12 @@ class CertificationAssessment {
     return _.find(this.certificationChallenges, { challengeId }) || null;
   }
 
+  neutralizeChallengeByRecId(recId) {
+    const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId : recId});
+    if (challengeToBeNeutralized) { // TODO : throw if not found ?
+      challengeToBeNeutralized.neutralize();
+    }
+  }
 }
 
 CertificationAssessment.states = states;
