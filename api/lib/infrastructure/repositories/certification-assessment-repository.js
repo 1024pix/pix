@@ -84,4 +84,12 @@ module.exports = {
     });
   },
 
+  async save(certificationAssessment) {
+    for (const challenge of certificationAssessment.certificationChallenges) {
+      await knex('certification-challenges')
+        .where({ id: challenge.id })
+        .update(_.pick(challenge, ['isNeutralized']));
+    }
+  },
+
 };
