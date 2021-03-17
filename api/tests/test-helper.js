@@ -150,9 +150,9 @@ chai.use(function(chai) {
 
 function mockLearningContent(learningContent) {
   nock('https://lcms-test.pix.fr/api')
-    .get('/current-content')
+    .get('/releases/latest')
     .matchHeader('Authorization', 'Bearer test-api-key')
-    .reply(200, learningContent);
+    .reply(200, { content: learningContent });
 }
 
 module.exports = {
