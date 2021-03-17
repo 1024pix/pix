@@ -42,6 +42,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
     const certifiedLevel = CertifiedLevel.from({
       numberOfChallengesAnswered: competenceAnswerCollection.numberOfChallengesAnswered(),
       numberOfCorrectAnswers: competenceAnswerCollection.numberOfCorrectAnswers(),
+      numberOfNeutralizedAnswers: competenceAnswerCollection.numberOfNeutralizedChallenges(),
       estimatedLevel: competence.estimatedLevel,
       reproducibilityRate,
     });
