@@ -21,7 +21,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       await render(hbs`<QcmSolutionPanel />`);
 
       expect(find('.qcm-solution-panel')).to.exist;
-      expect(findAll('.qcm-proposal-label__oracle')).to.have.lengthOf(0);
+      expect(findAll('.qcm-proposal-label__answer-details')).to.have.lengthOf(0);
     });
 
     describe('checkbox state', function() {
@@ -55,7 +55,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        const labels = findAll('.qcm-proposal-label__oracle');
+        const labels = findAll('.qcm-proposal-label__answer-details');
         expect(labels[1].getAttribute('data-checked')).to.equal('yes');
         expect(findAll('input[type=checkbox]')[1].getAttribute('disabled')).to.equal('disabled');
         expect(labels[1].getAttribute('data-goodness')).to.equal('good');
@@ -74,7 +74,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        const labels = findAll('.qcm-proposal-label__oracle');
+        const labels = findAll('.qcm-proposal-label__answer-details');
 
         expect(labels[0].getAttribute('data-checked')).to.equal('no');
         expect(labels[0].getAttribute('data-goodness')).to.equal('bad');
@@ -93,7 +93,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        const labels = findAll('.qcm-proposal-label__oracle');
+        const labels = findAll('.qcm-proposal-label__answer-details');
 
         expect(labels[2].getAttribute('data-checked')).to.equal('no');
         expect(labels[2].getAttribute('data-goodness')).to.equal('good');
@@ -114,7 +114,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        const labels = findAll('.qcm-proposal-label__oracle');
+        const labels = findAll('.qcm-proposal-label__answer-details');
 
         expect(labels[0].getAttribute('data-checked')).to.equal('yes');
         expect(labels[0].getAttribute('data-goodness')).to.equal('bad');

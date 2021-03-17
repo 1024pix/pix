@@ -141,8 +141,8 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
 
-      const goodAnswer = findAll('.qcm-proposal-label__oracle')[0];
-      const badAnswerFromUserResult = findAll('.qcm-proposal-label__oracle')[1];
+      const goodAnswer = findAll('.qcm-proposal-label__answer-details')[0];
+      const badAnswerFromUserResult = findAll('.qcm-proposal-label__answer-details')[1];
       expect(goodAnswer.getAttribute('data-goodness')).to.equal('good');
       expect(goodAnswer.getAttribute('data-checked')).to.equal('no');
       expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
