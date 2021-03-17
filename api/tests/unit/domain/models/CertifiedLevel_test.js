@@ -259,5 +259,24 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
     });
+
+    context('rule n°19: 1 NEUTRALIZED', () => {
+
+      it('does not certify any level', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 1,
+          numberOfNeutralizedAnswers: 1,
+          numberOfCorrectAnswers: 0,
+          estimatedLevel: 3, // unimportant
+          reproducibilityRate: 69, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
   });
 });

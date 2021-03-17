@@ -63,14 +63,16 @@ class CertifiedLevel {
   }
 
   static _for1Challenge({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate }) {
-    if (numberOfCorrectAnswers === 1) {
-      if (reproducibilityRate >= 70) {
-        return this.validate(estimatedLevel);
-      } else {
-        return this.downgrade(estimatedLevel);
-      }
+    const rule = _rules.find((rule) => rule.isAppliable({
+      numberOfChallengesAnswered: 1,
+      numberOfCorrectAnswers,
+      numberOfNeutralizedAnswers,
+    }));
+    if (!rule) {
+      return CertifiedLevel.uncertify(); // TODO : throw ?
+    } else {
+      return rule.apply({ reproducibilityRate, estimatedLevel });
     }
-    return this.uncertify();
   }
 
   static uncertify() {
@@ -103,3 +105,82 @@ const statuses = {
 module.exports = {
   CertifiedLevel,
 };
+
+class Rule {
+  constructor({
+    numberOfChallengesAnswered,
+    numberOfCorrectAnswers,
+    numberOfNeutralizedAnswers,
+    actionWhenReproducibilityRateEqualOrAbove80,
+    actionWhenReproducibilityBetween70And80,
+    actionWhenReproducibilityBelow70,
+  }) {
+    this.numberOfChallengesAnswered = numberOfChallengesAnswered;
+    this.numberOfCorrectAnswers = numberOfCorrectAnswers;
+    this.numberOfNeutralizedAnswers = numberOfNeutralizedAnswers;
+    this.actionWhenReproducibilityRateEqualOrAbove80 = actionWhenReproducibilityRateEqualOrAbove80;
+    this.actionWhenReproducibilityBetween70And80 = actionWhenReproducibilityBetween70And80;
+    this.actionWhenReproducibilityBelow70 = actionWhenReproducibilityBelow70;
+  }
+  isAppliable({
+    numberOfChallengesAnswered,
+    numberOfCorrectAnswers,
+    numberOfNeutralizedAnswers,
+  }) {
+    return (numberOfChallengesAnswered === this.numberOfChallengesAnswered
+    && numberOfCorrectAnswers === this.numberOfCorrectAnswers
+    && numberOfNeutralizedAnswers === this.numberOfNeutralizedAnswers);
+  }
+  apply({ reproducibilityRate, estimatedLevel }) {
+    if (reproducibilityRate >= 80) {
+      return this.actionWhenReproducibilityRateEqualOrAbove80(estimatedLevel);
+    } else if (reproducibilityRate >= 70) {
+      return this.actionWhenReproducibilityBetween70And80(estimatedLevel);
+    } else {
+      return this.actionWhenReproducibilityBelow70(estimatedLevel);
+    }
+  }
+}
+
+class Rule17 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 1,
+      numberOfCorrectAnswers: 1,
+      numberOfNeutralizedAnswers: 0,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.validate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.downgrade,
+    });
+  }
+}
+class Rule18 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 1,
+      numberOfCorrectAnswers: 0,
+      numberOfNeutralizedAnswers: 1,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+    });
+  }
+}
+class Rule19 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 1,
+      numberOfCorrectAnswers: 0,
+      numberOfNeutralizedAnswers: 0,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+    });
+  }
+}
+
+const _rules = [
+  new Rule17(),
+  new Rule18(),
+  new Rule19(),
+];
