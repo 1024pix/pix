@@ -328,6 +328,8 @@ describe('Acceptance | Controller | target-profile-controller', () => {
           'message': stage.message,
           'title': stage.title,
           'threshold': stage.threshold,
+          'prescriber-title': stage.prescriberTitle,
+          'prescriber-description': stage.prescriberDescription,
         },
       }];
       expect(response.result.data).to.deep.equal(expectedData);
