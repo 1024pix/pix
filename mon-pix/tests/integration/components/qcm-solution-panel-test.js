@@ -21,7 +21,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       await render(hbs`<QcmSolutionPanel />`);
 
       expect(find('.qcm-solution-panel')).to.exist;
-      expect(findAll('.qcm-proposal-label__oracle')).to.have.lengthOf(0);
+      expect(findAll('.qcm-proposal-label__answer-details')).to.have.lengthOf(0);
     });
 
     describe('checkbox state', function() {
@@ -36,7 +36,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       before(function() {
         challenge = EmberObject.create({
           id: 'challenge_id',
-          proposals: '-foo\n- bar\n- qix\n- yon',
+          proposals: '-*possibilite* 1\n-[possibilite 2](data:test)\n- ![possibilite 3](/images/pix-logo-blanc.svg)\n- yon',
           type: 'QCM',
         });
 
@@ -45,7 +45,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         answer = EmberObject.create(correctAnswer);
       });
 
-      it('QCM, la réponse correcte est cochée', async function() {
+      it('should display the correct answer as ticked', async function() {
         // Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -55,12 +55,16 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        expect(findAll('.qcm-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('yes');
+        const labels = findAll('.qcm-proposal-label__answer-details');
+        expect(labels[1].getAttribute('data-checked')).to.equal('yes');
         expect(findAll('input[type=checkbox]')[1].getAttribute('disabled')).to.equal('disabled');
-        expect(findAll('.qcm-proposal-label__oracle')[1].getAttribute('data-goodness')).to.equal('good');
+        expect(labels[1].getAttribute('data-goodness')).to.equal('good');
+        expect(labels[1].innerHTML).to.equal(
+          '<p><a href="data:test" rel="noopener noreferrer" target="_blank">possibilite 2</a></p>\n',
+        );
       });
 
-      it('QCM, une réponse incorrecte n\'est pas cochée', async function() {
+      it('should display an incorrect answer as not ticked', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -70,27 +74,14 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('no');
-        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
+        const labels = findAll('.qcm-proposal-label__answer-details');
+
+        expect(labels[0].getAttribute('data-checked')).to.equal('no');
+        expect(labels[0].getAttribute('data-goodness')).to.equal('bad');
+        expect(labels[0].innerHTML).to.equal('<p><em>possibilite</em> 1</p>\n');
       });
 
-      it('QCM, Au moins l\'une des réponses correctes n\'est pas cochée', async function() {
-        //Given
-        answer = EmberObject.create(unCorrectAnswer);
-
-        this.set('answer', answer);
-        this.set('solution', solution);
-        this.set('challenge', challenge);
-
-        // When
-        await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
-
-        // Then
-        expect(findAll('.qcm-proposal-label__oracle')[2].getAttribute('data-checked')).to.equal('no');
-        expect(findAll('.qcm-proposal-label__oracle')[2].getAttribute('data-goodness')).to.equal('good');
-      });
-
-      it('QCM, au moins l\'une des réponses incorrectes est cochée', async function() {
+      it('should display at least one of the correct answers as not ticked', async function() {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -102,11 +93,34 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
 
         // Then
-        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('yes');
-        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
+        const labels = findAll('.qcm-proposal-label__answer-details');
+
+        expect(labels[2].getAttribute('data-checked')).to.equal('no');
+        expect(labels[2].getAttribute('data-goodness')).to.equal('good');
+        expect(labels[2].innerHTML).to.equal(
+          '<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3"></p>\n',
+        );
       });
 
-      it('Aucune case à cocher n\'est cliquable', async function() {
+      it('should display at least one of the incorrect answers as ticked', async function() {
+        //Given
+        answer = EmberObject.create(unCorrectAnswer);
+
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('challenge', challenge);
+
+        // When
+        await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+
+        // Then
+        const labels = findAll('.qcm-proposal-label__answer-details');
+
+        expect(labels[0].getAttribute('data-checked')).to.equal('yes');
+        expect(labels[0].getAttribute('data-goodness')).to.equal('bad');
+      });
+
+      it('should display no clickable input', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
