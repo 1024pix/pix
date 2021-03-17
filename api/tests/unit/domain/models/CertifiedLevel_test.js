@@ -10,7 +10,6 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
 
   context('when 3 challenges were answered', () => {
 
-    // TODO : Check for missing rules
     context('rule n°1: 3 OK', () => {
 
       it('certifies the estimated level', () => {
@@ -62,7 +61,26 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('rules n°4 : 1 OK, 2 KO', () => {
+    context('rules n°3 : 2 OK, 1 NEUTRALIZED', () => {
+
+      it('certifies the estimated level', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfNeutralizedAnswers: 1,
+          numberOfCorrectAnswers: 2,
+          estimatedLevel: 3,
+          reproducibilityRate: 100, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
+
+    context('rule n°4 : 1 OK, 2 KO', () => {
 
       it('does not certify a level', () => {
         // when
@@ -80,7 +98,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('rules n°5: 1 OK, 1 KO, 1 NEUTRALIZED', () => {
+    context('rule n°5: 1 OK, 1 KO, 1 NEUTRALIZED', () => {
 
       it(`certifies the estimated level is reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}`, () => {
         // when
@@ -127,6 +145,117 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         // then
         expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
         expect(certifiedLevel.isUncertified()).to.be.true;
+      });
+    });
+
+    context('rule n°6: 1 OK, 2 NEUTRALIZED', () => {
+
+      it('certifies the estimated level if reproducibility rate is >= 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 1,
+          numberOfNeutralizedAnswers: 2,
+          estimatedLevel: 3,
+          reproducibilityRate: 70,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+
+      it('certifies a level below the estimated on if reproducibility rate < 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 1,
+          numberOfNeutralizedAnswers: 2,
+          estimatedLevel: 3,
+          reproducibilityRate: 69,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(2);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.true;
+      });
+    });
+
+    context('rule n°7: 3 KO', () => {
+
+      it('does not certify any level', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 0,
+          numberOfNeutralizedAnswers: 0,
+          estimatedLevel: 3, // unimportant
+          reproducibilityRate: 100, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
+
+    context('rule n°8: 2 KO, 1 NEUTRALIZED', () => {
+
+      it('does not certify any level', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 0,
+          numberOfNeutralizedAnswers: 1,
+          estimatedLevel: 3, // unimportant
+          reproducibilityRate: 100, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
+
+    context('rule n°9: 1 KO, 2 NEUTRALIZED', () => {
+
+      it('does not certify any level', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 0,
+          numberOfNeutralizedAnswers: 2,
+          estimatedLevel: 3, // unimportant
+          reproducibilityRate: 100, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+    });
+
+    context('rule n°10: 3 NEUTRALIZED', () => {
+
+      it('does not certify any level', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 3,
+          numberOfCorrectAnswers: 0,
+          numberOfNeutralizedAnswers: 3,
+          estimatedLevel: 3, // unimportant
+          reproducibilityRate: 100, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
       });
     });
   });
