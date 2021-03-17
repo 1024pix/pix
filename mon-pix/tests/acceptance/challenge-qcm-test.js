@@ -27,14 +27,16 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
 
       expect(findAll('input[type="checkbox"]')).to.have.lengthOf(4);
-      const proposals = findAll('.proposal-text');
-      expect(proposals[0].textContent.trim()).to.equal('possibilite 1, et/ou');
-      expect(proposals[1].textContent.trim()).to.equal('possibilite 2, et/ou');
-      expect(proposals[2].textContent.trim()).to.equal('possibilite 3, et/ou');
-      expect(proposals[3].textContent.trim()).to.equal('possibilite 4');
+
+      const proposalsText = findAll('.proposal-text');
+      expect(proposalsText[0].innerHTML).to.equal('<p><em>possibilite</em> 1, et/ou</p>\n');
+      expect(proposalsText[1].textContent.trim()).to.equal('possibilite 2, et/ou');
+      expect(proposalsText[1].innerHTML).to.equal('<p><a href="data:test" rel="noopener noreferrer" target="_blank">possibilite 2</a>, et/ou</p>\n');
+      expect(proposalsText[2].textContent.trim()).to.equal(', et/ou');
+      expect(proposalsText[2].innerHTML).to.equal('<p><img src="/images/pix-logo-blanc.svg" alt="possibilite 3">, et/ou</p>\n');
+      expect(proposalsText[3].textContent.trim()).to.equal('possibilite 4');
 
       expect(find('.alert')).to.not.exist;
-
     });
 
     it('should display the alert box if user validates without checking a checkbox', async () => {
@@ -139,8 +141,8 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       expect(find('.comparison-window__title-text').textContent.trim()).to.equal('Vous n’avez pas la bonne réponse');
       expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);
 
-      const goodAnswer = findAll('.qcm-proposal-label__oracle')[0];
-      const badAnswerFromUserResult = findAll('.qcm-proposal-label__oracle')[1];
+      const goodAnswer = findAll('.qcm-proposal-label__answer-details')[0];
+      const badAnswerFromUserResult = findAll('.qcm-proposal-label__answer-details')[1];
       expect(goodAnswer.getAttribute('data-goodness')).to.equal('good');
       expect(goodAnswer.getAttribute('data-checked')).to.equal('no');
       expect(badAnswerFromUserResult.getAttribute('data-goodness')).to.equal('bad');
