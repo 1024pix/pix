@@ -6,6 +6,10 @@ When(`je lance la preview du challenge {string}`, (challengeId) => {
   cy.visitMonPix(`/challenges/${challengeId}/preview`);
 });
 
+When(`je clique sur Signaler un problème`, () => {
+  cy.get('.feedback-panel__open-button').click();
+});
+
 Then(`je suis redirigé vers une page d'épreuve`, () => {
   cy.get('.assessment-challenge').should('exist');
 });
@@ -41,3 +45,4 @@ Then(`j'ai bien répondu à {string}`, (challenge) => {
   cy.contains('.result-item', challenge).find('.result-item__icon svg')
     .should('have.class', 'fa-check-circle').and('have.class', 'result-item__icon--green');
 });
+

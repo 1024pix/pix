@@ -20,7 +20,11 @@ function callback(violations) {
 
 Then('l\'accessibilité de la page est correcte', () => {
   cy.injectAxe();
-  cy.checkA11y(null,   {
+  cy.checkA11y(
+    {
+      exclude: ['.challenge-response__proposal']
+    },
+    {
       rules: {
         'html-lang-valid': { enabled: false },
       },
