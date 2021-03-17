@@ -48,18 +48,16 @@ class CertifiedLevel {
   }
 
   static _for2Challenges({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate }) {
-    if (numberOfCorrectAnswers === 2) {
-      return this.validate(estimatedLevel);
-    } else if (numberOfCorrectAnswers === 1) {
-      if (reproducibilityRate >= MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED) {
-        return this.validate(estimatedLevel);
-      } else if (reproducibilityRate >= 70) {
-        return this.downgrade(estimatedLevel);
-      } else {
-        return this.uncertify();
-      }
+    const rule = _rules.find((rule) => rule.isAppliable({
+      numberOfChallengesAnswered: 2,
+      numberOfCorrectAnswers,
+      numberOfNeutralizedAnswers,
+    }));
+    if (!rule) {
+      return CertifiedLevel.uncertify(); // TODO : throw ?
+    } else {
+      return rule.apply({ reproducibilityRate, estimatedLevel });
     }
-    return this.uncertify();
   }
 
   static _for1Challenge({ numberOfCorrectAnswers, numberOfNeutralizedAnswers, estimatedLevel, reproducibilityRate }) {
@@ -142,6 +140,78 @@ class Rule {
   }
 }
 
+class Rule11 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 2,
+      numberOfCorrectAnswers: 2,
+      numberOfNeutralizedAnswers: 0,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.validate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.validate,
+    });
+  }
+}
+class Rule12 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 2,
+      numberOfCorrectAnswers: 1,
+      numberOfNeutralizedAnswers: 0,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.downgrade,
+      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+    });
+  }
+}
+class Rule13 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 2,
+      numberOfCorrectAnswers: 1,
+      numberOfNeutralizedAnswers: 1,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.validate,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.validate,
+      actionWhenReproducibilityBelow70: CertifiedLevel.downgrade,
+    });
+  }
+}
+class Rule14 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 2,
+      numberOfCorrectAnswers: 0,
+      numberOfNeutralizedAnswers: 1,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+    });
+  }
+}
+class Rule15 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 2,
+      numberOfCorrectAnswers: 0,
+      numberOfNeutralizedAnswers: 1,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+    });
+  }
+}
+class Rule16 extends Rule {
+  constructor() {
+    super({
+      numberOfChallengesAnswered: 2,
+      numberOfCorrectAnswers: 0,
+      numberOfNeutralizedAnswers: 2,
+      actionWhenReproducibilityRateEqualOrAbove80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBetween70And80: CertifiedLevel.uncertify,
+      actionWhenReproducibilityBelow70: CertifiedLevel.uncertify,
+    });
+  }
+}
 class Rule17 extends Rule {
   constructor() {
     super({
@@ -180,6 +250,12 @@ class Rule19 extends Rule {
 }
 
 const _rules = [
+  new Rule11(),
+  new Rule12(),
+  new Rule13(),
+  new Rule14(),
+  new Rule15(),
+  new Rule16(),
   new Rule17(),
   new Rule18(),
   new Rule19(),
