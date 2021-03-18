@@ -258,4 +258,83 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
     });
   });
+
+  describe('#getAlreadyDirectlyValidatedAnsweredChallengeIds', () => {
+
+    it('should return list of uniq challenge ids answered on directly validated skills in the profile', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({
+        id: 'skill1',
+        tubeId: 'tube1',
+      });
+      const skill2 = domainBuilder.buildTargetedSkill({
+        id: 'skill2',
+        tubeId: 'tube1',
+      });
+      const skill3 = domainBuilder.buildTargetedSkill({
+        id: 'skill3',
+        tubeId: 'tube1',
+      });
+      const skill4 = domainBuilder.buildTargetedSkill({
+        id: 'skill4',
+        tubeId: 'tube1',
+      });
+      const tube1 = domainBuilder.buildTargetedTube({
+        id: 'tube1',
+        competenceId: 'competence1',
+        skills: [skill1, skill2, skill3, skill4],
+      });
+      const competence1 = domainBuilder.buildTargetedCompetence({
+        id: 'competence1',
+        areaId: 'area1',
+        tubes: [tube1],
+      });
+      const area1 = domainBuilder.buildTargetedArea({
+        id: 'area1',
+        competences: [competence1],
+      });
+      const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3, skill4],
+        tubes: [tube1],
+        competences: [competence1],
+        areas: [area1],
+      });
+
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 1,
+        skillId: 'skill1',
+      });
+      const knowledgeElement2 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 2,
+        skillId: 'skill2',
+      });
+      const knowledgeElement3 = domainBuilder.buildKnowledgeElement.directlyValidated({
+        answerId: 3,
+        skillId: 'skill3',
+      });
+      const knowledgeElement4 = domainBuilder.buildKnowledgeElement.directlyInvalidated({
+        answerId: 4,
+        skillId: 'skill4',
+      });
+      const answerAndChallengeIdsByAnswerId = {
+        1: { id: 1, challengeId: 'chalA' },
+        2: { id: 2, challengeId: 'chalB' },
+        3: { id: 3, challengeId: 'chalA' },
+        4: { id: 4, challengeId: 'chalC' },
+      };
+      const certifiableProfile = new CertifiableProfileForLearningContent({
+        userId: 'someUserId',
+        profileDate: 'someProfileDate',
+        targetProfileWithLearningContent,
+        knowledgeElements: [knowledgeElement1, knowledgeElement2, knowledgeElement3, knowledgeElement4],
+        answerAndChallengeIdsByAnswerId,
+      });
+
+      // when
+      const uniqDirectlyValidatedChallengeIds = certifiableProfile.getAlreadyDirectlyValidatedAnsweredChallengeIds();
+
+      // then
+      expect(uniqDirectlyValidatedChallengeIds).to.include.members(['chalA', 'chalB']);
+    });
+  });
 });
