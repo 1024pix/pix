@@ -81,6 +81,14 @@ class CertifiableProfileForLearningContent {
 
     return skillIdsByAreaId;
   }
+
+  getAlreadyDirectlyValidatedAnsweredChallengeIds() {
+    return _(this.skills)
+      .filter('isDirectlyValidated')
+      .map('challengeId')
+      .uniq()
+      .value();
+  }
 }
 
 class Skill {
