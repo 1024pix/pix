@@ -109,6 +109,17 @@ describe('Integration | Component | QROCm ind solution panel', function() {
           expect(wrongSolutionText).to.exist;
         });
 
+        it('should display the solutionToDisplay if exist', async function() {
+          // when
+          const solutionToDisplay = 'Ceci est la solution !';
+          this.set('solutionToDisplay', solutionToDisplay);
+          await render(hbs`<QrocmIndSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+          // then
+          expect(find('.comparison-window-solution')).to.exist;
+          expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
+        });
+
         it('should display the wrong answer in line-throughed bold', async function() {
           // then
           const answerInput = findAll(ANSWER)[WRONG_ANSWER_POSITION];
