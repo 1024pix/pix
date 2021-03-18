@@ -19,6 +19,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
   const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
   const certificationChallengeRepository = { save: sinon.stub() };
+  const certifiableBadgesService = { hasCertifiableBadges: sinon.stub(), getTargetProfileIdFromAcquiredCertifiableBadges: sinon.stub() };
   const certificationCourseRepository = {
     findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
     save: sinon.stub(),
@@ -36,6 +37,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     certificationChallengeRepository,
     certificationCourseRepository,
     sessionRepository,
+    certifiableBadgesService,
     certificationChallengesService,
     placementProfileService,
   };
@@ -304,6 +306,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             // then
             expect(assessmentRepository.save).to.have.been.calledWith({ assessment: sinon.match(mockAssessment), domainTransaction });
           });
+
         });
       });
     });
