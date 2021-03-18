@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.33.0 (18/03/2021)
+
+- [#2720](https://github.com/1024pix/pix/pull/2720) [FEATURE] Afficher le nombre de sessions à traiter dans le libellé de l'onglet (PIX-2298)
+- [#2722](https://github.com/1024pix/pix/pull/2722) [FEATURE] Ouvrir le lien de la documentation vers un nouvel onglet (PIX-2338)
+- [#2717](https://github.com/1024pix/pix/pull/2717) [FEATURE] Ajout du Markdown dans le champ réponses des QCM (PIX-2290).
+- [#2702](https://github.com/1024pix/pix/pull/2702) [FEATURE] Traduire en anglais la page "Mon Equipe" et la modale de suppression dans Pix Orga (PIX-2222).
+- [#2706](https://github.com/1024pix/pix/pull/2706) [BUGFIX] Mettre le markdown sur la bonne réponse des QCU (PIX-2350).
+- [#2707](https://github.com/1024pix/pix/pull/2707) [TECH] Envoi les résultats de test des tests e2e
+- [#2601](https://github.com/1024pix/pix/pull/2601) [TECH] Récupération de la dernière release du référentiel chaque jour.
+- [#2681](https://github.com/1024pix/pix/pull/2681) [TECH] Supprimer la détection de lien invalides dans la CI.
+- [#2725](https://github.com/1024pix/pix/pull/2725) [CLEANUP] Déplacer le composant feedback dans le composant global des challenges (PIX-2372).
+- [#2699](https://github.com/1024pix/pix/pull/2699) [FIX] Le bouton "Annuler" doit rediriger vers la page de présentation de la campagne (PIX-2336)
+- [#2701](https://github.com/1024pix/pix/pull/2701) [ADMIN] Organiser les compétences par rapport à leur index (Pix-2341)
+- [#2718](https://github.com/1024pix/pix/pull/2718) [CERTIF] Changer le contenu du bandeau sur l'ajout de candidats (PIX-2352)
+- [#2713](https://github.com/1024pix/pix/pull/2713) [CLEANUP] Suppression de la colonne elapsedTime de la table answers (PIX-2361).
+
 ## v3.32.0 (16/03/2021)
 
 - [#2676](https://github.com/1024pix/pix/pull/2676) [FEATURE] Transfert du bandeau d'envoi de résultats de collecte de profil de la page compétences vers le TDB (PIX-2276).
