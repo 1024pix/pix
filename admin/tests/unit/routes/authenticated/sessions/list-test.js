@@ -3,7 +3,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/list/with-required-action', function(hooks) {
+module('Unit | Route | authenticated/sessions/list', function(hooks) {
   setupTest(hooks);
 
   let store;
@@ -18,7 +18,7 @@ module('Unit | Route | authenticated/sessions/list/with-required-action', functi
   module('#model', function() {
     test('it should fetch the list of sessions with required action', async function(assert) {
       // given
-      const route = this.owner.lookup('route:authenticated/sessions/list/with-required-action');
+      const route = this.owner.lookup('route:authenticated/sessions/list');
       const sessionsWithRequiredAction = [{
         certificationCenterName: 'Centre SCO des Anne-Solo',
         finalizedAt: '2020-04-15T15:00:34.000Z',
@@ -31,7 +31,10 @@ module('Unit | Route | authenticated/sessions/list/with-required-action', functi
       const result = await route.model();
 
       // then
-      assert.equal(result, sessionsWithRequiredAction);
+      assert.deepEqual(result, [{
+        certificationCenterName: 'Centre SCO des Anne-Solo',
+        finalizedAt: '2020-04-15T15:00:34.000Z',
+      }]);
     });
   });
 });

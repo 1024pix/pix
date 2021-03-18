@@ -5,7 +5,7 @@
       Sessions à publier
     </LinkTo>
     <LinkTo @route="authenticated.sessions.list.with-required-action" class="navbar-item">
-      Sessions à traiter
+      Sessions à traiter ({{ this.sessionsWithRequiredActionCount }})
     </LinkTo>
     <LinkTo @route="authenticated.sessions.list.all" class="navbar-item">
       Toutes les sessions
