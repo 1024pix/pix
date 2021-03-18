@@ -2,7 +2,11 @@
   {{#each this._blocks as |block|}}
 
     {{#if block.text}}
-      <label for="qroc_input">{{block.text}}</label>
+      <label for="qroc_input">
+        <MarkdownToHtml class="qroc_input-label"
+                        @extensions="remove-paragraph-tags"
+                        @markdown={{block.text}} />
+      </label>
     {{/if}}
 
     {{#if block.input}}
