@@ -222,7 +222,7 @@ describe('Integration | Component | comparison-window', function() {
             await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
             // then
-            expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
+            expect(find('.correction-qroc-box__answer')).to.not.exist;
           });
 
           it('should display answers when correction has solutionToDisplay', async function() {
