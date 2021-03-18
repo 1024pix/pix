@@ -24,13 +24,13 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       expect(findAll('.qcm-proposal-label__answer-details')).to.have.lengthOf(0);
     });
 
-    describe('checkbox state', function() {
+    describe('Should show the answers', function() {
       const correctAnswer = {
-        id: 'answer_id', assessment, challenge, value: '2,4',
+        id: 'answer_id', assessment, challenge, value: '2,4', result: 'ok',
       };
 
       const unCorrectAnswer = {
-        id: 'answer_id', assessment, challenge, value: '1,4',
+        id: 'answer_id', assessment, challenge, value: '1,4', result: 'ko',
       };
 
       before(function() {
@@ -43,6 +43,67 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         solution = '2,3';
 
         answer = EmberObject.create(correctAnswer);
+      });
+
+      context('when user has not answerd correctly', function() {
+
+        context('when solutionToDisplay is indicated', function() {
+          it('should show the solution text', async function() {
+            // Given
+            answer = EmberObject.create(unCorrectAnswer);
+            const solutionToDisplay = 'La bonne réponse est TADA !';
+            this.set('answer', answer);
+            this.set('solution', solution);
+            this.set('solutionToDisplay', solutionToDisplay);
+            this.set('challenge', challenge);
+
+            // When
+            await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+            // Then
+            expect(find('.comparison-window-solution')).to.exist;
+            expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
+          });
+        });
+
+        context('when solutionToDisplay is not indicated', function() {
+          it('should not show the solution text', async function() {
+            // Given
+            answer = EmberObject.create(unCorrectAnswer);
+            const solutionToDisplay = null;
+            this.set('answer', answer);
+            this.set('solution', solution);
+            this.set('solutionToDisplay', solutionToDisplay);
+            this.set('challenge', challenge);
+
+            // When
+            await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+            // Then
+            expect(find('.comparison-window-solution')).to.not.exist;
+          });
+        });
+      });
+
+      context('when user has answerd correctly', function() {
+
+        context('when solutionToDisplay is indicated', function() {
+          it('should not show the solution text', async function() {
+            // Given
+            answer = EmberObject.create(correctAnswer);
+            const solutionToDisplay = 'La bonne réponse est TADA !';
+            this.set('answer', answer);
+            this.set('solution', solution);
+            this.set('solutionToDisplay', solutionToDisplay);
+            this.set('challenge', challenge);
+
+            // When
+            await render(hbs`<QcmSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+            // Then
+            expect(find('.comparison-window-solution')).to.not.exist;
+          });
+        });
       });
 
       it('should display the correct answer as ticked', async function() {
