@@ -169,7 +169,7 @@ async function _findStages(targetProfileId) {
 
 async function _findBadges(targetProfileId) {
   const badgeRows = await knex('badges')
-    .select('badges.id', 'badges.key', 'badges.message', 'badges.altMessage', 'badges.title', 'badges.targetProfileId')
+    .select('badges.id', 'badges.key', 'badges.message', 'badges.altMessage', 'badges.isCertifiable', 'badges.title', 'badges.targetProfileId')
     .where('badges.targetProfileId', targetProfileId);
 
   if (_.isEmpty(badgeRows)) {

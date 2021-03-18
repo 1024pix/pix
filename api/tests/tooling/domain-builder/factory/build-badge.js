@@ -13,6 +13,7 @@ module.exports = function buildBadge(
     message = faker.lorem.sentence(),
     title = faker.lorem.sentence(),
     key = faker.lorem.word(),
+    isCertifiable = false,
     targetProfileId = faker.random.number(2),
     badgeCriteria = [
       buildBadgeCriterion(),
@@ -29,6 +30,7 @@ module.exports = function buildBadge(
     message,
     title,
     key,
+    isCertifiable,
     targetProfileId,
     badgeCriteria,
     badgePartnerCompetences,

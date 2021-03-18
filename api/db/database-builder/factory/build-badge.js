@@ -9,6 +9,7 @@ module.exports = function buildBadge({
   message = faker.random.words(),
   title = faker.random.words(),
   key = faker.random.words(),
+  isCertifiable = false,
   targetProfileId,
 } = {}) {
   targetProfileId = targetProfileId ? targetProfileId : buildTargetProfile().id;
@@ -20,6 +21,7 @@ module.exports = function buildBadge({
     message,
     title,
     key,
+    isCertifiable,
     targetProfileId,
   };
   return databaseBuffer.pushInsertable({
