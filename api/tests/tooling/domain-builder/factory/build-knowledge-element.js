@@ -1,12 +1,11 @@
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-module.exports = function buildKnowledgeElement({
+const buildKnowledgeElement = function buildKnowledgeElement({
   id = 123,
   source = KnowledgeElement.SourceType.DIRECT,
   status = KnowledgeElement.StatusType.VALIDATED,
   earnedPix = 4,
   createdAt,
-  // relationship Ids
   answerId = 456,
   assessmentId = 789,
   skillId = 'recSKIL123',
@@ -26,3 +25,53 @@ module.exports = function buildKnowledgeElement({
     competenceId,
   });
 };
+
+buildKnowledgeElement.directlyValidated = function({
+  id = 123,
+  earnedPix = 4,
+  createdAt,
+  answerId = 456,
+  assessmentId = 789,
+  skillId = 'recSKIL123',
+  userId = 159,
+  competenceId = 'recCOMP456',
+} = {}) {
+  return new KnowledgeElement({
+    id,
+    source: KnowledgeElement.SourceType.DIRECT,
+    status: KnowledgeElement.StatusType.VALIDATED,
+    earnedPix,
+    createdAt,
+    answerId,
+    assessmentId,
+    skillId,
+    userId,
+    competenceId,
+  });
+};
+
+buildKnowledgeElement.directlyInvalidated = function({
+  id = 123,
+  earnedPix = 4,
+  createdAt,
+  answerId = 456,
+  assessmentId = 789,
+  skillId = 'recSKIL123',
+  userId = 159,
+  competenceId = 'recCOMP456',
+} = {}) {
+  return new KnowledgeElement({
+    id,
+    source: KnowledgeElement.SourceType.DIRECT,
+    status: KnowledgeElement.StatusType.INVALIDATED,
+    earnedPix,
+    createdAt,
+    answerId,
+    assessmentId,
+    skillId,
+    userId,
+    competenceId,
+  });
+};
+
+module.exports = buildKnowledgeElement;
