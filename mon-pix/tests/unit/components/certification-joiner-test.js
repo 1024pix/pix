@@ -43,9 +43,28 @@ describe('Unit | Component | certification-joiner', function() {
       expect(component.errorMessage).to.be.null;
     });
 
+    it('should display an error message if session id contains letters', async function() {
+      // given
+      const component = this.owner.lookup('component:certification-joiner');
+
+      component.sessionId = 'YOLO123';
+      component.firstName = 'Justine';
+      component.lastName = 'Sagoin';
+      component.yearOfBirth = 2019;
+      component.monthOfBirth = 4;
+      component.dayOfBirth = 28;
+      component.stepsData = {};
+
+      // when
+      await component.attemptNext();
+
+      // then
+      expect(component.errorMessage).to.equal('Merci de saisir le numéro de session, composé uniquement de chiffres.');
+    });
+
     it('should display an error message on student mismatch error', async function() {
       // given
-      const sessionId = Symbol('session');
+      const sessionId = '1234';
       const component = this.owner.lookup('component:certification-joiner');
 
       const saveStub = sinon.stub();
@@ -85,7 +104,7 @@ describe('Unit | Component | certification-joiner', function() {
 
     it('should display an error message on student is not found', async function() {
       // given
-      const sessionId = Symbol('session');
+      const sessionId = '1234';
       const component = this.owner.lookup('component:certification-joiner');
 
       const saveStub = sinon.stub();
