@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handleCertificationRescoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
