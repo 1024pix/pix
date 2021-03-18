@@ -28,6 +28,7 @@
       "ina-format": "Row {line} : The field “{field}” (INA) must contain 10 numbers followed by 1 letter.",
       "ina-unique": "Row {line} : The field “{field}” of this row is repeated several times within the file.",
       "insee-code-invalid": "Row {line} : The field “{field}” is not in the INSEE format.",
+      "payload-too-large": "The file must be less than {maxSize}MB.",
       "student-number-format": "Row {line} : The field “{field}” must not contain any special characters.",
       "student-number-unique": "Row {line} : The field “{field}” must be unique within the file."
     },

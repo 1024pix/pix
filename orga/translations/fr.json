@@ -28,6 +28,7 @@
       "ina-format": "Ligne {line} : Le champ “{field}” (INA) doit être de 10 chiffres suivis d’une lettre.",
       "ina-unique": "Ligne {line} : Le champ “{field}” de cette ligne est présent plusieurs fois dans le fichier.",
       "insee-code-invalid": "Ligne {line} : Le champ “{field}” n'est pas au format INSEE.",
+      "payload-too-large": "La taille du fichier doit être inférieure à {maxSize}Mo.",
       "student-number-format": "Ligne {line} : Le champ “{field}” ne doit pas avoir de caractères spéciaux.",
       "student-number-unique": "Ligne {line} : Le champ “{field}” doit être unique au sein du fichier."
     },
