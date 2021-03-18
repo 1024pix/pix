@@ -77,6 +77,7 @@ module.exports = {
   buildUserCompetence: require('./build-user-competence'),
   buildUserDetailsForAdmin: require('./build-user-details-for-admin'),
   buildUserOrgaSettings: require('./build-user-orga-settings'),
+  buildUserProfile: require('./build-user-profile'),
   buildUserScorecard: require('./build-user-scorecard'),
   buildUserWithSchoolingRegistration: require('./build-user-with-schooling-registration'),
   buildValidation: require('./build-validation'),
