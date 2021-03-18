@@ -9,6 +9,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   sessionId,
   userId,
   assessmentRepository,
+  certifiableBadgesService,
   competenceRepository,
   certificationCandidateRepository,
   certificationCourseRepository,
@@ -38,6 +39,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     sessionId,
     userId,
     assessmentRepository,
+    certifiableBadgesService,
     competenceRepository,
     certificationCandidateRepository,
     certificationCourseRepository,
@@ -51,6 +53,7 @@ async function _startNewCertification({
   sessionId,
   userId,
   assessmentRepository,
+  certifiableBadgesService,
   certificationCandidateRepository,
   certificationCourseRepository,
   certificationChallengesService,
@@ -68,7 +71,18 @@ async function _startNewCertification({
     };
   }
 
+  await _getTargetProfileIdsFromCertifiableAcquiredBadges({ userId, certifiableBadgesService });
+
   return _createCertificationCourse(certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, challengesForPixCertification, domainTransaction);
+}
+
+async function _getTargetProfileIdsFromCertifiableAcquiredBadges({ userId, certifiableBadgesService }) {
+  const hasCertifiableBadges = await certifiableBadgesService.hasCertifiableBadges(userId);
+  if (hasCertifiableBadges) {
+    return await certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges(userId);
+  } else {
+    return [];
+  }
 }
 
 async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
