@@ -69,21 +69,6 @@ module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
         assert.equal(notificationMessage, '<div>Aucun élève n’a été importé.<br/>Veuillez réessayer ou nous contacter via <a target="_blank" rel="noopener noreferrer" href="https://support.pix.fr/support/tickets/new">le formulaire du centre d’aide</a>.</div>');
       });
 
-      test('notify a detailed error message if 409 error', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '409', detail: 'Error message' },
-          ] },
-        });
-
-        // when
-        await controller.importStudents(file);
-
-        // then
-        const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
-        assert.equal(notificationMessage, '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez modifier votre fichier et l’importer à nouveau.</div>');
-      });
-
       test('notify a detailed error message if 412 error', async function(assert) {
         file.uploadBinary.rejects({
           body: { errors: [
