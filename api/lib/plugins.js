@@ -49,6 +49,7 @@ const plugins = [
       directory: __dirname + '/../translations',
       defaultLocale: 'fr',
       queryParameter: 'lang',
+      languageHeaderField: 'Accept-Language',
       objectNotation: true,
       updateFiles: false,
     },
