@@ -61,12 +61,12 @@ class CertifiableProfileForLearningContent {
     }
   }
 
-  getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId({ origin = null } = {}) {
+  getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins = []) {
     const skillIdsByAreaId = {};
     for (const area of this.areas) {
       let directlyValidatedSkillsInArea = [];
       for (const competence of area.competences) {
-        if (competence.isOfOrigin(origin)) {
+        if (competence.isNotInOrigins(excludedOrigins)) {
           const directlyValidatedSkillsInCompetence = competence.getDirectlyValidatedSkills();
           directlyValidatedSkillsInArea = [...directlyValidatedSkillsInArea, ...directlyValidatedSkillsInCompetence];
         }
@@ -148,9 +148,8 @@ class Competences {
     this.tubes = tubes;
   }
 
-  isOfOrigin(origin) {
-    if (!origin) return true;
-    return this.targetedCompetence.origin === origin;
+  isNotInOrigins(origins = []) {
+    return !(origins.includes(this.targetedCompetence.origin));
   }
 
   getDirectlyValidatedSkills() {
