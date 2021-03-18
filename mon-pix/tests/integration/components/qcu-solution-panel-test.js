@@ -10,6 +10,7 @@ const assessment = {};
 let challenge = null;
 let answer = null;
 let solution = null;
+let solutionToDisplay = null;
 let solutionAsText = null;
 
 describe('Integration | Component | qcu-solution-panel.js', function() {
@@ -39,6 +40,8 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
       solution = '2';
 
+      solutionToDisplay = 'La réponse est 2';
+
       answer = {
         id: 'answer_id',
         assessment,
@@ -51,9 +54,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       // Given
       this.set('answer', answer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
+
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       expect(findAll('[data-goodness=good]').length).to.equal(1);
@@ -63,10 +68,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       //Given
       this.set('answer', answer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
@@ -91,10 +97,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       //Given
       this.set('answer', correctAnswer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       expect(find('div[data-test-correct-answer]')).to.exist;
@@ -117,10 +124,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       //Given
       this.set('answer', unCorrectAnswer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       expect(find('.qcu-solution-answer-feedback__expected-answer')).to.exist;
@@ -130,16 +138,34 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       // Given
       this.set('answer', unCorrectAnswer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       const correctAnswer = find('.qcu-solution-answer-feedback__expected-answer');
       expect(correctAnswer).to.exist;
       expect(correctAnswer.innerText).to.equal('Réponse incorrecte.\nLa bonne réponse est la réponse : ' + solutionAsText);
     });
+
+    it('should inform the user of the correct answer with solution to display when it is not null', async function() {
+      // Given
+      this.set('answer', unCorrectAnswer);
+      this.set('solution', solution);
+      this.set('solutionToDisplay', solutionToDisplay);
+      this.set('challenge', challenge);
+
+      // When
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+      // Then
+      const correctAnswer = find('.qcu-solution-answer-feedback__expected-answer');
+      expect(correctAnswer).to.exist;
+      expect(correctAnswer.innerText).to.equal('Réponse incorrecte.\nLa bonne réponse est la réponse : ' + solutionToDisplay);
+    });
+
   });
 
   describe('All Radio states', function() {
@@ -160,9 +186,10 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       //Given
       this.set('answer', answer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('yes');
@@ -176,10 +203,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
       this.set('answer', answer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       expect(findAll('.qcu-solution-panel__proposition')[1].getAttribute('data-checked')).to.equal('no');
@@ -191,10 +219,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       //Given
       this.set('answer', answer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       expect(findAll('.qcu-solution-panel__proposition')[0].getAttribute('data-checked')).to.equal('no');
@@ -208,10 +237,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
       this.set('answer', answer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       expect(findAll('.qcu-solution-panel__proposition')[2].getAttribute('data-checked')).to.equal('yes');
@@ -223,10 +253,11 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       //Given
       this.set('answer', answer);
       this.set('solution', solution);
+      this.set('solutionToDisplay', null);
       this.set('challenge', challenge);
 
       // When
-      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}}/>`);
+      await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
       times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
