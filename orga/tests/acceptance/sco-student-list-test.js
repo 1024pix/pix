@@ -63,76 +63,10 @@ module('Acceptance | Sco Student List', function(hooks) {
       });
     });
 
-    module('When prescriber is looking for students', function(hooks) {
-
+    module('When organization is SCO and managing students', function(hooks) {
       hooks.beforeEach(async function() {
         user = createUserManagingStudents();
         createPrescriberByUser(user);
-
-        organizationId = user.memberships.models.firstObject.organizationId;
-
-        server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris', hasEmail: false });
-        server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo', hasEmail: true });
-
-        await authenticateSession({
-          user_id: user.id,
-          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-          expires_in: 3600,
-          token_type: 'Bearer token type',
-        });
-      });
-
-      test('it should display the students list filtered by lastname', async function(assert) {
-        // when
-        await visit('/eleves');
-        await fillInByLabel('Entrer un nom', 'ambo');
-        // then
-        assert.equal(currentURL(), '/eleves?lastName=ambo');
-        assert.contains('Rambo');
-        assert.notContains('Norris');
-      });
-
-      test('it should display the students list filtered by firstname', async function(assert) {
-        // when
-        await visit('/eleves');
-        await fillInByLabel('Entrer un prénom', 'Jo');
-
-        // then
-        assert.equal(currentURL(), '/eleves?firstName=Jo');
-        assert.contains('Rambo');
-        assert.notContains('Norris');
-      });
-
-      test('it should display the students list filtered by connection type', async function(assert) {
-        // when
-        await visit('/eleves');
-        await fillInByLabel('Rechercher par méthode de connexion', 'email');
-
-        // then
-        assert.equal(currentURL(), '/eleves?connexionType=email');
-        assert.contains('Rambo');
-        assert.notContains('Norris');
-      });
-
-      test('it should paginate the students list', async function(assert) {
-        // when
-        await visit('/eleves?pageSize=1&pageNumber=1');
-
-        // then
-        assert.contains('Norris');
-        assert.notContains('Rambo');
-      });
-    });
-
-    module('When organization is managing students', function(hooks) {
-
-      hooks.beforeEach(async function() {
-        user = createUserManagingStudents();
-        createPrescriberByUser(user);
-
-        organizationId = user.memberships.models.firstObject.organizationId;
-
-        server.createList('student', 5, { organizationId });
 
         await authenticateSession({
           user_id: user.id,
@@ -150,260 +84,255 @@ module('Acceptance | Sco Student List', function(hooks) {
         assert.equal(currentURL(), '/eleves');
       });
 
-      module('when student authenticated by username and email', async function(hooks) {
+      module('when admin uploads a file', function(hooks) {
 
-        const username = 'firstname.lastname0112';
-        const email = 'firstname.lastname0112@example.net';
+        hooks.beforeEach(async function() {
+          user = createUserManagingStudents('ADMIN');
+          createPrescriberByUser(user);
 
-        hooks.beforeEach(function() {
-          server.create('student', {
-            organizationId,
-            firstName: 'FirstName',
-            lastName: 'LastName',
-            username,
-            email,
+          await authenticateSession({
+            user_id: user.id,
+            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+            expires_in: 3600,
+            token_type: 'Bearer token type',
           });
         });
 
-        test('it should open modal and display password reset button', async function(assert) {
+        test('it should display success message and reload students', async function(assert) {
           // given
           await visit('/eleves');
 
+          const file = new Blob(['foo'], { type: 'valid-file' });
+
           // when
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
+          const input = find('#students-file-upload');
+          await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert.contains('Réinitialiser le mot de passe');
+          assert.dom('[data-test-notification-message="success"]').hasText('La liste a été importée avec succès.');
+          assert.dom('[aria-label="Élève"]').exists({ count: 1 });
+          assert.contains('Cover');
+          assert.contains('Harry');
         });
 
-        test('it should display unique password input when reset button is clicked', async function(assert) {
-          // given
-          await visit('/eleves');
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
-
-          // when
-          await clickByLabel('Réinitialiser le mot de passe');
-
-          // then
-          assert.dom('#generate-password').doesNotExist();
-          assert.dom('#generated-password').exists();
-        });
-
-        test('it should open password modal window with email and username value', async function(assert) {
+        test('it should display an error message when uploading an invalid file', async function(assert) {
           // given
           await visit('/eleves');
 
+          const file = new Blob(['foo'], { type: 'invalid-file' });
+
           // when
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
+          const input = find('#students-file-upload');
+          await triggerEvent(input, 'change', { files: [file] });
 
           // then
-          assert.dom('#username').hasValue(username);
-          assert.dom('#email').hasValue(email);
+          assert.dom('[data-test-notification-message="error"]').exists();
         });
       });
 
-      module('when student authenticated by GAR', async function(hooks) {
+      module('when prescriber is looking for students', function(hooks) {
 
-        hooks.beforeEach(function() {
-          server.create('student', {
-            organizationId,
-            isAuthenticatedFromGar: true,
+        hooks.beforeEach(async function() {
+          organizationId = user.memberships.models.firstObject.organizationId;
+          server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris', hasEmail: false });
+          server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo', hasEmail: true });
+        });
+
+        test('it should display the students list filtered by lastname', async function(assert) {
+          // when
+          await visit('/eleves');
+          await fillInByLabel('Entrer un nom', 'ambo');
+          // then
+          assert.equal(currentURL(), '/eleves?lastName=ambo');
+          assert.contains('Rambo');
+          assert.notContains('Norris');
+        });
+
+        test('it should display the students list filtered by firstname', async function(assert) {
+          // when
+          await visit('/eleves');
+          await fillInByLabel('Entrer un prénom', 'Jo');
+
+          // then
+          assert.equal(currentURL(), '/eleves?firstName=Jo');
+          assert.contains('Rambo');
+          assert.notContains('Norris');
+        });
+
+        test('it should display the students list filtered by connection type', async function(assert) {
+          // when
+          await visit('/eleves');
+          await fillInByLabel('Rechercher par méthode de connexion', 'email');
+
+          // then
+          assert.equal(currentURL(), '/eleves?connexionType=email');
+          assert.contains('Rambo');
+          assert.notContains('Norris');
+        });
+
+        test('it should paginate the students list', async function(assert) {
+          // when
+          await visit('/eleves?pageSize=1&pageNumber=1');
+
+          // then
+          assert.contains('Norris');
+          assert.notContains('Rambo');
+        });
+      });
+
+      module('when student is associated', async function(hooks) {
+        hooks.beforeEach(async function() {
+          organizationId = user.memberships.models.firstObject.organizationId;
+
+          server.createList('student', 5, { organizationId });
+        });
+
+        module('when student authenticated by username and email', async function(hooks) {
+
+          const username = 'firstname.lastname0112';
+          const email = 'firstname.lastname0112@example.net';
+
+          hooks.beforeEach(function() {
+            server.create('student', {
+              organizationId,
+              firstName: 'FirstName',
+              lastName: 'LastName',
+              username,
+              email,
+            });
+          });
+
+          test('it should open modal and display password reset button', async function(assert) {
+            // given
+            await visit('/eleves');
+
+            // when
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
+
+            // then
+            assert.contains('Réinitialiser le mot de passe');
+          });
+
+          test('it should display unique password input when reset button is clicked', async function(assert) {
+            // given
+            await visit('/eleves');
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
+
+            // when
+            await clickByLabel('Réinitialiser le mot de passe');
+
+            // then
+            assert.dom('#generate-password').doesNotExist();
+            assert.dom('#generated-password').exists();
+          });
+
+          test('it should open password modal window with email and username value', async function(assert) {
+            // given
+            await visit('/eleves');
+
+            // when
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
+
+            // then
+            assert.dom('#username').hasValue(username);
+            assert.dom('#email').hasValue(email);
           });
         });
 
-        test('it should open password modal window with GAR connexion method', async function(assert) {
-          // given
-          await visit('/eleves');
+        module('when student authenticated by GAR', async function(hooks) {
 
-          // when
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
+          hooks.beforeEach(function() {
+            server.create('student', {
+              organizationId,
+              isAuthenticatedFromGar: true,
+            });
+          });
 
-          // then
-          assert.contains('Médiacentre');
-          assert.contains('Ajouter une connexion avec un identifiant');
-        });
+          test('it should open password modal window with GAR connexion method', async function(assert) {
+            // given
+            await visit('/eleves');
 
-        test('it should display username and unique password when add username button is clicked', async function(assert) {
-          // given
-          await visit('/eleves');
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
+            // when
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
 
-          // when
-          await clickByLabel('Ajouter l’identifiant');
+            // then
+            assert.contains('Médiacentre');
+            assert.contains('Ajouter une connexion avec un identifiant');
+          });
 
-          // then
-          assert.contains('Médiacentre');
-          assert.contains('Identifiant');
-          assert.contains('Nouveau mot de passe à usage unique');
-          assert.dom('#username').exist;
-          assert.dom('#generated-password').exist;
-        });
-      });
+          test('it should display username and unique password when add username button is clicked', async function(assert) {
+            // given
+            await visit('/eleves');
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
 
-      module('when student authenticated by GAR and username', async function(hooks) {
+            // when
+            await clickByLabel('Ajouter l’identifiant');
 
-        hooks.beforeEach(function() {
-          server.create('student', {
-            organizationId,
-            isAuthenticatedFromGar: true,
-            username: 'user.gar3011',
+            // then
+            assert.contains('Médiacentre');
+            assert.contains('Identifiant');
+            assert.contains('Nouveau mot de passe à usage unique');
+            assert.dom('#username').exist;
+            assert.dom('#generated-password').exist;
           });
         });
 
-        test('it should open password modal window with GAR and username connexion method', async function(assert) {
+        module('when student authenticated by GAR and username', async function(hooks) {
 
-          // given
-          await visit('/eleves');
+          hooks.beforeEach(function() {
+            server.create('student', {
+              organizationId,
+              isAuthenticatedFromGar: true,
+              username: 'user.gar3011',
+            });
+          });
 
-          // when
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
+          test('it should open password modal window with GAR and username connexion method', async function(assert) {
 
-          // then
-          assert.contains('Médiacentre');
-          assert.contains('Identifiant');
+            // given
+            await visit('/eleves');
+
+            // when
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
+
+            // then
+            assert.contains('Médiacentre');
+            assert.contains('Identifiant');
+          });
+
+          test('it should open pasword modal and display password reset button', async function(assert) {
+            // given
+            await visit('/eleves');
+
+            // when
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
+
+            // then
+            assert.contains('Réinitialiser le mot de passe');
+          });
+
+          test('it should open password modal and display unique password when reset button is clicked', async function(assert) {
+            // given
+            await visit('/eleves');
+            await clickByLabel('Afficher les actions');
+            await clickByLabel('Gérer le compte');
+
+            // when
+            await clickByLabel('Réinitialiser le mot de passe');
+
+            // then
+            assert.dom('#generate-password').doesNotExist();
+            assert.dom('#generated-password').exists();
+          });
         });
-
-        test('it should open pasword modal and display password reset button', async function(assert) {
-          // given
-          await visit('/eleves');
-
-          // when
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
-
-          // then
-          assert.contains('Réinitialiser le mot de passe');
-        });
-
-        test('it should open password modal and display unique password when reset button is clicked', async function(assert) {
-          // given
-          await visit('/eleves');
-          await clickByLabel('Afficher les actions');
-          await clickByLabel('Gérer le compte');
-
-          // when
-          await clickByLabel('Réinitialiser le mot de passe');
-
-          // then
-          assert.dom('#generate-password').doesNotExist();
-          assert.dom('#generated-password').exists();
-        });
-      });
-    });
-
-    module('When admin uploads a file', function(hooks) {
-
-      hooks.beforeEach(async function() {
-        user = createUserManagingStudents('ADMIN');
-        createPrescriberByUser(user);
-
-        await authenticateSession({
-          user_id: user.id,
-          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
-          expires_in: 3600,
-          token_type: 'Bearer token type',
-        });
-      });
-
-      test('it should display success message and reload students', async function(assert) {
-        // given
-        await visit('/eleves');
-
-        const file = new Blob(['foo'], { type: 'valid-file' });
-
-        // when
-        const input = find('#students-file-upload');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert.dom('[data-test-notification-message="success"]').exists();
-        assert.dom('[data-test-notification-message="success"]').hasText('La liste a été importée avec succès.');
-        assert.dom('[aria-label="Élève"]').exists({ count: 1 });
-        assert.contains('Cover');
-        assert.contains('Harry');
-      });
-
-      test('it should display an error message when uploading an invalid file', async function(assert) {
-        // given
-        await visit('/eleves');
-
-        const file = new Blob(['foo'], { type: 'invalid-file' });
-
-        // when
-        const input = find('#students-file-upload');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('422 - Le détail affiché est envoyé par le back');
-      });
-
-      test('it should display an error message when uploading a file with students informations problems', async function(assert) {
-        // given
-        await visit('/eleves');
-
-        const file = new Blob(['foo'], { type: 'file-with-students-info-problems' });
-
-        // when
-        const input = find('#students-file-upload');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('409 - Le détail affiché est envoyé par le back');
-      });
-
-      test('it should display an error message when uploading a file with csv problems', async function(assert) {
-        // given
-        await visit('/eleves');
-
-        const file = new Blob(['foo'], { type: 'file-with-csv-problems' });
-
-        // when
-        const input = find('#students-file-upload');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('412 - Le détail affiché est envoyé par le back');
-      });
-
-      test('it should display an error message when something unexpected went wrong on the client', async function(assert) {
-        // given
-        await visit('/eleves');
-
-        const file = new Blob(['foo'], { type: 'file-with-problems' });
-
-        // when
-        const input = find('#students-file-upload');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('400 - détail. Veuillez réessayer ou nous contacter via le formulaire du centre d\'aide.');
-      });
-
-      test('it should display an error message when something unexpected went wrong on the server', async function(assert) {
-        // given
-        await visit('/eleves');
-
-        const file = new Blob(['foo'], { type: '' });
-
-        // when
-        const input = find('#students-file-upload');
-        await triggerEvent(input, 'change', { files: [file] });
-
-        // then
-        assert.dom('[data-test-notification-message="error"]').exists();
-        assert.dom('[data-test-notification-message="error"]').hasText('Quelque chose s\'est mal passé. Veuillez réessayer.');
       });
     });
   });
-
 });

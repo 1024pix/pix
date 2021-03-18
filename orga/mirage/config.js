@@ -168,25 +168,9 @@ export default function() {
       return new Promise((resolve) => {
         resolve(new Response(422, {}, { errors: [ { status: '422', detail: '422 - Le détail affiché est envoyé par le back' } ] }));
       });
-    } else if (type === 'file-with-students-info-problems') {
-      return new Promise((resolve) => {
-        resolve(new Response(409, {}, { errors: [ { status: '409', detail: '409 - Le détail affiché est envoyé par le back' } ] }));
-      });
-    } else if (type === 'file-with-csv-problems') {
-      return new Promise((resolve) => {
-        resolve(new Response(412, {}, { errors: [ { status: '412', detail: '412 - Le détail affiché est envoyé par le back' } ] }));
-      });
-    } else if (type === 'file-with-problems') {
-      return new Promise((resolve) => {
-        resolve(new Response(400, {}, { errors: [ { status: '400', detail: '400 - détail.' } ] }));
-      });
     } else if (type === 'valid-file') {
       const organizationId = request.params.id;
       return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
-    } else {
-      return new Promise((resolve) => {
-        resolve(new Response(500, {}, { errors: [ { status: '500', detail: 'error 500' } ] }));
-      });
     }
   });
 
