@@ -1,6 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const importSchoolingRegistrationsFromSIECLEFormat = require('../../../../lib/domain/usecases/import-schooling-registrations-from-siecle');
-const { FileValidationError, SiecleXmlImportError, SameNationalStudentIdInOrganizationError } = require('../../../../lib/domain/errors');
+const { FileValidationError, SiecleXmlImportError } = require('../../../../lib/domain/errors');
 
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const SchoolingRegistrationParser = require('../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
@@ -215,36 +215,6 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
         expect(error).to.be.instanceOf(FileValidationError);
         expect(error.code).to.equal('INVALID_FILE_EXTENSION');
         expect(error.meta.fileExtension).to.equal('txt');
-      });
-    });
-
-    context('because a nationalStudentId appears twice in the file', () => {
-      beforeEach(async () => {
-        // given
-        const sameNationalStudentId = 'SAMEID456';
-        const extractedStudentsInformations = [
-          { nationalStudentId: sameNationalStudentId },
-          { nationalStudentId: sameNationalStudentId },
-        ];
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
-          .returns(extractedStudentsInformations);
-        schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
-        const errorDetail = 'Key ("organizationId", "nationalStudentId")=(ORGAID, SAMEID456) already exists.';
-        schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations.throws(new SameNationalStudentIdInOrganizationError(errorDetail));
-        organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
-      });
-
-      it('should throw a SiecleXmlImportError', async () => {
-        // given
-        payload = { path: 'file.xml' } ;
-
-        // when
-        error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
-
-        // then
-        expect(error).to.be.instanceOf(SiecleXmlImportError);
-        expect(error.code).to.equal('INE_UNIQUE');
-        expect(error.meta).to.deep.equal({ nationalStudentId: 'SAMEID456' });
       });
     });
   });

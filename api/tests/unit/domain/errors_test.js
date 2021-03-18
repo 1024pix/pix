@@ -81,7 +81,7 @@ describe('Unit | Domain | Errors', () => {
 
       it('should return a message with given nationalStudentId', () => {
         // given
-        const expectedErrorMessage = 'L’INE 123INE456 est déjà présent pour cette organisation.';
+        const expectedErrorMessage = 'The INE 123INE456 is already in use for this organization.';
         const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
 
         // when
@@ -107,7 +107,7 @@ describe('Unit | Domain | Errors', () => {
 
       it('should return a generic message', () => {
         // given
-        const expectedErrorMessage = 'Un INE est déjà présent pour cette organisation.';
+        const expectedErrorMessage = 'INE already in use for this organization.';
 
         // when
         const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError();

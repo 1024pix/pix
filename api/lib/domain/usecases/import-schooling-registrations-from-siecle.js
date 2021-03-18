@@ -1,4 +1,4 @@
-const { FileValidationError, SiecleXmlImportError, SameNationalStudentIdInOrganizationError } = require('../errors');
+const { FileValidationError, SiecleXmlImportError } = require('../errors');
 const fs = require('fs').promises;
 const bluebird = require('bluebird');
 const { SCHOOLING_REGISTRATION_CHUNK_SIZE } = require('../../infrastructure/constants');
@@ -34,20 +34,13 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
     throw new SiecleXmlImportError(ERRORS.EMPTY);
   }
 
-  try {
-    const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
+  const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
 
-    await bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
-      if (organization.isAgriculture) {
-        return schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(chunk, organizationId);
-      } else {
-        return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
-      }
-    });
-  } catch (err) {
-    if (err instanceof SameNationalStudentIdInOrganizationError) {
-      throw new SiecleXmlImportError(ERRORS.INE_UNIQUE, { nationalStudentId: err.nationalStudentId });
+  return bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
+    if (organization.isAgriculture) {
+      return schoolingRegistrationRepository.addOrUpdateOrganizationAgriSchoolingRegistrations(chunk, organizationId);
+    } else {
+      return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
     }
-    throw err;
-  }
+  });
 };
