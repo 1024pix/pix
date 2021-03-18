@@ -1,5 +1,13 @@
 .challenge-item__feedback {
   margin-bottom: 20px;
+  padding: 0 20px;
+  width: 100%;
+  text-align: left;
+  max-width: 990px;
+
+  @include device-is('desktop') {
+    padding: 0;
+  }
 }
 
 .challenge-item .alert {

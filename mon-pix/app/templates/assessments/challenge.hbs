@@ -22,6 +22,9 @@
     }}
     </main>
   </div>
+  <div class="challenge-item__feedback">
+    <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}}/>
+  </div>
 </div>
 
 {{#if this.showLevelup}}
