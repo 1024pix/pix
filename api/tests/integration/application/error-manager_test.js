@@ -370,11 +370,11 @@ describe('Integration | API | Controller Error', () => {
     });
 
     it('responds Bad Request when a SchoolingRegistrationsCouldNotBeSavedError error occurs', async () => {
-      routeHandler.throws(new DomainErrors.SchoolingRegistrationsCouldNotBeSavedError('Une erreur est survenue durant le traitement.'));
+      routeHandler.throws(new DomainErrors.SchoolingRegistrationsCouldNotBeSavedError());
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);
-      expect(responseDetail(response)).to.equal('Une erreur est survenue durant le traitement.');
+      expect(responseDetail(response)).to.equal('An error occurred during process');
     });
 
     it('responds Bad Request when a WrongDateFormatError error occurs', async () => {

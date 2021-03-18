@@ -497,4 +497,8 @@ describe('Unit | Domain | Errors', () => {
   it('should export a UserAccountNotFoundForPoleEmploiError', () => {
     expect(errors.UserAccountNotFoundForPoleEmploiError).to.exist;
   });
+
+  it('should export a SchoolingRegistrationsCouldNotBeSavedError', () => {
+    expect(errors.SchoolingRegistrationsCouldNotBeSavedError).to.exist;
+  });
 });
