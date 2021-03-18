@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const KnowledgeElement = require('./KnowledgeElement');
 
 class CertifiableProfileForLearningContent {
   constructor({
@@ -59,6 +60,27 @@ class CertifiableProfileForLearningContent {
       }));
     }
   }
+
+  getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId({ origin = null } = {}) {
+    const skillIdsByAreaId = {};
+    for (const area of this.areas) {
+      let directlyValidatedSkillsInArea = [];
+      for (const competence of area.competences) {
+        if (competence.isOfOrigin(origin)) {
+          const directlyValidatedSkillsInCompetence = competence.getDirectlyValidatedSkills();
+          directlyValidatedSkillsInArea = [...directlyValidatedSkillsInArea, ...directlyValidatedSkillsInCompetence];
+        }
+      }
+
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyInArea = _(directlyValidatedSkillsInArea)
+        .sortBy('difficulty')
+        .reverse()
+        .value();
+      skillIdsByAreaId[area.id] = _.map(directlyValidatedSkillsOrderedByDecreasingDifficultyInArea, 'id');
+    }
+
+    return skillIdsByAreaId;
+  }
 }
 
 class Skill {
@@ -85,6 +107,14 @@ class Skill {
   get id() {
     return this.targetedSkill.id;
   }
+
+  get isDirectlyValidated() {
+    return this.source === KnowledgeElement.SourceType.DIRECT && this.status === KnowledgeElement.StatusType.VALIDATED;
+  }
+
+  get difficulty() {
+    return this.targetedSkill.difficulty;
+  }
 }
 
 class Tube {
@@ -94,6 +124,10 @@ class Tube {
   }) {
     this.targetedTube = targetedTube;
     this.skills = skills;
+  }
+
+  getDirectlyValidatedSkills() {
+    return _.filter(this.skills, 'isDirectlyValidated');
   }
 }
 
@@ -105,6 +139,20 @@ class Competences {
     this.targetedCompetence = targetedCompetence;
     this.tubes = tubes;
   }
+
+  isOfOrigin(origin) {
+    if (!origin) return true;
+    return this.targetedCompetence.origin === origin;
+  }
+
+  getDirectlyValidatedSkills() {
+    let directlyValidatedSkills = [];
+    for (const tube of this.tubes) {
+      directlyValidatedSkills = [...directlyValidatedSkills, ...tube.getDirectlyValidatedSkills()];
+    }
+
+    return directlyValidatedSkills;
+  }
 }
 
 class Area {
@@ -114,6 +162,10 @@ class Area {
   }) {
     this.targetedArea = targetedArea;
     this.competences = competences;
+  }
+
+  get id() {
+    return this.targetedArea.id;
   }
 }
 
