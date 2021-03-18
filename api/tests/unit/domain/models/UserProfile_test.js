@@ -258,4 +258,53 @@ describe('Unit | Domain | Models | UserProfile', () => {
       });
     });
   });
+
+  describe('#getChallengeIdForSkill', () => {
+
+    it('should return challengeId of skill if exists', () => {
+      // given
+      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
+        answerId: 123,
+        skillId: basicTargetProfile.skills[0].id,
+      });
+      const answerAndChallengeIdsByAnswerId = { 123: { id: 123, challengeId: 'chal1' } };
+      const userProfile = new UserProfile({
+        userId: 'someUserId',
+        profileDate: 'someProfileDate',
+        targetProfileWithLearningContent: basicTargetProfile,
+        knowledgeElements: [knowledgeElement1],
+        answerAndChallengeIdsByAnswerId,
+      });
+
+      // when
+      const challengeId = userProfile.getChallengeIdForSkill(basicTargetProfile.skills[0].id);
+
+      // then
+      expect(challengeId).to.equal('chal1');
+    });
+
+    it('should return null if no skill was found', () => {
+      // given
+      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
+        answerId: 123,
+        skillId: basicTargetProfile.skills[0].id,
+      });
+      const answerAndChallengeIdsByAnswerId = { 123: { id: 123, challengeId: 'chal1' } };
+      const userProfile = new UserProfile({
+        userId: 'someUserId',
+        profileDate: 'someProfileDate',
+        targetProfileWithLearningContent: basicTargetProfile,
+        knowledgeElements: [knowledgeElement1],
+        answerAndChallengeIdsByAnswerId,
+      });
+
+      // when
+      const challengeId = userProfile.getChallengeIdForSkill('SomeUncannySkillId');
+
+      // then
+      expect(challengeId).to.be.null;
+    });
+  });
 });

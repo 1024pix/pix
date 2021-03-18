@@ -81,6 +81,11 @@ class UserProfile {
 
     return skillIdsByAreaId;
   }
+
+  getChallengeIdForSkill(skillId) {
+    const userSkill = _.find(this.userSkills, { id: skillId });
+    return userSkill ? userSkill.challengeId : null;
+  }
 }
 
 class UserSkill {
