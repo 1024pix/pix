@@ -63,10 +63,10 @@ export default class ListController extends Controller {
             const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
             return this.notifications.sendError(this.intl.t('pages.students-sup.import.error-wrapper', { message, htmlSafe: true }));
           }
-          return this.notifications.sendError(globalErrorMessage);
+          return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
         });
       } else {
-        this.notifications.sendError(globalErrorMessage);
+        return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
       }
     }
   }
