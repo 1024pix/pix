@@ -70,9 +70,9 @@ export default class ListController extends Controller {
   }
 
   _handleError(errorResponse) {
-    const globalErrorMessage = this.intl.t('pages.students-sco.import.global-error');
+    const globalErrorMessage = this.intl.t('pages.students-sco.import.global-error', { htmlSafe: true });
     if (!errorResponse.body.errors) {
-      return this.notifications.sendError(globalErrorMessage);
+      return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
     }
 
     errorResponse.body.errors.forEach((error) => {
@@ -80,11 +80,7 @@ export default class ListController extends Controller {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
         return this.notifications.sendError(message);
       }
-      if (error.status === '400') {
-        const errorDetail = this.intl.t('pages.students-sco.import.error-wrapper', { message: error.detail, htmlSafe: true });
-        return this.notifications.error(errorDetail, { autoClear: false, cssClasses: 'notification notification--error', onClick: function() { window.open('https://support.pix.fr/support/tickets/new', '_blank'); } });
-      }
-      return this.notifications.sendError(globalErrorMessage);
+      return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
     });
   }
 
