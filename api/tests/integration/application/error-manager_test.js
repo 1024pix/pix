@@ -198,6 +198,14 @@ describe('Integration | API | Controller Error', () => {
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
       expect(responseDetail(response)).to.equal('L’INE ABC123 est déjà présent pour cette organisation.');
     });
+
+    it('responds Conflict when a SameNationalApprenticeIdInOrganizationError error occurs', async () => {
+      routeHandler.throws(new DomainErrors.SameNationalApprenticeIdInOrganizationError('(ABC123)'));
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(CONFLICT_ERROR);
+      expect(responseDetail(response)).to.equal('L’INA ABC123 est déjà présent pour cette organisation.');
+    });
   });
 
   context('403 Forbidden', () => {

@@ -190,6 +190,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SameNationalStudentIdInOrganizationError) {
     return new HttpErrors.ConflictError(error.message);
   }
+  if (error instanceof DomainErrors.SameNationalApprenticeIdInOrganizationError) {
+    return new HttpErrors.ConflictError(error.message);
+  }
   if (error instanceof DomainErrors.AssessmentNotCompletedError) {
     return new HttpErrors.ConflictError(error.message);
   }
