@@ -114,11 +114,13 @@ describe('Unit | Controller | assessment-results', () => {
             },
           },
         },
+        auth: { credentials: { userId: 7 } },
       };
-      const eventToBeDispatched = new ChallengeNeutralized({ certificationCourseId: 1 });
+      const eventToBeDispatched = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
       sinon.stub(usecases, 'neutralizeChallenge').withArgs({
         certificationCourseId: 1,
         challengeRecId: 'rec43mpMIR5dUzdjh',
+        juryId: 7,
       }).resolves(eventToBeDispatched);
       sinon.stub(events, 'eventDispatcher').value({
         dispatch: sinon.stub(),

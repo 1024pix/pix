@@ -44,6 +44,7 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       ...dependencies,
       certificationCourseId,
       challengeRecId: challengeToBeNeutralized.challengeId,
+      juryId: 7,
     });
 
     // then
@@ -91,10 +92,11 @@ describe('Unit | UseCase | neutralize-challenge', () => {
       ...dependencies,
       certificationCourseId,
       challengeRecId: challengeToBeNeutralized.challengeId,
+      juryId: 7,
     });
 
     // then
     expect(event).to.be.an.instanceof(ChallengeNeutralized);
-    expect(event).to.deep.equal({ certificationCourseId });
+    expect(event).to.deep.equal({ certificationCourseId, juryId: 7 });
   });
 });
