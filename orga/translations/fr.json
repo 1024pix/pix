@@ -535,6 +535,18 @@
         "empty": "En attente de membres"
       }
     },
+    "team-invitations": {
+      "table": {
+        "column": {
+          "email-address": "Adresse e-mail",
+          "pending-invitation": "Date de dernier envoi"
+        },
+        "row": {
+          "aria-label": "Invitation en attente",
+          "message": "Dernière invitation envoyée le"
+        }
+      }
+    },
     "team-new": {
       "title": "Inviter un membre",
       "email-requirement": "Saisissez ici l'adresse e-mail du membre que vous souhaitez inviter.",
