@@ -11,6 +11,10 @@ export default class QcmSolutionPanel extends Component {
     return !isEmpty(solution) ? valueAsArrayOfBoolean(solution) : [];
   }
 
+  get isNotCorrectlyAnswered() {
+    return this.args.answer.result !== 'ok';
+  }
+
   get labeledCheckboxes() {
     const answer = this.args.answer.value;
     let checkboxes = [];
