@@ -214,6 +214,33 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('getTube', () => {
+
+    it('should return the tube when its in the target profile', () => {
+      // given
+      const tube1 = domainBuilder.buildTargetedSkill({ id: 'tube1' });
+      const tube2 = domainBuilder.buildTargetedSkill({ id: 'tube2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ tubes: [tube1, tube2] });
+
+      // when
+      const actualTube = targetProfile.getTube('tube2');
+
+      // then
+      expect(actualTube).to.deep.equal(tube2);
+    });
+
+    it('should return null if tube not in target profile', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ tubes: [] });
+
+      // when
+      const actualTube = targetProfile.getCompetence('tube2');
+
+      // then
+      expect(actualTube).to.be.null;
+    });
+  });
+
   describe('getCompetence', () => {
 
     it('should return the competence when its in the target profile', () => {
