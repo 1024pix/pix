@@ -187,6 +187,33 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
+  describe('findSkill', () => {
+
+    it('should return the skill when its in the target profile', () => {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill({ id: 'sk1' });
+      const skill2 = domainBuilder.buildTargetedSkill({ id: 'sk2' });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skill1, skill2] });
+
+      // when
+      const actualSkill = targetProfile.findSkill('sk2');
+
+      // then
+      expect(actualSkill).to.deep.equal(skill2);
+    });
+
+    it('should return null if skill not in target profile', () => {
+      // given
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [] });
+
+      // when
+      const actualSkill = targetProfile.findSkill('sk2');
+
+      // then
+      expect(actualSkill).to.be.null;
+    });
+  });
+
   describe('getCompetence', () => {
 
     it('should return the competence when its in the target profile', () => {
