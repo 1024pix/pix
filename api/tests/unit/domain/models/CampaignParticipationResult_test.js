@@ -228,6 +228,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           message: 'Congrats, you won the Yellow badge!',
           title: 'Yellow',
           key: 'YELLOW',
+          isCertifiable: false,
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
               id: 17,
@@ -277,6 +278,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
             title: 'Yellow',
+            isCertifiable: false,
             key: 'YELLOW',
             badgeCriteria: [{
               id: 17,
@@ -339,6 +341,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           message: 'Congrats, you won the Green badge!',
           title: 'Green',
           key: 'GREEN',
+          isCertifiable: false,
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
               id: 15,
@@ -363,6 +366,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           message: 'Congrats, you won the Yellow badge!',
           title: 'Yellow',
           key: 'YELLOW',
+          isCertifiable: false,
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
               id: 15,
@@ -406,6 +410,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
             title: 'Green',
+            isCertifiable: false,
             key: 'GREEN',
             badgeCriteria: [{
               id: 15,
@@ -438,6 +443,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             message: 'Congrats, you won the Yellow badge!',
             title: 'Yellow',
             key: 'YELLOW',
+            isCertifiable: false,
             badgeCriteria: [{
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
@@ -481,6 +487,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           message: 'Congrats, you won the Green badge!',
           title: 'Green',
           key: 'GREEN',
+          isCertifiable: false,
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
               id: 15,
@@ -505,6 +512,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           message: 'Congrats, you won the Yellow badge!',
           title: 'Yellow',
           key: 'YELLOW',
+          isCertifiable: false,
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
               id: 15,
@@ -557,6 +565,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             imageUrl: '/img/green.svg',
             message: 'Congrats, you won the Green badge!',
             title: 'Green',
+            isCertifiable: false,
             key: 'GREEN',
             badgeCriteria: [{
               id: 15,
@@ -588,6 +597,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             imageUrl: '/img/yellow.svg',
             message: 'Congrats, you won the Yellow badge!',
             title: 'Yellow',
+            isCertifiable: false,
             key: 'YELLOW',
             badgeCriteria: [
               domainBuilder.buildBadgeCriterion({
@@ -648,6 +658,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           message: 'Congrats, you won the Green badge!',
           title: 'Green',
           key: 'GREEN',
+          isCertifiable: false,
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
               id: 15,
@@ -665,6 +676,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
           message: 'Congrats, you won the Yellow badge!',
           title: 'Yellow',
           key: 'YELLOW',
+          isCertifiable: false,
           badgeCriteria: [
             domainBuilder.buildBadgeCriterion({
               id: 15,
@@ -709,6 +721,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             message: 'Congrats, you won the Green badge!',
             title: 'Green',
             key: 'GREEN',
+            isCertifiable: false,
             badgeCriteria: [{
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
@@ -726,6 +739,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
             message: 'Congrats, you won the Yellow badge!',
             title: 'Yellow',
             key: 'YELLOW',
+            isCertifiable: false,
             badgeCriteria: [{
               id: 15,
               scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
