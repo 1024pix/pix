@@ -161,66 +161,28 @@ describe('Unit | Component | comparison-window', function() {
   });
 
   describe('#solution', function() {
-    [
-      { challengeType: 'QROC', challenge: challengeQroc, challengeWithAutoReply: challengeQrocWithAutoReply },
-      { challengeType: 'QROCM-dep', challenge: challengeQrocmDep, challengeWithAutoReply: challengeQrocmDepWithAutoReply },
-    ].forEach(function(testCase) {
-      describe(`when challenge is of type ${testCase.challengeType}`, function() {
-        it('should return null when challenge has autoReply=true and correction has no solutionToDisplay', function() {
-          // given
-          answer.set('challenge', testCase.challengeWithAutoReply);
-          answer.set('correction', EmberObject.create());
+    it('should return null when challenge has autoReply=true', function() {
+      // given
+      answer.set('challenge', challengeQrocmDepWithAutoReply);
+      answer.set('correction', EmberObject.create());
 
-          // when
-          const solution = component.solution;
+      // when
+      const solution = component.solution;
 
-          // then
-          expect(solution).to.be.null;
-        });
-
-        it('should return solution when challenge has autoReply=false and correction has no solutionToDisplay', function() {
-          // given
-          answer.set('challenge', testCase.challenge);
-          answer.set('correction', EmberObject.create({ solution: 'solution' }));
-
-          // when
-          const solution = component.solution;
-
-          // then
-          expect(solution).to.equal('solution');
-        });
-
-        it('should return solutionToDisplay whenever a correction has a solutionToDisplay', function() {
-          // given
-          answer.set('challenge', testCase.challenge);
-          answer.set('correction', EmberObject.create({ solutionToDisplay: 'solution to display', solution: 'solution' }));
-
-          // when
-          const solution = component.solution;
-
-          // then
-          expect(solution).to.equal('solution to display');
-        });
-      });
+      // then
+      expect(solution).to.be.null;
     });
 
-    [
-      { challengeType: 'QCU', challenge: challengeQcu },
-      { challengeType: 'QCM', challenge: challengeQcm },
-    ].forEach(function(testCase) {
-      describe(`when challenge is of type ${testCase.challengeType}`, function() {
-        it('should return solution', function() {
-          // given
-          answer.set('challenge', challengeQcm);
-          answer.set('correction', EmberObject.create({ solution: 'solution', solutionToDisplay: 'solution to display' }));
+    it('should return solution', function() {
+      // given
+      answer.set('challenge', challengeQcu);
+      answer.set('correction', EmberObject.create({ solution: 'solution' }));
 
-          // when
-          const solution = component.solution;
+      // when
+      const solution = component.solution;
 
-          // then
-          expect(solution).to.equal('solution');
-        });
-      });
+      // then
+      expect(solution).to.equal('solution');
     });
   });
 });

@@ -66,11 +66,11 @@ export default class ComparisonWindow extends Component {
   }
 
   get solution() {
-    const solution = this._isAutoReply ? null : this.args.answer.correction.get('solution');
-    if (this.isAssessmentChallengeTypeQcu || this.isAssessmentChallengeTypeQcm) {
-      return solution;
-    }
-    return this.args.answer.correction.get('solutionToDisplay') || solution;
+    return this._isAutoReply ? null : this.args.answer.correction.get('solution');
+  }
+
+  get solutionToDisplay() {
+    return this.args.answer.correction.get('solutionToDisplay');
   }
 
   get _isAutoReply() {
