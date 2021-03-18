@@ -76,7 +76,7 @@ export default class ListController extends Controller {
     }
 
     errorResponse.body.errors.forEach((error) => {
-      if (error.status === '409' || error.status === '422' || error.status === '412') {
+      if (error.status === '409' || error.status === '422' || error.status === '412' || error.status === '413') {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
         return this.notifications.sendError(message);
       }

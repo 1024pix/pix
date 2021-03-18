@@ -22,6 +22,7 @@ const CSV_IMPORT_ERRORS = {
   INA_FORMAT: 'api-errors-messages.student-csv-import.ina-format',
   INA_UNIQUE: 'api-errors-messages.student-csv-import.ina-unique',
   INSEE_CODE_INVALID: 'api-errors-messages.student-csv-import.insee-code-invalid',
+  PAYLOAD_TOO_LARGE: 'api-errors-messages.student-csv-import.payload-too-large',
   STUDENT_NUMBER_UNIQUE: 'api-errors-messages.student-csv-import.student-number-unique',
   STUDENT_NUMBER_FORMAT: 'api-errors-messages.student-csv-import.student-number-format',
 };
