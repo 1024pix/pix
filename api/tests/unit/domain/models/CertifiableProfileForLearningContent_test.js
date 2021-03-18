@@ -211,7 +211,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
     });
 
-    it('should only include skills within origin if one origin is provided', () => {
+    it('should only include skills not in excludedOrigins', () => {
       // given
       const knowledgeElementEasySkillArea1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 123,
@@ -249,7 +249,8 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
 
       // when
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId({ origin: 'Origin1' });
+      const excludedOrigins = ['Origin2'];
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins);
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
