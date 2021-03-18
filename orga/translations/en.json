@@ -535,6 +535,18 @@
         "empty": "No members yet"
       }
     },
+    "team-invitations": {
+      "table": {
+        "column": {
+          "email-address": "Email address",
+          "pending-invitation": "Pending invitation"
+        },
+        "row": {
+          "aria-label": "Pending invitation",
+          "message": "Sent on"
+        }
+      }
+    },
     "team-new": {
       "title": "Invite a member",
       "email-requirement": "Enter here the email address of the member you want to invite.",

@@ -4,15 +4,15 @@
       <table id="table-invitations">
         <thead>
         <tr>
-          <th>Adresse e-mail</th>
-          <th>Date de dernier envoi</th>
+          <th>{{t 'pages.team-invitations.table.column.email-address'}}</th>
+          <th>{{t 'pages.team-invitations.table.column.pending-invitation'}}</th>
         </tr>
         </thead>
         <tbody>
         {{#each @organizationInvitations as |organizationInvitation|}}
-          <tr aria-label="Invitation en attente">
+          <tr aria-label="{{t 'pages.team-invitations.table.row.aria-label'}}">
             <td>{{organizationInvitation.email}}</td>
-            <td colspan="3">Dernière invitation envoyée le {{moment-format organizationInvitation.updatedAt 'DD/MM/YYYY [à] HH:mm' locale='fr'}}</td>
+            <td colspan="3">{{t 'pages.team-invitations.table.row.message'}} {{moment-format organizationInvitation.updatedAt 'DD/MM/YYYY [-] HH:mm' locale='fr'}}</td>
           </tr>
         {{/each}}
         </tbody>
