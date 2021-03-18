@@ -77,6 +77,11 @@ class TargetProfileWithLearningContent {
     return skillTube ? skillTube.competenceId : null;
   }
 
+  getSkill(skillId) {
+    const foundSkill = _.find(this.skills, (skill) => skill.id === skillId);
+    return foundSkill || null;
+  }
+
   getCompetence(competenceId) {
     const foundCompetence = _.find(this.competences, (competence) => competence.id === competenceId);
     return foundCompetence || null;
