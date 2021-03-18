@@ -204,7 +204,7 @@ describe('Integration | API | Controller Error', () => {
       const response = await server.inject(options);
 
       expect(response.statusCode).to.equal(CONFLICT_ERROR);
-      expect(responseDetail(response)).to.equal('L’INA ABC123 est déjà présent pour cette organisation.');
+      expect(responseDetail(response)).to.equal('The INA ABC123 is already in use for this organization.');
     });
   });
 
