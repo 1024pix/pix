@@ -46,14 +46,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   });
 };
 
-async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
-  return await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-    userId,
-    sessionId,
-    domainTransaction,
-  });
-}
-
 async function _startNewCertification({
   domainTransaction,
   sessionId,
@@ -64,13 +56,7 @@ async function _startNewCertification({
   certificationChallengesService,
   placementProfileService,
 }) {
-  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
-
-  if (!placementProfile.isCertifiable()) {
-    throw new UserNotAuthorizedToCertifyError();
-  }
-
-  const newCertificationChallenges = await certificationChallengesService.pickCertificationChallenges(placementProfile);
+  const challengesForPixCertification = await _handlePixCertification(placementProfileService, certificationChallengesService, userId);
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
@@ -82,8 +68,30 @@ async function _startNewCertification({
     };
   }
 
+  return _createCertificationCourse(certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, challengesForPixCertification, domainTransaction);
+}
+
+async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
+  return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+    userId,
+    sessionId,
+    domainTransaction,
+  });
+}
+
+async function _handlePixCertification(placementProfileService, certificationChallengesService, userId) {
+  const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: new Date() });
+
+  if (!placementProfile.isCertifiable()) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
+
+  return certificationChallengesService.pickCertificationChallenges(placementProfile);
+}
+
+async function _createCertificationCourse(certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, certificationChallenges, domainTransaction) {
   const certificationCandidate = await certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
-  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: newCertificationChallenges, maxReachableLevelOnCertificationDate: features.maxReachableLevel });
+  const newCertificationCourse = CertificationCourse.from({ certificationCandidate, challenges: certificationChallenges, maxReachableLevelOnCertificationDate: features.maxReachableLevel });
 
   const savedCertificationCourse = await certificationCourseRepository.save({
     certificationCourse: newCertificationCourse,
