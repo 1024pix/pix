@@ -47,5 +47,16 @@
 
     {{/each}}
   </div>
+
+  {{#if this.isNotCorrectlyAnswered}}
+    {{#if @solutionToDisplay}}
+      <div class="comparison-window-solution comparison-window-solution--with-margin">
+        <img class="comparison-window-solution__img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
+        <span class="sr-only">{{t 'pages.comparison-window.results.a11y.the-answer-was'}}</span>
+        <div class="comparison-window-solution__text">{{@solutionToDisplay}}</div>
+      </div>
+    {{/if}}
+  {{/if}}
+
 </div>
 
