@@ -19,6 +19,10 @@ function _isMatchingReconciledStudentNotFoundError(err) {
   return _get(err, 'errors[0].code') === 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
 }
 
+function _isNotAValidSessionId(value) {
+  return isNaN(parseInt(value));
+}
+
 @classic
 export default class CertificationJoiner extends Component {
   @service store;
@@ -77,8 +81,14 @@ export default class CertificationJoiner extends Component {
   @action
   async attemptNext() {
     this.stepsData.joiner = { sessionId: this.sessionId };
-    this.isLoading = true;
     try {
+
+      if (this.sessionId && _isNotAValidSessionId(this.sessionId)) {
+        this.errorMessage = 'Merci de saisir le numéro de session, composé uniquement de chiffres.';
+        return;
+      }
+
+      this.isLoading = true;
       await this.joinCertificationSession();
       this.success();
     } catch (err) {

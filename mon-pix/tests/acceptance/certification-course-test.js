@@ -53,6 +53,29 @@ describe('Acceptance | Certification | Start Certification Course', function() {
           return visit('/certifications');
         });
 
+        context('when user enters a sessionId with letters', function() {
+          beforeEach(async function() {
+            await visit('/certifications');
+
+            // when
+            await fillCertificationJoiner({
+              sessionId: 'YOLO123',
+              firstName: 'Justine',
+              lastName: 'Sagoin',
+              dayOfBirth: '28',
+              monthOfBirth: '04',
+              yearOfBirth: '2019',
+            });
+          });
+
+          it('should display an error message', function() {
+            // then
+            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
+              'Merci de saisir le numéro de session, composé uniquement de chiffres.',
+            );
+          });
+        });
+
         context('when user forget to fill a field', function() {
           beforeEach(async function() {
             await visit('/certifications');
