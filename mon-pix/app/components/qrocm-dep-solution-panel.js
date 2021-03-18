@@ -40,7 +40,10 @@ export default class QrocmDepSolutionPanel extends Component {
     return classByResultValue[this.args.answer.result];
   }
 
-  get expectedAnswers() {
+  get understandableSolution() {
+    if (this.args.solutionToDisplay) {
+      return this.args.solutionToDisplay;
+    }
     const inputFieldsCount = this.inputFields.length;
     const solutions = jsyaml.safeLoad(this.args.solution);
     const solutionsKeys = Object.keys(solutions);
