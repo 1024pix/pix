@@ -750,7 +750,11 @@
                 "submit": "Envoyer",
                 "sign-in": "Connectez-vous"
             },
-            "error": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
+            "error": {
+                "expired-demand": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
+                "forbidden": "Une erreur est survenue, veuillez contacter le support.",
+                "wrong-format": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre."
+            },
             "fields": {
                 "password": {
                     "label": "Mot de passe"

@@ -750,7 +750,11 @@
                 "submit": "Send",
                 "sign-in": "Log in"
             },
-            "error": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
+            "error": {
+                "expired-demand": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
+                "forbidden": "An error occurred, please contact the support.",
+                "wrong-format": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number."
+            },
             "fields": {
                 "password": {
                     "label": "Password"
