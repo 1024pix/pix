@@ -78,7 +78,7 @@ export default class ListController extends Controller {
     errorResponse.body.errors.forEach((error) => {
       if (error.status === '409' || error.status === '422' || error.status === '412' || error.status === '413') {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-        return this.notifications.sendError(message);
+        return this.notifications.sendError(this.intl.t('pages.students-sco.import.error-wrapper', { message, htmlSafe: true }));
       }
       return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
     });
