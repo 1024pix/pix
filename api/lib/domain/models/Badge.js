@@ -6,6 +6,7 @@ class Badge {
     imageUrl,
     message,
     title,
+    isCertifiable,
     badgeCriteria = [],
     badgePartnerCompetences = [],
     targetProfileId,
@@ -16,6 +17,7 @@ class Badge {
     this.message = message;
     this.title = title;
     this.key = key;
+    this.isCertifiable = isCertifiable;
     this.badgeCriteria = badgeCriteria;
     this.badgePartnerCompetences = badgePartnerCompetences;
     this.targetProfileId = targetProfileId;
