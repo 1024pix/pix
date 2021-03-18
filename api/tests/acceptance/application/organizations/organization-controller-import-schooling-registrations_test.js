@@ -931,7 +931,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].code).to.equal('INA_UNIQUE');
+          expect(response.result.errors[0].code).to.equal('IDENTIFIER_UNIQUE');
         });
       });
     });
