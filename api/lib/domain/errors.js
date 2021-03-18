@@ -122,13 +122,13 @@ class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
 
 class SameNationalStudentIdInOrganizationError extends DomainError {
   constructor(errorDetail) {
-    let message = 'Un INE est déjà présent pour cette organisation.';
+    let message = 'INE already in use for this organization.';
     let nationalStudentId;
     const regex = /([a-zA-Z0-9]+)\)/;
     if (errorDetail) {
       const regexMatches = errorDetail.match(regex);
       nationalStudentId = regexMatches[1];
-      message = `L’INE ${nationalStudentId} est déjà présent pour cette organisation.`;
+      message = `The INE ${nationalStudentId} is already in use for this organization.`;
     }
 
     super(message);
