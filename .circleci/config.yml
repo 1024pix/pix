@@ -340,6 +340,8 @@ jobs:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
           command: npx wait-on http://localhost:3000/api http://localhost:4200 http://localhost:4201 http://localhost:4203 && npm run cy:run:ci
+      - store_test_results:
+          path: /home/circleci/test-results
 
   algo_test:
     docker:
