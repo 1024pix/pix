@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const KnowledgeElement = require('./KnowledgeElement');
 
 class UserProfile {
   constructor({
@@ -59,6 +60,27 @@ class UserProfile {
       }));
     }
   }
+
+  getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId({ origin = null } = {}) {
+    const skillIdsByAreaId = {};
+    for (const userArea of this.userAreas) {
+      let directlyValidatedSkillsInArea = [];
+      for (const userCompetence of userArea.userCompetences) {
+        if (userCompetence.isOfOrigin(origin)) {
+          const directlyValidatedSkillsInCompetence = userCompetence.getDirectlyValidatedSkills();
+          directlyValidatedSkillsInArea = [...directlyValidatedSkillsInArea, ...directlyValidatedSkillsInCompetence];
+        }
+      }
+
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyInArea = _(directlyValidatedSkillsInArea)
+        .sortBy('difficulty')
+        .reverse()
+        .value();
+      skillIdsByAreaId[userArea.id] = _.map(directlyValidatedSkillsOrderedByDecreasingDifficultyInArea, 'id');
+    }
+
+    return skillIdsByAreaId;
+  }
 }
 
 class UserSkill {
@@ -85,6 +107,14 @@ class UserSkill {
   get id() {
     return this.targetedSkill.id;
   }
+
+  get isDirectlyValidated() {
+    return this.source === KnowledgeElement.SourceType.DIRECT && this.status === KnowledgeElement.StatusType.VALIDATED;
+  }
+
+  get difficulty() {
+    return this.targetedSkill.difficulty;
+  }
 }
 
 class UserTube {
@@ -94,6 +124,10 @@ class UserTube {
   }) {
     this.targetedTube = targetedTube;
     this.userSkills = userSkills;
+  }
+
+  getDirectlyValidatedSkills() {
+    return _.filter(this.userSkills, 'isDirectlyValidated');
   }
 }
 
@@ -105,6 +139,20 @@ class UserCompetence {
     this.targetedCompetence = targetedCompetence;
     this.userTubes = userTubes;
   }
+
+  isOfOrigin(origin) {
+    if (!origin) return true;
+    return this.targetedCompetence.origin === origin;
+  }
+
+  getDirectlyValidatedSkills() {
+    let directlyValidatedSkills = [];
+    for (const userTube of this.userTubes) {
+      directlyValidatedSkills = [...directlyValidatedSkills, ...userTube.getDirectlyValidatedSkills()];
+    }
+
+    return directlyValidatedSkills;
+  }
 }
 
 class UserArea {
@@ -114,6 +162,10 @@ class UserArea {
   }) {
     this.targetedArea = targetedArea;
     this.userCompetences = userCompetences;
+  }
+
+  get id() {
+    return this.targetedArea.id;
   }
 }
 
