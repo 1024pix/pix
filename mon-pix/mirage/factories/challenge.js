@@ -69,7 +69,7 @@ export default Factory.extend({
   QROC: trait({
     type: 'QROC',
     instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
-    proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP',
+    proposals: 'Entrez le *prénom* de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP',
   }),
 
   withAutoReply: trait({

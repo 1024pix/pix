@@ -91,6 +91,8 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(findAll('.challenge-response__proposal')).to.have.lengthOf(1);
         expect(find('.challenge-response__proposal').disabled).to.be.false;
 
+        expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('<p>Entrez le <em>prénom</em> de B. Gates :</p>');
+
         expect(find('.alert')).to.not.exist;
 
       });
@@ -265,6 +267,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         expect(findAll('.challenge-response__proposal')).to.have.lengthOf(1);
         expect(find('.challenge-response__proposal').disabled).to.be.false;
+        expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('<p>Entrez le <em>prénom</em> de B. Gates :</p>');
 
         expect(find('.alert')).to.not.exist;
 
