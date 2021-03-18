@@ -14,10 +14,12 @@ describe('Integration | Component | QROC solution panel', function() {
       // given
       const challenge = EmberObject.create({ format: 'paragraphe' });
       const answer = EmberObject.create({ challenge });
+      const solution = '4';
       this.set('answer', answer);
+      this.set('solution', solution);
 
       //when
-      await render(hbs`<QrocSolutionPanel @answer={{this.answer}}/>`);
+      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
 
       // then
       expect(find('input')).to.not.exist;
@@ -31,10 +33,12 @@ describe('Integration | Component | QROC solution panel', function() {
       // given
       const challenge = EmberObject.create({ format: 'phrase' });
       const answer = EmberObject.create({ challenge });
+      const solution = '4';
       this.set('answer', answer);
+      this.set('solution', solution);
 
       //when
-      await render(hbs`<QrocSolutionPanel @answer={{this.answer}}/>`);
+      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
 
       // then
       expect(find('input.correction-qroc-box-answer--sentence')).to.have.attr('disabled');
@@ -51,11 +55,12 @@ describe('Integration | Component | QROC solution panel', function() {
         // given
         const challenge = EmberObject.create({ format: data.format });
         const answer = EmberObject.create({ challenge });
+        const solution = '4';
         this.set('answer', answer);
-        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
+        this.set('solution', solution);
 
         //when
-        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
+        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
 
         // then
         expect(find('textarea.correction-qroc-box-answer--paragraph')).to.not.exist;
@@ -80,10 +85,12 @@ describe('Integration | Component | QROC solution panel', function() {
           const assessment = EmberObject.create({ id: 'assessment_id' });
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
           const answer = EmberObject.create({ id: 'answer_id', result: 'ok', value: 'test', assessment, challenge });
-
-          // when
+          const solution = '4';
           this.set('answer', answer);
-          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
+          this.set('solution', solution);
+
+          //when
+          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
         });
 
         it('should display the answer in bold green', async function() {
@@ -95,7 +102,7 @@ describe('Integration | Component | QROC solution panel', function() {
 
         it('should not display the solution', async function() {
           // then
-          expect(find('.correction-qroc-box__solution')).to.not.exist;
+          expect(find('.comparison-window-solution')).to.not.exist;
         });
       });
 
@@ -106,10 +113,12 @@ describe('Integration | Component | QROC solution panel', function() {
           const assessment = EmberObject.create({ id: 'assessment_id' });
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
           const answer = EmberObject.create({ id: 'answer_id', result: 'ko', assessment, challenge });
+          const solution = '4';
+          this.set('answer', answer);
+          this.set('solution', solution);
 
           // when
-          this.set('answer', answer);
-          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
+          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
         });
 
         it('should display the false answer with line-through', function() {
@@ -120,9 +129,9 @@ describe('Integration | Component | QROC solution panel', function() {
         });
 
         it('should display the solution with an arrow and the solution in bold green', function() {
-          const blockSolution = find('.correction-qroc-box__solution');
-          const arrowImg = find('.correction-qroc-box__solution-img');
-          const solutionText = find('.correction-qroc-box__solution-text');
+          const blockSolution = find('.comparison-window-solution');
+          const arrowImg = find('.comparison-window-solution__img');
+          const solutionText = find('.comparison-window-solution__text');
 
           // then
           expect(blockSolution).to.exist;
@@ -140,12 +149,13 @@ describe('Integration | Component | QROC solution panel', function() {
           const assessment = EmberObject.create({ id: 'assessment_id' });
           const challenge = EmberObject.create({ id: 'challenge_id', format: data.format });
           const answer = EmberObject.create({ id: 'answer_id', value: '#ABAND#', result: 'aband', assessment, challenge });
-
-          // when
+          const solution = '4';
           this.set('answer', answer);
+          this.set('solution', solution);
           this.set('isResultWithoutAnswer', true);
 
-          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} />`);
+          // when
+          await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
         });
 
         it('should display "Pas de réponse" in italic', function() {
@@ -160,4 +170,113 @@ describe('Integration | Component | QROC solution panel', function() {
     });
   });
 
+  context('when user has not answerd correctly', function() {
+
+    context('when solutionToDisplay is indicated', function() {
+      it('should show the solution from solutionToDisplay', async function() {
+        //Given
+        const answer = EmberObject.create({ result: 'ko' });
+        const solutionToDisplay = 'MEILLEURE EXPLICATION !';
+        const solution = 'SOLUTION !';
+        const challenge = EmberObject.create();
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('solutionToDisplay', solutionToDisplay);
+        this.set('challenge', challenge);
+
+        // When
+        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+        // Then
+        expect(find('.comparison-window-solution')).to.exist;
+        expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
+      });
+    });
+
+    context('when solutionToDisplay is not indicated', function() {
+      it('should show the solution', async function() {
+        // Given
+        const answer = EmberObject.create({ result: 'ko' });
+        const solutionToDisplay = null;
+        const solution = 'SOLUTION !';
+        const challenge = EmberObject.create();
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('solutionToDisplay', solutionToDisplay);
+        this.set('challenge', challenge);
+
+        // When
+        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+        // Then
+        expect(find('.comparison-window-solution')).to.exist;
+        expect(find('.comparison-window-solution__text').textContent).to.contains(solution);
+      });
+    });
+  });
+
+  context('when user has answerd correctly', function() {
+
+    context('when solutionToDisplay is indicated', function() {
+      it('should not show the solution text', async function() {
+        //Given
+        const answer = EmberObject.create({ result: 'ok' });
+        const solutionToDisplay = 'MEILLEURE EXPLICATION !';
+        const solution = 'SOLUTION !';
+        const challenge = EmberObject.create();
+        this.set('answer', answer);
+        this.set('solution', solution);
+        this.set('solutionToDisplay', solutionToDisplay);
+        this.set('challenge', challenge);
+
+        // When
+        await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+        // Then
+        expect(find('.comparison-window-solution')).to.not.exist;
+      });
+    });
+  });
+
+  context('when challenge is autoReply without solution', function() {
+    let challenge, solution;
+    beforeEach(function() {
+      challenge = EmberObject.create({ autoReply: true });
+      solution = null;
+    });
+
+    it('should not show the block answers and solution if solutionToDisplay not exists', async function() {
+      //Given
+      const answer = EmberObject.create({ result: 'ko' });
+      const solutionToDisplay = null;
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('solutionToDisplay', solutionToDisplay);
+      this.set('challenge', challenge);
+
+      // When
+      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+      // Then
+      expect(find('.correction-qroc-box')).to.not.exist;
+    });
+
+    it('should show the solution if solutionToDisplay exists', async function() {
+      //Given
+      const answer = EmberObject.create({ result: 'ko' });
+      const solutionToDisplay = 'TADA !';
+      this.set('answer', answer);
+      this.set('solution', solution);
+      this.set('solutionToDisplay', solutionToDisplay);
+      this.set('challenge', challenge);
+
+      // When
+      await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+      // Then
+      expect(find('.correction-qroc-box')).to.exist;
+      expect(find('.comparison-window-solution')).to.exist;
+      expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
+    });
+  });
 });

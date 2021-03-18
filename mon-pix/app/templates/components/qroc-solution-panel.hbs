@@ -1,6 +1,6 @@
-<div class="correction-qroc-box rounded-panel">
-  <div class="rounded-panel__row ">
-
+{{#if this.hasCorrection}}
+<div class="rounded-panel rounded-panel__row correction-qroc-box">
+  {{#if @solution}}
     <div class="correction-qroc-box__answer">
       {{#if (eq @answer.challenge.format 'paragraphe')}}
         <textarea class="correction-qroc-box-answer correction-qroc-box-answer--paragraph {{this.inputClass}}"
@@ -13,23 +13,24 @@
         <input class="correction-qroc-box-answer correction-qroc-box-answer--sentence {{this.inputClass}}"
                value="{{this.answerToDisplay}}"
                aria-label={{t 'pages.comparison-window.results.a11y.given-answer'}}
-               disabled>
+               disabled />
       {{else}}
         <input class="correction-qroc-box-answer {{this.inputClass}}"
                size="{{get-qroc-input-size @answer.challenge.format}}"
                value="{{this.answerToDisplay}}"
                aria-label={{t 'pages.comparison-window.results.a11y.given-answer'}}
-               disabled>
+               disabled />
       {{/if}}
     </div>
-
-    {{#unless this.isResultOk}}
-      <div class="correction-qroc-box__solution">
-        <img class="correction-qroc-box__solution-img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
+  {{/if}}
+  {{#if this.isNotCorrectlyAnswered}}
+    {{#if this.understandableSolution}}
+      <div class="comparison-window-solution">
+        <img class="comparison-window-solution__img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
         <span class="sr-only">{{t 'pages.comparison-window.results.a11y.the-answer-was'}}</span>
-        <div class="correction-qroc-box__solution-text">{{this.solutionToDisplay}}</div>
+        <div class="comparison-window-solution__text">{{this.understandableSolution}}</div>
       </div>
-    {{/unless}}
-  </div>
+    {{/if}}
+  {{/if}}
 </div>
-
+{{/if}}
