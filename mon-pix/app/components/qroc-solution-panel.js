@@ -14,8 +14,12 @@ export default class QrocSolutionPanel extends Component {
     return classByResultValue[this.args.answer.result] || '';
   }
 
-  get isResultOk() {
-    return this.args.answer.result === 'ok';
+  get isNotCorrectlyAnswered() {
+    return this.args.answer.result !== 'ok';
+  }
+
+  get hasCorrection() {
+    return this.args.solution || this.args.solutionToDisplay;
   }
 
   get answerToDisplay() {
@@ -26,7 +30,10 @@ export default class QrocSolutionPanel extends Component {
     return answer;
   }
 
-  get solutionToDisplay() {
+  get understandableSolution() {
+    if (this.args.solutionToDisplay) {
+      return this.args.solutionToDisplay;
+    }
     const solutionVariants = this.args.solution;
     if (!solutionVariants) {
       return '';
