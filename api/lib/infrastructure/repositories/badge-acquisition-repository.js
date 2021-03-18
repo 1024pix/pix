@@ -46,4 +46,19 @@ module.exports = {
     }
     return acquiredBadgesByUsers;
   },
+
+  async getCertifiableAcquiredBadges({ userId }) {
+    const results = await BookshelfBadgeAcquisition
+      .query((qb) => {
+        qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
+        qb.where('badge-acquisitions.userId', '=', userId);
+        qb.where('badges.isCertifiable', '=', true);
+      })
+      .fetchAll({
+        withRelated: ['badge'],
+        require: false,
+      });
+
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfBadgeAcquisition, results);
+  },
 };
