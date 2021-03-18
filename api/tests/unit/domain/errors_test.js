@@ -118,6 +118,49 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
+  describe('#SameNationalApprenticeIdInOrganizationError', () => {
+
+    context('When errorDetail is provided', () => {
+
+      it('should return a message with given nationalApprenticeId', () => {
+        // given
+        const expectedErrorMessage = 'The INA 123INA456 is already in use for this organization.';
+        const errorMessage = 'Key ("organizationId", "nationalApprenticeId")=(ORGAID, 123INA456) already exists.';
+
+        // when
+        const sameNationalApprenticeIdInOrganizationError = new errors.SameNationalApprenticeIdInOrganizationError(errorMessage);
+
+        // then
+        expect(sameNationalApprenticeIdInOrganizationError.message).to.equal(expectedErrorMessage);
+      });
+
+      it('should set a nationalApprenticeId property', () => {
+        // given
+        const errorMessage = 'Key ("organizationId", "nationalApprenticeId")=(ORGAID, 123INA456) already exists.';
+
+        // when
+        const sameNationalApprenticeIdInOrganizationError = new errors.SameNationalApprenticeIdInOrganizationError(errorMessage);
+
+        // then
+        expect(sameNationalApprenticeIdInOrganizationError.nationalApprenticeId).to.equal('123INA456');
+      });
+    });
+
+    context('When errorDetail is not provided', () => {
+
+      it('should return a generic message', () => {
+        // given
+        const expectedErrorMessage = 'INA is already in use for this organization.';
+
+        // when
+        const sameNationalApprenticeIdInOrganizationError = new errors.SameNationalApprenticeIdInOrganizationError();
+
+        // then
+        expect(sameNationalApprenticeIdInOrganizationError.message).to.equal(expectedErrorMessage);
+      });
+    });
+  });
+
   describe('#UserNotFoundError', () => {
     it('should export a UserNotFoundError', () => {
       expect(errors.UserNotFoundError).to.exist;

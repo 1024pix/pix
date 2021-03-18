@@ -138,13 +138,13 @@ class SameNationalStudentIdInOrganizationError extends DomainError {
 
 class SameNationalApprenticeIdInOrganizationError extends DomainError {
   constructor(errorDetail) {
-    let message = 'Un INA est déjà présent pour cette organisation.';
+    let message = 'INA is already in use for this organization.';
     let nationalApprenticeId;
     const regex = /([a-zA-Z0-9]+)\)/;
     if (errorDetail) {
       const regexMatches = errorDetail.match(regex);
       nationalApprenticeId = regexMatches[1];
-      message = `L’INA ${nationalApprenticeId} est déjà présent pour cette organisation.`;
+      message = `The INA ${nationalApprenticeId} is already in use for this organization.`;
     }
 
     super(message);
