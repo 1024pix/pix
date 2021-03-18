@@ -15,7 +15,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const competenceMarkRepository = { save: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-    const event = new ChallengeNeutralized({ certificationCourseId: 1 });
+    const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
@@ -52,6 +52,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       pixScore: nbPix,
       status: status,
       assessmentId: 123,
+      juryId: 7,
     });
     const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
     assessmentResultRepository.save
@@ -90,7 +91,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const competenceMarkRepository = { save: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-    const event = new ChallengeNeutralized({ certificationCourseId: 1 });
+    const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
@@ -117,6 +118,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       pixScore: 0,
       status: 'error',
       assessmentId: 123,
+      juryId: 7,
     });
     const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
     assessmentResultRepository.save

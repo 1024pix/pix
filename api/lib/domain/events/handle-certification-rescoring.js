@@ -1,5 +1,4 @@
 const AssessmentResult = require('../models/AssessmentResult');
-const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
 const CompetenceMark = require('../models/CompetenceMark');
 const bluebird = require('bluebird');
 const {
@@ -27,6 +26,7 @@ async function handleCertificationRescoring({
     assessmentResultRepository,
     competenceMarkRepository,
     scoringCertificationService,
+    juryId: event.juryId,
   });
   return null;
 }
@@ -37,6 +37,7 @@ async function _calculateCertificationScore({
   assessmentResultRepository,
   competenceMarkRepository,
   scoringCertificationService,
+  juryId,
 }) {
   try {
     const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(certificationAssessment);
@@ -46,6 +47,7 @@ async function _calculateCertificationScore({
       domainTransaction,
       assessmentResultRepository,
       competenceMarkRepository,
+      juryId,
     });
   } catch (error) {
     if (!(error instanceof CertificationComputeError)) {
@@ -55,6 +57,7 @@ async function _calculateCertificationScore({
       certificationAssessment,
       assessmentResultRepository,
       certificationComputeError: error,
+      juryId,
     });
   }
 }
@@ -65,12 +68,14 @@ async function _saveResult({
   domainTransaction,
   assessmentResultRepository,
   competenceMarkRepository,
+  juryId,
 }) {
   const assessmentResult = await _createAssessmentResult({
     certificationAssessment,
     certificationAssessmentScore,
     assessmentResultRepository,
     domainTransaction,
+    juryId,
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
@@ -79,10 +84,8 @@ async function _saveResult({
   });
 }
 
-function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, domainTransaction }) {
-  const assessmentResult = AssessmentResult.buildStandardAssessmentResult(certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id);
-  // TODO : juryId
-  // TODO : emitter => Est-ce le même que "Jury Pix" ? ou un autre type "Rescoring" ?
+function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, domainTransaction, juryId }) {
+  const assessmentResult = AssessmentResult.buildStandardAssessmentResult(certificationAssessmentScore.nbPix, certificationAssessmentScore.status, certificationAssessment.id, juryId);
   return assessmentResultRepository.save(assessmentResult, domainTransaction);
 }
 
@@ -90,10 +93,9 @@ async function _saveResultAfterCertificationComputeError({
   certificationAssessment,
   assessmentResultRepository,
   certificationComputeError,
+  juryId,
 }) {
-  const assessmentResult = AssessmentResult.buildAlgoErrorResult(certificationComputeError, certificationAssessment.id);
-  // TODO : juryID
-  // TODO : emitter => Est-ce le même que "Jury Pix" ? ou un autre type "Rescoring" ?
+  const assessmentResult = AssessmentResult.buildAlgoErrorResult(certificationComputeError, certificationAssessment.id, juryId);
   await assessmentResultRepository.save(assessmentResult);
 }
 
