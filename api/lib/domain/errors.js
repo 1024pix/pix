@@ -115,8 +115,8 @@ class NoCampaignParticipationForUserAndCampaign extends DomainError {
 }
 
 class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
-  constructor(message = 'Une erreur est survenue durant le traitement.') {
-    super(message);
+  constructor() {
+    super('An error occurred during process');
   }
 }
 

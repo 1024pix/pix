@@ -466,7 +466,6 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
-          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
       });
 
@@ -728,7 +727,6 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
           expect(schoolingRegistrations).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(400);
-          expect(response.result.errors[0].detail).to.equal('Une erreur est survenue durant le traitement.');
         });
       });
 
