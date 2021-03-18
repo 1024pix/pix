@@ -5,13 +5,9 @@ import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
-const WRONG_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
-const FORBIDDEN_ERROR_MESSAGE = 'Vous n’êtes pas autorisé à faire cette demande.';
-const EXPIRED_DEMAND_ERROR_MESSAGE = 'Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.';
-const UNEXPECTED_ERROR = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
-
 export default class ResetPasswordForm extends Component {
   @service url;
+  @service intl;
 
   @tracked hasSucceeded = false;
   validation = {
@@ -30,7 +26,7 @@ export default class ResetPasswordForm extends Component {
       this._resetValidation();
     } else {
       this.validation.status = 'error';
-      this.validation.message = WRONG_FORMAT_ERROR_MESSAGE;
+      this.validation.message = this.intl.t('pages.reset-password.error.wrong-format');
     }
   }
 
@@ -49,19 +45,19 @@ export default class ResetPasswordForm extends Component {
       this.validation.status = 'error';
       switch (status) {
         case '400':
-          this.validation.message = WRONG_FORMAT_ERROR_MESSAGE;
+          this.validation.message = this.intl.t('pages.reset-password.error.wrong-format');
           break;
         case '403':
-          this.validation.message = FORBIDDEN_ERROR_MESSAGE;
+          this.validation.message = this.intl.t('pages.reset-password.error.forbidden');
           break;
         case '404':
-          this.validation.message = EXPIRED_DEMAND_ERROR_MESSAGE;
+          this.validation.message = this.intl.t('pages.reset-password.error.expired-demand');
           break;
         case '500':
-          this.validation.message = UNEXPECTED_ERROR;
+          this.validation.message = this.intl.t('api-error-messages.internal-server-error');
           break;
         default:
-          this.validation.message = UNEXPECTED_ERROR;
+          this.validation.message = this.intl.t('api-error-messages.internal-server-error');
           break;
       }
     }

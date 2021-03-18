@@ -6,17 +6,10 @@ import { setupTest } from 'ember-mocha';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-const WRONG_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
-const FORBIDDEN_ERROR_MESSAGE = 'Vous n’êtes pas autorisé à faire cette demande.';
-const EXPIRED_DEMAND_ERROR_MESSAGE = 'Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.';
-const UNEXPECTED_ERROR = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
-
 describe('Unit | Component | reset password form', function() {
 
   setupTest();
   setupIntl();
-
-  // component.intl.t('api-error-messages.internal-server-error');
 
   describe('#validatePassword', () => {
 
@@ -103,19 +96,19 @@ describe('Unit | Component | reset password form', function() {
       [
         {
           status: '400',
-          message: WRONG_FORMAT_ERROR_MESSAGE,
+          message: 'pages.reset-password.error.wrong-format',
         },
         {
           status: '403',
-          message: FORBIDDEN_ERROR_MESSAGE,
+          message: 'pages.reset-password.error.forbidden',
         },
         {
           status: '404',
-          message: EXPIRED_DEMAND_ERROR_MESSAGE,
+          message: 'pages.reset-password.error.expired-demand',
         },
         {
           status: '500',
-          message: UNEXPECTED_ERROR,
+          message: 'api-error-messages.internal-server-error',
         },
       ].forEach((testCase) => {
         it(`it should display ${testCase.message} when http status is ${testCase.status}`, async () => {
@@ -133,7 +126,7 @@ describe('Unit | Component | reset password form', function() {
 
           // then
           expect(component.validation.status).to.eql('error');
-          expect(component.validation.message).to.eql(testCase.message);
+          expect(component.validation.message).to.eql(component.intl.t(testCase.message));
         });
       });
     });
