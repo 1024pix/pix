@@ -3,7 +3,7 @@ const CompetenceAnswerCollectionForScoring = require('../../../../lib/domain/mod
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', function() {
-  context('#numberOfAnsweredChallenges', () => {
+  context('#numberOfChallengesAnswered', () => {
     it('equals 0 when no answers', () => {
       // given
       const answerCollection = CompetenceAnswerCollectionForScoring.from({
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
       expect(numberOfChallengesAnswered).to.equal(3);
     });
 
-    it('counts QROCMDeps as double ', () => {
+    it('counts QROCMDeps as double if only two answers or less', () => {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
       const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QROCM-dep' });
@@ -47,6 +47,26 @@ describe('Unit | Domain | Models | CompetenceAnswerCollectionForScoring', functi
       const answerCollection = CompetenceAnswerCollectionForScoring.from({
         answersForCompetence: [answer1, qROCMDepAnswer2 ],
         challengesForCompetence: [challenge1, qROCMDepChallenge2 ],
+      });
+
+      // when
+      const numberOfChallengesAnswered = answerCollection.numberOfChallengesAnswered();
+
+      // then
+      expect(numberOfChallengesAnswered).to.equal(3);
+    });
+
+    it('counts QROCMDeps as single if more than two answers', () => {
+      // given
+      const challenge1 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ type: 'QCM' });
+      const qROCMDepChallenge3 = _buildDecoratedCertificationChallenge({ type: 'QROCM-dep' });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
+      const qROCMDepAnswer3 = domainBuilder.buildAnswer({ challengeId: qROCMDepChallenge3.challengeId });
+      const answerCollection = CompetenceAnswerCollectionForScoring.from({
+        answersForCompetence: [answer1, answer2, qROCMDepAnswer3 ],
+        challengesForCompetence: [challenge1, challenge2, qROCMDepChallenge3 ],
       });
 
       // when
