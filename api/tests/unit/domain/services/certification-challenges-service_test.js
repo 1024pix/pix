@@ -171,7 +171,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         })]);
 
       answerRepository.findChallengeIdsFromAnswerIds.withArgs([123]).resolves(
-        [domainBuilder.buildAnswer({ id: 123, challengeId: 'challengeRecordIdFive' })],
+        ['challengeRecordIdFive'],
       );
       const expectedCertificationChallenge = _createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2);
 

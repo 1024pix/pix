@@ -27,45 +27,41 @@ module.exports = {
       UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences)
         .filter((uc) => uc.isCertifiable());
 
-    let certificationChallengesByCompetence = {};
-    certifiableUserCompetencesWithOrderedSkills.forEach((userCompetence) => {
-      userCompetence.skills.forEach((skill) => {
-        if (!_hasCompetenceEnoughCertificationChallenges(userCompetence.id, certificationChallengesByCompetence)) {
-          const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allFrFrOperativeChallenges, skill });
-          const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
+    let certificationChallenges = [];
+    for (const userCompetence of certifiableUserCompetencesWithOrderedSkills) {
+      const certificationChallengesForCompetence = [];
+      for (const skill of userCompetence.skills) {
+        if (certificationChallengesForCompetence.length >= MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION) break;
+        const alreadySelectedChallengeIds = [
+          ..._.map(certificationChallenges, 'challengeId'),
+          ..._.map(certificationChallengesForCompetence, 'challengeId'),
+        ];
+        const certificationChallenge = pickCertificationChallengeForSkill(skill, userCompetence.id, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
+        if (certificationChallenge) certificationChallengesForCompetence.push(certificationChallenge);
+      }
+      certificationChallenges = [...certificationChallenges, ...certificationChallengesForCompetence];
+    }
 
-          const challengesPoolToPickChallengeFrom = _.isEmpty(unansweredChallenges) ? challengesToValidateCurrentSkill : unansweredChallenges;
-          if (_.isEmpty(challengesPoolToPickChallengeFrom)) {
-            return;
-          }
-          const challenge = _.sample(challengesPoolToPickChallengeFrom);
-
-          const certificationChallenge = new CertificationChallenge({
-            challengeId: challenge.id,
-            competenceId: userCompetence.id,
-            associatedSkillName: skill.name,
-            associatedSkillId: skill.id,
-          });
-          certificationChallengesByCompetence = _addUniqueCertificationChallengeForCompetence(certificationChallengesByCompetence, certificationChallenge);
-        }
-      });
-    });
-
-    return _.flatten(Object.values(certificationChallengesByCompetence));
+    return certificationChallenges;
   },
 };
 
-function _hasCompetenceEnoughCertificationChallenges(competenceId, certificationChallengesByCompetence) {
-  const certificationChallengesForGivenCompetence = certificationChallengesByCompetence[competenceId] || [];
-  return certificationChallengesForGivenCompetence.length >= MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION;
-}
+function pickCertificationChallengeForSkill(skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds) {
+  const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
+  const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
 
-function _addUniqueCertificationChallengeForCompetence(certificationChallengesByCompetence, certificationChallenge) {
-  const mutatedCertificationChallengesByCompetence = _.cloneDeep(certificationChallengesByCompetence);
-  const certificationChallengesForGivenCompetence = mutatedCertificationChallengesByCompetence[certificationChallenge.competenceId] || [];
-  if (!_.some(certificationChallengesForGivenCompetence, { challengeId: certificationChallenge.challengeId })) {
-    certificationChallengesForGivenCompetence.push(certificationChallenge);
+  const challengesPoolToPickChallengeFrom = _.isEmpty(unansweredChallenges) ? challengesToValidateCurrentSkill : unansweredChallenges;
+  if (_.isEmpty(challengesPoolToPickChallengeFrom)) {
+    return;
   }
-  mutatedCertificationChallengesByCompetence[certificationChallenge.competenceId] = certificationChallengesForGivenCompetence;
-  return mutatedCertificationChallengesByCompetence;
+  const challenge = _.sample(challengesPoolToPickChallengeFrom);
+
+  if (alreadySelectedChallengeIds.includes(challenge.id)) return;
+
+  return new CertificationChallenge({
+    challengeId: challenge.id,
+    competenceId,
+    associatedSkillName: skill.name,
+    associatedSkillId: skill.id,
+  });
 }
