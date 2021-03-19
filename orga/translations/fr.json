@@ -346,6 +346,17 @@
         }
       }
     },
+    "login-or-register": {
+      "invitation": "Vous êtes invité(e) à rejoindre l'organisation",
+      "register-form": {
+        "title": "Je m’inscris",
+        "button": "S'inscrire"
+      },
+      "login-form": {
+        "title": "J'ai déjà un compte",
+        "button": "Se connecter"
+      }
+    },
     "profiles-individual-results": {
       "certifiable": "Certifiable",
       "competences-certifiables": "COMP. CERTIFIABLES",

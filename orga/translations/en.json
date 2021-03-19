@@ -346,6 +346,17 @@
         }
       }
     },
+    "login-or-register": {
+      "invitation": "En cours de traduction",
+      "register-form": {
+        "title": "En cours de traduction",
+        "button": "Sign up"
+      },
+      "login-form": {
+        "title": "En cours de traduction",
+        "button": "Log in"
+      }
+    },
     "profiles-individual-results": {
       "certifiable": "Eligible for certification",
       "competences-certifiables": "SKILLS ELIGIBLE FOR CERTIFICATION",
