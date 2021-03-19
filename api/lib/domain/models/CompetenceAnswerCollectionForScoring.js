@@ -32,7 +32,7 @@ module.exports = class CompetenceAnswerCollection {
 
   numberOfChallengesAnswered() {
     const numberOfChallenges = _(this.answers).map((answer) => {
-      if (answer.isQROCMdep()) {
+      if (this.answers.length < 3 && answer.isQROCMdep()) {
         return 2;
       } else {
         return 1;
