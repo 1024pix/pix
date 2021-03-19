@@ -14,8 +14,9 @@ function _isMatchingReconciledStudentNotFoundError(err) {
   return _get(err, 'errors[0].code') === 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
 }
 
-function _isNotAValidSessionId(value) {
-  return isNaN(parseInt(value));
+function _isAValidSessionId(value) {
+  const isANumberRegex = new RegExp('^[0-9]*$');
+  return isANumberRegex.test(value);
 }
 
 export default class CertificationJoiner extends Component {
@@ -65,8 +66,7 @@ export default class CertificationJoiner extends Component {
     this.args.stepsData.joiner = { sessionId: this.sessionId };
     let currentCertificationCandidate = null;
     try {
-
-      if (this.sessionId && _isNotAValidSessionId(this.sessionId)) {
+      if (this.sessionId && !_isAValidSessionId(this.sessionId)) {
         this.errorMessage = 'Merci de saisir le numéro de session, composé uniquement de chiffres.';
         return;
       }
