@@ -35,7 +35,7 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
   async _getUserAndLocale(lang = null) {
     await this._loadCurrentUser();
     await this._updatePrescriberLocale(lang);
-    this._setLocale();
+    this._setLocale(lang);
   }
 
   _updatePrescriberLocale(lang) {
@@ -47,8 +47,8 @@ export default class ApplicationRoute extends Route.extend(ApplicationRouteMixin
     return prescriber.save({ adapterOptions: { lang } });
   }
 
-  _setLocale() {
-    const locale = get(this.currentUser, 'prescriber.lang', DEFAULT_LOCALE);
+  _setLocale(lang = null) {
+    const locale = lang || get(this.currentUser, 'prescriber.lang', DEFAULT_LOCALE);
     this.intl.setLocale([locale, DEFAULT_LOCALE]);
     this.moment.setLocale(locale);
   }
