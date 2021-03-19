@@ -7,6 +7,8 @@ const SUP_CERTIF_CENTER_ID = 3;
 const SUP_CERTIF_CENTER_NAME = 'Centre SUP des Anne-Étoiles';
 const NONE_CERTIF_CENTER_ID = 4;
 const NONE_CERTIF_CENTER_NAME = 'Centre NOTYPE des Anne-Étoiles';
+const DROIT_CERTIF_CENTER_ID = 5;
+const DROIT_CERTIF_CENTER_NAME = 'Centre DROIT des Anne-Étoiles';
 const SCO_EXTERNAL_ID = '1237457A';
 
 function certificationCentersBuilder({ databaseBuilder }) {
@@ -36,6 +38,12 @@ function certificationCentersBuilder({ databaseBuilder }) {
     type: null,
   });
 
+  databaseBuilder.factory.buildCertificationCenter({
+    id: DROIT_CERTIF_CENTER_ID,
+    name: DROIT_CERTIF_CENTER_NAME,
+    type: null,
+  });
+
   for (let i = 0; i < 200; i++) {
     const types = ['SCO', 'PRO', 'SUP'];
     databaseBuilder.factory.buildCertificationCenter({
@@ -55,4 +63,6 @@ module.exports = {
   SUP_CERTIF_CENTER_NAME,
   NONE_CERTIF_CENTER_ID,
   NONE_CERTIF_CENTER_NAME,
+  DROIT_CERTIF_CENTER_ID,
+  DROIT_CERTIF_CENTER_NAME,
 };
