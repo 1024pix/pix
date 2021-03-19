@@ -2,6 +2,7 @@ const _ = require('lodash');
 const CertificationChallenge = require('../models/CertificationChallenge');
 const {
   MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
+  MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
 } = require('../constants');
 
 const KnowledgeElement = require('../models/KnowledgeElement');
@@ -10,6 +11,8 @@ const Challenge = require('../models/Challenge');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
+const targetProfileWithLearningContentRepository = require('../../infrastructure/repositories/target-profile-with-learning-content-repository');
+const certifiableProfileForLearningContent = require('../../infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 
 module.exports = {
 
@@ -40,6 +43,35 @@ module.exports = {
         if (certificationChallenge) certificationChallengesForCompetence.push(certificationChallenge);
       }
       certificationChallenges = [...certificationChallenges, ...certificationChallengesForCompetence];
+    }
+
+    return certificationChallenges;
+  },
+
+  async pickCertificationChallengesForPlus(targetProfileId, userId) {
+    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: targetProfileId });
+    const certifiableProfile = await certifiableProfileForLearningContent.get({ id: userId, profileDate: Date.now(), targetProfileWithLearningContent });
+    const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
+
+    const excludedOrigins = ['Pix']; // todo mettre en constante quelque part, ou bien l'importer de qqpart ?
+    const skillIdsByArea = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins);
+    const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyDirectlyValidatedAnsweredChallengeIds();
+    let certificationChallenges = [];
+
+    for (const skillIds of skillIdsByArea) {
+      const certificationChallengesForArea = [];
+      for (const skillId of skillIds) {
+        if (certificationChallengesForArea.length >= MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS) break;
+        const alreadySelectedChallengeIds = [
+          ..._.map(certificationChallenges, 'challengeId'),
+          ..._.map(certificationChallengesForArea, 'challengeId'),
+        ];
+        const skill = targetProfileWithLearningContent.getSkill(skillId);
+        const competenceId = targetProfileWithLearningContent.getCompetenceIdOfSkill(skillId);
+        const certificationChallenge = pickCertificationChallengeForSkill(skill, competenceId, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
+        if (certificationChallenge) certificationChallengesForArea.push(certificationChallenge);
+      }
+      certificationChallenges = [...certificationChallenges, ...certificationChallengesForArea];
     }
 
     return certificationChallenges;

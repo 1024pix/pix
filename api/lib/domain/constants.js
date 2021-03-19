@@ -7,6 +7,7 @@ module.exports = {
   MAX_REACHABLE_LEVEL: settings.features.maxReachableLevel,
   MAX_REACHABLE_PIX_BY_COMPETENCE: settings.features.maxReachableLevel * PIX_COUNT_BY_LEVEL,
   MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION: 3,
+  MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS: 4,
   MINIMUM_DELAY_IN_DAYS_FOR_RESET: settings.features.dayBeforeCompetenceResetV2,
   MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING: settings.features.dayBeforeImproving,
 
