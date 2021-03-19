@@ -6,16 +6,15 @@ import { tracked } from '@glimmer/tracking';
 export default class LoginForm extends Component {
 
   @service intl;
-  @service notifications;
   @service session;
   @service store;
 
+  @tracked errorMessage = null;
   @tracked isErrorMessagePresent = false;
   @tracked isLoading = false;
   @tracked isPasswordVisible = false;
 
   email = null;
-  errorMessage = null;
   password = null;
 
   ERROR_MESSAGES;
@@ -24,7 +23,7 @@ export default class LoginForm extends Component {
     return this.isPasswordVisible ? 'text' : 'password';
   }
 
-  get displayRecoverLink() {
+  get displayRecoveryLink() {
     if (this.intl.t('current-lang') === 'en') {
       return false;
     }
@@ -34,6 +33,7 @@ export default class LoginForm extends Component {
   @action
   async authenticate(event) {
     event.preventDefault();
+
     this.isLoading = true;
     const email = this.email ? this.email.trim() : '';
     const password = this.password;
@@ -60,12 +60,16 @@ export default class LoginForm extends Component {
 
   _authenticate(password, email) {
     const scope = 'pix-orga';
+
+    this.isErrorMessagePresent = false;
+    this.errorMessage = '';
+
     this._initErrorMessages();
 
     return this.session.authenticate('authenticator:oauth2', email, password, scope)
       .catch((errorResponse) => {
-        this.isErrorMessagePresent = true;
         this.errorMessage = this._handleResponseError(errorResponse);
+        this.isErrorMessagePresent = true;
       })
       .finally(() => {
         this.isLoading = false;
