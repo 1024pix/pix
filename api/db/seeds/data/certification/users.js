@@ -9,6 +9,7 @@ const CERTIF_REGULAR_USER2_ID = 107;
 const CERTIF_REGULAR_USER3_ID = 108;
 const CERTIF_REGULAR_USER4_ID = 109;
 const CERTIF_REGULAR_USER5_ID = 110;
+const CERTIF_DROIT_USER5_ID = 111;
 const { DEFAULT_PASSWORD } = require('../users-builder');
 
 function certificationUsersBuilder({ databaseBuilder }) {
@@ -111,6 +112,16 @@ function certificationUsersBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: CERTIF_DROIT_USER5_ID,
+    firstName: 'AnneCertifDroit',
+    lastName: 'Certif6',
+    email: 'certifdroit@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+
 }
 
 module.exports = {
@@ -126,4 +137,5 @@ module.exports = {
   CERTIF_REGULAR_USER3_ID,
   CERTIF_REGULAR_USER4_ID,
   CERTIF_REGULAR_USER5_ID,
+  CERTIF_DROIT_USER5_ID,
 };
