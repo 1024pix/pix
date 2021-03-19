@@ -66,14 +66,14 @@
           {{t 'pages.login-form.forgot-password'}}
         </a>
       </div>
-      {{#unless @isWithInvitation}}
+      {{#if this.displayRecoverLink}}
         <div>
           <div class="login-form__recover-access-link help-text">
             <LinkTo @route="join-request" class="link">{{t 'pages.login-form.active-or-retrieve'}}</LinkTo>
           </div>
           <div class="login-form__recover-access-message help-text">({{t 'pages.login-form.only-for-admin'}})</div>
         </div>
-      {{/unless}}
+      {{/if}}
     </div>
 
   </form>

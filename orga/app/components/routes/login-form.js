@@ -24,6 +24,13 @@ export default class LoginForm extends Component {
     return this.isPasswordVisible ? 'text' : 'password';
   }
 
+  get displayRecoverLink() {
+    if (this.intl.t('current-lang') === 'en') {
+      return false;
+    }
+    return !this.args.isWithInvitation;
+  }
+
   @action
   async authenticate(event) {
     event.preventDefault();
