@@ -10,11 +10,12 @@ describe('Integration | Application | Target Profiles | Routes', () => {
 
   beforeEach(() => {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(targetProfileController, 'outdateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfiles').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(targetProfileController, 'getTargetProfileDetails').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(targetProfileController, 'updateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
-    sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(targetProfileController, 'updateTargetProfileName').callsFake((request, h) => h.response('ok').code(204));
 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -243,6 +244,7 @@ describe('Integration | Application | Target Profiles | Routes', () => {
       expect(response.statusCode).to.equal(400);
     });
   });
+
   describe('PATCH /api/target-profiles', () => {
 
     it('should exist', async () => {
@@ -305,4 +307,43 @@ describe('Integration | Application | Target Profiles | Routes', () => {
     });
 
   });
+
+  describe('PUT /api/target-profiles/{:id}/outdate', () => {
+
+    it('should exist', async () => {
+      // given
+      const method = 'PUT';
+      const payload = { };
+      const url = '/api/admin/target-profiles/123/outdate';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    describe('when user does not have a Pix Master role', () => {
+
+      const method = 'PUT';
+      const payload = { };
+      const url = '/api/admin/target-profiles/9999999/outdate';
+
+      it('should resolve a 403 HTTP response', async () => {
+        //Given
+        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+          return Promise.resolve(h.response().code(403).takeover());
+        });
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+    });
+
+  });
+
 });

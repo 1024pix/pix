@@ -3,5 +3,5 @@ module.exports = async function updateTargetProfileName({
   name,
   targetProfileRepository,
 }) {
-  await targetProfileRepository.updateName({ id, name });
+  await targetProfileRepository.update({ id, name });
 };

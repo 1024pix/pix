@@ -144,6 +144,27 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'PUT',
+      path: '/api/admin/target-profiles/{id}/outdate',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+        },
+        handler: targetProfileController.outdateTargetProfile,
+        tags: ['api', 'target-profiles'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de marquer un profil cible comme obsolète',
+        ],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/admin/target-profiles/{id}',
       config: {
@@ -163,7 +184,7 @@ exports.register = async (server) => {
             },
           }).options({ allowUnknown: true }),
         },
-        handler: targetProfileController.updateTargetProfile,
+        handler: targetProfileController.updateTargetProfileName,
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +

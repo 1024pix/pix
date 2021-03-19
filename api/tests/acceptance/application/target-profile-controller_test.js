@@ -220,6 +220,34 @@ describe('Acceptance | Controller | target-profile-controller', () => {
     });
   });
 
+  describe('PUT /api/admin/target-profiles/{id}/outdate', () => {
+
+    it('should return 204', async () => {
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'PUT',
+        url: `/api/admin/target-profiles/${targetProfile.id}/outdate`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            attributes: {
+              'outdated': true,
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
   describe('GET /api/admin/target-profiles/{id}/badges', () => {
     let user;
     let targetProfileId;
