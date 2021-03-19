@@ -522,7 +522,8 @@
       "title": "Mon équipe",
       "add-member-button": "Inviter un membre",
       "tabs": {
-        "member": "Membres"
+        "member": "Membres",
+        "invitation": "Invitations"
       }
     },
     "team-members": {
