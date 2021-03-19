@@ -1,4 +1,4 @@
-const { SCO_CERTIF_CENTER_ID, SCO_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
+const { SCO_CERTIF_CENTER_ID, SCO_CERTIF_CENTER_NAME, DROIT_CERTIF_CENTER_ID, DROIT_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
 const { PIX_MASTER_ID } = require('./../users-builder');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
@@ -8,6 +8,7 @@ const NO_PROBLEM_FINALIZED_SESSION_ID = 5;
 const PROBLEMS_FINALIZED_SESSION_ID = 6;
 const NO_CERTIF_CENTER_SESSION_ID = 7;
 const PUBLISHED_SESSION_ID = 8;
+const PIX_DROIT_SESSION_ID = 9;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
   const certificationCenter = SCO_CERTIF_CENTER_NAME;
@@ -137,6 +138,15 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     finalizedAt: new Date('2018-01-02T00:00:00Z'),
     publishedAt: new Date('2018-01-03T00:00:00Z'),
   });
+  databaseBuilder.factory.buildSession({
+    id: PIX_DROIT_SESSION_ID,
+    certificationCenter: DROIT_CERTIF_CENTER_NAME,
+    certificationCenterId: DROIT_CERTIF_CENTER_ID, address, room, examiner, date, time,
+    description: 'Certif avec pix+droit',
+    accessCode: 'DROI01',
+    finalizedAt: null,
+    publishedAt: null,
+  });
 }
 
 module.exports = {
@@ -149,4 +159,5 @@ module.exports = {
   PROBLEMS_FINALIZED_SESSION_ID,
   NO_CERTIF_CENTER_SESSION_ID,
   PUBLISHED_SESSION_ID,
+  PIX_DROIT_SESSION_ID,
 };
