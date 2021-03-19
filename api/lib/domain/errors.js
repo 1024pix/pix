@@ -468,12 +468,6 @@ class InvalidSessionResultError extends DomainError {
   }
 }
 
-class InvalidRecaptchaTokenError extends DomainError {
-  constructor(message = 'Token de recaptcha invalide.') {
-    super(message);
-  }
-}
-
 class InvalidTemporaryKeyError extends DomainError {
   constructor(message = 'Demande de réinitialisation invalide.') {
     super(message);
@@ -790,7 +784,6 @@ module.exports = {
   InvalidCertificationIssueReportForSaving,
   InvalidExternalUserTokenError,
   InvalidPasswordForUpdateEmailError,
-  InvalidRecaptchaTokenError,
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   InvalidTemporaryKeyError,

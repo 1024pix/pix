@@ -68,7 +68,6 @@ const dependencies = {
   placementProfileService: require('../../domain/services/placement-profile-service'),
   poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
   prescriberRepository: require('../../infrastructure/repositories/prescriber-repository'),
-  reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
   resetPasswordDemandRepository: require('../../infrastructure/repositories/reset-password-demands-repository'),
   schoolingRegistrationRepository: require('../../infrastructure/repositories/schooling-registration-repository'),

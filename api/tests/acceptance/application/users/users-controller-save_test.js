@@ -37,7 +37,6 @@ describe('Acceptance | Controller | users-controller', () => {
           attributes: {
             'password': 'Password123',
             'cgu': true,
-            'recaptcha-token': 'reCAPTCHAToken',
           },
           relationships: {},
         },
@@ -124,7 +123,6 @@ describe('Acceptance | Controller | users-controller', () => {
         'email': 'john.doe@example.net',
         'password': 'Ab124B2C3#!',
         'cgu': true,
-        'recaptcha-token': 'reCAPTCHAToken',
       };
 
       it('should return Unprocessable Entity (HTTP_422) with offending properties', async () => {

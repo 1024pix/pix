@@ -1,7 +1,6 @@
 const {
   AlreadyRegisteredEmailError,
   EntityValidationError,
-  InvalidRecaptchaTokenError,
 } = require('../errors');
 
 const userValidator = require('../validators/user-validator');
@@ -11,10 +10,6 @@ const { getCampaignUrl } = require('../../infrastructure/utils/url-builder');
 
 function _manageEmailAvailabilityError(error) {
   return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
-}
-
-function _manageReCaptchaTokenError(error) {
-  return _manageError(error, InvalidRecaptchaTokenError, 'recaptchaToken', 'Merci de cocher la case ci-dessous :');
 }
 
 function _manageError(error, errorType, attribute, message) {
@@ -39,9 +34,7 @@ function _validatePassword(password) {
 async function _validateData({
   password,
   user,
-  reCaptchaToken,
   userRepository,
-  reCaptchaValidator,
 }) {
   let userValidatorError;
   try {
@@ -52,12 +45,10 @@ async function _validateData({
 
   const passwordValidatorError = _validatePassword(password);
 
-  const promises = [reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError)];
+  const validationErrors = [];
   if (user.email) {
-    promises.push(userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError));
+    validationErrors.push(await userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError));
   }
-
-  const validationErrors = await Promise.all(promises);
   validationErrors.push(userValidatorError);
   validationErrors.push(passwordValidatorError);
 
@@ -73,12 +64,10 @@ module.exports = async function createUser({
   user,
   password,
   campaignCode,
-  reCaptchaToken,
   locale,
   authenticationMethodRepository,
   campaignRepository,
   userRepository,
-  reCaptchaValidator,
   encryptionService,
   mailService,
   userService,
@@ -86,9 +75,7 @@ module.exports = async function createUser({
   const isValid = await _validateData({
     password,
     user,
-    reCaptchaToken,
     userRepository,
-    reCaptchaValidator,
   });
 
   if (isValid) {

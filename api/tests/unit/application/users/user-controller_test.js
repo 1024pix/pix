@@ -52,7 +52,6 @@ describe('Unit | Controller | user-controller', () => {
               'last-name': 'DoDoe',
               'email': 'john.dodoe@example.net',
               'cgu': true,
-              'recaptcha-token': 'reCAPTCHAToken',
               password,
             },
           },
@@ -75,11 +74,9 @@ describe('Unit | Controller | user-controller', () => {
 
       it('should call the user creation usecase', async () => {
         // given
-        const reCaptchaToken = 'reCAPTCHAToken';
         const useCaseParameters = {
           user: deserializedUser,
           password,
-          reCaptchaToken,
           locale,
           campaignCode: null,
         };
