@@ -43,7 +43,7 @@
     "good-console": "^8.0.0",
     "good-squeeze": "^5.1.0",
     "hapi-i18n": "^3.0.1",
-    "hapi-sentry": "^3.1.0",
+    "hapi-sentry": "^3.2.0",
     "hapi-swagger": "^14.1.0",
     "hash-int": "^1.0.0",
     "iconv-lite": "^0.6.2",
