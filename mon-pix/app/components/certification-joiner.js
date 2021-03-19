@@ -1,13 +1,8 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/no-component-lifecycle-hooks: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import _get from 'lodash/get';
-import classic from 'ember-classic-decorator';
 
 function _pad(num, size) {
   let s = num + '';
@@ -23,7 +18,6 @@ function _isNotAValidSessionId(value) {
   return isNaN(parseInt(value));
 }
 
-@classic
 export default class CertificationJoiner extends Component {
   @service store;
   @service peeker;
@@ -45,16 +39,7 @@ export default class CertificationJoiner extends Component {
     return [this.yearOfBirth, monthOfBirth, dayOfBirth].join('-');
   }
 
-  success() {}
-
-  didInsertElement() {
-    super.didInsertElement(...arguments);
-    if (this.getCurrentCandidate()) {
-      this.success();
-    }
-  }
-
-  joinCertificationSession() {
+  createCertificationCandidate() {
     const { firstName, lastName, birthdate, sessionId } = this;
 
     return this.store.createRecord('certification-candidate', {
@@ -66,11 +51,7 @@ export default class CertificationJoiner extends Component {
       lastName: lastName
         ? lastName.trim()
         : null,
-    }).save({ adapterOptions: { joinSession: true, sessionId } });
-  }
-
-  getCurrentCandidate() {
-    return this.peeker.findOne('certification-candidate');
+    });
   }
 
   @action
@@ -79,8 +60,10 @@ export default class CertificationJoiner extends Component {
   }
 
   @action
-  async attemptNext() {
-    this.stepsData.joiner = { sessionId: this.sessionId };
+  async attemptNext(e) {
+    e.preventDefault();
+    this.args.stepsData.joiner = { sessionId: this.sessionId };
+    let currentCertificationCandidate = null;
     try {
 
       if (this.sessionId && _isNotAValidSessionId(this.sessionId)) {
@@ -89,12 +72,12 @@ export default class CertificationJoiner extends Component {
       }
 
       this.isLoading = true;
-      await this.joinCertificationSession();
-      this.success();
+      currentCertificationCandidate = this.createCertificationCandidate();
+      await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
+      this.args.success();
     } catch (err) {
-      const currentCandidate = this.getCurrentCandidate();
-      if (currentCandidate) {
-        currentCandidate.deleteRecord();
+      if (currentCertificationCandidate) {
+        currentCertificationCandidate.deleteRecord();
       }
       this.isLoading = false;
 
