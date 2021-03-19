@@ -50,27 +50,33 @@
     }
   },
   "organization-invitation-email": {
-    "title": "You are invited to join Pix Orga",
-    "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
-    "yourOrganization": "Your organization",
-    "acceptInvitation": "Accept the invitation",
-    "oneTimeLink": "This is a single-use link",
-    "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-    "moreAbout": "More on",
-    "doNotAnswer": "This is an automated email message, please do not reply.",
-    "needHelp": "Have questions? We’re here to help, contact us",
-    "here": "here"
+    "subject": "Invitation to join Pix Orga",
+    "params": {
+      "title": "You are invited to join Pix Orga",
+      "subtitle": "With the Pix Orga platform, create and manage testing campaigns and monitor the progress of your participants.",
+      "yourOrganization": "Your organization",
+      "acceptInvitation": "Accept the invitation",
+      "oneTimeLink": "This is a single-use link",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "moreAbout": "More on",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "needHelp": "Have questions? We’re here to help, contact us",
+      "here": "here"
+    }
   },
   "pix-account-creation-email": {
-    "title": "Your Pix account has been created !",
-    "subtitle": "You can now start testing your skills.",
-    "goToPix": "Get started",
-    "disclaimer": "If you did not create this account, you can ask its deletion",
-    "helpdeskLinkLabel": "here",
-    "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
-    "moreOn": "More on",
-    "doNotAnswer": "This is an automated email message, please do not reply.",
-    "askForHelp": "Any questions? We’re here to help, contact us"
+    "subject": "Your Pix account has been created",
+    "params" : {
+      "title": "Your Pix account has been created !",
+      "subtitle": "You can now start testing your skills.",
+      "goToPix": "Get started",
+      "disclaimer": "If you did not create this account, you can ask its deletion",
+      "helpdeskLinkLabel": "here",
+      "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
+      "moreOn": "More on",
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "askForHelp": "Any questions? We’re here to help, contact us"
+    }
   },
   "reset-password-demand-email": {
     "subject": "Pix password reset request",
@@ -83,8 +89,7 @@
       "pixPresentation": "Pix is the online public service to assess, develop and certify your digital skills.",
       "moreOn": "More on",
       "doNotAnswer": "This is an automated email message, please do not reply. Have questions? We're here to help, ",
-      "contactUs": "contact us here",
-      "helpdeskURL": "http://pix.org/en-gb/help-form"
+      "contactUs": "contact us here"
     }
   },
   "entity-validation-errors": {
