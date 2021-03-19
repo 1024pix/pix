@@ -13,4 +13,8 @@ export default class ConfirmPopup extends Component {
   get submitTitle() {
     return this.args.submitTitle || 'Confirmer';
   }
+
+  get size() {
+    return this.args.size || null;
+  }
 }

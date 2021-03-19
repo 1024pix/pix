@@ -20,12 +20,15 @@
       ID : {{@model.id}}<br>
       Date de création : {{format-date @model.createdAt}}<br>
       Public : {{this.isPublic}}<br>
-      Archivé : {{this.isOutdated}}<br>
+      Obsolète : {{this.isOutdated}}<br>
       Organisation de référence : <LinkTo @route="authenticated.organizations.get" @model={{@model.ownerOrganizationId}}>
         {{@model.ownerOrganizationId}} </LinkTo><br>
     </div>
     <br>
     <button type="button" class="btn btn-outline-default" {{on "click" this.toggleEditMode}}>Editer</button>
+    {{#unless @model.outdated}}
+      <button type="button" class="btn btn-danger" {{on "click" this.toggleDisplayConfirm}}>Marquer comme obsolète</button>
+    {{/unless}}
   </section>
 
   {{/if}}
@@ -43,4 +46,13 @@
   </nav>
 
   {{outlet}}
+
+  <ConfirmPopup @message="Marquer comme obsolète ce profil cible entraînera l'impossibilité de l'utiliser dans toutes les organisations qui lui sont rattachées."
+              @title="Etes-vous sûr de vouloir marquer comme obsolète le profil cible {{@model.name}} ?"
+              @submitTitle="Oui, marquer comme obsolète"
+              @closeTitle="Non, annuler"
+              @size="lg"
+              @confirm={{this.outdate}}
+              @cancel={{this.toggleDisplayConfirm}}
+              @show={{this.displayConfirm}}/>
 </main>
