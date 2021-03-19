@@ -42,10 +42,17 @@ module.exports = {
     return h.response({}).code(204);
   },
 
-  updateTargetProfile: async (request, h) => {
+  async updateTargetProfileName(request, h) {
     const id = parseInt(request.params.id);
     const { name } = request.payload.data.attributes;
     await usecases.updateTargetProfileName({ id, name });
+    return h.response({}).code(204);
+  },
+
+  async outdateTargetProfile(request, h) {
+    const id = parseInt(request.params.id);
+
+    await usecases.outdateTargetProfile({ id });
     return h.response({}).code(204);
   },
 

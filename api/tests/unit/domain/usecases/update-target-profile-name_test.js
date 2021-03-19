@@ -6,14 +6,14 @@ describe('Unit | UseCase | update-target-profile-name', () => {
   it('should call repository method to update a target profile name', async () => {
     //given
     const targetProfileRepository = {
-      updateName: sinon.stub(),
+      update: sinon.stub(),
     };
 
     //when
     await updateTargetProfileName({ id: 123, name: 'Tom', targetProfileRepository });
 
     //then
-    expect(targetProfileRepository.updateName).to.have.been.calledOnceWithExactly({ id: 123, name: 'Tom' });
+    expect(targetProfileRepository.update).to.have.been.calledOnceWithExactly({ id: 123, name: 'Tom' });
 
   });
 
