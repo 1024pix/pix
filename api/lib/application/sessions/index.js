@@ -319,6 +319,10 @@ exports.register = async (server) => {
         }],
         handler: sessionController.generateSessionResultsDownloadLink,
         tags: ['api', 'sessions'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs ayant le rôle PIXMASTER',
+          'Elle permet de générer un lien permettant de télécharger tous les résultats de certification d\'une session',
+        ],
       },
     },
     {
@@ -329,7 +333,8 @@ exports.register = async (server) => {
         handler: sessionController.getSessionResultsByRecipientEmail,
         tags: ['api', 'sessions', 'results'],
         notes: [
-          'Elle retourne les résultats de certifications d\'une session agrégés par email de destinataire des résultats',
+          'Cette route est accessible via un token envoyé par email lors de l\'envoi automatique des résultats de certification',
+          'Elle retourne les résultats de certifications d\'une session agrégés par email de destinataire des résultats, sous format CSV',
         ],
       },
     },
@@ -341,7 +346,8 @@ exports.register = async (server) => {
         handler: sessionController.getSessionResultsToDownload,
         tags: ['api', 'sessions', 'results'],
         notes: [
-          'Elle retourne les résultats de certifications d\'une session agrégés par email de destinataire des résultats',
+          'Cette route est accessible via un token généré par un utilisateur ayant le rôle PIXMASTER',
+          'Elle retourne tous les résultats de certifications d\'une session, sous format CSV',
         ],
       },
     },

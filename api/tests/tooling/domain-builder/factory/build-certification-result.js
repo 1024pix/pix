@@ -16,7 +16,7 @@ module.exports = function buildCertificationResult({
   createdAt = faker.date.past(),
   isPublished = faker.random.boolean(),
   isV2Certification = true,
-  cleaCertificationStatus = faker.random.objectElement(cleaStatuses),
+  cleaCertificationStatus = cleaStatuses.NOT_PASSED,
   hasSeenEndTestScreen = faker.random.boolean(),
   assessmentId,
   sessionId,

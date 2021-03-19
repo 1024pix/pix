@@ -1,5 +1,7 @@
 const { getCsvContent } = require('./write-csv-utils');
 const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
+const { statuses: cleaStatuses } = require('../../../infrastructure/repositories/clea-certification-status-repository');
+
 const _ = require('lodash');
 const moment = require('moment');
 
@@ -16,10 +18,19 @@ async function getSessionCertificationResultsCsv({
   session,
   certificationResults,
 }) {
+
   const data = _buildCertificationResultsFileDataWithCertificationCenterName({ session, certificationResults });
-  const fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterName();
+  const fileHeaders = _buildCertificationResultsFileHeadersWithCertificationCenterName({ shouldIncludeClea: _didAtLeastOneCandidateTakeClea(certificationResults) });
 
   return getCsvContent({ data, fileHeaders });
+}
+
+function _didAtLeastOneCandidateTakeClea(certificationResults) {
+  return certificationResults.some((result) => _hasPassedClea(result.cleaCertificationStatus));
+}
+
+function _hasPassedClea(cleaCertificationStatus) {
+  return [cleaStatuses.REJECTED, cleaStatuses.ACQUIRED].includes(cleaCertificationStatus);
 }
 
 function _buildCertificationResultsFileDataWithoutCertificationCenterName({ certificationResults }) {
@@ -72,7 +83,12 @@ function _buildCertificationResultsFileDataWithCertificationCenterName({ session
   return certificationResults.map(_getRowItemsFromSessionAndResults(session));
 }
 
-function _buildCertificationResultsFileHeadersWithCertificationCenterName() {
+function _buildCertificationResultsFileHeadersWithCertificationCenterName({ shouldIncludeClea }) {
+
+  const cleaHeader = shouldIncludeClea
+    ? [_headers.CLEA_STATUS]
+    : [];
+
   return _.concat(
     [
       _headers.CERTIFICATION_NUMBER,
@@ -81,8 +97,9 @@ function _buildCertificationResultsFileHeadersWithCertificationCenterName() {
       _headers.BIRTHDATE,
       _headers.BIRTHPLACE,
       _headers.EXTERNAL_ID,
-      _headers.PIX_SCORE,
     ],
+    cleaHeader,
+    [ _headers.PIX_SCORE ],
     _competenceIndexes,
     [
       _headers.SESSION_ID,
@@ -92,6 +109,12 @@ function _buildCertificationResultsFileHeadersWithCertificationCenterName() {
   );
 }
 
+const CLEA_STATUS_LABEL_FOR_CSV = {
+  [cleaStatuses.NOT_PASSED]: 'Non passée',
+  [cleaStatuses.ACQUIRED]: 'Validée',
+  [cleaStatuses.REJECTED]: 'Rejetée',
+};
+
 const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => {
   const rowWithoutCompetences = {
     [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
@@ -100,6 +123,7 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
+    [_headers.CLEA_STATUS]: CLEA_STATUS_LABEL_FOR_CSV[certificationResult.cleaCertificationStatus],
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
@@ -179,6 +203,7 @@ const _headers = {
   BIRTHDATE: 'Date de naissance',
   BIRTHPLACE: 'Lieu de naissance',
   EXTERNAL_ID: 'Identifiant Externe',
+  CLEA_STATUS: 'Certification CléA numérique',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',
