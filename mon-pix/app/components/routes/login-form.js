@@ -1,14 +1,10 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import get from 'lodash/get';
 
-import classic from 'ember-classic-decorator';
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { inject } from '@ember/service';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-@classic
 export default class LoginForm extends Component {
 
   @inject session;
@@ -17,60 +13,46 @@ export default class LoginForm extends Component {
   @inject currentUser;
   @inject intl;
 
-  login = null;
-  password = null;
+  @tracked login = null;
+  @tracked password = null;
+  @tracked isLoading = false;
+  @tracked isErrorMessagePresent = false;
+  @tracked hasUpdateUserError = false;
+  @tracked updateErrorMessage = '';
 
-  externalUserToken = null;
-  expectedUserId = null;
-
-  isLoading = false;
-  isPasswordVisible = false;
-  isErrorMessagePresent = false;
-  hasUpdateUserError = false;
-  updateErrorMessage = '';
-
-  @computed('isPasswordVisible')
-  get passwordInputType() {
-    return this.isPasswordVisible ? 'text' : 'password';
-  }
+  externalUserToken;
+  expectedUserId;
 
   @action
-  togglePasswordVisibility() {
-    this.toggleProperty('isPasswordVisible');
-  }
+  async authenticate(event) {
+    event && event.preventDefault();
 
-  @action
-  async authenticate() {
-    this.set('isLoading', true);
-    this.set('isErrorMessagePresent', false);
-    this.set('hasUpdateUserError', false);
+    this.isLoading = true;
+    this.isErrorMessagePresent = false;
+    this.hasUpdateUserError = false;
 
-    const login = this.login;
-    const password = this.password;
-
-    this.set('externalUserToken', this.session.get('data.externalUser'));
-    this.set('expectedUserId', this.session.get('data.expectedUserId'));
+    this.externalUserToken = this.session.get('data.externalUser');
+    this.expectedUserId = this.session.get('data.expectedUserId');
 
     if (this.externalUserToken) {
-      await this._authenticateExternalUser(password, login);
+      await this._authenticateExternalUser(this.password, this.login);
     } else {
-      await this._authenticate(password, login);
+      await this._authenticatePixUser(this.password, this.login);
     }
 
-    this.set('isLoading', false);
+    this.isLoading = false;
   }
 
-  async _authenticate(password, login) {
-    const scope = 'mon-pix';
+  async _authenticatePixUser(password, login) {
     try {
-      await this.session.authenticate('authenticator:oauth2', { login, password, scope });
+      await this.session.authenticate('authenticator:oauth2', { login, password, scope: 'mon-pix' });
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
         this.store.createRecord('user', { username: this.login, password: this.password });
         return this.router.replaceWith('update-expired-password');
       }
-      this.set('isErrorMessagePresent', true);
+      this.isErrorMessagePresent = true;
     }
   }
 
@@ -82,15 +64,17 @@ export default class LoginForm extends Component {
         externalUserToken: this.externalUserToken,
         expectedUserId: this.expectedUserId,
       });
-      await this.addGarAuthenticationMethodToUser(externalUserAuthenticationRequest);
+      await this.args.addGarAuthenticationMethodToUser(externalUserAuthenticationRequest);
     } catch (err) {
       const title = ('errors' in err) ? err.errors.get('firstObject').title : null;
+
       if (title === 'PasswordShouldChange') {
         this.store.createRecord('user', { username: this.login, password: this.password });
         return this.router.replaceWith('update-expired-password');
       }
+
       this._manageErrorsApi(err);
-      this.set('hasUpdateUserError', true);
+      this.hasUpdateUserError = true;
     }
   }
 
@@ -115,7 +99,7 @@ export default class LoginForm extends Component {
       }
     }
 
-    this.set('updateErrorMessage', errorMessage);
+    this.updateErrorMessage = errorMessage;
   }
 
 }
