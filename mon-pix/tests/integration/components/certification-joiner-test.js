@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
 
-describe('Unit | Component | certification-joiner', function() {
+describe('Integration | Component | certification-joiner', function() {
   setupIntlRenderingTest();
 
   describe('#submit', function() {
@@ -68,7 +68,7 @@ describe('Unit | Component | certification-joiner', function() {
       // given
       this.set('stepsData', {});
       await render(hbs`<CertificationJoiner @stepsData={{this.stepsData}}/>`);
-      await fillIn('#certificationJoinerSessionId', 'A123456');
+      await fillIn('#certificationJoinerSessionId', '123AAA456AAA');
       await fillIn('#certificationJoinerFirstName', 'Robert');
       await fillIn('#certificationJoinerLastName', 'de Pix');
       await fillIn('#certificationJoinerDayOfBirth', '02');
