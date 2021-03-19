@@ -3,22 +3,18 @@ const KnowledgeElement = require('./KnowledgeElement');
 
 class CertifiableProfileForLearningContent {
   constructor({
-    userId,
-    profileDate,
     targetProfileWithLearningContent,
     knowledgeElements,
     answerAndChallengeIdsByAnswerId,
   }) {
-    this.userId = userId;
-    this.profileDate = profileDate;
-    this.targetProfileWithLearningContent = targetProfileWithLearningContent;
-
-    this.skills = [];
+    this.skillResults = [];
     for (const knowledgeElement of knowledgeElements) {
       const targetedSkill = targetProfileWithLearningContent.getSkill(knowledgeElement.skillId);
       if (targetedSkill) {
-        this.skills.push(new Skill({
-          targetedSkill,
+        this.skillResults.push(new SkillResult({
+          skillId: targetedSkill.id,
+          tubeId: targetedSkill.tubeId,
+          difficulty: targetedSkill.difficulty,
           createdAt: knowledgeElement.createdAt,
           source: knowledgeElement.source,
           status: knowledgeElement.status,
@@ -30,60 +26,58 @@ class CertifiableProfileForLearningContent {
       }
     }
 
-    this.tubes = [];
-    const skillsGroupedByTubeId = _.groupBy(this.skills, 'targetedSkill.tubeId');
-    for (const [tubeId, skills] of Object.entries(skillsGroupedByTubeId)) {
+    const skillResultsByCompetenceId = {};
+    const skillResultsGroupedByTubeId = _.groupBy(this.skillResults, 'tubeId');
+    for (const [tubeId, skillResults] of Object.entries(skillResultsGroupedByTubeId)) {
       const targetedTube = targetProfileWithLearningContent.getTube(tubeId);
-      this.tubes.push(new Tube({
-        targetedTube,
-        skills,
-      }));
+      if (!skillResultsByCompetenceId[targetedTube.competenceId]) skillResultsByCompetenceId[targetedTube.competenceId] = [];
+      skillResultsByCompetenceId[targetedTube.competenceId] = [...skillResultsByCompetenceId[targetedTube.competenceId], ...skillResults];
     }
 
-    this.competences = [];
-    const tubesGroupedByCompetenceId = _.groupBy(this.tubes, 'targetedTube.competenceId');
-    for (const [competenceId, tubes] of Object.entries(tubesGroupedByCompetenceId)) {
+    this.resultsByCompetence = [];
+    for (const [competenceId, skillResults] of Object.entries(skillResultsByCompetenceId)) {
       const targetedCompetence = targetProfileWithLearningContent.getCompetence(competenceId);
-      this.competences.push(new Competences({
-        targetedCompetence,
-        tubes,
+      this.resultsByCompetence.push(new ResultByCompetence({
+        competenceId: targetedCompetence.id,
+        areaId: targetedCompetence.areaId,
+        origin: targetedCompetence.origin,
+        skillResults,
       }));
     }
 
-    this.areas = [];
-    const competencesGroupedByAreaId = _.groupBy(this.competences, 'targetedCompetence.areaId');
-    for (const [areaId, competences] of Object.entries(competencesGroupedByAreaId)) {
+    this.resultsByArea = [];
+    const resultsByCompetenceGroupedByAreaId = _.groupBy(this.resultsByCompetence, 'areaId');
+    for (const [areaId, resultsByCompetence] of Object.entries(resultsByCompetenceGroupedByAreaId)) {
       const targetedArea = targetProfileWithLearningContent.getArea(areaId);
-      this.areas.push(new Area({
-        targetedArea,
-        competences,
+      this.resultsByArea.push(new ResultByArea({
+        areaId: targetedArea.id,
+        resultsByCompetence,
       }));
     }
   }
 
   getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins = []) {
     const skillIdsByAreaId = {};
-    for (const area of this.areas) {
-      let directlyValidatedSkillsInArea = [];
-      for (const competence of area.competences) {
-        if (competence.isNotInOrigins(excludedOrigins)) {
-          const directlyValidatedSkillsInCompetence = competence.getDirectlyValidatedSkills();
-          directlyValidatedSkillsInArea = [...directlyValidatedSkillsInArea, ...directlyValidatedSkillsInCompetence];
+    for (const resultByArea of this.resultsByArea) {
+      const directlyValidatedSkillsInArea = _.flatMap(resultByArea.resultsByCompetence, (resultByCompetence) => {
+        if (resultByCompetence.isNotInOrigins(excludedOrigins)) {
+          return resultByCompetence.getDirectlyValidatedSkills();
         }
-      }
+        return [];
+      });
 
       const directlyValidatedSkillsOrderedByDecreasingDifficultyInArea = _(directlyValidatedSkillsInArea)
         .sortBy('difficulty')
         .reverse()
         .value();
-      skillIdsByAreaId[area.id] = _.map(directlyValidatedSkillsOrderedByDecreasingDifficultyInArea, 'id');
+      skillIdsByAreaId[resultByArea.areaId] = _.map(directlyValidatedSkillsOrderedByDecreasingDifficultyInArea, 'skillId');
     }
 
     return skillIdsByAreaId;
   }
 
   getAlreadyDirectlyValidatedAnsweredChallengeIds() {
-    return _(this.skills)
+    return _(this.skillResults)
       .filter('isDirectlyValidated')
       .map('challengeId')
       .uniq()
@@ -91,9 +85,11 @@ class CertifiableProfileForLearningContent {
   }
 }
 
-class Skill {
+class SkillResult {
   constructor({
-    targetedSkill,
+    skillId,
+    tubeId,
+    difficulty,
     createdAt,
     source,
     status,
@@ -102,7 +98,9 @@ class Skill {
     assessmentId,
     challengeId,
   }) {
-    this.targetedSkill = targetedSkill;
+    this.skillId = skillId;
+    this.tubeId = tubeId;
+    this.difficulty = difficulty;
     this.createdAt = createdAt;
     this.source = source;
     this.status = status;
@@ -112,67 +110,40 @@ class Skill {
     this.challengeId = challengeId;
   }
 
-  get id() {
-    return this.targetedSkill.id;
-  }
-
   get isDirectlyValidated() {
     return this.source === KnowledgeElement.SourceType.DIRECT && this.status === KnowledgeElement.StatusType.VALIDATED;
   }
-
-  get difficulty() {
-    return this.targetedSkill.difficulty;
-  }
 }
 
-class Tube {
+class ResultByCompetence {
   constructor({
-    targetedTube,
-    skills = [],
+    competenceId,
+    areaId,
+    origin,
+    skillResults = [],
   }) {
-    this.targetedTube = targetedTube;
-    this.skills = skills;
-  }
-
-  getDirectlyValidatedSkills() {
-    return _.filter(this.skills, 'isDirectlyValidated');
-  }
-}
-
-class Competences {
-  constructor({
-    targetedCompetence,
-    tubes = [],
-  }) {
-    this.targetedCompetence = targetedCompetence;
-    this.tubes = tubes;
+    this.competenceId = competenceId;
+    this.areaId = areaId;
+    this.origin = origin;
+    this.skillResults = skillResults;
   }
 
   isNotInOrigins(origins = []) {
-    return !(origins.includes(this.targetedCompetence.origin));
+    return !(origins.includes(this.origin));
   }
 
   getDirectlyValidatedSkills() {
-    let directlyValidatedSkills = [];
-    for (const tube of this.tubes) {
-      directlyValidatedSkills = [...directlyValidatedSkills, ...tube.getDirectlyValidatedSkills()];
-    }
-
-    return directlyValidatedSkills;
+    return _.filter(this.skillResults, 'isDirectlyValidated');
   }
 }
 
-class Area {
+class ResultByArea {
   constructor({
-    targetedArea,
-    competences = [],
+    areaId,
+    resultsByCompetence = [],
   }) {
-    this.targetedArea = targetedArea;
-    this.competences = competences;
-  }
-
-  get id() {
-    return this.targetedArea.id;
+    this.areaId = areaId;
+    this.resultsByCompetence = resultsByCompetence;
   }
 }
 

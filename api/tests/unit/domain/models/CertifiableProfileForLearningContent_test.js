@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
 
       // then
-      const skillIds = certifiableProfile.skills.map((userSkill) => userSkill.id);
+      const skillIds = certifiableProfile.skillResults.map((skillResult) => skillResult.skillId);
       expect(skillIds).to.deep.equal([basicTargetProfile.skills[0].id]);
     });
   });
