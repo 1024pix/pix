@@ -136,6 +136,9 @@ export default function() {
     prescriber.memberships = [membership];
     prescriber.save();
 
+    const organization = schema.organizations.find(organizationInvitation.organizationId);
+    schema.userOrgaSettings.create({ user: prescriber, organization });
+
     organizationInvitation.update({ status: 'accepted' });
     schema.organizationInvitationResponses.create();
 

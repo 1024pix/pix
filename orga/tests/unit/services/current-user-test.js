@@ -35,6 +35,14 @@ module('Unit | Service | current-user', function(hooks) {
     });
 
     test('should load the current user', async function(assert) {
+      // given
+      const organization = Object.create({ id: 9 });
+      const memberships = [Object.create({ organization })];
+
+      connectedUser.userOrgaSettings = Object.create({ user: connectedUser, organization });
+      connectedUser.memberships = memberships;
+      connectedUser.userOrgaSettings = Object.create({ organization });
+
       // when
       await currentUserService.load();
 
@@ -47,6 +55,8 @@ module('Unit | Service | current-user', function(hooks) {
       const firstOrganization = Object.create({ id: 9 });
       const secondOrganization = Object.create({ id: 10 });
       const memberships = [Object.create({ organization: firstOrganization }), Object.create({ organization: secondOrganization })];
+
+      connectedUser.userOrgaSettings = Object.create({ user: connectedUser, organization: firstOrganization });
       connectedUser.memberships = memberships;
 
       // when
