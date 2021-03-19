@@ -501,4 +501,90 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
+  describe('#notifyEmailChange', () => {
+
+    it('should call sendEmail with from, to, template, tags', async () => {
+
+      // given
+      const locale = FRENCH_FRANCE;
+      const expectedOptions = {
+        from: senderEmailAddress,
+        to: userEmailAddress,
+        subject: 'Vous avez changé votre adresse e-mail',
+        template: 'test-email-change-template-id',
+        tags: ['EMAIL_CHANGE'],
+      };
+
+      // when
+      await mailService.notifyEmailChange({ email: userEmailAddress, locale });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options).to.deep.include(expectedOptions);
+    });
+
+    context('according to locale', () => {
+
+      const translationsMapping = {
+        'fr': mainTranslationsMapping.fr['email-change-email'],
+        'en': mainTranslationsMapping.en['email-change-email'],
+      };
+
+      context('should call sendEmail with localized variable options', () => {
+
+        const testCases = [
+          {
+            locale: FRENCH_SPOKEN,
+            expected: {
+              subject: translationsMapping.fr.subject,
+              variables: {
+                homeName: 'pix.org',
+                homeUrl: 'https://pix.org/fr/',
+                displayNationalLogo: false,
+                ...translationsMapping.fr.body },
+            },
+          },
+          {
+            locale: FRENCH_FRANCE,
+            expected: {
+              subject: translationsMapping.fr.subject,
+              variables: {
+                homeName: 'pix.fr',
+                homeUrl: 'https://pix.fr',
+                displayNationalLogo: true,
+                ...translationsMapping.fr.body },
+            },
+          },
+          {
+            locale: ENGLISH_SPOKEN,
+            expected: {
+              subject: translationsMapping.en.subject,
+              variables: {
+                homeName: 'pix.org',
+                homeUrl: 'https://pix.org/en-gb/',
+                displayNationalLogo: false,
+                ...translationsMapping.en.body },
+            },
+          },
+        ];
+
+        testCases.forEach((testCase) => {
+          it(`when locale is ${testCase.locale}`, async () => {
+
+            // when
+            await mailService.notifyEmailChange({ email: userEmailAddress, locale: testCase.locale });
+
+            // then
+            const options = mailer.sendEmail.firstCall.args[0];
+            expect(options.subject).to.equal(testCase.expected.subject);
+            expect(options.variables).to.include(testCase.expected.variables);
+          });
+        });
+
+      });
+
+    });
+
+  });
+
 });

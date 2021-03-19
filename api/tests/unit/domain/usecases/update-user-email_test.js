@@ -10,7 +10,9 @@ describe('Unit | UseCase | update-user-email', () => {
   let userRepository;
   let authenticationMethodRepository;
   let encryptionService;
+  let mailService;
 
+  const locale = undefined;
   const password = 'password123';
   // eslint-disable-next-line no-sync
   const passwordHash = bcrypt.hashSync(password, 1);
@@ -29,6 +31,10 @@ describe('Unit | UseCase | update-user-email', () => {
     encryptionService = {
       checkPassword: sinon.stub().resolves(),
     };
+
+    mailService = {
+      notifyEmailChange: sinon.stub().resolves(),
+    };
   });
 
   it('should call updateEmail', async () => {
@@ -43,15 +49,43 @@ describe('Unit | UseCase | update-user-email', () => {
       authenticatedUserId,
       email: newEmail,
       password,
+      locale,
       userRepository,
       authenticationMethodRepository,
       encryptionService,
+      mailService,
     });
 
     // then
     expect(userRepository.updateEmail).to.have.been.calledWith({
       id: userId,
       email: newEmail,
+    });
+  });
+
+  it('should call notifyEmailChange', async () => {
+    // given
+    const userId = 1;
+    const authenticatedUserId = 1;
+    const newEmail = 'new_email@example.net';
+
+    // when
+    await updateUserEmail({
+      userId,
+      authenticatedUserId,
+      email: newEmail,
+      password,
+      locale,
+      userRepository,
+      authenticationMethodRepository,
+      encryptionService,
+      mailService,
+    });
+
+    // then
+    expect(mailService.notifyEmailChange).to.have.been.calledWith({
+      email: newEmail,
+      locale: undefined,
     });
   });
 
@@ -68,9 +102,11 @@ describe('Unit | UseCase | update-user-email', () => {
       authenticatedUserId,
       email: newEmail,
       password,
+      locale,
       userRepository,
       authenticationMethodRepository,
       encryptionService,
+      mailService,
     });
 
     // then
@@ -93,9 +129,11 @@ describe('Unit | UseCase | update-user-email', () => {
       authenticatedUserId,
       email: newEmail,
       password,
+      locale,
       userRepository,
       authenticationMethodRepository,
       encryptionService,
+      mailService,
     });
 
     // then
@@ -113,9 +151,11 @@ describe('Unit | UseCase | update-user-email', () => {
       userId,
       authenticatedUserId,
       email: newEmail,
+      locale,
       userRepository,
       authenticationMethodRepository,
       encryptionService,
+      mailService,
     });
 
     // then
@@ -134,9 +174,11 @@ describe('Unit | UseCase | update-user-email', () => {
       userId,
       authenticatedUserId,
       email: newEmail,
+      locale,
       userRepository,
       authenticationMethodRepository,
       encryptionService,
+      mailService,
     });
 
     // then
@@ -155,9 +197,11 @@ describe('Unit | UseCase | update-user-email', () => {
       userId,
       authenticatedUserId,
       email: newEmail,
+      locale,
       userRepository,
       authenticationMethodRepository,
       encryptionService,
+      mailService,
     });
 
     // then

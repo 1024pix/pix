@@ -63,6 +63,10 @@ class Mailer {
     return mailing[this._providerName].templates.certificationResultTemplateId;
   }
 
+  get emailChangeTemplateId() {
+    return mailing[this._providerName].templates.emailChangeTemplateId;
+  }
+
 }
 
 module.exports = new Mailer();
