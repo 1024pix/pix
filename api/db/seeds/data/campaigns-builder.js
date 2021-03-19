@@ -100,7 +100,7 @@ function _buildCampaignForSup(databaseBuilder) {
     name: 'Sup - Campagne d’évaluation Pix+ Droit',
     code: 'DROIT1234',
     type: 'ASSESSMENT',
-    organizationId: SUP_UNIVERSITY_ID,
+    organizationId: PRO_COMPANY_ID,
     creatorId: 7,
     targetProfileId: TARGET_PROFILE_PIX_DROIT_ID,
     title: null,
