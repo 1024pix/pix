@@ -18,7 +18,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
       it('should resolve immediately and return a skip status', async () => {
         //given
         _disableMailing();
-        _mockMailingProvider();
+        const mailingProvider = _mockMailingProvider();
 
         const options = {
           from: 'bob.dylan@example.net',
@@ -33,6 +33,7 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
 
         // then
         expect(result).to.deep.equal(EmailingAttempt.success('test@example.net'));
+        expect(mailingProvider.sendEmail).to.have.not.been.called;
       });
     });
 
