@@ -300,9 +300,9 @@
       "description": "Sélectionnez la classe pour laquelle vous souhaitez exporter les résultats de certification au format csv.<br> Vous pouvez filtrer cette liste en renseignant le nom de la classe directement dans le champ.",
       "download-button": "Exporter les résultats",
       "select-label": "Classe",
-      "title": "Certifications",
-      "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats :",
-      "documentation-link-label": "Interprétation des résultats prescripteur.",
+      "title": "Résultats de certification",
+      "documentation-link-notice": "Vous trouverez en suivant ce lien quelques éléments pour interpréter les résultats : ",
+      "documentation-link-label": "Interprétation des résultats.",
       "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "errors": {
         "no-results": "Aucun résultat de certification pour la classe {selectedDivision}.",
