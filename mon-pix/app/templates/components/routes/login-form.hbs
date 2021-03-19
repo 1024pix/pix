@@ -1,20 +1,19 @@
-{{!-- template-lint-disable no-implicit-this no-action --}}
 <div class="login-form">
-  {{#if isErrorMessagePresent}}
+  {{#if this.isErrorMessagePresent}}
     <div id="login-form-error-message" class="login-form__error-message error-message">{{t 'pages.login-or-register.login-form.error'}}</div>
   {{/if}}
 
-  {{#if hasUpdateUserError}}
+  {{#if this.hasUpdateUserError}}
     <div id="update-form-error-message" class="login-form__error-message error-message">{{this.updateErrorMessage}}</div>
   {{/if}}
 
-  <form {{action 'authenticate' on='submit'}}>
+  <form {{on 'submit' this.authenticate}}>
 
     <div id="login-email-container">
       <FormTextfield @label={{t 'pages.login-or-register.login-form.fields.login.label'}}
                      @textfieldName="login"
                      @validationStatus="default"
-                     @inputBindingValue={{login}}
+                     @inputBindingValue={{this.login}}
                      @autocomplete="username" />
     </div>
 
@@ -22,12 +21,12 @@
       <FormTextfield @label={{t 'pages.login-or-register.login-form.fields.password.label'}}
                      @textfieldName="password"
                      @validationStatus="default"
-                     @inputBindingValue={{password}}
+                     @inputBindingValue={{this.password}}
                      @autocomplete="current-password" />
     </div>
 
     <div class="login-button-container">
-      {{#if isLoading}}
+      {{#if this.isLoading}}
         <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
         <button id="submit-connexion" type="submit" class="button button--uppercase">{{t 'pages.login-or-register.login-form.button'}}</button>
@@ -40,7 +39,13 @@
     <span>{{t 'pages.login-or-register.login-form.forgotten-password.instruction'}}</span>
     <ul>
       <li>{{t 'pages.login-or-register.login-form.forgotten-password.email'}}
-        <LinkTo @id="link_password-reset-demand" @route="password-reset-demand" target="_blank" rel="noopener noreferrer" class="link">{{t 'pages.login-or-register.login-form.forgotten-password.reset-link'}}</LinkTo>
+        <LinkTo @id="link_password-reset-demand"
+                @route="password-reset-demand"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link">
+          {{t 'pages.login-or-register.login-form.forgotten-password.reset-link'}}
+        </LinkTo>
       </li>
       <li>
         {{t 'pages.login-or-register.login-form.forgotten-password.other-identity'}}
