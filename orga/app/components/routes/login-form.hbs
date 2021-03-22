@@ -1,52 +1,49 @@
 <div class="login-form">
 
   {{#unless @isWithInvitation }}
-    <div class="login-form__information">
-      L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.
-    </div>
+    <div class="login-form__information">{{t 'pages.login-form.is-only-accessible'}}</div>
   {{/unless}}
 
   {{#if @hasInvitationError}}
-      <div class="login-form__invitation-error">
-        Cette invitation a déjà été acceptée. Connectez-vous ou contactez l’administrateur de votre espace Pix Orga.
-      </div>
+    <div class="login-form__invitation-error">{{t 'pages.login-form.invitation-already-accepted'}}</div>
   {{/if}}
 
   {{#if this.isErrorMessagePresent}}
-    <div id="login-form-error-message" class="login-form__error-message error-message">{{this.errorMessage}}
+    <div id="login-form-error-message" class="login-form__error-message error-message">
+      {{this.errorMessage}}
     </div>
   {{/if}}
 
   <form {{on 'submit' this.authenticate}}>
 
     <div class="input-container">
-      <label for="login-email" class="label">Adresse e-mail</label>
+      <label for="login-email" class="label">{{t 'pages.login-form.email'}}</label>
       <Input
         @id="login-email"
-        @name="login"
         @type="email"
-        @class="input"
         @value={{this.email}}
-        @autocomplete="username"
-        @required='true'
+        name="login"
+        class="input"
+        autocomplete="username"
+        required={{true}}
       />
     </div>
 
     <div class="input-container">
-      <label for="login-password" class="label">Mot de passe</label>
+      <label for="login-password" class="label">{{t 'pages.login-form.password'}}</label>
       <div class="input-password">
         <Input
           @id="login-password"
-          @name="password"
           @type={{this.passwordInputType}}
-          @class="input"
           @value={{this.password}}
-          @autocomplete="current-password"
-          @required='true'
+          name="password"
+          class="input"
+          autocomplete="current-password"
+          required={{true}}
         />
         <PixIconButton
           @icon="{{if this.isPasswordVisible 'eye' 'eye-slash'}}"
-          aria-label="rendre le mot de passe lisible"
+          aria-label="{{t 'pages.login-form.show-password'}}"
           @triggerAction={{this.togglePasswordVisibility}}
           @withBackground={{false}}
           @color="dark-grey"
@@ -58,22 +55,25 @@
       {{#if this.isLoading}}
         <button type="button" class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-        <button type="submit" class="button login-form__button">Je me connecte</button>
+        <button type="submit" class="button login-form__button">{{t 'pages.login-form.login'}}</button>
       {{/if}}
     </div>
 
     <div>
       <div class="login-form__forgotten-password help-text">
-        <a href="https://app.pix.fr/mot-de-passe-oublie" target="_blank" rel="noopener noreferrer" class="link">Mot de passe oublié ?</a>
+        <a href="{{t 'pages.login-form.forgotten-password-url'}}"
+           target="_blank" rel="noopener noreferrer" class="link">
+          {{t 'pages.login-form.forgot-password'}}
+        </a>
       </div>
-      {{#unless @isWithInvitation}}
+      {{#if this.displayRecoveryLink}}
         <div>
           <div class="login-form__recover-access-link help-text">
-            <LinkTo @route="join-request" class="link">Activez ou récupérez votre espace PixOrga</LinkTo>
+            <LinkTo @route="join-request" class="link">{{t 'pages.login-form.active-or-retrieve'}}</LinkTo>
           </div>
-          <div class="login-form__recover-access-message help-text">(réservé aux personnels de direction des établissements scolaires)</div>
+          <div class="login-form__recover-access-message help-text">({{t 'pages.login-form.only-for-admin'}})</div>
         </div>
-      {{/unless}}
+      {{/if}}
     </div>
 
   </form>

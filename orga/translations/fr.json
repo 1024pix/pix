@@ -1,11 +1,13 @@
 {
   "api-errors-messages": {
+    "bad-request": "Les données que vous avez soumises ne sont pas au bon format.",
     "campaign-creation": {
       "external-user-id-required": "Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.",
       "name-required": "Veuillez donner un nom à votre campagne.",
       "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
       "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne."
     },
+    "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
     "edit-student-number": {
       "student-number-exists": "Le numéro étudiant saisi est déjà utilisé par l’étudiant {firstName} {lastName}"
     },
@@ -309,6 +311,28 @@
         "invalid-division": "La classe {selectedDivision} n'existe pas."
       }
     },
+    "login": {
+      "title": "Connectez-vous"
+    },
+    "login-form": {
+      "active-or-retrieve": "Activez ou récupérez votre espace Pix Orga",
+      "email": "Adresse e-mail",
+      "forgot-password": "Mot de passe oublié ?",
+      "forgotten-password-url": "https://app.pix.fr/mot-de-passe-oublie",
+      "invitation-already-accepted": "Cette invitation a déjà été acceptée. Connectez-vous ou contactez l'administrateur de votre espace Pix Orga.",
+      "is-only-accessible": "L'accès à Pix Orga est limité aux membres invités. Contactez l’administrateur Pix Orga de votre organisation pour qu'il vous invite.",
+      "login": "Je me connecte",
+      "only-for-admin": "réservé aux personnels de direction des établissements scolaires",
+      "password": "Mot de passe",
+      "show-password": "rendre le mot de passe lisible",
+      "errors": {
+        "status": {
+          "401": "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
+          "401-should-change-password": "Erreur, vous devez changer votre mot de passe.",
+          "403": "L'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l'organisation qui l'utilise. Contactez-le pour qu'il vous y invite."
+        }
+      }
+    },
     "profiles-individual-results": {
       "certifiable": "Certifiable",
       "competences-certifiables": "COMP. CERTIFIABLES",
@@ -482,8 +506,8 @@
         "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
         "status" : {
           "400": "Le format de l'adresse e-mail est incorrect.",
-          "412": "Ce membre a déjà été ajouté.",
           "404": "Cet email n'appartient à aucun utilisateur.",
+          "412": "Ce membre a déjà été ajouté.",
           "500": "Quelque chose s'est mal passé. Veuillez réessayer."
         }
       }
