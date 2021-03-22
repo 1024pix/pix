@@ -59,9 +59,7 @@ module.exports = function(environment) {
       isTimerCountdownEnabled: true,
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
-      GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
-      IS_RECAPTCHA_ENABLED: _isFeatureEnabled(process.env.IS_RECAPTCHA_ENABLED),
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
@@ -183,8 +181,6 @@ module.exports = function(environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
-    ENV.APP.GOOGLE_RECAPTCHA_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
-    ENV.RECAPTCHA_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
   }
 
   if (environment === 'production') {

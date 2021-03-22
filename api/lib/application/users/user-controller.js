@@ -15,7 +15,6 @@ const usecases = require('../../domain/usecases');
 module.exports = {
 
   save(request, h) {
-    const reCaptchaToken = request.payload.data.attributes['recaptcha-token'];
     const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
     const user = userSerializer.deserialize(request.payload);
     const locale = extractLocaleFromRequest(request);
@@ -26,7 +25,6 @@ module.exports = {
       user,
       password,
       campaignCode,
-      reCaptchaToken,
       locale,
     })
       .then((savedUser) => {

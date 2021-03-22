@@ -176,9 +176,6 @@ export default Factory.extend({
   hasSeenNewDashboardInfo: trait({
     hasSeenNewDashboardInfo: true,
   }),
-  withRecaptchaToken: trait({
-    recaptchaToken: faker.random.uuid(),
-  }),
   certifiable: trait({
     afterCreate(user, server) {
       user.update({ isCertifiable: server.create('is-certifiable', { 'is-certifiable': true }) });
