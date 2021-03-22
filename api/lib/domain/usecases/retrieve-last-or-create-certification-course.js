@@ -2,6 +2,7 @@ const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 const { features } = require('../../config');
+const _ = require('lodash');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   domainTransaction,
@@ -71,15 +72,23 @@ async function _startNewCertification({
     };
   }
 
-  await _getTargetProfileIdsFromCertifiableAcquiredBadges({ userId, certifiableBadgesService });
+  const challengesForPixPlusCertification = await _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService });
+  const challengesForCertification = challengesForPixCertification.concat(challengesForPixPlusCertification);
 
-  return _createCertificationCourse(certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, challengesForPixCertification, domainTransaction);
+  return _createCertificationCourse(certificationCandidateRepository, certificationCourseRepository, assessmentRepository, userId, sessionId, challengesForCertification, domainTransaction);
 }
 
-async function _getTargetProfileIdsFromCertifiableAcquiredBadges({ userId, certifiableBadgesService }) {
+async function _findChallengesFromPixPlus({ userId, certifiableBadgesService, certificationChallengesService }) {
   const hasCertifiableBadges = await certifiableBadgesService.hasCertifiableBadges(userId);
   if (hasCertifiableBadges) {
-    return await certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges(userId);
+    const targetProfileIds = await certifiableBadgesService.getTargetProfileIdFromAcquiredCertifiableBadges(userId);
+    const challengesPixPlusByTargetProfileAndArea = await Promise.all(targetProfileIds
+      .map((targetProfileId) => certificationChallengesService.pickCertificationChallengesForPlus(targetProfileId, userId)));
+    let challengesFromPixPix = [];
+    challengesPixPlusByTargetProfileAndArea.forEach((challengesByArea) => {
+      challengesFromPixPix = challengesFromPixPix.concat(_.flatten(Object.values(challengesByArea)));
+    });
+    return challengesFromPixPix;
   } else {
     return [];
   }
