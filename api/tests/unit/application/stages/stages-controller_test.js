@@ -1,13 +1,9 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
-
 const usecases = require('../../../../lib/domain/usecases');
-
 const stageSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/stage-serializer');
-
 const stagesController = require('../../../../lib/application/stages/stages-controller');
 
 describe('Unit | Controller | stages-controller', () => {
-
   describe('#create', () => {
     const userId = '1';
 
@@ -46,4 +42,58 @@ describe('Unit | Controller | stages-controller', () => {
     });
   });
 
+  describe('#updateStage', () => {
+    let request;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateStage');
+      request = {
+        params: {
+          id: '44',
+        },
+        payload: {
+          data: {
+            attributes: {
+              'prescriber-title': 'palier bof',
+              'prescriber-description': 'tu es moyen',
+            },
+          },
+        },
+      };
+    });
+
+    context('successful case', () => {
+      it('should succeed', async () => {
+        // when
+        const response = await stagesController.updateStage(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+        expect(usecases.updateStage).to.have.been.calledWithMatch({ prescriberDescription: 'tu es moyen', prescriberTitle: 'palier bof', stageId: 44 });
+      });
+    });
+  });
+
+  describe('#getStageDetails', () => {
+    let request;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getStageDetails');
+      request = {
+        params: {
+          id: '44',
+        },
+      };
+    });
+
+    context('successful case', () => {
+      it('should succeed', async () => {
+        // when
+        stagesController.getStageDetails(request);
+
+        // then
+        expect(usecases.getStageDetails).to.have.been.calledWithMatch({ stageId: 44 });
+      });
+    });
+  });
 });

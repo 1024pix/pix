@@ -6,4 +6,6 @@ export default class Stage extends Model {
   @attr('number') threshold;
   @attr('string') title;
   @attr('string') message;
+  @attr('string') prescriberTitle;
+  @attr('string') prescriberDescription;
 }

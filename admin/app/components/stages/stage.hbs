@@ -1,0 +1,29 @@
+<header class="page-header">
+  <div class="page-title">
+    <p>Palier<span class="wire">&nbsp;>&nbsp;</span>{{@model.id}}</p>
+  </div>
+</header>
+
+<main class="page-body">
+  {{#if @isEditMode}}
+
+  <Stages::update-stage @model={{@model}} @toggleEditMode={{@toggleEditMode}} />
+
+  {{else}}
+    <section class="page-section mb_10">
+      <div class="page-section__header">
+        <h1 class="page-section__title">{{@model.name}}</h1>
+      </div>
+      <div class="page-section__details">
+        ID : {{@model.id}}<br>
+        Seuil : {{@model.threshold}}<br>
+        Titre : {{@model.title}}<br>
+        Message : {{@model.message}}<br>
+        Titre pour le prescripteur : {{@model.prescriberTitle}}<br>
+        Description pour le prescripteur : {{@model.prescriberDescription}}<br>
+      </div>
+      <br>
+      <button type="button" class="btn btn-outline-default" {{on "click" @toggleEditMode}}>Editer</button>
+    </section>
+  {{/if}}
+</main>
