@@ -45,7 +45,8 @@
   "common": {
     "actions": {
       "back": "Retour",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "close": "Fermer"
     },
     "pagination": {
       "action": {
