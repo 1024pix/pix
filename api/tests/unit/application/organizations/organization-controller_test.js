@@ -16,10 +16,12 @@ const targetProfileSerializer = require('../../../../lib/infrastructure/serializ
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
 
   let request;
+  const i18n = getI18n();
 
   describe('#getOrganizationDetails', () => {
 
@@ -656,6 +658,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     it('should return a response with correct headers', async () => {
       // when
+      request.i18n = i18n;
       const response = await organizationController.getSchoolingRegistrationsCsvTemplate(request, hFake);
 
       // then

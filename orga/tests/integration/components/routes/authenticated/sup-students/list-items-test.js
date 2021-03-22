@@ -26,6 +26,9 @@ module('Integration | Component | routes/authenticated/sup-students | list-items
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
         isAdminInOrganization = true;
+        prescriber = {
+          lang: 'fr',
+        }
       }
       this.owner.register('service:current-user', CurrentUserStub);
     });
