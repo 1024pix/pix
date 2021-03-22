@@ -11,7 +11,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
   context('when 3 challenges were answered', () => {
 
     // TODO : Check for missing rules
-    context('when 3 answers are correct', () => {
+    context('rule n°1: 3 answers are correct', () => {
 
       it('certifies the estimated level', () => {
         // when
@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('when only 2 answers are correct', () => {
+    context('rule n°2 : only 2 answers are correct', () => {
 
       it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
       });
     });
 
-    context('when less than 2 answers are correct', () => {
+    context('rules n°4 and n°7: less than 2 answers are correct', () => {
 
       it('does not certify a level', () => {
         // when
@@ -79,26 +79,27 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
 
   context('when only 2 challenges were asked', () => {
 
-    context('when 2 answers are correct', () => {
+    context('rule n°11: 2 answers are correct', () => {
 
-      it('downgrades and certifies the level below the estimated level', () => {
+      it('certifies the estimated level', () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 2,
           numberOfCorrectAnswers: 2,
           estimatedLevel: 3,
           reproducibilityRate: 0, // unimportant
         });
 
         // then
-        expect(certifiedLevel.value).to.equal(2);
+        expect(certifiedLevel.value).to.equal(3);
         expect(certifiedLevel.isUncertified()).to.be.false;
-        expect(certifiedLevel.isDowngraded()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
       });
     });
 
-    context('when only 1 answer is correct and the other one is KO', () => {
+    context('rule n°12: only 1 answer is correct and the other one is KO', () => {
 
-      it('does not certify any level', () => {
+      it(`certifies the estimated level when reproducibility rate >= ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
         // when
         const certifiedLevel = CertifiedLevel.from({
           numberOfChallengesAnswered: 2,
@@ -108,7 +109,37 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
         });
 
         // then
-        expect(certifiedLevel.value).to.equal(-1);
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
+
+      it(`certifies a level below the estimated level when reproducibility rate >= 70% and < ${MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED}%`, () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 2,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 70,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(2);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.true;
+      });
+
+      it('does not certify a level when reproducibility rate < 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 2,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 69,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
         expect(certifiedLevel.isUncertified()).to.be.true;
         expect(certifiedLevel.isDowngraded()).to.be.false;
       });
@@ -117,19 +148,56 @@ describe('Unit | Domain | Models | CertifiedLevel', function() {
 
   context('when only 1 challenge was asked', () => {
 
-    it('does not certify any level', () => {
-      // when
-      const certifiedLevel = CertifiedLevel.from({
-        numberOfChallengesAnswered: 1,
-        numberOfCorrectAnswers: 1,
-        estimatedLevel: 3,
-        reproducibilityRate: 70,
+    context('rule n°17: and the answer is correct', () => {
+
+      it('certifies the estimated level when reproducibility rate >= 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 1,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 70,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(3);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
       });
 
-      // then
-      expect(certifiedLevel.value).to.equal(-1);
-      expect(certifiedLevel.isUncertified()).to.be.true;
-      expect(certifiedLevel.isDowngraded()).to.be.false;
+      it('certifies a level below the estimated level when reproducibility rate < 70%', () => {
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 1,
+          numberOfCorrectAnswers: 1,
+          estimatedLevel: 3,
+          reproducibilityRate: 69,
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(2);
+        expect(certifiedLevel.isUncertified()).to.be.false;
+        expect(certifiedLevel.isDowngraded()).to.be.true;
+      });
+    });
+
+    context('and the answer is incorrect', () => {
+
+      it('does not certify any level', () => {
+        // TODO : differentiate between uncertified and not-certifiable
+        // when
+        const certifiedLevel = CertifiedLevel.from({
+          numberOfChallengesAnswered: 1,
+          numberOfCorrectAnswers: 0,
+          estimatedLevel: 3, // unimportant
+          reproducibilityRate: 69, // unimportant
+        });
+
+        // then
+        expect(certifiedLevel.value).to.equal(UNCERTIFIED_LEVEL);
+        expect(certifiedLevel.isUncertified()).to.be.true;
+        expect(certifiedLevel.isDowngraded()).to.be.false;
+      });
     });
   });
 });
