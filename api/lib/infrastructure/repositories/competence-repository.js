@@ -8,9 +8,8 @@ const knowledgeElementRepository = require('./knowledge-element-repository');
 const scoringService = require('../../domain/services/scoring/scoring-service');
 const { NotFoundError } = require('../../domain/errors');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
+const { PIX_ORIGIN } = require('../../domain/constants');
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
-
-const PixOriginName = 'Pix';
 
 function _toDomain({ competenceData, areaDatas, locale }) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
@@ -43,7 +42,7 @@ module.exports = {
 
   listPixCompetencesOnly({ locale } = { locale: FRENCH_FRANCE }) {
     return _list({ locale }).then((competences) =>
-      competences.filter((competence) => competence.origin === PixOriginName),
+      competences.filter((competence) => competence.origin === PIX_ORIGIN),
     );
   },
 

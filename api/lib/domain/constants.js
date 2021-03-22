@@ -21,6 +21,8 @@ module.exports = {
   DEFAULT_LEVEL_FOR_FIRST_CHALLENGE: 2,
   MAX_DIFF_BETWEEN_USER_LEVEL_AND_SKILL_LEVEL: 2,
 
+  PIX_ORIGIN: 'Pix',
+
   PIX_ORGA: {
     SCOPE: 'pix-orga',
     NOT_LINKED_ORGANIZATION_MSG: 'L\'accès à Pix Orga est limité aux membres invités. Chaque espace est géré par un administrateur Pix Orga propre à l\'organisation qui l\'utilise. Contactez-le pour qu\'il vous y invite.',
