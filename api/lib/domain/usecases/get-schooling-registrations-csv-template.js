@@ -1,11 +1,12 @@
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 const { UserNotAuthorizedToAccessEntityError } = require('../errors');
-const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
+const HigherSchoolingRegistrationColumns = require('../../infrastructure/serializers/csv/higher-schooling-registration-columns');
 const SchoolingRegistrationParser = require('../../infrastructure/serializers/csv/schooling-registration-parser');
 
 module.exports = async function getSchoolingRegistrationsCsvTemplate({
   userId,
   organizationId,
+  i18n,
   membershipRepository,
 }) {
   let header = [];
@@ -18,7 +19,8 @@ module.exports = async function getSchoolingRegistrationsCsvTemplate({
   const { isSup, isSco, isAgriculture } = membership.organization;
 
   if (isSup) {
-    header = _getCsvColumns(HigherSchoolingRegistrationParser.COLUMNS);
+    header = _getCsvColumns(new HigherSchoolingRegistrationColumns(i18n).columns);
+
   } else if (isSco && isAgriculture) {
     header = _getCsvColumns(SchoolingRegistrationParser.COLUMNS);
   } else {

@@ -12,7 +12,7 @@ export default class ListItems extends Component {
   @tracked isShowingEditStudentNumberModal = false;
 
   get urlToDownloadCsvTemplate() {
-    return `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/csv-template?accessToken=${this.session.data.authenticated.access_token}`;
+    return `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/csv-template?accessToken=${this.session.data.authenticated.access_token}&lang=${this.currentUser.prescriber.lang}`;
   }
 
   @action

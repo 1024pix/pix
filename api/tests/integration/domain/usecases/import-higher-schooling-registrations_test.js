@@ -4,8 +4,12 @@ const iconv = require('iconv-lite');
 const importHigherSchoolingRegistration = require('../../../../lib/domain/usecases/import-higher-schooling-registrations');
 const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
 const HigherSchoolingRegistrationParser = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-parser');
+const HigherSchoolingRegistrationColumns = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-columns');
+const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
 
-const higherSchoolingRegistrationColumns = HigherSchoolingRegistrationParser.COLUMNS.map((column) => column.label).join(';');
+const i18n = getI18n();
+
+const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
 
 describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
 
@@ -27,7 +31,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
       await importHigherSchoolingRegistration({
         organizationId: organization.id,
         higherSchoolingRegistrationRepository,
-        higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+        higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
       });
 
       const registrations = await knex('schooling-registrations').where({ organizationId: organization.id });
@@ -59,7 +63,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const registrations = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
@@ -96,7 +100,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const [registration] = await knex('schooling-registrations').where({ organizationId: organization.id });
@@ -127,7 +131,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const registrations = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
@@ -164,7 +168,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const registrations = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
@@ -201,7 +205,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const [registration] = await knex('schooling-registrations').where({ organizationId: organization.id });
@@ -233,7 +237,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const [registration] = await knex('schooling-registrations').where({ organizationId: organization.id });
@@ -277,7 +281,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const registrations = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
@@ -322,7 +326,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
           await importHigherSchoolingRegistration({
             organizationId: organization.id,
             higherSchoolingRegistrationRepository,
-            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+            higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
           });
 
           const registrations = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
@@ -369,7 +373,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
         await importHigherSchoolingRegistration({
           organizationId: organization.id,
           higherSchoolingRegistrationRepository,
-          higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id),
+          higherSchoolingRegistrationParser: new HigherSchoolingRegistrationParser(encodedInput, organization.id, i18n),
         });
 
         const [registration1, registration2] = await knex('schooling-registrations').where({ organizationId: organization.id }).orderBy('createdAt');
