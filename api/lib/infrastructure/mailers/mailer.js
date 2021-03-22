@@ -21,7 +21,7 @@ class Mailer {
 
   async sendEmail(options) {
     if (!mailing.enabled) {
-      EmailingAttempt.success(options.to);
+      return EmailingAttempt.success(options.to);
     }
 
     try {
