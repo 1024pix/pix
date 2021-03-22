@@ -26,4 +26,10 @@ module.exports = {
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, tag);
   },
+
+  async findAll() {
+    const allTags = await BookshelfTag.fetchAll();
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfTag, allTags);
+
+  },
 };
