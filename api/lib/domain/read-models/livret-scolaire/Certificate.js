@@ -53,9 +53,10 @@ class Certificate {
     competenceResultsJson,
   } = {}) {
     const isValidated = _isValidated(status);
+    const displayScore = _displayScore({ isPublished, isValidated });
     const updatedStatus = (isPublished) ? status : PENDING;
-    const updatedScore = isValidated ? pixScore : 0;
-    const competenceResults = _getExtractValidatedCompetenceResults(isValidated, competenceResultsJson);
+    const updatedScore = displayScore ? pixScore : 0;
+    const competenceResults = displayScore ? _getExtractValidatedCompetenceResults(competenceResultsJson) : [];
 
     return new Certificate({ id,
       firstName,
@@ -82,11 +83,12 @@ function _isValidated(status) {
   return status === VALIDATED;
 }
 
-function _getExtractValidatedCompetenceResults(isValidated, competenceResultsJson) {
-  if (isValidated) {
-    const competenceResults = JSON.parse(competenceResultsJson);
-    return sortBy(competenceResults, 'competenceId');
-  }
-  return [];
+function _getExtractValidatedCompetenceResults(competenceResultsJson) {
+  const competenceResults = JSON.parse(competenceResultsJson);
+  return sortBy(competenceResults, 'competenceId');
+}
+
+function _displayScore({ isPublished, isValidated }) {
+  return isPublished && isValidated;
 }
 
