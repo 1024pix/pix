@@ -93,6 +93,14 @@ function buildOrganization(uai) {
 }
 
 const buildValidatedPublishedCertificationData = function({ organizationId, verificationCode, pixScore, competenceMarks }) {
+  return _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished: true });
+};
+
+const buildValidatedUnpublishedCertificationData = function({ organizationId, verificationCode, pixScore, competenceMarks }) {
+  return _buildValidatedCertificationData({ organizationId, verificationCode, pixScore, competenceMarks, isPublished: false });
+};
+
+const _buildValidatedCertificationData = function({ organizationId, verificationCode, pixScore, competenceMarks, isPublished }) {
   const certificationStatus = status.VALIDATED;
   const {
     schoolingRegistration,
@@ -104,7 +112,7 @@ const buildValidatedPublishedCertificationData = function({ organizationId, veri
     verificationCode,
     type,
     pixScore,
-    isPublished: true,
+    isPublished,
   });
 
   _createAssessmentResultWithCompetenceMarks({
@@ -136,7 +144,7 @@ const buildValidatedPublishedCertificationData = function({ organizationId, veri
   };
 };
 
-const buildRejectedPublishedCertificationData = function({ organizationId }) {
+const buildRejectedPublishedCertificationData = function({ organizationId, competenceMarks }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
     organizationId,
@@ -147,11 +155,12 @@ const buildRejectedPublishedCertificationData = function({ organizationId }) {
     assessmentId,
     status: certificationStatus,
     createdAt: createdDate,
+    competenceMarks,
   });
 
 };
 
-const buildErrorUnpublishedCertificationData = function({ organizationId }) {
+const buildErrorUnpublishedCertificationData = function({ organizationId, competenceMarks }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
     organizationId,
@@ -162,6 +171,7 @@ const buildErrorUnpublishedCertificationData = function({ organizationId }) {
     assessmentId,
     status: certificationStatus,
     createdAt: createdDate,
+    competenceMarks,
   });
 
 };
@@ -248,6 +258,7 @@ function mockLearningContentCompetences() {
 
 module.exports = {
   buildValidatedPublishedCertificationData,
+  buildValidatedUnpublishedCertificationData,
   buildRejectedPublishedCertificationData,
   buildErrorUnpublishedCertificationData,
   buildCertificationDataWithNoCompetenceMarks,
