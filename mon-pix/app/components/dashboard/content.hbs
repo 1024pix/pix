@@ -77,8 +77,13 @@
 
     {{#if this.hasCampaignParticipationOverviews}}
       <section class="dashboard-content-main__section" data-test-campaign-participation-overviews>
-        <h2 class="dashboard-content-main-section__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
-        <p class="dashboard-content-main-section__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
+        <div class="dashboard-content-main-section--with-button">
+          <div>
+            <h2 class="dashboard-content-main-section__title">{{t 'pages.dashboard.campaigns.title'}}</h2>
+            <p class="dashboard-content-main-section__subtitle">{{t 'pages.dashboard.campaigns.subtitle'}}</p>
+          </div>
+          <LinkTo @route="user-tests" class="dashboard-content-main-section__button">{{t 'pages.dashboard.campaigns.tests-link'}}</LinkTo>
+        </div>
 
         <CampaignParticipationOverview::Grid @model={{@model.campaignParticipationOverviews}}/>
       </section>

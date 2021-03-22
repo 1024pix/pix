@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { contains } from '../../../helpers/contains';
 
 describe('Integration | Component | Dashboard | Content', function() {
   setupIntlRenderingTest();
@@ -71,6 +72,28 @@ describe('Integration | Component | Dashboard | Content', function() {
 
       // then
       expect(find('section[data-test-campaign-participation-overviews]')).to.exist;
+    });
+
+    it('should render campaign participations link', async function() {
+      // given
+      const campaignParticipationOverview = EmberObject.create({
+        isShared: false,
+        createdAt: '2020-12-10T15:16:20.109Z',
+        assessmentState: 'started',
+        campaignTitle: 'My campaign',
+        organizationName: 'My organization',
+      });
+      this.set('model', {
+        campaignParticipationOverviews: [campaignParticipationOverview],
+        campaignParticipations: [],
+        scorecards: [],
+      });
+
+      // when
+      await render(hbs`<Dashboard::Content @model={{this.model}} />}`);
+
+      // then
+      expect(contains('Tous mes parcours')).to.exist;
     });
 
     it('should not render campaign participations when there is no campaign participation overviews', async function() {
