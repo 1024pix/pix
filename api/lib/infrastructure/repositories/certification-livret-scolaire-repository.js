@@ -1,7 +1,5 @@
 const Certificate = require('../../domain/read-models/livret-scolaire/Certificate');
-const { PENDING, VALIDATED } = require('../../domain/read-models/livret-scolaire/CertificateStatus');
 const { knex } = require('../bookshelf');
-const sortBy = require('lodash/sortBy');
 
 module.exports = {
 
@@ -19,11 +17,11 @@ module.exports = {
         verificationCode: 'certification-courses.verificationCode',
         deliveredAt: 'sessions.publishedAt',
         certificationCenter: 'sessions.certificationCenter',
-        // eslint-disable-next-line no-restricted-syntax
-        status: knex.raw('CASE WHEN "isPublished" THEN "assessment-results".status ELSE ? END', PENDING),
+        isPublished: 'certification-courses.isPublished',
+        status: 'assessment-results.status',
         pixScore: 'assessment-results.pixScore',
       })
-      .select(knex.raw('\'[\' || (string_agg(\'{ "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\') over (partition by "assessment-results".id)) || \']\' as "competenceResults"'))
+      .select(knex.raw('\'[\' || (string_agg(\'{ "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\') over (partition by "assessment-results".id)) || \']\' as "competenceResultsJson"'))
       .from('certification-courses')
       .innerJoin('schooling-registrations', 'schooling-registrations.userId', 'certification-courses.userId')
       .innerJoin('organizations', 'schooling-registrations.organizationId', 'organizations.id')
@@ -37,12 +35,7 @@ module.exports = {
       .orderBy('lastName', 'ASC')
       .orderBy('firstName', 'ASC');
 
-    return result.map((certificate) => {
-      const competenceResults = sortBy(_extractValidatedCompetenceResults(certificate), 'competenceId');
-      return new Certificate({
-        ...certificate, competenceResults,
-      });
-    });
+    return result.map(Certificate.from);
 
   },
 };
@@ -53,8 +46,4 @@ function _filterMostRecentAssessments(queryBuilder) {
       this.on('last-assessment-results.assessmentId', 'assessments.id')
         .andOn('assessment-results.createdAt', '<', knex.ref('last-assessment-results.createdAt'));
     });
-}
-
-function _extractValidatedCompetenceResults(certificate) {
-  return certificate.status === VALIDATED ? JSON.parse(certificate.competenceResults) : [];
 }
