@@ -1,28 +1,36 @@
+import { reject, resolve } from 'rsvp';
+import hbs from 'htmlbars-inline-precompile';
+
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
+
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
+
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import hbs from 'htmlbars-inline-precompile';
-import Service from '@ember/service';
-import { reject, resolve } from 'rsvp';
 
-const errorMessages = {
-  NOT_LINKED_ORGANIZATION_MSG: 'Vous ne pouvez pas vous connecter à PixOrga car vous n’êtes rattaché à aucune organisation. Contactez votre administrateur qui pourra vous inviter.',
-  INVALID_CREDENTIEL_MSG: 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.',
-};
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | routes/login-form', function(hooks) {
-  setupRenderingTest(hooks);
+
+  setupIntlRenderingTest(hooks);
 
   class SessionStub extends Service {}
   class StoreStub extends Service {}
+
+  let emailInputLabel;
+  let passwordInputLabel;
+  let loginLabel;
 
   hooks.beforeEach(function() {
     this.owner.register('service:session', SessionStub);
     this.owner.unregister('service:store');
     this.owner.register('service:store', StoreStub);
+
+    emailInputLabel = this.intl.t('pages.login-form.email');
+    loginLabel = this.intl.t('pages.login-form.login');
+    passwordInputLabel = this.intl.t('pages.login-form.password');
   });
 
   test('it should ask for email and password', async function(assert) {
@@ -58,11 +66,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Routes::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillInByLabel('Adresse e-mail', 'pix@example.net');
-      await fillInByLabel('Mot de passe', 'JeMeLoggue1024');
+      await fillInByLabel(emailInputLabel, 'pix@example.net');
+      await fillInByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
       // when
-      await clickByLabel('Je me connecte');
+      await clickByLabel(loginLabel);
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -96,11 +104,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Routes::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillInByLabel('Adresse e-mail', 'pix@example.net');
-      await fillInByLabel('Mot de passe', 'JeMeLoggue1024');
+      await fillInByLabel(emailInputLabel, 'pix@example.net');
+      await fillInByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
       //  when
-      await clickByLabel('Je me connecte');
+      await clickByLabel(loginLabel);
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -111,46 +119,46 @@ module('Integration | Component | routes/login-form', function(hooks) {
     });
   });
 
-  test('it should display an invalid credentiels message when authentication fails', async function(assert) {
-
+  test('it should display an invalid credentials message when authentication fails', async function(assert) {
     // given
-    const msgErrorInvalidCredentiel = {
-      'errors': [{ 'status': '401', 'title': 'Unauthorized', 'detail': errorMessages.INVALID_CREDENTIEL_MSG }],
+    const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.401');
+    const errorResponse = {
+      errors: [{ status: '401' }],
     };
 
-    SessionStub.prototype.authenticate = () => reject(msgErrorInvalidCredentiel);
+    SessionStub.prototype.authenticate = () => reject(errorResponse);
 
     await render(hbs`<Routes::LoginForm/>`);
-    await fillInByLabel('Adresse e-mail', 'pix@example.net');
-    await fillInByLabel('Mot de passe', 'Mauvais mot de passe');
+    await fillInByLabel(emailInputLabel, 'pix@example.net');
+    await fillInByLabel(passwordInputLabel, 'Mauvais mot de passe');
 
     //  when
-    await clickByLabel('Je me connecte');
+    await clickByLabel(loginLabel);
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(errorMessages.INVALID_CREDENTIEL_MSG);
+    assert.dom('#login-form-error-message').hasText(expectedErrorMessages);
   });
 
   test('it should display an not linked organisation message when authentication fails', async function(assert) {
-
     // given
-    const msgErrorNotLinkedOrganization = {
-      'errors': [{ 'status': '403', 'title': 'Unauthorized', 'detail': errorMessages.NOT_LINKED_ORGANIZATION_MSG }],
+    const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.403');
+    const errorResponse = {
+      errors: [{ status: '403' }],
     };
 
-    SessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedOrganization);
+    SessionStub.prototype.authenticate = () => reject(errorResponse);
 
     await render(hbs`<Routes::LoginForm/>`);
-    await fillInByLabel('Adresse e-mail', 'pix@example.net');
-    await fillInByLabel('Mot de passe', 'pix123');
+    await fillInByLabel(emailInputLabel, 'pix@example.net');
+    await fillInByLabel(passwordInputLabel, 'pix123');
 
     //  when
-    await clickByLabel('Je me connecte');
+    await clickByLabel(loginLabel);
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(errorMessages.NOT_LINKED_ORGANIZATION_MSG);
+    assert.dom('#login-form-error-message').hasText(expectedErrorMessages);
   });
 
   test('it should not display context message', async function(assert) {
@@ -159,14 +167,17 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
   module('when password is hidden', function(hooks) {
 
+    let showButtonText;
+
     hooks.beforeEach(async function() {
       // given
-      await render(hbs`<Routes::LoginForm/>);`);
+      showButtonText = this.intl.t('pages.login-form.show-password');
+      await render(hbs`<Routes::LoginForm/>`);
     });
 
     test('it should display password when user click', async function(assert) {
       // when
-      await clickByLabel('rendre le mot de passe lisible');
+      await clickByLabel(showButtonText);
 
       // then
       assert.dom('#login-password').hasAttribute('type', 'text');
@@ -174,7 +185,7 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should change icon when user click on it', async function(assert) {
       // when
-      await clickByLabel('rendre le mot de passe lisible');
+      await clickByLabel(showButtonText);
 
       // then
       assert.dom('.fa-eye').exists();
@@ -182,11 +193,11 @@ module('Integration | Component | routes/login-form', function(hooks) {
 
     test('it should not change icon when user keeps typing his password', async function(assert) {
       // given
-      await fillInByLabel('Mot de passe', 'début du mot de passe');
+      await fillInByLabel(passwordInputLabel, 'début du mot de passe');
 
       // when
-      await clickByLabel('rendre le mot de passe lisible');
-      await fillInByLabel('Mot de passe', 'fin du mot de passe');
+      await clickByLabel(showButtonText);
+      await fillInByLabel(passwordInputLabel, 'fin du mot de passe');
 
       // then
       assert.dom('.fa-eye').exists();

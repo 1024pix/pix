@@ -84,13 +84,12 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
 
       const expectedResponseError = {
-        errors: [
-          {
-            title: 'PasswordShouldChange',
-            status: '401',
-            detail: 'Erreur, vous devez changer votre mot de passe.',
-          },
-        ],
+        errors: [{
+          code: 'SHOULD_CHANGE_PASSWORD',
+          detail: 'Erreur, vous devez changer votre mot de passe.',
+          status: '401',
+          title: 'PasswordShouldChange',
+        }],
       };
 
       options.payload = querystring.stringify({
