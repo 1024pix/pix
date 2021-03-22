@@ -176,6 +176,9 @@
                     "birth-year": "Year (YYYY)",
                     "first-name": "First name",
                     "session-number": "Session number"
+                },
+                "fields-validation": {
+                  "session-number-error": "TODO"
                 }
             }
         },
