@@ -45,7 +45,8 @@
   "common": {
     "actions": {
       "back": "Back",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "close": "Close"
     },
     "pagination": {
       "action": {
@@ -371,6 +372,43 @@
         "global-success": "The list has been successfully imported."
       },
       "know-more": "Know more",
+      "manage-authentication-method-modal": {
+        "authentication-methods": "Log in methods",
+        "copied": "Copied!",
+        "error": {
+          "default": "An error occurred, our teams are working on finding a solution. Please try again later.",
+          "unexpected": "Something went wrong. Please try again."
+        },
+        "section": {
+          "add-username": {
+            "button": "Add a username",
+            "label": "Add a username log in method"
+          },
+          "email": {
+            "copy": "Copy the email address",
+            "label": "Email address"
+          },
+          "username": {
+            "copy": "Copy the username",
+            "label": "Username"
+          },
+          "mediacentre": {
+            "label": "Mediacentre"
+          },
+          "password": {
+            "copy": "Copy the temporary password",
+            "label": "New temporary password",
+            "warning-1": "Send this new temporary password to your student.",
+            "warning-2": "Your student will be able to log in with the temporary password.",
+            "warning-3": "Your student will  choose a new password."
+          },
+          "reset-password": {
+            "button": "Reset password",
+            "warning": "Resetting will delete the student’s current password."
+          }
+        },
+        "title": "Managing the student's Pix account"
+      },
       "table": {
         "column": {
           "date-of-birth": "Date of birth",

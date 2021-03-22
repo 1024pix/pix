@@ -167,7 +167,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
 
         // when
         onSaveStudentNumberStub.rejects(error);
-        await clickByLabel('Fermer la fenêtre');
+        await clickByLabel(this.intl.t('common.actions.close'));
 
         // then
         assert.dom('button[type=submit]').hasValue('');

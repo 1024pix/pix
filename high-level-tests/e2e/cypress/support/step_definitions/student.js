@@ -8,7 +8,7 @@ When('je sélectionne la méthode de connexion {string}', (value) => {
 });
 
 Then(`je vois la modale de gestion du compte de l'élève`, () => {
-  cy.contains('Gestion du compte Pix de l\'élève');
+  cy.contains('Gestion du compte Pix de l’élève');
 });
 
 Then('je vois l\'identifiant généré', () => {
