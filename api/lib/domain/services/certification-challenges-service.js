@@ -3,6 +3,7 @@ const CertificationChallenge = require('../models/CertificationChallenge');
 const {
   MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION,
   MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS,
+  PIX_ORIGIN,
 } = require('../constants');
 
 const KnowledgeElement = require('../models/KnowledgeElement');
@@ -39,7 +40,7 @@ module.exports = {
           ..._.map(certificationChallenges, 'challengeId'),
           ..._.map(certificationChallengesForCompetence, 'challengeId'),
         ];
-        const certificationChallenge = pickCertificationChallengeForSkill(skill, userCompetence.id, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
+        const certificationChallenge = _pickCertificationChallengeForSkill(skill, userCompetence.id, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
         if (certificationChallenge) certificationChallengesForCompetence.push(certificationChallenge);
       }
       certificationChallenges = [...certificationChallenges, ...certificationChallengesForCompetence];
@@ -50,15 +51,15 @@ module.exports = {
 
   async pickCertificationChallengesForPlus(targetProfileId, userId) {
     const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: targetProfileId });
-    const certifiableProfile = await certifiableProfileForLearningContent.get({ id: userId, profileDate: Date.now(), targetProfileWithLearningContent });
+    const certifiableProfile = await certifiableProfileForLearningContent.get({ id: userId, profileDate: new Date(), targetProfileWithLearningContent });
     const allFrFrOperativeChallenges = await challengeRepository.findFrenchFranceOperative();
 
-    const excludedOrigins = ['Pix']; // todo mettre en constante quelque part, ou bien l'importer de qqpart ?
+    const excludedOrigins = [PIX_ORIGIN];
     const skillIdsByArea = certifiableProfile.getDirectlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId(excludedOrigins);
     const alreadyAnsweredChallengeIds = certifiableProfile.getAlreadyDirectlyValidatedAnsweredChallengeIds();
     let certificationChallenges = [];
 
-    for (const skillIds of skillIdsByArea) {
+    for (const skillIds of Object.values(skillIdsByArea)) {
       const certificationChallengesForArea = [];
       for (const skillId of skillIds) {
         if (certificationChallengesForArea.length >= MAX_CHALLENGES_PER_AREA_FOR_CERTIFICATION_PLUS) break;
@@ -68,17 +69,17 @@ module.exports = {
         ];
         const skill = targetProfileWithLearningContent.getSkill(skillId);
         const competenceId = targetProfileWithLearningContent.getCompetenceIdOfSkill(skillId);
-        const certificationChallenge = pickCertificationChallengeForSkill(skill, competenceId, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
+        const certificationChallenge = _pickCertificationChallengeForSkill(skill, competenceId, allFrFrOperativeChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds);
         if (certificationChallenge) certificationChallengesForArea.push(certificationChallenge);
       }
-      certificationChallenges = [...certificationChallenges, ...certificationChallengesForArea];
+      certificationChallenges = certificationChallenges.concat(certificationChallengesForArea);
     }
 
     return certificationChallenges;
   },
 };
 
-function pickCertificationChallengeForSkill(skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds) {
+function _pickCertificationChallengeForSkill(skill, competenceId, allChallenges, alreadyAnsweredChallengeIds, alreadySelectedChallengeIds) {
   const challengesToValidateCurrentSkill = Challenge.findBySkill({ challenges: allChallenges, skill });
   const unansweredChallenges = _.filter(challengesToValidateCurrentSkill, (challenge) => !alreadyAnsweredChallengeIds.includes(challenge.id));
 
