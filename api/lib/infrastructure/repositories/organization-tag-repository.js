@@ -1,8 +1,10 @@
 const BookshelfOrganizationTag = require('../data/organization-tag');
+const Bookshelf = require('../bookshelf');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
-const omit = require('lodash/omit');
+const { omit } = require('lodash');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
 
@@ -17,6 +19,10 @@ module.exports = {
       }
       throw err;
     }
+  },
+
+  async batchCreate(organizationsTags, domainTransaction = DomainTransaction.emptyTransaction()) {
+    return Bookshelf.knex.batchInsert('organization-tags', organizationsTags).transacting(domainTransaction.knexTransaction);
   },
 
   async isExistingByOrganizationIdAndTagId({ organizationId, tagId }) {
