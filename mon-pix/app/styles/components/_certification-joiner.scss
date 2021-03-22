@@ -5,10 +5,10 @@
   &__label {
     color: rgb(88, 95, 117);
     font-family: $font-roboto;
-    font-size: 0.938rem;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: normal;
     height: 18px;
-    width: 130px;
+    margin-bottom: 6px;
   }
 
   &__title {
@@ -22,8 +22,10 @@
 
   &__row {
     display: flex;
+    position: relative;
     flex-flow: column nowrap;
     width: 100%;
+    margin-bottom: 24px;
   }
 
   &__birthdate {
@@ -49,11 +51,31 @@
     border-radius: 4px;
     border: 2px solid $grey-20;
     padding-left: 10px;
-    margin-bottom: 16px;
     min-width: 0;
+    outline-width: 1px;
 
     &:hover {
-      border: 2px solid $light-blue;
+      box-shadow: 0 0 0 2px $light-blue;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px $light-blue;
+      outline: 1px solid $light-blue;
+    }
+
+    &:focus-within {
+      box-shadow: 0 0 0 2px $light-blue;
+      outline: 1px solid $light-blue;
+    }
+
+    &.certification-joiner__input--invalid:not(:hover) {
+      box-shadow: 0 0 0 2px $error;
+      outline: 1px solid $error;
+    }
+
+    &.certification-joiner__input--invalid:focus {
+      box-shadow: 0 0 0 2px $error;
+      outline: 1px solid $error;
     }
   }
 
@@ -65,6 +87,12 @@
     margin-top: 8px;
     margin-bottom: 34px;
     width: 100%;
+    border: 2px solid $white;
+
+    &:focus-within {
+      border: 2px solid $white;
+      box-shadow: 0 0 0 2px $blue;
+    }
   }
 
   ::placeholder {
@@ -73,5 +101,12 @@
 
   :-ms-input-placeholder {
     color: $grey-30;
+  }
+
+  p.certification-joiner__validation-error {
+    color: $pure-orange;
+    font-size: 0.875rem;
+    margin-top: 6px;
+    margin-bottom: 0;
   }
 }
