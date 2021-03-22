@@ -38,8 +38,9 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   const challenge = await challengeRepository.get(answer.challengeId);
   const correctedAnswer = _evaluateAnswer(challenge, answer);
-  const lastQuestionDate = assessment.lastQuestionDate;
-  correctedAnswer.setTimeSpentFrom({ now: dateUtils.getNowDate(), lastQuestionDate });
+  const now = dateUtils.getNowDate();
+  const lastQuestionDate = assessment.lastQuestionDate || now;
+  correctedAnswer.setTimeSpentFrom({ now, lastQuestionDate });
 
   let scorecardBeforeAnswer = null;
   if (correctedAnswer.result.isOK() && assessment.hasKnowledgeElements()) {
