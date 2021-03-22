@@ -28,6 +28,10 @@ function _computeInputClass(answerOutcome) {
 export default class QrocmIndSolutionPanel extends Component {
   @service intl;
 
+  get isNotCorrectlyAnswered() {
+    return this.args.answer.result !== 'ok';
+  }
+
   get inputFields() {
     if (!this.args.solution) {
       return undefined;

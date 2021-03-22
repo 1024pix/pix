@@ -27,9 +27,10 @@
       {{/if}}
     {{/each}}
     {{#unless this.answerIsCorrect}}
-      <div class="correction-qrocm__solution">
-        <img class="correction-qrocm__solution-img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
-        <div class="correction-qrocm__solution-text">{{this.expectedAnswers}}</div>
+      <div class="comparison-window-solution">
+        <img class="comparison-window-solution__img" src="/images/icons/comparison-window/icon-arrow-right.svg" alt="" role="none">
+        <span class="sr-only">{{t 'pages.comparison-window.results.a11y.the-answer-was'}}</span>
+        <div class="correction-qrocm__solution-text">{{this.understandableSolution}}</div>
       </div>
     {{/unless}}
   </div>

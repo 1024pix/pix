@@ -9,7 +9,7 @@ const ANSWER = '.correction-qrocm__answer';
 const INPUT = 'input.correction-qrocm__answer--input';
 const PARAGRAPH = 'textarea.correction-qrocm__answer--paragraph';
 const SENTENCE = 'input.correction-qrocm__answer--sentence';
-const SOLUTION_BLOCK = '.correction-qrocm__solution';
+const SOLUTION_BLOCK = '.comparison-window-solution';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
 const classByResultKey = {
@@ -122,11 +122,12 @@ describe('Integration | Component | QROCm dep solution panel', function() {
           });
           this.set('answer', answer);
 
-          // when
-          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
         });
 
         it('should display one solution in bold green', async function() {
+          // when
+          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
+
           // then
           const wrongSolutionBlock = find(SOLUTION_BLOCK);
           const wrongSolutionText = find(SOLUTION_TEXT);
@@ -135,7 +136,21 @@ describe('Integration | Component | QROCm dep solution panel', function() {
           expect(wrongSolutionText).to.exist;
         });
 
+        it('should display the solutionToDisplay if exist', async function() {
+          // when
+          const solutionToDisplay = 'Ceci est la solution !';
+          this.set('solutionToDisplay', solutionToDisplay);
+          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
+
+          // then
+          expect(find(SOLUTION_BLOCK)).to.exist;
+          expect(find(SOLUTION_TEXT).textContent).to.contains(solutionToDisplay);
+        });
+
         it('should display the wrong answer in standard style since we do not handle single wrong answer yet', async function() {
+          // when
+          await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
+
           // then
           const firstAnswerInput = findAll(ANSWER)[0];
 

@@ -11,24 +11,24 @@ describe('Unit | Component | qroc-solution-panel', function() {
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
 
-  describe('#isResultOk', function() {
+  describe('#isNotCorrectlyAnswered', function() {
 
-    it('should return true when result is ok', function() {
+    it('should return false when result is ok', function() {
       // given
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer: rightAnswer });
       // when
-      const isResultOk = component.isResultOk;
+      const isNotCorrectlyAnswered = component.isNotCorrectlyAnswered;
       // then
-      expect(isResultOk).to.be.true;
+      expect(isNotCorrectlyAnswered).to.be.false;
     });
 
     it('should return true when result is not ok', function() {
       // given
       const component = createGlimmerComponent('component:qroc-solution-panel', { answer: wrongAnswer });
       // when
-      const isResultOk = component.isResultOk;
+      const isNotCorrectlyAnswered = component.isNotCorrectlyAnswered;
       // then
-      expect(isResultOk).to.be.false;
+      expect(isNotCorrectlyAnswered).to.be.true;
     });
 
   });
@@ -67,7 +67,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       const solution = 'Reponse\nreponse\nréponse';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
-      const solutionToDisplay = component.solutionToDisplay;
+      const solutionToDisplay = component.understandableSolution;
       // then
       expect(solutionToDisplay).to.equal('Reponse');
     });
@@ -77,7 +77,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       const solution = 'Reponse';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution });
       // when
-      const solutionToDisplay = component.solutionToDisplay;
+      const solutionToDisplay = component.understandableSolution;
       // then
       expect(solutionToDisplay).to.equal('Reponse');
     });
@@ -87,7 +87,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       const emptySolution = '';
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: emptySolution });
       // when
-      const solutionToDisplay = component.solutionToDisplay;
+      const solutionToDisplay = component.understandableSolution;
       // then
       expect(solutionToDisplay).to.equal('');
     });
@@ -97,7 +97,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
       const solutionNull = null;
       const component = createGlimmerComponent('component:qroc-solution-panel', { solution: solutionNull });
       // when
-      const solutionToDisplay = component.solutionToDisplay;
+      const solutionToDisplay = component.understandableSolution;
       // then
       expect(solutionToDisplay).to.equal('');
     });

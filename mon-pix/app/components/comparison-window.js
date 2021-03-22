@@ -47,12 +47,8 @@ export default class ComparisonWindow extends Component {
     return this.args.answer.challenge.get('type') === 'QROCM-dep';
   }
 
-  get isAutoReply() {
-    return this.args.answer.challenge.get('autoReply');
-  }
-
   get answerSuffix() {
-    return this.isAutoReply ? 'AutoReply' : '';
+    return this._isAutoReply ? 'AutoReply' : '';
   }
 
   get resultItem() {
@@ -67,6 +63,18 @@ export default class ComparisonWindow extends Component {
 
   get resultItemIcon() {
     return resultIconUrl(this.resultItem.status);
+  }
+
+  get solution() {
+    return this._isAutoReply ? null : this.args.answer.correction.get('solution');
+  }
+
+  get solutionToDisplay() {
+    return this.args.answer.correction.get('solutionToDisplay');
+  }
+
+  get _isAutoReply() {
+    return this.args.answer.challenge.get('autoReply');
   }
 }
 
