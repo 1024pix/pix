@@ -2,7 +2,7 @@
   <form {{on 'submit' this.register}}>
 
     <div id="register-firstName-container" class="input-container">
-      <label for="register-firstName" class="label">Prénom</label>
+      <label for="register-firstName" class="label">{{t 'pages.login-or-register.register-form.fields.first-name.label'}}</label>
       {{#if this.validation.firstName.hasError}}
         <div class="alert-input alert-input--error" role="alert">{{this.validation.firstName.message}}</div>
       {{/if}}
@@ -18,7 +18,7 @@
     </div>
 
     <div id="register-lastName-container" class="input-container">
-      <label for="register-lastName" class="label">Nom</label>
+      <label for="register-lastName" class="label">{{t 'pages.login-or-register.register-form.fields.last-name.label'}}</label>
       {{#if this.validation.lastName.hasError}}
         <div class="alert-input alert-input--error" role="alert">{{this.validation.lastName.message}}</div>
       {{/if}}
@@ -34,7 +34,7 @@
     </div>
 
     <div id="register-email-container" class="input-container">
-      <label for="register-email" class="label">Adresse e-mail</label>
+      <label for="register-email" class="label">{{t 'pages.login-or-register.register-form.fields.email.label'}}</label>
       {{#if this.validation.email.hasError}}
         <div class="alert-input alert-input--error" role="alert">{{this.validation.email.message}}</div>
       {{/if}}
@@ -50,7 +50,7 @@
     </div>
 
     <div id="register-password-container" class="input-container">
-      <label for="register-password" class="label">Mot de passe</label>
+      <label for="register-password" class="label">{{t 'pages.login-or-register.register-form.fields.password.label'}}</label>
       {{#if this.validation.password.hasError}}
         <div class="alert-input alert-input--error" role="alert">{{this.validation.password.message}}</div>
       {{/if}}
@@ -80,11 +80,14 @@
           @id="register-cgu"
           @type="checkbox"
           @checked={{this.user.cgu}}
-          aria-label="Accepter les conditions d'utilisation de Pix"
+          aria-label="{{t 'pages.login-or-register.register-form.fields.cgu.aria-label'}}"
           {{on "focusout" (fn this.validateInput "cgu" this.user.cgu)}}
         />
         <span class="register-form__cgu">
-      J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank" rel="noopener noreferrer">conditions d'​utilisation de Pix</a>
+      {{t 'pages.login-or-register.register-form.fields.cgu.accept'}}
+          <a href="{{t 'pages.login-or-register.register-form.fields.cgu.link'}}" class="link" target="_blank" rel="noopener noreferrer">
+            {{t 'pages.login-or-register.register-form.fields.cgu.terms-of-use'}}
+          </a>
     </span>
       </label>
       {{#if this.validation.cgu.hasError}}
@@ -96,18 +99,13 @@
       {{#if this.isLoading}}
         <button type="button" class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-        <button type="submit" class="button">Je m'inscris</button>
+        <button type="submit" class="button">{{t 'pages.login-or-register.register-form.fields.button.label'}}</button>
       {{/if}}
     </div>
 
   </form>
 
   <div class="legal-text">
-    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour
-    permettre l’accès au service offert. Elles sont conservées pendant la durée d’utilisation du service et sont
-    destinées à Pix. Les résultats des tests pourront être communiqués à des tiers, avec votre consentement, dans le
-    cas où vous avez été invité à suivre un parcours spécifique. Conformément à la loi « informatique et libertés »,
-    vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en contactant le
-    Délégué à la Protection des Données de Pix à dpo@pix.fr.
+    {{t 'pages.login-or-register.register-form.legal-text'}}
   </div>
 </div>

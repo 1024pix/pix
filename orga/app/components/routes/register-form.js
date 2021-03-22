@@ -13,13 +13,14 @@ export default class RegisterForm extends Component {
 
   @service session;
   @service store;
+  @service intl;
 
   validation = {
-    firstName: new InputValidator(isStringValid, 'Votre prénom n’est pas renseigné.'),
-    lastName: new InputValidator(isStringValid, 'Votre nom n’est pas renseigné.'),
-    email: new InputValidator(isEmailValid, 'Votre email n’est pas valide.'),
-    password: new InputValidator(isPasswordValid, 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'),
-    cgu: new InputValidator(Boolean, 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.'),
+    firstName: new InputValidator(isStringValid, this.intl.t('pages.login-or-register.register-form.fields.first-name.error')),
+    lastName: new InputValidator(isStringValid, this.intl.t('pages.login-or-register.register-form.fields.last-name.error')),
+    email: new InputValidator(isEmailValid, this.intl.t('pages.login-or-register.register-form.fields.email.error')),
+    password: new InputValidator(isPasswordValid, this.intl.t('pages.login-or-register.register-form.fields.password.error')),
+    cgu: new InputValidator(Boolean, this.intl.t('pages.login-or-register.register-form.fields.cgu.error')),
   };
 
   user = null;

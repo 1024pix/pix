@@ -1,5 +1,4 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 import { render, triggerEvent } from '@ember/test-helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
@@ -8,22 +7,38 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
-const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
-const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
-const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
+const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.first-name.error';
+const EMPTY_LASTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.last-name.error';
+const EMPTY_EMAIL_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.email.error';
+const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.password.error';
 
 module('Integration | Component | routes/register-form', function(hooks) {
-  setupRenderingTest(hooks);
+
+  setupIntlRenderingTest(hooks);
 
   class SessionStub extends Service {}
   class StoreStub extends Service {}
+
+  let firstNameInputLabel;
+  let lastNameInputLabel;
+  let emailInputLabel;
+  let passwordInputLabel;
+  let cguAriaLabel;
+  let registerButtonLabel;
 
   hooks.beforeEach(function() {
     this.set('user', EmberObject.create({}));
 
     this.owner.register('service:session', SessionStub);
+
+    firstNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.first-name.label');
+    lastNameInputLabel = this.intl.t('pages.login-or-register.register-form.fields.last-name.label');
+    emailInputLabel = this.intl.t('pages.login-or-register.register-form.fields.email.label');
+    passwordInputLabel = this.intl.t('pages.login-or-register.register-form.fields.password.label');
+    cguAriaLabel = this.intl.t('pages.login-or-register.register-form.fields.cgu.aria-label');
+    registerButtonLabel = this.intl.t('pages.login-or-register.register-form.fields.button.label');
   });
 
   test('it renders', async function(assert) {
@@ -62,14 +77,14 @@ module('Integration | Component | routes/register-form', function(hooks) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Routes::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
-      await fillInByLabel('Prénom', 'pix');
-      await fillInByLabel('Nom', 'pix');
-      await fillInByLabel('Adresse e-mail', 'shi@fu.me');
-      await fillInByLabel('Mot de passe', 'Mypassword1');
-      await clickByLabel('Accepter les conditions d\'utilisation de Pix');
+      await fillInByLabel(firstNameInputLabel, 'pix');
+      await fillInByLabel(lastNameInputLabel, 'pix');
+      await fillInByLabel(emailInputLabel, 'shi@fu.me');
+      await fillInByLabel(passwordInputLabel, 'Mypassword1');
+      await clickByLabel(cguAriaLabel);
 
       // when
-      await clickByLabel('Je m\'inscris');
+      await clickByLabel(registerButtonLabel);
 
       // then
       assert.dom('.alert-input--error').doesNotExist();
@@ -92,11 +107,11 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillInByLabel('Prénom', stringFilledIn);
+          await fillInByLabel(firstNameInputLabel, stringFilledIn);
           await triggerEvent('#register-firstName', 'focusout');
 
           // then
-          assert.dom('#register-firstName-container .alert-input--error').hasText(EMPTY_FIRSTNAME_ERROR_MESSAGE);
+          assert.dom('#register-firstName-container .alert-input--error').hasText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE));
           assert.dom('#register-firstName-container .input--error').exists();
         });
       });
@@ -109,11 +124,11 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillInByLabel('Nom', stringFilledIn);
+          await fillInByLabel(lastNameInputLabel, stringFilledIn);
           await triggerEvent('#register-lastName', 'focusout');
 
           // then
-          assert.dom('#register-lastName-container .alert-input--error').hasText(EMPTY_LASTNAME_ERROR_MESSAGE);
+          assert.dom('#register-lastName-container .alert-input--error').hasText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE));
           assert.dom('#register-lastName-container .input--error').exists();
         });
       });
@@ -128,11 +143,11 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillInByLabel('Adresse e-mail', stringFilledIn);
+          await fillInByLabel(emailInputLabel, stringFilledIn);
           await triggerEvent('#register-email', 'focusout');
 
           // then
-          assert.dom('#register-email-container .alert-input--error').hasText(EMPTY_EMAIL_ERROR_MESSAGE);
+          assert.dom('#register-email-container .alert-input--error').hasText(this.intl.t(EMPTY_EMAIL_ERROR_MESSAGE));
           assert.dom('#register-email-container .input--error').exists();
         });
       });
@@ -148,11 +163,11 @@ module('Integration | Component | routes/register-form', function(hooks) {
           await render(hbs`<Routes::RegisterForm/>`);
 
           // when
-          await fillInByLabel('Mot de passe', stringFilledIn);
+          await fillInByLabel(passwordInputLabel, stringFilledIn);
           await triggerEvent('#register-password', 'focusout');
 
           // then
-          assert.dom('#register-password-container .alert-input--error').hasText(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
+          assert.dom('#register-password-container .alert-input--error').hasText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE));
           assert.dom('#register-password-container .input-password--error').exists();
         });
       });
@@ -164,12 +179,12 @@ module('Integration | Component | routes/register-form', function(hooks) {
       let validUser;
 
       const fillForm = async function(user) {
-        await fillInByLabel('Prénom', user.firstName);
-        await fillInByLabel('Nom', user.lastName);
-        await fillInByLabel('Adresse e-mail', user.email);
-        await fillInByLabel('Mot de passe', user.password);
+        await fillInByLabel(firstNameInputLabel, user.firstName);
+        await fillInByLabel(lastNameInputLabel, user.lastName);
+        await fillInByLabel(emailInputLabel, user.email);
+        await fillInByLabel(passwordInputLabel, user.password);
         if (user.cgu) {
-          await clickByLabel('Accepter les conditions d\'utilisation de Pix');
+          await clickByLabel(cguAriaLabel);
         }
       };
 
@@ -200,7 +215,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ firstName: '' } });
 
         // when
-        await clickByLabel('Je m\'inscris');
+        await clickByLabel(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -211,7 +226,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ lastName: '' } });
 
         // when
-        await clickByLabel('Je m\'inscris');
+        await clickByLabel(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -222,7 +237,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ email: '' } });
 
         // when
-        await clickByLabel('Je m\'inscris');
+        await clickByLabel(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -233,7 +248,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ password: '' } });
 
         // when
-        await clickByLabel('Je m\'inscris');
+        await clickByLabel(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);
@@ -244,7 +259,7 @@ module('Integration | Component | routes/register-form', function(hooks) {
         await fillForm({ ...validUser, ...{ cgu: false } });
 
         // when
-        await clickByLabel('Je m\'inscris');
+        await clickByLabel(registerButtonLabel);
 
         // then
         assert.equal(spy.callCount, 0);

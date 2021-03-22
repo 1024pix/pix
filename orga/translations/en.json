@@ -350,7 +350,36 @@
       "invitation": "En cours de traduction",
       "register-form": {
         "title": "En cours de traduction",
-        "button": "Sign up"
+        "button": "Sign up",
+        "fields": {
+          "first-name": {
+            "label":"First name",
+            "error": "Please enter your first name."
+          },
+          "last-name": {
+            "label":"Last name",
+            "error": "Please enter your last name."
+          },
+          "email": {
+            "label": "Email address",
+            "error": "Your email address is invalid."
+          },
+          "password": {
+            "label": "Password",
+            "error": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number."
+          },
+          "cgu": {
+            "accept": "I agree to the",
+            "link": "https://pix.org/en-gb/terms-and-conditions/",
+            "terms-of-use": "Pix terms of use",
+            "aria-label": "En cours de traduction",
+            "error": "You must agree to the Pix terms of use to create an account."
+          },
+          "button": {
+            "label": "En cours de traduction"
+          }
+        },
+        "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
       },
       "login-form": {
         "title": "En cours de traduction",
