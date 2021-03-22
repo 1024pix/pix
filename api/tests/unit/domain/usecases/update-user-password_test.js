@@ -1,7 +1,7 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
-const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+const { PasswordResetDemandNotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
 
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
@@ -63,6 +63,25 @@ describe('Unit | UseCase | update-user-password', () => {
 
     // then
     expect(userRepository.get).to.have.been.calledWith(userId);
+  });
+
+  it('should throw a UserNotAuthorizedToUpdatePasswordError when user does not have an email', async () => {
+    // given
+    userRepository.get.resolves({ email: undefined });
+
+    // when
+    const error = await catchErr(updateUserPassword)({
+      password,
+      userId,
+      temporaryKey,
+      encryptionService,
+      resetPasswordService,
+      authenticationMethodRepository,
+      userRepository,
+    });
+
+    // then
+    expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
   });
 
   it('should check if user has a current password reset demand', async () => {

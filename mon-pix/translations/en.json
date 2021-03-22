@@ -746,19 +746,23 @@
             "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date,date,LL} at {hour,time,hhmm}"
         },
         "reset-password": {
-            "title": "Change my password",
+            "actions": {
+                "submit": "Send",
+                "sign-in": "Log in"
+            },
+            "error": {
+                "expired-demand": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
+                "forbidden": "An error occurred, please contact the support.",
+                "wrong-format": "Your password must contain at least 8 characters and include at least one uppercase letter, one lowercase letter and one number."
+            },
             "fields": {
                 "password": {
                     "label": "Password"
                 }
             },
-            "actions": {
-                "submit": "Send",
-                "sign-in": "Log in"
-            },
-            "error": "We’re sorry, but your request to reset your password has already been used or has expired. Please start again.",
             "instruction": "Enter your new password",
-            "succeed": "Your password has been changed successfully."
+            "succeed": "Your password has been changed successfully.",
+            "title": "Change my password"
         },
         "proposals": {
             "answer": {

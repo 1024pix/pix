@@ -746,19 +746,23 @@
             "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date,date,LL} à {hour,time,hhmm}"
         },
         "reset-password": {
-            "title": "Changer mon mot de passe",
+            "actions": {
+                "submit": "Envoyer",
+                "sign-in": "Connectez-vous"
+            },
+            "error": {
+                "expired-demand": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
+                "forbidden": "Une erreur est survenue, veuillez contacter le support.",
+                "wrong-format": "Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre."
+            },
             "fields": {
                 "password": {
                     "label": "Mot de passe"
                 }
             },
-            "actions": {
-                "submit": "Envoyer",
-                "sign-in": "Connectez-vous"
-            },
-            "error": "Nous sommes désolés, mais votre demande de réinitialisation de mot de passe a déjà été utilisée ou est expirée. Merci de recommencer.",
             "instruction": "Saisissez votre nouveau mot de passe",
-            "succeed": "Votre mot de passe a été modifié avec succès."
+            "succeed": "Votre mot de passe a été modifié avec succès.",
+            "title": "Changer mon mot de passe"
         },
         "proposals": {
             "answer": {

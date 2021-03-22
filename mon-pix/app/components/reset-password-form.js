@@ -3,32 +3,17 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import isPasswordValid from '../utils/password-validator';
 import { tracked } from '@glimmer/tracking';
-
-const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
-
-const VALIDATION_MAP = {
-  default: {
-    status: 'default', message: null,
-  },
-  error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE,
-  },
-};
-
-const SUBMISSION_MAP = {
-  default: {
-    status: 'default', message: null,
-  },
-  error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE,
-  },
-};
+import get from 'lodash/get';
 
 export default class ResetPasswordForm extends Component {
   @service url;
+  @service intl;
 
   @tracked hasSucceeded = false;
-  @tracked validation = VALIDATION_MAP['default'];
+  validation = {
+    @tracked status: 'default',
+    @tracked message: null,
+  };
 
   get homeUrl() {
     return this.url.homeUrl;
@@ -37,8 +22,12 @@ export default class ResetPasswordForm extends Component {
   @action
   validatePassword() {
     const password = this.args.user.password;
-    const validationStatus = (isPasswordValid(password)) ? 'default' : 'error';
-    this.validation = VALIDATION_MAP[validationStatus];
+    if (isPasswordValid((password))) {
+      this._resetValidation();
+    } else {
+      this.validation.status = 'error';
+      this.validation.message = this.intl.t('pages.reset-password.error.wrong-format');
+    }
   }
 
   @action
@@ -48,11 +37,34 @@ export default class ResetPasswordForm extends Component {
     this.hasSucceeded = false;
     try {
       await this.args.user.save({ adapterOptions: { updatePassword: true, temporaryKey: this.args.temporaryKey } });
-      this.validation = SUBMISSION_MAP['default'];
+      this._resetValidation();
       this.hasSucceeded = true;
       this.args.user.password = null;
-    } catch (error) {
-      this.validation = SUBMISSION_MAP['error'];
+    } catch (response) {
+      const status = get(response, 'errors[0].status');
+      this.validation.status = 'error';
+      switch (status) {
+        case '400':
+          this.validation.message = this.intl.t('pages.reset-password.error.wrong-format');
+          break;
+        case '403':
+          this.validation.message = this.intl.t('pages.reset-password.error.forbidden');
+          break;
+        case '404':
+          this.validation.message = this.intl.t('pages.reset-password.error.expired-demand');
+          break;
+        case '500':
+          this.validation.message = this.intl.t('api-error-messages.internal-server-error');
+          break;
+        default:
+          this.validation.message = this.intl.t('api-error-messages.internal-server-error');
+          break;
+      }
     }
+  }
+
+  _resetValidation() {
+    this.validation.status = 'default';
+    this.validation.message = null;
   }
 }
