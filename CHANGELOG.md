@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.34.0 (22/03/2021)
+
+- [#2735](https://github.com/1024pix/pix/pull/2735) [FEATURE] Validation du champ "Numéro de session" sur la page "Rejoindre une session" (PIX-2379)
+- [#2716](https://github.com/1024pix/pix/pull/2716) [FEATURE] PixScore = 0 pour certificats Livret-scolaire non validés (PIX-2362)
+- [#2719](https://github.com/1024pix/pix/pull/2719) [FEATURE] Afficher le status du CléA dans le fichier des résultats de certification (PIX-2339)
+- [#2731](https://github.com/1024pix/pix/pull/2731) [FEATURE] Ajout d'un onglet Neutralisation dans le détail d'une certification sur Pix Admin (PIX-2357)
+- [#2679](https://github.com/1024pix/pix/pull/2679) [FEATURE] Notifier l'utilisateur de son changement d'email (PIX-2088).
+- [#2711](https://github.com/1024pix/pix/pull/2711) [FEATURE] Traduction des sujets d'e-mails et correction de l'url du support (PIX-2321). 
+- [#2729](https://github.com/1024pix/pix/pull/2729) [FEATURE] Changer le wording sur la page Certification dans Pix Orga (PIX-2378)
+- [#2734](https://github.com/1024pix/pix/pull/2734) [BUGFIX] Corriger l'erreur renvoyée lors d'un changement de mot de passe pour un utilisateur sans adresse e-mail (PIX-2367). 
+- [#2746](https://github.com/1024pix/pix/pull/2746) [BUGFIX] Pouvoir désactiver l'envoi d'e-mails. 
+- [#2741](https://github.com/1024pix/pix/pull/2741) [TECH] Mise à jour des dépendances de pix-api.
+- [#2727](https://github.com/1024pix/pix/pull/2727) [TECH] Remplacer IE9 par IE11 comme navigateur le plus "vieux" à supporter sur mon-pix (PIX-2375)
+- [#2745](https://github.com/1024pix/pix/pull/2745) [CLEANUP] Supprimer G-Recaptcha (PIX-2384).
+- [#2657](https://github.com/1024pix/pix/pull/2657) [CLEANUP] Glimmerizer les composant login-form et register-form (PIX-2322).
+
 ## v3.33.0 (18/03/2021)
 
 - [#2720](https://github.com/1024pix/pix/pull/2720) [FEATURE] Afficher le nombre de sessions à traiter dans le libellé de l'onglet (PIX-2298)
