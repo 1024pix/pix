@@ -109,6 +109,7 @@ describe('Unit | Controller | answer-controller', () => {
       beforeEach(async () => {
         // given
         deserializedAnswer.id = undefined;
+        deserializedAnswer.timeSpent = undefined;
         createdAnswer = domainBuilder.buildAnswer({ assessmentId });
         answerSerializer.serialize.returns(serializedAnswer);
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);

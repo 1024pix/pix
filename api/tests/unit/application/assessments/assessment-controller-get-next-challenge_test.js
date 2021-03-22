@@ -7,6 +7,9 @@ const usecases = require('../../../../lib/domain/usecases');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const events = require('../../../../lib/domain/events');
+const ChallengeRequested = require('../../../../lib/domain/events/ChallengeRequested');
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
@@ -14,6 +17,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     let assessmentWithoutScore;
     let assessmentWithScore;
     let scoredAsssessment;
+    let transactionToBeExecuted;
 
     beforeEach(() => {
 
@@ -44,6 +48,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sinon.stub(usecases, 'getNextChallengeForCampaignAssessment').resolves();
       sinon.stub(usecases, 'getNextChallengeForCompetenceEvaluation').resolves();
       sinon.stub(certificationChallengeRepository, 'getNextNonAnsweredChallengeByCourseId').resolves();
+      sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
+        transactionToBeExecuted = lambda;
+      });
+
     });
 
     // TODO: Que faire si l'assessment n'existe pas pas ?
@@ -238,6 +246,30 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
     });
+
+    describe('when asking for a challenge', () => {
+      it('should dispatch challenge requested', async () => {
+        const domainTransaction = Symbol('domain transaction');
+
+        const eventDispatcherStub = sinon.stub(events.eventDispatcher, 'dispatch');
+
+        const assessment = domainBuilder.buildAssessment();
+        assessmentRepository.get.resolves(assessment);
+
+        const challengeRequested = new ChallengeRequested({ assessmentId: assessment.id });
+        const request = {
+          params: { id: assessment.id },
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(assessment.userId),
+            'accept-language': FRENCH_SPOKEN,
+          },
+        };
+
+        await assessmentController.getNextChallenge(request);
+        await transactionToBeExecuted(domainTransaction);
+
+        expect(eventDispatcherStub).to.have.been.calledWithExactly(challengeRequested, domainTransaction);
+      });
+    });
   });
-})
-;
+});

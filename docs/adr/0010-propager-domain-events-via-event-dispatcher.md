@@ -81,7 +81,7 @@ module.exports = {
 Il devient alors possible (et précieux à titre de non-régression) de tester la bonne mise en place des _Event Handlers_ en testant les chaînages.
 
 ```javascript
-describe('Event Choregraphy | Score Partner Certification', function() {
+describe('Event Choreography | Score Partner Certification', function() {
   it('chains Certification Scoring and Partner Certification Scoring on Assessment Completed', async () => {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();

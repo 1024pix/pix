@@ -19,7 +19,12 @@ function convertDateValue({ dateString, inputFormat, alternativeInputFormat = nu
   return null;
 }
 
+function getNowDate() {
+  return new Date();
+}
+
 module.exports = {
   isValidDate,
   convertDateValue,
+  getNowDate,
 };
