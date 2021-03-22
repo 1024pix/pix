@@ -1,13 +1,8 @@
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/no-component-lifecycle-hooks: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import _get from 'lodash/get';
-import classic from 'ember-classic-decorator';
 
 function _pad(num, size) {
   let s = num + '';
@@ -19,14 +14,18 @@ function _isMatchingReconciledStudentNotFoundError(err) {
   return _get(err, 'errors[0].code') === 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
 }
 
-@classic
 export default class CertificationJoiner extends Component {
   @service store;
   @service peeker;
   @service currentUser;
+  @service intl;
+
+  SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
 
   @tracked isLoading = false;
   @tracked errorMessage = null;
+  @tracked sessionIdIsNotANumberError = null;
+  @tracked validationClassName = '';
   @tracked showCongratulationsBanner = true;
   @tracked sessionId = null;
   @tracked firstName = null;
@@ -41,16 +40,7 @@ export default class CertificationJoiner extends Component {
     return [this.yearOfBirth, monthOfBirth, dayOfBirth].join('-');
   }
 
-  success() {}
-
-  didInsertElement() {
-    super.didInsertElement(...arguments);
-    if (this.getCurrentCandidate()) {
-      this.success();
-    }
-  }
-
-  joinCertificationSession() {
+  createCertificationCandidate() {
     const { firstName, lastName, birthdate, sessionId } = this;
 
     return this.store.createRecord('certification-candidate', {
@@ -62,11 +52,7 @@ export default class CertificationJoiner extends Component {
       lastName: lastName
         ? lastName.trim()
         : null,
-    }).save({ adapterOptions: { joinSession: true, sessionId } });
-  }
-
-  getCurrentCandidate() {
-    return this.peeker.findOne('certification-candidate');
+    });
   }
 
   @action
@@ -74,17 +60,38 @@ export default class CertificationJoiner extends Component {
     this.showCongratulationsBanner = false;
   }
 
+  _isANumber(value) {
+    return new RegExp(this.SESSION_ID_VALIDATION_PATTERN).test(value);
+  }
+
   @action
-  async attemptNext() {
-    this.stepsData.joiner = { sessionId: this.sessionId };
-    this.isLoading = true;
+  checkSessionIdIsValid(event) {
+    const { value } = event.target;
+    if (value && !this._isANumber(value)) {
+      this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
+    } else {
+      this.sessionIdIsNotANumberError = null;
+    }
+  }
+
+  @action
+  async attemptNext(e) {
+    e.preventDefault();
+    this.args.stepsData.joiner = { sessionId: this.sessionId };
+    let currentCertificationCandidate = null;
+    if (this.sessionId && !this._isANumber(this.sessionId)) {
+      this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
+      document.querySelector('#certificationJoinerSessionId').focus();
+      return;
+    }
     try {
-      await this.joinCertificationSession();
-      this.success();
+      this.isLoading = true;
+      currentCertificationCandidate = this.createCertificationCandidate();
+      await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
+      this.args.success();
     } catch (err) {
-      const currentCandidate = this.getCurrentCandidate();
-      if (currentCandidate) {
-        currentCandidate.deleteRecord();
+      if (currentCertificationCandidate) {
+        currentCertificationCandidate.deleteRecord();
       }
       this.isLoading = false;
 

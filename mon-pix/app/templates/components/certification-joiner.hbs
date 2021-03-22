@@ -1,52 +1,64 @@
-{{!-- template-lint-disable no-action require-input-label --}}
 {{#if this.showCongratulationsBanner }}
-  <CongratulationsCertificationBanner @fullName={{this.currentUser.user.fullName}} @closeBanner={{action "closeBanner"}}/>
+  <CongratulationsCertificationBanner @fullName={{this.currentUser.user.fullName}} @closeBanner={{this.closeBanner}}/>
 {{/if}}
 
 <section class="certification-joiner">
   <h1 class="certification-joiner__title">{{t "pages.certification-joiner.first-title"}}</h1>
-    <form autocomplete="off">
+    <form autocomplete="off" {{on "submit" this.attemptNext}}>
         <div class="certification-joiner__row">
           <label class="certification-joiner__label" for="certificationJoinerSessionId">{{t "pages.certification-joiner.form.fields.session-number"}}</label>
-          <Input {{autofocus}} @type="text" @size="6" @value={{this.sessionId}} @id="certificationJoinerSessionId" />
+          <Input
+            {{autofocus}}
+            id="certificationJoinerSessionId"
+            class={{if this.sessionIdIsNotANumberError "certification-joiner__input--invalid"}}
+            pattern={{this.SESSION_ID_VALIDATION_PATTERN}}
+            title={{t 'pages.certification-joiner.form.fields-validation.session-number-error'}}
+            @type="text"
+            @size="6"
+            @value={{this.sessionId}}
+            {{on "input" this.checkSessionIdIsValid}}
+            inputmode="decimal"
+            @required="true" />
+          <p class="certification-joiner__validation-error">{{this.sessionIdIsNotANumberError}}</p>
         </div>
         <div class="certification-joiner__row">
           <label class="certification-joiner__label" for="certificationJoinerFirstName">{{t "pages.certification-joiner.form.fields.first-name"}}</label>
-          <Input @type="text" @value={{this.firstName}} @id="certificationJoinerFirstName" />
+          <Input @type="text" @value={{this.firstName}} id="certificationJoinerFirstName" />
         </div>
         <div class="certification-joiner__row">
           <label class="certification-joiner__label" for="certificationJoinerLastName">{{t "pages.certification-joiner.form.fields.birth-name"}}</label>
-          <Input @type="text" @value={{this.lastName}} @id="certificationJoinerLastName" />
+          <Input @type="text" @value={{this.lastName}} id="certificationJoinerLastName" />
         </div>
         <div class="certification-joiner__row">
           <label class="certification-joiner__label" for="certificationJoinerDayOfBirth">{{t "pages.certification-joiner.form.fields.birth-date"}}</label>
           <div class="certification-joiner__birthdate" id="certificationJoinerBirthDate">
             <Input @min="1"
-                    @max="31"
-                    @type="number"
-                    @value={{this.dayOfBirth}} placeholder="JJ"
-                    @id="certificationJoinerDayOfBirth"
-                    @input={{action "handleDayInputChange"}}
-                    @focus-in={{action "handleInputFocus"}}
-                    aria-label={{t 'pages.certification-joiner.form.fields.birth-day'}} />
+              @max="31"
+              @type="number"
+              @value={{this.dayOfBirth}} placeholder="JJ"
+              @id="certificationJoinerDayOfBirth"
+              {{on "input" this.handleDayInputChange}}
+              {{on "focus-in" this.handleInputFocus}}
+              aria-label={{t 'pages.certification-joiner.form.fields.birth-day'}} />
               <div class="certification-joiner__divider"></div>
             <Input @min="1"
-                    @max="12"
-                    @type="number"
-                    @value={{this.monthOfBirth}} placeholder="MM"
-                    @id="certificationJoinerMonthOfBirth"
-                    @input={{action "handleMonthInputChange"}}
-                    @focus-in={{action "handleInputFocus"}}
-                    aria-label={{t 'pages.certification-joiner.form.fields.birth-month'}}/>
+              @max="12"
+              @type="number"
+              @value={{this.monthOfBirth}} placeholder="MM"
+              @id="certificationJoinerMonthOfBirth"
+              {{on "input" this.handleMonthInputChange}}
+              {{on "focus-in" this.handleInputFocus}}
+              aria-label={{t 'pages.certification-joiner.form.fields.birth-month'}}/>
               <div class="certification-joiner__divider"></div>
             <Input @min="1900"
-                    @type="number"
-                    @value={{this.yearOfBirth}} placeholder="AAAA"
-                    @id="certificationJoinerYearOfBirth"
-                    @focus-in={{action "handleInputFocus"}}
-                    aria-label={{t 'pages.certification-joiner.form.fields.birth-year'}}/>
+              @type="number"
+              @value={{this.yearOfBirth}} placeholder="AAAA"
+              @id="certificationJoinerYearOfBirth"
+              {{on "focus-in" this.handleInputFocus}}
+              aria-label={{t 'pages.certification-joiner.form.fields.birth-year'}}/>
           </div>
         </div>
+
       {{#if this.errorMessage}}
           <div class="certification-course-page__errors">{{this.errorMessage}}</div>
       {{/if}}
@@ -55,7 +67,7 @@
             <span class="loader-in-button">&nbsp;</span>
           </button>
       {{else}}
-          <button type="submit" class="button button--big button--thin certification-joiner__attempt-next-btn" {{ action "attemptNext" }}>
+          <button type="submit" class="button button--big button--thin certification-joiner__attempt-next-btn">
               {{t "pages.certification-joiner.form.actions.submit"}}
           </button>
       {{/if}}
