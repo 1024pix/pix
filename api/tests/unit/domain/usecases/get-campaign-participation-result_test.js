@@ -8,10 +8,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   const targetProfileId = 1;
   const userId = 2;
   const locale = 'someLocale';
-  const campaignId = 'campaignId';
-  const otherUserId = 3;
   const campaignParticipation = {
-    campaignId,
     userId,
   };
 
@@ -20,7 +17,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   };
 
   let campaignParticipationRepository,
-    campaignRepository,
     targetProfileRepository,
     badgeRepository,
     badgeAcquisitionRepository,
@@ -30,7 +26,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
   beforeEach(() => {
     campaignParticipationRepository = { get: sinon.stub() };
-    campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     badgeRepository = { findByTargetProfileId: sinon.stub().resolves([]) };
     badgeAcquisitionRepository = { getAcquiredBadgeIds: sinon.stub() };
@@ -41,7 +36,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       locale,
       campaignParticipationId,
       campaignParticipationRepository,
-      campaignRepository,
       targetProfileRepository,
       badgeRepository,
       badgeAcquisitionRepository,
@@ -49,12 +43,11 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     };
   });
 
-  context('when user belongs to the organization of the campaign', () => {
+  context('when user is the owner of the participation', () => {
     beforeEach(() => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(true);
     });
 
     it('should get the campaignParticipationResult', async () => {
@@ -147,27 +140,13 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     });
   });
 
-  context('when user not belongs to the organization of the campaign or not own this campaignParticipation', () => {
+  context('when user is not the owner of the campaignParticipation', () => {
     it('should throw an error', async () => {
       // given
-      const campaignParticipationResult = Symbol('campaignParticipationResult');
-      const badge = {
-        id: Symbol('badgeId'),
-      };
-      campaignParticipationResultRepository.getByParticipationId.resolves(campaignParticipationResult);
-      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId });
-      targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
-      badgeRepository.findByTargetProfileId.withArgs(targetProfileId).resolves([badge]);
-
-      campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId: 789 });
 
       // when
-      const result = await catchErr(getCampaignParticipationResult)({
-        userId: 3,
-        campaignParticipationId,
-        campaignParticipationRepository,
-        campaignRepository,
-      });
+      const result = await catchErr(getCampaignParticipationResult)(usecaseDependencies);
 
       // then
       expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
