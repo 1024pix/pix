@@ -8,41 +8,42 @@ export default class ManageAuthenticationMethodModal extends Component {
 
   @service store;
   @service notifications;
+  @service intl;
 
   @tracked isUniquePasswordVisible = false;
 
   @tracked generatedPassword = null;
 
-  @tracked tooltipTextUsername = 'Copier l\'identifiant';
-  @tracked tooltipTextEmail = 'Copier l\'adresse e-mail';
-  @tracked tooltipTextGeneratedPassword = 'Copier le mot de passe unique';
+  @tracked tooltipTextUsername = this._t('section.username.copy');
+  @tracked tooltipTextEmail = this._t('section.email.copy');
+  @tracked tooltipTextGeneratedPassword = this._t('section.password.copy');
 
-  defaultErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
+  defaultErrorMessage = this._t('error.default');
 
   @action
   clipboardSuccessUsername() {
-    this.tooltipTextUsername = 'Copié !';
+    this.tooltipTextUsername = this._t('copied');
   }
   @action
   clipboardSuccessEmail() {
-    this.tooltipTextEmail = 'Copié !';
+    this.tooltipTextEmail = this._t('copied');
   }
   @action
   clipboardSuccessGeneratedPassword() {
-    this.tooltipTextGeneratedPassword = 'Copié !';
+    this.tooltipTextGeneratedPassword = this._t('copied');
   }
 
   @action
   clipboardOutUsername() {
-    this.tooltipTextUsername = 'Copier l\'identifiant';
+    this.tooltipTextUsername = this._t('section.username.copy');
   }
   @action
   clipboardOutEmail() {
-    this.tooltipTextEmail = 'Copier l\'adresse e-mail';
+    this.tooltipTextEmail = this._t('section.email.copy');
   }
   @action
   clipboardOutGeneratedPassword() {
-    this.tooltipTextGeneratedPassword = 'Copier le mot de passe unique';
+    this.tooltipTextGeneratedPassword = this._t('section.password.copy');
   }
 
   @action
@@ -58,7 +59,7 @@ export default class ManageAuthenticationMethodModal extends Component {
       this.generatedPassword = schoolingRegistrationDependentUser.generatedPassword;
       this.isUniquePasswordVisible = !this.isUniquePasswordVisible;
     } catch (e) {
-      this.notifications.sendError('Quelque chose s\'est mal passé. Veuillez réessayer.');
+      this.notifications.sendError(this._t('error.unexpected'));
     }
   }
 
@@ -88,5 +89,9 @@ export default class ManageAuthenticationMethodModal extends Component {
   closeModal() {
     this.isUniquePasswordVisible = false;
     this.args.close();
+  }
+
+  _t(key) {
+    return this.intl.t(`pages.students-sco.manage-authentication-method-modal.${key}`);
   }
 }

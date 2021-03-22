@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { getRootElement, render, click, triggerKeyEvent } from '@ember/test-helpers';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | modal', function(hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('Component rendering', function() {
     let close;
@@ -35,7 +35,7 @@ module('Integration | Component | modal', function(hooks) {
     test('should call close method when user clicks on close button', async function(assert) {
       this.set('display', true);
 
-      await clickByLabel('Fermer la fenêtre');
+      await clickByLabel(this.intl.t('common.actions.close'));
 
       assert.ok(close.called);
     });

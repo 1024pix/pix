@@ -234,7 +234,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           await clickByLabel('Gérer le compte');
 
           // when
-          await clickByLabel('Ajouter un identifiant');
+          await clickByLabel('Ajouter l’identifiant');
 
           // then
           assert.contains('Médiacentre');
