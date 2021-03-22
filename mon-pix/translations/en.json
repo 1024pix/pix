@@ -535,8 +535,9 @@
             "title": "Homepage",
             "campaigns": {
                 "resume": "<h2>Don’t forget to submit your results!</h2>",
-                "subtitle": "Continue your personalised test or send your results",
-                "title": "Campaigns"
+                "subtitle": "Resume your personalised tests or submit your results",
+                "tests-link": "All my personalised tests",
+                "title": "Personalised tests"
             },
             "empty-dashboard" : {
                 "link-to-competences": "See my skills",
