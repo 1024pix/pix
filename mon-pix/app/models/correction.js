@@ -7,6 +7,7 @@ export default class Correction extends Model {
 
   // attributes
   @attr('string') solution;
+  @attr('string') solutionToDisplay;
   @attr('string') hint;
 
   // includes

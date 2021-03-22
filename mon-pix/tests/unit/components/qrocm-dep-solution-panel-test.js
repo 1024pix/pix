@@ -63,7 +63,7 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
     });
   });
 
-  describe('#expectedAnswers', function() {
+  describe('#understandableSolution', function() {
 
     it('should return the expected answers', function() {
       //Given
@@ -76,10 +76,10 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       });
 
       //when
-      const expectedAnswers = component.expectedAnswers;
+      const understandableSolution = component.understandableSolution;
 
       //Then
-      expect(expectedAnswers).to.be.equal('horizontalité et cadre');
+      expect(understandableSolution).to.be.equal('horizontalité et cadre');
     });
 
     it('should return examples of good answers', function() {
@@ -93,10 +93,10 @@ describe('Unit | Component | qrocm-dep-solution-panel', function() {
       });
 
       //when
-      const expectedAnswers = component.expectedAnswers;
+      const understandableSolution = component.understandableSolution;
 
       //Then
-      expect(expectedAnswers).to.be.equal('tag ou marche ou ...');
+      expect(understandableSolution).to.be.equal('tag ou marche ou ...');
     });
   });
 

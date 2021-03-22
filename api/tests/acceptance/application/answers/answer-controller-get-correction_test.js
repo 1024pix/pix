@@ -40,6 +40,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
           competenceId: 'competence_id',
           skills: ['@web3'],
           solution: 'fromage',
+          solutionToDisplay: 'camembert',
           skillIds: ['q_first_acquis'],
         }],
         tutorials: [{
@@ -91,6 +92,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
             type: 'corrections',
             attributes: {
               solution: 'fromage',
+              'solution-to-display': 'camembert',
               hint: 'Geolocaliser ?',
             },
             relationships: {

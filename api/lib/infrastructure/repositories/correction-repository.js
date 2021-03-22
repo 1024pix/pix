@@ -21,6 +21,7 @@ module.exports = {
     return new Correction({
       id: challenge.id,
       solution: challenge.solution,
+      solutionToDisplay: challenge.solutionToDisplay,
       hints,
       tutorials,
       learningMoreTutorials: learningMoreTutorials,

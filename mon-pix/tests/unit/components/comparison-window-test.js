@@ -17,8 +17,10 @@ describe('Unit | Component | comparison-window', function() {
   const challengeQroc = EmberObject.create({ type: 'QROC', autoReply: false });
   const challengeQrocWithAutoReply = EmberObject.create({ type: 'QROC', autoReply: true });
   const challengeQcm = EmberObject.create({ type: 'QCM' });
+  const challengeQcu = EmberObject.create({ type: 'QCU' });
   const challengeQrocmInd = EmberObject.create({ type: 'QROCM-ind' });
   const challengeQrocmDep = EmberObject.create({ type: 'QROCM-dep' });
+  const challengeQrocmDepWithAutoReply = EmberObject.create({ type: 'QROCM-dep', autoReply: true });
 
   beforeEach(function() {
     answer = EmberObject.create();
@@ -155,6 +157,32 @@ describe('Unit | Component | comparison-window', function() {
         expect(this.intl.t(resultItem.title)).to.equal(`${data.expectedTitle}`);
         expect(this.intl.t(resultItem.tooltip)).to.equal(`${data.expectedTooltip}`);
       });
+    });
+  });
+
+  describe('#solution', function() {
+    it('should return null when challenge has autoReply=true', function() {
+      // given
+      answer.set('challenge', challengeQrocmDepWithAutoReply);
+      answer.set('correction', EmberObject.create());
+
+      // when
+      const solution = component.solution;
+
+      // then
+      expect(solution).to.be.null;
+    });
+
+    it('should return solution', function() {
+      // given
+      answer.set('challenge', challengeQcu);
+      answer.set('correction', EmberObject.create({ solution: 'solution' }));
+
+      // when
+      const solution = component.solution;
+
+      // then
+      expect(solution).to.equal('solution');
     });
   });
 });

@@ -34,28 +34,28 @@
         </div>
         <div class="comparison-window__corrected-answers">
           {{#if this.isAssessmentChallengeTypeQcm}}
-            <QcmSolutionPanel @challenge={{@answer.challenge}} @answer={{@answer}} @solution={{@answer.correction.solution}} />
+            <QcmSolutionPanel @challenge={{@answer.challenge}} @answer={{@answer}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}  />
           {{/if}}
 
           {{#if this.isAssessmentChallengeTypeQcu}}
-            <QcuSolutionPanel @challenge={{@answer.challenge}} @answer={{@answer}} @solution={{@answer.correction.solution}} />
+            <QcuSolutionPanel @challenge={{@answer.challenge}} @answer={{@answer}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}} />
           {{/if}}
 
-          {{#if (and this.isAssessmentChallengeTypeQroc (not this.isAutoReply))}}
+          {{#if this.isAssessmentChallengeTypeQroc}}
             <div class="comparison-window__corrected-answers--qroc">
-              <QrocSolutionPanel @answer={{@answer}} @solution={{@answer.correction.solution}} />
+              <QrocSolutionPanel @answer={{@answer}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}} />
             </div>
           {{/if}}
 
           {{#if this.isAssessmentChallengeTypeQrocmInd}}
             <div class="comparison-window__corrected-answers--qrocm">
-              <QrocmIndSolutionPanel @answer={{@answer}} @solution={{@answer.correction.solution}} @challenge={{@answer.challenge}} />
+              <QrocmIndSolutionPanel @answer={{@answer}} @solution={{this.solution}} @challenge={{@answer.challenge}} @solutionToDisplay={{this.solutionToDisplay}} />
             </div>
           {{/if}}
 
           {{#if this.isAssessmentChallengeTypeQrocmDep}}
             <div class="comparison-window__corrected-answers--qrocm">
-              <QrocmDepSolutionPanel @answer={{@answer}} @solution={{@answer.correction.solution}} @challenge={{@answer.challenge}} />
+              <QrocmDepSolutionPanel @answer={{@answer}} @solution={{this.solution}} @challenge={{@answer.challenge}} @solutionToDisplay={{this.solutionToDisplay}}/>
             </div>
           {{/if}}
         </div>

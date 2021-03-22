@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(correction) {
     return new Serializer('corrections', {
-      attributes: ['solution', 'hint', 'tutorials', 'learningMoreTutorials'],
+      attributes: ['solution', 'solutionToDisplay', 'hint', 'tutorials', 'learningMoreTutorials'],
       tutorials: tutorialAttributes,
       learningMoreTutorials: tutorialAttributes,
       typeForAttribute(attribute) {
