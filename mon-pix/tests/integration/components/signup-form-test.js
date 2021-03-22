@@ -1,7 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/no-classic-components: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
@@ -13,7 +9,6 @@ import {
 
 import ArrayProxy from '@ember/array/proxy';
 import { resolve, reject } from 'rsvp';
-import Component from '@ember/component';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -37,7 +32,6 @@ const SUBMIT_BUTTON_CONTAINER = '.sign-form-body__bottom-button';
 const SUBMIT_BUTTON = '.button';
 
 const userEmpty = EmberObject.create({});
-const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
@@ -265,10 +259,6 @@ describe('Integration | Component | SignupForm', function() {
   });
 
   describe('Behaviors', function() {
-
-    beforeEach(function() {
-      this.owner.register('component:g-recaptcha', Component.extend());
-    });
 
     describe('behavior when signup successful (test external calls)', function() {
 
@@ -507,42 +497,6 @@ describe('Integration | Component | SignupForm', function() {
           expect(find('.signup-form__notification-message')).to.not.exist;
         });
       });
-
-      it('should display an error message on form title, when user has not checked re-captcha', async function() {
-        // given
-        const UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
-        const userWithCaptchaNotValid = EmberObject.create({
-          cgu: true,
-          recaptchaToken: null,
-          errors: ArrayProxy.create({
-            content: [
-              {
-                attribute: 'recaptchaToken',
-                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR,
-              }],
-            recaptchaToken: [
-              {
-                message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR,
-              }],
-          }),
-          save() {
-            return new reject();
-          },
-        });
-
-        this.set('user', userWithCaptchaNotValid);
-        this.set('isRecaptchaEnabled', true);
-        await render(hbs `<SignupForm @user={{this.user}} @isRecaptchaEnabled={{this.isRecaptchaEnabled}} />`);
-
-        // when
-        await click('.button');
-
-        // then
-        return settled().then(() => {
-          expect(find('.sign-form__validation-error')).to.exist;
-          expect(find('.sign-form__validation-error').textContent.trim()).to.equal(UNCHECKED_CHECKBOX_RECAPTCHA_ERROR);
-        });
-      });
     });
 
     describe('Successfull cases', function() {
@@ -674,33 +628,6 @@ describe('Integration | Component | SignupForm', function() {
           expect(findAll('.form-textfield__input-field-container')[0].getAttribute('class')).
             contains(INPUT_TEXT_FIELD_CLASS_DEFAULT);
         });
-      });
-    });
-
-    describe('isRecaptchaEnabled ', function() {
-
-      it('disabled: it should not display the captcha', async function() {
-        // given
-        this.set('isRecaptchaEnabled', false);
-        this.set('user', userEmpty);
-
-        // when
-        await render(hbs `<SignupForm @user={{this.user}} @isRecaptchaEnabled={{this.isRecaptchaEnabled}} />`);
-
-        // then
-        expect(find(CAPTCHA_CONTAINER)).to.not.exist;
-      });
-
-      it('enabled: it should display the captcha', async function() {
-        // given
-        this.set('isRecaptchaEnabled', true);
-        this.set('user', userEmpty);
-
-        // when
-        await render(hbs `<SignupForm @user={{this.user}} @isRecaptchaEnabled={{this.isRecaptchaEnabled}} />`);
-
-        // then
-        expect(find(CAPTCHA_CONTAINER)).to.exist;
       });
     });
   });

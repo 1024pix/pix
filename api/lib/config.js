@@ -77,11 +77,6 @@ module.exports = (function() {
       },
     },
 
-    captcha: {
-      enabled: isFeatureEnabled(process.env.RECAPTCHA_ENABLED),
-      googleRecaptchaSecret: process.env.RECAPTCHA_KEY,
-    },
-
     authentication: {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '7d'),
@@ -205,9 +200,6 @@ module.exports = (function() {
     config.mailing.sendinblue.templates.certificationResultTemplateId = 'test-certification-result-template-id';
     config.mailing.sendinblue.templates.passwordResetTemplateId = 'test-password-reset-template-id';
     config.mailing.sendinblue.templates.emailChangeTemplateId = 'test-email-change-template-id';
-
-    config.captcha.enabled = false;
-    config.captcha.googleRecaptchaSecret = 'test-recaptcha-key';
 
     config.authentication.secret = 'test-jwt-key';
     config.livretScolaireAuthentication.secret = 'test-livret-scolaire-secret';

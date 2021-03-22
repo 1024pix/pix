@@ -2,7 +2,6 @@ const { catchErr, expect, sinon } = require('../../../test-helper');
 
 const {
   AlreadyRegisteredEmailError,
-  InvalidRecaptchaTokenError,
   EntityValidationError,
 } = require('../../../../lib/domain/errors');
 
@@ -18,7 +17,6 @@ describe('Unit | UseCase | create-user', () => {
   const userId = 123;
   const userEmail = 'test@example.net';
   const password = 'Password123';
-  const reCaptchaToken = 'ReCaptchaToken';
   const user = new User({ email: userEmail });
   const hashedPassword = 'ABCDEF1234';
   const locale = 'fr-fr';
@@ -28,7 +26,6 @@ describe('Unit | UseCase | create-user', () => {
   let authenticationMethodRepository;
   let userRepository;
   let campaignRepository;
-  let reCaptchaValidator;
   let encryptionService;
   let mailService;
   let userService;
@@ -43,10 +40,6 @@ describe('Unit | UseCase | create-user', () => {
     };
     campaignRepository = {
       getByCode: sinon.stub(),
-    };
-
-    reCaptchaValidator = {
-      verify: sinon.stub(),
     };
 
     encryptionService = {
@@ -67,7 +60,6 @@ describe('Unit | UseCase | create-user', () => {
 
     userValidator.validate.returns();
     passwordValidator.validate.returns();
-    reCaptchaValidator.verify.resolves();
 
     encryptionService.hashPassword.resolves(hashedPassword);
     mailService.sendAccountCreationEmail.resolves();
@@ -87,12 +79,10 @@ describe('Unit | UseCase | create-user', () => {
         user,
         password,
         campaignCode,
-        reCaptchaToken,
         locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        reCaptchaValidator,
         encryptionService, mailService, userService,
       });
 
@@ -106,12 +96,10 @@ describe('Unit | UseCase | create-user', () => {
         user,
         password,
         campaignCode,
-        reCaptchaToken,
         locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        reCaptchaValidator,
         encryptionService, mailService, userService,
       });
 
@@ -125,36 +113,15 @@ describe('Unit | UseCase | create-user', () => {
         user,
         password,
         campaignCode,
-        reCaptchaToken,
         locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        reCaptchaValidator,
         encryptionService, mailService, userService,
       });
 
       // then
       expect(passwordValidator.validate).to.have.been.calledWith(password);
-    });
-
-    it('should validate the token', async () => {
-      // when
-      await createUser({
-        user,
-        password,
-        campaignCode,
-        reCaptchaToken,
-        locale,
-        authenticationMethodRepository,
-        campaignRepository,
-        userRepository,
-        reCaptchaValidator,
-        encryptionService, mailService, userService,
-      });
-
-      // then
-      expect(reCaptchaValidator.verify).to.have.been.calledWith(reCaptchaToken);
     });
 
     context('when user email is already used', () => {
@@ -176,12 +143,10 @@ describe('Unit | UseCase | create-user', () => {
           user,
           password,
           campaignCode,
-          reCaptchaToken,
           locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
-          reCaptchaValidator,
           encryptionService, mailService, userService,
         });
 
@@ -216,12 +181,10 @@ describe('Unit | UseCase | create-user', () => {
           user,
           password,
           campaignCode,
-          reCaptchaToken,
           locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
-          reCaptchaValidator,
           encryptionService, mailService, userService,
         });
 
@@ -232,42 +195,7 @@ describe('Unit | UseCase | create-user', () => {
 
     });
 
-    context('when reCAPTCHA token is not valid', () => {
-
-      it('should reject with an error EntityValidationError containing the entityValidationError', async () => {
-        // given
-        const invalidReCaptchaTokenError = new InvalidRecaptchaTokenError('Invalid reCaptcha token');
-        const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [{
-            attribute: 'recaptchaToken',
-            message: 'Merci de cocher la case ci-dessous :',
-          }],
-        });
-
-        reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
-
-        // when
-        const error = await catchErr(createUser)({
-          user,
-          password,
-          campaignCode,
-          reCaptchaToken,
-          locale,
-          authenticationMethodRepository,
-          campaignRepository,
-          userRepository,
-          reCaptchaValidator,
-          encryptionService, mailService, userService,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-      });
-
-    });
-
-    context('when user email is already in use, user validator fails and invalid captcha token', () => {
+    context('when user email is already in use, user validator fails', () => {
 
       const entityValidationError = new EntityValidationError({
         invalidAttributes: [
@@ -282,31 +210,27 @@ describe('Unit | UseCase | create-user', () => {
         ],
       });
       const emailExistError = new AlreadyRegisteredEmailError('email already exists');
-      const invalidReCaptchaTokenError = new InvalidRecaptchaTokenError('Invalid reCaptcha token');
 
       it('should reject with an error EntityValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', async () => {
         // given
         userRepository.isEmailAvailable.rejects(emailExistError);
         userValidator.validate.throws(entityValidationError);
-        reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
         const error = await catchErr(createUser)({
           user,
           password,
           campaignCode,
-          reCaptchaToken,
           locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
-          reCaptchaValidator,
           encryptionService, mailService, userService,
         });
 
         // then
         expect(error).to.be.instanceOf(EntityValidationError);
-        expect(error.invalidAttributes).to.have.lengthOf(4);
+        expect(error.invalidAttributes).to.have.lengthOf(3);
       });
     });
   });
@@ -322,12 +246,10 @@ describe('Unit | UseCase | create-user', () => {
         user,
         password,
         campaignCode,
-        reCaptchaToken,
         locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        reCaptchaValidator,
         encryptionService, mailService, userService,
       });
 
@@ -346,12 +268,10 @@ describe('Unit | UseCase | create-user', () => {
           user,
           password,
           campaignCode,
-          reCaptchaToken,
           locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
-          reCaptchaValidator,
           encryptionService, mailService, userService,
         });
 
@@ -368,12 +288,10 @@ describe('Unit | UseCase | create-user', () => {
           user,
           password,
           campaignCode,
-          reCaptchaToken,
           locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
-          reCaptchaValidator,
           encryptionService, mailService, userService,
         });
 
@@ -387,12 +305,10 @@ describe('Unit | UseCase | create-user', () => {
           user,
           password,
           campaignCode,
-          reCaptchaToken,
           locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
-          reCaptchaValidator,
           encryptionService, mailService, userService,
         });
 
@@ -420,12 +336,10 @@ describe('Unit | UseCase | create-user', () => {
           user,
           password,
           campaignCode,
-          reCaptchaToken,
           locale,
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
-          reCaptchaValidator,
           encryptionService, mailService, userService,
         });
 
@@ -446,12 +360,10 @@ describe('Unit | UseCase | create-user', () => {
             user,
             password,
             campaignCode,
-            reCaptchaToken,
             locale,
             authenticationMethodRepository,
             campaignRepository,
             userRepository,
-            reCaptchaValidator,
             encryptionService, mailService, userService,
           });
 
@@ -474,12 +386,10 @@ describe('Unit | UseCase | create-user', () => {
             user,
             password,
             campaignCode,
-            reCaptchaToken,
             locale,
             authenticationMethodRepository,
             campaignRepository,
             userRepository,
-            reCaptchaValidator,
             encryptionService, mailService, userService,
           });
 
@@ -495,12 +405,10 @@ describe('Unit | UseCase | create-user', () => {
         user,
         password,
         campaignCode,
-        reCaptchaToken,
         locale,
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        reCaptchaValidator,
         encryptionService, mailService, userService,
       });
 

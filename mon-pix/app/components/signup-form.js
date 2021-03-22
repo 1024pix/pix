@@ -26,7 +26,6 @@ export default Component.extend({
   _notificationMessage: null,
   validation: null,
   _tokenHasBeenUsed: null,
-  isRecaptchaEnabled: ENV.APP.IS_RECAPTCHA_ENABLED,
   isLoading: false,
   errorMessage: null,
 
@@ -86,10 +85,6 @@ export default Component.extend({
         message: null,
       },
       cgu: {
-        status: 'default',
-        message: null,
-      },
-      recaptchaToken: {
         status: 'default',
         message: null,
       },
