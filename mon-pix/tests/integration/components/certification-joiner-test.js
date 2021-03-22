@@ -83,7 +83,7 @@ describe('Integration | Component | certification-joiner', function() {
       await click('[type="submit"]');
 
       // then
-      expect(contains('Merci de saisir le numéro de session, composé uniquement de chiffres.')).to.exist;
+      expect(contains('Le numéro de session est composé uniquement de chiffres.')).to.exist;
     });
 
     it('should display an error message on student mismatch error', async function() {

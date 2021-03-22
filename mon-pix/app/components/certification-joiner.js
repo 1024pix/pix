@@ -14,18 +14,18 @@ function _isMatchingReconciledStudentNotFoundError(err) {
   return _get(err, 'errors[0].code') === 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
 }
 
-function _isAValidSessionId(value) {
-  const isANumberRegex = new RegExp('^[0-9]*$');
-  return isANumberRegex.test(value);
-}
-
 export default class CertificationJoiner extends Component {
   @service store;
   @service peeker;
   @service currentUser;
+  @service intl;
+
+  SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
 
   @tracked isLoading = false;
   @tracked errorMessage = null;
+  @tracked sessionIdIsNotANumberError = null;
+  @tracked validationClassName = '';
   @tracked showCongratulationsBanner = true;
   @tracked sessionId = null;
   @tracked firstName = null;
@@ -60,17 +60,31 @@ export default class CertificationJoiner extends Component {
     this.showCongratulationsBanner = false;
   }
 
+  _isANumber(value) {
+    return new RegExp(this.SESSION_ID_VALIDATION_PATTERN).test(value);
+  }
+
+  @action
+  checkSessionIdIsValid(event) {
+    const { value } = event.target;
+    if (value && !this._isANumber(value)) {
+      this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
+    } else {
+      this.sessionIdIsNotANumberError = null;
+    }
+  }
+
   @action
   async attemptNext(e) {
     e.preventDefault();
     this.args.stepsData.joiner = { sessionId: this.sessionId };
     let currentCertificationCandidate = null;
+    if (this.sessionId && !this._isANumber(this.sessionId)) {
+      this.sessionIdIsNotANumberError = this.intl.t('pages.certification-joiner.form.fields-validation.session-number-error');
+      document.querySelector('#certificationJoinerSessionId').focus();
+      return;
+    }
     try {
-      if (this.sessionId && !_isAValidSessionId(this.sessionId)) {
-        this.errorMessage = 'Merci de saisir le numéro de session, composé uniquement de chiffres.';
-        return;
-      }
-
       this.isLoading = true;
       currentCertificationCandidate = this.createCertificationCandidate();
       await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
