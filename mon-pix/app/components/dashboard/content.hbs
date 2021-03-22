@@ -14,12 +14,12 @@
         />
       {{/unless}}
       {{#if this.profileCollectionCampaignParticipationCode}}
-        <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
+        <NewInformation @information="{{t 'pages.dashboard.campaigns.resume.text' }}"
                         @image="/images/profile_collect_TDB_pix.svg"
                         @backgroundColorClass="new-information--yellow-gradient-background"
                         @textColorClass="new-information--black-text"
                         @linkDisplayType="button"
-                        @linkText="Continuer"
+                        @linkText="{{t 'pages.dashboard.campaigns.resume.action' }}"
                         @linkTo="campaigns.profiles-collection.start-or-resume"
                         @code={{this.profileCollectionCampaignParticipationCode}}
         />
@@ -48,12 +48,12 @@
           />
         {{/unless}}
         {{#if this.profileCollectionCampaignParticipationCode}}
-          <NewInformation @information="{{t 'pages.dashboard.campaigns.resume' }}"
+          <NewInformation @information="{{t 'pages.dashboard.campaigns.resume.text' }}"
                           @image="/images/profile_collect_TDB_pix.svg"
                           @backgroundColorClass="new-information--yellow-gradient-background"
                           @textColorClass="new-information--black-text"
                           @linkDisplayType="button"
-                          @linkText="Continuer"
+                          @linkText="{{t 'pages.dashboard.campaigns.resume.action' }}"
                           @linkTo="campaigns.start-or-resume"
                           @code={{this.profileCollectionCampaignParticipationCode}}
           />

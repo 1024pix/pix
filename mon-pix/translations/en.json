@@ -534,7 +534,10 @@
         "dashboard": {
             "title": "Homepage",
             "campaigns": {
-                "resume": "<h2>Don’t forget to submit your results!</h2>",
+                "resume": {
+                    "action": "Resume",
+                    "text": "<h2>Don’t forget to submit your results!</h2>"
+                },
                 "subtitle": "Resume your personalised tests or submit your results",
                 "tests-link": "All my personalised tests",
                 "title": "Personalised tests"
