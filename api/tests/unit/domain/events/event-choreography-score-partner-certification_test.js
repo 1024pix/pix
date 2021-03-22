@@ -3,7 +3,7 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
-describe('Event Choregraphy | Score Partner Certification', function() {
+describe('Event Choreography | Score Partner Certification', function() {
   it('chains Certification Scoring and Partner Certification Scoring on Assessment Completed', async () => {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();

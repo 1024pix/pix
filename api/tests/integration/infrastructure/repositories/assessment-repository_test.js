@@ -180,6 +180,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     const dateAssessmentResultAfter1 = moment(afterLimiteDate).add(1, 'month').toDate();
     const dateAssessmentResultAfter2 = moment(afterLimiteDate).add(2, 'month').toDate();
 
+    const lastQuestionDate = moment('2021-03-10').toDate();
+
     // TODO: test with malformed data, e.g.:
     // - completed assessments without an AssessmentResult
 
@@ -193,6 +195,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         state: Assessment.states.COMPLETED,
         createdAt: johnAssessmentDateToRemember,
         type: 'PLACEMENT',
+        lastQuestionDate,
       });
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId: johnAssessmentToRemember.id,
@@ -292,6 +295,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           createdAt: johnAssessmentToRemember.createdAt,
           type: PLACEMENT,
           isImproving: false,
+          lastQuestionDate,
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
@@ -639,4 +643,34 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
+  describe('#updateLastQuestionDate', () => {
+    it('should update lastQuestionDate', async () => {
+      // given
+      const lastQuestionDate = new Date();
+      const assessment = databaseBuilder.factory.buildAssessment({
+        lastQuestionDate: new Date('2020-01-10'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      await assessmentRepository.updateLastQuestionDate({ id: assessment.id, lastQuestionDate });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionDate');
+      expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
+    });
+
+    context('when assessment does not exist', () => {
+      it('should return null', async () => {
+        const lastQuestionDate = new Date();
+        const notExistingAssessmentId = 1;
+
+        // when
+        const result = await assessmentRepository.updateLastQuestionDate({ id: notExistingAssessmentId, lastQuestionDate });
+
+        // then
+        expect(result).to.equal(null);
+      });
+    });
+  });
 });

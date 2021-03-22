@@ -5,6 +5,7 @@ const {
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
 const logger = require('../../infrastructure/logger');
+const dateUtils = require('../../infrastructure/utils/date-utils');
 
 module.exports = async function correctAnswerThenUpdateAssessment(
   {
@@ -37,6 +38,8 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   const challenge = await challengeRepository.get(answer.challengeId);
   const correctedAnswer = _evaluateAnswer(challenge, answer);
+  const lastQuestionDate = assessment.lastQuestionDate;
+  correctedAnswer.setTimeSpentFrom({ now: dateUtils.getNowDate(), lastQuestionDate });
 
   let scorecardBeforeAnswer = null;
   if (correctedAnswer.result.isOK() && assessment.hasKnowledgeElements()) {

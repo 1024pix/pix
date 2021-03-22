@@ -13,6 +13,7 @@ module.exports = function buildAnswer({
   updatedAt = faker.date.past(),
   timeout = faker.random.number(),
   resultDetails = faker.lorem.sentences(),
+  timeSpent = 30,
 } = {}) {
 
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
@@ -27,6 +28,7 @@ module.exports = function buildAnswer({
     updatedAt,
     timeout,
     resultDetails,
+    timeSpent,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'answers',

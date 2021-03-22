@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder, knex, sinon } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
@@ -56,9 +56,11 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
     const userId = 1234;
 
     context('When there is still challenges to answer', () => {
+      let clock;
+
       beforeEach(async () => {
         databaseBuilder.factory.buildUser({ id: userId });
-        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId, lastQuestionDate: new Date('2020-01-20') });
         const { id: answerId } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
         databaseBuilder.factory.buildKnowledgeElement({
@@ -70,9 +72,18 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           competenceId,
         });
         await databaseBuilder.commit();
+
+        clock = sinon.useFakeTimers({
+          now: Date.now(),
+          toFake: ['Date'],
+        });
       });
 
-      it('should return the second challenge if the first answer is correct', () => {
+      afterEach(async () => {
+        clock.restore();
+      });
+
+      it('should return the second challenge if the first answer is correct', async () => {
         // given
         const options = {
           method: 'GET',
@@ -80,13 +91,15 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
 
+        const lastQuestionDate = new Date();
+
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result.data.id).to.equal(secondChallengeId);
-        });
+        const assessmentsInDb = await knex('assessments').where('id', assessmentId).first('lastQuestionDate');
+        expect(assessmentsInDb.lastQuestionDate).to.deep.equal(lastQuestionDate);
+        expect(response.result.data.id).to.equal(secondChallengeId);
       });
     });
 
@@ -125,7 +138,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         await databaseBuilder.commit();
       });
 
-      it('should finish the test if there is no next challenge', () => {
+      it('should finish the test if there is no next challenge', async () => {
         // given
         const options = {
           method: 'GET',
@@ -134,14 +147,12 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-          expect(response.result).to.deep.equal({
-            data: null,
-          });
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal({
+          data: null,
         });
       });
     });

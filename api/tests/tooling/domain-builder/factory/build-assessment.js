@@ -23,6 +23,7 @@ function buildAssessment({
   answers = [buildAnswer()],
   campaignParticipation = null,
   competenceId = null,
+  lastQuestionDate = new Date('1992-06-12T01:02:03Z'),
 } = {}) {
   return new Assessment({
     // attributes
@@ -37,6 +38,7 @@ function buildAssessment({
     state,
     isImproving,
     competenceId,
+    lastQuestionDate,
     // relationships
     answers,
     course,
@@ -54,6 +56,7 @@ buildAssessment.ofTypeCampaign = function({
   competenceId = null,
   state = Assessment.states.COMPLETED,
   isImproving = false,
+  lastQuestionDate = new Date(),
 
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
@@ -86,6 +89,7 @@ buildAssessment.ofTypeCampaign = function({
     state,
     isImproving,
     campaignParticipationId,
+    lastQuestionDate,
 
     // relationships
     answers,
@@ -106,6 +110,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   title = faker.lorem,
   isImproving = false,
   campaignParticipationId = null,
+  lastQuestionDate = new Date(),
 
   answers = [buildAnswer()],
   course = buildCourse({ id: 'courseId' }),
@@ -129,6 +134,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     type: Assessment.types.COMPETENCE_EVALUATION,
     state,
     isImproving,
+    lastQuestionDate,
 
     // relationships
     answers,

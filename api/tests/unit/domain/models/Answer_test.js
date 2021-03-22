@@ -17,6 +17,7 @@ describe('Unit | Domain | Models | Answer', () => {
         challengeId: 'redRecordId',
         assessmentId: 82,
         levelup: {},
+        timeSpent: 30,
       };
 
       const expectedAnswer = {
@@ -28,6 +29,7 @@ describe('Unit | Domain | Models | Answer', () => {
         challengeId: 'redRecordId',
         assessmentId: 82,
         levelup: {},
+        timeSpent: 30,
       };
 
       // when
@@ -170,6 +172,23 @@ describe('Unit | Domain | Models | Answer', () => {
 
       // then
       expect(hasTimedOut).to.be.false;
+    });
+  });
+
+  describe('#setTimeSpentFrom', () => {
+
+    it('should return the computed time spent on a challenge', () => {
+      // given
+      const answer = domainBuilder.buildAnswer();
+      const lastQuestionDate = new Date('2021-03-11T11:00:00Z');
+      const now = new Date('2021-03-11T11:00:04Z');
+      now.setMilliseconds(1);
+
+      // when
+      answer.setTimeSpentFrom({ now, lastQuestionDate });
+
+      // then
+      expect(answer.timeSpent).to.equal(5);
     });
   });
 });
