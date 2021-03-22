@@ -9,22 +9,19 @@ const campaignParticipationResultRepository = {
   async getByParticipationId(campaignParticipationId, campaignBadges, acquiredBadgeIds, locale) {
     const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
-    const [targetProfile, competences, assessment, knowledgeElements] = await Promise.all([
+    const [targetProfile, competences, assessment] = await Promise.all([
       targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
       competenceRepository.list({ locale }),
       assessmentRepository.get(campaignParticipation.assessmentId),
-      knowledgeElementRepository.findUniqByUserId({
-        userId: campaignParticipation.userId,
-        limitDate: campaignParticipation.sharedAt,
-      }),
     ]);
 
+    const snapshots = await knowledgeElementRepository.findSnapshotForUsers({ [campaignParticipation.userId]: campaignParticipation.sharedAt });
     return CampaignParticipationResult.buildFrom({
       campaignParticipationId,
       assessment,
       competences,
       targetProfile,
-      knowledgeElements,
+      knowledgeElements: snapshots[campaignParticipation.userId],
       campaignBadges,
       acquiredBadgeIds,
     });

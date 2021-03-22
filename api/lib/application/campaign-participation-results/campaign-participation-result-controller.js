@@ -8,8 +8,8 @@ module.exports = {
     const campaignParticipationId = parseInt(request.params.id);
     const userId = request.auth.credentials.userId;
 
-    const report = await usecases.getCampaignParticipationResult({ campaignParticipationId, userId, locale });
+    const participationResult = await usecases.getCampaignParticipationResult({ campaignParticipationId, userId, locale });
 
-    return serializer.serialize(report);
+    return serializer.serialize(participationResult);
   },
 };
