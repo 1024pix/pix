@@ -36,7 +36,7 @@ describe('Unit | Controller | target-profile-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should update target profle name', async () => {
+      it('should update target profile name', async () => {
         // when
         await targetProfileController.updateTargetProfile(request, hFake);
 

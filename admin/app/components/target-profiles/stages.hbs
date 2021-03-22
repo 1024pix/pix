@@ -78,6 +78,10 @@
                                @triggerAction={{fn this.removeNewStage stage}}>
                       <FaIcon @icon="minus"></FaIcon>
                     </PixButton>
+                  {{else}}
+                   <LinkTo @route="authenticated.stages.stage" @model={{stage}} class="btn btn-outline-default btn-thin">
+                      Voir détail
+                    </LinkTo>
                   {{/if}}
                 </td>
               </tr>
@@ -113,5 +117,4 @@
       </div>
     {{/if}}
   </form>
-
 </div>

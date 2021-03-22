@@ -14,6 +14,8 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function() {
         targetProfileId: '1',
         threshold: 42,
         title: 'Banana',
+        prescriberTitle: 'Palier intermédiaire',
+        prescriberDescription: 'Le participant a un niveau moyen',
       });
 
       const expectedSerializedStage = {
@@ -22,6 +24,8 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function() {
             message: 'Congrats, you won a banana stage',
             threshold: 42,
             title: 'Banana',
+            'prescriber-title': stage.prescriberTitle,
+            'prescriber-description': stage.prescriberDescription,
           },
           id: '1',
           type: 'stages',
@@ -47,6 +51,8 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function() {
             title: 'My stage title',
             message: 'My stage message',
             threshold: 42,
+            'prescriber-title': 'Palier intermédiaire',
+            'prescriber-description': 'Le participant a un niveau moyen',
           },
           relationships: {
             'target-profile': {
@@ -67,6 +73,8 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function() {
       expect(stage.message).to.equal('My stage message');
       expect(stage.threshold).to.equal(42);
       expect(stage.targetProfileId).to.equal(targetProfileId);
+      expect(stage.prescriberTitle).to.equal('Palier intermédiaire');
+      expect(stage.prescriberDescription).to.equal('Le participant a un niveau moyen');
     });
   });
 });
