@@ -11,7 +11,7 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/organizations/{uai}/certifications',
       config: {
-        auth: 'jwt',
+        auth: 'jwt-livret-scolaire',
         handler: certificationController.getCertificationsByOrganizationUAI,
         notes: [
           '- **API for LSU/LSL qui nécessite une authentification de type client credential grant**\n' +

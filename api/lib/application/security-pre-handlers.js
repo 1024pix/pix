@@ -1,5 +1,3 @@
-const tokenService = require('../domain/services/token-service');
-const checkUserIsAuthenticatedUseCase = require('./usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('./usecases/checkUserHasRolePixMaster');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
@@ -8,24 +6,9 @@ const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelon
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const config = require('../config');
 const Organization = require('../../lib/domain/models/Organization');
-const boom = require('boom');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 const _ = require('lodash');
-
-function _replyWithAuthenticationError(h) {
-  return Promise.resolve().then(() => {
-    const errorHttpStatusCode = 401;
-
-    const jsonApiError = new JSONAPIError({
-      code: errorHttpStatusCode,
-      title: 'Unauthorized access',
-      detail: 'Missing or invalid access token in request authorization headers.',
-    });
-
-    return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
-  });
-}
 
 function _replyWithAuthorizationError(h) {
   return Promise.resolve().then(() => {
@@ -39,29 +22,6 @@ function _replyWithAuthorizationError(h) {
 
     return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
   });
-}
-
-function checkUserIsAuthenticated(request, h) {
-
-  if (request.auth.mode === 'optional' && !request.headers.authorization) {
-    return boom.unauthorized(null, 'jwt-access-token');
-  }
-
-  const authorizationHeader = request.headers.authorization;
-  const accessToken = tokenService.extractTokenFromAuthChain(authorizationHeader);
-
-  if (!accessToken) {
-    return _replyWithAuthenticationError(h);
-  }
-
-  return checkUserIsAuthenticatedUseCase.execute(accessToken)
-    .then((authenticatedUser) => {
-      if (authenticatedUser) {
-        return h.authenticated({ credentials: { accessToken, userId: authenticatedUser.user_id } });
-      }
-      return _replyWithAuthenticationError(h);
-    })
-    .catch(() => _replyWithAuthenticationError(h));
 }
 
 function checkUserHasRolePixMaster(request, h) {
@@ -232,7 +192,6 @@ module.exports = {
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
   checkIsCertificationResultsInOrgaToggleEnabled,
-  checkUserIsAuthenticated,
   checkUserIsAdminInOrganization,
   checkUserIsAdminInOrganizationOrHasRolePixMaster,
   checkUserIsAdminInSCOOrganizationManagingStudents,
