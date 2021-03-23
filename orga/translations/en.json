@@ -303,9 +303,9 @@
       "description": "Please select the class for which you would like to export the certification results in a csv file.",
       "download-button": "Export the results",
       "select-label": "Class",
-      "title": "Certifications",
-      "documentation-link-notice": "TODO",
-      "documentation-link-label": "TODO",
+      "title": "Certification results",
+      "documentation-link-notice": "Follow this link to find indications on how to interpret the results: ",
+      "documentation-link-label": "Interpreting the results.",
       "documentation-link": "TODO",
       "errors": {
         "no-results": "No certification results for the class {selectedDivision}.",
