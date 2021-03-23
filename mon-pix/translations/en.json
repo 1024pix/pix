@@ -757,7 +757,7 @@
             "actions": {
                 "continue": "Continue my Pix experience"
             },
-            "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date,date,LL} at {hour,time,hhmm}"
+            "explanation": "You already submitted the profile below to the organisation {organization}'<br>'on {date} at {hour,time,hhmm}"
         },
         "reset-password": {
             "actions": {

@@ -4,14 +4,11 @@ import { inject as service } from '@ember/service';
 export default class IntlDateFormatter extends Service {
   @service intl;
 
-  formatDateStringToString(dateString) {
+  formatDateStringToISO(dateString) {
     if (!isDateStringValid(dateString)) {
       throw new Error(`Date "${dateString}" does not comply with the "YYYY-MM-DD" format`);
     }
-    return this.intl.formatDate(
-      toDateAtMidnightUTC(dateString),
-      { format: 'LL', timeZone: 'UTC' },
-    );
+    return toDateWithBrowserOffset(dateString);
   }
 }
 
@@ -22,6 +19,9 @@ function isDateStringValid(dateString) {
   return new RegExp(`${yearFormat}-${monthFormat}-${dayFormat}`).test(dateString);
 }
 
-function toDateAtMidnightUTC(dateString) {
-  return new Date(dateString + 'T00:00:00Z');
+function toDateWithBrowserOffset(dateString) {
+  const date = new Date(dateString);
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset()); // Add timezoneOffset to date, cant be tested
+  // Manually, '2020-01-01' must stay '2020-01-01' and not become '2019-12-31' in Sao Paulo timezone for example
+  return date;
 }

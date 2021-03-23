@@ -757,7 +757,7 @@
             "actions": {
                 "continue": "Continuez votre expérience Pix"
             },
-            "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date,date,LL} à {hour,time,hhmm}"
+            "explanation": "Vous avez déjà envoyé le profil ci-dessous à l'organisation {organization}'<br>'le {date} à {hour,time,hhmm}"
         },
         "reset-password": {
             "actions": {
