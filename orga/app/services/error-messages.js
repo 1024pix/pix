@@ -26,9 +26,21 @@ const CSV_IMPORT_ERRORS = {
   STUDENT_NUMBER_FORMAT: 'api-errors-messages.student-csv-import.student-number-format',
 };
 
+const XML_IMPORT_ERRORS = {
+  EMPTY: 'api-errors-messages.student-xml-import.empty',
+  ENCODING_NOT_SUPPORTED: 'api-errors-messages.student-xml-import.encoding-not-supported',
+  INE_REQUIRED: 'api-errors-messages.student-xml-import.ine-required',
+  INE_UNIQUE: 'api-errors-messages.student-xml-import.ine-unique',
+  INVALID_FILE: 'api-errors-messages.student-xml-import.invalid-file',
+  INVALID_FILE_EXTENSION: 'api-errors-messages.student-xml-import.invalid-file-extension',
+  PAYLOAD_TOO_LARGE: 'api-errors-messages.student-xml-import.payload-too-large',
+  UAI_MISMATCHED: 'api-errors-messages.student-xml-import.uai-mismatched',
+};
+
 const ERROR_MESSAGES = {
   ...CAMPAIGN_CREATION_ERRORS,
   ...CSV_IMPORT_ERRORS,
+  ...XML_IMPORT_ERRORS,
 };
 
 export default class ErrorMessagesService extends Service {
