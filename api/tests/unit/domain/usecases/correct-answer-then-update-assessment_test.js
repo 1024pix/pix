@@ -681,23 +681,18 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     let assessment;
     let answerSaved;
 
-    beforeEach(() => {
+    it('compute the timeSpent', async () => {
       answer = domainBuilder.buildAnswer({ timeSpent: null });
       assessment = domainBuilder.buildAssessment({
         userId,
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
       });
-      assessmentRepository.get.resolves(assessment);
-
       assessment.type = Assessment.types.CERTIFICATION;
       assessmentRepository.get.resolves(assessment);
       answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
       answerSaved = domainBuilder.buildAnswer(answer);
       answerSaved.timeSpent = 5;
       answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
-    });
-
-    it('compute the timeSpent', async () => {
 
       await correctAnswerThenUpdateAssessment({
         answer,
@@ -711,6 +706,34 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       const expectedAnswer = domainBuilder.buildAnswer(answer);
       expectedAnswer.timeSpent = 5;
       expect(answerRepository.saveWithKnowledgeElements).to.be.calledWith(expectedAnswer);
+    });
+
+    context('when assessment type is preview', () => {
+      it('compute timeSpent=0 when the assessment does not have a lastQuestionDate', async () => {
+        answer = domainBuilder.buildAnswer({ timeSpent: null });
+        assessment = domainBuilder.buildAssessment({
+          userId,
+          lastQuestionDate: null,
+        });
+        assessment.type = Assessment.types.PREVIEW;
+        assessmentRepository.get.resolves(assessment);
+        answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
+        answerSaved = domainBuilder.buildAnswer(answer);
+        answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
+
+        await correctAnswerThenUpdateAssessment({
+          answer,
+          userId,
+          answerRepository,
+          assessmentRepository,
+          challengeRepository,
+          scorecardService,
+        });
+
+        const expectedAnswer = domainBuilder.buildAnswer(answer);
+        expectedAnswer.timeSpent = 0;
+        expect(answerRepository.saveWithKnowledgeElements).to.be.calledWith(expectedAnswer);
+      });
     });
   });
 });
