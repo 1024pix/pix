@@ -1,6 +1,5 @@
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import get from 'lodash/get';
 
 export default class CurrentUserService extends Service {
 
@@ -28,10 +27,9 @@ export default class CurrentUserService extends Service {
 
         await this._setOrganizationProperties(membership);
       } catch (error) {
-        const errorCode = get(error, 'errors[0].code');
-        if ([401, 403].includes(errorCode)) {
-          return this.session.invalidate();
-        }
+        this.prescriber = null;
+        this.memberships = null;
+        return this.session.invalidate();
       }
     }
   }
