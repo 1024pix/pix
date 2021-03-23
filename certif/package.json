@@ -91,5 +91,6 @@
     "sass": "^1.26.3",
     "stylelint": "^13.7.2",
     "stylelint-config-standard": "^20.0.0"
-  }
+  },
+  "dependencies": {}
 }
