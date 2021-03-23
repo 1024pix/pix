@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.35.0 (23/03/2021)
+
+- [#2738](https://github.com/1024pix/pix/pull/2738) [FEATURE] Traduire en anglais la page "Mon équipe / Invitations" dans Pix Orga (PIX-2225).
+- [#2721](https://github.com/1024pix/pix/pull/2721) [FEATURE] Modifier les champs prescriberTitle et prescriberDescription d'un palier(PIX-2314)
+- [#2743](https://github.com/1024pix/pix/pull/2743) [FEATURE] Traduction de la modal de gestion du compte d'un élève dans Pix Orga (PIX-2226).
+- [#2705](https://github.com/1024pix/pix/pull/2705) [FEATURE] Sauvegarder le temps passé sur une épreuve (PIX-2260).
+- [#2703](https://github.com/1024pix/pix/pull/2703) [FEATURE] Afficher la nouvelle solution d'une épreuve si présente dans Airtable (PIX-2265).
+- [#2712](https://github.com/1024pix/pix/pull/2712) [FEATURE][i18n] Ajout de l'internationalisation dans le modèle d'import SUP (PIX-2309).
+- [#2704](https://github.com/1024pix/pix/pull/2704) [FEATURE] Traduire en anglais la page de connexion de Pix Orga (PIX-2221).
+- [#2751](https://github.com/1024pix/pix/pull/2751) [BUGFIX] Envoyer une réponse sur une épreuve en preview
+- [#2750](https://github.com/1024pix/pix/pull/2750) [TECH] Mettre à jour notre addon ember-cli-matomo-tag-manager
+- [#2514](https://github.com/1024pix/pix/pull/2514) [TECH]  Utiliser les snapshots pour calculer les resultats d'une participation à une campagne d'évaluation afin de les afficher au participant (PIX-2121).
+- [#2650](https://github.com/1024pix/pix/pull/2650) [DOC] ADR sur le choix de Gravitee comme API management de Pix.
+
 ## v3.34.0 (22/03/2021)
 
 - [#2735](https://github.com/1024pix/pix/pull/2735) [FEATURE] Validation du champ "Numéro de session" sur la page "Rejoindre une session" (PIX-2379)
