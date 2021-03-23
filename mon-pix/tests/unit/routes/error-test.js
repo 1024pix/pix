@@ -19,7 +19,7 @@ describe('Unit | Route | error', function() {
 
     it('finds an unauthorized code in the first error object', function() {
       // Given
-      const errorEvent = { errors: [{ code: 401 }] };
+      const errorEvent = { errors: [{ status: '401' }] };
 
       // When
       const result = route.hasUnauthorizedError(errorEvent);

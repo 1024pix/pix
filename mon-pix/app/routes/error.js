@@ -6,8 +6,8 @@ export default class ErrorRoute extends Route {
   @service session;
 
   hasUnauthorizedError(error) {
-    const statusCode = get(error, 'errors[0].code');
-    return statusCode === 401;
+    const statusCode = get(error, 'errors[0].status');
+    return 401 === parseInt(statusCode);
   }
 
   setupController(controller, error) {
