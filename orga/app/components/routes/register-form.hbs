@@ -3,9 +3,6 @@
 
     <div id="register-firstName-container" class="input-container">
       <label for="register-firstName" class="label">{{t 'pages.login-or-register.register-form.fields.first-name.label'}}</label>
-      {{#if this.validation.firstName.hasError}}
-        <div class="alert-input alert-input--error" role="alert">{{this.validation.firstName.message}}</div>
-      {{/if}}
       <Input
         @id="register-firstName"
         @name="firstName"
@@ -15,13 +12,13 @@
         @autocomplete="firstname"
         {{on "focusout" (fn this.validateInput "firstName" this.user.firstName)}}
       />
+      {{#if this.validation.firstName.hasError}}
+        <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.firstName.message}}</div>
+      {{/if}}
     </div>
 
     <div id="register-lastName-container" class="input-container">
       <label for="register-lastName" class="label">{{t 'pages.login-or-register.register-form.fields.last-name.label'}}</label>
-      {{#if this.validation.lastName.hasError}}
-        <div class="alert-input alert-input--error" role="alert">{{this.validation.lastName.message}}</div>
-      {{/if}}
       <Input
         @id="register-lastName"
         @name="lastName"
@@ -31,13 +28,13 @@
         @autocomplete="lastname"
         {{on "focusout" (fn this.validateInput "lastName" this.user.lastName)}}
       />
+      {{#if this.validation.lastName.hasError}}
+        <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.lastName.message}}</div>
+      {{/if}}
     </div>
 
     <div id="register-email-container" class="input-container">
       <label for="register-email" class="label">{{t 'pages.login-or-register.register-form.fields.email.label'}}</label>
-      {{#if this.validation.email.hasError}}
-        <div class="alert-input alert-input--error" role="alert">{{this.validation.email.message}}</div>
-      {{/if}}
       <Input
         @id="register-email"
         @name="email"
@@ -47,13 +44,13 @@
         @autocomplete="username"
         {{on "focusout" (fn this.validateInput "email" this.user.email)}}
       />
+      {{#if this.validation.email.hasError}}
+        <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.email.message}}</div>
+      {{/if}}
     </div>
 
     <div id="register-password-container" class="input-container">
       <label for="register-password" class="label">{{t 'pages.login-or-register.register-form.fields.password.label'}}</label>
-      {{#if this.validation.password.hasError}}
-        <div class="alert-input alert-input--error" role="alert">{{this.validation.password.message}}</div>
-      {{/if}}
       <div class="input-password {{if this.validation.password.hasError 'input-password--error'}}">
         <Input
           @id="register-password"
@@ -72,6 +69,9 @@
           @color="dark-grey"
         />
       </div>
+      {{#if this.validation.password.hasError}}
+        <div class="alert-input alert-input--error alert-input--left" role="alert">{{this.validation.password.message}}</div>
+      {{/if}}
     </div>
 
     <div id="register-cgu-container" class="input-container">
