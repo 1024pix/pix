@@ -1,11 +1,12 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
+import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | routes/authenticated/team | invitations', function(hooks) {
-  setupRenderingTest(hooks);
+
+  setupIntlRenderingTest(hooks);
 
   test('it should list the pending team invitations', async function(assert) {
     // given
@@ -19,13 +20,15 @@ module('Integration | Component | routes/authenticated/team | invitations', func
     await render(hbs`<Routes::Authenticated::Team::Invitations @organizationInvitations={{organizationInvitations}}/>`);
 
     // then
-    assert.dom('[aria-label="Invitation en attente"]').exists({ count: 2 });
+    assert.dom(`[aria-label="${this.intl.t('pages.team-invitations.table.row.aria-label')}"]`).exists({ count: 2 });
   });
 
   test('it should display email and creation date of invitation', async function(assert) {
     // given
+    const pendingInvitationDate = moment('2019-10-08T10:50:00Z').utcOffset(2);
+
     const organizationInvitations = [
-      { email: 'gigi@example.net', updatedAt: moment('2019-10-08T10:50:00Z').utcOffset(2) },
+      { email: 'gigi@example.net', updatedAt: pendingInvitationDate },
     ];
     this.set('organizationInvitations', organizationInvitations);
 
@@ -34,6 +37,6 @@ module('Integration | Component | routes/authenticated/team | invitations', func
 
     // then
     assert.contains('gigi@example.net');
-    assert.contains('Dernière invitation envoyée le 08/10/2019 à 12:50');
+    assert.contains(`${this.intl.t('pages.team-invitations.table.row.message')} ${moment(pendingInvitationDate).format('DD/MM/YYYY - HH:mm')}`);
   });
 });

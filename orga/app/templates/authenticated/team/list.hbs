@@ -12,7 +12,7 @@
     </LinkTo>
 
     <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
-      Invitations ({{@model.organization.organizationInvitations.length}})
+      {{t 'pages.team-list.tabs.invitation'}} ({{@model.organization.organizationInvitations.length}})
     </LinkTo>
   </nav>
 

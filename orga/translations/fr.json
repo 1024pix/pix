@@ -522,7 +522,8 @@
       "title": "Mon équipe",
       "add-member-button": "Inviter un membre",
       "tabs": {
-        "member": "Membres"
+        "member": "Membres",
+        "invitation": "Invitations"
       }
     },
     "team-members": {
@@ -533,6 +534,18 @@
           "organization-membership-role":"Rôle"
         },
         "empty": "En attente de membres"
+      }
+    },
+    "team-invitations": {
+      "table": {
+        "column": {
+          "email-address": "Adresse e-mail",
+          "pending-invitation": "Date de dernier envoi"
+        },
+        "row": {
+          "aria-label": "Invitation en attente",
+          "message": "Dernière invitation envoyée le"
+        }
       }
     },
     "team-new": {
