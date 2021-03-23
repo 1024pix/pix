@@ -6,17 +6,25 @@ module.exports = async function dissociateUserFromSchoolingRegistrationData({
   membershipRepository,
   userId,
   schoolingRegistrationId,
+  userRepository,
 }) {
-  await _checkUserCanDissociateUserFromSchoolingRegistration(userId, schoolingRegistrationId, schoolingRegistrationRepository, membershipRepository);
+  await _checkUserCanDissociateUserFromSchoolingRegistration(userId, schoolingRegistrationId, schoolingRegistrationRepository, membershipRepository, userRepository);
 
   await schoolingRegistrationRepository.dissociateUserFromSchoolingRegistration(schoolingRegistrationId);
 };
 
-async function _checkUserCanDissociateUserFromSchoolingRegistration(userId, schoolingRegistrationId, schoolingRegistrationRepository, membershipRepository) {
-  const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
-  const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId: schoolingRegistration.organizationId, includeOrganization: true });
+async function _checkUserCanDissociateUserFromSchoolingRegistration(userId, schoolingRegistrationId, schoolingRegistrationRepository, membershipRepository, userRepository) {
 
-  if (!_.some(memberships, 'isAdmin')) {
+  const userIsPixMaster = await userRepository.isPixMaster(userId);
+
+  const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
+  const memberships = await membershipRepository.findByUserIdAndOrganizationId({
+    userId,
+    organizationId: schoolingRegistration.organizationId,
+    includeOrganization: true,
+  });
+
+  if (!userIsPixMaster && !_.some(memberships, 'isAdmin')) {
     throw new ForbiddenAccess();
   }
 
