@@ -347,22 +347,22 @@
       }
     },
     "login-or-register": {
-      "invitation": "En cours de traduction",
+      "invitation": "You have been invited to join the organisation",
       "register-form": {
-        "title": "En cours de traduction",
+        "title": "I sign up",
         "button": "Sign up",
         "fields": {
           "first-name": {
             "label":"First name",
-            "error": "Please enter your first name."
+            "error": "Please enter a first name."
           },
           "last-name": {
             "label":"Last name",
-            "error": "Please enter your last name."
+            "error": "Please enter a last name."
           },
           "email": {
             "label": "Email address",
-            "error": "Your email address is invalid."
+            "error": "Please enter a valid email address."
           },
           "password": {
             "label": "Password",
@@ -371,18 +371,18 @@
           "cgu": {
             "accept": "I agree to the",
             "link": "https://pix.org/en-gb/terms-and-conditions/",
-            "terms-of-use": "Pix terms of use",
-            "aria-label": "En cours de traduction",
-            "error": "You must agree to the Pix terms of use to create an account."
+            "terms-of-use": "terms and conditions of use of the Pix platform",
+            "aria-label": "Accept the terms of use of the Pix platform",
+            "error": "Please agree to the terms and conditions of use."
           },
           "button": {
-            "label": "En cours de traduction"
+            "label": "I sign up"
           }
         },
         "legal-text": "The information collected in this form is saved in a computer file by Pix to enable access to the service offered by Pix. They are kept for the duration of use of the service and are intended for Pix. Test results may be communicated to third parties, with your consent, if you have been invited to take a specific personalised test. In accordance with the French law governing computer technology and freedoms (“Informatique et Libertés”), you can exercise the right to access and rectify your data by emailing our Data Protection Officer at dpo@pix.fr."
       },
       "login-form": {
-        "title": "En cours de traduction",
+        "title": "I already have an account",
         "button": "Log in"
       }
     },
