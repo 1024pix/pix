@@ -5,11 +5,11 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authenticated/sessions/list/with required action', function(hooks) {
+module('Acceptance | authenticated/sessions/list/with required action', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
+  module('When user is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
@@ -20,7 +20,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When user is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       // given

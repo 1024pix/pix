@@ -3,13 +3,13 @@ import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import ENV from 'pix-admin/config/environment';
 
-module('Unit | Component | user-detail-personal-information', function(hooks) {
+module('Unit | Component | user-detail-personal-information', (hooks) => {
 
   setupTest(hooks);
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     component = createGlimmerComponent('component:user-detail-personal-information');
   });
 

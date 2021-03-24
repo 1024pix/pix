@@ -4,7 +4,7 @@ import { click, render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | organization-information-section', function(hooks) {
+module('Integration | Component | organization-information-section', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -43,7 +43,7 @@ module('Integration | Component | organization-information-section', function(ho
     assert.dom('.organization__canCollectProfiles').hasText('Oui');
   });
 
-  module('Edit organization', function(hooks) {
+  module('Edit organization', (hooks) => {
 
     let organization;
 
@@ -242,7 +242,7 @@ module('Integration | Component | organization-information-section', function(ho
     });
   });
 
-  module('When organization is SCO or SUP', function(hooks) {
+  module('When organization is SCO or SUP', (hooks) => {
 
     hooks.beforeEach(function() {
       this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
@@ -278,7 +278,7 @@ module('Integration | Component | organization-information-section', function(ho
     });
   });
 
-  module('When organization is not SCO', function(hooks) {
+  module('When organization is not SCO', (hooks) => {
 
     hooks.beforeEach(function() {
       this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });

@@ -4,7 +4,7 @@ import { find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | TargetProfiles::Badges', function(hooks) {
+module('Integration | Component | TargetProfiles::Badges', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it should display the items', async function(assert) {

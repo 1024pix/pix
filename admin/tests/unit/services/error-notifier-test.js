@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Service | error-notifier', function(hooks) {
+module('Unit | Service | error-notifier', (hooks) => {
   setupTest(hooks);
 
   test('it notifies a non-JSONAPI error as a single notification', function(assert) {

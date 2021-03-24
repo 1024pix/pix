@@ -8,11 +8,11 @@ import sinon from 'sinon';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
-module('Acceptance | Session pages', function(hooks) {
+module('Acceptance | Session pages', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
+  module('When user is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
@@ -23,7 +23,7 @@ module('Acceptance | Session pages', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When user is logged in', (hooks) => {
 
     let session;
 
@@ -40,7 +40,7 @@ module('Acceptance | Session pages', function(hooks) {
       });
     });
 
-    module('Informations tab', function(hooks) {
+    module('Informations tab', (hooks) => {
 
       hooks.beforeEach(async () => {
         // when
@@ -52,7 +52,7 @@ module('Acceptance | Session pages', function(hooks) {
         assert.equal(currentURL(), '/sessions/1');
       });
 
-      module('Search section', function() {
+      module('Search section', () => {
 
         test('it should show a header with title and sessionId search', function(assert) {
           // then
@@ -73,7 +73,7 @@ module('Acceptance | Session pages', function(hooks) {
         });
       });
 
-      module('Tabs section', function() {
+      module('Tabs section', () => {
 
         test('tab "Informations" is clickable', async function(assert) {
           // when
@@ -94,7 +94,7 @@ module('Acceptance | Session pages', function(hooks) {
         });
       });
 
-      module('Informations section', function() {
+      module('Informations section', () => {
 
         test('it shows session informations', function(assert) {
           // then
@@ -104,7 +104,7 @@ module('Acceptance | Session pages', function(hooks) {
         });
       });
 
-      module('Buttons section', function() {
+      module('Buttons section', () => {
 
         test('it shows all buttons', function(assert) {
           // then
@@ -115,7 +115,7 @@ module('Acceptance | Session pages', function(hooks) {
           assert.contains('Résultats transmis au prescripteur');
         });
 
-        module('copy link button', function() {
+        module('copy link button', () => {
           test('it should copy \'http://link-to-results.fr\' in navigator clipboard on click', async (assert) => {
             // given
 
@@ -133,7 +133,7 @@ module('Acceptance | Session pages', function(hooks) {
       });
     });
 
-    module('Certifications tab', function(hooks) {
+    module('Certifications tab', (hooks) => {
 
       let juryCertificationSummary;
 
@@ -150,7 +150,7 @@ module('Acceptance | Session pages', function(hooks) {
         await visit('/sessions/1/certifications');
       });
 
-      module('Certification section', function() {
+      module('Certification section', () => {
 
         test('it shows certifications informations', function(assert) {
           // then

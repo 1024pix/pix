@@ -4,11 +4,11 @@ import { reject, resolve } from 'rsvp';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-module('Unit | Service | current-user', function(hooks) {
+module('Unit | Service | current-user', (hooks) => {
 
   setupTest(hooks);
 
-  module('user is authenticated', function() {
+  module('user is authenticated', () => {
 
     test('should load the current user', async function(assert) {
       // Given
@@ -33,7 +33,7 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user is not authenticated', function() {
+  module('user is not authenticated', () => {
 
     test('should do nothing', async function(assert) {
       // Given
@@ -51,7 +51,7 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user token is expired', function() {
+  module('user token is expired', () => {
 
     test('should redirect to login', async function(assert) {
       // Given

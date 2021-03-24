@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sessions/session/certifications', function(hooks) {
+module('Unit | Controller | authenticated/sessions/session/certifications', (hooks) => {
 
   setupTest(hooks);
   let controller;
@@ -14,7 +14,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
     model = EmberObject.create({ id: Symbol('an id'), certifications: [{}, {}], isPublished: null });
   });
 
-  module('#canPublish', function() {
+  module('#canPublish', () => {
 
     test('should be false when there is a certification in error', async function(assert) {
       // given
@@ -53,13 +53,13 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
     });
   });
 
-  module('#displayCertificationStatusUpdateConfirmationModal', function(hooks) {
+  module('#displayCertificationStatusUpdateConfirmationModal', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       controller.set('model', model);
     });
 
-    module('when session is not yet published', function() {
+    module('when session is not yet published', () => {
 
       test('should update modal message to publish', async function(assert) {
         // given
@@ -76,7 +76,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       });
     });
 
-    module('when session is published', function() {
+    module('when session is published', () => {
 
       test('should update modal message to unpublish', async function(assert) {
         // given
@@ -93,13 +93,13 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
     });
   });
 
-  module('#toggleSessionPublication', function(hooks) {
+  module('#toggleSessionPublication', (hooks) => {
 
     let notificationsStub;
     let store;
     let isPublishedGetterStub;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       notificationsStub = { success: sinon.stub() };
       store = {
         findRecord: sinon.stub(),
@@ -131,7 +131,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       assert.equal(controller.displayConfirm, false);
     });
 
-    module('when session is not yet published', function() {
+    module('when session is not yet published', () => {
 
       test('should publish all certifications', async function(assert) {
         // given
@@ -148,7 +148,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       });
     });
 
-    module('when session is published', function() {
+    module('when session is published', () => {
 
       test('should unpublish all certifications', async function(assert) {
         // given

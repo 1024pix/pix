@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sessions/session', function(hooks) {
+module('Unit | Controller | authenticated/sessions/session', (hooks) => {
   setupTest(hooks);
 
   test('#loadSession', function(assert) {

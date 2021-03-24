@@ -8,18 +8,18 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import moment from 'moment';
 
-module('Integration | Component | routes/authenticated/sessions/session | informations', function(hooks) {
+module('Integration | Component | routes/authenticated/sessions/session | informations', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let session;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
   });
 
-  module('regardless of session status', function() {
+  module('regardless of session status', () => {
 
     test('it renders the details page with correct info', async function(assert) {
       // given
@@ -43,7 +43,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
   });
 
-  module('when the session is created', function() {
+  module('when the session is created', () => {
 
     test('it does not render the examinerGlobalComment row or stats', async function(assert) {
       // given
@@ -59,7 +59,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
   });
 
-  module('when the session is finalized', function() {
+  module('when the session is finalized', () => {
 
     hooks.beforeEach(async function() {
       const sessionData = {
@@ -111,7 +111,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       assert.equal(find('[data-test-id="session-info__examiner-comment"]'), undefined);
     });
 
-    module('when results have not yet been sent to prescriber', function() {
+    module('when results have not yet been sent to prescriber', () => {
       test('it should display the button to flag results as sent', async function(assert) {
         // given
         session.update({ resultsSentToPrescriberAt: null });
@@ -126,7 +126,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
     });
 
-    module('when results have been sent to prescriber', function() {
+    module('when results have been sent to prescriber', () => {
       test('it should not display the button to flag results as sent', async function(assert) {
         // given
         session.update({ resultsSentToPrescriberAt: new Date() });
@@ -141,7 +141,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
   });
 
-  module('when the session results have been sent to the prescriber', function() {
+  module('when the session results have been sent to the prescriber', () => {
 
     test('it renders the resultsSentToPrescriberAt date', async function(assert) {
       // given
@@ -155,7 +155,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
   });
 
-  module('when the session is processed', function() {
+  module('when the session is processed', () => {
 
     test('it renders the publishedAt date', async function(assert) {
       // given

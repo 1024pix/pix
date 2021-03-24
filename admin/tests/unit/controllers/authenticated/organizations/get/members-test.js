@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Controller | authenticated/organizations/get/members', function(hooks) {
+module('Unit | Controller | authenticated/organizations/get/members', (hooks) => {
   setupTest(hooks);
 
   let controller;
@@ -11,7 +11,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
     controller = this.owner.lookup('controller:authenticated/organizations/get/members');
   });
 
-  module('#createOrganizationInvitation', function() {
+  module('#createOrganizationInvitation', () => {
 
     test('it should create an organization-invitation if the email is valid', function(assert) {
       const saveStub = sinon.stub().resolves();

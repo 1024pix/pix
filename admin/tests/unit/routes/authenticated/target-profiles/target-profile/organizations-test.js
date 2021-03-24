@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Route | authenticated/target-profiles/target-profile/organizations', function(hooks) {
+module('Unit | Route | authenticated/target-profiles/target-profile/organizations', (hooks) => {
   setupTest(hooks);
   let route;
 
@@ -9,10 +9,10 @@ module('Unit | Route | authenticated/target-profiles/target-profile/organization
     route = this.owner.lookup('route:authenticated/target-profiles/target-profile/organizations');
   });
 
-  module('#resetController', function(hooks) {
+  module('#resetController', (hooks) => {
     let controller;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
@@ -22,7 +22,7 @@ module('Unit | Route | authenticated/target-profiles/target-profile/organization
       };
     });
 
-    module('when route is exiting', function() {
+    module('when route is exiting', () => {
 
       test('it should reset controller', function(assert) {
         // when
@@ -37,7 +37,7 @@ module('Unit | Route | authenticated/target-profiles/target-profile/organization
       });
     });
 
-    module('when route is not exiting', function() {
+    module('when route is not exiting', () => {
 
       test('it should not reset controller', function(assert) {
         // when

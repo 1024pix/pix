@@ -5,11 +5,11 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session List', function(hooks) {
+module('Acceptance | Session List', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
+  module('When user is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
@@ -20,7 +20,7 @@ module('Acceptance | Session List', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When user is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       await createAuthenticateSession({ userId: 1 });
@@ -46,14 +46,14 @@ module('Acceptance | Session List', function(hooks) {
       assert.contains('Sessions à traiter (10)');
     });
 
-    module('#Pagination', function(hooks) {
+    module('#Pagination', (hooks) => {
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         server.createList('session', 15, 'finalized');
         server.createList('session', 20);
       });
 
-      module('Default display', function() {
+      module('Default display', () => {
 
         test('it should display the first page of finalized sessions', async function(assert) {
           // when
@@ -66,7 +66,7 @@ module('Acceptance | Session List', function(hooks) {
         });
       });
 
-      module('when selecting a different page', function() {
+      module('when selecting a different page', () => {
 
         test('it should display the second page of finalized sessions', async function(assert) {
           // when
@@ -80,7 +80,7 @@ module('Acceptance | Session List', function(hooks) {
         });
       });
 
-      module('when selecting a different pageSize', function() {
+      module('when selecting a different pageSize', () => {
 
         test('it should display all the finalized sessions', async function(assert) {
           // when
@@ -94,7 +94,7 @@ module('Acceptance | Session List', function(hooks) {
         });
       });
 
-      module('when invalid filter value are typed in', function() {
+      module('when invalid filter value are typed in', () => {
 
         test('it should display an empty list', async function(assert) {
           // given
@@ -109,12 +109,12 @@ module('Acceptance | Session List', function(hooks) {
       });
     });
 
-    module('#Filters', function() {
+    module('#Filters', () => {
 
-      module('#id', function(hooks) {
+      module('#id', (hooks) => {
         let expectedSession;
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           expectedSession = server.create('session', 'finalized');
           server.createList('session', 10, 'finalized');
         });
@@ -129,10 +129,10 @@ module('Acceptance | Session List', function(hooks) {
         });
       });
 
-      module('#certificationCenterName', function(hooks) {
+      module('#certificationCenterName', (hooks) => {
         let expectedSession;
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           expectedSession = server.create('session', 'finalized');
           server.createList('session', 10, 'finalized');
         });
@@ -147,9 +147,9 @@ module('Acceptance | Session List', function(hooks) {
         });
       });
 
-      module('#status', function(hooks) {
+      module('#status', (hooks) => {
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           server.createList('session', 5, 'processed');
           server.createList('session', 3, 'finalized');
         });
@@ -164,9 +164,9 @@ module('Acceptance | Session List', function(hooks) {
         });
       });
 
-      module('#resultsSentToPrescriberAt', function(hooks) {
+      module('#resultsSentToPrescriberAt', (hooks) => {
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           server.createList('session', 5, 'withResultsSentToPrescriber', 'finalized');
           server.createList('session', 3, 'finalized');
         });

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapter | learning content cache', function(hooks) {
+module('Unit | Adapter | learning content cache', (hooks) => {
 
   setupTest(hooks);
 
@@ -13,7 +13,7 @@ module('Unit | Adapter | learning content cache', function(hooks) {
     sinon.stub(adapter, 'ajax');
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(() => {
     adapter.ajax.restore();
   });
 

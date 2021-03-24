@@ -5,7 +5,7 @@ import { A } from '@ember/array';
 import Service from '@ember/service';
 import moment from 'moment';
 
-module('Unit | Service | session-info-service', function(hooks) {
+module('Unit | Service | session-info-service', (hooks) => {
 
   setupTest(hooks);
 
@@ -68,7 +68,7 @@ module('Unit | Service | session-info-service', function(hooks) {
     });
   }
 
-  module('#downloadJuryFile', function() {
+  module('#downloadJuryFile', () => {
 
     test('should include certification which status is not "validated"', async function(assert) {
       const session = EmberObject.create({ id: 5 });
@@ -127,7 +127,7 @@ module('Unit | Service | session-info-service', function(hooks) {
         '');
     });
 
-    module('when data start with illegal characters', function() {
+    module('when data start with illegal characters', () => {
 
       test('should sanitize Jury data', async function(assert) {
         // given
@@ -149,14 +149,14 @@ module('Unit | Service | session-info-service', function(hooks) {
     });
   });
 
-  module('#buildSessionExportFileData', function() {
+  module('#buildSessionExportFileData', () => {
 
-    module('when the certif status is rejected', function() {
+    module('when the certif status is rejected', () => {
       let certifRejected;
       let sessionWithRejectedCertif;
       let certifications;
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         const indexedCompetences = { '1.1': { level: 3, score: 2 } };
         certifRejected = buildCertification({ sessionId: 1, status: 'rejected', indexedCompetences });
         sessionWithRejectedCertif = { certificationCenterName: 'Salut' };
@@ -190,13 +190,13 @@ module('Unit | Service | session-info-service', function(hooks) {
 
     });
 
-    module('when the certif status is validated', function() {
+    module('when the certif status is validated', () => {
 
       let certifValidated;
       let sessionWithValidatedCertif;
       let certifications;
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         const indexedCompetences = { '1.1': { level: 3, score: 2 } };
         certifValidated = buildCertification({ sessionId: 1, indexedCompetences });
         sessionWithValidatedCertif = { certificationCenterName: 'Salut' };

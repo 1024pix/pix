@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
-module('Unit | Model | jury-certification-summary', function(hooks) {
+module('Unit | Model | jury-certification-summary', (hooks) => {
   setupTest(hooks);
 
   let store;
@@ -12,10 +12,10 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('#statusLabel', function() {
+  module('#statusLabel', () => {
 
-    certificationStatuses.forEach(function({ value, label }) {
-      module(`when the status is ${value}`, function() {
+    certificationStatuses.forEach(({ value, label }) => {
+      module(`when the status is ${value}`, () => {
 
         test(`statusLabel should return ${label}`, function(assert) {
           // given

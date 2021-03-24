@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/certifications/certification/details', function(hooks) {
+module('Unit | Controller | authenticated/certifications/certification/details', (hooks) => {
   setupTest(hooks);
 
   const answer = (result) => {
@@ -37,7 +37,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     }));
 
     // when
-    run(function() {
+    run(() => {
       controller.send('onUpdateRate');
     });
 
@@ -53,7 +53,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     }));
 
     // when
-    run(function() {
+    run(() => {
       controller.send('onUpdateRate');
     });
 

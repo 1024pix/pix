@@ -5,12 +5,12 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Organization List', function(hooks) {
+module('Acceptance | Organization List', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
+  module('When user is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
@@ -21,7 +21,7 @@ module('Acceptance | Organization List', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When user is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       await createAuthenticateSession({ userId: 1 });
@@ -46,7 +46,7 @@ module('Acceptance | Organization List', function(hooks) {
       assert.dom('.organization-list .table-admin tbody tr').exists({ count: 12 });
     });
 
-    module('when filters are used', function(hooks) {
+    module('when filters are used', (hooks) => {
 
       hooks.beforeEach(async () => {
         server.createList('organization', 12);

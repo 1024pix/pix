@@ -5,12 +5,12 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Target Profile Details', function(hooks) {
+module('Acceptance | Target Profile Details', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
+  module('When user is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // given
@@ -24,7 +24,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When user is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       await createAuthenticateSession({ userId: 1 });

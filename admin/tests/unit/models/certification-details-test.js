@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 
-module('Unit | Model | certification details', function(hooks) {
+module('Unit | Model | certification details', (hooks) => {
   setupTest(hooks);
 
   // Replace this with your real tests.

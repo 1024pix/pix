@@ -4,7 +4,7 @@ import { render, find } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | <Certification::CertifiedProfile/>', function(hooks) {
+module('Integration | Component | <Certification::CertifiedProfile/>', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -24,7 +24,7 @@ module('Integration | Component | <Certification::CertifiedProfile/>', function(
     assert.contains('Profil certifié vide.');
   });
 
-  module('when certified profile is not empty', function() {
+  module('when certified profile is not empty', () => {
     test('it should display one column per difficulty levels within a competence', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');

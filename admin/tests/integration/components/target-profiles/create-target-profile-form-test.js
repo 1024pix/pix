@@ -4,7 +4,7 @@ import { click, triggerEvent, render } from '@ember/test-helpers';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | TargetProfiles::CreateTargetProfileForm', function(hooks) {
+module('Integration | Component | TargetProfiles::CreateTargetProfileForm', (hooks) => {
   setupRenderingTest(hooks);
 
   let targetProfile;

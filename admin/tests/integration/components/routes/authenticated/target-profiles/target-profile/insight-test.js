@@ -3,11 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/target-profiles/target-profile | insight', function(hooks) {
+module('Integration | Component | routes/authenticated/target-profiles/target-profile | insight', (hooks) => {
 
   setupRenderingTest(hooks);
 
-  module('section rendering', function(hooks) {
+  module('section rendering', (hooks) => {
     let model;
     hooks.beforeEach(() => {
       model = {

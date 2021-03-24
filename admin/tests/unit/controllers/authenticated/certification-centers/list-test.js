@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/certification-centers/list', function(hooks) {
+module('Unit | Controller | authenticated/certification-centers/list', (hooks) => {
   setupTest(hooks);
   let controller;
 
@@ -9,9 +9,9 @@ module('Unit | Controller | authenticated/certification-centers/list', function(
     controller = this.owner.lookup('controller:authenticated.certification-centers.list');
   });
 
-  module('#triggerFiltering task', function() {
+  module('#triggerFiltering task', () => {
 
-    module('updating id', function() {
+    module('updating id', () => {
 
       test('it should update controller id field', async function(assert) {
         // given
@@ -26,7 +26,7 @@ module('Unit | Controller | authenticated/certification-centers/list', function(
       });
     });
 
-    module('updating name', function() {
+    module('updating name', () => {
 
       test('it should update controller name field', async function(assert) {
         // given
@@ -41,7 +41,7 @@ module('Unit | Controller | authenticated/certification-centers/list', function(
       });
     });
 
-    module('updating type', function() {
+    module('updating type', () => {
 
       test('it should update controller type field', async function(assert) {
         // given
@@ -56,7 +56,7 @@ module('Unit | Controller | authenticated/certification-centers/list', function(
       });
     });
 
-    module('updating externalId', function() {
+    module('updating externalId', () => {
 
       test('it should update controller externalId field', async function(assert) {
         // given

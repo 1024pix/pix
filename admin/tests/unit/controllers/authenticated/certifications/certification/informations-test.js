@@ -5,7 +5,7 @@ import { getSettledState, settled } from '@ember/test-helpers';
 
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/certifications/certification/informations', function(hooks) {
+module('Unit | Controller | authenticated/certifications/certification/informations', (hooks) => {
 
   setupTest(hooks);
 
@@ -210,7 +210,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   module('#onUpdateScore', () => {
 
-    module('when there is a given score', function() {
+    module('when there is a given score', () => {
 
       test('it replaces competence score correctly', async function(assert) {
         // When
@@ -223,7 +223,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when there is no given score and competence has no level', function() {
+    module('when there is no given score and competence has no level', () => {
 
       test('it removes competence correctly (score)', async function(assert) {
         // When
@@ -237,7 +237,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when the competence is not present', function() {
+    module('when the competence is not present', () => {
 
       test('it creates competence score correctly', async function(assert) {
         // When
@@ -253,7 +253,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   module('#onUpdateLevel', () => {
 
-    module('when there is a given level', function() {
+    module('when there is a given level', () => {
 
       test('it replaces competence level correctly', async function(assert) {
         // When
@@ -266,7 +266,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when there is no given level and competence has no score', function() {
+    module('when there is no given level and competence has no score', () => {
 
       test('it removes competence correctly (level)', async function(assert) {
         // When
@@ -280,7 +280,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when the competence is not present', function() {
+    module('when the competence is not present', () => {
 
       test('it creates competence level correctly', async function(assert) {
         // When

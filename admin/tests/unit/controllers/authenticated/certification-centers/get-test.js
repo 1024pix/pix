@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/certification-centers/get', function(hooks) {
+module('Unit | Controller | authenticated/certification-centers/get', (hooks) => {
 
   setupTest(hooks);
 
@@ -44,7 +44,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
     controller.notifications.error.resolves();
   });
 
-  module('#updateEmailErrorMessage', function() {
+  module('#updateEmailErrorMessage', () => {
 
     test('should set email error message if email syntax is invalid', function(assert) {
       // given
@@ -70,16 +70,16 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
     });
   });
 
-  module('#addCertificationCenterMembership', function(hooks) {
+  module('#addCertificationCenterMembership', (hooks) => {
 
     let event;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       event = { preventDefault() {} };
       controller.send = sinon.stub();
     });
 
-    module('when email is valid', function() {
+    module('when email is valid', () => {
 
       const emailWithSpaces = ' test@example.net ';
 
@@ -128,7 +128,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
       });
     });
 
-    module('when email is not valid', function() {
+    module('when email is not valid', () => {
 
       test('should be disabled if the email is empty', async function(assert) {
         // given
@@ -164,9 +164,9 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
       });
     });
 
-    module('when API response is not OK (201)', function() {
+    module('when API response is not OK (201)', () => {
 
-      module('when the response error does not contains any errors property', function() {
+      module('when the response error does not contains any errors property', () => {
 
         test('should send default error notification', async function(assert) {
           // given

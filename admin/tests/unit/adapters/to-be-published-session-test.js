@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | to be published session', function(hooks) {
+module('Unit | Adapter | to be published session', (hooks) => {
   setupTest(hooks);
 
-  module('#urlForQuery', function() {
+  module('#urlForQuery', () => {
     test('should return /admin/sessions/to-publish', function(assert) {
       // when
       const adapter = this.owner.lookup('adapter:to-be-published-session');
@@ -15,7 +15,7 @@ module('Unit | Adapter | to be published session', function(hooks) {
     });
   });
 
-  module('#urlForUpdateRecord', function() {
+  module('#urlForUpdateRecord', () => {
     test('should return /admin/sessions/:id', function(assert) {
       // when
       const adapter = this.owner.lookup('adapter:to-be-published-session');

@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import isEmailValid from 'pix-admin/utils/email-validator';
 
-module('Unit | Utils | email validator', function(hooks) {
+module('Unit | Utils | email validator', (hooks) => {
   setupTest(hooks);
 
-  module('Invalid emails', function() {
+  module('Invalid emails', () => {
     [
       '',
       ' ',
@@ -16,14 +16,14 @@ module('Unit | Utils | email validator', function(hooks) {
       'INVALID_EMAIL@pix.',
       '@pix.fr',
       '@pix',
-    ].forEach(function(badEmail) {
+    ].forEach((badEmail) => {
       test(`should return false when email is invalid: ${badEmail}`, function(assert) {
         assert.equal(isEmailValid(badEmail), false);
       });
     });
   });
 
-  module('Valid emails', function() {
+  module('Valid emails', () => {
     [
       'user@pix.fr',
       'user@pix.fr ',
@@ -34,7 +34,7 @@ module('Unit | Utils | email validator', function(hooks) {
       'user+beta@pix.fr',
       'user+beta@pix.gouv.fr',
       'user+beta@pix.beta.gouv.fr',
-    ].forEach(function(validEmail) {
+    ].forEach((validEmail) => {
       test(`should return true if provided email is valid: ${validEmail}`, function(assert) {
         assert.equal(isEmailValid(validEmail), true);
       });

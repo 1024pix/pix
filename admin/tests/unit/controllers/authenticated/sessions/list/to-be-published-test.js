@@ -4,10 +4,10 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/sessions/list/to-be-published', function(hooks) {
+module('Unit | Controller | authenticated/sessions/list/to-be-published', (hooks) => {
   setupTest(hooks);
 
-  module('#publishSession', function() {
+  module('#publishSession', () => {
 
     test('should publish session', async function(assert) {
       // given
@@ -50,7 +50,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     });
   });
 
-  module('#showConfirmModal', function() {
+  module('#showConfirmModal', () => {
     test('should change shouldShowModal to true', async function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
@@ -63,7 +63,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     });
   });
 
-  module('#hideConfirmModal', function() {
+  module('#hideConfirmModal', () => {
     test('should change shouldShowModal to false', async function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
@@ -76,7 +76,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     });
   });
 
-  module('#batchPublishSessions', function() {
+  module('#batchPublishSessions', () => {
     test('should publish several sessions', async function(assert) {
       // given
       const successMock = sinon.stub();

@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | menu-bar', function(hooks) {
+module('Integration | Component | menu-bar', (hooks) => {
   setupRenderingTest(hooks);
 
   test('should contain link to "organizations" management page', async function(assert) {

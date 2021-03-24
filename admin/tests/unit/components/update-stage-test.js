@@ -3,10 +3,10 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | update-stage', function(hooks) {
+module('Unit | Component | update-stage', (hooks) => {
   setupTest(hooks);
 
-  module('#updateStage', function() {
+  module('#updateStage', () => {
     test('it should update controller stage fields', async function(assert) {
       // given
       const component = createGlimmerComponent('component:stages/update-stage', { model: {

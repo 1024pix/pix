@@ -14,7 +14,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
-module('Acceptance | authenticated/certification-centers/get', function(hooks) {
+module('Acceptance | authenticated/certification-centers/get', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -29,7 +29,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
   let certificationCenterMembership1;
   let currentUser;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
@@ -84,7 +84,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.contains(expectedDate1);
   });
 
-  module('To add certification center membership', function() {
+  module('To add certification center membership', () => {
 
     test('should display elements to add certification center membership', async function(assert) {
       // when

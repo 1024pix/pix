@@ -4,7 +4,7 @@ import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-module('Integration | Component | confirm-popup', function(hooks) {
+module('Integration | Component | confirm-popup', (hooks) => {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {

@@ -3,13 +3,13 @@ import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import ENV from 'pix-admin/config/environment';
 
-module('Unit | Component | organization-information-section', function(hooks) {
+module('Unit | Component | organization-information-section', (hooks) => {
 
   setupTest(hooks);
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     component = createGlimmerComponent('component:organization-information-section');
   });
 

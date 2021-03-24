@@ -4,7 +4,7 @@ import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-module('Integration | Component | routes/authenticated/to-be-published-sessions | list-items', function(hooks) {
+module('Integration | Component | routes/authenticated/to-be-published-sessions | list-items', (hooks) => {
 
   setupRenderingTest(hooks);
 

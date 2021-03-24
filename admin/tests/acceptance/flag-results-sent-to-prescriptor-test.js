@@ -6,16 +6,16 @@ import { FINALIZED, statusToDisplayName } from 'pix-admin/models/session';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
-module('Acceptance | Session page', function(hooks) {
+module('Acceptance | Session page', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
   });
 
-  module('Access', function() {
+  module('Access', () => {
 
     test('Session page should be accessible from /certification/sessions', async function(assert) {
       // when
@@ -26,7 +26,7 @@ module('Acceptance | Session page', function(hooks) {
     });
   });
 
-  module('Rendering', function(hooks) {
+  module('Rendering', (hooks) => {
 
     const STATUS_SECTION = 9;
     const FINALISATION_DATE_SECTION = 10;
@@ -35,7 +35,7 @@ module('Acceptance | Session page', function(hooks) {
     const VALUE_ROW_INDEX = 2;
     const SEND_TO_PRESCRIPTEUR_BUTTON_INDEX = 5;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       await visitSessionsPage();
     });
 

@@ -4,14 +4,14 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
-module('Acceptance | authenticated/users/get', function(hooks) {
+module('Acceptance | authenticated/users/get', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let currentUser;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
   });

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapter | certificationCenterMembership', function(hooks) {
+module('Unit | Adapter | certificationCenterMembership', (hooks) => {
 
   setupTest(hooks);
 
@@ -13,7 +13,7 @@ module('Unit | Adapter | certificationCenterMembership', function(hooks) {
     adapter.ajax = sinon.stub().resolves();
   });
 
-  module('#urlForQuery', function() {
+  module('#urlForQuery', () => {
 
     test('should build query url from certificationCenter id', async function(assert) {
       const query = { filter: { certificationCenterId: '1' } };
@@ -24,9 +24,9 @@ module('Unit | Adapter | certificationCenterMembership', function(hooks) {
     });
   });
 
-  module('#createRecord', function() {
+  module('#createRecord', () => {
 
-    module('when createByEmail is true', function() {
+    module('when createByEmail is true', () => {
 
       test('should call /api/certification-centers/id/certification-center-memberships', async function(assert) {
         // given

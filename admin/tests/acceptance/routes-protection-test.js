@@ -5,7 +5,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 
 import { createAuthenticateSession } from '../helpers/test-init';
 
-module('Acceptance | routes protection', function(hooks) {
+module('Acceptance | routes protection', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 

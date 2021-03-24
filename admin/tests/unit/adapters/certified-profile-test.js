@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | certified profile', function(hooks) {
+module('Unit | Adapter | certified profile', (hooks) => {
   setupTest(hooks);
 
-  module('#urlForFindRecord', function() {
+  module('#urlForFindRecord', () => {
     test('should build URL', function(assert) {
       // when
       const adapter = this.owner.lookup('adapter:certified-profile');

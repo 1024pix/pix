@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { ACQUIRED, REJECTED, NOT_PASSED } from 'pix-admin/models/certification';
 
-module('Unit | Model | certification', function(hooks) {
+module('Unit | Model | certification', (hooks) => {
   setupTest(hooks);
 
   let store;
@@ -17,7 +17,7 @@ module('Unit | Model | certification', function(hooks) {
     assert.ok(model);
   });
 
-  module('#isCleaCertificationIsAcquired', function() {
+  module('#isCleaCertificationIsAcquired', () => {
 
     const cleaStatusesAndExpectedResult = new Map([
       [ACQUIRED, true],
@@ -25,7 +25,7 @@ module('Unit | Model | certification', function(hooks) {
       [NOT_PASSED, false],
     ]);
     cleaStatusesAndExpectedResult.forEach((expectedResult, cleaStatus) => {
-      module(`when cleaCertificationStatus is ${cleaStatus}`, function() {
+      module(`when cleaCertificationStatus is ${cleaStatus}`, () => {
 
         test(`isCleaCertificationIsAcquired should be ${expectedResult}`, function(assert) {
           // given
@@ -43,7 +43,7 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#isCleaCertificationIsRejected', function() {
+  module('#isCleaCertificationIsRejected', () => {
 
     const cleaStatusesAndExpectedResult = new Map([
       [ACQUIRED, false],
@@ -51,7 +51,7 @@ module('Unit | Model | certification', function(hooks) {
       [NOT_PASSED, false],
     ]);
     cleaStatusesAndExpectedResult.forEach((expectedResult, cleaStatus) => {
-      module(`when cleaCertificationStatus is ${cleaStatus}`, function() {
+      module(`when cleaCertificationStatus is ${cleaStatus}`, () => {
 
         test(`isCleaCertificationIsRejected should be ${expectedResult}`, function(assert) {
           // given

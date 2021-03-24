@@ -3,10 +3,10 @@ import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/certifications/certification/profile', function(hooks) {
+module('Unit | Route | authenticated/certifications/certification/profile', (hooks) => {
   setupTest(hooks);
 
-  module('#model', function() {
+  module('#model', () => {
 
     test('it should return certified profile', async function(assert) {
       // given

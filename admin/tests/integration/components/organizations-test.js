@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
-module('Integration | Component | target-profiles organizations', function(hooks) {
+module('Integration | Component | target-profiles organizations', (hooks) => {
 
   setupRenderingTest(hooks);
 

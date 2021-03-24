@@ -3,10 +3,10 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | update-target-profile-name', function(hooks) {
+module('Unit | Component | update-target-profile-name', (hooks) => {
   setupTest(hooks);
 
-  module('#updateProfileName', function() {
+  module('#updateProfileName', () => {
     test('it should update controller name field', async function(assert) {
       // given
       const component = createGlimmerComponent('component:target-profiles/update-target-profile-name', { model: {

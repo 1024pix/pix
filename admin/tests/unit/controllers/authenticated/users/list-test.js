@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/users/list', function(hooks) {
+module('Unit | Controller | authenticated/users/list', (hooks) => {
   setupTest(hooks);
   let controller;
 
@@ -9,9 +9,9 @@ module('Unit | Controller | authenticated/users/list', function(hooks) {
     controller = this.owner.lookup('controller:authenticated.users.list');
   });
 
-  module('#triggerFiltering task', function() {
+  module('#triggerFiltering task', () => {
 
-    module('updating firstName', function() {
+    module('updating firstName', () => {
 
       test('it should update controller firstName field', async function(assert) {
         // given
@@ -26,7 +26,7 @@ module('Unit | Controller | authenticated/users/list', function(hooks) {
       });
     });
 
-    module('updating lastName', function() {
+    module('updating lastName', () => {
 
       test('it should update controller lastName field', async function(assert) {
         // given
@@ -41,7 +41,7 @@ module('Unit | Controller | authenticated/users/list', function(hooks) {
       });
     });
 
-    module('updating email', function() {
+    module('updating email', () => {
 
       test('it should update controller email field', async function(assert) {
         // given

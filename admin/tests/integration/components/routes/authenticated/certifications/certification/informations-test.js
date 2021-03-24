@@ -5,18 +5,18 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
-module('Integration | Component | routes/authenticated/certifications/certification | informations', function(hooks) {
+module('Integration | Component | routes/authenticated/certifications/certification | informations', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
   });
 
-  module('certification issue report container', function() {
+  module('certification issue report container', () => {
 
-    module('when there is no certification issue report', function() {
+    module('when there is no certification issue report', () => {
       test('it renders nothing', async function(assert) {
         // given
         const certificationIssueReports = [];
@@ -52,9 +52,9 @@ module('Integration | Component | routes/authenticated/certifications/certificat
       });
     });
 
-    module('when there are certification issue reports', function() {
+    module('when there are certification issue reports', () => {
 
-      module('when there are only certification issue reports with required action', function() {
+      module('when there are only certification issue reports with required action', () => {
 
         test('it renders only certifications issue reports with required action', async function(assert) {
           // given
@@ -97,7 +97,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         });
       });
 
-      module('when there are only certification issue reports without required action', function() {
+      module('when there are only certification issue reports without required action', () => {
 
         test('it renders only certifications issue reports without required action', async function(assert) {
           // given

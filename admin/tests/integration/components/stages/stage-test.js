@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Stages::Stage', function(hooks) {
+module('Integration | Component | Stages::Stage', (hooks) => {
   let stage;
   let isEditMode;
   let toggleEditMode;

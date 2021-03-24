@@ -4,15 +4,15 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | tools page', function(hooks) {
+module('Acceptance | tools page', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     await createAuthenticateSession({ userId: 1 });
   });
 
-  module('Access', function() {
+  module('Access', () => {
 
     test('Tools page should be accessible from /tools', async function(assert) {
       // when
@@ -23,9 +23,9 @@ module('Acceptance | tools page', function(hooks) {
     });
   });
 
-  module('Rendering', function(hooks) {
+  module('Rendering', (hooks) => {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       await visit('/tools');
     });
 

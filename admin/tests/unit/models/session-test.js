@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { STARTED, PROCESSED } from 'pix-admin/models/session';
 
-module('Unit | Model | session', function(hooks) {
+module('Unit | Model | session', (hooks) => {
   setupTest(hooks);
 
   let store;
@@ -12,9 +12,9 @@ module('Unit | Model | session', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('#isFinalized', function() {
+  module('#isFinalized', () => {
 
-    module('when the status is PROCESSED', function() {
+    module('when the status is PROCESSED', () => {
 
       test('isFinalized should be true', function(assert) {
         // given
@@ -30,7 +30,7 @@ module('Unit | Model | session', function(hooks) {
       });
     });
 
-    module('when the status is STARTED', function() {
+    module('when the status is STARTED', () => {
 
       test('isFinalized should be false', function(assert) {
         // given
@@ -49,9 +49,9 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#hasExaminerGlobalComment', function() {
+  module('#hasExaminerGlobalComment', () => {
 
-    module('when there is no examinerGlobalComment', function() {
+    module('when there is no examinerGlobalComment', () => {
 
       test('it should return false', function(assert) {
         // given
@@ -65,7 +65,7 @@ module('Unit | Model | session', function(hooks) {
       });
     });
 
-    module('when there is a examinerGlobalComment with only whitespaces', function() {
+    module('when there is a examinerGlobalComment with only whitespaces', () => {
 
       test('it should also return false', function(assert) {
         // given
@@ -79,7 +79,7 @@ module('Unit | Model | session', function(hooks) {
       });
     });
 
-    module('when there is an examinerGlobalComment', function() {
+    module('when there is an examinerGlobalComment', () => {
 
       test('it should return true', function(assert) {
         // given
@@ -94,9 +94,9 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#isPublished', function() {
+  module('#isPublished', () => {
 
-    module('when there is no certification', function() {
+    module('when there is no certification', () => {
       let sessionWithoutCertifications;
 
       test('isPublished should be false', function(assert) {
@@ -113,13 +113,13 @@ module('Unit | Model | session', function(hooks) {
       });
     });
 
-    module('when there are multiple certifications', function() {
+    module('when there are multiple certifications', () => {
 
-      module('when all certifications are published', function() {
+      module('when all certifications are published', () => {
 
         let sessionWithAllCertificationsPublished;
 
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(async () => {
           sessionWithAllCertificationsPublished = run(() => {
             const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
             const certif2 = store.createRecord('jury-certification-summary', { isPublished: true });
@@ -133,11 +133,11 @@ module('Unit | Model | session', function(hooks) {
         });
       });
 
-      module('when not all certifications are published', function() {
+      module('when not all certifications are published', () => {
 
         let sessionWithoutAllCertificationsPublished;
 
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(async () => {
           sessionWithoutAllCertificationsPublished = run(() => {
             const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
             const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
@@ -150,11 +150,11 @@ module('Unit | Model | session', function(hooks) {
           assert.equal(isPublished, true);
         });
       });
-      module('when all certifications are not published', function() {
+      module('when all certifications are not published', () => {
 
         let sessionWithoutAllCertificationsPublished;
 
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(async () => {
           sessionWithoutAllCertificationsPublished = run(() => {
             const certif1 = store.createRecord('jury-certification-summary', { isPublished: false });
             const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
@@ -172,11 +172,11 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countCertificationIssueReports', function() {
+  module('#countCertificationIssueReports', () => {
     let sessionWithCertificationIssueReports;
     let sessionWithoutCertificationIssueReport;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       sessionWithCertificationIssueReports = run(() => {
         const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReports: 5 });
         const certif2 = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReports: 1 });
@@ -199,11 +199,11 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countCertificationIssueReportsWithActionRequired', function() {
+  module('#countCertificationIssueReportsWithActionRequired', () => {
     let sessionWithCertificationIssueReports;
     let sessionWithoutCertificationIssueReport;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       sessionWithCertificationIssueReports = run(() => {
         const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 5 });
         const certif2 = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 1 });
@@ -226,12 +226,12 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countNotCheckedEndScreen', function() {
+  module('#countNotCheckedEndScreen', () => {
 
     let sessionWithOneUncheckedEndScreen;
     let sessionWithOneCheckedEndScreen;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       sessionWithOneUncheckedEndScreen = run(() => {
         const certif = store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: false });
         return store.createRecord('session', { juryCertificationSummaries: [certif] });
@@ -255,12 +255,12 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#countNonValidatedCertifications', function() {
+  module('#countNonValidatedCertifications', () => {
 
     let sessionWithOneNotValidatedCertif;
     let sessionWithValidatedCertif;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       sessionWithOneNotValidatedCertif = run(() => {
         const certif = store.createRecord('jury-certification-summary', { status: 'nonValidated' });
         return store.createRecord('session', { juryCertificationSummaries: [certif] });
@@ -284,9 +284,9 @@ module('Unit | Model | session', function(hooks) {
 
   });
 
-  module('#areResultsToBeSentToPrescriber', function() {
+  module('#areResultsToBeSentToPrescriber', () => {
 
-    module('when session is finalized but results were not sent to prescriber yet', function() {
+    module('when session is finalized but results were not sent to prescriber yet', () => {
 
       test('it should return areResultsToBeSentToPrescriber with true value', function(assert) {
         // given
@@ -300,7 +300,7 @@ module('Unit | Model | session', function(hooks) {
       });
     });
 
-    module('when session is finalized and results has been sent to prescriber', function() {
+    module('when session is finalized and results has been sent to prescriber', () => {
 
       test('it should return areResultsToBeSentToPrescriber with false value', function(assert) {
         // given
@@ -315,9 +315,9 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#displayStatus', function() {
+  module('#displayStatus', () => {
 
-    module('when status is created', function() {
+    module('when status is created', () => {
 
       test('it should display created printable equivalent', function(assert) {
         // given
@@ -331,7 +331,7 @@ module('Unit | Model | session', function(hooks) {
       });
     });
 
-    module('when status is finalized', function() {
+    module('when status is finalized', () => {
 
       test('it should display finalized printable equivalent', function(assert) {
         // given
@@ -345,7 +345,7 @@ module('Unit | Model | session', function(hooks) {
       });
     });
 
-    module('when status is processed', function() {
+    module('when status is processed', () => {
 
       test('it should display processed printable equivalent', function(assert) {
         // given

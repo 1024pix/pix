@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Controller | authenticated/target-profiles/target-profile/organizations', function(hooks) {
+module('Unit | Controller | authenticated/target-profiles/target-profile/organizations', (hooks) => {
   setupTest(hooks);
   let controller;
 
@@ -11,8 +11,8 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
     controller = this.owner.lookup('controller:authenticated.target-profiles.target-profile.organizations');
   });
 
-  module('#updateFilters', function() {
-    module('updating name', function() {
+  module('#updateFilters', () => {
+    module('updating name', () => {
       test('it should update controller name field', async function(assert) {
         // given
         controller.name = 'someName';
@@ -26,7 +26,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
       });
     });
 
-    module('updating type', function() {
+    module('updating type', () => {
       test('it should update controller type field', async function(assert) {
         // given
         controller.type = 'someType';
@@ -40,7 +40,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
       });
     });
 
-    module('updating externalId', function() {
+    module('updating externalId', () => {
       test('it should update controller externalId field', async function(assert) {
         // given
         controller.externalId = 'someExternalId';
@@ -55,11 +55,11 @@ module('Unit | Controller | authenticated/target-profiles/target-profile/organiz
     });
   });
 
-  module('#attachOrganizations', function(hooks) {
+  module('#attachOrganizations', (hooks) => {
 
     let event;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       event = { preventDefault() {} };
     });
 

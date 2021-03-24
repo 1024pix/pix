@@ -4,7 +4,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | User details personal information', function(hooks) {
+module('Acceptance | User details personal information', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -32,7 +32,7 @@ module('Acceptance | User details personal information', function(hooks) {
     assert.equal(currentURL(), `/users/${user.id}`);
   });
 
-  module('when administrator click to edit users details', function() {
+  module('when administrator click to edit users details', () => {
 
     test('should update user firstName, lastName and email', async function(assert) {
       // given
@@ -53,7 +53,7 @@ module('Acceptance | User details personal information', function(hooks) {
     });
   });
 
-  module('when administrator click on anonymize button and confirm modal', function() {
+  module('when administrator click on anonymize button and confirm modal', () => {
 
     test('should anonymize the user', async function(assert) {
       // given
@@ -70,7 +70,7 @@ module('Acceptance | User details personal information', function(hooks) {
     });
   });
 
-  module('when administrator click on dissociate button', function() {
+  module('when administrator click on dissociate button', () => {
 
     test('should not display dissociate button after', async function(assert) {
       // given

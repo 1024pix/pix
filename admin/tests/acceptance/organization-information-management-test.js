@@ -4,15 +4,15 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | organization information management', function(hooks) {
+module('Acceptance | organization information management', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async () => {
     await createAuthenticateSession({ userId: 1 });
   });
 
-  module('editing organization', function() {
+  module('editing organization', () => {
 
     test('should be able to edit organization information', async function(assert) {
       // given

@@ -5,7 +5,7 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | organization memberships management', function(hooks) {
+module('Acceptance | organization memberships management', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -24,7 +24,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     assert.equal(currentURL(), `/organizations/${organization.id}/members`);
   });
 
-  module('listing members', function(hooks) {
+  module('listing members', (hooks) => {
     hooks.beforeEach(async () => {
       server.createList('membership', 12);
     });
@@ -62,7 +62,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('adding a member', function() {
+  module('adding a member', () => {
 
     test('should create a user membership and display it in the list', async function(assert) {
       // given
@@ -113,7 +113,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('inviting a member', function() {
+  module('inviting a member', () => {
 
     test('should create an organization-invitation', async function(assert) {
       // when
@@ -144,7 +144,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('editing a member\'s role', function(hooks) {
+  module('editing a member\'s role', (hooks) => {
 
     let membership;
 
@@ -166,7 +166,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('deactivating a member', function(hooks) {
+  module('deactivating a member', (hooks) => {
 
     hooks.beforeEach(async function() {
       const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });

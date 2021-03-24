@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapter | user', function(hooks) {
+module('Unit | Adapter | user', (hooks) => {
 
   setupTest(hooks);
 
@@ -12,7 +12,7 @@ module('Unit | Adapter | user', function(hooks) {
     adapter = this.owner.lookup('adapter:user');
   });
 
-  module('#urlForFindRecord', function() {
+  module('#urlForFindRecord', () => {
     test('should add /admin inside the default find record url', function(assert) {
       // when
       const url = adapter.urlForFindRecord(123, 'users');
@@ -22,7 +22,7 @@ module('Unit | Adapter | user', function(hooks) {
     });
   });
 
-  module('#urlForUpdateRecord', function() {
+  module('#urlForUpdateRecord', () => {
     test('should add /admin inside the default update record url', function(assert) {
       // when
       const url = adapter.urlForUpdateRecord(123);
@@ -32,17 +32,17 @@ module('Unit | Adapter | user', function(hooks) {
     });
   });
 
-  module('#updateRecord', function(hooks) {
+  module('#updateRecord', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       sinon.stub(adapter, 'ajax').resolves();
     });
 
-    hooks.afterEach(function() {
+    hooks.afterEach(() => {
       adapter.ajax.restore();
     });
 
-    module('when anonymizeUser adapterOptions is passed', function() {
+    module('when anonymizeUser adapterOptions is passed', () => {
 
       test('should send a POST request to user anonymize endpoint', async function(assert) {
         // given
@@ -62,7 +62,7 @@ module('Unit | Adapter | user', function(hooks) {
       });
     });
 
-    module('when dissociate adapterOptions is passed', function() {
+    module('when dissociate adapterOptions is passed', () => {
 
       test('should send a PATCH request to user dissociate endpoint', async function(assert) {
         // given

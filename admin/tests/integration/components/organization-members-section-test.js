@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | organization-members-section', function(hooks) {
+module('Integration | Component | organization-members-section', (hooks) => {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {

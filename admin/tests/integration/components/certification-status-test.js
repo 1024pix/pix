@@ -4,10 +4,10 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ERROR, STARTED } from 'pix-admin/models/certification';
 
-module('Integration | Component | certification-status', function(hooks) {
+module('Integration | Component | certification-status', (hooks) => {
   setupRenderingTest(hooks);
 
-  module('#isStatusBlocking', function() {
+  module('#isStatusBlocking', () => {
 
     [
       { status: ERROR },

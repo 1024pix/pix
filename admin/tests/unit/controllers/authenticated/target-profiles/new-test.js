@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/target-profiles/new', function(hooks) {
+module('Unit | Controller | authenticated/target-profiles/new', (hooks) => {
   setupTest(hooks);
 
   let controller;
@@ -11,7 +11,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
     controller = this.owner.lookup('controller:authenticated/target-profiles/new');
   });
 
-  module('#goBackToTargetProfileList', function() {
+  module('#goBackToTargetProfileList', () => {
     test('should delete record and go back target profile list page', async function(assert) {
       controller.store.deleteRecord = sinon.stub();
       controller.transitionToRoute = sinon.stub();
@@ -24,8 +24,8 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
     });
   });
 
-  module('#saveFileObject', function(hooks) {
-    hooks.beforeEach(function() {
+  module('#saveFileObject', (hooks) => {
+    hooks.beforeEach(() => {
       sinon.restore();
     });
 
@@ -54,7 +54,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
 
       let onLoadFunction;
       sinon.stub(FileReader.prototype, 'readAsText');
-      sinon.stub(FileReader.prototype, 'onload').set(function(onload) {
+      sinon.stub(FileReader.prototype, 'onload').set((onload) => {
         onLoadFunction = onload;
       });
 
@@ -76,7 +76,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
 
       let onLoadFunction;
       sinon.stub(FileReader.prototype, 'readAsText');
-      sinon.stub(FileReader.prototype, 'onload').set(function(onload) {
+      sinon.stub(FileReader.prototype, 'onload').set((onload) => {
         onLoadFunction = onload;
       });
 
@@ -89,7 +89,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
 
   });
 
-  module('#createTargetProfile', function() {
+  module('#createTargetProfile', () => {
     test('it should save model', async function(assert) {
       controller.model = {
         id: 3,

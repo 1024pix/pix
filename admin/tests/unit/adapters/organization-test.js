@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'pix-admin/config/environment';
 
-module('Unit | Adapters | organization', function(hooks) {
+module('Unit | Adapters | organization', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -15,7 +15,7 @@ module('Unit | Adapters | organization', function(hooks) {
     adapter.ajax = ajaxStub;
   });
 
-  module('#findHasMany', function() {
+  module('#findHasMany', () => {
     test('should build url with query params when type is membership', async function(assert) {
       // given
       const snapshot = { modelName: 'organization', id: '1', adapterOptions: { 'page[size]': 2 } };

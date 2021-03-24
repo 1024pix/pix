@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 
-module('Unit | Model | user', function(hooks) {
+module('Unit | Model | user', (hooks) => {
   setupTest(hooks);
 
   let store;
@@ -11,7 +11,7 @@ module('Unit | Model | user', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('#fullName', function() {
+  module('#fullName', () => {
 
     test('it should return the fullname, combination of last and first name', function(assert) {
       // given

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/organizations/list', function(hooks) {
+module('Unit | Route | authenticated/organizations/list', (hooks) => {
   setupTest(hooks);
   let route;
 
@@ -10,11 +10,11 @@ module('Unit | Route | authenticated/organizations/list', function(hooks) {
     route = this.owner.lookup('route:authenticated/organizations/list');
   });
 
-  module('#model', function(hooks) {
+  module('#model', (hooks) => {
     const params = {};
     const expectedQueryArgs = {};
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       route.store.query = sinon.stub().resolves();
       params.pageNumber = 'somePageNumber';
       params.pageSize = 'somePageSize';
@@ -24,7 +24,7 @@ module('Unit | Route | authenticated/organizations/list', function(hooks) {
       };
     });
 
-    module('when queryParams filters are falsy', function() {
+    module('when queryParams filters are falsy', () => {
 
       test('it should call store.query with no filters on id, name, type and externalId', async function(assert) {
         // when
@@ -42,7 +42,7 @@ module('Unit | Route | authenticated/organizations/list', function(hooks) {
       });
     });
 
-    module('when queryParams filters are  truthy', function() {
+    module('when queryParams filters are  truthy', () => {
 
       test('it should call store.query with filters containing trimmed values', async function(assert) {
         // given
@@ -68,10 +68,10 @@ module('Unit | Route | authenticated/organizations/list', function(hooks) {
 
   });
 
-  module('#resetController', function(hooks) {
+  module('#resetController', (hooks) => {
     let controller;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
@@ -82,7 +82,7 @@ module('Unit | Route | authenticated/organizations/list', function(hooks) {
       };
     });
 
-    module('when route is exiting', function() {
+    module('when route is exiting', () => {
 
       test('it should reset controller', function(assert) {
         // when
@@ -98,7 +98,7 @@ module('Unit | Route | authenticated/organizations/list', function(hooks) {
       });
     });
 
-    module('when route is not exiting', function() {
+    module('when route is not exiting', () => {
 
       test('it should not reset controller', function(assert) {
         // when

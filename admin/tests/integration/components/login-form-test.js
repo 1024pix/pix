@@ -9,7 +9,7 @@ import sinon from 'sinon';
 
 const NOT_PIXMASTER_MSG = 'Vous n\'avez pas les droits pour vous connecter.';
 
-module('Integration | Component | login-form', function(hooks) {
+module('Integration | Component | login-form', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -30,7 +30,7 @@ module('Integration | Component | login-form', function(hooks) {
     assert.dom('p.login-form__error').doesNotExist();
   });
 
-  module('Error management', function(hooks) {
+  module('Error management', (hooks) => {
 
     class SessionStub extends Service {
       authenticate = sinon.stub()

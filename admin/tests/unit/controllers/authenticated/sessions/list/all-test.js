@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
+module('Unit | Controller | authenticated/sessions/list/all', (hooks) => {
   setupTest(hooks);
   let controller;
 
@@ -9,9 +9,9 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
     controller = this.owner.lookup('controller:authenticated.sessions.list.all');
   });
 
-  module('#triggerFiltering task', function() {
+  module('#triggerFiltering task', () => {
 
-    module('when fieldName is id', function() {
+    module('when fieldName is id', () => {
 
       test('it should update controller id field', async function(assert) {
         // given
@@ -26,7 +26,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is certificationCenterName', function() {
+    module('when fieldName is certificationCenterName', () => {
 
       test('it should update controller certificationCenterName field', async function(assert) {
         // given
@@ -41,7 +41,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is status', function() {
+    module('when fieldName is status', () => {
 
       test('it should update controller status field', async function(assert) {
         // given
@@ -56,7 +56,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is resultsSentToPrescriberAt', function() {
+    module('when fieldName is resultsSentToPrescriberAt', () => {
 
       test('it should update controller resultsSentToPrescriberAt field', async function(assert) {
         // given
@@ -71,7 +71,7 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is certificationCenterType', function() {
+    module('when fieldName is certificationCenterType', () => {
 
       test('should update controller certificationCenterType field', async function(assert) {
         // given

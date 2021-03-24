@@ -14,7 +14,7 @@ function getMetaForPage(pageNumber) {
   };
 }
 
-module('Integration | Component | pagination-control', function(hooks) {
+module('Integration | Component | pagination-control', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it should disable previous button when user is on first page', async function(assert) {

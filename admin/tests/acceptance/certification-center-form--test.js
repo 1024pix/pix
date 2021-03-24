@@ -7,7 +7,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
-module('Acceptance | Certification-center Form', function(hooks) {
+module('Acceptance | Certification-center Form', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 

@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { htmlSafe } from '@ember/string';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
+module('Unit | Component | <CertificationDetailsCompetence/>', (hooks) => {
   setupTest(hooks);
 
   const answer = (result) => {
@@ -29,11 +29,11 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     component = createGlimmerComponent('component:certification/certification-details-competence');
   });
 
-  module('#competenceJury', function() {
+  module('#competenceJury', () => {
 
     test('it should not give jury values when no jury rate is set', async function(assert) {
       // given

@@ -4,7 +4,7 @@ import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-module('Integration | Component | routes/authenticated/certification-centers | list-items', function(hooks) {
+module('Integration | Component | routes/authenticated/certification-centers | list-items', (hooks) => {
 
   setupRenderingTest(hooks);
 

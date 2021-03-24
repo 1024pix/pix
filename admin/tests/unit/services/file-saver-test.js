@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Service | file-saver', function(hooks) {
+module('Unit | Service | file-saver', (hooks) => {
   setupTest(hooks);
   let fileSaver;
 
@@ -10,7 +10,7 @@ module('Unit | Service | file-saver', function(hooks) {
     fileSaver = this.owner.lookup('service:file-saver');
   });
 
-  module('#save', function() {
+  module('#save', () => {
     const id = 123456;
     const url = `/attestation/${id}`;
     const token = 'mytoken';
@@ -30,7 +30,7 @@ module('Unit | Service | file-saver', function(hooks) {
       downloadFileForModernBrowsersStub = sinon.stub().returns();
     });
 
-    module('when response does have a fileName info in headers', function() {
+    module('when response does have a fileName info in headers', () => {
       test('should give fileName from response', async function(assert) {
         // given
         const headers = { get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`) };
@@ -53,7 +53,7 @@ module('Unit | Service | file-saver', function(hooks) {
       });
     });
 
-    module('when response does not have a fileName info in headers', function() {
+    module('when response does not have a fileName info in headers', () => {
       test('should give default fileName', async function(assert) {
         // given
         const response = { blob: blobStub };

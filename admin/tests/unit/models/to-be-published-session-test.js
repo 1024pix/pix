@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | to be published session', function(hooks) {
+module('Unit | Model | to be published session', (hooks) => {
   setupTest(hooks);
 
-  module('#printableDateAndTime', function() {
+  module('#printableDateAndTime', () => {
     test('it should return a printable version of to be published session date and time', function(assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -21,7 +21,7 @@ module('Unit | Model | to be published session', function(hooks) {
     });
   });
 
-  module('#printableFinalizationDate', function() {
+  module('#printableFinalizationDate', () => {
     test('it should return a printable version of to be published session finalization date', function(assert) {
       // given
       const store = this.owner.lookup('service:store');

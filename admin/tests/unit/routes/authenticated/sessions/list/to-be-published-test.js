@@ -3,7 +3,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/list/to-be-published', function(hooks) {
+module('Unit | Route | authenticated/sessions/list/to-be-published', (hooks) => {
   setupTest(hooks);
 
   let store;
@@ -15,7 +15,7 @@ module('Unit | Route | authenticated/sessions/list/to-be-published', function(ho
     store = this.owner.lookup('service:store');
   });
 
-  module('#model', function() {
+  module('#model', () => {
     test('it should fetch the list of sessions to be published', async function(assert) {
       // given
       const route = this.owner.lookup('route:authenticated/sessions/list/to-be-published');

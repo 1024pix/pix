@@ -5,7 +5,7 @@ import createComponent from '../../../helpers/create-glimmer-component';
 
 const NO_SKILL = undefined;
 
-module('Unit |  Component | Target Profiles | details', function(hooks) {
+module('Unit |  Component | Target Profiles | details', (hooks) => {
   setupTest(hooks);
 
   test('build empty competence list with no target profile', function(assert) {

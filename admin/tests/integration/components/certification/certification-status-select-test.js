@@ -4,13 +4,13 @@ import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | <Certification::CertificationStatusSelect/>', function(hooks) {
+module('Integration | Component | <Certification::CertificationStatusSelect/>', (hooks) => {
 
   setupRenderingTest(hooks);
 
-  module('when in edition mode', function() {
+  module('when in edition mode', () => {
 
-    module('rendering', function() {
+    module('rendering', () => {
 
       test('it displays a label', async function(assert) {
         // given
@@ -61,7 +61,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
       });
     });
 
-    module('behaviour', function() {
+    module('behaviour', () => {
 
       test('it updates the certification status when the selected value changes', async function(assert) {
         // given
@@ -78,7 +78,7 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
     });
   });
 
-  module('when not in edition mode', function() {
+  module('when not in edition mode', () => {
 
     test('it does not render the select', async function(assert) {
       // given

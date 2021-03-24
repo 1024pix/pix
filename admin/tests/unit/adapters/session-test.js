@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapter | session', function(hooks) {
+module('Unit | Adapter | session', (hooks) => {
   setupTest(hooks);
   let adapter;
 
@@ -10,7 +10,7 @@ module('Unit | Adapter | session', function(hooks) {
     adapter = this.owner.lookup('adapter:session');
   });
 
-  module('#urlForQueryRecord', function() {
+  module('#urlForQueryRecord', () => {
 
     test('should add /jury inside the default query url', function(assert) {
       // when
@@ -21,7 +21,7 @@ module('Unit | Adapter | session', function(hooks) {
     });
   });
 
-  module('#urlForFindRecord', function() {
+  module('#urlForFindRecord', () => {
     test('should add /jury inside the default find record url', function(assert) {
       // when
       const url = adapter.urlForFindRecord(123, 'sessions');
@@ -31,7 +31,7 @@ module('Unit | Adapter | session', function(hooks) {
     });
   });
 
-  module('#urlForUpdateMarks', function() {
+  module('#urlForUpdateMarks', () => {
     test('should add /admin inside the default update record url', function(assert) {
       // when
       const url = adapter.urlForUpdateRecord(123);
@@ -41,9 +41,9 @@ module('Unit | Adapter | session', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
+  module('#updateRecord', () => {
 
-    module('when updatePublishedCertification adapterOption is passed', function() {
+    module('when updatePublishedCertification adapterOption is passed', () => {
 
       test('should send a patch request to /publish', function(assert) {
         // when
@@ -70,13 +70,13 @@ module('Unit | Adapter | session', function(hooks) {
       });
     });
 
-    module('when certificationOfficerAssignment adapterOption passed', function(hooks) {
+    module('when certificationOfficerAssignment adapterOption passed', (hooks) => {
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         sinon.stub(adapter, 'ajax');
       });
 
-      hooks.afterEach(function() {
+      hooks.afterEach(() => {
         adapter.ajax.restore();
       });
 

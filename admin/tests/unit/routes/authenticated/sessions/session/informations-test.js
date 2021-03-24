@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Route | authenticated/sessions/session/informations', function(hooks) {
+module('Unit | Route | authenticated/sessions/session/informations', (hooks) => {
   setupTest(hooks);
 
   test('it exists', function(assert) {

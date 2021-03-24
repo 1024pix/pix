@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | certification details', function(hooks) {
+module('Unit | Adapter | certification details', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -17,11 +17,11 @@ module('Unit | Adapter | certification details', function(hooks) {
     serializer = { serializeIntoHash: sinon.stub() };
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(() => {
     adapter.ajax.restore();
   });
 
-  module('#urlForFindRecord', function() {
+  module('#urlForFindRecord', () => {
     test('should build get url from certification id', function(assert) {
       // when
       const url = adapter.urlForFindRecord(123, 'certification');
@@ -31,7 +31,7 @@ module('Unit | Adapter | certification details', function(hooks) {
     });
   });
 
-  module('#urlForUpdateMarks', function() {
+  module('#urlForUpdateMarks', () => {
     test('should build update marks url from certification id', function(assert) {
       // when
       const url = adapter.urlForUpdateMarks();
@@ -41,7 +41,7 @@ module('Unit | Adapter | certification details', function(hooks) {
     });
   });
 
-  module('#urlForUpdateRecord', function() {
+  module('#urlForUpdateRecord', () => {
     test('should build update url from certification details id', function(assert) {
       // when
       const url = adapter.urlForUpdateRecord(123, 'certification');
@@ -51,9 +51,9 @@ module('Unit | Adapter | certification details', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
+  module('#updateRecord', () => {
 
-    module('when updateMarks adapter option passed', function() {
+    module('when updateMarks adapter option passed', () => {
 
       test('it should trigger an ajax call with the updateMarks url, data and method', async function(assert) {
         // given
@@ -85,7 +85,7 @@ module('Unit | Adapter | certification details', function(hooks) {
 
     });
 
-    module('when no adapter options is passed', function() {
+    module('when no adapter options is passed', () => {
 
       test('it should trigger an ajax call with the appropriate url, data and method', async function(assert) {
         // given

@@ -6,7 +6,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | certification-center-memberships-section', function(hooks) {
+module('Integration | Component | certification-center-memberships-section', (hooks) => {
 
   setupRenderingTest(hooks);
 

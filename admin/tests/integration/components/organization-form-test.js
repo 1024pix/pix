@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 
-module('Integration | Component | organization-form', function(hooks) {
+module('Integration | Component | organization-form', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -23,7 +23,7 @@ module('Integration | Component | organization-form', function(hooks) {
     assert.dom('.organization-form').exists();
   });
 
-  module('#selectOrganizationType', function() {
+  module('#selectOrganizationType', () => {
 
     test('should update attribute organization.type', async function(assert) {
       // given

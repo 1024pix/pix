@@ -6,7 +6,7 @@ import { selectChoose } from 'ember-power-select/test-support/helpers';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
-module('Integration | Component | member-item', function(hooks) {
+module('Integration | Component | member-item', (hooks) => {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function() {
@@ -28,7 +28,7 @@ module('Integration | Component | member-item', function(hooks) {
     assert.contains('Désactiver');
   });
 
-  module('when editing organization\'s role', function(hooks) {
+  module('when editing organization\'s role', (hooks) => {
 
     hooks.beforeEach(async function() {
       // given
@@ -77,7 +77,7 @@ module('Integration | Component | member-item', function(hooks) {
     });
   });
 
-  module('when deactivating membership', function(hooks) {
+  module('when deactivating membership', (hooks) => {
 
     hooks.beforeEach(async function() {
       // given

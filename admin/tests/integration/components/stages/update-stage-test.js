@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | UpdateStage', function(hooks) {
+module('Integration | Component | UpdateStage', (hooks) => {
   setupRenderingTest(hooks);
 
   let toggleEditMode;

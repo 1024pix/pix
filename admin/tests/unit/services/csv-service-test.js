@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Service | csv-service', function(hooks) {
+module('Unit | Service | csv-service', (hooks) => {
   setupTest(hooks);
 
   let service;
@@ -10,9 +10,9 @@ module('Unit | Service | csv-service', function(hooks) {
     service = this.owner.lookup('service:csv-service');
   });
 
-  module('#sanitize', function() {
+  module('#sanitize', () => {
 
-    module('when the string is clean', function() {
+    module('when the string is clean', () => {
 
       test('should return the string when string is empty', function(assert) {
         // given
@@ -38,7 +38,7 @@ module('Unit | Service | csv-service', function(hooks) {
 
     });
 
-    module('when the string starts with an illegal character', function() {
+    module('when the string starts with an illegal character', () => {
 
       test('should sanitize when starts with @', function(assert) {
         // given
@@ -89,7 +89,7 @@ module('Unit | Service | csv-service', function(hooks) {
       });
     });
 
-    module('when the value is not a string', function() {
+    module('when the value is not a string', () => {
 
       test('should return the same value', function(assert) {
         // given

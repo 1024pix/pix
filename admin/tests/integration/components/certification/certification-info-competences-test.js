@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | <Certification::CertificationCompetenceList/>', function(hooks) {
+module('Integration | Component | <Certification::CertificationCompetenceList/>', (hooks) => {
 
   setupRenderingTest(hooks);
 

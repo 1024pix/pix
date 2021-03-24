@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function(hooks) {
+module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', (hooks) => {
 
   setupRenderingTest(hooks);
 

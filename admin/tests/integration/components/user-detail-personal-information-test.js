@@ -4,11 +4,11 @@ import { click, find, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | user-detail-personal-information', function(hooks) {
+module('Integration | Component | user-detail-personal-information', (hooks) => {
 
   setupRenderingTest(hooks);
 
-  module('When the administrator click on user details', async function() {
+  module('When the administrator click on user details', async () => {
 
     test('should display the update button when user is connected by email only', async function(assert) {
       this.set('user', {
@@ -204,7 +204,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user__is-authenticated-from-gar').hasText('NON');
     });
 
-    module('When user has no schoolingRegistrations', function() {
+    module('When user has no schoolingRegistrations', () => {
 
       test('should not display dissociate button', async function(assert) {
         // given
@@ -229,7 +229,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    module('When user has schoolingRegistrations', function() {
+    module('When user has schoolingRegistrations', () => {
 
       test('should display dissociate button', async function(assert) {
         // given
@@ -256,11 +256,11 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('When the administrator click to update user details', async function() {
+  module('When the administrator click to update user details', async () => {
 
     let user = null;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       user = EmberObject.create({
         lastName: 'Harry',
         firstName: 'John',
@@ -313,11 +313,11 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('when the administrator click on anonymize button', async function() {
+  module('when the administrator click on anonymize button', async () => {
 
     let user = null;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       user = EmberObject.create({
         lastName: 'Harry',
         firstName: 'John',

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sessions/session/informations', function(hooks) {
+module('Unit | Controller | authenticated/sessions/session/informations', (hooks) => {
   setupTest(hooks);
 
   let store;
@@ -21,11 +21,11 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     controller.notifications = { success, error };
   });
 
-  module('#downloadSessionResultFile', function() {
+  module('#downloadSessionResultFile', () => {
 
     let url, fileName, validToken;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       url = `/api/admin/sessions/${model.id}/results`;
       fileName = 'resultats-session.csv';
       validToken = Symbol('my super token');
@@ -64,9 +64,9 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     });
   });
 
-  module('#downloadBeforeJuryFile', function() {
+  module('#downloadBeforeJuryFile', () => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       sinon.stub(store, 'peekRecord');
       store.peekRecord.withArgs('certification', 'juryCertifSummary1').returns('certification1');
       store.peekRecord.withArgs('certification', 'juryCertifSummary2').returns('certification2');
@@ -102,14 +102,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     });
   });
 
-  module('#checkForAssignment', function(hooks) {
+  module('#checkForAssignment', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       const save = sinon.stub();
       controller.model = { save };
     });
 
-    module('when a user is already assigned to session', function() {
+    module('when a user is already assigned to session', () => {
 
       test('it should show the modal', async function(assert) {
         //given
@@ -125,7 +125,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       });
     });
 
-    module('when a user is not assigned to session', function() {
+    module('when a user is not assigned to session', () => {
 
       test('it should assign user to session', async function(assert) {
         // given
@@ -159,7 +159,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     });
   });
 
-  module('#cancelAssignment', function() {
+  module('#cancelAssignment', () => {
 
     test('it should close the modal', async function(assert) {
       // when
@@ -170,9 +170,9 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     });
   });
 
-  module('#confirmAssignment', function(hooks) {
+  module('#confirmAssignment', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       const save = sinon.stub();
       save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
       controller.model = { save };
@@ -207,9 +207,9 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     });
   });
 
-  module('#copyResultsDownloadLink', function(hooks) {
+  module('#copyResultsDownloadLink', (hooks) => {
 
-    hooks.afterEach(function() {
+    hooks.afterEach(() => {
       sinon.restore();
     });
 

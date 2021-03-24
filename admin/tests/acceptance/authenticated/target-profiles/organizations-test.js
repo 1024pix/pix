@@ -3,7 +3,7 @@ import { module, test, setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
-module('Acceptance | authenticated/targets-profile/target-profile/organizations', function(hooks) {
+module('Acceptance | authenticated/targets-profile/target-profile/organizations', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -18,7 +18,7 @@ module('Acceptance | authenticated/targets-profile/target-profile/organizations'
     targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
   });
 
-  module('with multiple organizations', function(hooks) {
+  module('with multiple organizations', (hooks) => {
 
     hooks.beforeEach(async function() {
       this.server.create('organization', { name: 'My organization' });

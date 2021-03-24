@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 
-module('Integration | Component | certification-center-form', function(hooks) {
+module('Integration | Component | certification-center-form', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -23,7 +23,7 @@ module('Integration | Component | certification-center-form', function(hooks) {
     assert.dom('.certification-center-form').exists();
   });
 
-  module('#selectCertificationCenterType', function() {
+  module('#selectCertificationCenterType', () => {
 
     test('should update attribute certificationCenter.type', async function(assert) {
       // given

@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/sessions | list-items', function(hooks) {
+module('Integration | Component | routes/authenticated/sessions | list-items', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -53,7 +53,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     assert.dom('table tbody tr:nth-child(2) td:nth-child(9)').hasText(sessions[1].assignedCertificationOfficer.fullName);
   });
 
-  module('Input field for id filtering', function() {
+  module('Input field for id filtering', () => {
 
     test('it should render a input field to filter on id', async function(assert) {
       // when
@@ -64,7 +64,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Input field for certificationCenterName filtering', function() {
+  module('Input field for certificationCenterName filtering', () => {
 
     test('it should render a input field to filter on certificationCenterName', async function(assert) {
       // when
@@ -76,7 +76,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Dropdown menu for certification center type filtering', function() {
+  module('Dropdown menu for certification center type filtering', () => {
 
     test('it should render a dropdown menu to filter sessions on their certification center type', async function(assert) {
       // given
@@ -114,7 +114,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Dropdown menu for status filtering', function() {
+  module('Dropdown menu for status filtering', () => {
 
     test('it should render a dropdown menu to filter sessions on their status', async function(assert) {
       // given
@@ -153,7 +153,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Dropdown menu for resultsSentToPrescriberAt filtering', function() {
+  module('Dropdown menu for resultsSentToPrescriberAt filtering', () => {
 
     test('it should render a dropdown menu to filter sessions on their results sending', async function(assert) {
       // given

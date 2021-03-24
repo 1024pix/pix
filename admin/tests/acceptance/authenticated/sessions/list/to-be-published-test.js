@@ -5,7 +5,7 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authenticated/sessions/list/to be published', function(hooks) {
+module('Acceptance | authenticated/sessions/list/to be published', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -13,7 +13,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
 
   const PUBLISH_ALL_SESSIONS_BUTTON_SELECTOR = '.session-to-be-publish__publish-all .btn-primary';
 
-  module('When user is not logged in', function() {
+  module('When user is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
@@ -24,7 +24,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
     });
   });
 
-  module('When user is logged in', function(hooks) {
+  module('When user is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       // given
