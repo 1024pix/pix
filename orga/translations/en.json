@@ -306,7 +306,7 @@
       "title": "Certification results",
       "documentation-link-notice": "Follow this link to find indications on how to interpret the results: ",
       "documentation-link-label": "Interpreting the results.",
-      "documentation-link": "TODO",
+      "documentation-link": "https://cloud.pix.fr/s/cRaeKT4ErrXs4X8",
       "errors": {
         "no-results": "No certification results for the class {selectedDivision}.",
         "invalid-division": "The class {selectedDivision} does not exist."
