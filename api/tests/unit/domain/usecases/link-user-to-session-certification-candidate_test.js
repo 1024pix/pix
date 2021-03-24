@@ -13,16 +13,9 @@ const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domai
 describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
   const sessionId = 42;
   const userId = 'userId';
-  let firstName;
-  let lastName;
-  let birthdate;
-  let certificationCandidateRepository;
-
-  beforeEach(() => {
-    firstName = 'Charlie';
-    lastName = 'Bideau';
-    birthdate = '2010-10-10';
-  });
+  const firstName = 'Charlie';
+  const lastName = 'Bideau';
+  const birthdate = '2010-10-10';
 
   context('when there is a problem with the personal info', () => {
 
@@ -32,7 +25,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         // given
         const sessionRepository = _buildFakeSessionRepository()
           .withIsSco({ args: sessionId, resolves: false });
-        certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
+        const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
           .withFindBySessionIdAndPersonalInfo({
             args: {
               sessionId,
@@ -65,7 +58,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         // given
         const sessionRepository = _buildFakeSessionRepository()
           .withIsSco({ args: sessionId, resolves: false });
-        certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
+        const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
           .withFindBySessionIdAndPersonalInfo({
             args: {
               sessionId,
@@ -94,7 +87,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
   });
 
   context('when there is exactly one certification candidate that matches with the provided personal info', () => {
-    let certificationCandidate;
 
     context('when the matching certification candidate is already linked to a user', () => {
 
@@ -104,8 +96,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           // given
           const sessionRepository = _buildFakeSessionRepository()
             .withIsSco({ args: sessionId, resolves: false });
-          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId });
-          certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId });
+          const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
             .withFindBySessionIdAndPersonalInfo({
               args: {
                 sessionId,
@@ -140,8 +132,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           // given
           const sessionRepository = _buildFakeSessionRepository()
             .withIsSco({ args: sessionId, resolves: false });
-          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: 'otherUserId' });
-          certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: 'otherUserId' });
+          const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
             .withFindBySessionIdAndPersonalInfo({
               args: {
                 sessionId,
@@ -177,8 +169,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           // given
           const sessionRepository = _buildFakeSessionRepository()
             .withIsSco({ args: sessionId, resolves: false });
-          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null });
-          certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null });
+          const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
             .withFindBySessionIdAndPersonalInfo({
               args: {
                 sessionId,
@@ -212,8 +204,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           // given
           const sessionRepository = _buildFakeSessionRepository()
             .withIsSco({ args: sessionId, resolves: false });
-          certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null, id: 'candidateId' });
-          certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
+          const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null, id: 'candidateId' });
+          const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
             .withFindBySessionIdAndPersonalInfo({
               args: {
                 sessionId,
@@ -251,6 +243,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
   context('when the session is of type SCO', () => {
 
     context('when the user does not match with a session candidate and its schooling registration', () => {
+
       it('throws MatchingReconciledStudentNotFoundError', async () => {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -293,7 +286,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
     });
 
     context('when the user matches with a session candidate and its schooling registration', () => {
+
       context('when no other candidates is already linked to that user', () => {
+
         it('should create a link between the candidate and the user and return an event to notify it, ', async () => {
           // given
           const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
@@ -347,6 +342,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       });
 
       context('when another candidates is already linked to that user', () => {
+
         it('throws UserAlreadyLinkedToCandidateInSessionError', async () => {
           // given
           const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
