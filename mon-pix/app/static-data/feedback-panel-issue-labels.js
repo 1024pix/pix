@@ -64,7 +64,12 @@ const questions = {
   ],
   'link': [
     {
-      name: 'link',
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.link-unauthorized.label',
+      type: 'tutorial',
+      content: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.link-unauthorized.solution',
+    },
+    {
+      name: 'pages.challenge.feedback-panel.form.fields.detail-selection.options.link-other',
       type: 'textbox',
     },
   ],

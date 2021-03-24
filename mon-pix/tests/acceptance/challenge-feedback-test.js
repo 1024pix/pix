@@ -54,7 +54,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
 
       context('and the form is filled but not sent', function() {
         beforeEach(async function() {
-          await fillIn(DROPDOWN, 'link');
+          await fillIn(DROPDOWN, 'accessibility');
           await fillIn(TEXTAREA, 'TEST_CONTENT');
           await blur(TEXTAREA);
         });
@@ -71,7 +71,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
 
           it('should always reset the feedback form between two consecutive challenges', async function() {
             await click('.feedback-panel__open-button');
-            await fillIn(DROPDOWN, 'link');
+            await fillIn(DROPDOWN, 'accessibility');
             expect(find(TEXTAREA).value).to.equal('');
           });
         });
