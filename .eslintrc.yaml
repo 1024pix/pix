@@ -35,6 +35,8 @@ rules:
     - error
   "mocha/no-skipped-tests":
     - warn
+  "mocha/no-mocha-arrows":
+    - error
   no-multiple-empty-lines:
     - error
     - { max: 1, maxEOF: 1 }
@@ -81,4 +83,3 @@ rules:
     - error
   no-multi-spaces:
     - error
-    
