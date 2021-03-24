@@ -15,3 +15,4 @@ rules:
         message: "Use only ISO8601 UTC syntax ('2019-03-12T01:02:03Z') in Date constructor"
      -  selector: "CallExpression[callee.object.object.name='faker'][callee.object.property.name='internet'][callee.property.name='email']"
         message: "Use only faker.internet.exampleEmail()"
+  mocha/prefer-arrow-callback: error
