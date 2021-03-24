@@ -2,9 +2,9 @@ const { expect } = require('chai');
 
 const { computeLeadTimes } = require('../../compute-lead-times/compute-lead-times');
 
-describe('Unit | Script | Lead time computation', () => {
+describe('Unit | Script | Lead time computation', function() {
 
-  it('computes a lead time of one day', () => {
+  it('computes a lead time of one day', function() {
     const tagDate = '2020-01-21 00:00:00 +0100';
     const commitDates = ['2020-01-20 00:00:00 +0100'];
 
@@ -13,7 +13,7 @@ describe('Unit | Script | Lead time computation', () => {
     expect(leadTimes).to.deep.equal([{ leadTime: 1 }]);
   });
 
-  it('computes a lead time of two days', () => {
+  it('computes a lead time of two days', function() {
     const tagDate = '2020-01-21 00:00:00 +0100';
     const commitDates = ['2020-01-19 00:00:00 +0100'];
 
@@ -22,7 +22,7 @@ describe('Unit | Script | Lead time computation', () => {
     expect(leadTimes).to.deep.equal([{ leadTime: 2 }]);
   });
 
-  it('computes a lead time for two commits', () => {
+  it('computes a lead time for two commits', function() {
     const tagDate = '2020-01-21 00:00:00 +0100';
     const commitDates = ['2020-01-20 00:00:00 +0100', '2020-01-19 00:00:00 +0100'];
 
