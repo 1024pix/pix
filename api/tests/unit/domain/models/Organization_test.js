@@ -300,4 +300,32 @@ describe('Unit | Domain | Models | Organization', () => {
       });
     });
   });
+
+  describe('get#isScoAngManagingStudents', () => {
+
+    it('should return true when organization is of type SCO and is managing student', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
+
+      // when / then
+      expect(organization.isScoAndManagingStudents).is.true;
+    });
+
+    it('should return false when organization is not of type SCO', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ type: 'SUP' });
+
+      // when / then
+      expect(organization.isScoAndManagingStudents).is.false;
+    });
+
+    it('should return false when organization is not managingStudent', () => {
+      // given
+      const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: false });
+
+      // when / then
+      expect(organization.isScoAndManagingStudents).is.false;
+    });
+  });
+
 });
