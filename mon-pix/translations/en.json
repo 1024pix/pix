@@ -178,7 +178,7 @@
                     "session-number": "Session number"
                 },
                 "fields-validation": {
-                  "session-number-error": "TODO"
+                  "session-number-error": "The session ID must only contain numbers."
                 }
             }
         },
