@@ -382,6 +382,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     beforeEach(() => {
       payload = querystring.stringify({
         campaign_code: code,
+        lang: 'fr',
       });
     });
 

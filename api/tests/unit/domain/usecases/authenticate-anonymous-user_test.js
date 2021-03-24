@@ -6,12 +6,14 @@ const authenticateAnonymousUser = require('../../../../lib/domain/usecases/authe
 
 describe('Unit | UseCase | authenticate-anonymous-user', () => {
   let campaignCode;
+  let lang;
   let campaignToJoinRepository;
   let userRepository;
   let tokenService;
 
   beforeEach(() => {
     campaignCode = 'SIMPLIFIE';
+    lang = 'en';
     campaignToJoinRepository = {
       getByCode: sinon.stub(),
     };
@@ -34,11 +36,12 @@ describe('Unit | UseCase | authenticate-anonymous-user', () => {
       cgu: false,
       mustValidateTermsOfService: false,
       isAnonymous: true,
+      lang: lang,
     });
     userRepository.create.resolves({ id: 1 });
 
     // when
-    await authenticateAnonymousUser({ campaignCode, campaignToJoinRepository, userRepository, tokenService });
+    await authenticateAnonymousUser({ campaignCode, lang, campaignToJoinRepository, userRepository, tokenService });
 
     // then
     expect(campaignToJoinRepository.getByCode).to.have.been.calledWith(campaignCode);

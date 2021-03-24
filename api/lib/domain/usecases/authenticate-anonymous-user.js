@@ -3,6 +3,7 @@ const { UserCantBeCreatedError } = require('../errors');
 
 module.exports = async function authenticateAnonymousUser({
   campaignCode,
+  lang = 'fr',
   campaignToJoinRepository,
   userRepository,
   tokenService,
@@ -20,6 +21,7 @@ module.exports = async function authenticateAnonymousUser({
       cgu: false,
       mustValidateTermsOfService: false,
       isAnonymous: true,
+      lang,
     }),
   });
 
