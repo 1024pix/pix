@@ -17,7 +17,8 @@ async function linkUserToSessionCertificationCandidate({
   lastName,
   birthdate,
   certificationCandidateRepository,
-  sessionRepository,
+  certificationCenterRepository,
+  organizationRepository,
   schoolingRegistrationRepository,
 }) {
   const participatingCertificationCandidate = new CertificationCandidate({
@@ -34,10 +35,14 @@ async function linkUserToSessionCertificationCandidate({
     certificationCandidateRepository,
   });
 
-  const isSco = await sessionRepository.isSco(sessionId);
+  const isSessionFromAScoAndManagingStudentsOrganization = await _isSessionFromAScoAndManagingStudentsOrganization({
+    sessionId,
+    certificationCenterRepository,
+    organizationRepository,
+  });
 
   if (!certificationCandidate.isLinkedToAUser()) {
-    if (isSco) {
+    if (isSessionFromAScoAndManagingStudentsOrganization) {
       await _checkCandidateMatchTheReconciledStudent({
         userId,
         certificationCandidate,
@@ -81,6 +86,29 @@ async function _getSessionCertificationCandidateByPersonalInfo({
   return _.first(matchingSessionCandidates);
 }
 
+async function _isSessionFromAScoAndManagingStudentsOrganization({
+  sessionId,
+  certificationCenterRepository,
+  organizationRepository,
+}) {
+  const sessionCertificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+
+  if (sessionCertificationCenter.isSco) {
+    const sessionOrganization = await _getOrganizationLinkedToCertificationCenter({
+      certificationCenter: sessionCertificationCenter,
+      organizationRepository,
+    });
+    return sessionOrganization.isScoAndManagingStudents;
+  } else {
+    return false;
+  }
+}
+
+function _getOrganizationLinkedToCertificationCenter({ certificationCenter, organizationRepository }) {
+  const commonExternalId = certificationCenter.externalId;
+  return organizationRepository.getScoOrganizationByExternalId(commonExternalId);
+}
+
 async function _linkUserToCandidate({
   sessionId,
   userId,
@@ -103,11 +131,17 @@ async function _linkUserToCandidate({
   return certificationCandidate;
 }
 
-async function _checkCandidateMatchTheReconciledStudent({ userId, certificationCandidate, schoolingRegistrationRepository }) {
-  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
-    userId,
-    schoolingRegistrationId: certificationCandidate.schoolingRegistrationId,
-  });
+async function _checkCandidateMatchTheReconciledStudent({
+  userId,
+  certificationCandidate,
+  schoolingRegistrationRepository,
+}) {
+  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = await schoolingRegistrationRepository
+    .isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
+      userId,
+      schoolingRegistrationId: certificationCandidate.schoolingRegistrationId,
+    });
+
   if (!isSchoolingRegistrationIdLinkedToUserAndSCOOrganization) {
     throw new MatchingReconciledStudentNotFoundError();
   }
