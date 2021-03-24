@@ -3,7 +3,6 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
 const CertificationAssessment = require('../../../../../lib/domain/models/CertificationAssessment');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
-const Answer = require('../../../../../lib/domain/models/Answer');
 const challengeRepository = require('../../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
@@ -1090,64 +1089,5 @@ describe('Unit | Service | Certification Result Service', function() {
 
       });
     });
-
   });
-
-  describe('#computeAnswersSuccessRate', () => {
-
-    context('when all answers are OK', () => {
-
-      it('should have a success rate of 100%', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ok' })];
-
-        // when
-        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(reproducibilityRate).to.equal(100);
-      });
-    });
-
-    context('when all answers are KO', () => {
-
-      it('should have a success rate of 0%', () => {
-        // given
-        const answers = [new Answer({ result: 'ko' }), new Answer({ result: 'ko' })];
-
-        // when
-        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(reproducibilityRate).to.equal(0);
-      });
-    });
-
-    context('when the answers are a mixed of valid and wrong answers', () => {
-
-      it('should have a success rate of 50% with 1W and 1R', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ko' })];
-
-        // when
-        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(reproducibilityRate).to.equal(50);
-      });
-
-      it('should have a success rate of 33.3% with 2W and 1R', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'aband' }), new Answer({ result: 'ko' })];
-
-        // when
-        const reproducibilityRate = certificationResultService._computeAnswersSuccessRate(answers);
-
-        // then
-        expect(reproducibilityRate).to.be.within(33.333333, 33.333334);
-      });
-
-    });
-  });
-
 });
