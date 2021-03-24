@@ -299,37 +299,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
   });
 
   context('when the session is of type SCO', () => {
-    context('when the user does not match with a session candidate', () => {
-      it('throws CertificationCandidateByPersonalInfoNotFoundError', async () => {
-        // given
-        const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
-          .withFindBySessionIdAndPersonalInfo({
-            args: {
-              sessionId,
-              firstName,
-              lastName,
-              birthdate,
-            },
-            resolves: [],
-          });
-        const sessionRepository = _buildFakeSessionRepository()
-          .withIsSco({ args: sessionId, resolves: true });
-
-        // when
-        const err = await catchErr(linkUserToSessionCertificationCandidate)({
-          sessionId,
-          userId,
-          firstName,
-          lastName,
-          birthdate,
-          certificationCandidateRepository,
-          sessionRepository,
-        });
-
-        // then
-        expect(err).to.be.instanceOf(CertificationCandidateByPersonalInfoNotFoundError);
-      });
-    });
 
     context('when the user does not match with a session candidate and its schooling registration', () => {
       it('throws MatchingReconciledStudentNotFoundError', async () => {
