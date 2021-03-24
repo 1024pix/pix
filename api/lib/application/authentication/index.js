@@ -76,6 +76,7 @@ exports.register = async (server) => {
         validate: {
           payload: Joi.object().required().keys({
             campaign_code: Joi.string().required(),
+            lang: Joi.string().required(),
           }),
         },
         handler: AuthenticationController.authenticateAnonymousUser,

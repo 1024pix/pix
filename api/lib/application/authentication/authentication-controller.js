@@ -66,8 +66,8 @@ module.exports = {
 
   async authenticateAnonymousUser(request, h) {
 
-    const { 'campaign_code': campaignCode } = request.payload;
-    const accessToken = await usecases.authenticateAnonymousUser({ campaignCode });
+    const { 'campaign_code': campaignCode, lang } = request.payload;
+    const accessToken = await usecases.authenticateAnonymousUser({ campaignCode, lang });
 
     const response = {
       token_type: 'bearer',
