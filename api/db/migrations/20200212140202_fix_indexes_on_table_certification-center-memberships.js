@@ -3,14 +3,14 @@ const USERID_COLUMN = 'userId';
 const CERTIFICATIONCENTERID_COLUMN = 'certificationCenterId';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.dropIndex(USERID_COLUMN);
     table.dropIndex(CERTIFICATIONCENTERID_COLUMN);
   });
 };
 
 exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.index(USERID_COLUMN);
     table.index(CERTIFICATIONCENTERID_COLUMN);
   });

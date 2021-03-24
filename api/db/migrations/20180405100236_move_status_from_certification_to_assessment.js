@@ -7,7 +7,7 @@ exports.up = function(knex) {
 
   return knex.schema
     // Add Column
-    .table(TABLE_NAME_ASSESSMENTS, function(table) {
+    .table(TABLE_NAME_ASSESSMENTS, (table) => {
       table.text('state');
       table.index('state');
     })
@@ -42,7 +42,7 @@ exports.up = function(knex) {
 
     // Add status to assessments
     .then(() => {
-      return knex.schema.table(TABLE_NAME_CERTIFICATION, function(table) {
+      return knex.schema.table(TABLE_NAME_CERTIFICATION, (table) => {
         table.dropColumn('status');
         table.dropColumn('rejectionReason');
       });
@@ -51,7 +51,7 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   // Add Column
-  return knex.schema.table(TABLE_NAME_CERTIFICATION, function(table) {
+  return knex.schema.table(TABLE_NAME_CERTIFICATION, (table) => {
     table.text('status');
     table.text('rejectionReason');
   }).then(() => {
@@ -73,7 +73,7 @@ exports.down = function(knex) {
     });
 
   }).then(() => {
-    return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
+    return knex.schema.table(TABLE_NAME_ASSESSMENTS, (table) => {
       table.dropColumn('state');
     });
   });

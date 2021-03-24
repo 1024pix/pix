@@ -2,7 +2,7 @@ const TABLE_NAME = 'badges';
 const COLUMN_KEY = 'key';
 
 exports.up = async (knex) => {
-  await knex.schema.alterTable(TABLE_NAME, function(table) {
+  await knex.schema.alterTable(TABLE_NAME, (table) => {
     table.text(COLUMN_KEY);
   });
 

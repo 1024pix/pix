@@ -39,7 +39,7 @@ function main() {
   });
 
   const listOfAssessmentIdsToRecompute = [];
-  lineReader.on('line', function(line) {
+  lineReader.on('line', (line) => {
     listOfAssessmentIdsToRecompute.push(line);
   });
 

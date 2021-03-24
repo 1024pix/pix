@@ -20,7 +20,7 @@ describe('Unit | Service | Validation Comparison', function() {
         { should: 'If they have two different characters', arg1: 'book', arg2: ['back'], output: 2 },
       ];
 
-      successfulCases.forEach(function(testCase) {
+      successfulCases.forEach((testCase) => {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
           expect(getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
         });
@@ -39,7 +39,7 @@ describe('Unit | Service | Validation Comparison', function() {
         { should: 'If the difference is 2 for all elements', arg1: 'book', arg2: ['back', 'buck'], output: 2 },
       ];
 
-      successfulCases.forEach(function(testCase) {
+      successfulCases.forEach((testCase) => {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
           expect(getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
         });

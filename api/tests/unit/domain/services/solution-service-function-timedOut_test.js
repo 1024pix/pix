@@ -25,7 +25,7 @@ describe('Unit | Service | SolutionService', function() {
 
     ];
 
-    allCases.forEach(function(caze) {
+    allCases.forEach((caze) => {
       it(caze.when + ', should return ' + caze.output + ' when preresult is "' + caze.preresult + '" and timeout is "' + caze.timeout + '"', function() {
         expect(service._timedOut(caze.preresult, caze.timeout)).to.deep.equal(caze.output);
       });

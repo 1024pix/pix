@@ -20,14 +20,14 @@ exports.up = function(knex) {
         });
     })
     .then(() => {
-      return knex.schema.table(TABLE_NAME_CAMPAIGNS, function(table) {
+      return knex.schema.table(TABLE_NAME_CAMPAIGNS, (table) => {
         table.integer('targetProfileId').references('target-profiles.id').index();
       });
     });
 };
 
 exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME_CAMPAIGNS, function(table) {
+  return knex.schema.table(TABLE_NAME_CAMPAIGNS, (table) => {
     table.dropColumn('targetProfileId');
   })
     .then(() => {

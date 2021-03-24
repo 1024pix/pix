@@ -2,7 +2,7 @@ const TABLE_NAME = 'assessments';
 const COLUMN_NAME = 'lastQuestionDate';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.dateTime(COLUMN_NAME);
   });
 };

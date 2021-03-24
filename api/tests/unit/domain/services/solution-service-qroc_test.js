@@ -56,7 +56,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case: '(multiple solutions) answer is 0.25 away from the closest solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n' },
     ];
 
-    successfulCases.forEach(function(data) {
+    successfulCases.forEach((data) => {
       it(data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         const result = service.match({ answer: data.answer, solution: data.solution });
         expect(result).to.deep.equal(ANSWER_OK);
@@ -75,7 +75,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case: '(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n' },
     ];
 
-    failingCases.forEach(function(data) {
+    failingCases.forEach((data) => {
       it(data.case + ', should return "ko" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution })).to.deep.equal(ANSWER_KO);
       });
@@ -101,7 +101,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: {} },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
@@ -126,7 +126,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true } },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
@@ -151,7 +151,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t2: true } },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
@@ -176,7 +176,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t3: true } },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
@@ -201,7 +201,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true, t2: true } },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
@@ -226,7 +226,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true, t3: true } },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
@@ -251,7 +251,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t2: true, t3: true } },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });
@@ -276,7 +276,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true, t2: true, t3: true } },
     ];
 
-    allCases.forEach(function(data) {
+    allCases.forEach((data) => {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         expect(service.match({ answer: data.answer, solution: data.solution, deactivations: data.deactivations })).to.deep.equal(data.output);
       });

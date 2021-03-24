@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.table('snapshots', function(table) {
+  return knex.schema.table('snapshots', (table) => {
     table.string('completionPercentage', 6);
   });
 };

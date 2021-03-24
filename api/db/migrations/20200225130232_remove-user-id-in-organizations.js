@@ -8,7 +8,7 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.integer(COLUMN_NAME).unsigned();
   });
 };

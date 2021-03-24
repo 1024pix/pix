@@ -4,7 +4,7 @@ const ORGANIZATIONID_COLUMN = 'organizationId';
 const NATIONALSTUDENTID_COLUMN = 'nationalStudentId';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.dropIndex(NATIONALSTUDENTID_COLUMN);
     table.dropIndex(ORGANIZATIONID_COLUMN);
     table.dropIndex(USERID_COLUMN);
@@ -14,7 +14,7 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.index(NATIONALSTUDENTID_COLUMN);
     table.index(ORGANIZATIONID_COLUMN);
     table.index(USERID_COLUMN);

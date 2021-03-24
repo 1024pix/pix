@@ -22,7 +22,7 @@ function _buildEntirePayloadError(message) {
 function serialize(validationErrors) {
   const errors = [];
 
-  Object.keys(validationErrors.data).forEach(function(field) {
+  Object.keys(validationErrors.data).forEach((field) => {
 
     validationErrors.data[field].forEach((message) => {
 

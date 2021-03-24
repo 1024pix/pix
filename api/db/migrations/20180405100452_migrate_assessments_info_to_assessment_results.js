@@ -25,7 +25,7 @@ exports.up = function(knex) {
       });
 
     }).then(() => {
-      return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
+      return knex.schema.table(TABLE_NAME_ASSESSMENTS, (table) => {
         table.dropColumn('pixScore');
         table.dropColumn('estimatedLevel');
       });
@@ -35,7 +35,7 @@ exports.up = function(knex) {
 exports.down = function(knex) {
 
   return knex.schema
-    .table(TABLE_NAME_ASSESSMENTS, function(table) {
+    .table(TABLE_NAME_ASSESSMENTS, (table) => {
       table.integer('pixScore');
       table.integer('estimatedLevel');
     })

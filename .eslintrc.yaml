@@ -81,4 +81,5 @@ rules:
     - error
   no-multi-spaces:
     - error
-    
+  mocha/prefer-arrow-callback:
+    - error

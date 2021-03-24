@@ -5,7 +5,7 @@ const TABLE_NAME_MARKS = 'marks';
 
 exports.up = function(knex) {
 
-  return knex.schema.table(TABLE_NAME_MARKS, function(table) {
+  return knex.schema.table(TABLE_NAME_MARKS, (table) => {
     table.integer('assessmentResultId').unsigned();
     table.foreign('assessmentResultId').references('assessment-results.id');
     table.index('assessmentResultId');
@@ -24,7 +24,7 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME_MARKS, function(table) {
+  return knex.schema.table(TABLE_NAME_MARKS, (table) => {
     table.dropColumn('assessmentResultId');
   });
 };

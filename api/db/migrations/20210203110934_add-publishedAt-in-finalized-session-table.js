@@ -2,7 +2,7 @@ const TABLE_NAME = 'finalized-sessions';
 const COLUMN_NAME = 'publishedAt';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.dateTime(COLUMN_NAME);
   });
 };

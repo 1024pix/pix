@@ -5,7 +5,7 @@ const EXTERNALID_COLUMN = 'externalId';
 const CODE_COLUMN = 'code';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.dropIndex(USERID_COLUMN);
     table.dropIndex(PROVINCECODE_COLUMN);
     table.dropIndex(EXTERNALID_COLUMN);
@@ -14,7 +14,7 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.index(USERID_COLUMN);
     table.index(PROVINCECODE_COLUMN);
     table.index(EXTERNALID_COLUMN);

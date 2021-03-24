@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.table('organizations', function(table) {
+  return knex.schema.table('organizations', (table) => {
     table.string('code', 6).default('').notNullable();
   });
 };

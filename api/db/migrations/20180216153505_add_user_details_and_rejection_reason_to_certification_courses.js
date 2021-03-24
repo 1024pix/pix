@@ -1,7 +1,7 @@
 const TABLE_NAME = 'certification-courses';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.string('firstName');
     table.string('lastName');
     table.date('birthdate');
@@ -11,7 +11,7 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME, function(table) {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.dropTable('firstName');
     table.dropTable('lastName');
     table.dropTable('birthdate');
