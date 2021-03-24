@@ -1,20 +1,31 @@
+const some = require('lodash/some');
 const { ForbiddenAccess } = require('../errors');
-const _ = require('lodash');
 
 module.exports = async function dissociateUserFromSchoolingRegistrationData({
-  schoolingRegistrationRepository,
-  membershipRepository,
-  userId,
   schoolingRegistrationId,
+  userId,
+  membershipRepository,
+  schoolingRegistrationRepository,
   userRepository,
 }) {
-  await _checkUserCanDissociateUserFromSchoolingRegistration(userId, schoolingRegistrationId, schoolingRegistrationRepository, membershipRepository, userRepository);
+  await _checkUserCanDissociateUserFromSchoolingRegistration({
+    schoolingRegistrationId,
+    userId,
+    membershipRepository,
+    schoolingRegistrationRepository,
+    userRepository,
+  });
 
   await schoolingRegistrationRepository.dissociateUserFromSchoolingRegistration(schoolingRegistrationId);
 };
 
-async function _checkUserCanDissociateUserFromSchoolingRegistration(userId, schoolingRegistrationId, schoolingRegistrationRepository, membershipRepository, userRepository) {
-
+async function _checkUserCanDissociateUserFromSchoolingRegistration({
+  schoolingRegistrationId,
+  userId,
+  membershipRepository,
+  schoolingRegistrationRepository,
+  userRepository,
+}) {
   const userIsPixMaster = await userRepository.isPixMaster(userId);
 
   const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
@@ -24,9 +35,7 @@ async function _checkUserCanDissociateUserFromSchoolingRegistration(userId, scho
     includeOrganization: true,
   });
 
-  if (!userIsPixMaster && !_.some(memberships, 'isAdmin')) {
+  if (!userIsPixMaster && !some(memberships, 'isAdmin')) {
     throw new ForbiddenAccess();
   }
-
 }
-
