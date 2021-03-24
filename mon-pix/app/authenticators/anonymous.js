@@ -4,13 +4,15 @@ import fetch from 'fetch';
 import RSVP from 'rsvp';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
 export default BaseAuthenticator.extend({
+  intl: service(),
 
   serverTokenEndpoint: `${ENV.APP.API_HOST}/api/token/anonymous`,
 
   async authenticate({ campaignCode }) {
-    const bodyObject = { campaign_code: campaignCode };
+    const bodyObject = { campaign_code: campaignCode, lang: this.intl.t('current-lang') };
 
     const body = Object.keys(bodyObject)
       .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
