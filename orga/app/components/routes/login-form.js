@@ -8,6 +8,7 @@ export default class LoginForm extends Component {
   @service intl;
   @service session;
   @service store;
+  @service url;
 
   @tracked errorMessage = null;
   @tracked isErrorMessagePresent = false;
@@ -24,7 +25,7 @@ export default class LoginForm extends Component {
   }
 
   get displayRecoveryLink() {
-    if (this.intl.t('current-lang') === 'en') {
+    if (this.intl.t('current-lang') === 'en' || !this.url.isFrenchDomainExtension) {
       return false;
     }
     return !this.args.isWithInvitation;

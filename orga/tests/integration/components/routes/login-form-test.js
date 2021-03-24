@@ -203,4 +203,42 @@ module('Integration | Component | routes/login-form', function(hooks) {
       assert.dom('.fa-eye').exists();
     });
   });
+
+  module('when domain is pix.org', function() {
+
+    test('should not display recovery link', async function(assert) {
+      //given
+      class UrlStub extends Service {
+        get isFrenchDomainExtension() {
+          return false;
+        }
+      }
+      this.owner.register('service:url', UrlStub);
+
+      // when
+      await render(hbs`<Routes::LoginForm/>`);
+
+      // then
+      assert.dom('.login-form__recover-access-link').doesNotExist();
+    });
+  });
+
+  module('when domain is pix.fr', function() {
+
+    test('should display recovery link', async function(assert) {
+      //given
+      class UrlStub extends Service {
+        get isFrenchDomainExtension() {
+          return true;
+        }
+      }
+      this.owner.register('service:url', UrlStub);
+
+      // when
+      await render(hbs`<Routes::LoginForm/>`);
+
+      // then
+      assert.dom('.login-form__recover-access-link').exists();
+    });
+  });
 });
