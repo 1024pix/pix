@@ -251,6 +251,56 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
+  describe('#getScoOrganizationByExternalId', () => {
+
+    describe('when there is an organization with given externalId', () => {
+
+      it('should return the organization', async () => {
+        // given
+        databaseBuilder.factory.buildOrganization({
+          id: 1,
+          type: 'SCO',
+          name: 'organization 1',
+          externalId: '1234567',
+          isManagingStudents: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await organizationRepository.getScoOrganizationByExternalId('1234567');
+
+        // then
+        expect(result).to.be.instanceOf(Organization);
+        expect(result.id).to.deep.equal(1);
+        expect(result.type).to.deep.equal('SCO');
+        expect(result.externalId).to.deep.equal('1234567');
+        expect(result.isManagingStudents).to.deep.equal(true);
+      });
+    });
+
+    describe('when there is no organization with given externalId', () => {
+
+      it('should throw an error if the externalId does not match an organization ', async () => {
+        // given
+        databaseBuilder.factory.buildOrganization({
+          id: 1,
+          type: 'SCO',
+          name: 'organization 1',
+          externalId: '1234567',
+          isManagingStudents: true,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(organizationRepository.getScoOrganizationByExternalId)('AAAAAA');
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal('Could not find organization for externalId AAAAAA.');
+      });
+    });
+  });
+
   describe('#findByExternalIdsFetchingIdsOnly', () => {
     let organizations;
 
