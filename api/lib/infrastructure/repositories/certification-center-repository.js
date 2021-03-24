@@ -46,6 +46,21 @@ module.exports = {
       });
   },
 
+  getBySessionId(sessionId) {
+    return BookshelfCertificationCenter
+      .where({ 'sessions.id': sessionId })
+      .query((qb) => {
+        qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
+      })
+      .fetch()
+      .then((certificationCenter) => {
+        if (certificationCenter) {
+          return _toDomain(certificationCenter);
+        }
+        throw new NotFoundError(`Could not find certification center for sessionId ${sessionId}.`);
+      });
+  },
+
   save(certificationCenter) {
     const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt']);
     return new BookshelfCertificationCenter(cleanedCertificationCenter)

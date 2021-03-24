@@ -8,7 +8,7 @@ describe('Integration | Repository | Certification Center', () => {
 
   describe('#get', () => {
 
-    context('the certification is found', () => {
+    context('the certification center is found', () => {
 
       beforeEach(async () => {
         databaseBuilder.factory.buildCertificationCenter({
@@ -21,7 +21,7 @@ describe('Integration | Repository | Certification Center', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return the certification of the given id with the right properties', async () => {
+      it('should return the certification center of the given id with the right properties', async () => {
         // when
         const certificationCenter = await certificationCenterRepository.get(1);
 
@@ -40,6 +40,52 @@ describe('Integration | Repository | Certification Center', () => {
         // when
         const nonExistentId = 1;
         const promise = certificationCenterRepository.get(nonExistentId);
+        // then
+        return expect(promise).to.have.been.rejectedWith(NotFoundError);
+      });
+    });
+  });
+
+  describe('#getBySessionId', () => {
+
+    context('the certification center is found for a sessionId', () => {
+
+      it('should return the certification center of the given sessionId', async () => {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          externalId: '123456',
+          type: 'SCO',
+        }).id;
+        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+
+        // then
+        expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
+        expect(certificationCenter.id).to.equal(certificationCenterId);
+        expect(certificationCenter.externalId).to.equal('123456');
+        expect(certificationCenter.type).to.equal('SCO');
+      });
+    });
+
+    context('the certification center could not be found for a sessionId', () => {
+
+      it('should throw a NotFound error', async () => {
+        // given
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 7,
+          name: 'certificationCenterName',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          externalId: '123456',
+          type: 'SCO',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const promise = certificationCenterRepository.getBySessionId(8);
+
         // then
         return expect(promise).to.have.been.rejectedWith(NotFoundError);
       });
