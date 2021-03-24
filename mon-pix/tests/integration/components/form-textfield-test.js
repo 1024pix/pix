@@ -44,7 +44,7 @@ describe('Integration | Component | form textfield', function() {
       { expectedRendering: 'div', item: MESSAGE, expectedLength: 1 },
       { expectedRendering: 'input', item: INPUT, expectedLength: 1 },
 
-    ].forEach(function({ expectedRendering, item, expectedLength }) {
+    ].forEach(({ expectedRendering, item, expectedLength }) => {
       it(`Should render a ${expectedRendering}`, function() {
         // Then
         expect(findAll(item)).to.have.length(expectedLength);
@@ -56,7 +56,7 @@ describe('Integration | Component | form textfield', function() {
       { item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT },
       { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT },
 
-    ].forEach(function({ item, expectedRendering, expectedText }) {
+    ].forEach(({ item, expectedRendering, expectedText }) => {
       it(`Should render a ${expectedRendering}`, function() {
         // Then
         expect(find(item).textContent.toUpperCase()).to.contains(expectedText);
@@ -73,7 +73,7 @@ describe('Integration | Component | form textfield', function() {
       let inputValueToValidate;
       const expectedInputValue = 'firstname';
 
-      this.set('validate', function(arg) {
+      this.set('validate', (arg) => {
         isActionValidateHandled = true;
         inputValueToValidate = arg;
       });

@@ -49,7 +49,7 @@ describe('Integration | Component | SignupForm', function() {
     [
       { locale: 'fr', expectedFormTitle: 'Inscrivez-vous' },
       { locale: 'en', expectedFormTitle: 'Sign up' },
-    ].forEach(function(testCase) {
+    ].forEach((testCase) => {
       it(`${testCase.locale}`, async function() {
         const expectedTitle = testCase.expectedFormTitle;
         this.set('user', userEmpty);
@@ -90,7 +90,7 @@ describe('Integration | Component | SignupForm', function() {
       { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
       { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 },
       { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 },
-    ].forEach(function({ expectedRendering, input, expected }) {
+    ].forEach(({ expectedRendering, input, expected }) => {
       it(`should render ${expectedRendering}`, function() {
         expect(findAll(input)).to.have.length(expected);
       });

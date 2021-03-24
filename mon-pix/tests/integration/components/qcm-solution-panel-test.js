@@ -192,7 +192,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
         // Then
         const size = findAll('.comparison-window .qcm-proposal-label__checkbox-picture').length;
-        times(size, function(index) {
+        times(size, (index) => {
           expect(find('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
         });
       });

@@ -75,7 +75,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
-      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
+      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, (index) => {
         expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
       });
     });
@@ -260,7 +260,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
       await render(hbs`<QcuSolutionPanel @answer={{this.answer}} @challenge={{this.challenge}} @solution={{this.solution}} @solutionToDisplay={{this.solutionToDisplay}}/>`);
 
       // Then
-      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, function(index) {
+      times(findAll('.comparison-window .qcu-solution-panel__radio-button').length, (index) => {
         expect(find('.comparison-window .qcu-solution-panel__radio-button:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
       });
     });

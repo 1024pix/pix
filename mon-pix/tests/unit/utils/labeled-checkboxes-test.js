@@ -57,7 +57,7 @@ describe('Unit | Utility | labeled checkboxes', function() {
       answers: [false, true],
       output: [],
     }]
-      .forEach(function(testCase) {
+      .forEach((testCase) => {
         it('Should reply to proposals'
           + JSON.stringify(testCase.proposals)
           + ' and answers '

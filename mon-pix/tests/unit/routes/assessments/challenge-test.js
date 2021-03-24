@@ -246,10 +246,10 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
         // when / then
         return route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout)
-          .then(function() {
+          .then(() => {
             throw new Error('was supposed to fail');
           })
-          .catch(function() {
+          .catch(() => {
             sinon.assert.called(route.actions.error);
             sinon.assert.called(answerToChallengeOne.rollbackAttributes);
           });

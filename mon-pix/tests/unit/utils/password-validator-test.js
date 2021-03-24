@@ -42,7 +42,7 @@ describe('Unit | Utility | password validator', function() {
       '+!@)-=`"#&1',
       '+!@)-=`"#&1A',
       '+!@)-=`"#&1a',
-    ].forEach(function(badPassword) {
+    ].forEach((badPassword) => {
       it(`should return false when password is invalid: ${badPassword}`, function() {
         expect(isPasswordvalid(badPassword)).to.be.false;
       });
@@ -65,7 +65,7 @@ describe('Unit | Utility | password validator', function() {
       '1234Password avec espace',
       '1A      a1',
       'Aà1      ',
-    ].forEach(function(validPassword) {
+    ].forEach((validPassword) => {
       it(`should return true if provided password is valid: ${validPassword}`, function() {
         expect(isPasswordvalid(validPassword)).to.be.true;
       });

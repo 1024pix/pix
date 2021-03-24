@@ -91,7 +91,7 @@ describe('Integration | Component | comparison-window', function() {
       { status: 'partially' },
       { status: 'timedout' },
       { status: 'default' },
-    ].forEach(function(data) {
+    ].forEach((data) => {
 
       it(`should display the good icon in title when answer's result is "${data.status}"`, async function() {
         // given

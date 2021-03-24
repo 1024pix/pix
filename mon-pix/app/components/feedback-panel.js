@@ -153,7 +153,7 @@ export default class FeedbackPanel extends Component {
   }
 
   _scrollIntoFeedbackPanel() {
-    later(function() {
+    later(() => {
       const feedbackPanelElements = document.getElementsByClassName('feedback-panel__view');
       if (feedbackPanelElements && feedbackPanelElements[0]) {
         feedbackPanelElements[0].scrollIntoView();

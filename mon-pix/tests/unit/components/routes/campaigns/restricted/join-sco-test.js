@@ -46,7 +46,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         '0',
         '444',
         'ee',
-      ].forEach(function(wrongDayOfBirth) {
+      ].forEach((wrongDayOfBirth) => {
         it(`should display an error when dayOfBirth is ${wrongDayOfBirth}`, async function() {
           // when
           await component.actions.triggerInputDayValidation.call(component, 'dayOfBirth', wrongDayOfBirth);
@@ -63,7 +63,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         '1',
         '01',
         '31',
-      ].forEach(function(validDayOfBirth) {
+      ].forEach((validDayOfBirth) => {
         it(`should not display an error when dayOfBirth is ${validDayOfBirth}`, async function() {
           // when
           await component.actions.triggerInputDayValidation.call(component, 'dayOfBirth', validDayOfBirth);
@@ -86,7 +86,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         '0',
         '444',
         'ee',
-      ].forEach(function(wrongMonthOfBirth) {
+      ].forEach((wrongMonthOfBirth) => {
         it(`should display an error when monthOfBirth is ${wrongMonthOfBirth}`, async function() {
           // when
           await component.actions.triggerInputMonthValidation.call(component, 'monthOfBirth', wrongMonthOfBirth);
@@ -103,7 +103,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         '1',
         '01',
         '12',
-      ].forEach(function(validMonthOfBirth) {
+      ].forEach((validMonthOfBirth) => {
         it(`should not display an error when monthOfBirth is ${validMonthOfBirth}`, async function() {
           // when
           await component.actions.triggerInputMonthValidation.call(component, 'monthOfBirth', validMonthOfBirth);
@@ -130,7 +130,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
         '0011',
         '0111',
         '10000',
-      ].forEach(function(wrongYearOfBirth) {
+      ].forEach((wrongYearOfBirth) => {
         it(`should display an error when yearOfBirth is ${wrongYearOfBirth}`, async function() {
           // when
           await component.actions.triggerInputYearValidation.call(component, 'yearOfBirth', wrongYearOfBirth);
@@ -146,7 +146,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       [
         '1000',
         '9999',
-      ].forEach(function(validYearOfBirth) {
+      ].forEach((validYearOfBirth) => {
         it(`should not display an error when yearOfBirth is ${validYearOfBirth}`, async function() {
           // when
           await component.actions.triggerInputYearValidation.call(component, 'yearOfBirth', validYearOfBirth);
@@ -165,7 +165,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       [
         '',
         ' ',
-      ].forEach(function(wrongString) {
+      ].forEach((wrongString) => {
         it(`should display an error when firstName is "${wrongString}"`, async function() {
           // when
           await component.actions.triggerInputStringValidation.call(component, 'firstName', wrongString);
@@ -189,7 +189,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
       [
         'Robert',
         'Smith',
-      ].forEach(function(validString) {
+      ].forEach((validString) => {
         it(`should not display an error when firstName is ${validString}`, async function() {
           // when
           await component.actions.triggerInputStringValidation.call(component, 'firstName', validString);

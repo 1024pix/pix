@@ -81,7 +81,7 @@ describe('Unit | Service | locale', function() {
         { language: 'fr', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org' },
         { language: 'en', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr/en-gb' },
         { language: 'en', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org/en-gb' },
-      ].forEach(function(testCase) {
+      ].forEach((testCase) => {
         it(`should get "${testCase.expectedHomeUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function() {
           // given
           const service = this.owner.lookup('service:url');

@@ -152,7 +152,7 @@ describe('Integration | Component | routes/register-form', function() {
 
     [{ stringFilledIn: '' },
       { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
 
       it(`should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
@@ -170,7 +170,7 @@ describe('Integration | Component | routes/register-form', function() {
 
     [{ stringFilledIn: '' },
       { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
 
       it(`should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
@@ -189,7 +189,7 @@ describe('Integration | Component | routes/register-form', function() {
     [{ stringFilledIn: '' },
       { stringFilledIn: 'a' },
       { stringFilledIn: '32' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
 
       it(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
@@ -208,7 +208,7 @@ describe('Integration | Component | routes/register-form', function() {
     [{ stringFilledIn: '' },
       { stringFilledIn: 'a' },
       { stringFilledIn: '13' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
 
       it(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
@@ -227,7 +227,7 @@ describe('Integration | Component | routes/register-form', function() {
     [{ stringFilledIn: '' },
       { stringFilledIn: 'a' },
       { stringFilledIn: '10000' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
 
       it(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
@@ -246,7 +246,7 @@ describe('Integration | Component | routes/register-form', function() {
     [{ stringFilledIn: ' ' },
       { stringFilledIn: 'a' },
       { stringFilledIn: 'shi.fu' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
 
       it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given
@@ -297,7 +297,7 @@ describe('Integration | Component | routes/register-form', function() {
       { stringFilledIn: 'password' },
       { stringFilledIn: 'password1' },
       { stringFilledIn: 'Password' },
-    ].forEach(function({ stringFilledIn }) {
+    ].forEach(({ stringFilledIn }) => {
 
       it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function() {
         // given

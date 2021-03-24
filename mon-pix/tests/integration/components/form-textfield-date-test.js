@@ -59,7 +59,7 @@ describe('Integration | Component | form textfield date', function() {
       { expectedRendering: 'div', item: MESSAGE, expectedLength: 3 },
       { expectedRendering: 'input', item: INPUT, expectedLength: 3 },
 
-    ].forEach(function({ expectedRendering, item, expectedLength }) {
+    ].forEach(({ expectedRendering, item, expectedLength }) => {
       it(`Should render a ${expectedRendering}`, function() {
         // Then
         expect(findAll(item)).to.have.length(expectedLength);
@@ -73,7 +73,7 @@ describe('Integration | Component | form textfield date', function() {
       { item: `${MESSAGE}#monthValidationMessage`, expectedRendering: 'div.message', expectedText: 'month message' },
       { item: `${MESSAGE}#yearValidationMessage`, expectedRendering: 'div.message', expectedText: 'year message' },
 
-    ].forEach(function({ item, expectedRendering, expectedText }) {
+    ].forEach(({ item, expectedRendering, expectedText }) => {
       it(`Should render a ${expectedRendering}`, function() {
         // Then
         expect(find(item).textContent).to.contains(expectedText);
@@ -90,7 +90,7 @@ describe('Integration | Component | form textfield date', function() {
       const inputValueToValidate = { day: null, month: null, year: null };
       const expectedInputValue = { day: '10', month: '12', year: '2010' };
 
-      this.set('validate', function(attribute, value) {
+      this.set('validate', (attribute, value) => {
         isActionValidateHandled[attribute] = true;
         inputValueToValidate[attribute] = value;
       });

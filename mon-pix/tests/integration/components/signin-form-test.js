@@ -164,7 +164,7 @@ describe('Integration | Component | signin form', function() {
       const expectedEmail = 'email@example.fr';
       const expectedPassword = 'azerty';
 
-      this.set('onSubmitAction', function(email, password) {
+      this.set('onSubmitAction', (email, password) => {
         // then
         actualEmail = email;
         actualPassword = password;

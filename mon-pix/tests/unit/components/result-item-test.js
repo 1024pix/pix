@@ -35,7 +35,7 @@ describe('Unit | Component | result-item-component', function() {
       answerWithEmptyResult,
       answerWithUndefinedResult,
       answerWithNullResult,
-    ].forEach(function(answer) {
+    ].forEach((answer) => {
       it(`should returns undefined when answer provided is: ${answer.name}`, function() {
         // when
         component = createGlimmerComponent('component:result-item', { answer });
@@ -119,7 +119,7 @@ describe('Unit | Component | result-item-component', function() {
       { challengeType: 'QROCM-dep', expected: true },
       { challengeType: 'QCU', expected: true },
       { challengeType: 'OtherType', expected: false },
-    ].forEach(function(data) {
+    ].forEach((data) => {
 
       it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function() {
         // given

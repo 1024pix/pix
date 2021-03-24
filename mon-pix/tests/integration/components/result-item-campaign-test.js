@@ -86,7 +86,7 @@ describe('Integration | Component | result-item', function() {
       { status: 'aband', color: 'grey' },
       { status: 'partially', color: 'orange' },
       { status: 'timedout', color: 'red' },
-    ].forEach(function(data) {
+    ].forEach((data) => {
 
       it(`should display a relevant result icon when the result of the answer is "${data.status}"`, async function() {
         // given
