@@ -21,7 +21,9 @@ const handleBadgeAcquisition = async function({
     const badgesBeingAcquired = badges.filter((badge) => _isBadgeAcquired(campaignParticipationResult, badge, badgeCriteriaService));
     const badgesAcquisitionToCreate = badgesBeingAcquired.map((badge) => {
       return {
-        badgeId: badge.id, userId: event.userId,
+        badgeId: badge.id,
+        userId: event.userId,
+        campaignParticipationId: campaignParticipationResult.id,
       };
     });
 

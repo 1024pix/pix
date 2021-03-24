@@ -45,8 +45,8 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     const { id: userId } = user;
     const validatedSkillsCount = isShared ? 3 : null;
     const { id: campaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared, validatedSkillsCount);
-    if (['Stéphan', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID });
-    if (['Jaune', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_TOOLS_BADGE_ID });
+    if (['Stéphan', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
+    if (['Jaune', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
 
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       userId,
@@ -86,7 +86,13 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
   const participateToCampaignOfTypeProfilesCollection = (userId, isShared) => {
     const sharedAt = isShared ? new Date() : null;
-    databaseBuilder.factory.buildCampaignParticipation({ campaignId: 6, userId, participantExternalId: userId, isShared, sharedAt });
+    databaseBuilder.factory.buildCampaignParticipation({
+      campaignId: 6,
+      userId,
+      participantExternalId: userId,
+      isShared,
+      sharedAt,
+    });
   };
 
   usersNotCompleted.forEach((user) => participateComplexAssessmentCampaign(1, user, 'STARTED', false));
