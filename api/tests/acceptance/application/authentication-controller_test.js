@@ -492,6 +492,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     context('When is not simplified Access Campaign', () => {
 
       const campaignCode = 'RANDOM123';
+      const lang = 'en';
 
       beforeEach(async () => {
         const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
@@ -505,6 +506,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           },
           payload: querystring.stringify({
             campaign_code: campaignCode,
+            lang,
           }),
         };
 
@@ -527,6 +529,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       const firstName = '';
       const lastName = '';
       const isAnonymous = true;
+      const lang = 'en';
 
       beforeEach(async () => {
 
@@ -541,6 +544,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           },
           payload: querystring.stringify({
             campaign_code: simplifiedAccessCampaignCode,
+            lang,
           }),
         };
 
