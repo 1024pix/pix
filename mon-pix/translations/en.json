@@ -325,6 +325,11 @@
                                     "solution": "Your internet connection may not be strong enough.'<br>'Refresh the page by clicking on the refresh button'<object type=\"image/svg+xml\" class=\"tuto-icon\" data=\"/images/icons/icon-reload.svg\"></object>' next to the address bar. Wait a little while, the simulator might display. '<br><br>'If it doesn’t, you can try again later or from another location with a better connection."
                                 },
                                 "embed-other": "There is another problem with the simulator/app",
+                                "link-unauthorized": {
+                                    "label": "The link has been blocked by my organisation/school…",
+                                    "solution": "You may belong to an organisation (schools, universities, companies, administrations, associations, etc.) that protects its users and devices by limiting the Internet pages you can access."
+                                },
+                                "link-other": "The link doesn’t work or has another problem",
                                 "other-challenge-proposal": "I have a (great) idea to suggest for a question",
                                 "other-site-improvement": "I have a suggestion for improving the platform",
                                 "other-difficulty": "I have another problem",
