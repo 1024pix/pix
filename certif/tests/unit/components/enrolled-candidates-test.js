@@ -3,16 +3,16 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | enrolled-candidates', function(hooks) {
+module('Unit | Component | enrolled-candidates', (hooks) => {
   setupTest(hooks);
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     component = createGlimmerComponent('component:enrolled-candidates');
   });
 
-  module('#saveCertificationCandidate', async function() {
+  module('#saveCertificationCandidate', async () => {
 
     test('should save certification candidate on saveCertificationCandidate action with appropriate adapter options', async function(assert) {
       // given
@@ -71,7 +71,7 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
     });
   });
 
-  module('#deleteCertificationCandidate', async function() {
+  module('#deleteCertificationCandidate', async () => {
 
     test('should delete the candidate action with appropriate adapter options', async function(assert) {
       // given

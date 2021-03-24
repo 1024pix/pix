@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | certif-checkbox', function(hooks) {
+module('Integration | Component | certif-checkbox', (hooks) => {
   setupRenderingTest(hooks);
 
   [

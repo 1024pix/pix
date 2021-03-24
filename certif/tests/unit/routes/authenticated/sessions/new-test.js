@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/new', function(hooks) {
+module('Unit | Route | authenticated/sessions/new', (hooks) => {
   setupTest(hooks);
   let route;
 
@@ -10,11 +10,11 @@ module('Unit | Route | authenticated/sessions/new', function(hooks) {
     route = this.owner.lookup('route:authenticated/sessions/new');
   });
 
-  module('#model', function(hooks) {
+  module('#model', (hooks) => {
     const createdSession = Symbol('newSession');
     const certificationCenterId = 123;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       route.store.createRecord = sinon.stub().resolves(createdSession);
       route.currentUser = { certificationPointOfContact: { currentCertificationCenterId: certificationCenterId } };
     });
@@ -29,13 +29,13 @@ module('Unit | Route | authenticated/sessions/new', function(hooks) {
     });
   });
 
-  module('#deactivate', function(hooks) {
+  module('#deactivate', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       route.controller = { model: { deleteRecord: sinon.stub().returns() } };
     });
 
-    module('when model has dirty attributes', function() {
+    module('when model has dirty attributes', () => {
 
       test('it should call rollback on controller model', function(assert) {
         // given
@@ -50,7 +50,7 @@ module('Unit | Route | authenticated/sessions/new', function(hooks) {
       });
     });
 
-    module('when model has clean attributes', function() {
+    module('when model has clean attributes', () => {
 
       test('it should not call rollback on controller model', function(assert) {
         // given

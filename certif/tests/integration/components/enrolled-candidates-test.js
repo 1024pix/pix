@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | enrolled-candidates', function(hooks) {
+module('Integration | Component | enrolled-candidates', (hooks) => {
   setupRenderingTest(hooks);
 
   const CERTIFICATION_CANDIDATES_TABLE_SELECTOR = 'certification-candidates-table tbody';

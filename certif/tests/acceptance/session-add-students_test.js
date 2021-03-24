@@ -5,7 +5,7 @@ import { createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServic
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Add Sco Students', function(hooks) {
+module('Acceptance | Session Add Sco Students', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -13,7 +13,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
   let certificationPointOfContact;
   let session;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
     certificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted('SCO');
     session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
@@ -24,7 +24,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('When certificationPointOfContact is not logged in', function() {
+  module('When certificationPointOfContact is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       // when
@@ -35,7 +35,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact is logged in', function(hooks) {
+  module('When certificationPointOfContact is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       await authenticateSession(certificationPointOfContact.id);
@@ -60,7 +60,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
       assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
     });
 
-    module('when there are no students', function() {
+    module('when there are no students', () => {
 
       test('it should show a empty list', async function(assert) {
         // when
@@ -71,7 +71,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
       });
     });
 
-    module('when there are some students', function() {
+    module('when there are some students', () => {
 
       const rowSelector = '.add-student-list table tbody tr';
 
@@ -94,7 +94,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
         assert.equal(studentRows.length, 2);
       });
 
-      module('when there are no enrolled students', function() {
+      module('when there are no enrolled students', () => {
         const DEFAULT_PAGE_SIZE = 50;
 
         test('it should show first page of students (with default size)', async function(assert) {
@@ -109,7 +109,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
           assert.equal(allRow.length, DEFAULT_PAGE_SIZE);
         });
 
-        module('when selecting some students', function() {
+        module('when selecting some students', () => {
 
           const checkboxSelector = 'button.checkbox';
           const checkboxCheckedSelector = `${checkboxSelector}.checkbox--checked`;
@@ -151,7 +151,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
             assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
           });
 
-          module('when clicking on "Ajout"', function() {
+          module('when clicking on "Ajout"', () => {
             test('it redirect to previous page', async function(assert) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
@@ -191,7 +191,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
         });
       });
 
-      module('when there are enrolled students', function(hooks) {
+      module('when there are enrolled students', (hooks) => {
 
         const rowSelector = '.add-student-list table tbody tr';
         let sessionWithEnrolledStudent;
@@ -235,7 +235,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
           assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
         });
 
-        module('when toggle all click', function() {
+        module('when toggle all click', () => {
           test('it should show "1 candidat sélectionné | 1 candidats déjà ajoutés à la session"', async function(assert) {
             // given
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';

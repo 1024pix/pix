@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated', function(hooks) {
+module('Unit | Controller | authenticated', (hooks) => {
   setupTest(hooks);
 
-  module('#get documentationLink', function() {
+  module('#get documentationLink', () => {
     test('should return a different link whether the center is SCO managing students or not', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated');

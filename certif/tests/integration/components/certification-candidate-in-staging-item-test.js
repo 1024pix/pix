@@ -14,7 +14,7 @@ async function renderComponent() {
                 @updateCandidateData={{this.updateDataStub}} />`);
 }
 
-module('Integration | Component | certification-candidate-in-staging-item', function(hooks) {
+module('Integration | Component | certification-candidate-in-staging-item', (hooks) => {
   setupRenderingTest(hooks);
 
   let saveStub;
@@ -75,7 +75,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
     assert.equal(cancelStub.calledWith(candidateInStaging), true);
   });
 
-  module('when filling the line with sufficient correct data', function(hooks) {
+  module('when filling the line with sufficient correct data', (hooks) => {
     hooks.beforeEach(async () => {
       candidateInStaging.set('firstName', 'Salut');
       candidateInStaging.set('lastName', 'Salut');
@@ -104,7 +104,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
 
   });
 
-  module('when filling the line with incorrect ', function(hooks) {
+  module('when filling the line with incorrect ', (hooks) => {
     hooks.beforeEach(async () => {
       candidateInStaging.set('firstName', 'Salut');
       candidateInStaging.set('lastName', 'Salut');

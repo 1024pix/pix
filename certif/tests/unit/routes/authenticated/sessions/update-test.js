@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/update', function(hooks) {
+module('Unit | Route | authenticated/sessions/update', (hooks) => {
   setupTest(hooks);
   let route;
 
@@ -10,10 +10,10 @@ module('Unit | Route | authenticated/sessions/update', function(hooks) {
     route = this.owner.lookup('route:authenticated/sessions/update');
   });
 
-  module('#model', function(hooks) {
+  module('#model', (hooks) => {
     const session_id = 1;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       route.store.findRecord = sinon.stub().withArgs('session', session_id).resolves({});
     });
 
@@ -27,9 +27,9 @@ module('Unit | Route | authenticated/sessions/update', function(hooks) {
     });
   });
 
-  module('#deactivate', function(hooks) {
+  module('#deactivate', (hooks) => {
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       route.controller = { model: { rollbackAttributes: sinon.stub().returns() } };
     });
 

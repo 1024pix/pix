@@ -2,11 +2,11 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | terms-of-service', function(hooks) {
+module('Unit | Controller | terms-of-service', (hooks) => {
   setupTest(hooks);
   let controller;
 
-  module('#action submit', function(hooks) {
+  module('#action submit', (hooks) => {
 
     hooks.beforeEach(function() {
       controller = this.owner.lookup('controller:terms-of-service');

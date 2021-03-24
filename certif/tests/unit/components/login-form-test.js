@@ -15,7 +15,7 @@ module('Unit | Component | login-form', (hooks) => {
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     const sessionStub = Service.create({
       authenticate: authenticateStub,
     });

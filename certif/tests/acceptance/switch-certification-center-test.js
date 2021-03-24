@@ -8,14 +8,14 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Switch Certification Center', function(hooks) {
+module('Acceptance | Switch Certification Center', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When connected certificationPointOfContact is linked to only one certification center', function(hooks) {
+  module('When connected certificationPointOfContact is linked to only one certification center', (hooks) => {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
       await authenticateSession(certificationPointOfContact.id);
     });
@@ -40,13 +40,13 @@ module('Acceptance | Switch Certification Center', function(hooks) {
     });
   });
 
-  module('When connected certificationPointOfContact is linked to more than one certification center', function(hooks) {
+  module('When connected certificationPointOfContact is linked to more than one certification center', (hooks) => {
 
     let currentCertificationCenter;
     let otherCertificationCenter;
     let otherCertificationCenterSession;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       currentCertificationCenter = server.create('certification-center', { name: 'currentCertificationCenterName', externalId: 'currentCertificationCenterExternalId' });
       currentCertificationCenter.save();
 
@@ -77,7 +77,7 @@ module('Acceptance | Switch Certification Center', function(hooks) {
       assert.dom('.logged-user-menu-item__certification-center-externalId').hasText(`(${otherCertificationCenter.externalId})`);
     });
 
-    module('When certficationPointOfContact click on a certification center', function() {
+    module('When certficationPointOfContact click on a certification center', () => {
 
       test('should change main certification center in summary', async function(assert) {
         // when

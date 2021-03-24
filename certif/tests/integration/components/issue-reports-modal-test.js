@@ -11,7 +11,7 @@ import {
   subcategoryToLabel,
 } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | issue-reports-modal', function(hooks) {
+module('Integration | Component | issue-reports-modal', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it show candidate informations in title', async function(assert) {

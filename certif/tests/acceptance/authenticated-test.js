@@ -8,12 +8,12 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authenticated', function(hooks) {
+module('Acceptance | authenticated', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user clicks the sidebar logo', function() {
+  module('When user clicks the sidebar logo', () => {
     test('it should redirect to the sessions list page', async function(assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
@@ -29,7 +29,7 @@ module('Acceptance | authenticated', function(hooks) {
     });
   });
 
-  module('When user clicks the sessions sidebar menu entry', function() {
+  module('When user clicks the sessions sidebar menu entry', () => {
     test('it should also redirect to the sessions list page', async function(assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();

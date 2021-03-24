@@ -10,7 +10,7 @@ import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Details Parameters', function(hooks) {
+module('Acceptance | Session Details Parameters', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -20,7 +20,7 @@ module('Acceptance | Session Details Parameters', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('when certificationPointOfContact is logged in', function(hooks) {
+  module('when certificationPointOfContact is logged in', (hooks) => {
 
     let certificationPointOfContact;
 
@@ -29,11 +29,11 @@ module('Acceptance | Session Details Parameters', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
     });
 
-    module('when looking at the session details', function() {
+    module('when looking at the session details', () => {
 
-      module('when the session is not finalized', function() {
+      module('when the session is not finalized', () => {
 
-        module('when the session is CREATED', function() {
+        module('when the session is CREATED', () => {
 
           test('it should not display the finalize button if no candidat has joined the session', async function(assert) {
             // given
@@ -62,11 +62,11 @@ module('Acceptance | Session Details Parameters', function(hooks) {
         });
       });
 
-      module('when the session is finalized', function(hooks) {
+      module('when the session is finalized', (hooks) => {
 
         let sessionFinalized;
 
-        hooks.beforeEach(function() {
+        hooks.beforeEach(() => {
           sessionFinalized = server.create('session', { status: FINALIZED });
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionFinalized.id });
         });

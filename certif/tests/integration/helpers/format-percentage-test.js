@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Helper | format-percentage', function(hooks) {
+module('Integration | Helper | format-percentage', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders correct value', async function(assert) {

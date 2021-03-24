@@ -7,14 +7,14 @@ import moment from 'moment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session List', function(hooks) {
+module('Acceptance | Session List', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let certificationPointOfContact;
 
-  module('When certificationPointOfContact is not authenticated', function() {
+  module('When certificationPointOfContact is not authenticated', () => {
 
     test('it should not be accessible', async function(assert) {
       // when
@@ -26,10 +26,10 @@ module('Acceptance | Session List', function(hooks) {
 
   });
 
-  module('When certificationPointOfContact is authenticated', function(hooks) {
+  module('When certificationPointOfContact is authenticated', (hooks) => {
     let certificationCenterId;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
       certificationCenterId = certificationPointOfContact.currentCertificationCenterId;
 
@@ -52,7 +52,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('.page-title').hasText('Créez votre première session de certification');
     });
 
-    module('when some sessions exist', function() {
+    module('when some sessions exist', () => {
       const nbExtraSessions = 11;
 
       test('it should list the sessions and their attributes with status', async function(assert) {

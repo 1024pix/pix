@@ -4,11 +4,11 @@ import sinon from 'sinon';
 
 import EmberObject from '@ember/object';
 
-module('Unit | Route | authenticated/sessions/add-student', function(hooks) {
+module('Unit | Route | authenticated/sessions/add-student', (hooks) => {
   setupTest(hooks);
   let route;
 
-  module('#model', function(hooks) {
+  module('#model', (hooks) => {
     const session_id = 1;
     const session = { id: session_id };
     const certificationCenterId = Symbol('certificationCenterId');

@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/sessions/details', function(hooks) {
+module('Unit | Controller | authenticated/sessions/details', (hooks) => {
   setupTest(hooks);
 
-  module('#certificationCandidatesCount', function() {
+  module('#certificationCandidatesCount', () => {
     test('should return a string that matches the candidate count if more than 0 candidate', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/details');
@@ -30,7 +30,7 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
     });
   });
 
-  module('#hasOneOrMoreCandidates', function() {
+  module('#hasOneOrMoreCandidates', () => {
     test('should return true if session has at least 1 candidate', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/details');
@@ -56,11 +56,11 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
     });
   });
 
-  module('#shouldDisplayDownloadButton', function() {
+  module('#shouldDisplayDownloadButton', () => {
 
-    module('when there is at least one enrolled candidate', function() {
+    module('when there is at least one enrolled candidate', () => {
 
-      module('when it should display the CertifPrescriptionScoFeature', function() {
+      module('when it should display the CertifPrescriptionScoFeature', () => {
 
         test('should return true ', function(assert) {
           // given
@@ -95,9 +95,9 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
     });
   });
 
-  module('#shouldDisplayResultRecipientInfoMessage', function() {
+  module('#shouldDisplayResultRecipientInfoMessage', () => {
 
-    module('when the current user certification center does manage students', function() {
+    module('when the current user certification center does manage students', () => {
       test('should also return false', function(assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/details');
@@ -113,7 +113,7 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
       });
     });
 
-    module('when current user is if of type Sco and does not managing students', function() {
+    module('when current user is if of type Sco and does not managing students', () => {
       test('should return true', function(assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/details');
@@ -130,7 +130,7 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
     });
   });
 
-  module('when there is no enrolled candidate', function() {
+  module('when there is no enrolled candidate', () => {
     test('Should return false.', function(assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/sessions/details');

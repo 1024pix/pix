@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 
-module('Unit | Adapters | certification-point-of-contact', function(hooks) {
+module('Unit | Adapters | certification-point-of-contact', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -13,7 +13,7 @@ module('Unit | Adapters | certification-point-of-contact', function(hooks) {
     adapter.ajax = ajaxStub;
   });
 
-  module('#urlForUpdateRecord', function() {
+  module('#urlForUpdateRecord', () => {
 
     test('it should build specific url when adding option for acceptPixCertifTermsOfService', async function(assert) {
       // when

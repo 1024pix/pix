@@ -5,7 +5,7 @@ import { createCertificationPointOfContactWithTermsOfServiceAccepted, authentica
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Update', function(hooks) {
+module('Acceptance | Session Update', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 

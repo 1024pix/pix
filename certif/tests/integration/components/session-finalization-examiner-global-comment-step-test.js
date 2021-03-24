@@ -5,7 +5,7 @@ import { render, fillIn, click } from '@ember/test-helpers';
 import Object from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | session-finalization-examiner-global-comment-step', function(hooks) {
+module('Integration | Component | session-finalization-examiner-global-comment-step', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders the radio buttons', async function(assert) {

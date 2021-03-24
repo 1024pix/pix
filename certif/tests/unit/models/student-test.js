@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import pick from 'lodash/pick';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | student', function(hooks) {
+module('Unit | Model | student', (hooks) => {
   setupTest(hooks);
 
   test('it creates a StudentModel', function(assert) {

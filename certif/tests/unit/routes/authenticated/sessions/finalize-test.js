@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
+module('Unit | Route | authenticated/sessions/finalize', (hooks) => {
   setupTest(hooks);
   let route;
 
@@ -10,11 +10,11 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
     route = this.owner.lookup('route:authenticated/sessions/finalize');
   });
 
-  module('#model', function(hooks) {
+  module('#model', (hooks) => {
     const session_id = 1;
     const returnedSession = Symbol('session');
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       route.store.findRecord = sinon.stub().resolves(returnedSession);
     });
 
@@ -29,18 +29,18 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
     });
   });
 
-  module('#afterModel', function(hooks) {
+  module('#afterModel', (hooks) => {
     const model = { session: {} };
     let transition;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       transition = { abort: sinon.stub() };
       route.notifications.error = sinon.stub();
     });
 
-    module('when model is already finalized', function(hooks) {
+    module('when model is already finalized', (hooks) => {
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         model.isFinalized = true;
       });
 
@@ -63,9 +63,9 @@ module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
       });
     });
 
-    module('when model is not finalized', function(hooks) {
+    module('when model is not finalized', (hooks) => {
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         model.isFinalized = false;
       });
 

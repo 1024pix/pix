@@ -5,7 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | issue-report-modal', function(hooks) {
+module('Integration | Component | issue-report-modal', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it show candidate informations in title', async function(assert) {

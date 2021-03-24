@@ -6,7 +6,7 @@ import { certificationIssueReportSubcategories } from 'pix-certif/models/certifi
 
 import sinon from 'sinon';
 
-module('Integration | Component | late-or-leaving-certification-issue-report-fields', function(hooks) {
+module('Integration | Component | late-or-leaving-certification-issue-report-fields', (hooks) => {
   setupRenderingTest(hooks);
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-late-or-leaving';

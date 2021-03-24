@@ -10,7 +10,7 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | terms-of-service', function(hooks) {
+module('Acceptance | terms-of-service', (hooks) => {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -25,7 +25,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The certificationPointOfContact is still unauthenticated');
   });
 
-  module('When certificationPointOfContact is authenticated and has not yet accepted terms of service', function(hooks) {
+  module('When certificationPointOfContact is authenticated and has not yet accepted terms of service', (hooks) => {
 
     hooks.beforeEach(async () => {
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceNotAccepted();
@@ -71,7 +71,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact has already accepted terms of service', function(hooks) {
+  module('When certificationPointOfContact has already accepted terms of service', (hooks) => {
 
     hooks.beforeEach(async () => {
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();

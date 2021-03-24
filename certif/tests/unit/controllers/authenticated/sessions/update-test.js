@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/sessions/update', function(hooks) {
+module('Unit | Controller | authenticated/sessions/update', (hooks) => {
   setupTest(hooks);
 
-  module('#action updateSession', function(hooks) {
+  module('#action updateSession', (hooks) => {
     let controller;
     let event;
     const sessionId = 'sessionId';
@@ -44,7 +44,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
     });
   });
 
-  module('#action cancel', function(hooks) {
+  module('#action cancel', (hooks) => {
     let controller;
     const sessionId = 'sessionId';
     const session = { id: sessionId };
@@ -64,7 +64,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
     });
   });
 
-  module('#action onDatePicked', function(hooks) {
+  module('#action onDatePicked', (hooks) => {
     let controller;
     const session = { date: '' };
 
@@ -83,7 +83,7 @@ module('Unit | Controller | authenticated/sessions/update', function(hooks) {
     });
   });
 
-  module('#action onTimePicked', function(hooks) {
+  module('#action onTimePicked', (hooks) => {
     let controller;
     const session = { time: '' };
 

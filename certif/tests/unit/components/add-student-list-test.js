@@ -5,7 +5,7 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 import times from 'lodash/times';
 
-module('Unit | Component | add-student-list', function(hooks) {
+module('Unit | Component | add-student-list', (hooks) => {
   setupTest(hooks);
 
   let component;
@@ -16,7 +16,7 @@ module('Unit | Component | add-student-list', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('#computed hasCheckedSomething', function() {
+  module('#computed hasCheckedSomething', () => {
 
     test('it should be false if has no checked student', function(assert) {
       // given
@@ -53,7 +53,7 @@ module('Unit | Component | add-student-list', function(hooks) {
     });
   });
 
-  module('#computed hasCheckedEverything', function() {
+  module('#computed hasCheckedEverything', () => {
 
     test('it should be false if they are not all checked', function(assert) {
       // given
@@ -90,7 +90,7 @@ module('Unit | Component | add-student-list', function(hooks) {
     });
   });
 
-  module('#action toggleItem', function() {
+  module('#action toggleItem', () => {
 
     test('it should toggle the isSelected attribute of the student', function(assert) {
       // given
@@ -105,7 +105,7 @@ module('Unit | Component | add-student-list', function(hooks) {
     });
   });
 
-  module('#action enrollStudents', function() {
+  module('#action enrollStudents', () => {
     test('it should save only selected students via the session', async function(assert) {
       // given
       const sessionId = 1;

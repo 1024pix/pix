@@ -13,7 +13,7 @@ function createLoadServiceStub() {
   });
 }
 
-module('Unit | Route | application', function(hooks) {
+module('Unit | Route | application', (hooks) => {
   setupTest(hooks);
 
   test('it should load the current user', function(assert) {

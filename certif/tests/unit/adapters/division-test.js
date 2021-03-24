@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 
-module('Unit | Adapters | division', function(hooks) {
+module('Unit | Adapters | division', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -14,7 +14,7 @@ module('Unit | Adapters | division', function(hooks) {
     adapter.ajax = ajaxStub;
   });
 
-  module('#urlForQuery', function() {
+  module('#urlForQuery', () => {
 
     test('should build url from certificationCenterId', async function(assert) {
       // when

@@ -4,10 +4,10 @@ import { run } from '@ember/runloop';
 import config from '../../../config/environment';
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
 
-module('Unit | Model | session', function(hooks) {
+module('Unit | Model | session', (hooks) => {
   setupTest(hooks);
 
-  module('#displayStatus', function() {
+  module('#displayStatus', () => {
 
     test('it should return the correct displayName', function(assert) {
       // given
@@ -27,7 +27,7 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#urlToUpload', function() {
+  module('#urlToUpload', () => {
     test('it should return the correct urlToUpload', function(assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -38,7 +38,7 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#urlToDownloadAttendanceSheet', function() {
+  module('#urlToDownloadAttendanceSheet', () => {
     test('it should return the correct urlToDownloadAttendanceSheet', function(assert) {
       // given
       const store = this.owner.lookup('service:store');
@@ -50,7 +50,7 @@ module('Unit | Model | session', function(hooks) {
     });
   });
 
-  module('#urlToDownloadSessionIssueReportSheet', function() {
+  module('#urlToDownloadSessionIssueReportSheet', () => {
     test('it should return the correct urlToDownloadSessionIssueReportSheet', function(assert) {
       // given
       const store = this.owner.lookup('service:store');

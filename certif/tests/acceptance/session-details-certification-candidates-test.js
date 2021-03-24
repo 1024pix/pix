@@ -10,7 +10,7 @@ import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Details Certification Candidates', function(hooks) {
+module('Acceptance | Session Details Certification Candidates', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -27,7 +27,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     notificationMessagesService.clearAll();
   });
 
-  module('When certificationPointOfContact is not logged in', function() {
+  module('When certificationPointOfContact is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       const session = server.create('session');
@@ -40,7 +40,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     });
   });
 
-  module('when certificationPointOfContact is logged in', function(hooks) {
+  module('when certificationPointOfContact is logged in', (hooks) => {
 
     let certificationPointOfContact;
     let session;
@@ -51,7 +51,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       await authenticateSession(certificationPointOfContact.id);
     });
 
-    module('when there is no candidates yet', function() {
+    module('when there is no candidates yet', () => {
 
       test('it should display a download button and upload button', async function(assert) {
         // when
@@ -72,12 +72,12 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       });
     });
 
-    module('when there are some candidates', function() {
+    module('when there are some candidates', () => {
 
       let sessionWithCandidates;
       let candidates;
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(() => {
         sessionWithCandidates = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
         candidates = server.createList('certification-candidate', 3, { sessionId: sessionWithCandidates.id, isLinked: false, resultRecipientEmail: 'recipient@example.com' });
       });
@@ -102,7 +102,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
         assert.contains(`${aCandidate.externalId}`);
       });
 
-      module('on import', function() {
+      module('on import', () => {
 
         test('it should replace the candidates list with the imported ones', async function(assert) {
           // given
@@ -168,14 +168,14 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
       module('add candidate', () => {
 
-        module('when certificationPointOfContact is not SCO', function(hooks) {
+        module('when certificationPointOfContact is not SCO', (hooks) => {
 
-          hooks.beforeEach(async function() {
+          hooks.beforeEach(async () => {
             server.create('feature-toggle', { id: 0, certifPrescriptionSco: false });
             await visit(`/sessions/${sessionWithCandidates.id}/candidats`);
           });
 
-          module('when candidate data not valid', function() {
+          module('when candidate data not valid', () => {
 
             test('it should leave the line up for modification', async function(assert) {
               this.server.post('/sessions/:id/certification-candidates', () => ({
@@ -204,7 +204,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
             });
           });
 
-          module('when candidate data is valid', function() {
+          module('when candidate data is valid', () => {
 
             test('it remove the editable line', async function(assert) {
               // when
@@ -250,7 +250,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
           });
         });
 
-        module('when certificationPointOfContact is SCO managing students', function() {
+        module('when certificationPointOfContact is SCO managing students', () => {
 
           test('it should display the list of students for session', async function(assert) {
             // given

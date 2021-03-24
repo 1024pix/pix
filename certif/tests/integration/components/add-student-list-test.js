@@ -5,7 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | add-student-list', function(hooks) {
+module('Integration | Component | add-student-list', (hooks) => {
   setupRenderingTest(hooks);
 
   let store;
@@ -276,7 +276,7 @@ module('Integration | Component | add-student-list', function(hooks) {
       });
 
       module('when there is already enrolled students (certification candidates), the sticky bar is shown', () => {
-        module('when there is no additional selected student', function(hooks) {
+        module('when there is no additional selected student', (hooks) => {
 
           hooks.beforeEach(async function() {
             // given
@@ -318,7 +318,7 @@ module('Integration | Component | add-student-list', function(hooks) {
           });
         });
 
-        module('when there is additional selected student', function(hooks) {
+        module('when there is additional selected student', (hooks) => {
 
           hooks.beforeEach(async function() {
             // given

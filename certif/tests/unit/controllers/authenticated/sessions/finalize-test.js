@@ -4,10 +4,10 @@ import ArrayProxy from '@ember/array/proxy';
 
 const FINALIZE_PATH = 'authenticated/sessions/finalize';
 
-module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
+module('Unit | Controller | ' + FINALIZE_PATH, (hooks) => {
   setupTest(hooks);
 
-  module('#computed uncheckedHasSeenEndTestScreenCount', function() {
+  module('#computed uncheckedHasSeenEndTestScreenCount', () => {
 
     test('it should count no unchecked box if no report', function(assert) {
       // given
@@ -65,7 +65,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
   });
 
-  module('#computed hasUncheckedHasSeenEndTestScreen', function() {
+  module('#computed hasUncheckedHasSeenEndTestScreen', () => {
 
     test('it should be false if no unchecked certification reports', function(assert) {
 
@@ -106,7 +106,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
   });
 
-  module('#action updateExaminerGlobalComment', function() {
+  module('#action updateExaminerGlobalComment', () => {
 
     test('it should left session examiner global comment untouched if input value exceeds max size', function(assert) {
       // given
@@ -154,7 +154,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
   });
 
-  module('#action updateCertificationIssueReport', function() {
+  module('#action updateCertificationIssueReport', () => {
 
     test('it should left issue report description untouched if input value exceeds max size', function(assert) {
       // given
@@ -202,7 +202,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
   });
 
-  module('#action toggleCertificationReportHasSeenEndTestScreen', function() {
+  module('#action toggleCertificationReportHasSeenEndTestScreen', () => {
 
     test('it should toggle the hasSeenEndTestScreen attribute of the certif parameter', function(assert) {
       // given
@@ -218,7 +218,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
   });
 
-  module('#action toggleAllCertificationReportsHasSeenEndTestScreen', function() {
+  module('#action toggleAllCertificationReportsHasSeenEndTestScreen', () => {
 
     [
       { hasSeenEndTestScreen1: true, hasSeenEndTestScreen2: true, expectedState: false },
@@ -249,7 +249,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     );
   });
 
-  module('#action openModal', function() {
+  module('#action openModal', () => {
 
     test('it should set flag showConfirmModal to true', function(assert) {
       // given
@@ -263,7 +263,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
   });
 
-  module('#action close', function() {
+  module('#action close', () => {
 
     test('it should set flag showConfirmModal to false', function(assert) {
       // given

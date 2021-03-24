@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions', function(hooks) {
+module('Unit | Route | authenticated/sessions', (hooks) => {
   setupTest(hooks);
 
   test('it should redirects to authenticated.sessions.list', async function(assert) {

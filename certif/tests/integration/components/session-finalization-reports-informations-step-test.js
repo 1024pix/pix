@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | session-finalization-reports-informations-step', function(hooks) {
+module('Integration | Component | session-finalization-reports-informations-step', (hooks) => {
   setupRenderingTest(hooks);
   let reportA;
   let reportB;

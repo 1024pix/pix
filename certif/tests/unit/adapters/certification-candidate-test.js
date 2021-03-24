@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 
-module('Unit | Adapters | certification-candidate', function(hooks) {
+module('Unit | Adapters | certification-candidate', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -15,7 +15,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
     adapter.ajax = ajaxStub;
   });
 
-  module('#urlForQuery', function() {
+  module('#urlForQuery', () => {
 
     test('should build url from sessionId', async function(assert) {
       // when
@@ -28,7 +28,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
     });
   });
 
-  module('#urlForCreateRecord', function() {
+  module('#urlForCreateRecord', () => {
 
     test('should build create url from certification-candidate id', async function(assert) {
       // when
@@ -50,7 +50,7 @@ module('Unit | Adapters | certification-candidate', function(hooks) {
 
   });
 
-  module('#urlForDeleteRecord', function() {
+  module('#urlForDeleteRecord', () => {
 
     test('should build delete url from certification-candidate id', async function(assert) {
       // when

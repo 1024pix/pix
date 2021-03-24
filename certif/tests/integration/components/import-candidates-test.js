@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | import-candidates', function(hooks) {
+module('Integration | Component | import-candidates', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders texts about Feuille émargement', async function(assert) {

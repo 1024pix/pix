@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { resolve } from 'rsvp';
 
-module('Unit | Adapter | student', function(hooks) {
+module('Unit | Adapter | student', (hooks) => {
   setupTest(hooks);
 
   let adapter;
@@ -13,7 +13,7 @@ module('Unit | Adapter | student', function(hooks) {
     adapter.ajax = ajaxStub;
   });
 
-  module('#urlForFindAll', function() {
+  module('#urlForFindAll', () => {
 
     test('should build query url from student id', async function(assert) {
       // given

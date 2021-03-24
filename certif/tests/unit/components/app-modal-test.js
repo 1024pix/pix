@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 import { keyUp } from 'ember-keyboard';
 
-module('Unit | Component | app-modal', function(hooks) {
+module('Unit | Component | app-modal', (hooks) => {
 
   setupTest(hooks);
 
@@ -14,7 +14,7 @@ module('Unit | Component | app-modal', function(hooks) {
     modal = this.owner.lookup('component:app-modal');
   });
 
-  module('#init', function() {
+  module('#init', () => {
     test('should set the overlay as translucent', function(assert) {
       // then
       assert.equal(modal.get('translucentOverlay'), true);
@@ -26,7 +26,7 @@ module('Unit | Component | app-modal', function(hooks) {
     });
   });
 
-  module('#closeOnEsc', function() {
+  module('#closeOnEsc', () => {
     test('should use the "close" action', function(assert) {
       // Given
       const sendActionStub = sinon.stub();

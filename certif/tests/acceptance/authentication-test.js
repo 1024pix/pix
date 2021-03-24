@@ -13,14 +13,14 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authentication', function(hooks) {
+module('Acceptance | authentication', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let certificationPointOfContact;
 
-  module('When certificationPointOfContact is not logged in', function() {
+  module('When certificationPointOfContact is not logged in', () => {
 
     test('it should redirect certificationPointOfContact to login page', async function(assert) {
       // given
@@ -35,7 +35,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact is logging in but has not accepted terms of service yet', function(hooks) {
+  module('When certificationPointOfContact is logging in but has not accepted terms of service yet', (hooks) => {
 
     hooks.beforeEach(async () => {
       await invalidateSession();
@@ -73,7 +73,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact is logging in and has accepted terms of service', function(hooks) {
+  module('When certificationPointOfContact is logging in and has accepted terms of service', (hooks) => {
 
     hooks.beforeEach(async () => {
       await invalidateSession();
@@ -110,7 +110,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact is already authenticated and has accepted terms of service', function(hooks) {
+  module('When certificationPointOfContact is already authenticated and has accepted terms of service', (hooks) => {
 
     hooks.beforeEach(async () => {
       certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();

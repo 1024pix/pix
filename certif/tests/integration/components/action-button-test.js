@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | action-btn', function(hooks) {
+module('Integration | Component | action-btn', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders the text passed in when not in a loading state by default', async function(assert) {

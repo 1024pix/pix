@@ -5,7 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { certificationIssueReportSubcategories } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | candidate-information-change-certification-issue-report-fields', function(hooks) {
+module('Integration | Component | candidate-information-change-certification-issue-report-fields', (hooks) => {
   setupRenderingTest(hooks);
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-candidate-information-change';

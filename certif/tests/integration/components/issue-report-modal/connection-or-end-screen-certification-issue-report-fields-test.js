@@ -5,7 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import { certificationIssueReportCategories, categoryToLabel } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | connection-or-end-screen-certification-issue-report-fields', function(hooks) {
+module('Integration | Component | connection-or-end-screen-certification-issue-report-fields', (hooks) => {
   setupRenderingTest(hooks);
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-connection-or-end-screen';

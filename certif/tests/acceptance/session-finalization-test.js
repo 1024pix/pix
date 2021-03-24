@@ -5,7 +5,7 @@ import { createCertificationPointOfContactWithTermsOfServiceAccepted, authentica
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Finalization', function(hooks) {
+module('Acceptance | Session Finalization', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -13,7 +13,7 @@ module('Acceptance | Session Finalization', function(hooks) {
   let certificationPointOfContact;
   let session;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(() => {
     certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
     const certificationCenterId = certificationPointOfContact.certificationCenterId;
     session = server.create('session', { certificationCenterId });
@@ -27,7 +27,7 @@ module('Acceptance | Session Finalization', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('When certificationPointOfContact is not logged in', function() {
+  module('When certificationPointOfContact is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       // when
@@ -38,7 +38,7 @@ module('Acceptance | Session Finalization', function(hooks) {
     });
   });
 
-  module('When certificationPointOfContact is logged in', function(hooks) {
+  module('When certificationPointOfContact is logged in', (hooks) => {
 
     hooks.beforeEach(async () => {
       await authenticateSession(certificationPointOfContact.id);
@@ -52,9 +52,9 @@ module('Acceptance | Session Finalization', function(hooks) {
       assert.equal(currentURL(), `/sessions/${session.id}/finalisation`);
     });
 
-    module('When certificationPointOfContact click on "Finaliser" button', function() {
+    module('When certificationPointOfContact click on "Finaliser" button', () => {
 
-      module('when there is no certification issue reports', function() {
+      module('when there is no certification issue reports', () => {
         test('it should show "Ajouter ?" button', async function(assert) {
           // given
           const expectedText = 'Ajouter ?';
@@ -70,7 +70,7 @@ module('Acceptance | Session Finalization', function(hooks) {
         });
       });
 
-      module('when we add a certification issue report', function() {
+      module('when we add a certification issue report', () => {
         test('it should show "Ajouter / modifier" button', async function(assert) {
           // given
           const expectedTextWithIssueReport = 'Ajouter / modifier';
@@ -100,7 +100,7 @@ module('Acceptance | Session Finalization', function(hooks) {
         });
       });
 
-      module('when we delete a certification issue report', function() {
+      module('when we delete a certification issue report', () => {
         test('it should show the remaining count of issue reports', async function(assert) {
           // given
           const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 = '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';

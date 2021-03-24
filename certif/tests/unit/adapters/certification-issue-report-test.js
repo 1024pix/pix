@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
-module('Unit | Adapter | certification issue report', function(hooks) {
+module('Unit | Adapter | certification issue report', (hooks) => {
   setupTest(hooks);
 
   test('it exists', async function(assert) {

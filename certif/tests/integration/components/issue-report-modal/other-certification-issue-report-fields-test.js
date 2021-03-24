@@ -4,7 +4,7 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
-module('Integration | Component | other-certification-issue-report-fields', function(hooks) {
+module('Integration | Component | other-certification-issue-report-fields', (hooks) => {
   setupRenderingTest(hooks);
 
   const INPUT_RADIO_SELECTOR = '#input-radio-for-category-other';

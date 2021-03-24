@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-module('Integration | Component | user-logged-menu', function(hooks) {
+module('Integration | Component | user-logged-menu', (hooks) => {
 
   setupRenderingTest(hooks);
 
@@ -50,7 +50,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     assert.contains(`${certificationPointOfContact.firstName} ${certificationPointOfContact.lastName}`);
   });
 
-  module('when certification center doesn\'t have an externalId', function() {
+  module('when certification center doesn\'t have an externalId', () => {
 
     test('should display the user certification center name only', async function(assert) {
       // given
@@ -64,7 +64,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when certification center does have an externalId', function() {
+  module('when certification center does have an externalId', () => {
 
     test('should display the user certification center name and certification center externalId', function(assert) {
       // then
@@ -72,7 +72,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when menu is close', function() {
+  module('when menu is close', () => {
 
     test('should display the chevron-down icon', function(assert) {
       // then
@@ -90,7 +90,7 @@ module('Integration | Component | user-logged-menu', function(hooks) {
     });
   });
 
-  module('when menu is open', function() {
+  module('when menu is open', () => {
 
     test('should display the chevron-up icon', async function(assert) {
       // when

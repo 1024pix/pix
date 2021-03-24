@@ -10,7 +10,7 @@ import {
   categoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | add-issue-report-modal', function(hooks) {
+module('Integration | Component | add-issue-report-modal', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it show candidate informations in title', async function(assert) {

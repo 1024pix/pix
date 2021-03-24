@@ -12,7 +12,7 @@ import {
 } from 'pix-certif/models/certification-issue-report';
 import { RadioButtonCategoryWithSubcategoryWithDescriptionAndQuestionNumber } from 'pix-certif/components/issue-report-modal/add-issue-report-modal';
 
-module('Integration | Component | in-challenge-certification-issue-report-fields', function(hooks) {
+module('Integration | Component | in-challenge-certification-issue-report-fields', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it should call toggle function on click radio button', async function(assert) {

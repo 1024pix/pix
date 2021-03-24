@@ -12,7 +12,7 @@ const errorMessages = {
   NOT_LINKED_CERTIFICATION_MSG: 'L\'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d\'y accéder.',
 };
 
-module('Integration | Component | login-form', function(hooks) {
+module('Integration | Component | login-form', (hooks) => {
   setupRenderingTest(hooks);
 
   let sessionStub;
@@ -156,9 +156,9 @@ module('Integration | Component | login-form', function(hooks) {
     assert.dom('#login-form-error-message').hasText(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
   });
 
-  module('when password is hidden', function(hooks) {
+  module('when password is hidden', (hooks) => {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async () => {
       // given
       await render(hbs`{{login-form}});`);
     });

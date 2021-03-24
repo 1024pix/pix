@@ -6,7 +6,7 @@ import { createCertificationPointOfContactWithTermsOfServiceAccepted, authentica
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 
-module('Acceptance | Session creation', function(hooks) {
+module('Acceptance | Session creation', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);

@@ -44,7 +44,7 @@ export default function() {
 
   this.post('/sessions');
 
-  this.get('/sessions/:id', function(schema, request) {
+  this.get('/sessions/:id', (schema, request) => {
     const sessionId = request.params.id;
 
     return schema.sessions.find(sessionId);
@@ -52,17 +52,17 @@ export default function() {
 
   this.patch('/sessions/:id');
 
-  this.get('/sessions/:id/certification-candidates', function(schema, request) {
+  this.get('/sessions/:id/certification-candidates', (schema, request) => {
     const sessionId = request.params.id;
     return schema.certificationCandidates.where({ sessionId });
   });
 
-  this.post('/sessions/:id/certification-candidates', function(schema, request) {
+  this.post('/sessions/:id/certification-candidates', (schema, request) => {
     const sessionId = request.params.id;
     return schema.certificationCandidates.create({ sessionId });
   });
 
-  this.post('/certification-reports/:id/certification-issue-reports', function(schema, request) {
+  this.post('/certification-reports/:id/certification-issue-reports', (schema, request) => {
     const certificationCourseId = request.params.id;
     const requestBody = JSON.parse(request.requestBody);
     const description = requestBody.data.attributes['description'];
@@ -72,7 +72,7 @@ export default function() {
     return schema.certificationIssueReports.create({ certificationReport, description, category });
   });
 
-  this.delete('/certification-issue-reports/:id', function(schema, request) {
+  this.delete('/certification-issue-reports/:id', (schema, request) => {
     const certificationIssueReportId = request.params.id;
     const certificationIssueReport = schema.certificationIssueReports.find(certificationIssueReportId);
 
@@ -80,13 +80,13 @@ export default function() {
     return { data: null };
   });
 
-  this.get('/sessions/:id/certification-reports', function(schema, request) {
+  this.get('/sessions/:id/certification-reports', (schema, request) => {
     const sessionId = request.params.id;
 
     return schema.sessions.find(sessionId).certificationReports;
   });
 
-  this.delete('/sessions/:id/certification-candidates/:candidateId', function(schema, request) {
+  this.delete('/sessions/:id/certification-candidates/:candidateId', (schema, request) => {
     const certificationCandidateId = request.params.candidateId;
     const certificationCandidate = schema.certificationCandidates.find(certificationCandidateId);
     if (certificationCandidate.isLinked) {
@@ -97,7 +97,7 @@ export default function() {
     return { data: null };
   });
 
-  this.post('/sessions/:id/certification-candidates/import', upload(function(schema, request) {
+  this.post('/sessions/:id/certification-candidates/import', upload((schema, request) => {
     const { name } = request.requestBody.file;
     if (name === 'invalid-file') {
       return new Response(422, { some: 'header' }, { errors: [{ status: '422', title: 'Unprocessable Entity', detail: 'Une erreur personnalisée' }] });

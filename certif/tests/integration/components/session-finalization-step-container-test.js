@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | session-finalization-step-container', function(hooks) {
+module('Integration | Component | session-finalization-step-container', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {

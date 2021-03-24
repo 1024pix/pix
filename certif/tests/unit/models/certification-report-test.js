@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { A } from '@ember/array';
 
-module('Unit | Model | certification report', function(hooks) {
+module('Unit | Model | certification report', (hooks) => {
   setupTest(hooks);
 
   test('it should return the right data in the finalized session model', function(assert) {
@@ -26,7 +26,7 @@ module('Unit | Model | certification report', function(hooks) {
     assert.equal(model.firstIssueReportDescription, '');
   });
 
-  module('#firstIssueReportDescription', function() {
+  module('#firstIssueReportDescription', () => {
     test('it should the first description of certification issue report', function(assert) {
       // given
       const store = this.owner.lookup('service:store');

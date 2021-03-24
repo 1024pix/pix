@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 import config from 'pix-certif/config/environment';
 
-module('Integration | Component | session-finalization-formbuilder-link-step', function(hooks) {
+module('Integration | Component | session-finalization-formbuilder-link-step', (hooks) => {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {

@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
 
-module('Unit | Controller | authenticated/sessions/list', function(hooks) {
+module('Unit | Controller | authenticated/sessions/list', (hooks) => {
   setupTest(hooks);
 
-  module('#computed hasSession', function() {
+  module('#computed hasSession', () => {
 
     test('it should know when there is no sessions', function(assert) {
       // given
@@ -39,9 +39,9 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
     });
   });
 
-  module('#shouldDisplayResultRecipientInfoMessage', function() {
+  module('#shouldDisplayResultRecipientInfoMessage', () => {
 
-    module('when the current user certification center does manage students', function() {
+    module('when the current user certification center does manage students', () => {
       test('should also return false', function(assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/list');
@@ -57,7 +57,7 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
       });
     });
 
-    module('when current user is not sco managing students', function() {
+    module('when current user is not sco managing students', () => {
       test('should return true', function(assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/list');

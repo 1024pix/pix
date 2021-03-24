@@ -10,7 +10,7 @@ import config from 'pix-certif/config/environment';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Details', function(hooks) {
+module('Acceptance | Session Details', (hooks) => {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -20,7 +20,7 @@ module('Acceptance | Session Details', function(hooks) {
     notificationMessagesService.clearAll();
   });
 
-  module('when certificationPointOfContact is not logged in', function() {
+  module('when certificationPointOfContact is not logged in', () => {
 
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function(assert) {
       // given
@@ -34,7 +34,7 @@ module('Acceptance | Session Details', function(hooks) {
     });
   });
 
-  module('when certificationPointOfContact is logged in', function(hooks) {
+  module('when certificationPointOfContact is logged in', (hooks) => {
 
     let certificationPointOfContact;
     let session;
@@ -68,7 +68,7 @@ module('Acceptance | Session Details', function(hooks) {
       assert.equal(candidateTabElement.innerHTML.trim(), expectedTabContent);
     });
 
-    module('when looking at the header', function() {
+    module('when looking at the header', () => {
 
       test('it should display session details', async function(assert) {
         // given
@@ -90,7 +90,7 @@ module('Acceptance | Session Details', function(hooks) {
         assert.dom('.session-details-header-datetime__time .content-text').hasText('14:00');
       });
 
-      module('when FT_REPORTS_CATEGORISATION is on', function() {
+      module('when FT_REPORTS_CATEGORISATION is on', () => {
 
         test('it should show issue report sheet download button', async function(assert) {
         // given
@@ -106,7 +106,7 @@ module('Acceptance | Session Details', function(hooks) {
         });
       });
 
-      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is on', function(hooks) {
+      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is on', (hooks) => {
 
         const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 
@@ -142,7 +142,7 @@ module('Acceptance | Session Details', function(hooks) {
         });
       });
 
-      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is off', function(hooks) {
+      module('when FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS is off', (hooks) => {
 
         const ft = config.APP.FT_IS_AUTO_SENDING_OF_CERTIF_RESULTS;
 

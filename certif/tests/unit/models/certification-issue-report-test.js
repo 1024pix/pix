@@ -12,7 +12,7 @@ import {
   subcategoryToCode,
 } from 'pix-certif/models/certification-issue-report';
 
-module('Unit | Model | certification issue report', function(hooks) {
+module('Unit | Model | certification issue report', (hooks) => {
   setupTest(hooks);
 
   test('it should return the right label for the category', function(assert) {

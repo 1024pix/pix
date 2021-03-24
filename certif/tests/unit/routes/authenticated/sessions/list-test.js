@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/list', function(hooks) {
+module('Unit | Route | authenticated/sessions/list', (hooks) => {
   setupTest(hooks);
 
-  module('#model', function() {
+  module('#model', () => {
 
     test('it should return certification center sessions', async function(assert) {
       // given

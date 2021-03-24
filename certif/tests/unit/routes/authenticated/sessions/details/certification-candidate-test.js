@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/details/certification-candidates', function(hooks) {
+module('Unit | Route | authenticated/sessions/details/certification-candidates', (hooks) => {
   setupTest(hooks);
   let route;
 
@@ -10,10 +10,10 @@ module('Unit | Route | authenticated/sessions/details/certification-candidates',
     route = this.owner.lookup('route:authenticated/sessions/details/certification-candidates');
   });
 
-  module('#model', function(hooks) {
+  module('#model', (hooks) => {
     const expectedModel = Symbol('model');
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(() => {
       route.modelFor = sinon.stub().returns(expectedModel);
     });
 
