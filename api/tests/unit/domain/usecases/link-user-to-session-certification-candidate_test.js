@@ -5,8 +5,6 @@ const {
   CertificationCandidateByPersonalInfoNotFoundError,
   MatchingReconciledStudentNotFoundError,
   CertificationCandidateByPersonalInfoTooManyMatchesError,
-  CertificationCandidatePersonalInfoFieldMissingError,
-  CertificationCandidatePersonalInfoWrongFormat,
   UserAlreadyLinkedToCandidateInSessionError,
 } = require('../../../../lib/domain/errors');
 const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
@@ -27,54 +25,6 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
   });
 
   context('when there is a problem with the personal info', () => {
-
-    context('when a field is missing from the provided personal info', () => {
-
-      it('should throw a CertificationCandidatePersonalInfoFieldMissingError', async () => {
-        // given
-        firstName = undefined;
-        const sessionRepository = _buildFakeSessionRepository()
-          .withIsSco({ args: sessionId, resolves: false });
-
-        // when
-        const err = await catchErr(linkUserToSessionCertificationCandidate)({
-          sessionId,
-          userId,
-          firstName,
-          lastName,
-          birthdate,
-          certificationCandidateRepository,
-          sessionRepository,
-        });
-
-        // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
-      });
-    });
-
-    context('when a field is in the wrong format', () => {
-
-      it('should throw a CertificationCandidatePersonalInfoWrongFormat', async () => {
-        // given
-        birthdate = 'invalid format';
-        const sessionRepository = _buildFakeSessionRepository()
-          .withIsSco({ args: sessionId, resolves: false });
-
-        // when
-        const err = await catchErr(linkUserToSessionCertificationCandidate)({
-          sessionId,
-          userId,
-          firstName,
-          lastName,
-          birthdate,
-          certificationCandidateRepository,
-          sessionRepository,
-        });
-
-        // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
-      });
-    });
 
     context('when no certification candidates match with the provided personal info', () => {
 
