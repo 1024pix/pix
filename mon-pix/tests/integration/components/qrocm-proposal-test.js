@@ -155,7 +155,7 @@ describe('Integration | Component | QROCm proposal', function() {
           expect(allLabelElements.length).to.be.equal(allInputElements.length);
           expect(allLabelElements.length).to.be.equal(data.expectedLabel.length);
           allLabelElements.forEach((element, index) => {
-            expect(element.textContent).to.equal(data.expectedLabel[index]);
+            expect(element.textContent.trim()).to.equal(data.expectedLabel[index]);
           });
         });
 

@@ -95,7 +95,7 @@ export default Factory.extend({
   QROCMDep: trait({
     type: 'QROCM-dep',
     instruction: 'Aurélie est montée dans le métro après avoir pris cette photo sur le quai.\n A quelle station peut-elle descendre ?',
-    proposals: 'Station 1 : ${station1}\n' + 'Station 2 : ${station2}',
+    proposals: 'Station **1** : ${station1}\n' + 'Station *2* : ${station2}',
   }),
 
   timed: trait({

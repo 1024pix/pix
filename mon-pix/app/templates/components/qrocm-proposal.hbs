@@ -1,14 +1,19 @@
 {{!-- template-lint-disable no-implicit-this no-action require-input-label --}}
 <div class="qrocm-proposal">
-  {{#each proposalBlocks as |block|}}
+  {{#each proposalBlocks as |block index|}}
 
     {{#if block.showText}}
-      <span>{{block.text}}</span>
+      <MarkdownToHtml @markdown={{block.text}}
+                      @extensions="remove-paragraph-tags"/>
     {{/if}}
 
     {{#if block.input}}
       {{#if block.text}}
-        <label for="{{block.input}}">{{block.text}}</label>
+        <label for="{{block.input}}">
+          <MarkdownToHtml @markdown={{block.text}}
+                          @extensions="remove-paragraph-tags"
+                          data-test="qrocm-label-{{index}}" />
+        </label>
       {{/if}}
 
       {{#if (eq @format 'paragraphe')}}
