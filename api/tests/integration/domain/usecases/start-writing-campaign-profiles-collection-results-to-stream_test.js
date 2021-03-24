@@ -196,7 +196,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono', division: '3emeG' });
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono', division: '3emeG', organizationId: organization.id });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
@@ -270,7 +270,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, studentNumber: '12345A', firstName: '@Jean', lastName: '=Bono' });
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, studentNumber: '12345A', firstName: '@Jean', lastName: '=Bono', organizationId: organization.id });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
