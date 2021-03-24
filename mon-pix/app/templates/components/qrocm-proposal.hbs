@@ -4,7 +4,8 @@
 
     {{#if block.showText}}
       <MarkdownToHtml @markdown={{block.text}}
-                      @extensions="remove-paragraph-tags"/>
+                      @extensions="remove-paragraph-tags"
+                      class="qrocm-proposal__label" />
     {{/if}}
 
     {{#if block.input}}
@@ -12,6 +13,7 @@
         <label for="{{block.input}}">
           <MarkdownToHtml @markdown={{block.text}}
                           @extensions="remove-paragraph-tags"
+                          class="qrocm-proposal__label"
                           data-test="qrocm-label-{{index}}" />
         </label>
       {{/if}}
