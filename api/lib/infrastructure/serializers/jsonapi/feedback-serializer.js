@@ -19,7 +19,7 @@ module.exports = {
 
   deserialize(json) {
     return new Deserializer()
-      .deserialize(json, function(err, feedback) {
+      .deserialize(json, (err, feedback) => {
         feedback.assessmentId = json.data.relationships.assessment.data.id;
         feedback.challengeId = json.data.relationships.challenge.data.id;
       })

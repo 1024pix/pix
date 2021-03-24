@@ -129,7 +129,7 @@ function compareDatabaseObject(evaluatedObject, expectedObject) {
 
 }
 
-chai.use(function(chai) {
+chai.use((chai) => {
   const Assertion = chai.Assertion;
 
   Assertion.addMethod('exactlyContain', function(expectedElements) {
@@ -138,7 +138,7 @@ chai.use(function(chai) {
   });
 });
 
-chai.use(function(chai) {
+chai.use((chai) => {
   const Assertion = chai.Assertion;
 
   Assertion.addMethod('exactlyContainInOrder', function(expectedElements) {

@@ -23,7 +23,7 @@ describe('Unit | Service | SolutionService', function() {
 
     it('If the answer is timedout, resolve to the answer itself, unchanged', function(done) {
       expect(service.revalidate).to.exist;
-      service.revalidate(new Answer(timedout_answer)).then(function(foundAnswer) {
+      service.revalidate(new Answer(timedout_answer)).then((foundAnswer) => {
         expect(foundAnswer.id).equals(timedout_answer.id);
         expect(foundAnswer.attributes.value).equals(timedout_answer.value);
         expect(foundAnswer.attributes.result).equals(timedout_answer.result);
@@ -34,7 +34,7 @@ describe('Unit | Service | SolutionService', function() {
 
     it('If the answer is aband, resolve to the answer itself, unchanged', function(done) {
       expect(service.revalidate).to.exist;
-      service.revalidate(new Answer(aband_answer)).then(function(foundAnswer) {
+      service.revalidate(new Answer(aband_answer)).then((foundAnswer) => {
         expect(foundAnswer.id).equals(aband_answer.id);
         expect(foundAnswer.attributes.value).equals(aband_answer.value);
         expect(foundAnswer.attributes.result).equals(aband_answer.result);

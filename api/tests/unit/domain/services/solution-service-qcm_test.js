@@ -35,7 +35,7 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       { answer: '1, 2, 3', solution: '1, 2, 3' },
     ];
 
-    successfulCases.forEach(function(testCase) {
+    successfulCases.forEach((testCase) => {
       it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         const answer = buildAnswer(testCase.answer);
         const solution = buildSolution('QCM', testCase.solution);
@@ -51,7 +51,7 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       { answer: '3, 1', solution: '1, 2' },
     ];
 
-    failedCases.forEach(function(testCase) {
+    failedCases.forEach((testCase) => {
       it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         const answer = buildAnswer(testCase.answer);
         const solution = buildSolution('QCM', testCase.solution);

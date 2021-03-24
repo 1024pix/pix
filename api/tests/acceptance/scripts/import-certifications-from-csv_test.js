@@ -167,7 +167,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       const nockStub = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/1', function(body) {
+        .patch('/api/certification-courses/1', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody);
         })
         .reply(200, {});
@@ -255,21 +255,21 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       const nockStub1 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/1', function(body) {
+        .patch('/api/certification-courses/1', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
         })
         .reply(200, {});
       const nockStub2 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/2', function(body) {
+        .patch('/api/certification-courses/2', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
         })
         .reply(200, {});
       const nockStub3 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/3', function(body) {
+        .patch('/api/certification-courses/3', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
         })
         .reply(200, {});
@@ -359,7 +359,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       const nockStub1 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/1', function(body) {
+        .patch('/api/certification-courses/1', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
         })
         .replyWithError('Error');
@@ -367,7 +367,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       const nockStub2 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/2', function(body) {
+        .patch('/api/certification-courses/2', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
         })
         .reply(200, {});
@@ -375,7 +375,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       const nockStub3 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/3', function(body) {
+        .patch('/api/certification-courses/3', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
         })
         .reply(200, {});
@@ -491,7 +491,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/1', function(body) {
+        .patch('/api/certification-courses/1', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
         })
         .replyWithError('Error 1');
@@ -499,7 +499,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/2', function(body) {
+        .patch('/api/certification-courses/2', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
         })
         .replyWithError('Error 2');
@@ -507,7 +507,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' },
       })
-        .patch('/api/certification-courses/3', function(body) {
+        .patch('/api/certification-courses/3', (body) => {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
         })
         .reply(200, {});

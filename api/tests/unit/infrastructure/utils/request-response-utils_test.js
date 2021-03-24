@@ -64,7 +64,7 @@ describe('Unit | Utils | Request Utils', function() {
       { header: 'en', expectedLocale: ENGLISH_SPOKEN },
       { header: 'de', expectedLocale: FRENCH_FRANCE },
       { header: 'fr-BE', expectedLocale: FRENCH_FRANCE },
-    ].forEach(function(data) {
+    ].forEach((data) => {
 
       it(`should return ${data.expectedLocale} locale when header is ${data.header}`, function() {
         // given
